@@ -69,7 +69,7 @@ type ScmBoolean struct {
 type ScmProcedure struct {
 	scmHead
 	name  string
-	arg   Obj
+	arg   []Obj
 	arity int
 	body  Obj
 	env   *Environment
@@ -97,6 +97,13 @@ func mustError(o Obj) *ScmError {
 		panic("mustError")
 	}
 	return (*ScmError)(unsafe.Pointer(o))
+}
+
+func isPrimitive(o Obj) (bool, *ScmPrimitive) {
+	if *o != Primitive {
+		return false, nil
+	}
+	return true, (*ScmPrimitive)(unsafe.Pointer(o))
 }
 
 func mustPrimitive(o Obj) *ScmPrimitive {
@@ -150,6 +157,13 @@ func mustSymbol(o Obj) *ScmSymbol {
 	return (*ScmSymbol)(unsafe.Pointer(o))
 }
 
+func isSymbol(o Obj) (bool, *ScmSymbol) {
+	if *o == Symbol {
+		return true, (*ScmSymbol)(unsafe.Pointer(o))
+	}
+	return false, nil
+}
+
 func mustStream(o Obj) *ScmStream {
 	if (*o) != Stream {
 		panic("mustStream")
@@ -162,6 +176,13 @@ func mustPair(o Obj) *ScmPair {
 		panic("mustPair")
 	}
 	return (*ScmPair)(unsafe.Pointer(o))
+}
+
+func isPair(o Obj) (bool, *ScmPair) {
+	if (*o) == Pair {
+		return true, (*ScmPair)(unsafe.Pointer(o))
+	}
+	return false, nil
 }
 
 var True, False, Nil Obj
@@ -243,14 +264,15 @@ func Make_symbol(s string) Obj {
 func Make_procedure(arg Obj, body Obj, env *Environment) Obj {
 	tmp := ScmProcedure{
 		scmHead: Procedure,
-		arg:     arg,
 		body:    body,
 		env:     env,
 	}
 	if *arg == Symbol {
+		tmp.arg = []Obj{arg}
 		tmp.arity = 1
 	} else {
-		tmp.arity = listLength(arg)
+		tmp.arg = listToSlice(arg)
+		tmp.arity = len(tmp.arg)
 	}
 	return &tmp.scmHead
 }
@@ -297,7 +319,7 @@ func (o *scmHead) GoString() string {
 		return fmt.Sprintf("Stream")
 	case Primitive:
 		prim := mustPrimitive(o)
-		return fmt.Sprintf("#%s", prim.name)
+		return fmt.Sprintf("Primitive(%s)", prim.name)
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }

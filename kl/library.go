@@ -47,19 +47,6 @@ func cadddr(o Obj) Obj {
 	return car(cdr(cdr(cdr(o))))
 }
 
-// in place reverse, no extra allocation.
-// TODO: BUG!
-func reverse1(o Obj) Obj {
-	ret := Nil
-	for o != Nil {
-		p := mustPair(o)
-		o = p.cdr
-		p.cdr = ret
-		ret = Obj(&p.scmHead)
-	}
-	return ret
-}
-
 func reverse(o Obj) Obj {
 	ret := Nil
 	for o != Nil {
@@ -112,9 +99,18 @@ func equal(x, y Obj) Obj {
 
 func listLength(l Obj) int {
 	count := 0
-	for l != Nil {
+	for *l == Pair {
 		count++
 		l = cdr(l)
 	}
 	return count
+}
+
+func listToSlice(l Obj) []Obj {
+	var ret []Obj
+	for *l == Pair {
+		ret = append(ret, car(l))
+		l = cdr(l)
+	}
+	return ret
 }

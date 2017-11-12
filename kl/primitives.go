@@ -8,7 +8,7 @@ import (
 )
 
 var primitives []*ScmPrimitive = []*ScmPrimitive{
-	&ScmPrimitive{scmHead: Primitive, name: "load", required: 1, function: loadFile},
+	&ScmPrimitive{scmHead: Primitive, name: "load", required: 1, function: primLoadFile},
 	&ScmPrimitive{scmHead: Primitive, name: "type", required: 2, function: typeFunc},
 	&ScmPrimitive{scmHead: Primitive, name: "get-time", required: 1, function: getTime},
 	&ScmPrimitive{scmHead: Primitive, name: "eval-kl", required: 1, function: primEvalKL},
@@ -28,78 +28,78 @@ var primitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: Primitive, name: "error-to-string", required: 1, function: primErrorToString},
 	&ScmPrimitive{scmHead: Primitive, name: "simple-error", required: 1, function: simpleError},
 	&ScmPrimitive{scmHead: Primitive, name: "=", required: 2, function: primEqual},
-	&ScmPrimitive{scmHead: Primitive, name: "-", required: 2, function: number_subtract},
-	&ScmPrimitive{scmHead: Primitive, name: "*", required: 2, function: number_multiply},
-	&ScmPrimitive{scmHead: Primitive, name: "/", required: 2, function: number_divide},
-	&ScmPrimitive{scmHead: Primitive, name: "+", required: 2, function: number_add},
-	&ScmPrimitive{scmHead: Primitive, name: "string->n", required: 1, function: string_to_number},
-	&ScmPrimitive{scmHead: Primitive, name: "n->string", required: 1, function: number_to_string},
-	&ScmPrimitive{scmHead: Primitive, name: "number?", required: 1, function: number_p},
-	&ScmPrimitive{scmHead: Primitive, name: "string?", required: 1, function: string_p},
+	&ScmPrimitive{scmHead: Primitive, name: "-", required: 2, function: primNumberSubtract},
+	&ScmPrimitive{scmHead: Primitive, name: "*", required: 2, function: primNumberMultiply},
+	&ScmPrimitive{scmHead: Primitive, name: "/", required: 2, function: primNumberDivide},
+	&ScmPrimitive{scmHead: Primitive, name: "+", required: 2, function: primNumberAdd},
+	&ScmPrimitive{scmHead: Primitive, name: "string->n", required: 1, function: primStringToNumber},
+	&ScmPrimitive{scmHead: Primitive, name: "n->string", required: 1, function: primNumberToString},
+	&ScmPrimitive{scmHead: Primitive, name: "number?", required: 1, function: primIsNumber},
+	&ScmPrimitive{scmHead: Primitive, name: "string?", required: 1, function: primIsString},
 	&ScmPrimitive{scmHead: Primitive, name: "pos", required: 2, function: pos},
 	&ScmPrimitive{scmHead: Primitive, name: "tlstr", required: 1, function: primTailString},
 	&ScmPrimitive{scmHead: Primitive, name: "cn", required: 2, function: stringConcat},
-	&ScmPrimitive{scmHead: Primitive, name: "intern", required: 1, function: intern},
-	&ScmPrimitive{scmHead: Primitive, name: "hd", required: 1, function: hd},
-	&ScmPrimitive{scmHead: Primitive, name: "tl", required: 1, function: tl},
+	&ScmPrimitive{scmHead: Primitive, name: "intern", required: 1, function: primIntern},
+	&ScmPrimitive{scmHead: Primitive, name: "hd", required: 1, function: primHead},
+	&ScmPrimitive{scmHead: Primitive, name: "tl", required: 1, function: primTail},
 	&ScmPrimitive{scmHead: Primitive, name: "cons", required: 2, function: primCons},
-	&ScmPrimitive{scmHead: Primitive, name: "cons?", required: 1, function: pair_p},
+	&ScmPrimitive{scmHead: Primitive, name: "cons?", required: 1, function: primIsPair},
 	&ScmPrimitive{scmHead: Primitive, name: "value", required: 1, function: variableGet},
 	&ScmPrimitive{scmHead: Primitive, name: "set", required: 2, function: variableSet},
 	&ScmPrimitive{scmHead: Primitive, name: "not", required: 1, function: primNot},
 	&ScmPrimitive{scmHead: Primitive, name: "if", required: 3, function: primIf},
 }
 
-func number_add(args ...Obj) Obj {
+func primNumberAdd(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
 	return Make_number(x1.val + y1.val)
 }
 
-func number_subtract(args ...Obj) Obj {
+func primNumberSubtract(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
 	return Make_number(x1.val - y1.val)
 }
 
-func number_multiply(args ...Obj) Obj {
+func primNumberMultiply(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
 	return Make_number(x1.val * y1.val)
 }
 
-func number_divide(args ...Obj) Obj {
+func primNumberDivide(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
 	return Make_number(x1.val / y1.val)
 }
 
-func intern(args ...Obj) Obj {
+func primIntern(args ...Obj) Obj {
 	return Make_symbol(mustString(args[0]))
 }
 
-func hd(args ...Obj) Obj {
+func primHead(args ...Obj) Obj {
 	return car(args[0])
 }
 
-func tl(args ...Obj) Obj {
+func primTail(args ...Obj) Obj {
 	return cdr(args[0])
 }
 
-func number_p(args ...Obj) Obj {
+func primIsNumber(args ...Obj) Obj {
 	if *args[0] == Number {
 		return True
 	}
 	return False
 }
 
-func string_to_number(args ...Obj) Obj {
+func primStringToNumber(args ...Obj) Obj {
 	str := mustString(args[0])
 	n := ([]rune(str))[0]
 	return Make_integer(int(n))
 }
 
-func number_to_string(args ...Obj) Obj {
+func primNumberToString(args ...Obj) Obj {
 	n := mustInteger(args[0])
 	return Make_string(string(rune(n)))
 }
@@ -143,8 +143,11 @@ func primTailString(args ...Obj) Obj {
 }
 
 func pos(args ...Obj) Obj {
-	s := mustString(args[0])
+	s := []rune(mustString(args[0]))
 	n := mustInteger(args[1])
+	if n >= len(s) {
+		return Make_error(fmt.Sprintf("%d is not valid index for %s", n, string(s)))
+	}
 	return Make_string(string([]rune(s)[n]))
 }
 
@@ -328,7 +331,7 @@ func typeFunc(args ...Obj) Obj {
 	return args[0]
 }
 
-func loadFile(args ...Obj) Obj {
+func primLoadFile(args ...Obj) Obj {
 	path := mustString(args[0])
 	f, err := os.Open(path)
 	if err != nil {
@@ -355,14 +358,14 @@ func loadFile(args ...Obj) Obj {
 	return Nil
 }
 
-func string_p(args ...Obj) Obj {
+func primIsString(args ...Obj) Obj {
 	if *args[0] == String {
 		return True
 	}
 	return False
 }
 
-func pair_p(args ...Obj) Obj {
+func primIsPair(args ...Obj) Obj {
 	if *args[0] == Pair {
 		return True
 	}

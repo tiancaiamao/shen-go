@@ -19,18 +19,15 @@ func (env *Environment) Get(sym string) (Obj, bool) {
 	return Nil, false
 }
 
-func (env *Environment) Extend(symbols, values Obj) *Environment {
-	if *symbols == Symbol {
-		symbols = cons(symbols, Nil)
+func (env *Environment) Extend(symbols, values []Obj) *Environment {
+	if len(symbols) == 0 {
+		return env
 	}
 
 	bind := make(map[string]Obj)
-	for symbols != Nil && values != Nil {
-		name := mustSymbol(car(symbols)).sym
-		bind[name] = car(values)
-
-		symbols = cdr(symbols)
-		values = cdr(values)
+	for i := 0; i < len(symbols); i++ {
+		name := mustSymbol(symbols[i]).sym
+		bind[name] = values[i]
 	}
 	return &Environment{
 		parent: env,
@@ -57,7 +54,7 @@ type controlFlow struct {
 	env *Environment
 	// arguments for apply
 	f    Obj
-	args Obj
+	args []Obj
 	// return result
 	result Obj
 }
@@ -86,7 +83,7 @@ func (ctl *controlFlow) TailEval(exp Obj, env *Environment) {
 	ctl.kind = controlFlowEval
 }
 
-func (ctl *controlFlow) TailApply(f, args Obj) {
+func (ctl *controlFlow) TailApply(f Obj, args []Obj) {
 	ctl.f = f
 	ctl.args = args
 	ctl.kind = controlFlowApply
@@ -108,26 +105,23 @@ func eval(ctl *controlFlow) {
 	exp := ctl.exp
 	env := ctl.env
 
-	switch *exp {
-	case Number, String, Vector, Boolean, Procedure, Null:
+	switch *exp { // handle constant
+	case Number, String, Vector, Boolean, Null, Procedure, Primitive:
 		ctl.Return(exp)
 		return
 	}
 
-	if *exp == Symbol {
-		sym := mustSymbol(exp)
+	if ok, sym := isSymbol(exp); ok {
 		if val, ok := env.Get(sym.sym); ok {
-			ctl.Return(val)
-			return
+			exp = val
 		}
 		ctl.Return(exp)
 		return
 	}
 
 	pair := mustPair(exp)
-	if *pair.car == Symbol {
-		sym := mustSymbol(pair.car)
-		exp = pair.cdr
+	if ok, sym := isSymbol(pair.car); ok {
+		exp = pair.cdr // handle special form
 		switch sym.sym {
 		case "defun": // (defun f (x y) z)
 			proc := Make_procedure(cadr(exp), caddr(exp), env)
@@ -145,23 +139,16 @@ func eval(ctl *controlFlow) {
 			args := trampoline(cadr(exp), env)
 			if *args == Error {
 				ctl.Exception(args)
+				return
 			}
-			newEnv := env.Extend(car(exp), cons(args, Nil))
+			newEnv := env.Extend([]Obj{car(exp)}, []Obj{args})
 			ctl.TailEval(caddr(exp), newEnv)
 			return
 		case "and":
-			if trampoline(car(exp), env) == False {
-				ctl.Return(False)
-				return
-			}
-			ctl.TailEval(cadr(exp), env)
+			evalAnd(car(exp), cadr(exp), env, ctl)
 			return
 		case "or":
-			if trampoline(car(exp), env) == True {
-				ctl.Return(True)
-				return
-			}
-			ctl.TailEval(cadr(exp), env)
+			evalOr(car(exp), cadr(exp), env, ctl)
 			return
 		case "if": // (if a b c)
 			if listLength(pair.cdr) == 3 {
@@ -184,27 +171,27 @@ func eval(ctl *controlFlow) {
 		}
 	}
 
-	fn := functionCall(pair.car, env)
+	fn := evalFunction(pair.car, env)
 	if *fn == Error {
 		ctl.Exception(fn)
 		return
 	}
-	args := evalList(pair.cdr, env)
+	args := evalArgumentList(pair.cdr, env)
 	ctl.TailApply(fn, args)
 	return
 }
 
-func functionCall(fn Obj, env *Environment) Obj {
-	switch *fn {
-	case Symbol:
-		sym := mustSymbol(fn)
+func evalFunction(fn Obj, env *Environment) Obj {
+	if ok, sym := isSymbol(fn); ok {
 		if proc, ok := env.Get(sym.sym); ok {
 			return proc
 		}
-
 		if val, ok := functionTable[sym.sym]; ok {
 			return val
 		}
+	}
+
+	switch *fn {
 	case Primitive, Procedure:
 		return fn
 	case Pair:
@@ -226,8 +213,24 @@ func evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
 	ctl.Exception(Make_error("second argument of if should be boolean"))
 }
 
+func evalAnd(a, b Obj, env *Environment, ctl *controlFlow) {
+	if trampoline(a, env) == False {
+		ctl.Return(False)
+		return
+	}
+	ctl.TailEval(b, env)
+}
+
+func evalOr(a, b Obj, env *Environment, ctl *controlFlow) {
+	if trampoline(a, env) == True {
+		ctl.Return(True)
+		return
+	}
+	ctl.TailEval(b, env)
+}
+
 func evalCond(l Obj, env *Environment, ctl *controlFlow) {
-	for l != Nil {
+	for *l == Pair {
 		curr := car(l)
 		if trampoline(car(curr), env) == True {
 			ctl.TailEval(cadr(curr), env)
@@ -242,8 +245,8 @@ func evalCond(l Obj, env *Environment, ctl *controlFlow) {
 func evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
 	e := trampoline(car(exp), env)
 	if *e == Error {
-		handler := functionCall(cadr(exp), env)
-		ctl.TailApply(handler, cons(e, Nil))
+		handler := evalFunction(cadr(exp), env)
+		ctl.TailApply(handler, []Obj{e})
 		return
 	}
 	ctl.Return(e)
@@ -253,32 +256,30 @@ func evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
 func apply(ctl *controlFlow) {
 	f := ctl.f
 	args := ctl.args
+
 	if *f == Primitive {
 		prim := mustPrimitive(f)
-		args1 := listToSlice(args)
 		switch {
-		case len(args1) < prim.required:
-			ctl.Return(partialApply(prim.required, args1, nil, f))
-		case len(args1) == prim.required:
-			ctl.Return(prim.function(args1...))
-		default:
-			msg := fmt.Sprintf("too many arguments for %s, required: %d, given: %d", prim.name, prim.required, len(args1))
-			ctl.Exception(Make_error(msg))
-		}
-		return
-	}
-
-	if *f == Procedure {
-		proc := mustProcedure(f)
-		if listLength(args) < proc.arity {
-			ctl.Return(partialApply(proc.arity, listToSlice(args), proc.env, f))
+		case len(args) < prim.required:
+			ctl.Return(partialApply(prim.required, args, nil, f))
+			return
+		case len(args) == prim.required:
+			ctl.Return(prim.function(args...))
 			return
 		}
-		newEnv := proc.env.Extend(proc.arg, args)
-		ctl.TailEval(proc.body, newEnv)
-		return
+	} else if *f == Procedure {
+		proc := mustProcedure(f)
+		switch {
+		case len(args) < proc.arity:
+			ctl.Return(partialApply(proc.arity, args, proc.env, f))
+			return
+		case len(args) == proc.arity:
+			newEnv := proc.env.Extend(proc.arg, args)
+			ctl.TailEval(proc.body, newEnv)
+			return
+		}
 	}
-	panic("not implement")
+	ctl.Exception(Make_error("can't apply object"))
 }
 
 // partialApply works when required > providArgs
@@ -286,54 +287,37 @@ func partialApply(required int, providArgs []Obj, env *Environment, proc Obj) Ob
 	// Partial apply...
 	// (f x y z) => (lambda (z) (f x y z)) with x y in env
 	symbols := makeTempSymbols(required)
-	bind := make(map[string]Obj)
-	for i := 0; i < len(providArgs); i++ {
-		symbol := symbols[i]
-		bind[symbol.sym] = providArgs[i]
-	}
-	env1 := &Environment{
-		parent: env,
-		bind:   bind,
-	}
+	env1 := env.Extend(symbols[:len(providArgs)], providArgs)
 
 	args := Nil
 	for i, count := len(symbols)-1, required-len(providArgs); count > 0; count-- {
-		args = cons(&symbols[i].scmHead, args)
+		args = cons(symbols[i], args)
 		i--
 	}
 
 	body := Nil
 	for i := len(symbols) - 1; i >= 0; i-- {
-		body = cons(&symbols[i].scmHead, body)
+		body = cons(symbols[i], body)
 	}
 	body = cons(proc, body)
 
 	return Make_procedure(args, body, env1)
 }
 
-func evalList(args Obj, env *Environment) Obj {
-	res := Nil
-	for args != Nil {
+func evalArgumentList(args Obj, env *Environment) []Obj {
+	var ret []Obj
+	for *args == Pair {
 		v := trampoline(car(args), env)
-		res = cons(v, res)
+		ret = append(ret, v)
 		args = cdr(args)
-	}
-	return reverse(res)
-}
-
-func makeTempSymbols(n int) []*ScmSymbol {
-	ret := make([]*ScmSymbol, n)
-	for i := 0; i < n; i++ {
-		ret[i] = mustSymbol(Make_symbol(fmt.Sprintf("tmp%d", i)))
 	}
 	return ret
 }
 
-func listToSlice(l Obj) []Obj {
-	var ret []Obj
-	for l != Nil {
-		ret = append(ret, car(l))
-		l = cdr(l)
+func makeTempSymbols(n int) []Obj {
+	ret := make([]Obj, n)
+	for i := 0; i < n; i++ {
+		ret[i] = Make_symbol(fmt.Sprintf("tmp%d", i))
 	}
 	return ret
 }

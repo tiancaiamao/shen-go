@@ -1,17 +1,16 @@
 package kl
 
 import (
-	// "fmt"
 	"testing"
 )
 
-func TestReverse1(t *testing.T) {
-	if reverse1(Nil) != Nil {
+func TestReverse(t *testing.T) {
+	if reverse(Nil) != Nil {
 		t.FailNow()
 	}
 
 	l := cons(Make_integer(1), cons(Make_integer(2), cons(Make_integer(3), Nil)))
-	r := reverse1(l)
+	r := reverse(l)
 	if mustInteger(car(r)) != 3 {
 		t.FailNow()
 	}
@@ -29,9 +28,6 @@ func TestReverse1(t *testing.T) {
 	l1 := cons(Make_integer(1), cons(l, Nil))
 	// ((1 2 3) 1)
 	l2 := cons(l, cons(Make_integer(1), Nil))
-
-	// fmt.Printf("%#v...\n", (*scmHead)(l1))
-	// fmt.Printf("%#v...\n", (*scmHead)(l2))
 
 	if equal(reverse(l1), l2) != True {
 		t.Error("fuck1")
