@@ -21,7 +21,7 @@ func NewSexpReader(r io.Reader) *SexpReader {
 func (r *SexpReader) Read() (Obj, error) {
 	b, err := peekFirstRune(r.reader)
 	if err != nil {
-		return Void, err
+		return Nil, err
 	}
 
 	switch b {

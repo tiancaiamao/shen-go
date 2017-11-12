@@ -164,7 +164,7 @@ func mustPair(o Obj) *ScmPair {
 	return (*ScmPair)(unsafe.Pointer(o))
 }
 
-var True, False, Nil, Void Obj
+var True, False, Nil Obj
 
 func init() {
 	tmp1 := ScmBoolean{Boolean, false}
@@ -173,11 +173,8 @@ func init() {
 	tmp2 := &ScmBoolean{Boolean, true}
 	True = Obj(&tmp2.scmHead)
 
-	tmp3 := &ScmPair{Pair, nil, nil}
+	tmp3 := &ScmPair{Null, nil, nil}
 	Nil = Obj(&tmp3.scmHead)
-
-	tmp4 := scmHead(Null)
-	Void = Obj(&tmp4) // the unspecified value
 }
 
 func Make_integer(v int) Obj {

@@ -87,6 +87,10 @@ func equal(x, y Obj) Obj {
 		if mustSymbol(x).sym != mustSymbol(y).sym {
 			return False
 		}
+	case Null:
+		if *y != Null {
+			return False
+		}
 	case Pair:
 		// TODO: maybe cycle exists!
 		if x != y {

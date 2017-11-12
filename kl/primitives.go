@@ -352,7 +352,7 @@ func loadFile(args ...Obj) Obj {
 		}
 		fmt.Printf("%#v\n", (*scmHead)(res))
 	}
-	return Void
+	return Nil
 }
 
 func string_p(args ...Obj) Obj {

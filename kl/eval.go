@@ -16,7 +16,7 @@ func (env *Environment) Get(sym string) (Obj, bool) {
 		}
 		env = env.parent
 	}
-	return Void, false
+	return Nil, false
 }
 
 func (env *Environment) Extend(symbols, values Obj) *Environment {
@@ -109,7 +109,7 @@ func eval(ctl *controlFlow) {
 	env := ctl.env
 
 	switch *exp {
-	case Number, String, Vector, Boolean, Procedure:
+	case Number, String, Vector, Boolean, Procedure, Null:
 		ctl.Return(exp)
 		return
 	}
@@ -125,10 +125,6 @@ func eval(ctl *controlFlow) {
 	}
 
 	pair := mustPair(exp)
-	if exp == Nil {
-		ctl.Return(exp)
-		return
-	}
 	if *pair.car == Symbol {
 		sym := mustSymbol(pair.car)
 		exp = pair.cdr
@@ -239,7 +235,7 @@ func evalCond(l Obj, env *Environment, ctl *controlFlow) {
 		}
 		l = cdr(l)
 	}
-	ctl.Return(Void)
+	ctl.Return(Nil)
 	return
 }
 
