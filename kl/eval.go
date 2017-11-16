@@ -48,7 +48,8 @@ const (
 )
 
 type controlFlow struct {
-	kind controlFlowKind
+	kind        controlFlowKind
+	inException bool
 	// arguments for eval
 	exp Obj
 	env *Environment
@@ -177,6 +178,10 @@ func eval(ctl *controlFlow) {
 		return
 	}
 	args := evalArgumentList(pair.cdr, env)
+	if !ctl.inException && len(args) == 1 && *args[0] == Error {
+		ctl.Exception(args[0])
+		return
+	}
 	ctl.TailApply(fn, args)
 	return
 }
@@ -245,6 +250,7 @@ func evalCond(l Obj, env *Environment, ctl *controlFlow) {
 func evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
 	e := trampoline(car(exp), env)
 	if *e == Error {
+		ctl.inException = true
 		handler := evalFunction(cadr(exp), env)
 		ctl.TailApply(handler, []Obj{e})
 		return
@@ -308,6 +314,9 @@ func evalArgumentList(args Obj, env *Environment) []Obj {
 	var ret []Obj
 	for *args == Pair {
 		v := trampoline(car(args), env)
+		if *v == Error {
+			return []Obj{v}
+		}
 		ret = append(ret, v)
 		args = cdr(args)
 	}

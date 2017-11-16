@@ -8,7 +8,7 @@ import (
 )
 
 var primitives []*ScmPrimitive = []*ScmPrimitive{
-	&ScmPrimitive{scmHead: Primitive, name: "load", required: 1, function: primLoadFile},
+	&ScmPrimitive{scmHead: Primitive, name: "load-file", required: 1, function: primLoadFile},
 	&ScmPrimitive{scmHead: Primitive, name: "type", required: 2, function: typeFunc},
 	&ScmPrimitive{scmHead: Primitive, name: "get-time", required: 1, function: getTime},
 	&ScmPrimitive{scmHead: Primitive, name: "eval-kl", required: 1, function: primEvalKL},
@@ -111,7 +111,7 @@ func primStr(args ...Obj) Obj {
 		return Make_string(sym.sym)
 	case Number:
 		f := mustNumber(args[0])
-		return Make_string(fmt.Sprintf("%f", f))
+		return Make_string(fmt.Sprintf("%f", f.val))
 	case String:
 		return Make_string(fmt.Sprintf(`"%s"`, mustString(args[0])))
 	case Procedure:
@@ -124,6 +124,8 @@ func primStr(args ...Obj) Obj {
 		} else if args[0] == False {
 			return Make_string("false")
 		}
+	default:
+		return Make_string("primStr unknown:default value")
 	}
 	return Make_string("wrong input, the object is not atom ...")
 }
@@ -333,29 +335,7 @@ func typeFunc(args ...Obj) Obj {
 
 func primLoadFile(args ...Obj) Obj {
 	path := mustString(args[0])
-	f, err := os.Open(path)
-	if err != nil {
-		return Make_error(err.Error())
-	}
-	defer f.Close()
-
-	r := NewSexpReader(f)
-	for {
-		exp, err := r.Read()
-		if err != nil {
-			if err != io.EOF {
-				return Make_error(err.Error())
-			}
-			break
-		}
-
-		res := trampoline(exp, nil)
-		if *res == Error {
-			return res
-		}
-		fmt.Printf("%#v\n", (*scmHead)(res))
-	}
-	return Nil
+	return LoadFile(path)
 }
 
 func primIsString(args ...Obj) Obj {

@@ -1,6 +1,8 @@
 package kl
 
 import (
+	"fmt"
+	"io"
 	"os"
 	"runtime"
 	"time"
@@ -29,6 +31,7 @@ func init() {
 	symbolTable["*relase*"] = Make_string(runtime.Version())
 	symbolTable["*os*"] = Make_string(runtime.GOOS)
 	symbolTable["*porters*"] = Make_string("Arthur Mao")
+	symbolTable["*port*"] = Make_string("0.0.1")
 }
 
 func cadr(o Obj) Obj {
@@ -68,6 +71,10 @@ func equal(x, y Obj) Obj {
 		}
 	case String:
 		if mustString(x) != mustString(y) {
+			return False
+		}
+	case Boolean:
+		if x != y {
 			return False
 		}
 	case Symbol:
@@ -113,4 +120,32 @@ func listToSlice(l Obj) []Obj {
 		l = cdr(l)
 	}
 	return ret
+}
+
+func LoadFile(path string) Obj {
+	f, err := os.Open(path)
+	if err != nil {
+		return Make_error(err.Error())
+	}
+	defer f.Close()
+
+	r := NewSexpReader(f)
+	for {
+		exp, err := r.Read()
+		if err != nil {
+			if err != io.EOF {
+				return Make_error(err.Error())
+			}
+			break
+		}
+
+		// fmt.Printf("BEGIN: %#v\n", (*scmHead)(exp))
+		res := trampoline(exp, nil)
+		if *res == Error {
+			return res
+		}
+		fmt.Printf("%#v\n", (*scmHead)(res))
+		// fmt.Printf("END: %#v\n", (*scmHead)(res))
+	}
+	return Nil
 }

@@ -36,3 +36,25 @@ func TestReverse(t *testing.T) {
 		t.Error("fuck2")
 	}
 }
+
+func TestEqual(t *testing.T) {
+	tests := []struct {
+		x      Obj
+		y      Obj
+		expect Obj
+	}{
+		{True, True, True},
+		{True, False, False},
+		{False, True, False},
+		{True, Make_number(10), False},
+		{Nil, Nil, True},
+		{Nil, False, False},
+		{Make_string("asd"), Make_string("abc"), False},
+	}
+
+	for _, test := range tests {
+		if equal(test.x, test.y) != test.expect {
+			t.Error(test.x, test.y)
+		}
+	}
+}
