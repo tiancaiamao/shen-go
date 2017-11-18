@@ -23,7 +23,12 @@ const (
 	Stream            = 17
 	Primitive         = 21
 	Error             = 22
+	Raw               = 42
 )
+
+type ScmRaw struct {
+	scmHead
+}
 
 type ScmNumber struct {
 	scmHead
@@ -85,6 +90,14 @@ type ScmPrimitive struct {
 type ScmError struct {
 	scmHead
 	err string
+}
+
+func Make_raw() ScmRaw {
+	return ScmRaw{scmHead: Raw}
+}
+
+func (raw *ScmRaw) Object() Obj {
+	return &raw.scmHead
 }
 
 func Make_error(err string) Obj {

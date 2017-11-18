@@ -27,11 +27,11 @@ var primitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: Primitive, name: ">", required: 2, function: greatThan},
 	&ScmPrimitive{scmHead: Primitive, name: "error-to-string", required: 1, function: primErrorToString},
 	&ScmPrimitive{scmHead: Primitive, name: "simple-error", required: 1, function: simpleError},
-	&ScmPrimitive{scmHead: Primitive, name: "=", required: 2, function: primEqual},
+	&ScmPrimitive{scmHead: Primitive, name: "=", required: 2, function: PrimEqual},
 	&ScmPrimitive{scmHead: Primitive, name: "-", required: 2, function: primNumberSubtract},
 	&ScmPrimitive{scmHead: Primitive, name: "*", required: 2, function: primNumberMultiply},
 	&ScmPrimitive{scmHead: Primitive, name: "/", required: 2, function: primNumberDivide},
-	&ScmPrimitive{scmHead: Primitive, name: "+", required: 2, function: primNumberAdd},
+	&ScmPrimitive{scmHead: Primitive, name: "+", required: 2, function: PrimNumberAdd},
 	&ScmPrimitive{scmHead: Primitive, name: "string->n", required: 1, function: primStringToNumber},
 	&ScmPrimitive{scmHead: Primitive, name: "n->string", required: 1, function: primNumberToString},
 	&ScmPrimitive{scmHead: Primitive, name: "number?", required: 1, function: primIsNumber},
@@ -50,7 +50,7 @@ var primitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: Primitive, name: "if", required: 3, function: primIf},
 }
 
-func primNumberAdd(args ...Obj) Obj {
+func PrimNumberAdd(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
 	return Make_number(x1.val + y1.val)
@@ -124,6 +124,9 @@ func primStr(args ...Obj) Obj {
 		} else if args[0] == False {
 			return Make_string("false")
 		}
+	case Error:
+		e := mustError(args[0])
+		return Make_string(e.err)
 	default:
 		return Make_string("primStr unknown:default value")
 	}
@@ -372,7 +375,7 @@ func primIf(args ...Obj) Obj {
 	return Make_error("primIf")
 }
 
-func primEqual(args ...Obj) Obj {
+func PrimEqual(args ...Obj) Obj {
 	return equal(args[0], args[1])
 }
 
