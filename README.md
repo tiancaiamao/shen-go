@@ -10,10 +10,9 @@ Shen is a portable functional programming language by [Mark Tarver](http://markt
 - an integrated fully functional Prolog,
 - and an inbuilt compiler-compiler.
 
-shen-go is a port of the Shen language that runs on top of Go implementations. Right now I'm working on the following implementations:
+shen-go is a port of the Shen language that runs on top of Go implementations.
 
-* interpreter (basically done)
-* bytecode compiler (WIP)
+There is a klambda interpreter that is basically done, but it's quite slow. Right now I'm working on a bytecode compiler.
 
 ## Building
 
@@ -21,6 +20,11 @@ Make sure you [have Go installed](https://golang.org/doc/install).
 
 ```
 go get github.com/tiancaiamao/shen-go/cmd/kl
+```
+
+## Running
+
+```
 cd $GOPATH/src/github.com/tiancaiamao/shen-go
 $GOPATH/bin/kl -s shen.kl
 ```
@@ -31,3 +35,8 @@ $GOPATH/bin/kl -s shen.kl
 * [The Official Shen Standard](http://www.shenlanguage.org/learn-shen/shendoc.htm)
 * [Shen Community Wiki](https://github.com/Shen-Language/wiki/wiki)
 * [The Book of Shen: third edition](https://www.amazon.co.uk/Book-Shen-Third-Mark-Tarver/dp/1784562130)
+
+## License
+
+- Shen, Copyright © 2010-2015 Mark Tarver - [License](http://www.shenlanguage.org/license.pdf).
+- shen-go, Copyright © 2017-2017 Arthur Mao under [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause).
