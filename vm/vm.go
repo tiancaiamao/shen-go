@@ -62,7 +62,7 @@ func (vm *VM) Run(code *Code) {
 			vm.top++
 		case iAccess:
 			n := instructionOP1(inst)
-			// 从environment到value register
+			// get value from environment
 			vm.stack[vm.top] = vm.env[len(vm.env)-1-n]
 			fmt.Println("ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top]))
 			vm.top++
