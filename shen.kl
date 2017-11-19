@@ -13,4 +13,7 @@
 (load-file "ShenOSKernel-20.1/klambda/types.kl")
 (load-file "ShenOSKernel-20.1/klambda/t-star.kl")
 
+(defun import (str)
+       (load (make-string "~A/~A/package.shen" (value *package-path*) str)))
+
 (shen.shen)

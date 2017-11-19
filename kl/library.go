@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"runtime"
 	"time"
 )
@@ -32,6 +33,11 @@ func init() {
 	symbolTable["*os*"] = Make_string(runtime.GOOS)
 	symbolTable["*porters*"] = Make_string("Arthur Mao")
 	symbolTable["*port*"] = Make_string("0.0.1")
+
+	// Extended by shen-go implementation
+	gopath := os.Getenv("GOPATH")
+	packagePath := path.Join(gopath, "src/github.com/tiancaiamao/shen-go/pkg")
+	symbolTable["*package-path*"] = Make_string(packagePath)
 }
 
 func cadr(o Obj) Obj {
