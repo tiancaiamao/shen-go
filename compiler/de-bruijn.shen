@@ -2,6 +2,7 @@
   Exp -> (de-bruijn0 [] Exp))
 
 (define de-bruijn0
+  Env [let X Y Z] -> [$app [$abs (de-bruijn0 (cons X Env) Z)] (de-bruijn0 Env Y)]
   Env [lambda X Y] -> [$abs (de-bruijn0 (cons X Env) Y)]
   Env [if X Y Z] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) (de-bruijn0 Env Z)]
   Env [do X Y] -> [$do (de-bruijn0 Env X) (de-bruijn0 Env Y)]
