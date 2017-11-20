@@ -1,6 +1,7 @@
 (define compile1
   [$const V] -> [[iConst V]]
   [$var I] -> [[iAccess I]]
+  [$if X Y Z] -> (append (compile1 X) [[iJF | (compile1 Y)] | [[iJMP | (compile1 Z)]]])
   [$do X Y] -> (append (compile1 X) [[iPop] | (compile1 Y)])
   [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
   [$app F | X] -> (compile-apply F X)

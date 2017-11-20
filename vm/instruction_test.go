@@ -16,6 +16,8 @@ func TestInstruction(t *testing.T) {
 	a.PUSHARG()
 	a.DEFUN()
 	a.POP()
+	a.JF(1)
+	a.JMP(5)
 	a.HALT()
 
 	result := `CONST 0
@@ -24,6 +26,8 @@ GRAB 2
 PUSHARG
 DEFUN
 POP
+JF 1
+JMP 5
 HALT`
 
 	expects := strings.Split(result, "\n")

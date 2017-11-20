@@ -34,9 +34,14 @@ func TestProcedureCall(t *testing.T) {
 
 func TestPartialApply(t *testing.T) {
 	// (((lambda x (lambda y x)) (lambda z z)) 2 3)
-	str := "((iGrab (iGrab (iAccess 1) (iReturn)) (iReturn)) (iGrab (iAccess 0) (iReturn)) (iPushArg) (iApply) (iConst 2) (iPushArg) (iConst 3) (iPushArg) (iApply) (iHalt))"
+	// str := "((iGrab (iGrab (iAccess 1) (iReturn)) (iReturn)) (iGrab (iAccess 0) (iReturn)) (iPushArg) (iApply) (iConst 2) (iPushArg) (iConst 3) (iPushArg) (iApply) (iHalt))"
+
 	// [do [defun f [a b] [+ a b]] [f 1 2]]
 	// str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst f) (iDefun) (iPop) (iConst f) (iGetF) (iConst 1) (iPushArg) (iConst 2) (iPushArg) (iApply) (iHalt))"
+
+	// (if true 3 2)
+	str := "((iConst true) (iJF (iConst 3)) (iJMP (iConst 2)) (iHalt))"
+
 	r := kl.NewSexpReader(strings.NewReader(str))
 	sexp, err := r.Read()
 	if err != nil {
@@ -49,6 +54,7 @@ func TestPartialApply(t *testing.T) {
 
 	vm := NewVM()
 	vm.Run(code)
+	vm.debug()
 	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(3)) != kl.True {
 		t.Error("failed!")
 	}

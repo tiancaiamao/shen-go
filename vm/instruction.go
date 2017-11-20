@@ -25,6 +25,8 @@ const (
 	iHalt
 	iDefun
 	iGetF
+	iJF
+	iJMP
 )
 
 type instructionInfo struct {
@@ -100,6 +102,10 @@ func (i instruction) String() string {
 		return "DEFUN"
 	case iGetF:
 		return "GETF"
+	case iJF:
+		return fmt.Sprintf("JF %d", instructionOP1(i))
+	case iJMP:
+		return fmt.Sprintf("JMP %d", instructionOP1(i))
 	}
 	return "UNKNOWN"
 }
@@ -136,6 +142,16 @@ func (a *Assember) DEFUN() {
 
 func (a *Assember) GRAB(i int) {
 	inst := instruction((iGrab << codeBitShift) | (i << 16))
+	a.buf = append(a.buf, inst)
+}
+
+func (a *Assember) JF(i int) {
+	inst := instruction((iJF << codeBitShift) | (i << 16))
+	a.buf = append(a.buf, inst)
+}
+
+func (a *Assember) JMP(i int) {
+	inst := instruction((iJMP << codeBitShift) | (i << 16))
 	a.buf = append(a.buf, inst)
 }
 
@@ -221,7 +237,9 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			var a1 Assember
 			a1.FromSexp(kl.Cdr(obj))
 			a.GRAB(len(a1.buf))
+			adjustConst(a1.buf, len(a.consts))
 			a.buf = append(a.buf, a1.buf...)
+			a.consts = append(a.consts, a1.consts...)
 		case "iHalt":
 			a.HALT()
 		case "iDefun":
@@ -230,7 +248,31 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			a.POP()
 		case "iGetF":
 			a.GetF()
+		case "iJF":
+			var a1 Assember
+			a1.FromSexp(kl.Cdr(obj))
+			a.JF(len(a1.buf) + 1) // Follow by a JMP
+			adjustConst(a1.buf, len(a.consts))
+			a.buf = append(a.buf, a1.buf...)
+			a.consts = append(a.consts, a1.consts...)
+		case "iJMP":
+			var a1 Assember
+			a1.FromSexp(kl.Cdr(obj))
+			a.JMP(len(a1.buf))
+			adjustConst(a1.buf, len(a.consts))
+			a.buf = append(a.buf, a1.buf...)
+			a.consts = append(a.consts, a1.consts...)
 		}
 	}
 	return nil
+}
+
+func adjustConst(insts []instruction, ofst int) {
+	for i, inst := range insts {
+		if instructionCode(inst) == iConst {
+			idx := instructionOP1(inst) + ofst
+			insts[i] = instruction((iConst << codeBitShift) | (idx << 16))
+		}
+
+	}
 }

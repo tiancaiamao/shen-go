@@ -123,6 +123,24 @@ func (vm *VM) Run(code *Code) {
 			} else {
 				vm.stack[vm.top-1] = kl.Make_error("unknown function:" + symbol)
 			}
+		case iJF:
+			switch vm.stack[vm.top-1] {
+			case kl.False:
+				n := instructionOP1(inst)
+				vm.top--
+				vm.pc += n
+				fmt.Println("JF false branch pc=", vm.pc, n)
+			case kl.True:
+				fmt.Println("JF true branch pc=", vm.pc)
+				vm.top--
+			default:
+				// TODO: So what?
+				vm.stack[vm.top-1] = kl.Make_error("test condition need to be boolean")
+			}
+		case iJMP:
+			n := instructionOP1(inst)
+			vm.pc += n
+			fmt.Println("JMP", n, vm.pc)
 		case iHalt:
 			fmt.Println("HALT", vm.top, vm.arg.count(), len(vm.savedAddr))
 			halt = true
