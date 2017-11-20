@@ -1,6 +1,7 @@
 package kl
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -57,4 +58,12 @@ func TestEqual(t *testing.T) {
 			t.Error(test.x, test.y)
 		}
 	}
+}
+
+func TestPrimitive(t *testing.T) {
+	fmt.Println("(init-primitive-table [")
+	for i, prim := range Primitives {
+		fmt.Println(prim.Name, prim.Required, `"xxx"`, i)
+	}
+	fmt.Println("])")
 }

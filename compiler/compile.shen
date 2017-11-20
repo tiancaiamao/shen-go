@@ -9,7 +9,7 @@
   X -> X)
 
 (define compile-apply
-  F X -> (append (mapcan (function compile1) X) [[iPrimCall (primitive-arity F)]]) where (primitive? F)
+  F X -> (append (mapcan (function compile1) X) [[iPrimCall (primitive-id F)]]) where (primitive? F)
   F X -> [[iConst F] [iGetF] | (compile-arg-list X)] where (symbol? F)
   F X -> (append (mapcan (function compile1) X) (compile-arg-list X)))
 

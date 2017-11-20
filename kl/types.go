@@ -82,9 +82,9 @@ type ScmProcedure struct {
 
 type ScmPrimitive struct {
 	scmHead
-	name     string
-	required int
-	function func(...Obj) Obj
+	Name     string
+	Required int
+	Function func(...Obj) Obj
 }
 
 type ScmError struct {
@@ -336,7 +336,7 @@ func (o *scmHead) GoString() string {
 		return fmt.Sprintf("Stream")
 	case Primitive:
 		prim := mustPrimitive(o)
-		return fmt.Sprintf("Primitive(%s)", prim.name)
+		return fmt.Sprintf("Primitive(%s)", prim.Name)
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }

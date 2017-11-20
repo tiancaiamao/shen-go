@@ -266,11 +266,11 @@ func apply(ctl *controlFlow) {
 	if *f == Primitive {
 		prim := mustPrimitive(f)
 		switch {
-		case len(args) < prim.required:
-			ctl.Return(partialApply(prim.required, args, nil, f))
+		case len(args) < prim.Required:
+			ctl.Return(partialApply(prim.Required, args, nil, f))
 			return
-		case len(args) == prim.required:
-			ctl.Return(prim.function(args...))
+		case len(args) == prim.Required:
+			ctl.Return(prim.Function(args...))
 			return
 		}
 	} else if *f == Procedure {
@@ -288,7 +288,7 @@ func apply(ctl *controlFlow) {
 	ctl.Exception(Make_error("can't apply object"))
 }
 
-// partialApply works when required > providArgs
+// partialApply works when Required > providArgs
 func partialApply(required int, providArgs []Obj, env *Environment, proc Obj) Obj {
 	// Partial apply...
 	// (f x y z) => (lambda (z) (f x y z)) with x y in env

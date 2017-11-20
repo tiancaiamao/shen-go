@@ -163,7 +163,13 @@ func (vm *VM) Run(code *Code) {
 			vm.env = vm.env[0:]
 			vm.env = append(vm.env, closure.env...)
 		case iPrimCall:
-			fallthrough
+			id := instructionOP1(inst)
+			prim := kl.Primitives[id]
+			args := vm.stack[vm.top-prim.Required : vm.top]
+			result := prim.Function(args...)
+			fmt.Println("PRIMCALL", prim.Name, kl.ObjString(result))
+			vm.stack[vm.top-prim.Required] = result
+			vm.top = vm.top - prim.Required + 1
 		case iAdd:
 			vm.top--
 			o1 := vm.stack[vm.top]

@@ -18,9 +18,9 @@ var (
 func init() {
 	initTime = time.Now()
 	symbolTable = make(map[string]Obj)
-	functionTable = make(map[string]Obj, len(primitives))
-	for _, prim := range primitives {
-		functionTable[prim.name] = Obj(&prim.scmHead)
+	functionTable = make(map[string]Obj, len(Primitives))
+	for _, prim := range Primitives {
+		functionTable[prim.Name] = Obj(&prim.scmHead)
 	}
 
 	dir, _ := os.Getwd()
