@@ -17,6 +17,8 @@ type VM struct {
 	pc        int // pc register refer to the position in current code
 	code      *Code
 	savedAddr []address // saved return address
+
+	functionTable map[string]*Procedure
 }
 
 // Code is something executable to VM, it's immutable.
@@ -103,11 +105,16 @@ func (vm *VM) Run(code *Code) {
 				// more arguments then necessary, continue the beta-reduce.
 				fmt.Println("RETURN: TODO, should partial apply")
 			}
+		case iDefun:
+			symbol := kl.SymbolString(vm.stack[vm.top-1])
+			fmt.Println("DEFUN", symbol)
+			function := (*Procedure)(unsafe.Pointer(vm.stack[vm.top-2]))
+			vm.functionTable[symbol] = function
+			vm.top--
+			vm.stack[vm.top-1] = vm.stack[vm.top]
 		case iHalt:
 			fmt.Println("HALT", vm.top, vm.arg.count(), len(vm.savedAddr))
 			halt = true
-		case iPush:
-		case iPop:
 		case iPushArg:
 			// pop a value from stack top to argument queue
 			fmt.Println("PUSHARG from", vm.top)
@@ -144,5 +151,5 @@ func (vm *VM) Run(code *Code) {
 func (vm *VM) debug() {
 	fmt.Println("top:", vm.top)
 	fmt.Println("arg:", vm.arg.count())
-	fmt.Println("result:", vm.stack[vm.top-1])
+	fmt.Println("result:", kl.ObjString(vm.stack[vm.top-1]))
 }

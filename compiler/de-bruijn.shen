@@ -5,6 +5,7 @@
   Env [lambda X Y] -> [$abs (de-bruijn0 (cons X Env) Y)]
   Env [if X Y Z] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) (de-bruijn0 Env Z)]
   Env [do X Y] -> [$do (de-bruijn0 Env X) (de-bruijn0 Env Y)]
+  Env [defun F X Y] -> [$defun F (de-bruijn0 Env (defun-rewrite X Y))]
   Env [F | X] -> [$app (de-bruijn0 Env F) | (map (de-bruijn0 Env) X)]
   Env X -> (de-bruijn-index X Env))
 
@@ -20,3 +21,7 @@
   S I [] -> (fail)
   S I [S | _] -> [$var I]
   S I [_ | E] -> (find-env0 S (+ I 1) E))
+
+(define defun-rewrite
+  [] Y -> Y
+  [X | L] Y -> [lambda X (defun-rewrite L Y)])

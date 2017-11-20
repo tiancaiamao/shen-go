@@ -1,7 +1,7 @@
 package vm
 
 import (
-	// "strings"
+	"strings"
 	"testing"
 
 	"github.com/tiancaiamao/shen-go/kl"
@@ -32,19 +32,22 @@ func TestProcedureCall(t *testing.T) {
 	}
 }
 
-// func TestSimple(t *testing.T) {
-// 	str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst 1) (iPushArg) (iConst 2) (iPushArg) (iApply) (iHalt))"
-// 	r := kl.NewSexpReader(strings.NewReader(str))
-// 	sexp, err := r.Read()
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
+func TestPartialApply(t *testing.T) {
+	// (((lambda x (lambda y x)) (lambda z z)) 2 3)
+	str := "((iGrab (iGrab (iAccess 1) (iReturn)) (iReturn)) (iGrab (iAccess 0) (iReturn)) (iPushArg) (iApply) (iConst 2) (iPushArg) (iConst 3) (iPushArg) (iApply) (iHalt))"
+	r := kl.NewSexpReader(strings.NewReader(str))
+	sexp, err := r.Read()
+	if err != nil {
+		t.Error(err)
+	}
 
-// 	var a Assember
-// 	a.FromSexp(sexp)
-// 	code := a.Comiple()
+	var a Assember
+	a.FromSexp(sexp)
+	code := a.Comiple()
 
-// 	vm := NewVM()
-// 	vm.Run(code)
-// 	vm.debug()
-// }
+	vm := NewVM()
+	vm.Run(code)
+	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(3)) != kl.True {
+		t.Error("failed!")
+	}
+}

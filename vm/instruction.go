@@ -23,6 +23,7 @@ const (
 	iReturn
 	iAdd
 	iHalt
+	iDefun
 )
 
 type instructionInfo struct {
@@ -94,6 +95,8 @@ func (i instruction) String() string {
 		return "RETURN"
 	case iHalt:
 		return "HALT"
+	case iDefun:
+		return "DEFUN"
 	}
 	return "UNKNOWN"
 }
@@ -122,6 +125,10 @@ func (a *Assember) APPLY() {
 
 func (a *Assember) HALT() {
 	a.buf = append(a.buf, instruction(iHalt<<codeBitShift))
+}
+
+func (a *Assember) DEFUN() {
+	a.buf = append(a.buf, instruction(iDefun<<codeBitShift))
 }
 
 func (a *Assember) GRAB(i int) {
@@ -206,6 +213,8 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			a.buf = append(a.buf, a1.buf...)
 		case "iHalt":
 			a.HALT()
+		case "iDefun":
+			a.DEFUN()
 		}
 	}
 	return nil

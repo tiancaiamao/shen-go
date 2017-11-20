@@ -14,11 +14,15 @@ func TestInstruction(t *testing.T) {
 	a.CONST(kl.Make_integer(7))
 	a.GRAB(2)
 	a.PUSHARG()
+	a.DEFUN()
+	a.HALT()
 
 	result := `CONST 0
 CONST 1
 GRAB 2
-PUSHARG`
+PUSHARG
+DEFUN
+HALT`
 
 	expects := strings.Split(result, "\n")
 	for i, v := range a.buf {
