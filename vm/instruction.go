@@ -24,6 +24,7 @@ const (
 	iAdd
 	iHalt
 	iDefun
+	iGetF
 )
 
 type instructionInfo struct {
@@ -97,6 +98,8 @@ func (i instruction) String() string {
 		return "HALT"
 	case iDefun:
 		return "DEFUN"
+	case iGetF:
+		return "GETF"
 	}
 	return "UNKNOWN"
 }
@@ -138,6 +141,14 @@ func (a *Assember) GRAB(i int) {
 
 func (a *Assember) ADD() {
 	a.buf = append(a.buf, instruction(iAdd<<codeBitShift))
+}
+
+func (a *Assember) POP() {
+	a.buf = append(a.buf, instruction(iPop<<codeBitShift))
+}
+
+func (a *Assember) GetF() {
+	a.buf = append(a.buf, instruction(iGetF<<codeBitShift))
 }
 
 func (a *Assember) CONST(o kl.Obj) {
@@ -215,6 +226,10 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			a.HALT()
 		case "iDefun":
 			a.DEFUN()
+		case "iPop":
+			a.POP()
+		case "iGetF":
+			a.GetF()
 		}
 	}
 	return nil

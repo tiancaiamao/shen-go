@@ -35,6 +35,8 @@ func TestProcedureCall(t *testing.T) {
 func TestPartialApply(t *testing.T) {
 	// (((lambda x (lambda y x)) (lambda z z)) 2 3)
 	str := "((iGrab (iGrab (iAccess 1) (iReturn)) (iReturn)) (iGrab (iAccess 0) (iReturn)) (iPushArg) (iApply) (iConst 2) (iPushArg) (iConst 3) (iPushArg) (iApply) (iHalt))"
+	// [do [defun f [a b] [+ a b]] [f 1 2]]
+	// str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst f) (iDefun) (iPop) (iConst f) (iGetF) (iConst 1) (iPushArg) (iConst 2) (iPushArg) (iApply) (iHalt))"
 	r := kl.NewSexpReader(strings.NewReader(str))
 	sexp, err := r.Read()
 	if err != nil {

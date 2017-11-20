@@ -40,8 +40,9 @@ type Procedure struct {
 
 func NewVM() *VM {
 	vm := &VM{
-		stack: make([]kl.Obj, 200),
-		env:   make([]kl.Obj, 0, 200),
+		stack:         make([]kl.Obj, 200),
+		env:           make([]kl.Obj, 0, 200),
+		functionTable: make(map[string]*Procedure),
 	}
 	vm.arg.init(100)
 	return vm
@@ -105,6 +106,9 @@ func (vm *VM) Run(code *Code) {
 				// more arguments then necessary, continue the beta-reduce.
 				fmt.Println("RETURN: TODO, should partial apply")
 			}
+		case iPop:
+			fmt.Println("POP")
+			vm.top--
 		case iDefun:
 			symbol := kl.SymbolString(vm.stack[vm.top-1])
 			fmt.Println("DEFUN", symbol)
@@ -112,6 +116,13 @@ func (vm *VM) Run(code *Code) {
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
+		case iGetF:
+			symbol := kl.SymbolString(vm.stack[vm.top-1])
+			if function, ok := vm.functionTable[symbol]; ok {
+				vm.stack[vm.top-1] = function.ScmRaw.Object()
+			} else {
+				vm.stack[vm.top-1] = kl.Make_error("unknown function:" + symbol)
+			}
 		case iHalt:
 			fmt.Println("HALT", vm.top, vm.arg.count(), len(vm.savedAddr))
 			halt = true
