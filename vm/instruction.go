@@ -17,7 +17,6 @@ const (
 	iPush
 	iPushArg
 	iPop
-	iMark
 	iApply
 	iPrimCall
 	iConst
@@ -37,7 +36,6 @@ var instructionTable = []instructionInfo{
 	{iPush, "PUSH"},
 	{iPushArg, "PUSHARG"},
 	{iPop, "POP"},
-	{iMark, "MARK"},
 	{iApply, "APPLY"},
 	{iPrimCall, "PRIMCALL"},
 	{iConst, "CONST"},
@@ -79,15 +77,13 @@ func (i instruction) String() string {
 	case iAccess:
 		return fmt.Sprintf("ACCESS %d", instructionOP1(i))
 	case iGrab:
-		return "GRAB"
+		return fmt.Sprintf("GRAB %d", instructionOP1(i))
 	case iPush:
 		return "PUSH"
 	case iPushArg:
-		return fmt.Sprintf("PUSHARG %d", instructionOP1(i))
+		return fmt.Sprintf("PUSHARG")
 	case iPop:
 		return "POP"
-	case iMark:
-		return fmt.Sprintf("MARK %d", instructionOP1(i))
 	case iApply:
 		return "APPLY"
 	case iPrimCall:
@@ -96,6 +92,8 @@ func (i instruction) String() string {
 		return fmt.Sprintf("CONST %d", instructionOP1(i))
 	case iReturn:
 		return "RETURN"
+	case iHalt:
+		return "HALT"
 	}
 	return "UNKNOWN"
 }
@@ -114,14 +112,8 @@ func (a *Assember) RETURN() {
 	a.buf = append(a.buf, instruction(iReturn<<codeBitShift))
 }
 
-func (a *Assember) PUSHARG(i int) {
-	inst := instruction((iPushArg << codeBitShift) | (i << 16))
-	a.buf = append(a.buf, inst)
-}
-
-func (a *Assember) MARK(i int) {
-	inst := instruction((iMark << codeBitShift) | (i << 16))
-	a.buf = append(a.buf, inst)
+func (a *Assember) PUSHARG() {
+	a.buf = append(a.buf, instruction(iPushArg<<codeBitShift))
 }
 
 func (a *Assember) APPLY() {
@@ -132,8 +124,9 @@ func (a *Assember) HALT() {
 	a.buf = append(a.buf, instruction(iHalt<<codeBitShift))
 }
 
-func (a *Assember) GRAB() {
-	a.buf = append(a.buf, instruction(iGrab<<codeBitShift))
+func (a *Assember) GRAB(i int) {
+	inst := instruction((iGrab << codeBitShift) | (i << 16))
+	a.buf = append(a.buf, inst)
 }
 
 func (a *Assember) ADD() {
@@ -184,4 +177,36 @@ func (a *Assember) Decode(code *Code) string {
 		fmt.Fprintln(&buf, bc.String())
 	}
 	return buf.String()
+}
+
+func (a *Assember) FromSexp(input kl.Obj) error {
+	objs := kl.ListToSlice(input)
+	for _, obj := range objs {
+		// fmt.Println(kl.ObjString(kl.Car(obj)))
+		id := kl.SymbolString(kl.Car(obj))
+		switch id {
+		case "iAccess":
+			n := kl.GetInteger(kl.Cadr(obj))
+			a.ACCESS(n)
+		case "iPrimCall":
+			n := kl.GetInteger(kl.Cadr(obj))
+			a.PRIMCALL(n)
+		case "iPushArg":
+			a.PUSHARG()
+		case "iConst":
+			a.CONST(kl.Cadr(obj))
+		case "iApply":
+			a.APPLY()
+		case "iReturn":
+			a.RETURN()
+		case "iGrab":
+			var a1 Assember
+			a1.FromSexp(kl.Cdr(obj))
+			a.GRAB(len(a1.buf))
+			a.buf = append(a.buf, a1.buf...)
+		case "iHalt":
+			a.HALT()
+		}
+	}
+	return nil
 }

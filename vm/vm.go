@@ -11,10 +11,8 @@ type VM struct {
 	stack []kl.Obj
 	top   int // stack top
 
-	mark      int // stack[mark:top] are reserved for arguments
-	savedMark []int
-
 	env []kl.Obj // environment stack
+	arg queue    // argument queue
 
 	pc        int // pc register refer to the position in current code
 	code      *Code
@@ -39,10 +37,12 @@ type Procedure struct {
 }
 
 func NewVM() *VM {
-	return &VM{
+	vm := &VM{
 		stack: make([]kl.Obj, 200),
 		env:   make([]kl.Obj, 0, 200),
 	}
+	vm.arg.init(100)
+	return vm
 }
 
 func (vm *VM) Run(code *Code) {
@@ -67,49 +67,52 @@ func (vm *VM) Run(code *Code) {
 			fmt.Println("ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top]))
 			vm.top++
 		case iGrab:
-			fmt.Println("GRAB", vm.top, vm.mark)
-			if vm.top > vm.mark {
-				// grab data from stack to env
-				vm.top--
-				vm.env = append(vm.env, vm.stack[vm.top])
-			} else {
+			if vm.arg.empty() {
 				// make closure if there are not enough arguments
+				n := instructionOP1(inst)
+				fmt.Println("GRAB, not enough argument, make a closure", vm.pc, n)
+				tmp := Procedure{
+					ScmRaw: kl.Make_raw(),
+					code: &Code{
+						bc:     vm.code.bc[vm.pc-1:],
+						consts: vm.code.consts,
+					},
+				}
+				if len(vm.env) > 0 {
+					tmp.env = make([]kl.Obj, len(vm.env))
+					copy(tmp.env, vm.env)
+				}
+				vm.stack[vm.top] = tmp.ScmRaw.Object()
+				vm.top++
+				vm.pc += n
+			} else {
+				// grab data from stack to env
+				v := vm.arg.pop()
+				fmt.Println("GRAB, pop a value", kl.ObjString(v))
+				vm.env = append(vm.env, v)
 			}
 		case iReturn:
-			if vm.top-1 == vm.mark {
-				savedMark := vm.savedMark[len(vm.savedMark)-1]
-				vm.savedMark = vm.savedMark[:len(vm.savedMark)-1]
-
+			if vm.arg.empty() {
 				savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
 				vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
 
-				vm.mark = savedMark
 				vm.code = savedAddr.code
 				vm.pc = savedAddr.pc
-				fmt.Println("RETURN ", vm.top, vm.mark, len(vm.code.bc), vm.pc)
+				fmt.Println("RETURN ", vm.top, vm.arg.count(), len(vm.code.bc), vm.pc)
 			} else {
 				// more arguments then necessary, continue the beta-reduce.
+				fmt.Println("RETURN: TODO, should partial apply")
 			}
 		case iHalt:
-			fmt.Println("HALT", vm.top, vm.mark, len(vm.savedMark), len(vm.savedAddr))
+			fmt.Println("HALT", vm.top, vm.arg.count(), len(vm.savedAddr))
 			halt = true
 		case iPush:
 		case iPop:
 		case iPushArg:
-			n := instructionOP1(inst)
-			// pop the stack top value, assign to stack[mark + N]
+			// pop a value from stack top to argument queue
+			fmt.Println("PUSHARG from", vm.top)
 			vm.top--
-			fmt.Println("PUSHARG from", vm.top, "=>", vm.mark+n)
-			vm.stack[vm.mark+n] = vm.stack[vm.top]
-		case iMark:
-			n := instructionOP1(inst)
-			fmt.Println("MARK ", n, vm.top, vm.mark)
-			// save previous mark position
-			// set stack top as current mark position
-			// push stack top to reserve space for arguments
-			vm.savedMark = append(vm.savedMark, vm.mark)
-			vm.mark = vm.top
-			vm.top += n
+			vm.arg.push(vm.stack[vm.top])
 		case iApply:
 			vm.top--
 			obj := vm.stack[vm.top]
@@ -124,6 +127,7 @@ func (vm *VM) Run(code *Code) {
 			vm.env = vm.env[0:]
 			vm.env = append(vm.env, closure.env...)
 		case iPrimCall:
+			fallthrough
 		case iAdd:
 			vm.top--
 			o1 := vm.stack[vm.top]
@@ -135,4 +139,10 @@ func (vm *VM) Run(code *Code) {
 			panic(fmt.Sprintf("unknown instruction %d", inst))
 		}
 	}
+}
+
+func (vm *VM) debug() {
+	fmt.Println("top:", vm.top)
+	fmt.Println("arg:", vm.arg.count())
+	fmt.Println("result:", vm.stack[vm.top-1])
 }

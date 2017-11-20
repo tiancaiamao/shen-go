@@ -119,7 +119,7 @@ func listLength(l Obj) int {
 	return count
 }
 
-func listToSlice(l Obj) []Obj {
+func ListToSlice(l Obj) []Obj {
 	var ret []Obj
 	for *l == Pair {
 		ret = append(ret, car(l))
@@ -154,4 +154,24 @@ func LoadFile(path string) Obj {
 		// fmt.Printf("END: %#v\n", (*scmHead)(res))
 	}
 	return Nil
+}
+
+func GetNumber(o Obj) float64 {
+	return mustNumber(o).val
+}
+
+func GetInteger(o Obj) int {
+	return int(mustNumber(o).val)
+}
+
+func Cadr(o Obj) Obj {
+	return cadr(o)
+}
+
+func Car(o Obj) Obj {
+	return car(o)
+}
+
+func Cdr(o Obj) Obj {
+	return cdr(o)
 }

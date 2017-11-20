@@ -40,7 +40,7 @@ var primitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: Primitive, name: "tlstr", required: 1, function: primTailString},
 	&ScmPrimitive{scmHead: Primitive, name: "cn", required: 2, function: stringConcat},
 	&ScmPrimitive{scmHead: Primitive, name: "intern", required: 1, function: primIntern},
-	&ScmPrimitive{scmHead: Primitive, name: "hd", required: 1, function: primHead},
+	&ScmPrimitive{scmHead: Primitive, name: "hd", required: 1, function: PrimHead},
 	&ScmPrimitive{scmHead: Primitive, name: "tl", required: 1, function: primTail},
 	&ScmPrimitive{scmHead: Primitive, name: "cons", required: 2, function: primCons},
 	&ScmPrimitive{scmHead: Primitive, name: "cons?", required: 1, function: primIsPair},
@@ -78,7 +78,7 @@ func primIntern(args ...Obj) Obj {
 	return Make_symbol(mustString(args[0]))
 }
 
-func primHead(args ...Obj) Obj {
+func PrimHead(args ...Obj) Obj {
 	return car(args[0])
 }
 

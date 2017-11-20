@@ -236,6 +236,10 @@ func Make_stream(raw interface{}) Obj {
 	return &tmp.scmHead
 }
 
+func SymbolString(o Obj) string {
+	return mustSymbol(o).sym
+}
+
 func cons(x, y Obj) Obj {
 	tmp := ScmPair{
 		scmHead: Pair,
@@ -284,7 +288,7 @@ func Make_procedure(arg Obj, body Obj, env *Environment) Obj {
 		tmp.arg = []Obj{arg}
 		tmp.arity = 1
 	} else {
-		tmp.arg = listToSlice(arg)
+		tmp.arg = ListToSlice(arg)
 		tmp.arity = len(tmp.arg)
 	}
 	return &tmp.scmHead
