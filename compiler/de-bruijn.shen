@@ -21,12 +21,12 @@
   X E <- (find-env X E)
   X _ -> X)
 
-(define find-env
-  S E -> (find-env0 S 0 E))
-
 (define compose
   [] X -> X
   [F | Fs] X -> (compose Fs (F X)))
+
+(define find-env
+  S E -> (find-env0 S 0 E))
 
 (define find-env0
   S I [] -> (fail)

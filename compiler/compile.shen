@@ -10,9 +10,24 @@
   X -> X)
 
 (define compile-apply
-  F X -> (append (mapcan (function compile1) X) [[iPrimCall (primitive-id F)]]) where (primitive? F)
+  F X -> (if (= (length X) (primitive-arity F))
+             (append (mapcan (function compile1) X) [[iPrimCall (primitive-id F)]])
+             (compile1 (curry-primitive F X))) where (primitive? F)
   F X -> [[iConst F] [iGetF] | (compile-arg-list X)] where (symbol? F)
   F X -> (append (compile1 F) (compile-arg-list X)))
 
 (define compile-arg-list
   ArgList -> (append (mapcan (/. X (append (compile1 X) [[iPushArg]])) ArgList) [[iApply]]))
+
+(define curry-primitive
+  F X -> (let Count (- (primitive-arity F) (length X))
+              Pad (rrange Count)
+              PadList (map (/. X [$var X]) Pad)
+              (fold-left (/. X (/. Y [$abs X])) [$app F | (append X PadList)] Pad)))
+
+(define rrange
+  N -> (rrange0 N 0 []))
+
+(define rrange0
+  N N R -> R
+  N I R -> (rrange0 N (+ I 1) [I | R]))

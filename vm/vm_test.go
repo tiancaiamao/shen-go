@@ -59,7 +59,10 @@ func TestPartialApply(t *testing.T) {
 	// str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"
 
 	// [cond [true 1] [false 2]]
-	str := `((iConst true) (iJF (iConst 1)) (iJMP (iConst false) (iJF (iConst 2)) (iJMP (iConst "no match cond") (iPrimCall 18))) (iHalt))`
+	// str := `((iConst true) (iJF (iConst 1)) (iJMP (iConst false) (iJF (iConst 2)) (iJMP (iConst "no match cond") (iPrimCall 18))) (iHalt))`
+
+	// ((+ 1) 2)
+	str := "((iGrab (iConst 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 2) (iPushArg) (iApply) (iHalt))"
 
 	r := kl.NewSexpReader(strings.NewReader(str))
 	sexp, err := r.Read()
@@ -74,7 +77,7 @@ func TestPartialApply(t *testing.T) {
 	vm := NewVM()
 	vm.Run(code)
 	vm.debug()
-	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(1)) != kl.True {
+	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(3)) != kl.True {
 		t.Error("failed!")
 	}
 }
