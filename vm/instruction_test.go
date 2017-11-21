@@ -18,6 +18,7 @@ func TestInstruction(t *testing.T) {
 	a.POP()
 	a.JF(1)
 	a.JMP(5)
+	a.FREEZE(3)
 	a.HALT()
 
 	result := `CONST 0
@@ -28,6 +29,7 @@ DEFUN
 POP
 JF 1
 JMP 5
+FREEZE 3
 HALT`
 
 	expects := strings.Split(result, "\n")

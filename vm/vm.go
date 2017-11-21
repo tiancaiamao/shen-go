@@ -69,6 +69,25 @@ func (vm *VM) Run(code *Code) {
 			vm.stack[vm.top] = vm.env[len(vm.env)-1-n]
 			fmt.Println("ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top]))
 			vm.top++
+		case iFreeze:
+			// create closure directly
+			// nearly the same with grab, but if need zero arguments.
+			n := instructionOP1(inst)
+			fmt.Println("FREEZE", vm.pc, n)
+			tmp := Procedure{
+				ScmRaw: kl.Make_raw(),
+				code: &Code{
+					bc:     vm.code.bc[vm.pc:],
+					consts: vm.code.consts,
+				},
+			}
+			if len(vm.env) > 0 {
+				tmp.env = make([]kl.Obj, len(vm.env))
+				copy(tmp.env, vm.env)
+			}
+			vm.stack[vm.top] = tmp.ScmRaw.Object()
+			vm.top++
+			vm.pc += n
 		case iGrab:
 			if vm.arg.empty() {
 				// make closure if there are not enough arguments

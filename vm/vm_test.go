@@ -53,7 +53,10 @@ func TestPartialApply(t *testing.T) {
 	// str := "((iGrab (iAccess 0) (iConst 0) (iPrimCall 19) (iJF (iConst 1)) (iJMP (iAccess 0) (iConst fact) (iGetF) (iAccess 0) (iConst 1) (iPrimCall 20) (iPushArg) (iApply) (iPrimCall 21)) (iReturn)) (iConst fact) (iDefun) (iPop) (iConst fact) (iGetF) (iConst 5) (iPushArg) (iApply) (iHalt))"
 
 	// [let x 3 [let y 5 [+ x y]]]
-	str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iPushArg) (iApply) (iReturn)) (iConst 3) (iPushArg) (iApply) (iHalt))"
+	// str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iPushArg) (iApply) (iReturn)) (iConst 3) (iPushArg) (iApply) (iHalt))"
+
+	// ((freeze 1))
+	str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"
 
 	r := kl.NewSexpReader(strings.NewReader(str))
 	sexp, err := r.Read()
@@ -68,7 +71,7 @@ func TestPartialApply(t *testing.T) {
 	vm := NewVM()
 	vm.Run(code)
 	vm.debug()
-	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(8)) != kl.True {
+	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(1)) != kl.True {
 		t.Error("failed!")
 	}
 }

@@ -4,9 +4,14 @@
 (define de-bruijn0
   Env [let X Y Z] -> [$app [$abs (de-bruijn0 (cons X Env) Z)] (de-bruijn0 Env Y)]
   Env [lambda X Y] -> [$abs (de-bruijn0 (cons X Env) Y)]
+  Env [freeze X] -> [$freeze (de-bruijn0 Env X)]
   Env [if X Y Z] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) (de-bruijn0 Env Z)]
   Env [do X Y] -> [$do (de-bruijn0 Env X) (de-bruijn0 Env Y)]
-  Env [defun F X Y] -> [$defun F (de-bruijn0 Env (defun-rewrite X Y))]
+  Env [defun F X Y] -> (if (= (length X) 0)
+                           [$defun F (de-bruijn0 Env [freeze Y])]
+                           [$defun F (de-bruijn0 Env (defun-rewrite X Y))])
+  Env [and X Y] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) [$const false]]
+  Env [or X Y] -> [$if (de-bruijn0 Env X) [$const true] (de-bruijn0 Env Y)]
   Env [F | X] -> [$app (de-bruijn0 Env F) | (map (de-bruijn0 Env) X)]
   Env X -> (de-bruijn-index X Env))
 

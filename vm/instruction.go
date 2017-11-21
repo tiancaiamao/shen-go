@@ -14,6 +14,7 @@ type instruction uint32
 const (
 	iAccess = iota
 	iGrab
+	iFreeze
 	iPush
 	iPushArg
 	iPop
@@ -106,6 +107,8 @@ func (i instruction) String() string {
 		return fmt.Sprintf("JF %d", instructionOP1(i))
 	case iJMP:
 		return fmt.Sprintf("JMP %d", instructionOP1(i))
+	case iFreeze:
+		return fmt.Sprintf("FREEZE %d", instructionOP1(i))
 	}
 	return "UNKNOWN"
 }
@@ -140,6 +143,10 @@ func (a *Assember) DEFUN() {
 	a.buf = append(a.buf, instruction(iDefun<<codeBitShift))
 }
 
+func (a *Assember) FREEZE(i int) {
+	inst := instruction((iFreeze << codeBitShift) | (i << 16))
+	a.buf = append(a.buf, inst)
+}
 func (a *Assember) GRAB(i int) {
 	inst := instruction((iGrab << codeBitShift) | (i << 16))
 	a.buf = append(a.buf, inst)
@@ -237,6 +244,13 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			var a1 Assember
 			a1.FromSexp(kl.Cdr(obj))
 			a.GRAB(len(a1.buf))
+			adjustConst(a1.buf, len(a.consts))
+			a.buf = append(a.buf, a1.buf...)
+			a.consts = append(a.consts, a1.consts...)
+		case "iFreeze":
+			var a1 Assember
+			a1.FromSexp(kl.Cdr(obj))
+			a.FREEZE(len(a1.buf))
 			adjustConst(a1.buf, len(a.consts))
 			a.buf = append(a.buf, a1.buf...)
 			a.consts = append(a.consts, a1.consts...)

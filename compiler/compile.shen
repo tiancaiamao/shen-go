@@ -6,6 +6,7 @@
   [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
   [$app F | X] -> (compile-apply F X)
   [$abs Body] -> [[iGrab | (append (compile1 Body) [[iReturn]])]]
+  [$freeze Body] -> [[iFreeze | (append (compile1 Body) [[iReturn]])]]
   X -> X)
 
 (define compile-apply
