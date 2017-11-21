@@ -52,6 +52,7 @@ func (vm *VM) Run(code *Code) {
 	vm.code = code
 	vm.pc = 0
 
+	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
 	halt := false
 	for !halt {
 		inst := vm.code.bc[vm.pc]
@@ -177,6 +178,16 @@ func (vm *VM) Run(code *Code) {
 			// set pc to closure code
 			// prepare initialize environment from closure
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code})
+			vm.code = closure.code
+			vm.pc = 0
+			vm.env = vm.env[0:]
+			vm.env = append(vm.env, closure.env...)
+		case iTailApply:
+			vm.top--
+			obj := vm.stack[vm.top]
+			closure := (*Procedure)(unsafe.Pointer(obj))
+			fmt.Println("TAILAPPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
+			// The only different with Apply is that TailApply doesn't save return address.
 			vm.code = closure.code
 			vm.pc = 0
 			vm.env = vm.env[0:]

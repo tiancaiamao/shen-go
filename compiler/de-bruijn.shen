@@ -1,3 +1,7 @@
+(define compose
+  [] X -> X
+  [F | Fs] X -> (compose Fs (F X)))
+
 (define de-bruijn
   Exp -> (de-bruijn0 [] Exp))
 
@@ -20,10 +24,6 @@
   X _ -> [$const X] where (or (boolean? X) (number? X) (string? X))
   X E <- (find-env X E)
   X _ -> X)
-
-(define compose
-  [] X -> X
-  [F | Fs] X -> (compose Fs (F X)))
 
 (define find-env
   S E -> (find-env0 S 0 E))

@@ -1,23 +1,26 @@
 (define compile1
-  [$const V] -> [[iConst V]]
-  [$var I] -> [[iAccess I]]
-  [$if X Y Z] -> (append (compile1 X) [[iJF | (compile1 Y)] | [[iJMP | (compile1 Z)]]])
-  [$do X Y] -> (append (compile1 X) [[iPop] | (compile1 Y)])
-  [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
-  [$app F | X] -> (compile-apply F X)
-  [$abs Body] -> [[iGrab | (append (compile1 Body) [[iReturn]])]]
-  [$freeze Body] -> [[iFreeze | (append (compile1 Body) [[iReturn]])]]
-  X -> X)
+  Tail [$const V] -> [[iConst V] | (if Tail [[iReturn]] [])]
+  Tail [$var I] -> [[iAccess I] | (if Tail [[iReturn]] [])]
+  Tail [$if X Y Z] -> (append (compile1 false X) [[iJF | (compile1 Tail Y)] | [[iJMP | (compile1 Tail Z)]]])
+  Tail [$do X Y] -> (append (compile1 false X) [[iPop] | (compile1 Tail Y)])
+  Tail [$defun F L] -> (append (compile1 Tail L) [[iConst F] [iDefun] | (if Tail [[iReturn]] [])])
+  Tail [$app F | X] -> (compile-apply Tail F X)
+  Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
+  Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])] | (if Tail [[iReturn]] [])]
+  Tail X -> X)
 
 (define compile-apply
-  F X -> (if (= (length X) (primitive-arity F))
-             (append (mapcan (function compile1) X) [[iPrimCall (primitive-id F)]])
-             (compile1 (curry-primitive F X))) where (primitive? F)
-  F X -> [[iConst F] [iGetF] | (compile-arg-list X)] where (symbol? F)
-  F X -> (append (compile1 F) (compile-arg-list X)))
+  Tail F X -> (if (= (length X) (primitive-arity F))
+                  (append (mapcan (compile1 false) X) [[iPrimCall (primitive-id F)] | (if Tail [[iReturn]] [])])
+                  (compile1 Tail (curry-primitive F X)))
+              where (primitive? F)
+  Tail F X -> (let Apply (if Tail [[iTailApply]] [[iApply]])
+                   [[iConst F] [iGetF] | (append (compile-arg-list X) Apply)])
+              where (symbol? F)
+  Tail F X -> (append (compile1 false F) (append (compile-arg-list X) (if Tail [[iTailApply]] [[iApply]]))))
 
 (define compile-arg-list
-  ArgList -> (append (mapcan (/. X (append (compile1 X) [[iPushArg]])) ArgList) [[iApply]]))
+  ArgList -> (mapcan (/. X (append (compile1 false X) [[iPushArg]])) ArgList))
 
 (define curry-primitive
   F X -> (let Count (- (primitive-arity F) (length X))

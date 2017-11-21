@@ -3,4 +3,4 @@
 (load "compile.shen")
 
 (define kl->bytecode
-        X -> (compile1 (de-bruijn X)))
+        X -> (compile1 true (de-bruijn X)))

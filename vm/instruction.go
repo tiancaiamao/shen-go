@@ -19,6 +19,7 @@ const (
 	iPushArg
 	iPop
 	iApply
+	iTailApply
 	iPrimCall
 	iConst
 	iReturn
@@ -91,6 +92,8 @@ func (i instruction) String() string {
 		return "POP"
 	case iApply:
 		return "APPLY"
+	case iTailApply:
+		return "TAILAPPLY"
 	case iPrimCall:
 		return "PRIMCALL"
 	case iConst:
@@ -133,6 +136,10 @@ func (a *Assember) PUSHARG() {
 
 func (a *Assember) APPLY() {
 	a.buf = append(a.buf, instruction(iApply<<codeBitShift))
+}
+
+func (a *Assember) TAILAPPLY() {
+	a.buf = append(a.buf, instruction(iTailApply<<codeBitShift))
 }
 
 func (a *Assember) HALT() {
@@ -238,6 +245,8 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			a.CONST(kl.Cadr(obj))
 		case "iApply":
 			a.APPLY()
+		case "iTailApply":
+			a.TAILAPPLY()
 		case "iReturn":
 			a.RETURN()
 		case "iGrab":
