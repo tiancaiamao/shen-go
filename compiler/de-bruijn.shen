@@ -7,9 +7,8 @@
   Env [freeze X] -> [$freeze (de-bruijn0 Env X)]
   Env [if X Y Z] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) (de-bruijn0 Env Z)]
   Env [do X Y] -> [$do (de-bruijn0 Env X) (de-bruijn0 Env Y)]
-  Env [defun F X Y] -> (if (= (length X) 0)
-                           [$defun F (de-bruijn0 Env [freeze Y])]
-                           [$defun F (de-bruijn0 Env (defun-rewrite X Y))])
+  Env [defun F X Y] -> [$defun F (de-bruijn0 Env (defun-rewrite X Y))]
+  Env [cond | L] -> (de-bruijn0 Env (cond-rewrite L))
   Env [and X Y] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) [$const false]]
   Env [or X Y] -> [$if (de-bruijn0 Env X) [$const true] (de-bruijn0 Env Y)]
   Env [F | X] -> [$app (de-bruijn0 Env F) | (map (de-bruijn0 Env) X)]
@@ -29,5 +28,13 @@
   S I [_ | E] -> (find-env0 S (+ I 1) E))
 
 (define defun-rewrite
+  [] Y -> [freeze Y]
+  X Y -> (defun-rewrite0 X Y))
+
+(define defun-rewrite0
   [] Y -> Y
-  [X | L] Y -> [lambda X (defun-rewrite L Y)])
+  [X | L] Y -> [lambda X (defun-rewrite0 L Y)])
+
+(define cond-rewrite
+  [] -> [simple-error "no match cond"]
+  [[X Y] | L] -> [if X Y (cond-rewrite L)])

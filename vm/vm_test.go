@@ -56,7 +56,10 @@ func TestPartialApply(t *testing.T) {
 	// str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iPushArg) (iApply) (iReturn)) (iConst 3) (iPushArg) (iApply) (iHalt))"
 
 	// ((freeze 1))
-	str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"
+	// str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"
+
+	// [cond [true 1] [false 2]]
+	str := `((iConst true) (iJF (iConst 1)) (iJMP (iConst false) (iJF (iConst 2)) (iJMP (iConst "no match cond") (iPrimCall 18))) (iHalt))`
 
 	r := kl.NewSexpReader(strings.NewReader(str))
 	sexp, err := r.Read()
