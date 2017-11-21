@@ -11,7 +11,9 @@
   Env [cond | L] -> (de-bruijn0 Env (cond-rewrite L))
   Env [and X Y] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) [$const false]]
   Env [or X Y] -> [$if (de-bruijn0 Env X) [$const true] (de-bruijn0 Env Y)]
-  Env [F | X] -> [$app (de-bruijn0 Env F) | (map (de-bruijn0 Env) X)]
+  Env [F | X] -> (let F1 (de-bruijn0 Env)
+                      F2 (/. X (if (symbol? X) [$const X] X))
+                      [$app (F1 F) | (map (compose [F1 F2]) X)])
   Env X -> (de-bruijn-index X Env))
 
 (define de-bruijn-index
@@ -21,6 +23,10 @@
 
 (define find-env
   S E -> (find-env0 S 0 E))
+
+(define compose
+  [] X -> X
+  [F | Fs] X -> (compose Fs (F X)))
 
 (define find-env0
   S I [] -> (fail)
