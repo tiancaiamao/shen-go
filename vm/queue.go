@@ -58,6 +58,17 @@ func (q *queue) expand() {
 	q.tail = i
 }
 
+func (q *queue) clone(from *queue) {
+	*q = *from
+	q.data = make([]kl.Obj, len(from.data))
+	copy(q.data, from.data)
+	return
+}
+
+func (q *queue) reset() {
+	q.head = q.tail
+}
+
 func (q *queue) debug() {
 	fmt.Println("...", q.head, q.tail, len(q.data))
 }

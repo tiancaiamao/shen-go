@@ -112,6 +112,10 @@ func mustError(o Obj) *ScmError {
 	return (*ScmError)(unsafe.Pointer(o))
 }
 
+func IsError(o Obj) bool {
+	return *o == Error
+}
+
 func isPrimitive(o Obj) (bool, *ScmPrimitive) {
 	if *o != Primitive {
 		return false, nil

@@ -19,6 +19,9 @@ type VM struct {
 	savedAddr []address // saved return address
 
 	functionTable map[string]*Procedure
+
+	// snapshot is a vm snapshot, used to implement exception.
+	snapshot *VM
 }
 
 // Code is something executable to VM, it's immutable.
@@ -48,6 +51,21 @@ func NewVM() *VM {
 	return vm
 }
 
+func (vm *VM) takeSnapshot() {
+	var snapshot VM
+	snapshot = *vm
+	snapshot.arg.clone(&vm.arg)
+	snapshot.stack = make([]kl.Obj, len(vm.stack), cap(vm.stack))
+	copy(snapshot.stack, vm.stack)
+	snapshot.env = make([]kl.Obj, len(vm.env), cap(vm.env))
+	copy(snapshot.env, vm.env)
+	snapshot.savedAddr = make([]address, len(vm.savedAddr), cap(vm.savedAddr))
+	copy(snapshot.savedAddr, vm.savedAddr)
+	snapshot.snapshot = nil
+
+	vm.snapshot = &snapshot
+}
+
 func (vm *VM) Run(code *Code) {
 	vm.code = code
 	vm.pc = 0
@@ -55,10 +73,16 @@ func (vm *VM) Run(code *Code) {
 	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
 	halt := false
 	for !halt {
+		exception := false
 		inst := vm.code.bc[vm.pc]
 		vm.pc++
 
 		switch instructionCode(inst) {
+		case iSetJmp:
+			n := instructionOP1(inst)
+			fmt.Println("SETJMP", n)
+			vm.takeSnapshot()
+			vm.pc += n
 		case iConst:
 			n := instructionOP1(inst)
 			fmt.Println("CONST ", n, kl.ObjString(vm.code.consts[n]), vm.top)
@@ -200,21 +224,35 @@ func (vm *VM) Run(code *Code) {
 			fmt.Println("PRIMCALL", prim.Name, kl.ObjString(result))
 			vm.stack[vm.top-prim.Required] = result
 			vm.top = vm.top - prim.Required + 1
-		case iAdd:
-			vm.top--
-			o1 := vm.stack[vm.top]
-			o2 := vm.stack[vm.top-1]
-			o := kl.PrimNumberAdd(o1, o2)
-			vm.stack[vm.top-1] = o
-			fmt.Println("ADD result = ", kl.ObjString(o))
+			if kl.IsError(result) {
+				exception = true
+			}
 		default:
 			panic(fmt.Sprintf("unknown instruction %d", inst))
+		}
+
+		if exception {
+			fmt.Println("exception")
+			if vm.snapshot == nil {
+				vm.arg.reset()
+				vm.stack = vm.stack[:1]
+				vm.env = vm.env[:0]
+				vm.savedAddr = vm.savedAddr[:0]
+				return
+			} else {
+				saveErr := vm.stack[vm.top-1]
+				*vm = *vm.snapshot
+				vm.arg.push(saveErr)
+			}
 		}
 	}
 }
 
 func (vm *VM) debug() {
+	fmt.Println("pc:", vm.pc)
 	fmt.Println("top:", vm.top)
 	fmt.Println("arg:", vm.arg.count())
-	fmt.Println("result:", kl.ObjString(vm.stack[vm.top-1]))
+	if vm.top > 0 {
+		fmt.Println("result:", kl.ObjString(vm.stack[vm.top-1]))
+	}
 }

@@ -15,6 +15,7 @@
   Env [cond | L] -> (de-bruijn0 Env (cond-rewrite L))
   Env [and X Y] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) [$const false]]
   Env [or X Y] -> [$if (de-bruijn0 Env X) [$const true] (de-bruijn0 Env Y)]
+  Env [trap-error X Y] -> [$trap (de-bruijn0 Env X) (de-bruijn0 Env Y)]
   Env [F | X] -> (let F1 (de-bruijn0 Env)
                       F2 (/. X (if (symbol? X) [$const X] X))
                       [$app (F1 F) | (map (compose [F1 F2]) X)])

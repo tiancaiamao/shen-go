@@ -29,6 +29,7 @@ const (
 	iGetF
 	iJF
 	iJMP
+	iSetJmp
 )
 
 type instructionInfo struct {
@@ -112,6 +113,8 @@ func (i instruction) String() string {
 		return fmt.Sprintf("JMP %d", instructionOP1(i))
 	case iFreeze:
 		return fmt.Sprintf("FREEZE %d", instructionOP1(i))
+	case iSetJmp:
+		return fmt.Sprintf("SETJMP %d", instructionOP1(i))
 	}
 	return "UNKNOWN"
 }
@@ -166,6 +169,11 @@ func (a *Assember) JF(i int) {
 
 func (a *Assember) JMP(i int) {
 	inst := instruction((iJMP << codeBitShift) | (i << 16))
+	a.buf = append(a.buf, inst)
+}
+
+func (a *Assember) SETJMP(i int) {
+	inst := instruction((iSetJmp << codeBitShift) | (i << 16))
 	a.buf = append(a.buf, inst)
 }
 
@@ -282,6 +290,13 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			var a1 Assember
 			a1.FromSexp(kl.Cdr(obj))
 			a.JMP(len(a1.buf))
+			adjustConst(a1.buf, len(a.consts))
+			a.buf = append(a.buf, a1.buf...)
+			a.consts = append(a.consts, a1.consts...)
+		case "iSetJmp":
+			var a1 Assember
+			a1.FromSexp(kl.Cdr(obj))
+			a.SETJMP(len(a1.buf))
 			adjustConst(a1.buf, len(a.consts))
 			a.buf = append(a.buf, a1.buf...)
 			a.consts = append(a.consts, a1.consts...)

@@ -7,6 +7,7 @@
   Tail [$app F | X] -> (compile-apply Tail F X)
   Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
   Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])] | (if Tail [[iReturn]] [])]
+  Tail [$trap X Y] -> [[iSetJmp | (compile1 Tail Y)] | (compile1 Tail X)]
   Tail X -> X)
 
 (define compile-apply
