@@ -20,6 +20,7 @@ type VM struct {
 	savedAddr []address // saved return address
 
 	functionTable map[string]*Procedure
+	symbolTable   map[string]kl.Obj
 
 	// snapshot is a vm snapshot, used to implement exception.
 	snapshot *VM
@@ -47,6 +48,7 @@ func New() *VM {
 		stack:         make([]kl.Obj, 200),
 		env:           make([]kl.Obj, 0, 200),
 		functionTable: make(map[string]*Procedure),
+		symbolTable:   make(map[string]kl.Obj),
 	}
 	vm.arg.init(100)
 	return vm
@@ -223,7 +225,18 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			id := instructionOP1(inst)
 			prim := kl.Primitives[id]
 			args := vm.stack[vm.top-prim.Required : vm.top]
-			result := prim.Function(args...)
+
+			var result kl.Obj
+			// Ugly hack: set function should not be global.
+			switch prim.Name {
+			case "set":
+				result = kl.PrimSet(vm.symbolTable, args[0], args[1])
+			case "value":
+				result = kl.PrimValue(vm.symbolTable, args[0])
+			default:
+				result = prim.Function(args...)
+			}
+
 			fmt.Fprintln(StdBC, "PRIMCALL", prim.Name, kl.ObjString(result))
 			vm.stack[vm.top-prim.Required] = result
 			vm.top = vm.top - prim.Required + 1
