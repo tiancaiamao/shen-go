@@ -3,6 +3,9 @@ package vm
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path"
+	"runtime"
 	"unsafe"
 
 	"github.com/tiancaiamao/shen-go/kl"
@@ -43,18 +46,39 @@ type Procedure struct {
 	env  []kl.Obj
 }
 
+const initStackSize = 128
+
 func New() *VM {
 	vm := &VM{
-		stack:         make([]kl.Obj, 200),
+		stack:         make([]kl.Obj, initStackSize),
 		env:           make([]kl.Obj, 0, 200),
 		functionTable: make(map[string]*Procedure),
 		symbolTable:   make(map[string]kl.Obj),
 	}
+	initSymbolTable(vm.symbolTable)
 	vm.arg.init(100)
 	return vm
 }
 
-func (vm *VM) takeSnapshot() {
+func initSymbolTable(symbolTable map[string]kl.Obj) {
+	dir, _ := os.Getwd()
+	symbolTable["*stinput*"] = kl.Make_stream(os.Stdin)
+	symbolTable["*stoutput*"] = kl.Make_stream(os.Stdout)
+	symbolTable["*home-directory*"] = kl.Make_string(dir)
+	symbolTable["*language*"] = kl.Make_string("Go")
+	symbolTable["*implementation*"] = kl.Make_string("bytecode")
+	symbolTable["*relase*"] = kl.Make_string(runtime.Version())
+	symbolTable["*os*"] = kl.Make_string(runtime.GOOS)
+	symbolTable["*porters*"] = kl.Make_string("Arthur Mao")
+	symbolTable["*port*"] = kl.Make_string("0.0.1")
+
+	// Extended by shen-go implementation
+	gopath := os.Getenv("GOPATH")
+	packagePath := path.Join(gopath, "src/github.com/tiancaiamao/shen-go/pkg")
+	symbolTable["*package-path*"] = kl.Make_string(packagePath)
+}
+
+func (vm *VM) takeSnapshot(pc int) {
 	var snapshot VM
 	snapshot = *vm
 	snapshot.arg.clone(&vm.arg)
@@ -65,6 +89,8 @@ func (vm *VM) takeSnapshot() {
 	snapshot.savedAddr = make([]address, len(vm.savedAddr), cap(vm.savedAddr))
 	copy(snapshot.savedAddr, vm.savedAddr)
 	snapshot.snapshot = nil
+	snapshot.pc = pc
+	fmt.Fprintln(StdDebug, "code len:", len(snapshot.code.bc), "pc:", pc)
 
 	vm.snapshot = &snapshot
 }
@@ -83,20 +109,17 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 		switch instructionCode(inst) {
 		case iSetJmp:
 			n := instructionOP1(inst)
-			fmt.Fprintln(StdBC, "SETJMP", n)
-			vm.takeSnapshot()
-			vm.pc += n
+			fmt.Fprintln(StdBC, "SETJMP", vm.pc+n)
+			vm.takeSnapshot(vm.pc + n)
 		case iConst:
 			n := instructionOP1(inst)
 			fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(vm.code.consts[n]), vm.top)
-			vm.stack[vm.top] = vm.code.consts[n]
-			vm.top++
+			vm.stackPush(vm.code.consts[n])
 		case iAccess:
 			n := instructionOP1(inst)
 			// get value from environment
-			vm.stack[vm.top] = vm.env[len(vm.env)-1-n]
-			fmt.Fprintln(StdBC, "ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top]))
-			vm.top++
+			vm.stackPush(vm.env[len(vm.env)-1-n])
+			fmt.Fprintln(StdBC, "ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top-1]))
 		case iFreeze:
 			// create closure directly
 			// nearly the same with grab, but if need zero arguments.
@@ -113,8 +136,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				tmp.env = make([]kl.Obj, len(vm.env))
 				copy(tmp.env, vm.env)
 			}
-			vm.stack[vm.top] = tmp.ScmRaw.Object()
-			vm.top++
+			vm.stackPush(tmp.ScmRaw.Object())
 			vm.pc += n
 		case iGrab:
 			if vm.arg.empty() {
@@ -132,8 +154,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 					tmp.env = make([]kl.Obj, len(vm.env))
 					copy(tmp.env, vm.env)
 				}
-				vm.stack[vm.top] = tmp.ScmRaw.Object()
-				vm.top++
+				vm.stackPush(tmp.ScmRaw.Object())
 				vm.pc += n
 			} else {
 				// grab data from stack to env
@@ -190,6 +211,9 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			n := instructionOP1(inst)
 			vm.pc += n
 			fmt.Fprintln(StdBC, "JMP", n, vm.pc)
+		case iSwap:
+			fmt.Fprintln(StdBC, "SWAP")
+			vm.stack[vm.top-1], vm.stack[vm.top-2] = vm.stack[vm.top-2], vm.stack[vm.top-1]
 		case iHalt:
 			fmt.Fprintln(StdBC, "HALT", vm.top, vm.arg.count(), len(vm.savedAddr))
 			halt = true
@@ -228,6 +252,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 
 			var result kl.Obj
 			// Ugly hack: set function should not be global.
+			// TODO: should modify eval-kl too.
 			switch prim.Name {
 			case "set":
 				result = kl.PrimSet(vm.symbolTable, args[0], args[1])
@@ -249,17 +274,14 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 
 		if exception {
 			fmt.Fprintln(StdDebug, "exception")
+			vm.Debug()
 			if vm.snapshot == nil {
-				vm.arg.reset()
-				vm.stack = vm.stack[:1]
-				vm.env = vm.env[:0]
-				vm.savedAddr = vm.savedAddr[:0]
+				vm.Reset()
 				break
-			} else {
-				saveErr := vm.stack[vm.top-1]
-				*vm = *vm.snapshot
-				vm.arg.push(saveErr)
 			}
+			saveErr := vm.stack[vm.top-1]
+			*vm = *vm.snapshot
+			vm.stackPush(saveErr)
 		}
 	}
 
@@ -270,12 +292,31 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 	return vm.stack[vm.top], nil
 }
 
+func (vm *VM) stackPush(o kl.Obj) {
+	if vm.top == len(vm.stack) {
+		stack := make([]kl.Obj, len(vm.stack)*2)
+		copy(stack, vm.stack)
+		vm.stack = stack
+	}
+	vm.stack[vm.top] = o
+	vm.top++
+}
+
+func (vm *VM) Reset() {
+	vm.arg.reset()
+	vm.stack = vm.stack[:initStackSize]
+	vm.top = 0
+	vm.env = vm.env[:0]
+	vm.savedAddr = vm.savedAddr[:0]
+}
+
 func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug, "pc:", vm.pc)
-	fmt.Fprintln(StdDebug, "top:", vm.top)
 	fmt.Fprintln(StdDebug, "arg:", vm.arg.count())
-	if vm.top > 0 {
-		fmt.Fprintln(StdDebug, "result:", kl.ObjString(vm.stack[vm.top-1]))
+	fmt.Fprintln(StdDebug, "top:", vm.top)
+	fmt.Fprintln(StdDebug, "stack:")
+	for i := vm.top - 1; i >= 0; i-- {
+		fmt.Fprintln(StdDebug, kl.ObjString(vm.stack[i]))
 	}
 	fmt.Fprintln(StdDebug, "function:", len(vm.functionTable))
 	fmt.Fprintln(StdDebug)

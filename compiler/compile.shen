@@ -8,7 +8,8 @@
   Tail [$app F | X] -> (compile-apply Tail F X)
   Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
   Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])] | (if Tail [[iReturn]] [])]
-  Tail [$trap X Y] -> [[iSetJmp | (compile1 Tail Y)] | (compile1 Tail X)]
+  Tail [$trap X Y] -> (let Handler [[iJMP | (append (compile1 Tail Y) [[iSwap] [iPushArg] [iApply]])]]
+                           [[iSetJmp | (compile1 Tail X)] | Handler])
   Tail X -> X)
 
 (define compile-apply
@@ -26,7 +27,7 @@
   F X -> (let Count (- (primitive-arity F) (length X))
               Pad (rrange Count)
               PadList (map (/. X [$var X]) Pad)
-              (fold-left (/. X (/. Y [$abs X])) [$app F | (append X PadList)] Pad)))
+              (fold-left (/. X (/. Y [$abs X])) [$app [$symbol F] | (append X PadList)] Pad)))
 
 (define rrange
   N -> (rrange0 N 0 []))

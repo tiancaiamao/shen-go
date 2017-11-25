@@ -106,6 +106,7 @@ func primNumberToString(args ...Obj) Obj {
 
 func primStr(args ...Obj) Obj {
 	switch *args[0] {
+	// TODO: Pair
 	case Symbol:
 		sym := mustSymbol(args[0])
 		return Make_string(sym.sym)
@@ -128,7 +129,7 @@ func primStr(args ...Obj) Obj {
 		e := mustError(args[0])
 		return Make_string(e.err)
 	default:
-		return Make_string("primStr unknown:default value")
+		return Make_string("primStr unknown")
 	}
 	return Make_string("wrong input, the object is not atom ...")
 }

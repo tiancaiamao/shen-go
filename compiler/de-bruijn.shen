@@ -2,6 +2,8 @@
   Exp -> (de-bruijn0 [] Exp))
 
 (define de-bruijn0
+  Env [] -> [$const []]
+  Env X -> [$const X] where (or (boolean? X) (number? X) (string? X))
   Env [let X Y Z] -> [$app [$abs (de-bruijn0 (cons X Env) Z)] (de-bruijn0 Env Y)]
   Env [lambda X Y] -> [$abs (de-bruijn0 (cons X Env) Y)]
   Env [freeze X] -> [$freeze (de-bruijn0 Env X)]
@@ -16,9 +18,8 @@
   Env X -> (de-bruijn-index X Env))
 
 (define de-bruijn-index
-  [] _ -> [$const []]
-  X E <- (find-env X E) where (symbol? X)
-  X _ -> [$symbol X] where (or (boolean? X) (number? X) (string? X) (symbol? X)))
+  X E <- (find-env X E)
+  X _ -> [$symbol X])
 
 (define find-env
   S E -> (find-env0 S 0 E))

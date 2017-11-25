@@ -28,7 +28,7 @@ func init() {
 	symbolTable["*stoutput*"] = Make_stream(os.Stdout)
 	symbolTable["*home-directory*"] = Make_string(dir)
 	symbolTable["*language*"] = Make_string("Go")
-	symbolTable["*implementation*"] = Make_string(runtime.Compiler)
+	symbolTable["*implementation*"] = Make_string("interpreter")
 	symbolTable["*relase*"] = Make_string(runtime.Version())
 	symbolTable["*os*"] = Make_string(runtime.GOOS)
 	symbolTable["*porters*"] = Make_string("Arthur Mao")

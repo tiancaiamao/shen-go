@@ -30,6 +30,7 @@ const (
 	iJF
 	iJMP
 	iSetJmp
+	iSwap
 )
 
 type instructionInfo struct {
@@ -147,6 +148,10 @@ func (a *Assember) TAILAPPLY() {
 
 func (a *Assember) HALT() {
 	a.buf = append(a.buf, instruction(iHalt<<codeBitShift))
+}
+
+func (a *Assember) SWAP() {
+	a.buf = append(a.buf, instruction(iSwap<<codeBitShift))
 }
 
 func (a *Assember) DEFUN() {
@@ -275,6 +280,8 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 			a.HALT()
 		case "iDefun":
 			a.DEFUN()
+		case "iSwap":
+			a.SWAP()
 		case "iPop":
 			a.POP()
 		case "iGetF":
@@ -296,7 +303,7 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 		case "iSetJmp":
 			var a1 Assember
 			a1.FromSexp(kl.Cdr(obj))
-			a.SETJMP(len(a1.buf))
+			a.SETJMP(len(a1.buf) + 1) // Follow by a JMP
 			adjustConst(a1.buf, len(a.consts))
 			a.buf = append(a.buf, a1.buf...)
 			a.consts = append(a.consts, a1.consts...)

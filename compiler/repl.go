@@ -36,6 +36,8 @@ func main() {
 		v, err := m.Run(code)
 		if err != nil {
 			fmt.Fprintln(vm.StdErr, err)
+			m.Debug()
+			m.Reset()
 			continue
 		}
 
