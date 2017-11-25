@@ -1,4 +1,5 @@
 (define compile1
+  Tail [$symbol V] -> [[iConst V] | (if Tail [[iReturn]] [])]
   Tail [$const V] -> [[iConst V] | (if Tail [[iReturn]] [])]
   Tail [$var I] -> [[iAccess I] | (if Tail [[iReturn]] [])]
   Tail [$if X Y Z] -> (append (compile1 false X) [[iJF | (compile1 Tail Y)] | [[iJMP | (compile1 Tail Z)]]])
@@ -11,13 +12,11 @@
   Tail X -> X)
 
 (define compile-apply
-  Tail F X -> (if (= (length X) (primitive-arity F))
+  Tail [$symbol F] X -> (if (= (length X) (primitive-arity F))
                   (append (mapcan (compile1 false) X) [[iPrimCall (primitive-id F)] | (if Tail [[iReturn]] [])])
                   (compile1 Tail (curry-primitive F X)))
               where (primitive? F)
-  Tail F X -> (let Apply (if Tail [[iTailApply]] [[iApply]])
-                   [[iConst F] [iGetF] | (append (compile-arg-list X) Apply)])
-              where (symbol? F)
+  Tail [$symbol F] X -> [[iConst F] [iGetF] | (append (compile-arg-list X) (if Tail [[iTailApply]] [[iApply]]))]
   Tail F X -> (append (compile1 false F) (append (compile-arg-list X) (if Tail [[iTailApply]] [[iApply]]))))
 
 (define compile-arg-list

@@ -1,7 +1,3 @@
-(define compose
-  [] X -> X
-  [F | Fs] X -> (compose Fs (F X)))
-
 (define de-bruijn
   Exp -> (de-bruijn0 [] Exp))
 
@@ -16,15 +12,13 @@
   Env [and X Y] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) [$const false]]
   Env [or X Y] -> [$if (de-bruijn0 Env X) [$const true] (de-bruijn0 Env Y)]
   Env [trap-error X Y] -> [$trap (de-bruijn0 Env X) (de-bruijn0 Env Y)]
-  Env [F | X] -> (let F1 (de-bruijn0 Env)
-                      F2 (/. X (if (symbol? X) [$const X] X))
-                      [$app (F1 F) | (map (compose [F1 F2]) X)])
+  Env [F | X] -> [$app (de-bruijn0 Env F) | (map (de-bruijn0 Env) X)]
   Env X -> (de-bruijn-index X Env))
 
 (define de-bruijn-index
-  X _ -> [$const X] where (or (boolean? X) (number? X) (string? X))
-  X E <- (find-env X E)
-  X _ -> X)
+  [] _ -> [$const []]
+  X E <- (find-env X E) where (symbol? X)
+  X _ -> [$symbol X] where (or (boolean? X) (number? X) (string? X) (symbol? X)))
 
 (define find-env
   S E -> (find-env0 S 0 E))
