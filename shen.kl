@@ -15,5 +15,3 @@
 
 (defun import (str)
        (load (make-string "~A/~A/package.shen" (value *package-path*) str)))
-
-(shen.shen)

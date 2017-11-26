@@ -26,6 +26,8 @@ func main() {
 	}
 	if script != "" {
 		kl.LoadFile(script)
+		kl.Eval(kl.Cons(kl.Make_symbol("shen.shen"), kl.Nil))
+		return
 	}
 
 	r := kl.NewSexpReader(os.Stdin)

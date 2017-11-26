@@ -48,6 +48,8 @@ type Procedure struct {
 
 const initStackSize = 128
 
+var auxVM *VM = New()
+
 func New() *VM {
 	vm := &VM{
 		stack:         make([]kl.Obj, initStackSize),
@@ -252,12 +254,15 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 
 			var result kl.Obj
 			// Ugly hack: set function should not be global.
-			// TODO: should modify eval-kl too.
 			switch prim.Name {
 			case "set":
 				result = kl.PrimSet(vm.symbolTable, args[0], args[1])
 			case "value":
 				result = kl.PrimValue(vm.symbolTable, args[0])
+			case "eval-kl":
+				auxVM.symbolTable = vm.symbolTable
+				auxVM.functionTable = vm.functionTable
+				result = auxVM.Eval(args[0])
 			default:
 				result = prim.Function(args...)
 			}
@@ -320,4 +325,34 @@ func (vm *VM) Debug() {
 	}
 	fmt.Fprintln(StdDebug, "function:", len(vm.functionTable))
 	fmt.Fprintln(StdDebug)
+}
+
+func klToByteCode(klambda kl.Obj) (*Code, error) {
+	f := kl.Cons(kl.Make_symbol("kl->bytecode"), kl.Cons(klambda, kl.Nil))
+	// Get the bytecode in sexp representation.
+	bc := kl.Eval(f)
+	if bc == kl.Nil {
+		return nil, errors.New("klToByteCode return some thing wrong")
+	}
+
+	var a Assember
+	err := a.FromSexp(bc)
+	if err != nil {
+		return nil, err
+	}
+	return a.Comiple(), nil
+}
+
+func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
+	code, err := klToByteCode(sexp)
+	if err != nil {
+		return kl.Make_error(err.Error())
+	}
+
+	res, err := vm.Run(code)
+	if err != nil {
+		vm.Reset()
+		return kl.Make_error(err.Error())
+	}
+	return res
 }

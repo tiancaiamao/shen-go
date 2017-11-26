@@ -35,3 +35,7 @@
 (define rrange0
   N N R -> R
   N I R -> (rrange0 N (+ I 1) [I | R]))
+
+
+(define kl->bytecode
+        X -> (append (compile1 true (de-bruijn X)) [[iHalt]]))

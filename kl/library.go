@@ -175,3 +175,7 @@ func Car(o Obj) Obj {
 func Cdr(o Obj) Obj {
 	return cdr(o)
 }
+
+func Cons(x, y Obj) Obj {
+	return cons(x, y)
+}

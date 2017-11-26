@@ -1,0 +1,37 @@
+"Copyright (c) 2015, Mark Tarver
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of Mark Tarver may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY Mark Tarver ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL Mark Tarver BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+
+(defun init-primitive-table (V1409.000000) (cond ((= () V1409.000000) ()) ((and (cons? V1409.000000) (and (cons? (tl V1409.000000)) (and (cons? (tl (tl V1409.000000))) (cons? (tl (tl (tl V1409.000000))))))) (do (put (hd V1409.000000) primitive.id (hd (tl (tl (tl V1409.000000)))) (value *property-vector*)) (do (put (hd V1409.000000) primitive.str (hd (tl (tl V1409.000000))) (value *property-vector*)) (do (put (hd V1409.000000) primitive.arity (hd (tl V1409.000000)) (value *property-vector*)) (init-primitive-table (tl (tl (tl (tl V1409.000000))))))))) (true (shen.f_error init-primitive-table))))
+
+(init-primitive-table (cons load-file (cons 1.000000 (cons "xxx" (cons 0.000000 (cons type (cons 2.000000 (cons "xxx" (cons 1.000000 (cons get-time (cons 1.000000 (cons "xxx" (cons 2.000000 (cons eval-kl (cons 1.000000 (cons "xxx" (cons 3.000000 (cons close (cons 1.000000 (cons "xxx" (cons 4.000000 (cons open (cons 2.000000 (cons "xxx" (cons 5.000000 (cons read-byte (cons 1.000000 (cons "xxx" (cons 6.000000 (cons write-byte (cons 2.000000 (cons "xxx" (cons 7.000000 (cons absvector? (cons 1.000000 (cons "xxx" (cons 8.000000 (cons <-address (cons 2.000000 (cons "xxx" (cons 9.000000 (cons address-> (cons 3.000000 (cons "xxx" (cons 10.000000 (cons absvector (cons 1.000000 (cons "xxx" (cons 11.000000 (cons str (cons 1.000000 (cons "xxx" (cons 12.000000 (cons <= (cons 2.000000 (cons "xxx" (cons 13.000000 (cons >= (cons 2.000000 (cons "xxx" (cons 14.000000 (cons < (cons 2.000000 (cons "xxx" (cons 15.000000 (cons > (cons 2.000000 (cons "xxx" (cons 16.000000 (cons error-to-string (cons 1.000000 (cons "xxx" (cons 17.000000 (cons simple-error (cons 1.000000 (cons "xxx" (cons 18.000000 (cons = (cons 2.000000 (cons "xxx" (cons 19.000000 (cons - (cons 2.000000 (cons "xxx" (cons 20.000000 (cons * (cons 2.000000 (cons "xxx" (cons 21.000000 (cons / (cons 2.000000 (cons "xxx" (cons 22.000000 (cons + (cons 2.000000 (cons "xxx" (cons 23.000000 (cons string->n (cons 1.000000 (cons "xxx" (cons 24.000000 (cons n->string (cons 1.000000 (cons "xxx" (cons 25.000000 (cons number? (cons 1.000000 (cons "xxx" (cons 26.000000 (cons string? (cons 1.000000 (cons "xxx" (cons 27.000000 (cons pos (cons 2.000000 (cons "xxx" (cons 28.000000 (cons tlstr (cons 1.000000 (cons "xxx" (cons 29.000000 (cons cn (cons 2.000000 (cons "xxx" (cons 30.000000 (cons intern (cons 1.000000 (cons "xxx" (cons 31.000000 (cons hd (cons 1.000000 (cons "xxx" (cons 32.000000 (cons tl (cons 1.000000 (cons "xxx" (cons 33.000000 (cons cons (cons 2.000000 (cons "xxx" (cons 34.000000 (cons cons? (cons 1.000000 (cons "xxx" (cons 35.000000 (cons value (cons 1.000000 (cons "xxx" (cons 36.000000 (cons set (cons 2.000000 (cons "xxx" (cons 37.000000 (cons not (cons 1.000000 (cons "xxx" (cons 38.000000 (cons if (cons 3.000000 (cons "xxx" (cons 39.000000 ())))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+(defun primitive? (V1415.000000) (cond ((symbol? V1415.000000) (>= (get/or V1415.000000 primitive.id (freeze -1.000000) (value *property-vector*)) 0.000000)) (true false)))
+
+(defun primitive-arity (V1417.000000) (get V1417.000000 primitive.arity (value *property-vector*)))
+
+(defun primitive-id (V1419.000000) (get V1419.000000 primitive.id (value *property-vector*)))
+
+
+
