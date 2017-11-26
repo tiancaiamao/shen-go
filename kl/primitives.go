@@ -75,7 +75,14 @@ func primNumberDivide(args ...Obj) Obj {
 }
 
 func primIntern(args ...Obj) Obj {
-	return Make_symbol(mustString(args[0]))
+	str := mustString(args[0])
+	switch str {
+	case "true":
+		return True
+	case "false":
+		return False
+	}
+	return Make_symbol(str)
 }
 
 func PrimHead(args ...Obj) Obj {

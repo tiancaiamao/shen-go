@@ -227,7 +227,7 @@ func evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
 		ctl.TailEval(c, env)
 		return
 	}
-	ctl.Exception(Make_error("second argument of if should be boolean"))
+	panic("second argument of if should be boolean")
 }
 
 func evalAnd(a, b Obj, env *Environment, ctl *controlFlow) {
