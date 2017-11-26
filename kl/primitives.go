@@ -14,7 +14,7 @@ var Primitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: Primitive, Name: "eval-kl", Required: 1, Function: primEvalKL},
 	&ScmPrimitive{scmHead: Primitive, Name: "close", Required: 1, Function: closeStream},
 	&ScmPrimitive{scmHead: Primitive, Name: "open", Required: 2, Function: openStream},
-	&ScmPrimitive{scmHead: Primitive, Name: "read-byte", Required: 1, Function: readByte},
+	&ScmPrimitive{scmHead: Primitive, Name: "read-byte", Required: 1, Function: primReadByte},
 	&ScmPrimitive{scmHead: Primitive, Name: "write-byte", Required: 2, Function: writeByte},
 	&ScmPrimitive{scmHead: Primitive, Name: "absvector?", Required: 1, Function: isVector},
 	&ScmPrimitive{scmHead: Primitive, Name: "<-address", Required: 2, Function: vectorGet},
@@ -286,7 +286,7 @@ func writeByte(args ...Obj) Obj {
 	return args[0]
 }
 
-func readByte(args ...Obj) Obj {
+func primReadByte(args ...Obj) Obj {
 	s := mustStream(args[0])
 	r, ok := s.raw.(io.Reader)
 	if !ok {
@@ -295,6 +295,9 @@ func readByte(args ...Obj) Obj {
 	var buf [1]byte
 	_, err := r.Read(buf[:])
 	if err != nil {
+		if err == io.EOF {
+			return Make_integer(-1)
+		}
 		return Make_error(err.Error())
 	}
 	return Make_integer(int(buf[0]))
