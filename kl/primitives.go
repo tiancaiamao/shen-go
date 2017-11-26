@@ -128,6 +128,8 @@ func primStr(args ...Obj) Obj {
 	case Error:
 		e := mustError(args[0])
 		return Make_string(e.err)
+	case Stream:
+		return Make_string("<stream>")
 	default:
 		return Make_string("primStr unknown")
 	}

@@ -2,6 +2,7 @@ package kl
 
 import (
 	"fmt"
+	"runtime"
 )
 
 type Environment struct {
@@ -35,8 +36,18 @@ func (env *Environment) Extend(symbols, values []Obj) *Environment {
 	}
 }
 
-func Eval(exp Obj) Obj {
-	return trampoline(exp, nil)
+func Eval(exp Obj) (res Obj) {
+	defer func() {
+		if r := recover(); r != nil {
+			var buf [4096]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Recovered in Eval:", r)
+			fmt.Println(string(buf[:n]))
+			res = Nil
+		}
+	}()
+	res = trampoline(exp, nil)
+	return
 }
 
 type controlFlowKind int
@@ -202,7 +213,8 @@ func evalFunction(fn Obj, env *Environment) Obj {
 	case Pair:
 		return trampoline(fn, env)
 	}
-	return Make_error(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
+	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
+	// return Make_error(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }
 
 func evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
@@ -283,9 +295,14 @@ func apply(ctl *controlFlow) {
 			newEnv := proc.env.Extend(proc.arg, args)
 			ctl.TailEval(proc.body, newEnv)
 			return
+		case len(args) > proc.arity:
+			newEnv := proc.env.Extend(proc.arg, args[:proc.arity])
+			res := trampoline(proc.body, newEnv)
+			ctl.TailApply(res, args[proc.arity:])
+			return
 		}
 	}
-	ctl.Exception(Make_error("can't apply object"))
+	panic("can't apply object")
 }
 
 // partialApply works when Required > providArgs

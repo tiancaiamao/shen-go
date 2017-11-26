@@ -10,8 +10,8 @@
 (load-file "ShenOSKernel-20.1/klambda/writer.kl")
 (load-file "ShenOSKernel-20.1/klambda/macros.kl")
 (load-file "ShenOSKernel-20.1/klambda/declarations.kl")
-(load-file "ShenOSKernel-20.1/klambda/types.kl")
 (load-file "ShenOSKernel-20.1/klambda/t-star.kl")
+(load-file "ShenOSKernel-20.1/klambda/types.kl")
 
 (defun import (str)
        (load (make-string "~A/~A/package.shen" (value *package-path*) str)))
