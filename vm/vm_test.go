@@ -9,25 +9,25 @@ import (
 
 func TestProcedureCall(t *testing.T) {
 	var a Assember
-	// ((lambda x lambda y (+ x y)) 1 2)
+	// (lambda x (lambda y (+ x y)) 1 2)
 	a.GRAB(6)
 	a.GRAB(4)
 	a.ACCESS(0)
 	a.ACCESS(1)
-	a.ADD()
+	a.PRIMCALL(23)
 	a.RETURN()
 	a.RETURN()
 	a.CONST(kl.Make_integer(1))
 	a.PUSHARG()
 	a.CONST(kl.Make_integer(2))
 	a.PUSHARG()
-	a.APPLY()
+	a.TAILAPPLY()
 	a.HALT()
 	code := a.Comiple()
 
-	vm := NewVM()
-	vm.Run(code)
-	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(3)) != kl.True {
+	vm := New()
+	o, err := vm.Run(code)
+	if err != nil || kl.PrimEqual(o, kl.Make_integer(3)) != kl.True {
 		t.Error("failed!")
 	}
 }
@@ -55,7 +55,7 @@ func TestPartialApply(t *testing.T) {
 	// str := "((iGrab (iAccess 0) (iConst 0) (iPrimCall 19) (iJF (iConst 1)) (iJMP (iAccess 0) (iConst fact) (iGetF) (iAccess 0) (iConst 1) (iPrimCall 20) (iPushArg) (iApply) (iPrimCall 21)) (iReturn)) (iConst fact) (iDefun) (iPop) (iConst fact) (iGetF) (iConst 5) (iPushArg) (iApply) (iHalt))"
 
 	// [let x 3 [let y 5 [+ x y]]]
-	// str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iPushArg) (iApply) (iReturn)) (iConst 3) (iPushArg) (iApply) (iHalt))"
+	str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iPushArg) (iApply) (iReturn)) (iConst 3) (iPushArg) (iApply) (iHalt))"
 
 	// ((freeze 1))
 	// str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"
@@ -67,7 +67,7 @@ func TestPartialApply(t *testing.T) {
 	// str := "((iGrab (iConst 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 2) (iPushArg) (iApply) (iHalt))"
 
 	// [trap-error [simple-error "asd"] [lambda X 42]]
-	str := `((iSetJmp (iGrab (iConst 42) (iReturn) (iReturn))) (iConst "asd") (iPrimCall 18) (iReturn) (iHalt))`
+	// str := `((iSetJmp (iGrab (iConst 42) (iReturn) (iReturn))) (iConst "asd") (iPrimCall 18) (iReturn) (iHalt))`
 
 	// str := `((iConst "asd") (iPrimCall 18) (iReturn) (iHalt))`
 
@@ -81,9 +81,47 @@ func TestPartialApply(t *testing.T) {
 	a.FromSexp(sexp)
 	code := a.Comiple()
 
-	vm := NewVM()
-	vm.Run(code)
-	if kl.PrimEqual(vm.stack[vm.top-1], kl.Make_integer(42)) != kl.True {
+	vm := New()
+	o, err := vm.Run(code)
+	if err != nil || kl.PrimEqual(o, kl.Make_integer(8)) != kl.True {
 		t.Error("failed!")
+	}
+}
+
+func TestKLToBytecode(t *testing.T) {
+	BootstrapCompiler()
+
+	tests := [][2]string{
+		[2]string{
+			"(cons 1 ())",
+			"((iConst 1) (iConst ()) (iPrimCall 34) (iReturn) (iHalt))"},
+		[2]string{
+			"(+ 1 2)",
+			"((iConst 1) (iConst 2) (iPrimCall 23) (iReturn) (iHalt))",
+		},
+	}
+	for _, test := range tests {
+		testKLToBytecode(t, test[0], test[1])
+	}
+
+}
+
+func testKLToBytecode(t *testing.T, input, expect string) {
+	r1 := kl.NewSexpReader(strings.NewReader(input))
+	r2 := kl.NewSexpReader(strings.NewReader(expect))
+
+	klambda, err := r1.Read()
+	if err != nil {
+		t.Fatal(err)
+	}
+	bc := klToSexpByteCode(klambda)
+
+	bc1, err := r2.Read()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if kl.PrimEqual(bc, bc1) != kl.True {
+		t.Errorf("input:%s\n expect:%s\n get:%s\n", input, expect, kl.ObjString(bc))
 	}
 }

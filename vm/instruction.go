@@ -182,10 +182,6 @@ func (a *Assember) SETJMP(i int) {
 	a.buf = append(a.buf, inst)
 }
 
-func (a *Assember) ADD() {
-	a.buf = append(a.buf, instruction(iAdd<<codeBitShift))
-}
-
 func (a *Assember) POP() {
 	a.buf = append(a.buf, instruction(iPop<<codeBitShift))
 }

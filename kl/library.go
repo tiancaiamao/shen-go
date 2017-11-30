@@ -13,6 +13,7 @@ var (
 	initTime      time.Time
 	symbolTable   map[string]Obj
 	functionTable map[string]Obj
+	PackagePath   string
 )
 
 func init() {
@@ -36,8 +37,8 @@ func init() {
 
 	// Extended by shen-go implementation
 	gopath := os.Getenv("GOPATH")
-	packagePath := path.Join(gopath, "src/github.com/tiancaiamao/shen-go/pkg")
-	symbolTable["*package-path*"] = Make_string(packagePath)
+	PackagePath = path.Join(gopath, "src/github.com/tiancaiamao/shen-go")
+	symbolTable["*package-path*"] = Make_string(PackagePath)
 }
 
 func cadr(o Obj) Obj {

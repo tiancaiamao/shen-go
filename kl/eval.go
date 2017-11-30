@@ -135,6 +135,11 @@ func eval(ctl *controlFlow) {
 	if ok, sym := isSymbol(pair.car); ok {
 		exp = pair.cdr // handle special form
 		switch sym.sym {
+		// Extension to make vm work.
+		// TODO: remove it later
+		case "quote":
+			ctl.Return(car(exp))
+			return
 		case "defun": // (defun f (x y) z)
 			proc := Make_procedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)

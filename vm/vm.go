@@ -327,20 +327,28 @@ func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug)
 }
 
-func klToByteCode(klambda kl.Obj) (*Code, error) {
-	f := kl.Cons(kl.Make_symbol("kl->bytecode"), kl.Cons(klambda, kl.Nil))
+func klToSexpByteCode(klambda kl.Obj) kl.Obj {
+	fmt.Fprintln(StdDebug, "kl->bytecode:", kl.ObjString(klambda))
+	quote := kl.Cons(kl.Make_symbol("quote"), kl.Cons(klambda, kl.Nil))
+	f := kl.Cons(kl.Make_symbol("kl->bytecode"), kl.Cons(quote, kl.Nil))
 	// Get the bytecode in sexp representation.
-	bc := kl.Eval(f)
+	return kl.Eval(f)
+}
+
+func klToByteCode(klambda kl.Obj) (*Code, error) {
+	bc := klToSexpByteCode(klambda)
 	if bc == kl.Nil {
 		return nil, errors.New("klToByteCode return some thing wrong")
 	}
-
+	fmt.Fprintln(StdDebug, "bytecode in sexp:", kl.ObjString(bc))
 	var a Assember
 	err := a.FromSexp(bc)
 	if err != nil {
 		return nil, err
 	}
-	return a.Comiple(), nil
+	code := a.Comiple()
+	fmt.Fprintln(StdDebug, a.Decode(code))
+	return code, nil
 }
 
 func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
@@ -355,4 +363,30 @@ func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
 		return kl.Make_error(err.Error())
 	}
 	return res
+}
+
+func BootstrapCompiler() {
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/toplevel.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/core.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/sys.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/sequent.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/yacc.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/reader.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/prolog.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/track.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/load.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/writer.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/macros.kl")
+	mustLoadKLFile("ShenOSKernel-20.1/klambda/declarations.kl")
+	mustLoadKLFile("cmd/shen/primitive.kl")
+	mustLoadKLFile("cmd/shen/de-bruijn.kl")
+	mustLoadKLFile("cmd/shen/compile.kl")
+}
+
+func mustLoadKLFile(file string) {
+	filePath := path.Join(kl.PackagePath, file)
+	o := kl.LoadFile(filePath)
+	if kl.IsError(o) {
+		panic(kl.ObjString(o))
+	}
 }
