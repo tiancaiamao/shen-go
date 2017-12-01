@@ -38,6 +38,7 @@ type Code struct {
 type address struct {
 	pc   int
 	code *Code
+	env  []kl.Obj
 }
 
 type Procedure struct {
@@ -171,9 +172,11 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 
 				vm.code = savedAddr.code
 				vm.pc = savedAddr.pc
+				vm.env = savedAddr.env
 				fmt.Fprintln(StdBC, "RETURN ", vm.top, vm.arg.count(), len(vm.code.bc), vm.pc)
 			} else {
 				// more arguments then necessary, continue the beta-reduce.
+				// equivalent to tail apply
 				fmt.Fprintln(StdBC, "RETURN: TODO, should partial apply")
 			}
 		case iPop:
@@ -232,11 +235,10 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			// save return address
 			// set pc to closure code
 			// prepare initialize environment from closure
-			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code})
+			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env})
 			vm.code = closure.code
 			vm.pc = 0
-			vm.env = vm.env[0:]
-			vm.env = append(vm.env, closure.env...)
+			vm.env = closure.env
 		case iTailApply:
 			vm.top--
 			obj := vm.stack[vm.top]
