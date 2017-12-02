@@ -111,22 +111,22 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 
 		switch instructionCode(inst) {
 		case iSetJmp:
-			n := instructionOP1(inst)
+			n := instructionOPN(inst)
 			fmt.Fprintln(StdBC, "SETJMP", vm.pc+n)
 			vm.takeSnapshot(vm.pc + n)
 		case iConst:
-			n := instructionOP1(inst)
+			n := instructionOPN(inst)
 			fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(vm.code.consts[n]), vm.top)
 			vm.stackPush(vm.code.consts[n])
 		case iAccess:
-			n := instructionOP1(inst)
+			n := instructionOPN(inst)
 			// get value from environment
 			vm.stackPush(vm.env[len(vm.env)-1-n])
 			fmt.Fprintln(StdBC, "ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top-1]))
 		case iFreeze:
 			// create closure directly
 			// nearly the same with grab, but if need zero arguments.
-			n := instructionOP1(inst)
+			n := instructionOPN(inst)
 			fmt.Fprintln(StdBC, "FREEZE", vm.pc, n)
 			tmp := Procedure{
 				ScmRaw: kl.Make_raw(),
@@ -144,7 +144,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 		case iGrab:
 			if vm.arg.empty() {
 				// make closure if there are not enough arguments
-				n := instructionOP1(inst)
+				n := instructionOPN(inst)
 				fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc, n)
 				tmp := Procedure{
 					ScmRaw: kl.Make_raw(),
@@ -177,7 +177,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			} else {
 				// more arguments then necessary, continue the beta-reduce.
 				// equivalent to tail apply
-				fmt.Fprintln(StdBC, "RETURN: TODO, should partial apply")
+				panic("RETURN: TODO, should partial apply")
 			}
 		case iPop:
 			fmt.Fprintln(StdBC, "POP")
@@ -201,7 +201,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			fmt.Fprintln(StdBC, "JF")
 			switch vm.stack[vm.top-1] {
 			case kl.False:
-				n := instructionOP1(inst)
+				n := instructionOPN(inst)
 				vm.top--
 				vm.pc += n
 				fmt.Fprintln(StdDebug, "JF false branch pc=", vm.pc, n)
@@ -213,7 +213,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				vm.stack[vm.top-1] = kl.Make_error("test condition need to be boolean")
 			}
 		case iJMP:
-			n := instructionOP1(inst)
+			n := instructionOPN(inst)
 			vm.pc += n
 			fmt.Fprintln(StdBC, "JMP", n, vm.pc)
 		case iSwap:
@@ -250,7 +250,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			vm.env = vm.env[0:]
 			vm.env = append(vm.env, closure.env...)
 		case iPrimCall:
-			id := instructionOP1(inst)
+			id := instructionOPN(inst)
 			prim := kl.Primitives[id]
 			args := vm.stack[vm.top-prim.Required : vm.top]
 

@@ -62,14 +62,17 @@ func init() {
 	}
 }
 
-const codeBitShift = 24
+const (
+	codeBitShift = 24
+	valueBitMask = (1<<codeBitShift - 1)
+)
 
 func instructionCode(i instruction) int {
 	return int(i >> codeBitShift)
 }
 
-func instructionOP1(i instruction) int {
-	return int((i >> 16) & 0xff)
+func instructionOPN(i instruction) int {
+	return int(i) & valueBitMask
 }
 
 func instructionOP2(i instruction) int {
@@ -83,9 +86,9 @@ func instructionOP3(i instruction) int {
 func (i instruction) String() string {
 	switch instructionCode(i) {
 	case iAccess:
-		return fmt.Sprintf("ACCESS %d", instructionOP1(i))
+		return fmt.Sprintf("ACCESS %d", instructionOPN(i))
 	case iGrab:
-		return fmt.Sprintf("GRAB %d", instructionOP1(i))
+		return fmt.Sprintf("GRAB %d", instructionOPN(i))
 	case iPush:
 		return "PUSH"
 	case iPushArg:
@@ -99,7 +102,7 @@ func (i instruction) String() string {
 	case iPrimCall:
 		return "PRIMCALL"
 	case iConst:
-		return fmt.Sprintf("CONST %d", instructionOP1(i))
+		return fmt.Sprintf("CONST %d", instructionOPN(i))
 	case iReturn:
 		return "RETURN"
 	case iHalt:
@@ -109,13 +112,13 @@ func (i instruction) String() string {
 	case iGetF:
 		return "GETF"
 	case iJF:
-		return fmt.Sprintf("JF %d", instructionOP1(i))
+		return fmt.Sprintf("JF %d", instructionOPN(i))
 	case iJMP:
-		return fmt.Sprintf("JMP %d", instructionOP1(i))
+		return fmt.Sprintf("JMP %d", instructionOPN(i))
 	case iFreeze:
-		return fmt.Sprintf("FREEZE %d", instructionOP1(i))
+		return fmt.Sprintf("FREEZE %d", instructionOPN(i))
 	case iSetJmp:
-		return fmt.Sprintf("SETJMP %d", instructionOP1(i))
+		return fmt.Sprintf("SETJMP %d", instructionOPN(i))
 	}
 	return "UNKNOWN"
 }
@@ -126,7 +129,7 @@ type Assember struct {
 }
 
 func (a *Assember) ACCESS(i int) {
-	inst := instruction((iAccess << codeBitShift) | (i << 16))
+	inst := instruction((iAccess << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
 
@@ -159,26 +162,35 @@ func (a *Assember) DEFUN() {
 }
 
 func (a *Assember) FREEZE(i int) {
-	inst := instruction((iFreeze << codeBitShift) | (i << 16))
+	inst := instruction((iFreeze << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
 func (a *Assember) GRAB(i int) {
-	inst := instruction((iGrab << codeBitShift) | (i << 16))
+	inst := instruction((iGrab << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
 
 func (a *Assember) JF(i int) {
-	inst := instruction((iJF << codeBitShift) | (i << 16))
+	if i >= (1 << codeBitShift) {
+		panic("overflow instruct bits")
+	}
+	inst := instruction((iJF << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
 
 func (a *Assember) JMP(i int) {
-	inst := instruction((iJMP << codeBitShift) | (i << 16))
+	if i >= (1 << codeBitShift) {
+		panic("overflow instruct bits")
+	}
+	inst := instruction((iJMP << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
 
 func (a *Assember) SETJMP(i int) {
-	inst := instruction((iSetJmp << codeBitShift) | (i << 16))
+	if i >= (1 << codeBitShift) {
+		panic("overflow instruct bits")
+	}
+	inst := instruction((iSetJmp << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
 
@@ -193,12 +205,18 @@ func (a *Assember) GetF() {
 func (a *Assember) CONST(o kl.Obj) {
 	idx := len(a.consts)
 	a.consts = append(a.consts, o)
-	inst := instruction((iConst << codeBitShift) | (idx << 16))
+	if idx >= (1 << codeBitShift) {
+		panic("overflow instruct bits")
+	}
+	inst := instruction((iConst << codeBitShift) | idx)
 	a.buf = append(a.buf, inst)
 }
 
 func (a *Assember) PRIMCALL(id int) {
-	inst := instruction((iPrimCall << codeBitShift) | (id << 16))
+	if id >= (1 << codeBitShift) {
+		panic("overflow instruct bits")
+	}
+	inst := instruction((iPrimCall << codeBitShift) | id)
 	a.buf = append(a.buf, inst)
 }
 
@@ -311,8 +329,11 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 func adjustConst(insts []instruction, ofst int) {
 	for i, inst := range insts {
 		if instructionCode(inst) == iConst {
-			idx := instructionOP1(inst) + ofst
-			insts[i] = instruction((iConst << codeBitShift) | (idx << 16))
+			idx := instructionOPN(inst) + ofst
+			if i >= (1 << codeBitShift) {
+				panic("overflow instruct bits")
+			}
+			insts[i] = instruction((iConst << codeBitShift) | idx)
 		}
 
 	}
