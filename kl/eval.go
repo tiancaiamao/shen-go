@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"runtime"
 	"time"
 )
@@ -97,8 +98,18 @@ func (e *Evaluator) primLoadFile(args ...Obj) Obj {
 	return e.LoadFile(path)
 }
 
-func (e *Evaluator) LoadFile(path string) Obj {
-	f, err := os.Open(path)
+func (e *Evaluator) LoadFile(file string) Obj {
+	var filePath string
+	if _, err := os.Stat(file); err == nil {
+		filePath = file
+	} else {
+		filePath = path.Join(PackagePath(), file)
+		if _, err := os.Stat(filePath); err != nil {
+			return Make_error(err.Error())
+		}
+	}
+
+	f, err := os.Open(filePath)
 	if err != nil {
 		return Make_error(err.Error())
 	}
