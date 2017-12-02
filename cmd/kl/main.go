@@ -12,11 +12,11 @@ import (
 )
 
 var pprof bool
-var script string
+var shen bool
 
 func init() {
 	flag.BoolVar(&pprof, "pprof", false, "enable pprof")
-	flag.StringVar(&script, "s", "", "bootstrap script")
+	flag.BoolVar(&shen, "shen", false, "run shen REPL")
 }
 
 func main() {
@@ -27,8 +27,8 @@ func main() {
 	}
 
 	e := kl.NewEvaluator()
-	if script != "" {
-		e.LoadFile(script)
+	if shen {
+		bootstrapShen(e)
 		e.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
 		return
 	}
@@ -47,4 +47,21 @@ func main() {
 		res := e.Eval(sexp)
 		fmt.Println(kl.ObjString(res))
 	}
+}
+
+func bootstrapShen(e *kl.Evaluator) {
+	e.LoadFile("ShenOSKernel-20.1/klambda/toplevel.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/core.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/sys.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/sequent.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/yacc.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/reader.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/prolog.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/track.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/load.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/writer.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/macros.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/declarations.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/t-star.kl")
+	e.LoadFile("ShenOSKernel-20.1/klambda/types.kl")
 }

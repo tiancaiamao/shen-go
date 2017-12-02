@@ -26,7 +26,7 @@ go get github.com/tiancaiamao/shen-go/cmd/kl
 
 ```
 cd $GOPATH/src/github.com/tiancaiamao/shen-go
-$GOPATH/bin/kl -s shen.kl
+$GOPATH/bin/kl -shen
 ```
 
 ## Learn Shen
