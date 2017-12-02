@@ -17,9 +17,9 @@ func TestProcedureCall(t *testing.T) {
 	a.PRIMCALL(23)
 	a.RETURN()
 	a.RETURN()
-	a.CONST(kl.Make_integer(1))
+	a.CONST(kl.MakeInteger(1))
 	a.PUSHARG()
-	a.CONST(kl.Make_integer(2))
+	a.CONST(kl.MakeInteger(2))
 	a.PUSHARG()
 	a.TAILAPPLY()
 	a.HALT()
@@ -27,7 +27,7 @@ func TestProcedureCall(t *testing.T) {
 
 	vm := New()
 	o, err := vm.Run(code)
-	if err != nil || kl.PrimEqual(o, kl.Make_integer(3)) != kl.True {
+	if err != nil || kl.PrimEqual(o, kl.MakeInteger(3)) != kl.True {
 		t.Error("failed!")
 	}
 }
@@ -83,7 +83,7 @@ func TestPartialApply(t *testing.T) {
 
 	vm := New()
 	o, err := vm.Run(code)
-	if err != nil || kl.PrimEqual(o, kl.Make_integer(8)) != kl.True {
+	if err != nil || kl.PrimEqual(o, kl.MakeInteger(8)) != kl.True {
 		t.Error("failed!")
 	}
 }

@@ -10,8 +10,8 @@ import (
 
 func TestInstruction(t *testing.T) {
 	var a Assember
-	a.CONST(kl.Make_integer(4))
-	a.CONST(kl.Make_integer(7))
+	a.CONST(kl.MakeInteger(4))
+	a.CONST(kl.MakeInteger(7))
 	a.GRAB(2)
 	a.PUSHARG()
 	a.DEFUN()

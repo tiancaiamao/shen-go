@@ -42,9 +42,9 @@ type address struct {
 }
 
 type Procedure struct {
-	kl.ScmRaw
-	code *Code
-	env  []kl.Obj
+	scmHead int
+	code    *Code
+	env     []kl.Obj
 }
 
 const initStackSize = 128
@@ -65,20 +65,20 @@ func New() *VM {
 
 func initSymbolTable(symbolTable map[string]kl.Obj) {
 	dir, _ := os.Getwd()
-	symbolTable["*stinput*"] = kl.Make_stream(os.Stdin)
-	symbolTable["*stoutput*"] = kl.Make_stream(os.Stdout)
-	symbolTable["*home-directory*"] = kl.Make_string(dir)
-	symbolTable["*language*"] = kl.Make_string("Go")
-	symbolTable["*implementation*"] = kl.Make_string("bytecode")
-	symbolTable["*relase*"] = kl.Make_string(runtime.Version())
-	symbolTable["*os*"] = kl.Make_string(runtime.GOOS)
-	symbolTable["*porters*"] = kl.Make_string("Arthur Mao")
-	symbolTable["*port*"] = kl.Make_string("0.0.1")
+	symbolTable["*stinput*"] = kl.MakeStream(os.Stdin)
+	symbolTable["*stoutput*"] = kl.MakeStream(os.Stdout)
+	symbolTable["*home-directory*"] = kl.MakeString(dir)
+	symbolTable["*language*"] = kl.MakeString("Go")
+	symbolTable["*implementation*"] = kl.MakeString("bytecode")
+	symbolTable["*relase*"] = kl.MakeString(runtime.Version())
+	symbolTable["*os*"] = kl.MakeString(runtime.GOOS)
+	symbolTable["*porters*"] = kl.MakeString("Arthur Mao")
+	symbolTable["*port*"] = kl.MakeString("0.0.1")
 
 	// Extended by shen-go implementation
 	gopath := os.Getenv("GOPATH")
 	packagePath := path.Join(gopath, "src/github.com/tiancaiamao/shen-go/pkg")
-	symbolTable["*package-path*"] = kl.Make_string(packagePath)
+	symbolTable["*package-path*"] = kl.MakeString(packagePath)
 }
 
 func (vm *VM) takeSnapshot(pc int) {
@@ -128,18 +128,18 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			// nearly the same with grab, but if need zero arguments.
 			n := instructionOPN(inst)
 			fmt.Fprintln(StdBC, "FREEZE", vm.pc, n)
-			tmp := Procedure{
-				ScmRaw: kl.Make_raw(),
+			tmp := &Procedure{
 				code: &Code{
 					bc:     vm.code.bc[vm.pc:],
 					consts: vm.code.consts,
 				},
 			}
+			raw := kl.MakeRaw(&tmp.scmHead)
 			if len(vm.env) > 0 {
 				tmp.env = make([]kl.Obj, len(vm.env))
 				copy(tmp.env, vm.env)
 			}
-			vm.stackPush(tmp.ScmRaw.Object())
+			vm.stackPush(raw)
 			vm.pc += n
 		case iGrab:
 			if vm.arg.empty() {
@@ -147,17 +147,17 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				n := instructionOPN(inst)
 				fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc, n)
 				tmp := Procedure{
-					ScmRaw: kl.Make_raw(),
 					code: &Code{
 						bc:     vm.code.bc[vm.pc-1:],
 						consts: vm.code.consts,
 					},
 				}
+				raw := kl.MakeRaw(&tmp.scmHead)
 				if len(vm.env) > 0 {
 					tmp.env = make([]kl.Obj, len(vm.env))
 					copy(tmp.env, vm.env)
 				}
-				vm.stackPush(tmp.ScmRaw.Object())
+				vm.stackPush(raw)
 				vm.pc += n
 			} else {
 				// grab data from stack to env
@@ -183,19 +183,19 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			fmt.Fprintln(StdBC, "POP")
 			vm.top--
 		case iDefun:
-			symbol := kl.SymbolString(vm.stack[vm.top-1])
+			symbol := kl.GetSymbol(vm.stack[vm.top-1])
 			fmt.Fprintln(StdBC, "DEFUN", symbol)
 			function := (*Procedure)(unsafe.Pointer(vm.stack[vm.top-2]))
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
 		case iGetF:
-			symbol := kl.SymbolString(vm.stack[vm.top-1])
+			symbol := kl.GetSymbol(vm.stack[vm.top-1])
 			fmt.Fprintln(StdBC, "GETF", symbol)
 			if function, ok := vm.functionTable[symbol]; ok {
-				vm.stack[vm.top-1] = function.ScmRaw.Object()
+				vm.stack[vm.top-1] = kl.MakeRaw(&function.scmHead)
 			} else {
-				vm.stack[vm.top-1] = kl.Make_error("unknown function:" + symbol)
+				vm.stack[vm.top-1] = kl.MakeError("unknown function:" + symbol)
 			}
 		case iJF:
 			fmt.Fprintln(StdBC, "JF")
@@ -210,7 +210,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				vm.top--
 			default:
 				// TODO: So what?
-				vm.stack[vm.top-1] = kl.Make_error("test condition need to be boolean")
+				vm.stack[vm.top-1] = kl.MakeError("test condition need to be boolean")
 			}
 		case iJMP:
 			n := instructionOPN(inst)
@@ -251,7 +251,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			vm.env = append(vm.env, closure.env...)
 		case iPrimCall:
 			id := instructionOPN(inst)
-			prim := kl.Primitives[id]
+			prim := kl.GetPrimitiveByID(id)
 			args := vm.stack[vm.top-prim.Required : vm.top]
 
 			var result kl.Obj
@@ -333,8 +333,8 @@ var evaluator = kl.NewEvaluator()
 
 func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 	fmt.Fprintln(StdDebug, "kl->bytecode:", kl.ObjString(klambda))
-	quote := kl.Cons(kl.Make_symbol("quote"), kl.Cons(klambda, kl.Nil))
-	f := kl.Cons(kl.Make_symbol("kl->bytecode"), kl.Cons(quote, kl.Nil))
+	quote := kl.Cons(kl.MakeSymbol("quote"), kl.Cons(klambda, kl.Nil))
+	f := kl.Cons(kl.MakeSymbol("kl->bytecode"), kl.Cons(quote, kl.Nil))
 	// Get the bytecode in sexp representation.
 	return evaluator.Eval(f)
 }
@@ -358,13 +358,13 @@ func klToByteCode(klambda kl.Obj) (*Code, error) {
 func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
 	code, err := klToByteCode(sexp)
 	if err != nil {
-		return kl.Make_error(err.Error())
+		return kl.MakeError(err.Error())
 	}
 
 	res, err := vm.Run(code)
 	if err != nil {
 		vm.Reset()
-		return kl.Make_error(err.Error())
+		return kl.MakeError(err.Error())
 	}
 	return res
 }

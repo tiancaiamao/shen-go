@@ -53,7 +53,7 @@ func (r *SexpReader) readString() (Obj, error) {
 		r.appendBuf(b)
 		b, _, err = r.reader.ReadRune()
 	}
-	return Make_string(string(r.buf)), err
+	return MakeString(string(r.buf)), err
 }
 
 func (r *SexpReader) readSexp() (Obj, error) {
@@ -99,7 +99,7 @@ func tokenToObj(str string) Obj {
 		return False
 	}
 	if v, err := strconv.ParseFloat(str, 64); err == nil {
-		return Make_number(v)
+		return MakeNumber(v)
 	}
-	return Make_symbol(str)
+	return MakeSymbol(str)
 }

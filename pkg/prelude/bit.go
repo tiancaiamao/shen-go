@@ -5,8 +5,8 @@ import (
 )
 
 func BitLeftShift(a, b kl.Obj) kl.Obj {
-	if *a != kl.Number {
-		return kl.Make_error("xxx")
+	if !(kl.IsNumber(a) && kl.IsNumber(b)) {
+		return kl.MakeError("xxx")
 	}
-	return kl.Make_integer(42)
+	return kl.MakeInteger(42)
 }

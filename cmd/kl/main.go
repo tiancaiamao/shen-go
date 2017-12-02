@@ -29,7 +29,7 @@ func main() {
 	e := kl.NewEvaluator()
 	if script != "" {
 		e.LoadFile(script)
-		e.Eval(kl.Cons(kl.Make_symbol("shen.shen"), kl.Nil))
+		e.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
 		return
 	}
 

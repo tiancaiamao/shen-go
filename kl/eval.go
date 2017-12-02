@@ -51,33 +51,33 @@ func NewEvaluator() *Evaluator {
 	e.upTime = time.Now()
 	e.symbolTable = make(map[string]Obj)
 
-	e.functionTable = make(map[string]Obj, len(Primitives))
-	for _, prim := range Primitives {
+	e.functionTable = make(map[string]Obj, len(allPrimitives))
+	for _, prim := range allPrimitives {
 		e.functionTable[prim.Name] = Obj(&prim.scmHead)
 	}
 	// Overload for primitive set and value.
-	tmp := &ScmPrimitive{scmHead: Primitive, Name: "set", Required: 2, Function: e.primSet}
+	tmp := &scmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: e.primSet}
 	e.functionTable["set"] = Obj(&tmp.scmHead)
-	tmp = &ScmPrimitive{scmHead: Primitive, Name: "value", Required: 1, Function: e.primValue}
+	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: e.primValue}
 	e.functionTable["value"] = Obj(&tmp.scmHead)
-	tmp = &ScmPrimitive{scmHead: Primitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
+	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
 	e.functionTable["eval-kl"] = Obj(&tmp.scmHead)
-	tmp = &ScmPrimitive{scmHead: Primitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
+	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
 	e.functionTable["load-file"] = Obj(&tmp.scmHead)
 
-	e.symbolTable["*stinput*"] = Make_stream(os.Stdin)
-	e.symbolTable["*stoutput*"] = Make_stream(os.Stdout)
+	e.symbolTable["*stinput*"] = MakeStream(os.Stdin)
+	e.symbolTable["*stoutput*"] = MakeStream(os.Stdout)
 	dir, _ := os.Getwd()
-	e.symbolTable["*home-directory*"] = Make_string(dir)
-	e.symbolTable["*language*"] = Make_string("Go")
-	e.symbolTable["*implementation*"] = Make_string("interpreter")
-	e.symbolTable["*relase*"] = Make_string(runtime.Version())
-	e.symbolTable["*os*"] = Make_string(runtime.GOOS)
-	e.symbolTable["*porters*"] = Make_string("Arthur Mao")
-	e.symbolTable["*port*"] = Make_string("0.0.1")
+	e.symbolTable["*home-directory*"] = MakeString(dir)
+	e.symbolTable["*language*"] = MakeString("Go")
+	e.symbolTable["*implementation*"] = MakeString("interpreter")
+	e.symbolTable["*relase*"] = MakeString(runtime.Version())
+	e.symbolTable["*os*"] = MakeString(runtime.GOOS)
+	e.symbolTable["*porters*"] = MakeString("Arthur Mao")
+	e.symbolTable["*port*"] = MakeString("0.0.1")
 
 	// Extended by shen-go implementation
-	e.symbolTable["*package-path*"] = Make_string(PackagePath())
+	e.symbolTable["*package-path*"] = MakeString(PackagePath())
 	return &e
 }
 
@@ -105,13 +105,13 @@ func (e *Evaluator) LoadFile(file string) Obj {
 	} else {
 		filePath = path.Join(PackagePath(), file)
 		if _, err := os.Stat(filePath); err != nil {
-			return Make_error(err.Error())
+			return MakeError(err.Error())
 		}
 	}
 
 	f, err := os.Open(filePath)
 	if err != nil {
-		return Make_error(err.Error())
+		return MakeError(err.Error())
 	}
 	defer f.Close()
 
@@ -120,13 +120,13 @@ func (e *Evaluator) LoadFile(file string) Obj {
 		exp, err := r.Read()
 		if err != nil {
 			if err != io.EOF {
-				return Make_error(err.Error())
+				return MakeError(err.Error())
 			}
 			break
 		}
 
 		res := e.trampoline(exp, nil)
-		if *res == Error {
+		if *res == scmHeadError {
 			return res
 		}
 		fmt.Printf("%#v\n", (*scmHead)(res))
@@ -216,7 +216,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 	env := ctl.env
 
 	switch *exp { // handle constant
-	case Number, String, Vector, Boolean, Null, Procedure, Primitive:
+	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
 		ctl.Return(exp)
 		return
 	}
@@ -239,20 +239,20 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 			ctl.Return(car(exp))
 			return
 		case "defun": // (defun f (x y) z)
-			proc := Make_procedure(cadr(exp), caddr(exp), env)
+			proc := makeProcedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
 			e.functionTable[mustSymbol(funName).sym] = proc
 			ctl.Return(funName)
 			return
 		case "lambda": // (lambda x x)
-			ctl.Return(Make_procedure(car(exp), cadr(exp), env))
+			ctl.Return(makeProcedure(car(exp), cadr(exp), env))
 			return
 		case "freeze": // (freeze body)
-			ctl.Return(Make_procedure(Nil, car(exp), env))
+			ctl.Return(makeProcedure(Nil, car(exp), env))
 			return
 		case "let": // (let x y z)
 			args := e.trampoline(cadr(exp), env)
-			if *args == Error {
+			if *args == scmHeadError {
 				ctl.Exception(args)
 				return
 			}
@@ -277,7 +277,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 			e.evalTrapError(exp, env, ctl)
 			return
 		case "do": // (do A A)
-			if tmp := e.trampoline(car(exp), env); *tmp == Error {
+			if tmp := e.trampoline(car(exp), env); *tmp == scmHeadError {
 				ctl.Exception(tmp)
 				return
 			}
@@ -287,12 +287,12 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 	}
 
 	fn := e.evalFunction(pair.car, env)
-	if *fn == Error {
+	if *fn == scmHeadError {
 		ctl.Exception(fn)
 		return
 	}
 	args := e.evalArgumentList(pair.cdr, env)
-	if !ctl.inException && len(args) == 1 && *args[0] == Error {
+	if !ctl.inException && len(args) == 1 && *args[0] == scmHeadError {
 		ctl.Exception(args[0])
 		return
 	}
@@ -311,9 +311,9 @@ func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
 	}
 
 	switch *fn {
-	case Primitive, Procedure:
+	case scmHeadPrimitive, scmHeadProcedure:
 		return fn
-	case Pair:
+	case scmHeadPair:
 		return e.trampoline(fn, env)
 	}
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
@@ -349,7 +349,7 @@ func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *controlFlow) {
 }
 
 func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *controlFlow) {
-	for *l == Pair {
+	for *l == scmHeadPair {
 		curr := car(l)
 		if e.trampoline(car(curr), env) == True {
 			ctl.TailEval(cadr(curr), env)
@@ -363,7 +363,7 @@ func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *controlFlow) {
 
 func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
 	v := e.trampoline(car(exp), env)
-	if *v == Error {
+	if *v == scmHeadError {
 		ctl.inException = true
 		handler := e.evalFunction(cadr(exp), env)
 		ctl.TailApply(handler, []Obj{v})
@@ -377,7 +377,7 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 	f := ctl.f
 	args := ctl.args
 
-	if *f == Primitive {
+	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
 		switch {
 		case len(args) < prim.Required:
@@ -387,7 +387,7 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 			ctl.Return(prim.Function(args...))
 			return
 		}
-	} else if *f == Procedure {
+	} else if *f == scmHeadProcedure {
 		proc := mustProcedure(f)
 		switch {
 		case len(args) < proc.arity:
@@ -426,14 +426,14 @@ func partialApply(required int, providArgs []Obj, env *Environment, proc Obj) Ob
 	}
 	body = cons(proc, body)
 
-	return Make_procedure(args, body, env1)
+	return makeProcedure(args, body, env1)
 }
 
 func (e *Evaluator) evalArgumentList(args Obj, env *Environment) []Obj {
 	var ret []Obj
-	for *args == Pair {
+	for *args == scmHeadPair {
 		v := e.trampoline(car(args), env)
-		if *v == Error {
+		if *v == scmHeadError {
 			return []Obj{v}
 		}
 		ret = append(ret, v)
@@ -445,7 +445,7 @@ func (e *Evaluator) evalArgumentList(args Obj, env *Environment) []Obj {
 func makeTempSymbols(n int) []Obj {
 	ret := make([]Obj, n)
 	for i := 0; i < n; i++ {
-		ret[i] = Make_symbol(fmt.Sprintf("tmp%d", i))
+		ret[i] = MakeSymbol(fmt.Sprintf("tmp%d", i))
 	}
 	return ret
 }

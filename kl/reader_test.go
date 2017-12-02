@@ -8,24 +8,24 @@ import (
 )
 
 func TestSexpReader(t *testing.T) {
-	IF := Make_symbol("if")
+	IF := MakeSymbol("if")
 	tests := []struct {
 		input  string
 		expect Obj
 	}{
-		{"1234", Make_integer(1234)},
-		{`"string"`, Make_string("string")},
-		{"symbol", Make_symbol("symbol")},
+		{"1234", MakeInteger(1234)},
+		{`"string"`, MakeString("string")},
+		{"symbol", MakeSymbol("symbol")},
 		{"()", Nil},
-		{"(1 2)", cons(Make_integer(1), cons(Make_integer(2), Nil))},
+		{"(1 2)", cons(MakeInteger(1), cons(MakeInteger(2), Nil))},
 		{"true", True},
 		{"false", False},
 		{"(if true (if false 1 2) 3)", cons(IF, cons(True,
 			cons(
-				cons(IF, cons(False, cons(Make_integer(1), cons(Make_integer(2), Nil)))),
-				cons(Make_integer(3), Nil))))},
+				cons(IF, cons(False, cons(MakeInteger(1), cons(MakeInteger(2), Nil)))),
+				cons(MakeInteger(3), Nil))))},
 		{`"abc
-de"`, Make_string("abc\nde")},
+de"`, MakeString("abc\nde")},
 	}
 	for _, test := range tests {
 		r := NewSexpReader(strings.NewReader(test.input))
@@ -43,7 +43,7 @@ de"`, Make_string("abc\nde")},
 	if err != nil && err != io.EOF {
 		t.Fatal("read error", err)
 	}
-	if equal(o1, cons(Make_symbol("if"), cons(Make_boolean(true), cons(Make_integer(1), cons(Make_boolean(false), Nil))))) == False {
+	if equal(o1, cons(MakeSymbol("if"), cons(True, cons(MakeInteger(1), cons(False, Nil))))) == False {
 		t.Errorf("if true... %#v", (*scmHead)(o1))
 	}
 
@@ -51,7 +51,7 @@ de"`, Make_string("abc\nde")},
 	if err != nil && err != io.EOF {
 		t.Fatal(err)
 	}
-	if equal(o2, Make_integer(2)) == False {
+	if equal(o2, MakeInteger(2)) == False {
 		t.Error("read another sexp")
 	}
 }

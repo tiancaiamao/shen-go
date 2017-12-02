@@ -7,7 +7,7 @@ import (
 
 func TestReadByte(t *testing.T) {
 	buf := bytes.NewBufferString("a")
-	stream := Make_stream(buf)
+	stream := MakeStream(buf)
 	b := primReadByte(stream)
 	if mustInteger(b) != 97 {
 		t.Error("should be 97")
@@ -20,13 +20,13 @@ func TestReadByte(t *testing.T) {
 }
 
 func TestIntern(t *testing.T) {
-	if primIntern(Make_string("true")) != True {
+	if primIntern(MakeString("true")) != True {
 		t.Error("intern(true) should be boolean")
 	}
-	if primIntern(Make_string("false")) != False {
+	if primIntern(MakeString("false")) != False {
 		t.Error("intern(false) should be boolean")
 	}
-	if equal(primIntern(Make_string("asdf")), Make_symbol("asdf")) != True {
+	if equal(primIntern(MakeString("asdf")), MakeSymbol("asdf")) != True {
 		t.FailNow()
 	}
 }

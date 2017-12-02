@@ -6,72 +6,63 @@ import (
 	"unsafe"
 )
 
-// The type of all Scheme objects.
+// All kinds of Scheme object.
 type Obj *scmHead
 
 type scmHead int
 
 const (
-	Number    scmHead = 0
-	Pair              = 1
-	Vector            = 2
-	Null              = 3
-	String            = 4
-	Symbol            = 5
-	Boolean           = 6
-	Procedure         = 14
-	Stream            = 17
-	Primitive         = 21
-	Error             = 22
-	Raw               = 42
+	scmHeadNumber    scmHead = 0
+	scmHeadPair              = 1
+	scmHeadVector            = 2
+	scmHeadNull              = 3
+	scmHeadString            = 4
+	scmHeadSymbol            = 5
+	scmHeadBoolean           = 6
+	scmHeadProcedure         = 14
+	scmHeadStream            = 17
+	scmHeadPrimitive         = 21
+	scmHeadError             = 22
+	scmHeadRaw               = 42
 )
 
-type ScmRaw struct {
-	scmHead
-}
-
-type ScmNumber struct {
+type scmNumber struct {
 	scmHead
 	val float64
 }
 
-type ScmChar struct {
-	scmHead
-	codepoint rune
-}
-
-type ScmSymbol struct {
+type scmSymbol struct {
 	scmHead
 	sym string
 }
 
-type ScmPair struct {
+type scmPair struct {
 	scmHead
 	car Obj
 	cdr Obj
 }
 
-type ScmVector struct {
+type scmVector struct {
 	scmHead
 	vector []Obj
 }
 
-type ScmString struct {
+type scmString struct {
 	scmHead
 	str string
 }
 
-type ScmStream struct {
+type scmStream struct {
 	scmHead
 	raw interface{}
 }
 
-type ScmBoolean struct {
+type scmBoolean struct {
 	scmHead
 	bool
 }
 
-type ScmProcedure struct {
+type scmProcedure struct {
 	scmHead
 	name  string
 	arg   []Obj
@@ -80,124 +71,133 @@ type ScmProcedure struct {
 	env   *Environment
 }
 
-type ScmPrimitive struct {
+type scmPrimitive struct {
 	scmHead
 	Name     string
 	Required int
 	Function func(...Obj) Obj
 }
 
-type ScmError struct {
+type scmError struct {
 	scmHead
 	err string
 }
 
-func Make_raw() ScmRaw {
-	return ScmRaw{scmHead: Raw}
+// MakeRaw makes a struct into a raw object.
+// Usage:
+// type T struct {
+//    scmHead int
+//    ... // xxx
+// }
+// tmp := &T{}
+// raw := MakeRaw(&tmp.scmHead)
+func MakeRaw(scmHead *int) Obj {
+	*scmHead = scmHeadRaw
+	return Obj(unsafe.Pointer(scmHead))
 }
 
-func (raw *ScmRaw) Object() Obj {
-	return &raw.scmHead
-}
-
-func Make_error(err string) Obj {
-	tmp := ScmError{Error, err}
+func MakeError(err string) Obj {
+	tmp := scmError{scmHeadError, err}
 	return &tmp.scmHead
 }
 
-func mustError(o Obj) *ScmError {
-	if *o != Error {
+func mustError(o Obj) *scmError {
+	if *o != scmHeadError {
 		panic("mustError")
 	}
-	return (*ScmError)(unsafe.Pointer(o))
+	return (*scmError)(unsafe.Pointer(o))
 }
 
 func IsError(o Obj) bool {
-	return *o == Error
+	return *o == scmHeadError
 }
 
-func isPrimitive(o Obj) (bool, *ScmPrimitive) {
-	if *o != Primitive {
+func IsNumber(o Obj) bool {
+	return *o == scmHeadNumber
+}
+
+func isPrimitive(o Obj) (bool, *scmPrimitive) {
+	if *o != scmHeadPrimitive {
 		return false, nil
 	}
-	return true, (*ScmPrimitive)(unsafe.Pointer(o))
+	return true, (*scmPrimitive)(unsafe.Pointer(o))
 }
 
-func mustPrimitive(o Obj) *ScmPrimitive {
-	if *o != Primitive {
+func mustPrimitive(o Obj) *scmPrimitive {
+	if *o != scmHeadPrimitive {
 		panic("mustPrimitive")
 	}
-	return (*ScmPrimitive)(unsafe.Pointer(o))
+	return (*scmPrimitive)(unsafe.Pointer(o))
 }
 
 func mustVector(o Obj) []Obj {
-	if (*o) != Vector {
+	if (*o) != scmHeadVector {
 		panic("mustVector")
 	}
-	tmp := (*ScmVector)(unsafe.Pointer(o))
+	tmp := (*scmVector)(unsafe.Pointer(o))
 	return tmp.vector
 }
 
-func mustProcedure(o Obj) *ScmProcedure {
-	if (*o) != Procedure {
+func mustProcedure(o Obj) *scmProcedure {
+	if (*o) != scmHeadProcedure {
 		panic("mustProcedure")
 	}
-	return (*ScmProcedure)(unsafe.Pointer(o))
+	return (*scmProcedure)(unsafe.Pointer(o))
 }
 
 func mustString(o Obj) string {
-	if (*o) != String {
+	if (*o) != scmHeadString {
 		panic("mustString")
 	}
-	return (*ScmString)(unsafe.Pointer(o)).str
+	return (*scmString)(unsafe.Pointer(o)).str
 }
 
 func mustInteger(o Obj) int {
-	if (*o) != Number {
+	if (*o) != scmHeadNumber {
 		panic("mustNumber")
 	}
-	f := (*ScmNumber)(unsafe.Pointer(o)).val
+	f := (*scmNumber)(unsafe.Pointer(o)).val
 	return int(f)
 }
 
-func mustNumber(o Obj) *ScmNumber {
-	if (*o) != Number {
+func mustNumber(o Obj) *scmNumber {
+	if (*o) != scmHeadNumber {
 		panic("mustNumber")
 	}
-	return (*ScmNumber)(unsafe.Pointer(o))
+	return (*scmNumber)(unsafe.Pointer(o))
 }
 
-func mustSymbol(o Obj) *ScmSymbol {
-	if (*o) != Symbol {
+func mustSymbol(o Obj) *scmSymbol {
+	if (*o) != scmHeadSymbol {
 		panic("mustSymbol")
 	}
-	return (*ScmSymbol)(unsafe.Pointer(o))
+	return (*scmSymbol)(unsafe.Pointer(o))
 }
 
-func isSymbol(o Obj) (bool, *ScmSymbol) {
-	if *o == Symbol {
-		return true, (*ScmSymbol)(unsafe.Pointer(o))
+func isSymbol(o Obj) (bool, *scmSymbol) {
+	if *o == scmHeadSymbol {
+		return true, (*scmSymbol)(unsafe.Pointer(o))
 	}
 	return false, nil
 }
 
-func mustStream(o Obj) *ScmStream {
-	if (*o) != Stream {
+func mustStream(o Obj) *scmStream {
+	if (*o) != scmHeadStream {
 		panic("mustStream")
 	}
-	return (*ScmStream)(unsafe.Pointer(o))
+	return (*scmStream)(unsafe.Pointer(o))
 }
 
-func mustPair(o Obj) *ScmPair {
-	if (*o) != Pair {
+func mustPair(o Obj) *scmPair {
+	if (*o) != scmHeadPair {
 		panic("mustPair")
 	}
-	return (*ScmPair)(unsafe.Pointer(o))
+	return (*scmPair)(unsafe.Pointer(o))
 }
 
-func isPair(o Obj) (bool, *ScmPair) {
-	if (*o) == Pair {
-		return true, (*ScmPair)(unsafe.Pointer(o))
+func isPair(o Obj) (bool, *scmPair) {
+	if (*o) == scmHeadPair {
+		return true, (*scmPair)(unsafe.Pointer(o))
 	}
 	return false, nil
 }
@@ -205,48 +205,41 @@ func isPair(o Obj) (bool, *ScmPair) {
 var True, False, Nil Obj
 
 func init() {
-	tmp1 := ScmBoolean{Boolean, false}
+	tmp1 := &scmBoolean{scmHeadBoolean, false}
 	False = Obj(&tmp1.scmHead)
 
-	tmp2 := &ScmBoolean{Boolean, true}
+	tmp2 := &scmBoolean{scmHeadBoolean, true}
 	True = Obj(&tmp2.scmHead)
 
-	tmp3 := &ScmPair{Null, nil, nil}
+	tmp3 := &scmPair{scmHeadNull, nil, nil}
 	Nil = Obj(&tmp3.scmHead)
 }
 
-func Make_integer(v int) Obj {
-	tmp := ScmNumber{Number, float64(v)}
+func MakeInteger(v int) Obj {
+	tmp := scmNumber{scmHeadNumber, float64(v)}
 	return &tmp.scmHead
 }
 
-func Make_number(f float64) Obj {
-	tmp := ScmNumber{Number, f}
+func MakeNumber(f float64) Obj {
+	tmp := scmNumber{scmHeadNumber, f}
 	return &tmp.scmHead
 }
 
-func Make_boolean(x bool) Obj {
-	if x {
-		return True
-	}
-	return False
-}
-
-func Make_stream(raw interface{}) Obj {
-	tmp := ScmStream{
-		Stream,
+func MakeStream(raw interface{}) Obj {
+	tmp := scmStream{
+		scmHeadStream,
 		raw,
 	}
 	return &tmp.scmHead
 }
 
-func SymbolString(o Obj) string {
+func GetSymbol(o Obj) string {
 	return mustSymbol(o).sym
 }
 
 func cons(x, y Obj) Obj {
-	tmp := ScmPair{
-		scmHead: Pair,
+	tmp := scmPair{
+		scmHead: scmHeadPair,
 		car:     x,
 		cdr:     y,
 	}
@@ -261,34 +254,34 @@ func cdr(x Obj) Obj {
 	return mustPair(x).cdr
 }
 
-func Make_vector(n int) Obj {
-	tmp := ScmVector{
-		Vector,
+func MakeVector(n int) Obj {
+	tmp := scmVector{
+		scmHeadVector,
 		make([]Obj, n),
 	}
 	return &tmp.scmHead
 }
 
-func Make_string(s string) Obj {
-	tmp := ScmString{String, s}
+func MakeString(s string) Obj {
+	tmp := scmString{scmHeadString, s}
 	return &tmp.scmHead
 }
 
-func Make_symbol(s string) Obj {
-	tmp := ScmSymbol{
-		Symbol,
+func MakeSymbol(s string) Obj {
+	tmp := scmSymbol{
+		scmHeadSymbol,
 		s,
 	}
 	return &tmp.scmHead
 }
 
-func Make_procedure(arg Obj, body Obj, env *Environment) Obj {
-	tmp := ScmProcedure{
-		scmHead: Procedure,
+func makeProcedure(arg Obj, body Obj, env *Environment) Obj {
+	tmp := scmProcedure{
+		scmHead: scmHeadProcedure,
 		body:    body,
 		env:     env,
 	}
-	if *arg == Symbol {
+	if *arg == scmHeadSymbol {
 		tmp.arg = []Obj{arg}
 		tmp.arity = 1
 	} else {
@@ -304,27 +297,24 @@ func ObjString(o Obj) string {
 
 func (o *scmHead) GoString() string {
 	switch *o {
-	case Number:
+	case scmHeadNumber:
 		return fmt.Sprintf("Number(%f)", mustNumber(o).val)
-	case Pair:
-		if o == Nil {
-			return "Nil"
-		}
+	case scmHeadPair:
 		var buf bytes.Buffer
 		fmt.Fprintf(&buf, "Pair(")
 		fmt.Fprintf(&buf, "%#v", (*scmHead)(car(o)))
 		fmt.Fprintf(&buf, "%#v", (*scmHead)(cdr(o)))
 		fmt.Fprintf(&buf, ")")
 		return buf.String()
-	case Vector:
+	case scmHeadVector:
 		return fmt.Sprintf("Vector")
-	case Null:
+	case scmHeadNull:
 		return fmt.Sprintf("Null")
-	case String:
+	case scmHeadString:
 		return fmt.Sprintf("String(%s)", mustString(o))
-	case Symbol:
+	case scmHeadSymbol:
 		return fmt.Sprintf("Symbol(%s)", mustSymbol(o).sym)
-	case Boolean:
+	case scmHeadBoolean:
 		if o == True {
 			return fmt.Sprintf("Boolean(True)")
 		} else if o == False {
@@ -332,15 +322,17 @@ func (o *scmHead) GoString() string {
 		} else {
 			return fmt.Sprintf("Boolean(something wrong)")
 		}
-	case Error:
+	case scmHeadError:
 		return fmt.Sprintf("Error(%s)", mustError(o).err)
-	case Procedure:
+	case scmHeadProcedure:
 		return fmt.Sprintf("Procedure")
-	case Stream:
+	case scmHeadStream:
 		return fmt.Sprintf("Stream")
-	case Primitive:
+	case scmHeadPrimitive:
 		prim := mustPrimitive(o)
 		return fmt.Sprintf("Primitive(%s)", prim.Name)
+	case scmHeadRaw:
+		return "Raw Object"
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }

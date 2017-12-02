@@ -41,27 +41,27 @@ func equal(x, y Obj) Obj {
 	}
 
 	switch *x {
-	case Number:
+	case scmHeadNumber:
 		if mustNumber(x).val != mustNumber(y).val {
 			return False
 		}
-	case String:
+	case scmHeadString:
 		if mustString(x) != mustString(y) {
 			return False
 		}
-	case Boolean:
+	case scmHeadBoolean:
 		if x != y {
 			return False
 		}
-	case Symbol:
+	case scmHeadSymbol:
 		if mustSymbol(x).sym != mustSymbol(y).sym {
 			return False
 		}
-	case Null:
-		if *y != Null {
+	case scmHeadNull:
+		if *y != scmHeadNull {
 			return False
 		}
-	case Pair:
+	case scmHeadPair:
 		// TODO: maybe cycle exists!
 		if x != y {
 			if equal(car(x), car(y)) == False {
@@ -71,7 +71,7 @@ func equal(x, y Obj) Obj {
 				return False
 			}
 		}
-	case Stream, Procedure, Primitive:
+	case scmHeadStream, scmHeadProcedure, scmHeadPrimitive:
 		if x != y {
 			return False
 		}
@@ -82,7 +82,7 @@ func equal(x, y Obj) Obj {
 
 func listLength(l Obj) int {
 	count := 0
-	for *l == Pair {
+	for *l == scmHeadPair {
 		count++
 		l = cdr(l)
 	}
@@ -91,15 +91,11 @@ func listLength(l Obj) int {
 
 func ListToSlice(l Obj) []Obj {
 	var ret []Obj
-	for *l == Pair {
+	for *l == scmHeadPair {
 		ret = append(ret, car(l))
 		l = cdr(l)
 	}
 	return ret
-}
-
-func GetNumber(o Obj) float64 {
-	return mustNumber(o).val
 }
 
 func GetInteger(o Obj) int {

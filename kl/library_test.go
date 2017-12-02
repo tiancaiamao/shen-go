@@ -10,7 +10,7 @@ func TestReverse(t *testing.T) {
 		t.FailNow()
 	}
 
-	l := cons(Make_integer(1), cons(Make_integer(2), cons(Make_integer(3), Nil)))
+	l := cons(MakeInteger(1), cons(MakeInteger(2), cons(MakeInteger(3), Nil)))
 	r := reverse(l)
 	if mustInteger(car(r)) != 3 {
 		t.FailNow()
@@ -26,9 +26,9 @@ func TestReverse(t *testing.T) {
 	}
 
 	// (1 (1 2 3))
-	l1 := cons(Make_integer(1), cons(l, Nil))
+	l1 := cons(MakeInteger(1), cons(l, Nil))
 	// ((1 2 3) 1)
-	l2 := cons(l, cons(Make_integer(1), Nil))
+	l2 := cons(l, cons(MakeInteger(1), Nil))
 
 	if equal(reverse(l1), l2) != True {
 		t.Error("fuck1")
@@ -47,10 +47,10 @@ func TestEqual(t *testing.T) {
 		{True, True, True},
 		{True, False, False},
 		{False, True, False},
-		{True, Make_number(10), False},
+		{True, MakeNumber(10), False},
 		{Nil, Nil, True},
 		{Nil, False, False},
-		{Make_string("asd"), Make_string("abc"), False},
+		{MakeString("asd"), MakeString("abc"), False},
 	}
 
 	for _, test := range tests {
@@ -62,7 +62,7 @@ func TestEqual(t *testing.T) {
 
 func TestPrimitive(t *testing.T) {
 	fmt.Println("(init-primitive-table [")
-	for i, prim := range Primitives {
+	for i, prim := range allPrimitives {
 		fmt.Println(prim.Name, prim.Required, `"xxx"`, i)
 	}
 	fmt.Println("])")
