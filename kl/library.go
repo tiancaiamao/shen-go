@@ -1,44 +1,13 @@
 package kl
 
 import (
-	"fmt"
-	"io"
 	"os"
 	"path"
-	"runtime"
-	"time"
 )
 
-var (
-	initTime      time.Time
-	symbolTable   map[string]Obj
-	functionTable map[string]Obj
-	PackagePath   string
-)
-
-func init() {
-	initTime = time.Now()
-	symbolTable = make(map[string]Obj)
-	functionTable = make(map[string]Obj, len(Primitives))
-	for _, prim := range Primitives {
-		functionTable[prim.Name] = Obj(&prim.scmHead)
-	}
-
-	dir, _ := os.Getwd()
-	symbolTable["*stinput*"] = Make_stream(os.Stdin)
-	symbolTable["*stoutput*"] = Make_stream(os.Stdout)
-	symbolTable["*home-directory*"] = Make_string(dir)
-	symbolTable["*language*"] = Make_string("Go")
-	symbolTable["*implementation*"] = Make_string("interpreter")
-	symbolTable["*relase*"] = Make_string(runtime.Version())
-	symbolTable["*os*"] = Make_string(runtime.GOOS)
-	symbolTable["*porters*"] = Make_string("Arthur Mao")
-	symbolTable["*port*"] = Make_string("0.0.1")
-
-	// Extended by shen-go implementation
+func PackagePath() string {
 	gopath := os.Getenv("GOPATH")
-	PackagePath = path.Join(gopath, "src/github.com/tiancaiamao/shen-go")
-	symbolTable["*package-path*"] = Make_string(PackagePath)
+	return path.Join(gopath, "src/github.com/tiancaiamao/shen-go")
 }
 
 func cadr(o Obj) Obj {
@@ -127,34 +96,6 @@ func ListToSlice(l Obj) []Obj {
 		l = cdr(l)
 	}
 	return ret
-}
-
-func LoadFile(path string) Obj {
-	f, err := os.Open(path)
-	if err != nil {
-		return Make_error(err.Error())
-	}
-	defer f.Close()
-
-	r := NewSexpReader(f)
-	for {
-		exp, err := r.Read()
-		if err != nil {
-			if err != io.EOF {
-				return Make_error(err.Error())
-			}
-			break
-		}
-
-		// fmt.Printf("BEGIN: %#v\n", (*scmHead)(exp))
-		res := trampoline(exp, nil)
-		if *res == Error {
-			return res
-		}
-		fmt.Printf("%#v\n", (*scmHead)(res))
-		// fmt.Printf("END: %#v\n", (*scmHead)(res))
-	}
-	return Nil
 }
 
 func GetNumber(o Obj) float64 {

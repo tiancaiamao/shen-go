@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
@@ -24,9 +25,11 @@ func main() {
 	if pprof {
 		go http.ListenAndServe(":8080", nil)
 	}
+
+	e := kl.NewEvaluator()
 	if script != "" {
-		kl.LoadFile(script)
-		kl.Eval(kl.Cons(kl.Make_symbol("shen.shen"), kl.Nil))
+		e.LoadFile(script)
+		e.Eval(kl.Cons(kl.Make_symbol("shen.shen"), kl.Nil))
 		return
 	}
 
@@ -35,11 +38,13 @@ func main() {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()
 		if err != nil {
-			fmt.Println("read error:", err)
+			if err != io.EOF {
+				fmt.Println("read error:", err)
+			}
 			break
 		}
 
-		res := kl.Eval(sexp)
+		res := e.Eval(sexp)
 		fmt.Println(kl.ObjString(res))
 	}
 }

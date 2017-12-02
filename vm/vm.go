@@ -329,12 +329,14 @@ func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug)
 }
 
+var evaluator = kl.NewEvaluator()
+
 func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 	fmt.Fprintln(StdDebug, "kl->bytecode:", kl.ObjString(klambda))
 	quote := kl.Cons(kl.Make_symbol("quote"), kl.Cons(klambda, kl.Nil))
 	f := kl.Cons(kl.Make_symbol("kl->bytecode"), kl.Cons(quote, kl.Nil))
 	// Get the bytecode in sexp representation.
-	return kl.Eval(f)
+	return evaluator.Eval(f)
 }
 
 func klToByteCode(klambda kl.Obj) (*Code, error) {
@@ -386,8 +388,8 @@ func BootstrapCompiler() {
 }
 
 func mustLoadKLFile(file string) {
-	filePath := path.Join(kl.PackagePath, file)
-	o := kl.LoadFile(filePath)
+	filePath := path.Join(kl.PackagePath(), file)
+	o := evaluator.LoadFile(filePath)
 	if kl.IsError(o) {
 		panic(kl.ObjString(o))
 	}

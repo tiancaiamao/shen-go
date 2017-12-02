@@ -2,7 +2,10 @@ package kl
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"runtime"
+	"time"
 )
 
 type Environment struct {
@@ -36,7 +39,91 @@ func (env *Environment) Extend(symbols, values []Obj) *Environment {
 	}
 }
 
-func Eval(exp Obj) (res Obj) {
+type Evaluator struct {
+	upTime        time.Time
+	symbolTable   map[string]Obj
+	functionTable map[string]Obj
+}
+
+func NewEvaluator() *Evaluator {
+	var e Evaluator
+	e.upTime = time.Now()
+	e.symbolTable = make(map[string]Obj)
+
+	e.functionTable = make(map[string]Obj, len(Primitives))
+	for _, prim := range Primitives {
+		e.functionTable[prim.Name] = Obj(&prim.scmHead)
+	}
+	// Overload for primitive set and value.
+	tmp := &ScmPrimitive{scmHead: Primitive, Name: "set", Required: 2, Function: e.primSet}
+	e.functionTable["set"] = Obj(&tmp.scmHead)
+	tmp = &ScmPrimitive{scmHead: Primitive, Name: "value", Required: 1, Function: e.primValue}
+	e.functionTable["value"] = Obj(&tmp.scmHead)
+	tmp = &ScmPrimitive{scmHead: Primitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
+	e.functionTable["eval-kl"] = Obj(&tmp.scmHead)
+	tmp = &ScmPrimitive{scmHead: Primitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
+	e.functionTable["load-file"] = Obj(&tmp.scmHead)
+
+	e.symbolTable["*stinput*"] = Make_stream(os.Stdin)
+	e.symbolTable["*stoutput*"] = Make_stream(os.Stdout)
+	dir, _ := os.Getwd()
+	e.symbolTable["*home-directory*"] = Make_string(dir)
+	e.symbolTable["*language*"] = Make_string("Go")
+	e.symbolTable["*implementation*"] = Make_string("interpreter")
+	e.symbolTable["*relase*"] = Make_string(runtime.Version())
+	e.symbolTable["*os*"] = Make_string(runtime.GOOS)
+	e.symbolTable["*porters*"] = Make_string("Arthur Mao")
+	e.symbolTable["*port*"] = Make_string("0.0.1")
+
+	// Extended by shen-go implementation
+	e.symbolTable["*package-path*"] = Make_string(PackagePath())
+	return &e
+}
+
+func (e *Evaluator) primSet(args ...Obj) Obj {
+	return PrimSet(e.symbolTable, args[0], args[1])
+}
+
+func (e *Evaluator) primValue(args ...Obj) Obj {
+	return PrimValue(e.symbolTable, args[0])
+}
+
+func (e *Evaluator) primEvalKL(args ...Obj) Obj {
+	return e.trampoline(args[0], nil)
+}
+
+func (e *Evaluator) primLoadFile(args ...Obj) Obj {
+	path := mustString(args[0])
+	return e.LoadFile(path)
+}
+
+func (e *Evaluator) LoadFile(path string) Obj {
+	f, err := os.Open(path)
+	if err != nil {
+		return Make_error(err.Error())
+	}
+	defer f.Close()
+
+	r := NewSexpReader(f)
+	for {
+		exp, err := r.Read()
+		if err != nil {
+			if err != io.EOF {
+				return Make_error(err.Error())
+			}
+			break
+		}
+
+		res := e.trampoline(exp, nil)
+		if *res == Error {
+			return res
+		}
+		fmt.Printf("%#v\n", (*scmHead)(res))
+	}
+	return Nil
+}
+
+func (e *Evaluator) Eval(exp Obj) (res Obj) {
 	defer func() {
 		if r := recover(); r != nil {
 			var buf [4096]byte
@@ -46,7 +133,7 @@ func Eval(exp Obj) (res Obj) {
 			res = Nil
 		}
 	}()
-	res = trampoline(exp, nil)
+	res = e.trampoline(exp, nil)
 	return
 }
 
@@ -72,7 +159,7 @@ type controlFlow struct {
 }
 
 // trampoline is introduced for tail call optimization.
-func trampoline(exp Obj, env *Environment) Obj {
+func (e *Evaluator) trampoline(exp Obj, env *Environment) Obj {
 	var ctl = controlFlow{
 		kind: controlFlowEval,
 		exp:  exp,
@@ -81,9 +168,9 @@ func trampoline(exp Obj, env *Environment) Obj {
 	for ctl.kind != controlFlowReturn {
 		switch ctl.kind {
 		case controlFlowEval:
-			eval(&ctl)
+			e.eval(&ctl)
 		case controlFlowApply:
-			apply(&ctl)
+			e.apply(&ctl)
 		}
 	}
 	return ctl.result
@@ -113,7 +200,7 @@ func (ctl *controlFlow) Exception(err Obj) {
 	ctl.kind = controlFlowReturn
 }
 
-func eval(ctl *controlFlow) {
+func (e *Evaluator) eval(ctl *controlFlow) {
 	exp := ctl.exp
 	env := ctl.env
 
@@ -135,15 +222,15 @@ func eval(ctl *controlFlow) {
 	if ok, sym := isSymbol(pair.car); ok {
 		exp = pair.cdr // handle special form
 		switch sym.sym {
-		// Extension to make vm work.
-		// TODO: remove it later
 		case "quote":
+			// Extension to make vm work.
+			// TODO: remove it later
 			ctl.Return(car(exp))
 			return
 		case "defun": // (defun f (x y) z)
 			proc := Make_procedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
-			functionTable[mustSymbol(funName).sym] = proc
+			e.functionTable[mustSymbol(funName).sym] = proc
 			ctl.Return(funName)
 			return
 		case "lambda": // (lambda x x)
@@ -153,7 +240,7 @@ func eval(ctl *controlFlow) {
 			ctl.Return(Make_procedure(Nil, car(exp), env))
 			return
 		case "let": // (let x y z)
-			args := trampoline(cadr(exp), env)
+			args := e.trampoline(cadr(exp), env)
 			if *args == Error {
 				ctl.Exception(args)
 				return
@@ -162,24 +249,24 @@ func eval(ctl *controlFlow) {
 			ctl.TailEval(caddr(exp), newEnv)
 			return
 		case "and":
-			evalAnd(car(exp), cadr(exp), env, ctl)
+			e.evalAnd(car(exp), cadr(exp), env, ctl)
 			return
 		case "or":
-			evalOr(car(exp), cadr(exp), env, ctl)
+			e.evalOr(car(exp), cadr(exp), env, ctl)
 			return
 		case "if": // (if a b c)
 			if listLength(pair.cdr) == 3 {
-				evalIf(car(exp), cadr(exp), caddr(exp), env, ctl)
+				e.evalIf(car(exp), cadr(exp), caddr(exp), env, ctl)
 				return
 			} // if may also be a function for partial apply
 		case "cond": // (cond (false 1) (true 2))
-			evalCond(exp, env, ctl)
+			e.evalCond(exp, env, ctl)
 			return
 		case "trap-error": // (trap-error ~body ~handler)
-			evalTrapError(exp, env, ctl)
+			e.evalTrapError(exp, env, ctl)
 			return
 		case "do": // (do A A)
-			if tmp := trampoline(car(exp), env); *tmp == Error {
+			if tmp := e.trampoline(car(exp), env); *tmp == Error {
 				ctl.Exception(tmp)
 				return
 			}
@@ -188,12 +275,12 @@ func eval(ctl *controlFlow) {
 		}
 	}
 
-	fn := evalFunction(pair.car, env)
+	fn := e.evalFunction(pair.car, env)
 	if *fn == Error {
 		ctl.Exception(fn)
 		return
 	}
-	args := evalArgumentList(pair.cdr, env)
+	args := e.evalArgumentList(pair.cdr, env)
 	if !ctl.inException && len(args) == 1 && *args[0] == Error {
 		ctl.Exception(args[0])
 		return
@@ -202,12 +289,12 @@ func eval(ctl *controlFlow) {
 	return
 }
 
-func evalFunction(fn Obj, env *Environment) Obj {
+func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
 	if ok, sym := isSymbol(fn); ok {
 		if proc, ok := env.Get(sym.sym); ok {
 			return proc
 		}
-		if val, ok := functionTable[sym.sym]; ok {
+		if val, ok := e.functionTable[sym.sym]; ok {
 			return val
 		}
 	}
@@ -216,14 +303,13 @@ func evalFunction(fn Obj, env *Environment) Obj {
 	case Primitive, Procedure:
 		return fn
 	case Pair:
-		return trampoline(fn, env)
+		return e.trampoline(fn, env)
 	}
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
-	// return Make_error(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }
 
-func evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
-	t := trampoline(a, env)
+func (e *Evaluator) evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
+	t := e.trampoline(a, env)
 	switch t {
 	case True:
 		ctl.TailEval(b, env)
@@ -235,26 +321,26 @@ func evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
 	panic("second argument of if should be boolean")
 }
 
-func evalAnd(a, b Obj, env *Environment, ctl *controlFlow) {
-	if trampoline(a, env) == False {
+func (e *Evaluator) evalAnd(a, b Obj, env *Environment, ctl *controlFlow) {
+	if e.trampoline(a, env) == False {
 		ctl.Return(False)
 		return
 	}
 	ctl.TailEval(b, env)
 }
 
-func evalOr(a, b Obj, env *Environment, ctl *controlFlow) {
-	if trampoline(a, env) == True {
+func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *controlFlow) {
+	if e.trampoline(a, env) == True {
 		ctl.Return(True)
 		return
 	}
 	ctl.TailEval(b, env)
 }
 
-func evalCond(l Obj, env *Environment, ctl *controlFlow) {
+func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *controlFlow) {
 	for *l == Pair {
 		curr := car(l)
-		if trampoline(car(curr), env) == True {
+		if e.trampoline(car(curr), env) == True {
 			ctl.TailEval(cadr(curr), env)
 			return
 		}
@@ -264,19 +350,19 @@ func evalCond(l Obj, env *Environment, ctl *controlFlow) {
 	return
 }
 
-func evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
-	e := trampoline(car(exp), env)
-	if *e == Error {
+func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
+	v := e.trampoline(car(exp), env)
+	if *v == Error {
 		ctl.inException = true
-		handler := evalFunction(cadr(exp), env)
-		ctl.TailApply(handler, []Obj{e})
+		handler := e.evalFunction(cadr(exp), env)
+		ctl.TailApply(handler, []Obj{v})
 		return
 	}
-	ctl.Return(e)
+	ctl.Return(v)
 	return
 }
 
-func apply(ctl *controlFlow) {
+func (e *Evaluator) apply(ctl *controlFlow) {
 	f := ctl.f
 	args := ctl.args
 
@@ -302,7 +388,7 @@ func apply(ctl *controlFlow) {
 			return
 		case len(args) > proc.arity:
 			newEnv := proc.env.Extend(proc.arg, args[:proc.arity])
-			res := trampoline(proc.body, newEnv)
+			res := e.trampoline(proc.body, newEnv)
 			ctl.TailApply(res, args[proc.arity:])
 			return
 		}
@@ -332,10 +418,10 @@ func partialApply(required int, providArgs []Obj, env *Environment, proc Obj) Ob
 	return Make_procedure(args, body, env1)
 }
 
-func evalArgumentList(args Obj, env *Environment) []Obj {
+func (e *Evaluator) evalArgumentList(args Obj, env *Environment) []Obj {
 	var ret []Obj
 	for *args == Pair {
-		v := trampoline(car(args), env)
+		v := e.trampoline(car(args), env)
 		if *v == Error {
 			return []Obj{v}
 		}

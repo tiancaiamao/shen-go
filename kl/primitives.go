@@ -8,10 +8,10 @@ import (
 )
 
 var Primitives []*ScmPrimitive = []*ScmPrimitive{
-	&ScmPrimitive{scmHead: Primitive, Name: "load-file", Required: 1, Function: primLoadFile},
+	&ScmPrimitive{scmHead: Primitive, Name: "load-file", Required: 1},
 	&ScmPrimitive{scmHead: Primitive, Name: "type", Required: 2, Function: typeFunc},
 	&ScmPrimitive{scmHead: Primitive, Name: "get-time", Required: 1, Function: getTime},
-	&ScmPrimitive{scmHead: Primitive, Name: "eval-kl", Required: 1, Function: primEvalKL},
+	&ScmPrimitive{scmHead: Primitive, Name: "eval-kl", Required: 1},
 	&ScmPrimitive{scmHead: Primitive, Name: "close", Required: 1, Function: closeStream},
 	&ScmPrimitive{scmHead: Primitive, Name: "open", Required: 2, Function: openStream},
 	&ScmPrimitive{scmHead: Primitive, Name: "read-byte", Required: 1, Function: primReadByte},
@@ -44,8 +44,8 @@ var Primitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: Primitive, Name: "tl", Required: 1, Function: primTail},
 	&ScmPrimitive{scmHead: Primitive, Name: "cons", Required: 2, Function: primCons},
 	&ScmPrimitive{scmHead: Primitive, Name: "cons?", Required: 1, Function: primIsPair},
-	&ScmPrimitive{scmHead: Primitive, Name: "value", Required: 1, Function: variableGet},
-	&ScmPrimitive{scmHead: Primitive, Name: "set", Required: 2, Function: variableSet},
+	&ScmPrimitive{scmHead: Primitive, Name: "value", Required: 1},
+	&ScmPrimitive{scmHead: Primitive, Name: "set", Required: 2},
 	&ScmPrimitive{scmHead: Primitive, Name: "not", Required: 1, Function: primNot},
 	&ScmPrimitive{scmHead: Primitive, Name: "if", Required: 3, Function: primIf},
 }
@@ -194,14 +194,6 @@ func PrimValue(symbolTable map[string]Obj, key Obj) Obj {
 	return Make_error(fmt.Sprintf("variable %s not bound", sym.sym))
 }
 
-func variableSet(args ...Obj) Obj {
-	return PrimSet(symbolTable, args[0], args[1])
-}
-
-func variableGet(args ...Obj) Obj {
-	return PrimValue(symbolTable, args[0])
-}
-
 func simpleError(args ...Obj) Obj {
 	str := mustString(args[0])
 	return Make_error(str)
@@ -337,10 +329,6 @@ func closeStream(args ...Obj) Obj {
 	return Nil
 }
 
-func primEvalKL(args ...Obj) Obj {
-	return trampoline(args[0], nil)
-}
-
 func getTime(args ...Obj) Obj {
 	kind := mustSymbol(args[0]).sym
 	switch kind {
@@ -355,11 +343,6 @@ func getTime(args ...Obj) Obj {
 func typeFunc(args ...Obj) Obj {
 	// TODO: seems meanless
 	return args[0]
-}
-
-func primLoadFile(args ...Obj) Obj {
-	path := mustString(args[0])
-	return LoadFile(path)
 }
 
 func primIsString(args ...Obj) Obj {
