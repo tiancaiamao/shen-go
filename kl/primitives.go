@@ -17,8 +17,8 @@ var allPrimitives []*scmPrimitive = []*scmPrimitive{
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-byte", Required: 1, Function: primReadByte},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "write-byte", Required: 2, Function: writeByte},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "absvector?", Required: 1, Function: isVector},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "<-address", Required: 2, Function: vectorGet},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "address->", Required: 3, Function: vectorSet},
+	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "<-address", Required: 2, Function: primVectorGet},
+	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "address->", Required: 3, Function: primVectorSet},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "absvector", Required: 1, Function: primAbsvector},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "str", Required: 1, Function: primStr},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "<=", Required: 2, Function: lessEqual},
@@ -260,7 +260,7 @@ func primAbsvector(args ...Obj) Obj {
 	return MakeVector(n)
 }
 
-func vectorSet(args ...Obj) Obj {
+func primVectorSet(args ...Obj) Obj {
 	vec := mustVector(args[0])
 	off := mustInteger(args[1])
 	val := args[2]
@@ -268,9 +268,12 @@ func vectorSet(args ...Obj) Obj {
 	return args[0]
 }
 
-func vectorGet(args ...Obj) Obj {
+func primVectorGet(args ...Obj) Obj {
 	vec := mustVector(args[0])
 	off := mustInteger(args[1])
+	if off >= len(vec) {
+		return MakeError(fmt.Sprintf("index %d out of range %d", off, len(vec)))
+	}
 	return vec[off]
 }
 

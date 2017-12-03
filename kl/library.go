@@ -76,6 +76,19 @@ func equal(x, y Obj) Obj {
 		if x != y {
 			return False
 		}
+	case scmHeadVector:
+		v1 := mustVector(x)
+		v2 := mustVector(y)
+		if len(v1) != len(v2) {
+			return False
+		}
+		for i := 0; i < len(v1); i++ {
+			if v1[i] != nil || v2[i] != nil {
+				if equal(v1[i], v2[i]) != True {
+					return False
+				}
+			}
+		}
 	}
 
 	return True

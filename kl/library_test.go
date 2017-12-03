@@ -51,12 +51,26 @@ func TestEqual(t *testing.T) {
 		{Nil, Nil, True},
 		{Nil, False, False},
 		{MakeString("asd"), MakeString("abc"), False},
+		{MakeVector(1), MakeVector(2), False},
+		{MakeVector(0), MakeVector(0), True},
 	}
 
 	for _, test := range tests {
 		if equal(test.x, test.y) != test.expect {
 			t.Error(test.x, test.y)
 		}
+	}
+}
+
+func TestVectorGet(t *testing.T) {
+	vec := MakeVector(1)
+	primVectorSet(vec, MakeInteger(0), MakeNumber(42))
+	err := primVectorGet(vec, MakeInteger(1))
+	if *err != scmHeadError {
+		t.Error("should be error out of range")
+	}
+	if equal(primVectorGet(vec, MakeInteger(0)), MakeNumber(42)) != True {
+		t.Error("vector set or get wrong")
 	}
 }
 

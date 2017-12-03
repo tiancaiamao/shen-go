@@ -12,7 +12,7 @@ Shen is a portable functional programming language by [Mark Tarver](http://markt
 
 shen-go is a port of the Shen language that runs on top of Go implementations.
 
-There is a klambda interpreter that is basically done, but it's quite slow. Right now I'm working on a bytecode compiler.
+There is a klambda interpreter that is available, but it's quite slow. Right now I'm working on a bytecode compiler.
 
 ## Building
 
@@ -27,6 +27,8 @@ go get github.com/tiancaiamao/shen-go/cmd/kl
 ```
 $GOPATH/bin/kl -shen
 ```
+
+## Test
 
 ## Learn Shen
 * [Official website of Shen](http://shenlanguage.org/)
