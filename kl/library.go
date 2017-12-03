@@ -1,6 +1,7 @@
 package kl
 
 import (
+	"math"
 	"os"
 	"path"
 )
@@ -116,4 +117,20 @@ func Cdr(o Obj) Obj {
 
 func Cons(x, y Obj) Obj {
 	return cons(x, y)
+}
+
+// isInteger determinate whether a float64 is actually a precise integer.
+// Judge is according to IEEE754 standard.
+func isPreciseInteger(f float64) bool {
+	exp := math.Ilogb(f)
+	if exp < 0 && exp != math.MinInt32 {
+		return false
+	}
+
+	if exp >= 52 {
+		return true
+	}
+
+	bits := math.Float64bits(f)
+	return (bits << uint(12+exp)) == 0
 }

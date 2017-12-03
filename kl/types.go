@@ -312,7 +312,11 @@ func ObjString(o Obj) string {
 func (o *scmHead) GoString() string {
 	switch *o {
 	case scmHeadNumber:
-		return fmt.Sprintf("Number(%f)", mustNumber(o).val)
+		f := mustNumber(o)
+		if !isPreciseInteger(f.val) {
+			return fmt.Sprintf("%f", f.val)
+		}
+		return fmt.Sprintf("%d", int(f.val))
 	case scmHeadPair:
 		var buf bytes.Buffer
 		fmt.Fprintf(&buf, "Pair(")

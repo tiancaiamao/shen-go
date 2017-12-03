@@ -67,3 +67,25 @@ func TestPrimitive(t *testing.T) {
 	}
 	fmt.Println("])")
 }
+
+func TestIsPreciseInteger(t *testing.T) {
+	testPreciseInteger(t, 0.0, true)
+	testPreciseInteger(t, 1.0, true)
+	testPreciseInteger(t, 3, true)
+	testPreciseInteger(t, 7.0, true)
+	testPreciseInteger(t, -1.0, true)
+	testPreciseInteger(t, 2251799813685248.0, true)
+
+	testPreciseInteger(t, 2.14, false)
+	testPreciseInteger(t, 0.14, false)
+	testPreciseInteger(t, -0.14, false)
+	testPreciseInteger(t, 1.1, false)
+	testPreciseInteger(t, 1024.5, false)
+	testPreciseInteger(t, 2251799813685248.5, false)
+}
+
+func testPreciseInteger(t *testing.T, f float64, expect bool) {
+	if isPreciseInteger(f) != expect {
+		t.Error("testPreciseInteger wrong:", f, expect)
+	}
+}

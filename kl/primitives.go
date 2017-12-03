@@ -117,19 +117,27 @@ func primNumberToString(args ...Obj) Obj {
 
 func primStr(args ...Obj) Obj {
 	switch *args[0] {
-	// TODO: Pair
+	case scmHeadPair:
+		// Pair may contain recursive list.
+		return MakeError("can't str pair object")
+	case scmHeadNull:
+		return MakeString("()")
 	case scmHeadSymbol:
 		sym := mustSymbol(args[0])
 		return MakeString(sym.sym)
 	case scmHeadNumber:
 		f := mustNumber(args[0])
-		return MakeString(fmt.Sprintf("%f", f.val))
+		if !isPreciseInteger(f.val) {
+			return MakeString(fmt.Sprintf("%f", f.val))
+		}
+		return MakeString(fmt.Sprintf("%d", int(f.val)))
 	case scmHeadString:
 		return MakeString(fmt.Sprintf(`"%s"`, mustString(args[0])))
 	case scmHeadProcedure:
 		return MakeString("#<procedure>")
 	case scmHeadPrimitive:
-		return MakeString("#<primitive>")
+		prim := mustPrimitive(args[0])
+		return MakeString(fmt.Sprintf("#<primitive %s>", prim.Name))
 	case scmHeadBoolean:
 		if args[0] == True {
 			return MakeString("true")
