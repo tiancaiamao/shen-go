@@ -4,7 +4,7 @@
   Tail [$var I] -> [[iAccess I] | (if Tail [[iReturn]] [])]
   Tail [$if X Y Z] -> (append (compile1 false X) [[iJF | (compile1 Tail Y)] | [[iJMP | (compile1 Tail Z)]]])
   Tail [$do X Y] -> (append (compile1 false X) [[iPop] | (compile1 Tail Y)])
-  Tail [$defun F L] -> (append (compile1 Tail L) [[iConst F] [iDefun] | (if Tail [[iReturn]] [])])
+  Tail [$defun F L] -> (append (compile1 false L) [[iConst F] [iDefun] | (if Tail [[iReturn]] [])])
   Tail [$app F | X] -> (compile-apply Tail F X)
   Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
   Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])] | (if Tail [[iReturn]] [])]

@@ -99,6 +99,10 @@ func TestKLToBytecode(t *testing.T) {
 			"(+ 1 2)",
 			"((iConst 1) (iConst 2) (iPrimCall 23) (iReturn) (iHalt))",
 		},
+		[2]string{
+			"(defun f () 1)",
+			"((iFreeze (iConst 1) (iReturn)) (iConst f) (iDefun) (iReturn) (iHalt))",
+		},
 	}
 	for _, test := range tests {
 		testKLToBytecode(t, test[0], test[1])
