@@ -348,11 +348,11 @@ func getTime(args ...Obj) Obj {
 	kind := mustSymbol(args[0]).sym
 	switch kind {
 	case "unix":
-		return MakeInteger(int(time.Now().Unix()))
+		return MakeNumber(float64(time.Now().Unix()))
 	case "run":
-		return MakeInteger(int(time.Since(time.Now()).Seconds()))
+		return MakeNumber(time.Since(uptime).Seconds())
 	}
-	return Nil
+	return MakeError(fmt.Sprintf("get-time does not understand the parameter %s", kind))
 }
 
 func typeFunc(args ...Obj) Obj {

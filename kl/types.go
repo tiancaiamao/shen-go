@@ -3,6 +3,7 @@ package kl
 import (
 	"bytes"
 	"fmt"
+	"time"
 	"unsafe"
 )
 
@@ -217,8 +218,10 @@ func isPair(o Obj) (bool, *scmPair) {
 }
 
 var True, False, Nil Obj
+var uptime time.Time
 
 func init() {
+	uptime = time.Now()
 	tmp1 := &scmBoolean{scmHeadBoolean, false}
 	False = Obj(&tmp1.scmHead)
 

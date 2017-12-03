@@ -6,18 +6,15 @@ import (
 	"os"
 	"path"
 	"runtime"
-	"time"
 )
 
 type Evaluator struct {
-	upTime        time.Time
 	symbolTable   map[string]Obj
 	functionTable map[string]Obj
 }
 
 func NewEvaluator() *Evaluator {
 	var e Evaluator
-	e.upTime = time.Now()
 	e.symbolTable = make(map[string]Obj)
 
 	e.functionTable = make(map[string]Obj, len(allPrimitives))

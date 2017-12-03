@@ -16,7 +16,7 @@ There is a klambda interpreter that is available, but it's quite slow. Right now
 
 ## Building
 
-Make sure you [have Go installed](https://golang.org/doc/install).
+Make sure you have [Go installed](https://golang.org/doc/install).
 
 ```
 go get github.com/tiancaiamao/shen-go/cmd/kl
@@ -28,7 +28,14 @@ go get github.com/tiancaiamao/shen-go/cmd/kl
 $GOPATH/bin/kl -shen
 ```
 
-## Test
+## Testing
+
+```
+cd $GOPATH/src/github.com/tiancaiamao/shen-go/ShenOSKernel-20.1/tests
+$GOPATH/bin/kl -shen
+(load "README.shen")
+(load "tests.shen")
+```
 
 ## Learn Shen
 * [Official website of Shen](http://shenlanguage.org/)
