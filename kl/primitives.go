@@ -390,3 +390,10 @@ func PrimEqual(args ...Obj) Obj {
 func primCons(args ...Obj) Obj {
 	return cons(args[0], args[1])
 }
+
+func primIsSymbol(args ...Obj) Obj {
+	if IsSymbol(args[0]) {
+		return True
+	}
+	return False
+}

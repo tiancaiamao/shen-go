@@ -25,7 +25,6 @@ go get github.com/tiancaiamao/shen-go/cmd/kl
 ## Running
 
 ```
-cd $GOPATH/src/github.com/tiancaiamao/shen-go
 $GOPATH/bin/kl -shen
 ```
 

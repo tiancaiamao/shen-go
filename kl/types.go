@@ -116,6 +116,20 @@ func IsNumber(o Obj) bool {
 	return *o == scmHeadNumber
 }
 
+func IsSymbol(o Obj) bool {
+	return *o == scmHeadSymbol
+}
+
+func MakePrimitive(name string, arity int, f func(...Obj) Obj) Obj {
+	prim := &scmPrimitive{
+		scmHead:  scmHeadPrimitive,
+		Name:     name,
+		Required: arity,
+		Function: f,
+	}
+	return &prim.scmHead
+}
+
 func isPrimitive(o Obj) (bool, *scmPrimitive) {
 	if *o != scmHeadPrimitive {
 		return false, nil
