@@ -96,9 +96,9 @@ func (i instruction) String() string {
 	case iPop:
 		return "POP"
 	case iApply:
-		return "APPLY"
+		return fmt.Sprintf("APPLY %d", instructionOPN(i))
 	case iTailApply:
-		return "TAILAPPLY"
+		return fmt.Sprintf("TAILAPPLY %d", instructionOPN(i))
 	case iPrimCall:
 		return "PRIMCALL"
 	case iConst:
@@ -141,12 +141,14 @@ func (a *Assember) PUSHARG() {
 	a.buf = append(a.buf, instruction(iPushArg<<codeBitShift))
 }
 
-func (a *Assember) APPLY() {
-	a.buf = append(a.buf, instruction(iApply<<codeBitShift))
+func (a *Assember) APPLY(arity int) {
+	inst := instruction((iApply << codeBitShift) | arity)
+	a.buf = append(a.buf, inst)
 }
 
-func (a *Assember) TAILAPPLY() {
-	a.buf = append(a.buf, instruction(iTailApply<<codeBitShift))
+func (a *Assember) TAILAPPLY(arity int) {
+	inst := instruction((iTailApply << codeBitShift) | arity)
+	a.buf = append(a.buf, inst)
 }
 
 func (a *Assember) HALT() {
@@ -271,9 +273,11 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 		case "iConst":
 			a.CONST(kl.Cadr(obj))
 		case "iApply":
-			a.APPLY()
+			n := kl.GetInteger(kl.Cadr(obj))
+			a.APPLY(n)
 		case "iTailApply":
-			a.TAILAPPLY()
+			n := kl.GetInteger(kl.Cadr(obj))
+			a.TAILAPPLY(n)
 		case "iReturn":
 			a.RETURN()
 		case "iGrab":

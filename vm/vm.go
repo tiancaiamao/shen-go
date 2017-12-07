@@ -15,8 +15,9 @@ type VM struct {
 	stack []kl.Obj
 	top   int // stack top
 
-	env []kl.Obj // environment stack
-	arg queue    // argument queue
+	env     []kl.Obj // environment stack
+	arg     []kl.Obj
+	argMark int
 
 	pc        int // pc register refer to the position in current code
 	code      *Code
@@ -36,9 +37,10 @@ type Code struct {
 }
 
 type address struct {
-	pc   int
-	code *Code
-	env  []kl.Obj
+	pc      int
+	code    *Code
+	env     []kl.Obj
+	argMark int
 }
 
 type Procedure struct {
@@ -59,7 +61,7 @@ func New() *VM {
 		symbolTable:   make(map[string]kl.Obj),
 	}
 	initSymbolTable(vm.symbolTable)
-	vm.arg.init(100)
+	// vm.arg.init(100)
 	return vm
 }
 
@@ -84,7 +86,7 @@ func initSymbolTable(symbolTable map[string]kl.Obj) {
 func (vm *VM) takeSnapshot(pc int) {
 	var snapshot VM
 	snapshot = *vm
-	snapshot.arg.clone(&vm.arg)
+	// snapshot.arg.clone(&vm.arg)
 	snapshot.stack = make([]kl.Obj, len(vm.stack), cap(vm.stack))
 	copy(snapshot.stack, vm.stack)
 	snapshot.env = make([]kl.Obj, len(vm.env), cap(vm.env))
@@ -142,7 +144,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			vm.stackPush(raw)
 			vm.pc += n
 		case iGrab:
-			if vm.arg.empty() {
+			if len(vm.arg) == 0 {
 				// make closure if there are not enough arguments
 				n := instructionOPN(inst)
 				fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc, n)
@@ -161,24 +163,46 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				vm.pc += n
 			} else {
 				// grab data from stack to env
-				v := vm.arg.pop()
+				v := vm.arg[0]
+				vm.arg = vm.arg[1:]
 				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v))
 				vm.env = append(vm.env, v)
 			}
 		case iReturn:
-			if vm.arg.empty() {
+			if len(vm.arg) == 0 {
 				savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
 				vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
 
 				vm.code = savedAddr.code
 				vm.pc = savedAddr.pc
 				vm.env = savedAddr.env
-				fmt.Fprintln(StdBC, "RETURN ", vm.top, vm.arg.count(), len(vm.code.bc), vm.pc)
+				vm.stack[savedAddr.argMark] = vm.stack[vm.top-1]
+				vm.top = savedAddr.argMark + 1
+				fmt.Fprintln(StdBC, "RETURN ", vm.top, len(vm.arg), len(vm.code.bc), vm.pc)
 			} else {
 				// more arguments then necessary, continue the beta-reduce.
 				// equivalent to tail apply
-				panic("RETURN: TODO, should partial apply")
+				fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!")
+				obj := vm.stack[vm.top-1]
+				// TODO: panic if obj is not a closure
+				closure := (*Procedure)(unsafe.Pointer(obj))
+				vm.code = closure.code
+				vm.pc = 0
+				vm.env = vm.env[0:]
+				vm.env = append(vm.env, closure.env...)
 			}
+		case iTailApply:
+			n := instructionOPN(inst)
+			vm.argMark = vm.top - n - 1
+			obj := vm.stack[vm.argMark]
+			closure := (*Procedure)(unsafe.Pointer(obj))
+			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
+			// The only different with Apply is that TailApply doesn't save return address.
+			vm.code = closure.code
+			vm.pc = 0
+			vm.env = vm.env[0:]
+			vm.env = append(vm.env, closure.env...)
+			vm.arg = vm.stack[vm.argMark+1 : vm.top]
 		case iPop:
 			fmt.Fprintln(StdBC, "POP")
 			vm.top--
@@ -220,35 +244,22 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			fmt.Fprintln(StdBC, "SWAP")
 			vm.stack[vm.top-1], vm.stack[vm.top-2] = vm.stack[vm.top-2], vm.stack[vm.top-1]
 		case iHalt:
-			fmt.Fprintln(StdBC, "HALT", vm.top, vm.arg.count(), len(vm.savedAddr))
+			fmt.Fprintln(StdBC, "HALT", vm.top, len(vm.arg), len(vm.savedAddr))
 			halt = true
-		case iPushArg:
-			// pop a value from stack top to argument queue
-			fmt.Fprintln(StdBC, "PUSHARG from", vm.top)
-			vm.top--
-			vm.arg.push(vm.stack[vm.top])
 		case iApply:
-			vm.top--
-			obj := vm.stack[vm.top]
+			n := instructionOPN(inst)
+			vm.argMark = vm.top - n - 1
+			obj := vm.stack[vm.argMark]
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			fmt.Fprintln(StdBC, "APPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
 			// save return address
 			// set pc to closure code
 			// prepare initialize environment from closure
-			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env})
+			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env, vm.argMark})
 			vm.code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
-		case iTailApply:
-			vm.top--
-			obj := vm.stack[vm.top]
-			closure := (*Procedure)(unsafe.Pointer(obj))
-			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
-			// The only different with Apply is that TailApply doesn't save return address.
-			vm.code = closure.code
-			vm.pc = 0
-			vm.env = vm.env[0:]
-			vm.env = append(vm.env, closure.env...)
+			vm.arg = vm.stack[vm.argMark+1 : vm.top]
 		case iPrimCall:
 			id := instructionOPN(inst)
 			prim := kl.GetPrimitiveByID(id)
@@ -310,7 +321,7 @@ func (vm *VM) stackPush(o kl.Obj) {
 }
 
 func (vm *VM) Reset() {
-	vm.arg.reset()
+	vm.arg = nil
 	vm.stack = vm.stack[:initStackSize]
 	vm.top = 0
 	vm.env = vm.env[:0]
@@ -319,7 +330,7 @@ func (vm *VM) Reset() {
 
 func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug, "pc:", vm.pc)
-	fmt.Fprintln(StdDebug, "arg:", vm.arg.count())
+	fmt.Fprintln(StdDebug, "arg:", len(vm.arg))
 	fmt.Fprintln(StdDebug, "top:", vm.top)
 	fmt.Fprintln(StdDebug, "stack:")
 	for i := vm.top - 1; i >= 0; i-- {

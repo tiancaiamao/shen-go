@@ -18,10 +18,8 @@ func TestProcedureCall(t *testing.T) {
 	a.RETURN()
 	a.RETURN()
 	a.CONST(kl.MakeInteger(1))
-	a.PUSHARG()
 	a.CONST(kl.MakeInteger(2))
-	a.PUSHARG()
-	a.TAILAPPLY()
+	a.TAILAPPLY(2)
 	a.HALT()
 	code := a.Comiple()
 
@@ -55,7 +53,7 @@ func TestPartialApply(t *testing.T) {
 	// str := "((iGrab (iAccess 0) (iConst 0) (iPrimCall 19) (iJF (iConst 1)) (iJMP (iAccess 0) (iConst fact) (iGetF) (iAccess 0) (iConst 1) (iPrimCall 20) (iPushArg) (iApply) (iPrimCall 21)) (iReturn)) (iConst fact) (iDefun) (iPop) (iConst fact) (iGetF) (iConst 5) (iPushArg) (iApply) (iHalt))"
 
 	// [let x 3 [let y 5 [+ x y]]]
-	str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iPushArg) (iApply) (iReturn)) (iConst 3) (iPushArg) (iApply) (iHalt))"
+	str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iApply 1) (iReturn)) (iConst 3) (iApply 1) (iHalt))"
 
 	// ((freeze 1))
 	// str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"

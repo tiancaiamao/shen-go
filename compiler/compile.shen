@@ -14,14 +14,18 @@
 
 (define compile-apply
   Tail [$symbol F] X -> (if (= (length X) (primitive-arity F))
-                  (append (mapcan (compile1 false) X) [[iPrimCall (primitive-id F)] | (if Tail [[iReturn]] [])])
+                  (append (compile-arg-list X) [[iPrimCall (primitive-id F)] | (if Tail [[iReturn]] [])])
                   (compile1 Tail (curry-primitive F X)))
               where (primitive? F)
-  Tail [$symbol F] X -> [[iConst F] [iGetF] | (append (compile-arg-list X) (if Tail [[iTailApply]] [[iApply]]))]
-  Tail F X -> (append (compile1 false F) (append (compile-arg-list X) (if Tail [[iTailApply]] [[iApply]]))))
+  Tail [$symbol F] X -> [[iConst F] [iGetF] | (append (compile-arg-list X) (apply-or-tail Tail X))]
+  Tail F X -> (append (compile1 false F) (append (compile-arg-list X) (apply-or-tail Tail X))))
+
+(define apply-or-tail
+        true X -> [[iTailApply (length X)]]
+        false X -> [[iApply (length X)]])
 
 (define compile-arg-list
-  ArgList -> (mapcan (/. X (append (compile1 false X) [[iPushArg]])) ArgList))
+  ArgList -> (mapcan (compile1 false) ArgList))
 
 (define curry-primitive
   F X -> (let Count (- (primitive-arity F) (length X))

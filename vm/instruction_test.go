@@ -43,7 +43,7 @@ HALT`
 }
 
 func TestFromSexp(t *testing.T) {
-	r := kl.NewSexpReader(strings.NewReader("((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst 1) (iPushArg) (iConst 2) (iPushArg) (iApply) (iHalt))"))
+	r := kl.NewSexpReader(strings.NewReader("((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst 1) (iConst 2) (iApply 1) (iHalt))"))
 	sexp, err := r.Read()
 	if err != nil {
 		t.Error(err)
@@ -66,10 +66,8 @@ PRIMCALL
 RETURN
 RETURN
 CONST 0
-PUSHARG
 CONST 1
-PUSHARG
-APPLY
+APPLY 1
 HALT
 `
 	if str != result {
