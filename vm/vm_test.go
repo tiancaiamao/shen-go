@@ -30,65 +30,43 @@ func TestProcedureCall(t *testing.T) {
 	}
 }
 
-func TestPartialApply(t *testing.T) {
-	// (((lambda x (lambda y x)) (lambda z z)) 2 3)
-	// str := "((iGrab (iGrab (iAccess 1) (iReturn)) (iReturn)) (iGrab (iAccess 0) (iReturn)) (iPushArg) (iApply) (iConst 2) (iPushArg) (iConst 3) (iPushArg) (iApply) (iHalt))"
+func TestVM(t *testing.T) {
+	vm := New()
+	runTest(vm, "(* 4 7)", kl.MakeInteger(28), t)
+	runTest(vm, "(if true 3 2)", kl.MakeInteger(3), t)
+	runTest(vm, "(cond (true 1) (false 2))", kl.MakeInteger(1), t)
+	runTest(vm, "(((lambda x (lambda y x)) (lambda z z)) 2 3)", kl.MakeInteger(3), t)
+	runTest(vm, `(do (defun fact (n) (if (= n 0) 1 (* n (fact (- n 1))))) (fact 5))`, kl.MakeInteger(120), t)
+	runTest(vm, "(let x 3 (let y 5 (+ x y)))", kl.MakeInteger(8), t)
+	runTest(vm, "((+ 1) 2)", kl.MakeInteger(3), t)
+	runTest(vm, "((freeze 1))", kl.MakeInteger(1), t)
+	runTest(vm, "(do (defun f (a b) (+ a b)) (f 1 2))", kl.MakeInteger(3), t)
+	runTest(vm, `(trap-error (simple-error "asd") (lambda X 42))`, kl.MakeInteger(42), t)
+}
 
-	// [do [defun f [a b] [+ a b]] [f 1 2]]
-	// str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst f) (iDefun) (iPop) (iConst f) (iGetF) (iConst 1) (iPushArg) (iConst 2) (iPushArg) (iApply) (iHalt))"
-
-	// (if true 3 2)
-	// str := "((iConst true) (iJF (iConst 3)) (iJMP (iConst 2)) (iHalt))"
-
-	// (* 4 7)
-	// str := "((iConst 4) (iConst 7) (iPrimCall 21) (iHalt))"
-
-	// (do (defun fact (n)
-	// 	(if (= n 0)
-	// 		1
-	// 		(* n (fact (- n 1)))))
-	// 	(fact 5))
-	// str := "((iGrab (iAccess 0) (iConst 0) (iPrimCall 19) (iJF (iConst 1)) (iJMP (iAccess 0) (iConst fact) (iGetF) (iAccess 0) (iConst 1) (iPrimCall 20) (iPushArg) (iApply) (iPrimCall 21)) (iReturn)) (iConst fact) (iDefun) (iPop) (iConst fact) (iGetF) (iConst 5) (iPushArg) (iTailApply) (iHalt))"
-	// str := "((iGrab (iGrab (iAccess 1) (iConst 0) (iPrimCall 19) (iJF (iAccess 0)) (iJMP (iConst fact) (iGetF) (iAccess 1) (iConst 1) (iPrimCall 20) (iPushArg) (iAccess 1) (iAccess 0) (iPrimCall 21) (iPushArg) (iApply)) (iReturn)) (iReturn)) (iConst fact) (iDefun) (iPop) (iConst fact) (iGetF) (iConst 5) (iPushArg) (iConst 1) (iPushArg) (iTailApply) (iHalt))"
-	// str := "((iGrab (iAccess 0) (iConst 0) (iPrimCall 19) (iJF (iConst 1)) (iJMP (iAccess 0) (iConst fact) (iGetF) (iAccess 0) (iConst 1) (iPrimCall 20) (iPushArg) (iApply) (iPrimCall 21)) (iReturn)) (iConst fact) (iDefun) (iPop) (iConst fact) (iGetF) (iConst 5) (iPushArg) (iApply) (iHalt))"
-
-	// [let x 3 [let y 5 [+ x y]]]
-	str := "((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 5) (iApply 1) (iReturn)) (iConst 3) (iApply 1) (iHalt))"
-
-	// ((freeze 1))
-	// str := "((iFreeze (iConst 1) (iReturn)) (iApply) (iHalt))"
-
-	// [cond [true 1] [false 2]]
-	// str := `((iConst true) (iJF (iConst 1)) (iJMP (iConst false) (iJF (iConst 2)) (iJMP (iConst "no match cond") (iPrimCall 18))) (iHalt))`
-
-	// ((+ 1) 2)
-	// str := "((iGrab (iConst 1) (iAccess 0) (iPrimCall 23) (iReturn)) (iConst 2) (iPushArg) (iApply) (iHalt))"
-
-	// [trap-error [simple-error "asd"] [lambda X 42]]
-	// str := `((iSetJmp (iGrab (iConst 42) (iReturn) (iReturn))) (iConst "asd") (iPrimCall 18) (iReturn) (iHalt))`
-
-	// str := `((iConst "asd") (iPrimCall 18) (iReturn) (iHalt))`
-
-	r := kl.NewSexpReader(strings.NewReader(str))
+func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
+	r := kl.NewSexpReader(strings.NewReader(input))
 	sexp, err := r.Read()
 	if err != nil {
 		t.Error(err)
 	}
 
-	var a Assember
-	a.FromSexp(sexp)
-	code := a.Comiple()
+	code, err := klToByteCode(sexp)
+	if err != nil {
+		t.Error("input to kl bytecode fail", input)
+	}
 
-	vm := New()
 	o, err := vm.Run(code)
-	if err != nil || kl.PrimEqual(o, kl.MakeInteger(8)) != kl.True {
-		t.Error("failed!")
+	if err != nil || kl.PrimEqual(o, result) != kl.True {
+		t.Error("failed!", input)
 	}
 }
 
-func TestKLToBytecode(t *testing.T) {
+func init() {
 	BootstrapCompiler()
+}
 
+func TestKLToBytecode(t *testing.T) {
 	tests := [][2]string{
 		[2]string{
 			"(cons 1 ())",
