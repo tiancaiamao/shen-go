@@ -16,14 +16,12 @@ const (
 	iGrab
 	iFreeze
 	iPush
-	iPushArg
 	iPop
 	iApply
 	iTailApply
 	iPrimCall
 	iConst
 	iReturn
-	iAdd
 	iHalt
 	iDefun
 	iGetF
@@ -42,14 +40,12 @@ var instructionTable = []instructionInfo{
 	{iAccess, "ACCESS"},
 	{iGrab, "GRAB"},
 	{iPush, "PUSH"},
-	{iPushArg, "PUSHARG"},
 	{iPop, "POP"},
 	{iApply, "APPLY"},
 	{iPrimCall, "PRIMCALL"},
 	{iConst, "CONST"},
 	{iReturn, "RETURN"},
-	{iAdd, "ADD"},
-	{iAdd, "HALT"},
+	{iHalt, "HALT"},
 }
 
 var instructionStrToInfo map[string]*instructionInfo
@@ -91,8 +87,6 @@ func (i instruction) String() string {
 		return fmt.Sprintf("GRAB %d", instructionOPN(i))
 	case iPush:
 		return "PUSH"
-	case iPushArg:
-		return fmt.Sprintf("PUSHARG")
 	case iPop:
 		return "POP"
 	case iApply:
@@ -135,10 +129,6 @@ func (a *Assember) ACCESS(i int) {
 
 func (a *Assember) RETURN() {
 	a.buf = append(a.buf, instruction(iReturn<<codeBitShift))
-}
-
-func (a *Assember) PUSHARG() {
-	a.buf = append(a.buf, instruction(iPushArg<<codeBitShift))
 }
 
 func (a *Assember) APPLY(arity int) {
@@ -268,8 +258,6 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 		case "iPrimCall":
 			n := kl.GetInteger(kl.Cadr(obj))
 			a.PRIMCALL(n)
-		case "iPushArg":
-			a.PUSHARG()
 		case "iConst":
 			a.CONST(kl.Cadr(obj))
 		case "iApply":

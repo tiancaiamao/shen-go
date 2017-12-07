@@ -11,6 +11,7 @@ import (
 type Evaluator struct {
 	symbolTable   map[string]Obj
 	functionTable map[string]Obj
+	Silence       bool
 }
 
 func NewEvaluator() *Evaluator {
@@ -95,7 +96,9 @@ func (e *Evaluator) LoadFile(file string) Obj {
 		if *res == scmHeadError {
 			return res
 		}
-		fmt.Printf("%#v\n", (*scmHead)(res))
+		if !e.Silence {
+			fmt.Printf("%#v\n", (*scmHead)(res))
+		}
 	}
 	return Nil
 }

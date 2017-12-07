@@ -1,6 +1,7 @@
 package vm
 
 import (
+	"os"
 	"strings"
 	"testing"
 
@@ -64,6 +65,8 @@ func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
 
 func init() {
 	BootstrapCompiler()
+	StdDebug, _ = os.Open("/dev/null")
+	StdBC, _ = os.Open("/dev/null")
 }
 
 func TestKLToBytecode(t *testing.T) {

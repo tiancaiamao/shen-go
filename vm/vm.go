@@ -15,9 +15,17 @@ type VM struct {
 	stack []kl.Obj
 	top   int // stack top
 
-	env     []kl.Obj // environment stack
-	arg     []kl.Obj
-	argMark int
+	env []kl.Obj // environment
+	arg []kl.Obj
+
+	// stack[funcPos] is the closure being applied
+	// Here is the stack layout just before iApply:
+	// ...   <- stack top
+	// arg2
+	// arg1
+	// closure  <- funcPos
+	// ...
+	funcPos int
 
 	pc        int // pc register refer to the position in current code
 	code      *Code
@@ -36,11 +44,12 @@ type Code struct {
 	consts []kl.Obj
 }
 
+// address is the information to be saved before apply a closure.
 type address struct {
 	pc      int
 	code    *Code
 	env     []kl.Obj
-	argMark int
+	funcPos int // can be viewed as esp/ebp
 }
 
 type Procedure struct {
@@ -61,7 +70,6 @@ func New() *VM {
 		symbolTable:   make(map[string]kl.Obj),
 	}
 	initSymbolTable(vm.symbolTable)
-	// vm.arg.init(100)
 	return vm
 }
 
@@ -78,9 +86,7 @@ func initSymbolTable(symbolTable map[string]kl.Obj) {
 	symbolTable["*port*"] = kl.MakeString("0.0.1")
 
 	// Extended by shen-go implementation
-	gopath := os.Getenv("GOPATH")
-	packagePath := path.Join(gopath, "src/github.com/tiancaiamao/shen-go/pkg")
-	symbolTable["*package-path*"] = kl.MakeString(packagePath)
+	symbolTable["*package-path*"] = kl.MakeString(kl.PackagePath())
 }
 
 func (vm *VM) takeSnapshot(pc int) {
@@ -155,18 +161,15 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 					},
 				}
 				raw := kl.MakeRaw(&tmp.scmHead)
-				if len(vm.env) > 0 {
-					tmp.env = make([]kl.Obj, len(vm.env))
-					copy(tmp.env, vm.env)
-				}
+				tmp.env = vm.env
+				vm.env = nil
 				vm.stackPush(raw)
 				vm.pc += n
 			} else {
 				// grab data from stack to env
-				v := vm.arg[0]
+				vm.env = append(vm.env, vm.arg[0])
+				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(vm.arg[0]))
 				vm.arg = vm.arg[1:]
-				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v))
-				vm.env = append(vm.env, v)
 			}
 		case iReturn:
 			if len(vm.arg) == 0 {
@@ -176,12 +179,12 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				vm.code = savedAddr.code
 				vm.pc = savedAddr.pc
 				vm.env = savedAddr.env
-				vm.stack[savedAddr.argMark] = vm.stack[vm.top-1]
-				vm.top = savedAddr.argMark + 1
+				vm.stack[savedAddr.funcPos] = vm.stack[vm.top-1]
+				vm.top = savedAddr.funcPos + 1
 				fmt.Fprintln(StdBC, "RETURN ", vm.top, len(vm.arg), len(vm.code.bc), vm.pc)
 			} else {
-				// more arguments then necessary, continue the beta-reduce.
-				// equivalent to tail apply
+				// more arguments, continue the beta-reduce.
+				// similar to tail apply
 				fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!")
 				obj := vm.stack[vm.top-1]
 				// TODO: panic if obj is not a closure
@@ -193,8 +196,8 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			}
 		case iTailApply:
 			n := instructionOPN(inst)
-			vm.argMark = vm.top - n - 1
-			obj := vm.stack[vm.argMark]
+			vm.funcPos = vm.top - n - 1
+			obj := vm.stack[vm.funcPos]
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
 			// The only different with Apply is that TailApply doesn't save return address.
@@ -202,7 +205,21 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			vm.pc = 0
 			vm.env = vm.env[0:]
 			vm.env = append(vm.env, closure.env...)
-			vm.arg = vm.stack[vm.argMark+1 : vm.top]
+			vm.arg = vm.stack[vm.funcPos+1 : vm.top]
+		case iApply:
+			n := instructionOPN(inst)
+			vm.funcPos = vm.top - n - 1
+			obj := vm.stack[vm.funcPos]
+			closure := (*Procedure)(unsafe.Pointer(obj))
+			fmt.Fprintln(StdBC, "APPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
+			// save return address
+			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env, vm.funcPos})
+			// set pc to closure code
+			vm.code = closure.code
+			vm.pc = 0
+			// prepare initialize environment from closure
+			vm.env = closure.env
+			vm.arg = vm.stack[vm.funcPos+1 : vm.top]
 		case iPop:
 			fmt.Fprintln(StdBC, "POP")
 			vm.top--
@@ -246,20 +263,6 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 		case iHalt:
 			fmt.Fprintln(StdBC, "HALT", vm.top, len(vm.arg), len(vm.savedAddr))
 			halt = true
-		case iApply:
-			n := instructionOPN(inst)
-			vm.argMark = vm.top - n - 1
-			obj := vm.stack[vm.argMark]
-			closure := (*Procedure)(unsafe.Pointer(obj))
-			fmt.Fprintln(StdBC, "APPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
-			// save return address
-			// set pc to closure code
-			// prepare initialize environment from closure
-			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env, vm.argMark})
-			vm.code = closure.code
-			vm.pc = 0
-			vm.env = closure.env
-			vm.arg = vm.stack[vm.argMark+1 : vm.top]
 		case iPrimCall:
 			id := instructionOPN(inst)
 			prim := kl.GetPrimitiveByID(id)
@@ -322,9 +325,10 @@ func (vm *VM) stackPush(o kl.Obj) {
 
 func (vm *VM) Reset() {
 	vm.arg = nil
+	vm.funcPos = 0
 	vm.stack = vm.stack[:initStackSize]
 	vm.top = 0
-	vm.env = vm.env[:0]
+	vm.env = nil
 	vm.savedAddr = vm.savedAddr[:0]
 }
 
@@ -381,6 +385,7 @@ func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
 }
 
 func BootstrapCompiler() {
+	evaluator.Silence = true
 	mustLoadKLFile("ShenOSKernel-20.1/klambda/toplevel.kl")
 	mustLoadKLFile("ShenOSKernel-20.1/klambda/core.kl")
 	mustLoadKLFile("ShenOSKernel-20.1/klambda/sys.kl")

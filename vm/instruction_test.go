@@ -13,7 +13,6 @@ func TestInstruction(t *testing.T) {
 	a.CONST(kl.MakeInteger(4))
 	a.CONST(kl.MakeInteger(7))
 	a.GRAB(2)
-	a.PUSHARG()
 	a.DEFUN()
 	a.POP()
 	a.JF(1)
@@ -25,7 +24,6 @@ func TestInstruction(t *testing.T) {
 	result := `CONST 0
 CONST 1
 GRAB 2
-PUSHARG
 DEFUN
 POP
 JF 1
