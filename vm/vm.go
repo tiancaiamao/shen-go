@@ -161,15 +161,18 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 					},
 				}
 				raw := kl.MakeRaw(&tmp.scmHead)
-				tmp.env = vm.env
-				vm.env = nil
+				if len(vm.env) > 0 {
+					tmp.env = make([]kl.Obj, len(vm.env))
+					copy(tmp.env, vm.env)
+				}
 				vm.stackPush(raw)
 				vm.pc += n
 			} else {
 				// grab data from stack to env
-				vm.env = append(vm.env, vm.arg[0])
-				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(vm.arg[0]))
+				v := vm.arg[0]
 				vm.arg = vm.arg[1:]
+				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v))
+				vm.env = append(vm.env, v)
 			}
 		case iReturn:
 			if len(vm.arg) == 0 {
@@ -328,7 +331,7 @@ func (vm *VM) Reset() {
 	vm.funcPos = 0
 	vm.stack = vm.stack[:initStackSize]
 	vm.top = 0
-	vm.env = nil
+	vm.env = vm.env[:0]
 	vm.savedAddr = vm.savedAddr[:0]
 }
 

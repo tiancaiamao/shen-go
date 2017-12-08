@@ -40,6 +40,7 @@ func TestVM(t *testing.T) {
 	runTest(vm, `(do (defun fact (n) (if (= n 0) 1 (* n (fact (- n 1))))) (fact 5))`, kl.MakeInteger(120), t)
 	runTest(vm, "(let x 3 (let y 5 (+ x y)))", kl.MakeInteger(8), t)
 	runTest(vm, "((+ 1) 2)", kl.MakeInteger(3), t)
+	runTest(vm, "(let V 4 (let V1 (+ V 1) V1))", kl.MakeInteger(5), t)
 	runTest(vm, "((freeze 1))", kl.MakeInteger(1), t)
 	runTest(vm, "(do (defun f (a b) (+ a b)) (f 1 2))", kl.MakeInteger(3), t)
 	runTest(vm, `(trap-error (simple-error "asd") (lambda X 42))`, kl.MakeInteger(42), t)
