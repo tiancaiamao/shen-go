@@ -26,15 +26,8 @@ func main() {
 			continue
 		}
 
-		var a vm.Assember
-		err = a.FromSexp(sexp)
-		if err != nil {
-			fmt.Fprintln(vm.StdErr, err)
-			continue
-		}
-		code := a.Comiple()
-		v, err := m.Run(code)
-		if err != nil {
+		v := m.Eval(sexp)
+		if kl.IsError(v) {
 			fmt.Fprintln(vm.StdErr, err)
 			m.Debug()
 			m.Reset()

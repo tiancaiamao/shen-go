@@ -34,8 +34,14 @@ type VM struct {
 	functionTable map[string]*Procedure
 	symbolTable   map[string]kl.Obj
 
-	// snapshot is a vm snapshot, used to implement exception.
-	snapshot *VM
+	// jumpBuf used to implement exception, similar to setjmp/longjmp in C.
+	cc *jumpBuf
+}
+
+type jumpBuf struct {
+	address
+	savedAddrPos int
+	closure      kl.Obj
 }
 
 // Code is something executable to VM, it's immutable.
@@ -89,24 +95,7 @@ func initSymbolTable(symbolTable map[string]kl.Obj) {
 	symbolTable["*package-path*"] = kl.MakeString(kl.PackagePath())
 }
 
-func (vm *VM) takeSnapshot(pc int) {
-	var snapshot VM
-	snapshot = *vm
-	// snapshot.arg.clone(&vm.arg)
-	snapshot.stack = make([]kl.Obj, len(vm.stack), cap(vm.stack))
-	copy(snapshot.stack, vm.stack)
-	snapshot.env = make([]kl.Obj, len(vm.env), cap(vm.env))
-	copy(snapshot.env, vm.env)
-	snapshot.savedAddr = make([]address, len(vm.savedAddr), cap(vm.savedAddr))
-	copy(snapshot.savedAddr, vm.savedAddr)
-	snapshot.snapshot = nil
-	snapshot.pc = pc
-	fmt.Fprintln(StdDebug, "code len:", len(snapshot.code.bc), "pc:", pc)
-
-	vm.snapshot = &snapshot
-}
-
-func (vm *VM) Run(code *Code) (kl.Obj, error) {
+func (vm *VM) Run(code *Code) kl.Obj {
 	vm.code = code
 	vm.pc = 0
 
@@ -120,8 +109,21 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 		switch instructionCode(inst) {
 		case iSetJmp:
 			n := instructionOPN(inst)
-			fmt.Fprintln(StdBC, "SETJMP", vm.pc+n)
-			vm.takeSnapshot(vm.pc + n)
+			vm.top--
+			vm.cc = &jumpBuf{
+				address: address{
+					pc:      vm.pc + n,
+					code:    code,
+					env:     vm.env,
+					funcPos: vm.funcPos,
+				},
+				savedAddrPos: len(vm.savedAddr),
+				closure:      vm.stack[vm.top],
+			}
+			fmt.Fprintln(StdBC, "SETJMP", vm.cc.savedAddrPos)
+		case iClearJmp:
+			fmt.Fprintln(StdBC, "CLEARJMP")
+			vm.cc = nil
 		case iConst:
 			n := instructionOPN(inst)
 			fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(vm.code.consts[n]), vm.top)
@@ -184,7 +186,7 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 				vm.env = savedAddr.env
 				vm.stack[savedAddr.funcPos] = vm.stack[vm.top-1]
 				vm.top = savedAddr.funcPos + 1
-				fmt.Fprintln(StdBC, "RETURN ", vm.top, len(vm.arg), len(vm.code.bc), vm.pc)
+				fmt.Fprintln(StdBC, "RETURN ", len(vm.savedAddr))
 			} else {
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
@@ -260,9 +262,6 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 			n := instructionOPN(inst)
 			vm.pc += n
 			fmt.Fprintln(StdBC, "JMP", n, vm.pc)
-		case iSwap:
-			fmt.Fprintln(StdBC, "SWAP")
-			vm.stack[vm.top-1], vm.stack[vm.top-2] = vm.stack[vm.top-2], vm.stack[vm.top-1]
 		case iHalt:
 			fmt.Fprintln(StdBC, "HALT", vm.top, len(vm.arg), len(vm.savedAddr))
 			halt = true
@@ -297,23 +296,44 @@ func (vm *VM) Run(code *Code) (kl.Obj, error) {
 		}
 
 		if exception {
-			fmt.Fprintln(StdDebug, "exception")
+			fmt.Fprintln(StdBC, "exception")
 			vm.Debug()
-			if vm.snapshot == nil {
+			if vm.cc == nil {
+				err := vm.stack[vm.top-1]
 				vm.Reset()
-				break
+				return err
 			}
-			saveErr := vm.stack[vm.top-1]
-			*vm = *vm.snapshot
-			vm.stackPush(saveErr)
+
+			// clear jmpBuf
+			jmpBuf := vm.cc
+			vm.cc = nil
+			// pop trap-error handler
+			vm.stack[vm.top] = vm.stack[vm.top-1]
+			vm.stack[vm.top-1] = jmpBuf.closure
+			vm.top++
+			// recover savedAddr
+			vm.savedAddr = vm.savedAddr[:jmpBuf.savedAddrPos]
+			vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
+			fmt.Fprintln(StdDebug, "exception", len(vm.savedAddr))
+			// longjmp... tail apply
+			closure := (*Procedure)(unsafe.Pointer(jmpBuf.closure))
+			vm.funcPos = vm.top - 2
+			vm.code = closure.code
+			fmt.Fprintf(StdDebug, "len code = %d\n", len(vm.code.bc))
+			fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
+			vm.pc = 0
+			vm.env = vm.env[0:]
+			vm.env = append(vm.env, closure.env...)
+			vm.arg = vm.stack[vm.funcPos+1 : vm.top]
 		}
 	}
 
 	if vm.top != 1 {
-		return kl.Nil, errors.New("vm in wrong status")
+		vm.Debug()
+		panic("vm in wrong status")
 	}
 	vm.top--
-	return vm.stack[vm.top], nil
+	return vm.stack[vm.top]
 }
 
 func (vm *VM) stackPush(o kl.Obj) {
@@ -333,6 +353,7 @@ func (vm *VM) Reset() {
 	vm.top = 0
 	vm.env = vm.env[:0]
 	vm.savedAddr = vm.savedAddr[:0]
+	vm.cc = nil
 }
 
 func (vm *VM) Debug() {
@@ -379,12 +400,7 @@ func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
 		return kl.MakeError(err.Error())
 	}
 
-	res, err := vm.Run(code)
-	if err != nil {
-		vm.Reset()
-		return kl.MakeError(err.Error())
-	}
-	return res
+	return vm.Run(code)
 }
 
 func BootstrapCompiler() {

@@ -25,8 +25,8 @@ func TestProcedureCall(t *testing.T) {
 	code := a.Comiple()
 
 	vm := New()
-	o, err := vm.Run(code)
-	if err != nil || kl.PrimEqual(o, kl.MakeInteger(3)) != kl.True {
+	o := vm.Run(code)
+	if kl.PrimEqual(o, kl.MakeInteger(3)) != kl.True {
 		t.Error("failed!")
 	}
 }
@@ -43,7 +43,12 @@ func TestVM(t *testing.T) {
 	runTest(vm, "(let V 4 (let V1 (+ V 1) V1))", kl.MakeInteger(5), t)
 	runTest(vm, "((freeze 1))", kl.MakeInteger(1), t)
 	runTest(vm, "(do (defun f (a b) (+ a b)) (f 1 2))", kl.MakeInteger(3), t)
-	runTest(vm, `(trap-error (simple-error "asd") (lambda X 42))`, kl.MakeInteger(42), t)
+	runTest(vm, `(trap-error (simple-error "asd") (lambda X (error-to-string X)))`, kl.MakeString("asd"), t)
+	runTest(vm, `(trap-error 42 (lambda X 42))`, kl.MakeInteger(42), t)
+	// If exception handle is not quit leave VM a clean state,
+	// run it twice, something goes wrong.
+	runTest(vm, "(trap-error (value XXX) (lambda E ((freeze 42))))", kl.MakeInteger(42), t)
+	runTest(vm, "(trap-error (value XXX) (lambda E ((freeze 42))))", kl.MakeInteger(42), t)
 }
 
 func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
@@ -58,8 +63,8 @@ func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
 		t.Error("input to kl bytecode fail", input)
 	}
 
-	o, err := vm.Run(code)
-	if err != nil || kl.PrimEqual(o, result) != kl.True {
+	o := vm.Run(code)
+	if kl.PrimEqual(o, result) != kl.True {
 		t.Error("failed!", input)
 	}
 }
