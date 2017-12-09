@@ -1,21 +1,19 @@
 (define compile1
-  Tail [$symbol V] -> [[iConst V] | (if Tail [[iReturn]] [])]
-  Tail [$const V] -> [[iConst V] | (if Tail [[iReturn]] [])]
-  Tail [$var I] -> [[iAccess I] | (if Tail [[iReturn]] [])]
+  Tail [$symbol V] -> [[iConst V]]
+  Tail [$const V] -> [[iConst V]]
+  Tail [$var I] -> [[iAccess I]]
   Tail [$if X Y Z] -> (append (compile1 false X) [[iJF | (compile1 Tail Y)] | [[iJMP | (compile1 Tail Z)]]])
   Tail [$do X Y] -> (append (compile1 false X) [[iPop] | (compile1 Tail Y)])
-  Tail [$defun F L] -> (append (compile1 false L) [[iConst F] [iDefun] | (if Tail [[iReturn]] [])])
+  Tail [$defun F L] -> (append (compile1 Tail L) [[iConst F] [iDefun]])
   Tail [$app F | X] -> (compile-apply Tail F X)
   Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
-  Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])] | (if Tail [[iReturn]] [])]
-  Tail [$trap X Y] -> (let JmpX [[iSetJmp | (append (compile1 false X) [[iClearJmp]])]]
-                           (append (compile1 Tail Y)
-                              (append JmpX (if Tail [[iReturn]] []))))
+  Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])]]
+  Tail [$trap X Y] -> (append (compile1 Tail Y) [[iSetJmp | (append (compile1 false X) [[iClearJmp]])]])
   Tail X -> X)
 
 (define compile-apply
   Tail [$symbol F] X -> (if (= (length X) (primitive-arity F))
-                  (append (compile-arg-list X) [[iPrimCall (primitive-id F)] | (if Tail [[iReturn]] [])])
+                  (append (compile-arg-list X) [[iPrimCall (primitive-id F)]])
                   (compile1 Tail (curry-primitive F X)))
               where (primitive? F)
   Tail [$symbol F] X -> [[iConst F] [iGetF] | (append (compile-arg-list X) (apply-or-tail Tail X))]

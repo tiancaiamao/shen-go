@@ -99,7 +99,20 @@ func (vm *VM) Run(code *Code) kl.Obj {
 	vm.code = code
 	vm.pc = 0
 
+	// From the example:
+	// case one: 1 	[[iConst 1] [iHalt]]
+	// case two: ((lambda X X) 1) [[iGrab [iAccess 0] [iReturn]] [iConst 1] [iTailApply 1] [iHalt]]
+	//
+	// We see that case one doesn't need the initial savedAddr, while case does.
+	// If savedAddr begins with empty, case two would panic. If savedAddr begins with 1,
+	// run case two would accumulate more and more savedAddrs.
+	// So reset savedAddr to length 1 and both case one and case two feel happy.
+	vm.savedAddr = vm.savedAddr[:0]
 	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
+	// funcPos is set everytime in Apply/TailApply, but not cleared.
+	// if iSetJmp is called directly, funcPos may be a stale value, so clear it before run.
+	vm.funcPos = 0
+
 	halt := false
 	for !halt {
 		exception := false
@@ -113,14 +126,14 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.cc = &jumpBuf{
 				address: address{
 					pc:      vm.pc + n,
-					code:    code,
+					code:    vm.code,
 					env:     vm.env,
 					funcPos: vm.funcPos,
 				},
 				savedAddrPos: len(vm.savedAddr),
 				closure:      vm.stack[vm.top],
 			}
-			fmt.Fprintln(StdBC, "SETJMP", vm.cc.savedAddrPos)
+			fmt.Fprintln(StdBC, "SETJMP", vm.cc.savedAddrPos, vm.funcPos, vm.cc.address.pc)
 		case iClearJmp:
 			fmt.Fprintln(StdBC, "CLEARJMP")
 			vm.cc = nil
@@ -186,7 +199,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 				vm.stack[savedAddr.funcPos] = vm.stack[vm.top-1]
 				vm.top = savedAddr.funcPos + 1
-				fmt.Fprintln(StdBC, "RETURN ", len(vm.savedAddr))
+				fmt.Fprintln(StdBC, "RETURN ", len(vm.savedAddr), vm.top, vm.pc)
 			} else {
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
@@ -196,7 +209,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				closure := (*Procedure)(unsafe.Pointer(obj))
 				vm.code = closure.code
 				vm.pc = 0
-				vm.env = vm.env[0:]
+				vm.env = vm.env[:0]
 				vm.env = append(vm.env, closure.env...)
 			}
 		case iTailApply:
@@ -204,11 +217,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.funcPos = vm.top - n - 1
 			obj := vm.stack[vm.funcPos]
 			closure := (*Procedure)(unsafe.Pointer(obj))
-			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
+			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, vm.funcPos)
 			// The only different with Apply is that TailApply doesn't save return address.
 			vm.code = closure.code
 			vm.pc = 0
-			vm.env = vm.env[0:]
+			vm.env = vm.env[:0]
 			vm.env = append(vm.env, closure.env...)
 			vm.arg = vm.stack[vm.funcPos+1 : vm.top]
 		case iApply:
@@ -216,7 +229,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.funcPos = vm.top - n - 1
 			obj := vm.stack[vm.funcPos]
 			closure := (*Procedure)(unsafe.Pointer(obj))
-			fmt.Fprintln(StdBC, "APPLY", vm.top, len(closure.code.bc), "save pc=", vm.pc)
+			fmt.Fprintln(StdBC, "APPLY", vm.top, vm.funcPos)
 			// save return address
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env, vm.funcPos})
 			// set pc to closure code
@@ -322,7 +335,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			fmt.Fprintf(StdDebug, "len code = %d\n", len(vm.code.bc))
 			fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
 			vm.pc = 0
-			vm.env = vm.env[0:]
+			vm.env = vm.env[:0]
 			vm.env = append(vm.env, closure.env...)
 			vm.arg = vm.stack[vm.funcPos+1 : vm.top]
 		}

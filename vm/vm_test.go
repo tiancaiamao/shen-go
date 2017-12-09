@@ -10,11 +10,11 @@ import (
 
 func TestProcedureCall(t *testing.T) {
 	var a Assember
-	// (lambda x (lambda y (+ x y)) 1 2)
+	// ((lambda x (lambda y (+ x y))) 1 2)
 	a.GRAB(6)
 	a.GRAB(4)
-	a.ACCESS(0)
 	a.ACCESS(1)
+	a.ACCESS(0)
 	a.PRIMCALL(23)
 	a.RETURN()
 	a.RETURN()
@@ -45,10 +45,6 @@ func TestVM(t *testing.T) {
 	runTest(vm, "(do (defun f (a b) (+ a b)) (f 1 2))", kl.MakeInteger(3), t)
 	runTest(vm, `(trap-error (simple-error "asd") (lambda X (error-to-string X)))`, kl.MakeString("asd"), t)
 	runTest(vm, `(trap-error 42 (lambda X 42))`, kl.MakeInteger(42), t)
-	// If exception handle is not quit leave VM a clean state,
-	// run it twice, something goes wrong.
-	runTest(vm, "(trap-error (value XXX) (lambda E ((freeze 42))))", kl.MakeInteger(42), t)
-	runTest(vm, "(trap-error (value XXX) (lambda E ((freeze 42))))", kl.MakeInteger(42), t)
 }
 
 func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
@@ -69,6 +65,19 @@ func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
 	}
 }
 
+func TestTrapError(t *testing.T) {
+	vm := New()
+	// If exception handle is not quit leave VM a clean state,
+	// run it twice, something goes wrong.
+	runTest(vm, "(trap-error (value XXX) (lambda E ((freeze 42))))", kl.MakeInteger(42), t)
+	runTest(vm, "(trap-error (value XXX) (lambda E ((freeze 42))))", kl.MakeInteger(42), t)
+
+	// Test for a  bug fix that vm.code and code are mess.
+	runTest(vm, "(defun thaw (F) (F))", kl.MakeSymbol("thaw"), t)
+	runTest(vm, "(defun value/or (V2876 V2877) (trap-error (value V2876) (lambda E (thaw V2877))))", kl.MakeSymbol("value/or"), t)
+	runTest(vm, "(value/or XXX (freeze 42))", kl.MakeInteger(42), t)
+}
+
 func init() {
 	BootstrapCompiler()
 	StdDebug, _ = os.Open("/dev/null")
@@ -79,14 +88,14 @@ func TestKLToBytecode(t *testing.T) {
 	tests := [][2]string{
 		[2]string{
 			"(cons 1 ())",
-			"((iConst 1) (iConst ()) (iPrimCall 34) (iReturn) (iHalt))"},
+			"((iConst 1) (iConst ()) (iPrimCall 34) (iHalt))"},
 		[2]string{
 			"(+ 1 2)",
-			"((iConst 1) (iConst 2) (iPrimCall 23) (iReturn) (iHalt))",
+			"((iConst 1) (iConst 2) (iPrimCall 23) (iHalt))",
 		},
 		[2]string{
 			"(defun f () 1)",
-			"((iFreeze (iConst 1) (iReturn)) (iConst f) (iDefun) (iReturn) (iHalt))",
+			"((iFreeze (iConst 1) (iReturn)) (iConst f) (iDefun) (iHalt))",
 		},
 	}
 	for _, test := range tests {
