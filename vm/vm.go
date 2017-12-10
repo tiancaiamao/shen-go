@@ -27,14 +27,13 @@ type VM struct {
 	// ...
 	funcPos int
 
-	pc        int // pc register refer to the position in current code
-	code      *Code
+	pc        int       // pc register refer to the position in current code
 	savedAddr []address // saved return address
 
 	functionTable map[string]*Procedure
 	symbolTable   map[string]kl.Obj
 
-	// jumpBuf used to implement exception, similar to setjmp/longjmp in C.
+	// jumpBuf is used to implement exception, similar to setjmp/longjmp in C.
 	cc *jumpBuf
 }
 
@@ -96,7 +95,6 @@ func initSymbolTable(symbolTable map[string]kl.Obj) {
 }
 
 func (vm *VM) Run(code *Code) kl.Obj {
-	vm.code = code
 	vm.pc = 0
 
 	// From the example:
@@ -109,14 +107,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 	// So reset savedAddr to length 1 and both case one and case two feel happy.
 	vm.savedAddr = vm.savedAddr[:0]
 	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
-	// funcPos is set everytime in Apply/TailApply, but not cleared.
-	// if iSetJmp is called directly, funcPos may be a stale value, so clear it before run.
-	vm.funcPos = 0
 
 	halt := false
 	for !halt {
 		exception := false
-		inst := vm.code.bc[vm.pc]
+		inst := code.bc[vm.pc]
 		vm.pc++
 
 		switch instructionCode(inst) {
@@ -126,7 +121,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.cc = &jumpBuf{
 				address: address{
 					pc:      vm.pc + n,
-					code:    vm.code,
+					code:    code,
 					env:     vm.env,
 					funcPos: vm.funcPos,
 				},
@@ -139,8 +134,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.cc = nil
 		case iConst:
 			n := instructionOPN(inst)
-			fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(vm.code.consts[n]), vm.top)
-			vm.stackPush(vm.code.consts[n])
+			fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(code.consts[n]), vm.top)
+			vm.stackPush(code.consts[n])
 		case iAccess:
 			n := instructionOPN(inst)
 			// get value from environment
@@ -153,8 +148,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			fmt.Fprintln(StdBC, "FREEZE", vm.pc, n)
 			tmp := &Procedure{
 				code: &Code{
-					bc:     vm.code.bc[vm.pc:],
-					consts: vm.code.consts,
+					bc:     code.bc[vm.pc:],
+					consts: code.consts,
 				},
 			}
 			raw := kl.MakeRaw(&tmp.scmHead)
@@ -171,8 +166,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc, n)
 				tmp := Procedure{
 					code: &Code{
-						bc:     vm.code.bc[vm.pc-1:],
-						consts: vm.code.consts,
+						bc:     code.bc[vm.pc-1:],
+						consts: code.consts,
 					},
 				}
 				raw := kl.MakeRaw(&tmp.scmHead)
@@ -194,7 +189,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
 				vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
 
-				vm.code = savedAddr.code
+				code = savedAddr.code
 				vm.pc = savedAddr.pc
 				vm.env = savedAddr.env
 				vm.stack[savedAddr.funcPos] = vm.stack[vm.top-1]
@@ -207,7 +202,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				obj := vm.stack[vm.top-1]
 				// TODO: panic if obj is not a closure
 				closure := (*Procedure)(unsafe.Pointer(obj))
-				vm.code = closure.code
+				code = closure.code
 				vm.pc = 0
 				vm.env = vm.env[:0]
 				vm.env = append(vm.env, closure.env...)
@@ -219,7 +214,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, vm.funcPos)
 			// The only different with Apply is that TailApply doesn't save return address.
-			vm.code = closure.code
+			code = closure.code
 			vm.pc = 0
 			vm.env = vm.env[:0]
 			vm.env = append(vm.env, closure.env...)
@@ -231,9 +226,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			fmt.Fprintln(StdBC, "APPLY", vm.top, vm.funcPos)
 			// save return address
-			vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env, vm.funcPos})
+			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env, vm.funcPos})
 			// set pc to closure code
-			vm.code = closure.code
+			code = closure.code
 			vm.pc = 0
 			// prepare initialize environment from closure
 			vm.env = closure.env
@@ -331,8 +326,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// longjmp... tail apply
 			closure := (*Procedure)(unsafe.Pointer(jmpBuf.closure))
 			vm.funcPos = vm.top - 2
-			vm.code = closure.code
-			fmt.Fprintf(StdDebug, "len code = %d\n", len(vm.code.bc))
+			code = closure.code
+			fmt.Fprintf(StdDebug, "len code = %d\n", len(code.bc))
 			fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
 			vm.pc = 0
 			vm.env = vm.env[:0]
