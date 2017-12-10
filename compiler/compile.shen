@@ -8,7 +8,7 @@
   Tail [$app F | X] -> (compile-apply Tail F X)
   Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
   Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])]]
-  Tail [$trap X Y] -> (append (compile1 Tail Y) [[iSetJmp | (append (compile1 false X) [[iClearJmp]])]])
+  Tail [$trap X Y] -> [[iFreeze | (compile1 Tail Y)] | [[iSetJmp | (append (compile1 false X) [[iClearJmp]])]]]
   Tail X -> X)
 
 (define compile-apply
@@ -16,12 +16,13 @@
                   (append (compile-arg-list X) [[iPrimCall (primitive-id F)]])
                   (compile1 Tail (curry-primitive F X)))
               where (primitive? F)
-  Tail [$symbol F] X -> [[iConst F] [iGetF] | (append (compile-arg-list X) (apply-or-tail Tail X))]
-  Tail F X -> (append (compile1 false F) (append (compile-arg-list X) (apply-or-tail Tail X))))
+  Tail F [] -> (apply-function Tail F)
+  false F X -> [[iMark] | (append (compile-arg-list (reverse X)) (apply-function false F))]
+  true F X -> (append (compile-arg-list (reverse X)) (apply-function true F)))
 
-(define apply-or-tail
-        true X -> [[iTailApply (length X)]]
-        false X -> [[iApply (length X)]])
+(define apply-function
+        Tail [$symbol F] -> [[iConst F] [iGetF] (if Tail [iTailApply] [iApply])]
+        Tail F -> (compile1 false F))
 
 (define compile-arg-list
   ArgList -> (mapcan (compile1 false) ArgList))

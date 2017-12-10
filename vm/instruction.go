@@ -18,6 +18,7 @@ const (
 	iPush
 	iPop
 	iApply
+	iMark
 	iTailApply
 	iPrimCall
 	iConst
@@ -42,6 +43,7 @@ var instructionTable = []instructionInfo{
 	{iPush, "PUSH"},
 	{iPop, "POP"},
 	{iApply, "APPLY"},
+	{iMark, "MARK"},
 	{iPrimCall, "PRIMCALL"},
 	{iConst, "CONST"},
 	{iReturn, "RETURN"},
@@ -90,7 +92,7 @@ func (i instruction) String() string {
 	case iPop:
 		return "POP"
 	case iApply:
-		return fmt.Sprintf("APPLY %d", instructionOPN(i))
+		return "APPLY"
 	case iTailApply:
 		return fmt.Sprintf("TAILAPPLY %d", instructionOPN(i))
 	case iPrimCall:
@@ -115,6 +117,8 @@ func (i instruction) String() string {
 		return fmt.Sprintf("SETJMP %d", instructionOPN(i))
 	case iClearJmp:
 		return "CLEARJMP"
+	case iMark:
+		return "MARK"
 	}
 	return "UNKNOWN"
 }
@@ -133,14 +137,12 @@ func (a *Assember) RETURN() {
 	a.buf = append(a.buf, instruction(iReturn<<codeBitShift))
 }
 
-func (a *Assember) APPLY(arity int) {
-	inst := instruction((iApply << codeBitShift) | arity)
-	a.buf = append(a.buf, inst)
+func (a *Assember) APPLY() {
+	a.buf = append(a.buf, instruction(iApply<<codeBitShift))
 }
 
-func (a *Assember) TAILAPPLY(arity int) {
-	inst := instruction((iTailApply << codeBitShift) | arity)
-	a.buf = append(a.buf, inst)
+func (a *Assember) TAILAPPLY() {
+	a.buf = append(a.buf, instruction(iTailApply<<codeBitShift))
 }
 
 func (a *Assember) HALT() {
@@ -190,6 +192,10 @@ func (a *Assember) SETJMP(i int) {
 
 func (a *Assember) POP() {
 	a.buf = append(a.buf, instruction(iPop<<codeBitShift))
+}
+
+func (a *Assember) MARK() {
+	a.buf = append(a.buf, instruction(iMark<<codeBitShift))
 }
 
 func (a *Assember) GetF() {
@@ -263,11 +269,11 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 		case "iConst":
 			a.CONST(kl.Cadr(obj))
 		case "iApply":
-			n := kl.GetInteger(kl.Cadr(obj))
-			a.APPLY(n)
+			a.APPLY()
 		case "iTailApply":
-			n := kl.GetInteger(kl.Cadr(obj))
-			a.TAILAPPLY(n)
+			a.TAILAPPLY()
+		case "iMark":
+			a.MARK()
 		case "iReturn":
 			a.RETURN()
 		case "iGrab":

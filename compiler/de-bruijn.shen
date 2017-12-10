@@ -31,7 +31,7 @@
 
 (define defun-rewrite
   [] Y -> [freeze Y]
-  X Y -> (defun-rewrite0 X Y))
+  X Y -> [freeze (defun-rewrite0 X Y)])
 
 (define defun-rewrite0
   [] Y -> Y
