@@ -199,19 +199,17 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				closure := (*Procedure)(unsafe.Pointer(obj))
 				code = closure.code
 				vm.pc = 0
-				vm.env = vm.env[:0]
-				vm.env = append(vm.env, closure.env...)
+				vm.env = closure.env
 			}
 		case iTailApply:
 			vm.top--
 			obj := vm.stack[vm.top]
 			closure := (*Procedure)(unsafe.Pointer(obj))
-			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top)
 			// The only different with Apply is that TailApply doesn't save return address.
 			code = closure.code
+			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(code.bc), closure)
 			vm.pc = 0
-			vm.env = vm.env[:0]
-			vm.env = append(vm.env, closure.env...)
+			vm.env = closure.env
 		case iApply:
 			vm.top--
 			obj := vm.stack[vm.top]
@@ -222,16 +220,14 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// set pc to closure code
 			code = closure.code
 			vm.pc = 0
-			// prepare initialize environment from closure
-			vm.env = vm.env[:0]
-			vm.env = append(vm.env, closure.env...)
+			vm.env = closure.env
 		case iPop:
 			fmt.Fprintln(StdBC, "POP")
 			vm.top--
 		case iDefun:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
-			fmt.Fprintln(StdBC, "DEFUN", symbol)
 			function := (*Procedure)(unsafe.Pointer(vm.stack[vm.top-2]))
+			fmt.Fprintln(StdBC, "DEFUN", symbol, len(function.code.bc), function)
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
@@ -320,8 +316,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			fmt.Fprintf(StdDebug, "len code = %d\n", len(code.bc))
 			fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
 			vm.pc = 0
-			vm.env = vm.env[:0]
-			vm.env = append(vm.env, closure.env...)
+			vm.env = closure.env
 		}
 	}
 

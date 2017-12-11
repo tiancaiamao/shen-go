@@ -39,9 +39,8 @@ func TestVM(t *testing.T) {
 	runTest(vm, "(((lambda x (lambda y x)) (lambda z z)) 2 3)", kl.MakeInteger(3), t)
 	runTest(vm, "(do (defun f (a b) (+ a b)) (f 1 2))", kl.MakeInteger(3), t)
 	runTest(vm, `(do (defun fact (n) (if (= n 0) 1 (* n (fact (- n 1))))) (fact 5))`, kl.MakeInteger(120), t)
-	runTest(vm, "(let x 3 (let y 5 (- y x)))", kl.MakeInteger(3), t)
+	runTest(vm, "(let x 3 (let y 5 (- y x)))", kl.MakeInteger(2), t)
 	runTest(vm, "((- 6) 2)", kl.MakeInteger(4), t)
-	runTest(vm, "(let V 4 (let V1 (+ V 1) V1))", kl.MakeInteger(5), t)
 	runTest(vm, "((freeze 1))", kl.MakeInteger(1), t)
 	runTest(vm, `(trap-error (simple-error "asd") (lambda X (error-to-string X)))`, kl.MakeString("asd"), t)
 	runTest(vm, `(trap-error 42 (lambda X 42))`, kl.MakeInteger(42), t)
@@ -76,6 +75,12 @@ func TestTrapError(t *testing.T) {
 	runTest(vm, "(defun thaw (F) (F))", kl.MakeSymbol("thaw"), t)
 	runTest(vm, "(defun value/or (V2876 V2877) (trap-error (value V2876) (lambda E (thaw V2877))))", kl.MakeSymbol("value/or"), t)
 	runTest(vm, "(value/or XXX (freeze 42))", kl.MakeInteger(42), t)
+}
+
+func TestOrder(t *testing.T) {
+	vm := New()
+	runTest(vm, "(defun f (x y) y)", kl.MakeSymbol("f"), t)
+	runTest(vm, "((lambda D ((lambda Fill D) (f 1 2))) 42)", kl.MakeInteger(42), t)
 }
 
 func TestReverse(t *testing.T) {

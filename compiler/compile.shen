@@ -16,13 +16,27 @@
                   (append (compile-arg-list X) [[iPrimCall (primitive-id F)]])
                   (compile1 Tail (curry-primitive F X)))
               where (primitive? F)
-  Tail F [] -> (apply-function Tail F)
-  false F X -> [[iMark] | (append (compile-arg-list (reverse X)) (apply-function false F))]
-  true F X -> (append (compile-arg-list (reverse X)) (apply-function true F)))
+  Tail F X -> (let Body (compile-apply-common Tail F X)
+                    NeedApply (if Tail [[iTailApply]] [[iApply]])
+                    Body1 (append-apply F Body NeedApply)
+                    Body2 (add-imark Tail Body1)
+                    Body2))
 
-(define apply-function
-        Tail [$symbol F] -> [[iConst F] [iGetF] (if Tail [iTailApply] [iApply])]
-        Tail F -> (compile1 false F))
+(define compile-apply-common
+  Tail F X -> (append (compile-arg-list (reverse X)) (compile-function Tail F)))
+
+(define compile-function
+  _ [$symbol V] -> [[iConst V] [iGetF]]
+  Tail F -> (compile1 false F))
+
+(define add-imark
+  false Body -> [[iMark] | Body]
+  true Body -> Body)
+
+(define append-apply
+  [$freeze | _] Body Apply -> (append Body Apply)
+  [$symbol | _] Body Apply -> (append Body Apply)
+  F Body _ -> Body)
 
 (define compile-arg-list
   ArgList -> (mapcan (compile1 false) ArgList))
