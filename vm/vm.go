@@ -166,15 +166,18 @@ func (vm *VM) Run(code *Code) kl.Obj {
 					},
 				}
 				raw := kl.MakeRaw(&tmp.scmHead)
-				if len(vm.env) > 0 {
-					tmp.env = make([]kl.Obj, len(vm.env))
-					copy(tmp.env, vm.env)
-				}
+				tmp.env = vm.env
 				vm.stackPush(raw)
-				vm.pc += n
+
+				// return to saved address
+				savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
+				vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
+				code = savedAddr.code
+				vm.pc = savedAddr.pc
+				vm.env = savedAddr.env
 			} else {
 				// grab data from stack to env
-				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v))
+				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v), len(vm.savedAddr))
 				vm.env = append(vm.env, v)
 			}
 		case iReturn:
@@ -192,7 +195,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			} else {
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
-				fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!")
+				fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!", len(vm.savedAddr))
 				vm.top--
 				obj := vm.stack[vm.top]
 				// TODO: panic if obj is not a closure
@@ -214,9 +217,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.top--
 			obj := vm.stack[vm.top]
 			closure := (*Procedure)(unsafe.Pointer(obj))
-			fmt.Fprintln(StdBC, "APPLY", vm.top)
 			// save return address
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env})
+			fmt.Fprintln(StdBC, "APPLY", vm.top, len(vm.savedAddr), len(code.bc))
 			// set pc to closure code
 			code = closure.code
 			vm.pc = 0
@@ -322,7 +325,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 
 	if vm.top != 1 {
 		vm.Debug()
-		// panic("vm in wrong status")
+		panic("vm in wrong status")
 	}
 	vm.top--
 	return vm.stack[vm.top]

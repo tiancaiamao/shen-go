@@ -81,6 +81,7 @@ func TestOrder(t *testing.T) {
 	vm := New()
 	runTest(vm, "(defun f (x y) y)", kl.MakeSymbol("f"), t)
 	runTest(vm, "((lambda D ((lambda Fill D) (f 1 2))) 42)", kl.MakeInteger(42), t)
+	runTest(vm, "(let D 42 (let Fill (f 1 2) D))", kl.MakeInteger(42), t)
 }
 
 func TestReverse(t *testing.T) {

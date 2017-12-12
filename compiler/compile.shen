@@ -1,45 +1,40 @@
 (define compile1
-  Tail [$symbol V] -> [[iConst V]]
-  Tail [$const V] -> [[iConst V]]
-  Tail [$var I] -> [[iAccess I]]
-  Tail [$if X Y Z] -> (append (compile1 false X) [[iJF | (compile1 Tail Y)] | [[iJMP | (compile1 Tail Z)]]])
-  Tail [$do X Y] -> (append (compile1 false X) [[iPop] | (compile1 Tail Y)])
-  Tail [$defun F L] -> (append (compile1 Tail L) [[iConst F] [iDefun]])
-  Tail [$app F | X] -> (compile-apply Tail F X)
-  Tail [$abs Body] -> [[iGrab | (append (compile1 Tail Body) [[iReturn]])]]
-  Tail [$freeze Body] -> [[iFreeze | (append (compile1 Tail Body) [[iReturn]])]]
-  Tail [$trap X Y] -> [[iFreeze | (compile1 Tail Y)] | [[iSetJmp | (append (compile1 false X) [[iClearJmp]])]]]
-  Tail X -> X)
+        [$symbol V] -> [[iConst V]]
+        [$const V] -> [[iConst V]]
+        [$var I] -> [[iAccess I]]
+        [$if X Y Z] -> (append (compile1 X) [[iJF | (compile1 Y)] | [[iJMP | (compile1 Z)]]])
+        [$do X Y] -> (append (compile1 X) [[iPop] | (compile1 Y)])
+        [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
+        [$app F | X] -> [[iMark] | (append (compile-apply F X) [[iApply]])]
+        [$abs Body] -> [[iFreeze | (compile-tail [$abs Body])]]
+        [$freeze Body] -> [[iFreeze | (compile-tail Body)]]
+        [$trap X Y] -> [[iFreeze | (compile1 Y)] | [[iSetJmp | (append (compile1 X) [[iClearJmp]])]]]
+        X -> X)
+
+(define compile-tail
+        [$if X Y Z] -> (append (compile1 X) [[iJF | (compile-tail Y)] | [[iJMP | (compile-tail Z)]]])
+        [$do X Y] -> (append (compile1 X) [[iPop] | (compile-tail Y)])
+        [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
+        [$abs Body] -> [[iGrab | (compile-tail Body)]]
+        [$app [$symbol F] | X] -> (append (compile-primitive-call F X) [[iReturn]]) where (primitive? F)
+        [$app F | X] -> (append (compile-apply F X) [[iTailApply]])
+        [$freeze Body] -> [[iFreeze | (compile-tail Body)]]
+        [$trap X Y] -> [[iFreeze | (compile-tail Y)] | [[iSetJmp | (append (compile1 X) [[iClearJmp]])]]]
+        X -> (append (compile1 X) [[iReturn]]))
+
+(define compile-primitive-call
+  F X -> (append (compile-arg-list X) [[iPrimCall (primitive-id F)]]) where (= (length X) (primitive-arity F))
+  F X -> (compile1 (curry-primitive F X)))
 
 (define compile-apply
-  Tail [$symbol F] X -> (if (= (length X) (primitive-arity F))
-                  (append (compile-arg-list X) [[iPrimCall (primitive-id F)]])
-                  (compile1 Tail (curry-primitive F X)))
-              where (primitive? F)
-  Tail F X -> (let Body (compile-apply-common Tail F X)
-                    NeedApply (if Tail [[iTailApply]] [[iApply]])
-                    Body1 (append-apply F Body NeedApply)
-                    Body2 (add-imark Tail Body1)
-                    Body2))
-
-(define compile-apply-common
-  Tail F X -> (append (compile-arg-list (reverse X)) (compile-function Tail F)))
+  F X -> (append (compile-arg-list (reverse X)) (compile-function F)))
 
 (define compile-function
-  _ [$symbol V] -> [[iConst V] [iGetF]]
-  Tail F -> (compile1 false F))
-
-(define add-imark
-  false Body -> [[iMark] | Body]
-  true Body -> Body)
-
-(define append-apply
-  [$freeze | _] Body Apply -> (append Body Apply)
-  [$symbol | _] Body Apply -> (append Body Apply)
-  F Body _ -> Body)
+  [$symbol V] -> [[iConst V] [iGetF]]
+  F -> (compile1 F))
 
 (define compile-arg-list
-  ArgList -> (mapcan (compile1 false) ArgList))
+  ArgList -> (mapcan (function compile1) ArgList))
 
 (define curry-primitive
   F X -> (let Count (- (primitive-arity F) (length X))
@@ -56,4 +51,4 @@
 
 
 (define kl->bytecode
-        X -> (append (compile1 true (de-bruijn X)) [[iHalt]]))
+        X -> (append (compile-tail (de-bruijn X)) [[iHalt]]))
