@@ -11,16 +11,16 @@ import (
 func TestProcedureCall(t *testing.T) {
 	var a Assember
 	// ((lambda x (lambda y (+ x y))) 1 2)
-	a.MARK()
 	a.CONST(kl.MakeInteger(2))
 	a.CONST(kl.MakeInteger(1))
+	a.FREEZE(6)
 	a.GRAB(5)
 	a.GRAB(4)
 	a.ACCESS(1)
 	a.ACCESS(0)
 	a.PRIMCALL(23)
 	a.RETURN()
-	a.RETURN()
+	a.TAILAPPLY()
 	a.HALT()
 	code := a.Comiple()
 
@@ -102,14 +102,14 @@ func TestKLToBytecode(t *testing.T) {
 	tests := [][2]string{
 		[2]string{
 			"(cons 1 ())",
-			"((iConst 1) (iConst ()) (iPrimCall 34) (iHalt))"},
+			"((iConst 1) (iConst ()) (iPrimCall 34) (iReturn) (iHalt))"},
 		[2]string{
 			"(+ 1 2)",
-			"((iConst 1) (iConst 2) (iPrimCall 23) (iHalt))",
+			"((iConst 1) (iConst 2) (iPrimCall 23) (iReturn) (iHalt))",
 		},
 		[2]string{
 			"(defun f () 1)",
-			"((iFreeze (iConst 1) (iReturn)) (iConst f) (iDefun) (iHalt))",
+			"((iFreeze (iConst 1) (iReturn)) (iConst f) (iDefun) (iReturn) (iHalt))",
 		},
 	}
 	for _, test := range tests {

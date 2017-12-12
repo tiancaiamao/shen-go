@@ -5,21 +5,19 @@
         [$if X Y Z] -> (append (compile1 X) [[iJF | (compile1 Y)] | [[iJMP | (compile1 Z)]]])
         [$do X Y] -> (append (compile1 X) [[iPop] | (compile1 Y)])
         [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
+        [$app [$symbol F] | X] -> (compile-primitive-call F X) where (primitive? F)
         [$app F | X] -> [[iMark] | (append (compile-apply F X) [[iApply]])]
-        [$abs Body] -> [[iFreeze | (compile-tail [$abs Body])]]
+        [$abs Body] -> [[iFreeze | [[iGrab | (compile-tail Body)]]]]
         [$freeze Body] -> [[iFreeze | (compile-tail Body)]]
-        [$trap X Y] -> [[iFreeze | (compile1 Y)] | [[iSetJmp | (append (compile1 X) [[iClearJmp]])]]]
-        X -> X)
+        [$trap X Y] -> (append (compile1 Y) [[iSetJmp | (append (compile1 X) [[iClearJmp]])]]))
 
 (define compile-tail
         [$if X Y Z] -> (append (compile1 X) [[iJF | (compile-tail Y)] | [[iJMP | (compile-tail Z)]]])
         [$do X Y] -> (append (compile1 X) [[iPop] | (compile-tail Y)])
-        [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
         [$abs Body] -> [[iGrab | (compile-tail Body)]]
         [$app [$symbol F] | X] -> (append (compile-primitive-call F X) [[iReturn]]) where (primitive? F)
         [$app F | X] -> (append (compile-apply F X) [[iTailApply]])
         [$freeze Body] -> [[iFreeze | (compile-tail Body)]]
-        [$trap X Y] -> [[iFreeze | (compile-tail Y)] | [[iSetJmp | (append (compile1 X) [[iClearJmp]])]]]
         X -> (append (compile1 X) [[iReturn]]))
 
 (define compile-primitive-call
@@ -48,7 +46,6 @@
 (define rrange0
   N N R -> R
   N I R -> (rrange0 N (+ I 1) [I | R]))
-
 
 (define kl->bytecode
         X -> (append (compile-tail (de-bruijn X)) [[iHalt]]))
