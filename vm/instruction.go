@@ -86,7 +86,7 @@ func (i instruction) String() string {
 	case iAccess:
 		return fmt.Sprintf("ACCESS %d", instructionOPN(i))
 	case iGrab:
-		return fmt.Sprintf("GRAB %d", instructionOPN(i))
+		return "GRAB"
 	case iPush:
 		return "PUSH"
 	case iPop:
@@ -161,9 +161,8 @@ func (a *Assember) FREEZE(i int) {
 	inst := instruction((iFreeze << codeBitShift) | i)
 	a.buf = append(a.buf, inst)
 }
-func (a *Assember) GRAB(i int) {
-	inst := instruction((iGrab << codeBitShift) | i)
-	a.buf = append(a.buf, inst)
+func (a *Assember) GRAB() {
+	a.buf = append(a.buf, instruction(iGrab<<codeBitShift))
 }
 
 func (a *Assember) JF(i int) {
@@ -277,12 +276,7 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 		case "iReturn":
 			a.RETURN()
 		case "iGrab":
-			var a1 Assember
-			a1.FromSexp(kl.Cdr(obj))
-			a.GRAB(len(a1.buf))
-			adjustConst(a1.buf, len(a.consts))
-			a.buf = append(a.buf, a1.buf...)
-			a.consts = append(a.consts, a1.consts...)
+			a.GRAB()
 		case "iFreeze":
 			var a1 Assember
 			a1.FromSexp(kl.Cdr(obj))

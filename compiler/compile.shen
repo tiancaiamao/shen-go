@@ -7,14 +7,14 @@
         [$defun F L] -> (append (compile1 L) [[iConst F] [iDefun]])
         [$app [$symbol F] | X] -> (compile-primitive-call F X) where (primitive? F)
         [$app F | X] -> [[iMark] | (append (compile-apply F X) [[iApply]])]
-        [$abs Body] -> [[iFreeze | [[iGrab | (compile-tail Body)]]]]
+        [$abs Body] -> [[iFreeze | [[iGrab] | (compile-tail Body)]]]
         [$freeze Body] -> [[iFreeze | (compile-tail Body)]]
         [$trap X Y] -> (append (compile1 Y) [[iSetJmp | (append (compile1 X) [[iClearJmp]])]]))
 
 (define compile-tail
         [$if X Y Z] -> (append (compile1 X) [[iJF | (compile-tail Y)] | [[iJMP | (compile-tail Z)]]])
         [$do X Y] -> (append (compile1 X) [[iPop] | (compile-tail Y)])
-        [$abs Body] -> [[iGrab | (compile-tail Body)]]
+        [$abs Body] -> [[iGrab] | (compile-tail Body)]
         [$app [$symbol F] | X] -> (append (compile-primitive-call F X) [[iReturn]]) where (primitive? F)
         [$app F | X] -> (append (compile-apply F X) [[iTailApply]])
         [$freeze Body] -> [[iFreeze | (compile-tail Body)]]

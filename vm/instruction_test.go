@@ -11,7 +11,7 @@ func TestInstruction(t *testing.T) {
 	var a Assember
 	a.CONST(kl.MakeInteger(4))
 	a.CONST(kl.MakeInteger(7))
-	a.GRAB(2)
+	a.GRAB()
 	a.DEFUN()
 	a.POP()
 	a.JF(1)
@@ -23,7 +23,7 @@ func TestInstruction(t *testing.T) {
 
 	result := `CONST 0
 CONST 1
-GRAB 2
+GRAB
 DEFUN
 POP
 JF 1
@@ -42,7 +42,7 @@ HALT`
 }
 
 func TestFromSexp(t *testing.T) {
-	r := kl.NewSexpReader(strings.NewReader("((iGrab (iGrab (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn)) (iReturn)) (iConst 1) (iConst 2) (iApply) (iHalt))"))
+	r := kl.NewSexpReader(strings.NewReader("((iGrab) (iGrab) (iAccess 1) (iAccess 0) (iPrimCall 2) (iReturn) (iReturn) (iConst 1) (iConst 2) (iApply) (iHalt))"))
 	sexp, err := r.Read()
 	if err != nil {
 		t.Error(err)
@@ -56,8 +56,8 @@ func TestFromSexp(t *testing.T) {
 
 	code := a.Comiple()
 	str := a.Decode(code)
-	result := `GRAB 6
-GRAB 4
+	result := `GRAB
+GRAB
 ACCESS 1
 ACCESS 0
 PRIMCALL
