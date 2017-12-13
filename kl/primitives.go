@@ -274,7 +274,11 @@ func primVectorGet(args ...Obj) Obj {
 	if off >= len(vec) {
 		return MakeError(fmt.Sprintf("index %d out of range %d", off, len(vec)))
 	}
-	return vec[off]
+	ret := vec[off]
+	if ret == nil {
+		return undefined
+	}
+	return ret
 }
 
 func isVector(args ...Obj) Obj {

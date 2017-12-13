@@ -217,7 +217,7 @@ func isPair(o Obj) (bool, *scmPair) {
 	return false, nil
 }
 
-var True, False, Nil Obj
+var True, False, Nil, undefined Obj
 var uptime time.Time
 
 func init() {
@@ -230,6 +230,9 @@ func init() {
 
 	tmp3 := &scmPair{scmHeadNull, nil, nil}
 	Nil = Obj(&tmp3.scmHead)
+
+	var tmp4 int
+	undefined = MakeRaw(&tmp4)
 }
 
 func MakeInteger(v int) Obj {

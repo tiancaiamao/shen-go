@@ -184,19 +184,17 @@ func TestCall(t *testing.T) {
 	runTest(vm, "(let X 5 (a 3 2 1 X))", kl.MakeInteger(10), t)
 }
 
-// func TestVectorLength(t *testing.T) {
-// 	// TODO: mark should not be nil, or we'll mix it with (<-address V N) data.
-// 	vm := New()
-// 	runTest(vm, "(defun visit (V N) (trap-error (do (<-address V N) true) (lambda X false)))", kl.MakeSymbol("visit"), t)
-// 	runTest(vm, `
-// (defun vector-length-h (V N)
-//   (if (visit V N)
-//       (vector-length-h V (+ N 1))
-//     N))
-// `, kl.MakeSymbol("vector-length-h"), t)
-// 	runTest(vm, "(defun vector-length (V) (vector-length-h V 0))", kl.MakeSymbol("vector-length"), t)
-// 	runTest(vm, "(vector-length (absvector 5))", kl.MakeInteger(5), t)
-// }
+func TestVectorLength(t *testing.T) {
+	vm := New()
+	runTest(vm, "(defun visit (V N) (trap-error (do (<-address V N) true) (lambda X false)))", kl.MakeSymbol("visit"), t)
+	runTest(vm, `
+(defun vector-length-h (V N)
+  (if (visit V N)
+      (vector-length-h V (+ N 1))
+    N))`, kl.MakeSymbol("vector-length-h"), t)
+	runTest(vm, "(defun vector-length (V) (vector-length-h V 0))", kl.MakeSymbol("vector-length"), t)
+	runTest(vm, "(vector-length (absvector 5))", kl.MakeInteger(5), t)
+}
 
 func TestCountLeaves(t *testing.T) {
 	vm := New()

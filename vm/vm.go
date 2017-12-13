@@ -55,6 +55,8 @@ type Procedure struct {
 const initStackSize = 128
 
 var auxVM *VM = New()
+var stackMarkDummyValue int
+var stackMark = kl.MakeRaw(&stackMarkDummyValue)
 
 func New() *VM {
 	vm := &VM{
@@ -96,7 +98,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 	// So reset savedAddr to length 1 and both case one and case two feel happy.
 	vm.savedAddr = vm.savedAddr[:0]
 	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
-	vm.stack[0] = nil
+	vm.stack[0] = stackMark
 	vm.top = 1
 
 	halt := false
@@ -151,11 +153,10 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.pc += n
 		case iMark:
 			fmt.Fprintln(StdBC, "MARK")
-			vm.stackPush(nil)
+			vm.stackPush(stackMark)
 		case iGrab:
-			// TODO: use nil as mark is not a good idea.
 			vm.top--
-			if v := vm.stack[vm.top]; v == nil {
+			if v := vm.stack[vm.top]; v == stackMark {
 				// make closure if there are not enough arguments
 				n := instructionOPN(inst)
 				fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc, n)
@@ -182,7 +183,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			}
 		case iReturn:
 			// stack[top-1] is the result, so should check top-2
-			if vm.stack[vm.top-2] == nil {
+			if vm.stack[vm.top-2] == stackMark {
 				savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
 				vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
 
@@ -284,7 +285,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				result = prim.Function(args...)
 			}
 
-			fmt.Fprintln(StdBC, "PRIMCALL", prim.Name, kl.ObjString(result))
+			fmt.Fprintln(StdBC, "PRIMCALL", prim.Name)
 			vm.stack[vm.top-prim.Required] = result
 			vm.top = vm.top - prim.Required + 1
 			if kl.IsError(result) {
@@ -308,7 +309,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.cc = nil
 			// pop trap-error handler, prepare for call.
 			vm.stackPush(vm.stack[vm.top-1])
-			vm.stack[vm.top-2] = nil
+			vm.stack[vm.top-2] = stackMark
 			// recover savedAddr
 			vm.savedAddr = vm.savedAddr[:jmpBuf.savedAddrPos]
 			vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
@@ -354,7 +355,7 @@ func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug, "top:", vm.top)
 	fmt.Fprintln(StdDebug, "stack:")
 	for i := vm.top - 1; i >= 0; i-- {
-		if vm.stack[i] == nil {
+		if vm.stack[i] == stackMark {
 			fmt.Fprintln(StdDebug, "MARK")
 		} else {
 			fmt.Fprintln(StdDebug, kl.ObjString(vm.stack[i]))
