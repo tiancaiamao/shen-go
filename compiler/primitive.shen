@@ -46,6 +46,7 @@ value 1 "xxx" 36
 set 2 "xxx" 37
 not 1 "xxx" 38
 if 3 "xxx" 39
+symbol? 1 "xxx" 40
 ])
 
 (define primitive?

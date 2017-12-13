@@ -42,6 +42,7 @@ func TestVM(t *testing.T) {
 	runTest(vm, "(let x 3 (let y 5 (- y x)))", kl.MakeInteger(2), t)
 	runTest(vm, "((- 6) 2)", kl.MakeInteger(4), t)
 	runTest(vm, "((freeze 1))", kl.MakeInteger(1), t)
+	runTest(vm, "(symbol? (lambda x x))", kl.False, t)
 	runTest(vm, `(trap-error (simple-error "asd") (lambda X (error-to-string X)))`, kl.MakeString("asd"), t)
 	runTest(vm, `(trap-error 42 (lambda X 42))`, kl.MakeInteger(42), t)
 }

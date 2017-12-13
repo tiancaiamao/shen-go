@@ -48,6 +48,7 @@ var allPrimitives []*scmPrimitive = []*scmPrimitive{
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: primNot},
 	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: primIf},
+	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: primIsSymbol},
 }
 
 func GetPrimitiveByID(id int) *scmPrimitive {

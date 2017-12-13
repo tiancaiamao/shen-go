@@ -17,7 +17,6 @@
         [$abs Body] -> [[iGrab] | (compile-tail Body)]
         [$app [$symbol F] | X] -> (append (compile-primitive-call F X) [[iReturn]]) where (primitive? F)
         [$app F | X] -> (append (compile-apply F X) [[iTailApply]])
-        [$freeze Body] -> [[iFreeze | (compile-tail Body)]]
         X -> (append (compile1 X) [[iReturn]]))
 
 (define compile-primitive-call
