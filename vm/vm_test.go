@@ -92,6 +92,152 @@ func TestReverse(t *testing.T) {
 	runTest(vm, "(reverse (cons 1 (cons 2 (cons 3 ()))))", res, t)
 }
 
+func TestB521(t *testing.T) {
+	vm := New()
+	runTest(vm, "(+ (let X 7 (let Y 2 (if (if (= X 7) (< Y 0) (<= 0 Y)) 77 88))) 99)", kl.MakeInteger(187), t)
+	runTest(vm, "(if (= (+ 7 (* 2 4)) (- 20 (+ (+ 1 1) (+ (+ 1 1) 1)))) (+ 1 (+ 1 (+ 1 (+ 1 (+ 1 10))))) 0)", kl.MakeInteger(15), t)
+	runTest(vm, `(cons (let F (lambda H (lambda V (* H V)))
+           (let K (lambda X (+ X 5))
+              (let X 15
+                (let G (lambda X (+ 1 X))
+                  (K (G (let G 3 (F G X))))))))
+          ())`, kl.Cons(kl.MakeInteger(51), kl.Nil), t)
+	runTest(vm, `(let n 5
+      (let a 1
+        (let a (* a n)
+          (let n (- n 1)
+            (let a (* a n)
+              (let n (- n 1)
+                (let a (* a n)
+                  (let n (- n 1)
+                    (let a (* a n)
+                      a)))))))))`, kl.MakeInteger(120), t)
+	runTest(vm, `(let F (lambda P
+               (- (<-address
+                    (<-address (<-address (<-address (<-address P 0) 0) 1) 0)
+                    (<-address (<-address P 1) (<-address (<-address P 0) 4)))
+                  (<-address
+                    (<-address P (<-address P 2))
+                    (<-address (<-address P 0) (<-address P 4)))))
+  (let X (absvector 6)
+  (let Y (absvector 7)
+      (do (address-> X 0 Y)
+      (do (address-> X 1 X)
+      (do (address-> Y 0 X)
+      (do (address-> Y 1 -4421)
+      (do (address-> X 2 0)
+      (do (address-> X 3 -37131)
+      (do (address-> X 4 4)
+      (do (address-> X 5 6)
+      (do (address-> Y 2 -55151)
+      (do (address-> Y 3 -32000911)
+      (do (address-> Y 4 5)
+      (do (address-> Y 5 55)
+      (do (address-> Y 6 -36)
+          (* (F X) 2)))))))))))))))))`, kl.MakeInteger(-182), t)
+	runTest(vm, "((lambda Y ((lambda F (F (F Y))) (lambda Y Y))) 4)", kl.MakeInteger(4), t)
+	runTest(vm, "(((((lambda X (lambda Y (lambda Z (lambda W (lambda U (+ X (+ Y (+ Z (+ W U))))))))) 5) 6 7) 8) 9)", kl.MakeInteger(35), t)
+	runTest(vm, `
+(let F (+ 1)
+(let G (- 1)
+(let T (lambda X (- X 1))
+(let J (lambda X (- X 1))
+(let I (- 1)
+(let H (- 1)
+(let X 80
+(let A (F X)
+(let B (G X)
+(let C (H (I (J (T X))))
+(* A (* B (+ C 0)))))))))))))
+`, kl.MakeInteger(-499122), t)
+	runTest(vm, `(let a 5
+		(let b 4
+			(let c (*)
+				(let f (cons)
+					(if (or (> (c a b) 15)
+						(= (c a b) 20))
+						(f a b)
+						42)))))`, kl.Cons(kl.MakeInteger(5), kl.MakeInteger(4)), t)
+}
+
+func TestCPSFib(t *testing.T) {
+	vm := New()
+	runTest(vm, `
+(defun fib (n k)
+  (if (or (= n 0) (= n 1))
+      (k 1)
+    (fib (- n 1)
+         (lambda w
+           (fib (- n 2) (lambda v
+                          (k (+ w v))))))))
+`, kl.MakeSymbol("fib"), t)
+	runTest(vm, "(fib 10 (lambda X X))", kl.MakeInteger(89), t)
+}
+
+func TestCall(t *testing.T) {
+	vm := New()
+	runTest(vm, "(defun a (u v w x) (if (= u 0) (b v w x) (a (- u 1) v w x)))", kl.MakeSymbol("a"), t)
+	runTest(vm, "(defun b (q r x) (let p (* q r) (e (* q r) p x)))", kl.MakeSymbol("b"), t)
+	runTest(vm, "(defun c (x) (* 5 x))", kl.MakeSymbol("c"), t)
+	runTest(vm, "(defun e (n p x) (if (= n 0) (c p) (o (- n 1) p x)))", kl.MakeSymbol("e"), t)
+	runTest(vm, "(defun o (n p x) (if (= 0 n) (c x) (e (- n 1) p x)))", kl.MakeSymbol("o"), t)
+	runTest(vm, "(let X 5 (a 3 2 1 X))", kl.MakeInteger(10), t)
+}
+
+// func TestVectorLength(t *testing.T) {
+// 	// TODO: mark should not be nil, or we'll mix it with (<-address V N) data.
+// 	vm := New()
+// 	runTest(vm, "(defun visit (V N) (trap-error (do (<-address V N) true) (lambda X false)))", kl.MakeSymbol("visit"), t)
+// 	runTest(vm, `
+// (defun vector-length-h (V N)
+//   (if (visit V N)
+//       (vector-length-h V (+ N 1))
+//     N))
+// `, kl.MakeSymbol("vector-length-h"), t)
+// 	runTest(vm, "(defun vector-length (V) (vector-length-h V 0))", kl.MakeSymbol("vector-length"), t)
+// 	runTest(vm, "(vector-length (absvector 5))", kl.MakeInteger(5), t)
+// }
+
+func TestCountLeaves(t *testing.T) {
+	vm := New()
+	runTest(vm, `(defun count-leaves (p)
+  (if (cons? p)
+      (+ (count-leaves (hd p))
+         (count-leaves (tl p)))
+    1))
+`, kl.MakeSymbol("count-leaves"), t)
+	runTest(vm, `(count-leaves
+ (cons
+  (cons 0 (cons 0 0))
+  (cons
+   (cons (cons (cons 0 (cons 0 0)) 0) 0)
+   (cons
+    (cons (cons 0 0) (cons 0 (cons 0 0)))
+    (cons (cons 0 0) 0)))))
+`, kl.MakeInteger(16), t)
+}
+
+func TestFreeze(t *testing.T) {
+	vm := New()
+	runTest(vm, "(defun thaw (X) (X))", kl.MakeSymbol("thaw"), t)
+	runTest(vm, `(defun add-ths (T1 T2 T3 T4)
+		(+ (+ (thaw T1) (thaw T2))
+			(+ (thaw T3) (thaw T4))))`, kl.MakeSymbol("add-ths"), t)
+	runTest(vm, "(add-ths (freeze 5) (freeze 17) (freeze 7) (freeze 9))", kl.MakeInteger(38), t)
+}
+
+func TestFrancisFrenandez(t *testing.T) {
+	vm := New()
+	runTest(vm, "(defun to-bool (X) (not (= X false)))", kl.MakeSymbol("to-bool"), t)
+	runTest(vm, `(and (to-bool
+      (+ ((if (not (to-bool (cons 1 2)))
+              true
+            (let F1 3
+                 (let F2 (lambda X (+ X 4))
+                      F2))) 5)
+        6)) false)`, kl.False, t)
+}
+
 func init() {
 	BootstrapCompiler()
 	StdDebug, _ = os.Open("/dev/null")
