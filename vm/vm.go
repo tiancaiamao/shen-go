@@ -391,13 +391,23 @@ func klToByteCode(klambda kl.Obj) (*Code, error) {
 	return code, nil
 }
 
-func (vm *VM) Eval(sexp kl.Obj) kl.Obj {
+func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
+	defer func() {
+		if r := recover(); r != nil {
+			var buf [4096]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Recovered in Eval:", r)
+			fmt.Println(string(buf[:n]))
+			res = kl.Nil
+		}
+	}()
+
 	code, err := klToByteCode(sexp)
 	if err != nil {
 		return kl.MakeError(err.Error())
 	}
-
-	return vm.Run(code)
+	res = vm.Run(code)
+	return
 }
 
 func BootstrapCompiler() {
