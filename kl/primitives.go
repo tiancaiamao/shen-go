@@ -150,6 +150,8 @@ func primStr(args ...Obj) Obj {
 		return MakeString(e.err)
 	case scmHeadStream:
 		return MakeString("<stream>")
+	case scmHeadRaw:
+		return MakeString("#<raw>")
 	default:
 		return MakeString("primStr unknown")
 	}

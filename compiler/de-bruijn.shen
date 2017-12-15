@@ -14,6 +14,7 @@
   Env [and X Y] -> [$if (de-bruijn0 Env X) (de-bruijn0 Env Y) [$const false]]
   Env [or X Y] -> [$if (de-bruijn0 Env X) [$const true] (de-bruijn0 Env Y)]
   Env [trap-error X Y] -> [$trap (de-bruijn0 Env X) (de-bruijn0 Env Y)]
+  Env [F | X] -> [$prim F | (map (de-bruijn0 Env) X)] where (primitive? F)
   Env [F | X] -> [$app (de-bruijn0 Env F) | (map (de-bruijn0 Env) X)]
   Env X -> (de-bruijn-index X Env))
 
