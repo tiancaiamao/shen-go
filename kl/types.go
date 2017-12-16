@@ -121,14 +121,13 @@ func IsSymbol(o Obj) bool {
 	return *o == scmHeadSymbol
 }
 
-func MakePrimitive(name string, arity int, f func(...Obj) Obj) Obj {
-	prim := &ScmPrimitive{
+func MakePrimitive(name string, arity int, f func(...Obj) Obj) *ScmPrimitive {
+	return &ScmPrimitive{
 		scmHead:  scmHeadPrimitive,
 		Name:     name,
 		Required: arity,
 		Function: f,
 	}
-	return &prim.scmHead
 }
 
 func isPrimitive(o Obj) (bool, *ScmPrimitive) {
@@ -251,6 +250,10 @@ func MakeStream(raw interface{}) Obj {
 		raw,
 	}
 	return &tmp.scmHead
+}
+
+func GetString(o Obj) string {
+	return mustString(o)
 }
 
 func GetSymbol(o Obj) string {

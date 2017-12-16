@@ -3,6 +3,7 @@ package vm
 import (
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"runtime"
@@ -289,6 +290,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			case "eval-kl":
 				auxVM.symbolTable = vm.symbolTable
 				auxVM.functionTable = vm.functionTable
+				auxVM.nativeFunc = vm.nativeFunc
 				result = auxVM.Eval(args[0])
 			default:
 				result = prim.Function(args...)
@@ -465,4 +467,38 @@ func mustLoadKLFile(file string) {
 	if kl.IsError(o) {
 		panic(kl.ObjString(o))
 	}
+}
+
+func (vm *VM) LoadBytecode(args ...kl.Obj) kl.Obj {
+	fileName := kl.GetString(args[0])
+	filePath := path.Join(kl.PackagePath(), "bytecode", fileName)
+
+	f, err := os.Open(filePath)
+	if err != nil {
+		return kl.MakeError(err.Error())
+	}
+	defer f.Close()
+
+	r := kl.NewSexpReader(f)
+	obj, err := r.Read()
+	for err == nil {
+		var a Assember
+		if err1 := a.FromSexp(obj); err1 != nil {
+			return kl.MakeError(err1.Error())
+		}
+		code := a.Comiple()
+
+		auxVM.symbolTable = vm.symbolTable
+		auxVM.functionTable = vm.functionTable
+		auxVM.nativeFunc = vm.nativeFunc
+		res := auxVM.Run(code)
+		if kl.IsError(res) {
+			return res
+		}
+		obj, err = r.Read()
+	}
+	if err != io.EOF {
+		return kl.MakeError(err.Error())
+	}
+	return args[0]
 }

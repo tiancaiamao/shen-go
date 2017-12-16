@@ -15,6 +15,8 @@ func main() {
 
 	r := kl.NewSexpReader(vm.StdIn)
 	m := vm.New()
+	m.RegistNativeCall("load-bytecode", kl.MakePrimitive("load-bytecode", 1, m.LoadBytecode))
+
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()

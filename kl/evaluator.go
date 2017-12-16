@@ -135,5 +135,5 @@ func (e *Evaluator) BootstrapShen() {
 
 	// override
 	isSymbol := MakePrimitive("symbol?", 1, primIsSymbol)
-	e.functionTable["symbol?"] = isSymbol
+	e.functionTable["symbol?"] = Obj(&isSymbol.scmHead)
 }
