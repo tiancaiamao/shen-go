@@ -268,7 +268,6 @@ func (a *Assember) Decode(code *Code) string {
 func (a *Assember) FromSexp(input kl.Obj) error {
 	objs := kl.ListToSlice(input)
 	for _, obj := range objs {
-		// fmt.Println(kl.ObjString(kl.Car(obj)))
 		id := kl.GetSymbol(kl.Car(obj))
 		switch id {
 		case "iAccess":

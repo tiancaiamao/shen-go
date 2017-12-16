@@ -256,9 +256,9 @@ func TestFrancisFrenandez(t *testing.T) {
 }
 
 func init() {
-	BootstrapCompiler()
 	StdDebug, _ = os.Open("/dev/null")
 	StdBC, _ = os.Open("/dev/null")
+	BootstrapCompiler()
 }
 
 func TestKLToBytecode(t *testing.T) {

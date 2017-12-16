@@ -398,14 +398,20 @@ func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug)
 }
 
-var evaluator = kl.NewEvaluator()
+var compiler = New()
 
 func klToSexpByteCode(klambda kl.Obj) kl.Obj {
-	fmt.Fprintln(StdDebug, "kl->bytecode:", kl.ObjString(klambda))
-	quote := kl.Cons(kl.MakeSymbol("quote"), kl.Cons(klambda, kl.Nil))
-	f := kl.Cons(kl.MakeSymbol("kl->bytecode"), kl.Cons(quote, kl.Nil))
-	// Get the bytecode in sexp representation.
-	return evaluator.Eval(f)
+	// TODO: Better way to do it?
+	// tailcall (kl->bytecode klambda)
+	var a Assember
+	a.CONST(klambda)
+	a.CONST(kl.MakeSymbol("kl->bytecode"))
+	a.GetF()
+	a.TAILAPPLY()
+	a.HALT()
+
+	code := a.Comiple()
+	return compiler.Run(code)
 }
 
 func klToByteCode(klambda kl.Obj) (*Code, error) {
@@ -444,18 +450,13 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 }
 
 func BootstrapCompiler() {
-	evaluator.Silence = true
-	mustLoadKLFile("cmd/shen/bootstrap.kl")
-	mustLoadKLFile("cmd/shen/de-bruijn.kl")
-	mustLoadKLFile("cmd/shen/compile.kl")
-}
+	compiler.RegistNativeCall(kl.MakePrimitive("primitive?", 1, kl.NativeIsPrimitive))
+	compiler.RegistNativeCall(kl.MakePrimitive("primitive-arity", 1, kl.NativePrimitiveArity))
+	compiler.RegistNativeCall(kl.MakePrimitive("primitive-id", 1, kl.NativePrimitiveID))
 
-func mustLoadKLFile(file string) {
-	filePath := path.Join(kl.PackagePath(), file)
-	o := evaluator.LoadFile(filePath)
-	if kl.IsError(o) {
-		panic(kl.ObjString(o))
-	}
+	compiler.LoadBytecode(kl.MakeString("bootstrap.bc"))
+	compiler.LoadBytecode(kl.MakeString("de-bruijn.bc"))
+	compiler.LoadBytecode(kl.MakeString("compile.bc"))
 }
 
 func (vm *VM) LoadBytecode(args ...kl.Obj) kl.Obj {
