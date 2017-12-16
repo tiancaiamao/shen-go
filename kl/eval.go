@@ -267,6 +267,16 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
 		switch {
+		case prim.Name == "native":
+			method := mustSymbol(args[0]).sym
+			prim1, ok := e.nativeFunc[method]
+			if !ok {
+				ctl.Return(MakeError("undefined native " + method))
+				return
+			}
+			prim = prim1
+			ctl.Return(prim.Function(args[1:]...))
+			return
 		case len(args) < prim.Required:
 			ctl.Return(partialApply(prim.Required, args, nil, f))
 			return

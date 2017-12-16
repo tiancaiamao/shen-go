@@ -49,7 +49,7 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: primNot},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: primIf},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: primIsSymbol},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 0},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 9999},
 }
 
 var primitiveIdx map[string]*ScmPrimitive
@@ -63,6 +63,9 @@ func init() {
 }
 
 func NativeIsPrimitive(args ...Obj) Obj {
+	if *args[0] != scmHeadSymbol {
+		return False
+	}
 	str := mustSymbol(args[0]).sym
 	_, ok := primitiveIdx[str]
 	if ok {

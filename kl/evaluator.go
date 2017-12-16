@@ -12,6 +12,8 @@ type Evaluator struct {
 	symbolTable   map[string]Obj
 	functionTable map[string]Obj
 	Silence       bool
+
+	nativeFunc map[string]*ScmPrimitive
 }
 
 func NewEvaluator() *Evaluator {
@@ -31,6 +33,11 @@ func NewEvaluator() *Evaluator {
 	e.functionTable["eval-kl"] = Obj(&tmp.scmHead)
 	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
 	e.functionTable["load-file"] = Obj(&tmp.scmHead)
+
+	e.nativeFunc = make(map[string]*ScmPrimitive)
+	e.RegistNativeCall(MakePrimitive("primitive?", 1, NativeIsPrimitive))
+	e.RegistNativeCall(MakePrimitive("primitive-arity", 1, NativePrimitiveArity))
+	e.RegistNativeCall(MakePrimitive("primitive-id", 1, NativePrimitiveID))
 
 	e.symbolTable["*stinput*"] = MakeStream(os.Stdin)
 	e.symbolTable["*stoutput*"] = MakeStream(os.Stdout)
@@ -108,13 +115,17 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 		if r := recover(); r != nil {
 			var buf [4096]byte
 			n := runtime.Stack(buf[:], false)
-			fmt.Println("Recovered in Eval:", r)
+			fmt.Println("Recovered in Eval:", ObjString(exp))
 			fmt.Println(string(buf[:n]))
 			res = Nil
 		}
 	}()
 	res = e.trampoline(exp, nil)
 	return
+}
+
+func (e *Evaluator) RegistNativeCall(prim *ScmPrimitive) {
+	e.nativeFunc[prim.Name] = prim
 }
 
 func (e *Evaluator) BootstrapShen() {
