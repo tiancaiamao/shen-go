@@ -78,6 +78,24 @@ func TestTrapError(t *testing.T) {
 	runTest(vm, "(value/or XXX (freeze 42))", kl.MakeInteger(42), t)
 }
 
+func TestNativeCall(t *testing.T) {
+	vm := New()
+	proc := &kl.ScmPrimitive{
+		Name:     "hello",
+		Required: 0,
+		Function: helloWorld,
+	}
+	vm.RegistNativeCall("hello", proc)
+
+	runTest(vm, "(native hello)", kl.MakeString("hello world"), t)
+	runTest(vm, "(native bbc)", kl.MakeError("unknown native function:bbc"), t)
+	runTest(vm, "(native hello 1)", kl.MakeError("wrong arity for native hello"), t)
+}
+
+func helloWorld(...kl.Obj) kl.Obj {
+	return kl.MakeString("hello world")
+}
+
 func TestOrder(t *testing.T) {
 	vm := New()
 	runTest(vm, "(defun f (x y) y)", kl.MakeSymbol("f"), t)

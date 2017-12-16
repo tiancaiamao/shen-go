@@ -72,7 +72,7 @@ type scmProcedure struct {
 	env   *Environment
 }
 
-type scmPrimitive struct {
+type ScmPrimitive struct {
 	scmHead
 	Name     string
 	Required int
@@ -122,7 +122,7 @@ func IsSymbol(o Obj) bool {
 }
 
 func MakePrimitive(name string, arity int, f func(...Obj) Obj) Obj {
-	prim := &scmPrimitive{
+	prim := &ScmPrimitive{
 		scmHead:  scmHeadPrimitive,
 		Name:     name,
 		Required: arity,
@@ -131,18 +131,18 @@ func MakePrimitive(name string, arity int, f func(...Obj) Obj) Obj {
 	return &prim.scmHead
 }
 
-func isPrimitive(o Obj) (bool, *scmPrimitive) {
+func isPrimitive(o Obj) (bool, *ScmPrimitive) {
 	if *o != scmHeadPrimitive {
 		return false, nil
 	}
-	return true, (*scmPrimitive)(unsafe.Pointer(o))
+	return true, (*ScmPrimitive)(unsafe.Pointer(o))
 }
 
-func mustPrimitive(o Obj) *scmPrimitive {
+func mustPrimitive(o Obj) *ScmPrimitive {
 	if *o != scmHeadPrimitive {
 		panic("mustPrimitive")
 	}
-	return (*scmPrimitive)(unsafe.Pointer(o))
+	return (*ScmPrimitive)(unsafe.Pointer(o))
 }
 
 func mustVector(o Obj) []Obj {

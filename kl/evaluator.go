@@ -23,13 +23,13 @@ func NewEvaluator() *Evaluator {
 		e.functionTable[prim.Name] = Obj(&prim.scmHead)
 	}
 	// Overload for primitive set and value.
-	tmp := &scmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: e.primSet}
+	tmp := &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: e.primSet}
 	e.functionTable["set"] = Obj(&tmp.scmHead)
-	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: e.primValue}
+	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: e.primValue}
 	e.functionTable["value"] = Obj(&tmp.scmHead)
-	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
+	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
 	e.functionTable["eval-kl"] = Obj(&tmp.scmHead)
-	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
+	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
 	e.functionTable["load-file"] = Obj(&tmp.scmHead)
 
 	e.symbolTable["*stinput*"] = MakeStream(os.Stdin)

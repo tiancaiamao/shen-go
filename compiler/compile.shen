@@ -19,6 +19,7 @@
         X -> (append (compile1 X) [[iReturn]]))
 
 (define compile-primitive-call
+  native X -> (append (compile-arg-list X) [[iNativeCall (length X)]])
   F X -> (append (compile-arg-list X) [[iPrimCall (primitive-id F)]]) where (= (length X) (primitive-arity F))
   F X -> (compile1 (curry-primitive F X)))
 

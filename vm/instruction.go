@@ -30,6 +30,7 @@ const (
 	iJMP
 	iSetJmp
 	iClearJmp
+	iNativeCall
 )
 
 type instructionInfo struct {
@@ -45,6 +46,7 @@ var instructionTable = []instructionInfo{
 	{iApply, "APPLY"},
 	{iMark, "MARK"},
 	{iPrimCall, "PRIMCALL"},
+	{iNativeCall, "NATIVECALL"},
 	{iConst, "CONST"},
 	{iReturn, "RETURN"},
 	{iHalt, "HALT"},
@@ -97,6 +99,8 @@ func (i instruction) String() string {
 		return fmt.Sprintf("TAILAPPLY %d", instructionOPN(i))
 	case iPrimCall:
 		return "PRIMCALL"
+	case iNativeCall:
+		return fmt.Sprintf("NATIVECALL %d", instructionOPN(i))
 	case iConst:
 		return fmt.Sprintf("CONST %d", instructionOPN(i))
 	case iReturn:
@@ -219,6 +223,14 @@ func (a *Assember) PRIMCALL(id int) {
 	a.buf = append(a.buf, inst)
 }
 
+func (a *Assember) NATIVECALL(id int) {
+	if id >= (1 << codeBitShift) {
+		panic("overflow instruct bits")
+	}
+	inst := instruction((iNativeCall << codeBitShift) | id)
+	a.buf = append(a.buf, inst)
+}
+
 func (a *Assember) Comiple() *Code {
 	code := Code{
 		bc:     a.buf,
@@ -265,6 +277,9 @@ func (a *Assember) FromSexp(input kl.Obj) error {
 		case "iPrimCall":
 			n := kl.GetInteger(kl.Cadr(obj))
 			a.PRIMCALL(n)
+		case "iNativeCall":
+			n := kl.GetInteger(kl.Cadr(obj))
+			a.NATIVECALL(n)
 		case "iConst":
 			a.CONST(kl.Cadr(obj))
 		case "iApply":

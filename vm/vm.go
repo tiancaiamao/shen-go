@@ -23,6 +23,8 @@ type VM struct {
 	functionTable map[string]*Procedure
 	symbolTable   map[string]kl.Obj
 
+	nativeFunc map[string]*kl.ScmPrimitive
+
 	// jumpBuf is used to implement exception, similar to setjmp/longjmp in C.
 	cc *jumpBuf
 }
@@ -64,9 +66,14 @@ func New() *VM {
 		env:           make([]kl.Obj, 0, 200),
 		functionTable: make(map[string]*Procedure),
 		symbolTable:   make(map[string]kl.Obj),
+		nativeFunc:    make(map[string]*kl.ScmPrimitive),
 	}
 	initSymbolTable(vm.symbolTable)
 	return vm
+}
+
+func (vm *VM) RegistNativeCall(name string, value *kl.ScmPrimitive) {
+	vm.nativeFunc[name] = value
 }
 
 func initSymbolTable(symbolTable map[string]kl.Obj) {
@@ -103,10 +110,10 @@ func (vm *VM) Run(code *Code) kl.Obj {
 
 	halt := false
 	for !halt {
-		exception := false
 		inst := code.bc[vm.pc]
 		vm.pc++
 
+		exception := false
 		switch instructionCode(inst) {
 		case iSetJmp:
 			n := instructionOPN(inst)
@@ -242,6 +249,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.stack[vm.top-1] = kl.MakeRaw(&function.scmHead)
 			} else {
 				vm.stack[vm.top-1] = kl.MakeError("unknown function:" + symbol)
+				exception = true
 			}
 		case iJF:
 			fmt.Fprintln(StdBC, "JF")
@@ -257,6 +265,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			default:
 				// TODO: So what?
 				vm.stack[vm.top-1] = kl.MakeError("test condition need to be boolean")
+				exception = true
 			}
 		case iJMP:
 			n := instructionOPN(inst)
@@ -291,6 +300,27 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			if kl.IsError(result) {
 				exception = true
 			}
+		case iNativeCall:
+			arity := instructionOPN(inst)
+			method := kl.GetSymbol(vm.stack[vm.top-arity])
+			proc, ok := vm.nativeFunc[method]
+			if !ok {
+				vm.stack[vm.top-1] = kl.MakeError("unknown native function:" + method)
+				exception = true
+				break
+			}
+			// Note the invariance arity = len(method + args), so arity-1 = proc.Required
+			if arity-1 != proc.Required {
+				vm.stack[vm.top-1] = kl.MakeError("wrong arity for native " + method)
+				exception = true
+				break
+			}
+			args := vm.stack[vm.top-proc.Required : vm.top]
+			result := proc.Function(args...)
+
+			fmt.Fprintln(StdBC, "NATIVECALL", method)
+			vm.stack[vm.top-arity] = result
+			vm.top = vm.top - proc.Required
 		default:
 			panic(fmt.Sprintf("unknown instruction %d", inst))
 		}

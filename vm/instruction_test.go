@@ -19,6 +19,7 @@ func TestInstruction(t *testing.T) {
 	a.JMP(5)
 	a.FREEZE(3)
 	a.SETJMP(22)
+	a.NATIVECALL(4)
 	a.HALT()
 
 	result := `CONST 0
@@ -31,6 +32,7 @@ MARK
 JMP 5
 FREEZE 3
 SETJMP 22
+NATIVECALL 4
 HALT`
 
 	expects := strings.Split(result, "\n")
