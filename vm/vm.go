@@ -491,3 +491,42 @@ func (vm *VM) LoadBytecode(args ...kl.Obj) kl.Obj {
 	}
 	return args[0]
 }
+
+func (vm *VM) LoadFile(args ...kl.Obj) kl.Obj {
+	file := kl.GetString(args[0])
+	var filePath string
+	if _, err := os.Stat(file); err == nil {
+		filePath = file
+	} else {
+		filePath = path.Join(kl.PackagePath(), file)
+		if _, err := os.Stat(filePath); err != nil {
+			return kl.MakeError(err.Error())
+		}
+	}
+
+	f, err := os.Open(filePath)
+	if err != nil {
+		return kl.MakeError(err.Error())
+	}
+	defer f.Close()
+
+	r := kl.NewSexpReader(f)
+	for {
+		exp, err := r.Read()
+		if err != nil {
+			if err != io.EOF {
+				return kl.MakeError(err.Error())
+			}
+			break
+		}
+
+		auxVM.symbolTable = vm.symbolTable
+		auxVM.functionTable = vm.functionTable
+		auxVM.nativeFunc = vm.nativeFunc
+		res := auxVM.Eval(exp)
+		if kl.IsError(res) {
+			return res
+		}
+	}
+	return kl.Nil
+}
