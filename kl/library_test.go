@@ -1,7 +1,6 @@
 package kl
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -72,14 +71,6 @@ func TestVectorGet(t *testing.T) {
 	if equal(primVectorGet(vec, MakeInteger(0)), MakeNumber(42)) != True {
 		t.Error("vector set or get wrong")
 	}
-}
-
-func TestPrimitive(t *testing.T) {
-	fmt.Println("(init-primitive-table [")
-	for i, prim := range allPrimitives {
-		fmt.Println(prim.Name, prim.Required, `"xxx"`, i)
-	}
-	fmt.Println("])")
 }
 
 func TestIsPreciseInteger(t *testing.T) {

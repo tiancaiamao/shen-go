@@ -52,6 +52,43 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 0},
 }
 
+var primitiveIdx map[string]*ScmPrimitive
+
+func init() {
+	primitiveIdx = make(map[string]*ScmPrimitive)
+	for i, prim := range allPrimitives {
+		prim.id = i
+		primitiveIdx[prim.Name] = prim
+	}
+}
+
+func NativeIsPrimitive(args ...Obj) Obj {
+	str := mustSymbol(args[0]).sym
+	_, ok := primitiveIdx[str]
+	if ok {
+		return True
+	}
+	return False
+}
+
+func NativePrimitiveArity(args ...Obj) Obj {
+	str := mustSymbol(args[0]).sym
+	prim, ok := primitiveIdx[str]
+	if !ok {
+		return MakeInteger(-1)
+	}
+	return MakeInteger(prim.Required)
+}
+
+func NativePrimitiveID(args ...Obj) Obj {
+	str := mustSymbol(args[0]).sym
+	prim, ok := primitiveIdx[str]
+	if !ok {
+		return MakeError("not a primitive")
+	}
+	return MakeInteger(prim.id)
+}
+
 func GetPrimitiveByID(id int) *ScmPrimitive {
 	return allPrimitives[id]
 }

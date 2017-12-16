@@ -70,11 +70,12 @@ func New() *VM {
 		nativeFunc:    make(map[string]*kl.ScmPrimitive),
 	}
 	initSymbolTable(vm.symbolTable)
+
 	return vm
 }
 
-func (vm *VM) RegistNativeCall(name string, value *kl.ScmPrimitive) {
-	vm.nativeFunc[name] = value
+func (vm *VM) RegistNativeCall(value *kl.ScmPrimitive) {
+	vm.nativeFunc[value.Name] = value
 }
 
 func initSymbolTable(symbolTable map[string]kl.Obj) {

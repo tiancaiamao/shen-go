@@ -85,7 +85,7 @@ func TestNativeCall(t *testing.T) {
 		Required: 0,
 		Function: helloWorld,
 	}
-	vm.RegistNativeCall("hello", proc)
+	vm.RegistNativeCall(proc)
 
 	runTest(vm, "(native hello)", kl.MakeString("hello world"), t)
 	runTest(vm, "(native bbc)", kl.MakeError("unknown native function:bbc"), t)
