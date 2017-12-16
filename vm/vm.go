@@ -129,24 +129,24 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				savedAddrPos: len(vm.savedAddr),
 				closure:      vm.stack[vm.top],
 			}
-			fmt.Fprintln(StdBC, "SETJMP", vm.cc.savedAddrPos, vm.cc.address.pc)
+			// fmt.Fprintln(StdBC, "SETJMP", vm.cc.savedAddrPos, vm.cc.address.pc)
 		case iClearJmp:
-			fmt.Fprintln(StdBC, "CLEARJMP")
+			// fmt.Fprintln(StdBC, "CLEARJMP")
 			vm.cc = nil
 		case iConst:
 			n := instructionOPN(inst)
-			fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(code.consts[n]), vm.top)
+			// fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(code.consts[n]), vm.top)
 			vm.stackPush(code.consts[n])
 		case iAccess:
 			n := instructionOPN(inst)
 			// get value from environment
 			vm.stackPush(vm.env[len(vm.env)-1-n])
-			fmt.Fprintln(StdBC, "ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top-1]))
+			// fmt.Fprintln(StdBC, "ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top-1]))
 		case iFreeze:
 			// create closure directly
 			// nearly the same with grab, but if need zero arguments.
 			n := instructionOPN(inst)
-			fmt.Fprintln(StdBC, "FREEZE", vm.pc, n)
+			// fmt.Fprintln(StdBC, "FREEZE", vm.pc, n)
 			tmp := &Procedure{
 				code: &Code{
 					bc:     code.bc[vm.pc:],
@@ -161,14 +161,13 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.stackPush(raw)
 			vm.pc += n
 		case iMark:
-			fmt.Fprintln(StdBC, "MARK")
+			// fmt.Fprintln(StdBC, "MARK")
 			vm.stackPush(stackMark)
 		case iGrab:
 			vm.top--
 			if v := vm.stack[vm.top]; v == stackMark {
 				// make closure if there are not enough arguments
-				n := instructionOPN(inst)
-				fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc, n)
+				// fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc)
 				tmp := Procedure{
 					code: &Code{
 						bc:     code.bc[vm.pc-1:],
@@ -187,7 +186,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 			} else {
 				// grab data from stack to env
-				fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v), len(vm.savedAddr))
+				// fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v), len(vm.savedAddr))
 				vm.env = append(vm.env, v)
 			}
 		case iReturn:
@@ -201,11 +200,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 				vm.top--
 				vm.stack[vm.top-1] = vm.stack[vm.top]
-				fmt.Fprintln(StdBC, "RETURN ", len(vm.savedAddr), vm.top, vm.pc)
+				// fmt.Fprintln(StdBC, "RETURN ", len(vm.savedAddr), vm.top, vm.pc)
 			} else {
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
-				fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!", len(vm.savedAddr))
+				// fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!", len(vm.savedAddr))
 				vm.top--
 				obj := vm.stack[vm.top]
 				// TODO: panic if obj is not a closure
@@ -220,7 +219,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// The only different with Apply is that TailApply doesn't save return address.
 			code = closure.code
-			fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(code.bc), closure)
+			// fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(code.bc), closure)
 			vm.pc = 0
 			vm.env = closure.env
 		case iApply:
@@ -229,24 +228,24 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// save return address
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env})
-			fmt.Fprintln(StdBC, "APPLY", vm.top, len(vm.savedAddr), len(code.bc))
+			// fmt.Fprintln(StdBC, "APPLY", vm.top, len(vm.savedAddr), len(code.bc))
 			// set pc to closure code
 			code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
 		case iPop:
-			fmt.Fprintln(StdBC, "POP")
+			// fmt.Fprintln(StdBC, "POP")
 			vm.top--
 		case iDefun:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
 			function := (*Procedure)(unsafe.Pointer(vm.stack[vm.top-2]))
-			fmt.Fprintln(StdBC, "DEFUN", symbol, len(function.code.bc), function)
+			// fmt.Fprintln(StdBC, "DEFUN", symbol, len(function.code.bc), function)
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
 		case iGetF:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
-			fmt.Fprintln(StdBC, "GETF", symbol)
+			// fmt.Fprintln(StdBC, "GETF", symbol)
 			if function, ok := vm.functionTable[symbol]; ok {
 				vm.stack[vm.top-1] = kl.MakeRaw(&function.scmHead)
 			} else {
@@ -254,15 +253,15 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				exception = true
 			}
 		case iJF:
-			fmt.Fprintln(StdBC, "JF")
+			// fmt.Fprintln(StdBC, "JF")
 			switch vm.stack[vm.top-1] {
 			case kl.False:
 				n := instructionOPN(inst)
 				vm.top--
 				vm.pc += n
-				fmt.Fprintln(StdDebug, "JF false branch pc=", vm.pc, n)
+				// fmt.Fprintln(StdDebug, "JF false branch pc=", vm.pc, n)
 			case kl.True:
-				fmt.Fprintln(StdDebug, "JF true branch pc=", vm.pc)
+				// fmt.Fprintln(StdDebug, "JF true branch pc=", vm.pc)
 				vm.top--
 			default:
 				// TODO: So what?
@@ -272,9 +271,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iJMP:
 			n := instructionOPN(inst)
 			vm.pc += n
-			fmt.Fprintln(StdBC, "JMP", n, vm.pc)
+			// fmt.Fprintln(StdBC, "JMP", n, vm.pc)
 		case iHalt:
-			fmt.Fprintln(StdBC, "HALT", vm.top, len(vm.savedAddr))
+			// fmt.Fprintln(StdBC, "HALT", vm.top, len(vm.savedAddr))
 			halt = true
 		case iPrimCall:
 			id := instructionOPN(inst)
@@ -297,7 +296,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				result = prim.Function(args...)
 			}
 
-			fmt.Fprintln(StdBC, "PRIMCALL", prim.Name)
+			// fmt.Fprintln(StdBC, "PRIMCALL", prim.Name)
 			vm.stack[vm.top-prim.Required] = result
 			vm.top = vm.top - prim.Required + 1
 			if kl.IsError(result) {
@@ -321,7 +320,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			args := vm.stack[vm.top-proc.Required : vm.top]
 			result := proc.Function(args...)
 
-			fmt.Fprintln(StdBC, "NATIVECALL", method)
+			// fmt.Fprintln(StdBC, "NATIVECALL", method)
 			vm.stack[vm.top-arity] = result
 			vm.top = vm.top - proc.Required
 		default:
@@ -329,8 +328,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		}
 
 		if exception {
-			fmt.Fprintln(StdBC, "exception")
-			vm.Debug()
+			// fmt.Fprintln(StdBC, "exception")
+			// vm.Debug()
 			if vm.cc == nil {
 				err := vm.stack[vm.top-1]
 				vm.Reset()
@@ -346,12 +345,12 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// recover savedAddr
 			vm.savedAddr = vm.savedAddr[:jmpBuf.savedAddrPos]
 			vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
-			fmt.Fprintln(StdDebug, "exception", len(vm.savedAddr))
+			// fmt.Fprintln(StdDebug, "exception", len(vm.savedAddr))
 			// longjmp... tail apply
 			closure := (*Procedure)(unsafe.Pointer(jmpBuf.closure))
 			code = closure.code
-			fmt.Fprintf(StdDebug, "len code = %d\n", len(code.bc))
-			fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
+			// fmt.Fprintf(StdDebug, "len code = %d\n", len(code.bc))
+			// fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
 			vm.pc = 0
 			vm.env = closure.env
 		}
