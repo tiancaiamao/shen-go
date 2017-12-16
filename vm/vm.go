@@ -445,19 +445,7 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 
 func BootstrapCompiler() {
 	evaluator.Silence = true
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/toplevel.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/core.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/sys.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/sequent.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/yacc.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/reader.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/prolog.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/track.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/load.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/writer.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/macros.kl")
-	mustLoadKLFile("ShenOSKernel-20.1/klambda/declarations.kl")
-	mustLoadKLFile("cmd/shen/primitive.kl")
+	mustLoadKLFile("cmd/shen/bootstrap.kl")
 	mustLoadKLFile("cmd/shen/de-bruijn.kl")
 	mustLoadKLFile("cmd/shen/compile.kl")
 }
