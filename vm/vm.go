@@ -443,7 +443,7 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 		if r := recover(); r != nil {
 			var buf [4096]byte
 			n := runtime.Stack(buf[:], false)
-			fmt.Println("Recovered in Eval:", r)
+			fmt.Println("Recovered in Eval:", kl.ObjString(sexp))
 			fmt.Println(string(buf[:n]))
 			res = kl.Nil
 		}

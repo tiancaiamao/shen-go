@@ -3,6 +3,7 @@ package kl
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"time"
 	"unsafe"
 )
@@ -319,6 +320,22 @@ func ObjString(o Obj) string {
 	return (*scmHead)(o).GoString()
 }
 
+func (o *scmPair) fmt(buf io.Writer, start bool) {
+	if start {
+		fmt.Fprintf(buf, "(%s", ObjString(o.car))
+	} else {
+		fmt.Fprintf(buf, " %s", ObjString(o.car))
+	}
+	switch *o.cdr {
+	case scmHeadNull:
+		fmt.Fprintf(buf, ")")
+	case scmHeadPair:
+		mustPair(o.cdr).fmt(buf, false)
+	default:
+		fmt.Fprintf(buf, " . %s)", ObjString(o.cdr))
+	}
+}
+
 func (o *scmHead) GoString() string {
 	switch *o {
 	case scmHeadNumber:
@@ -329,38 +346,35 @@ func (o *scmHead) GoString() string {
 		return fmt.Sprintf("%d", int(f.val))
 	case scmHeadPair:
 		var buf bytes.Buffer
-		fmt.Fprintf(&buf, "Pair(")
-		fmt.Fprintf(&buf, "%#v", (*scmHead)(car(o)))
-		fmt.Fprintf(&buf, "%#v", (*scmHead)(cdr(o)))
-		fmt.Fprintf(&buf, ")")
+		mustPair(o).fmt(&buf, true)
 		return buf.String()
 	case scmHeadVector:
-		return fmt.Sprintf("Vector")
+		return fmt.Sprintf("#vector")
 	case scmHeadNull:
-		return fmt.Sprintf("Null")
+		return fmt.Sprintf("()")
 	case scmHeadString:
-		return fmt.Sprintf("String(%s)", mustString(o))
+		return fmt.Sprintf(`"%s"`, mustString(o))
 	case scmHeadSymbol:
-		return fmt.Sprintf("Symbol(%s)", mustSymbol(o).sym)
+		return fmt.Sprintf("%s", mustSymbol(o).sym)
 	case scmHeadBoolean:
 		if o == True {
-			return fmt.Sprintf("Boolean(True)")
+			return fmt.Sprintf("true")
 		} else if o == False {
-			return fmt.Sprintf("Boolean(False)")
+			return fmt.Sprintf("false)")
 		} else {
 			return fmt.Sprintf("Boolean(something wrong)")
 		}
 	case scmHeadError:
 		return fmt.Sprintf("Error(%s)", mustError(o).err)
 	case scmHeadProcedure:
-		return fmt.Sprintf("Procedure")
+		return fmt.Sprintf("#procedure")
 	case scmHeadStream:
-		return fmt.Sprintf("Stream")
+		return fmt.Sprintf("#stream")
 	case scmHeadPrimitive:
 		prim := mustPrimitive(o)
-		return fmt.Sprintf("Primitive(%s)", prim.Name)
+		return fmt.Sprintf("#primitive(%s)", prim.Name)
 	case scmHeadRaw:
-		return "Raw Object"
+		return "#raw"
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }
