@@ -57,11 +57,21 @@ type Procedure struct {
 
 const initStackSize = 128
 
-var auxVM *VM = New()
+var auxVM *VM = newVM()
 var stackMarkDummyValue int
 var stackMark = kl.MakeRaw(&stackMarkDummyValue)
 
 func New() *VM {
+	vm := newVM()
+	vm.RegistNativeCall("load-bytecode", 1, vm.loadBytecode)
+	vm.RegistNativeCall("load-file", 1, vm.loadFile)
+	vm.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
+	vm.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
+	vm.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
+	return vm
+}
+
+func newVM() *VM {
 	vm := &VM{
 		stack:         make([]kl.Obj, initStackSize),
 		env:           make([]kl.Obj, 0, 200),
@@ -70,12 +80,11 @@ func New() *VM {
 		nativeFunc:    make(map[string]*kl.ScmPrimitive),
 	}
 	initSymbolTable(vm.symbolTable)
-
 	return vm
 }
 
-func (vm *VM) RegistNativeCall(value *kl.ScmPrimitive) {
-	vm.nativeFunc[value.Name] = value
+func (vm *VM) RegistNativeCall(name string, arity int, f func(...kl.Obj) kl.Obj) {
+	vm.nativeFunc[name] = kl.MakePrimitive(name, arity, f)
 }
 
 func initSymbolTable(symbolTable map[string]kl.Obj) {
@@ -397,7 +406,7 @@ func (vm *VM) Debug() {
 	fmt.Fprintln(StdDebug)
 }
 
-var compiler = New()
+var compiler = newVM()
 
 func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 	// TODO: Better way to do it?
@@ -448,17 +457,17 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	return
 }
 
-func BootstrapCompiler() {
-	compiler.RegistNativeCall(kl.MakePrimitive("primitive?", 1, kl.NativeIsPrimitive))
-	compiler.RegistNativeCall(kl.MakePrimitive("primitive-arity", 1, kl.NativePrimitiveArity))
-	compiler.RegistNativeCall(kl.MakePrimitive("primitive-id", 1, kl.NativePrimitiveID))
+func init() {
+	compiler.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
+	compiler.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
+	compiler.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
 
-	compiler.LoadBytecode(kl.MakeString("bootstrap.bc"))
-	compiler.LoadBytecode(kl.MakeString("de-bruijn.bc"))
-	compiler.LoadBytecode(kl.MakeString("compile.bc"))
+	compiler.loadBytecode(kl.MakeString("bootstrap.bc"))
+	compiler.loadBytecode(kl.MakeString("de-bruijn.bc"))
+	compiler.loadBytecode(kl.MakeString("compile.bc"))
 }
 
-func (vm *VM) LoadBytecode(args ...kl.Obj) kl.Obj {
+func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 	fileName := kl.GetString(args[0])
 	filePath := path.Join(kl.PackagePath(), "bytecode", fileName)
 
@@ -492,7 +501,7 @@ func (vm *VM) LoadBytecode(args ...kl.Obj) kl.Obj {
 	return args[0]
 }
 
-func (vm *VM) LoadFile(args ...kl.Obj) kl.Obj {
+func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 	file := kl.GetString(args[0])
 	var filePath string
 	if _, err := os.Stat(file); err == nil {

@@ -80,12 +80,7 @@ func TestTrapError(t *testing.T) {
 
 func TestNativeCall(t *testing.T) {
 	vm := New()
-	proc := &kl.ScmPrimitive{
-		Name:     "hello",
-		Required: 0,
-		Function: helloWorld,
-	}
-	vm.RegistNativeCall(proc)
+	vm.RegistNativeCall("hello", 0, helloWorld)
 
 	runTest(vm, "(native hello)", kl.MakeString("hello world"), t)
 	runTest(vm, "(native bbc)", kl.MakeError("unknown native function:bbc"), t)
@@ -258,7 +253,6 @@ func TestFrancisFrenandez(t *testing.T) {
 func init() {
 	StdDebug, _ = os.Open("/dev/null")
 	StdBC, _ = os.Open("/dev/null")
-	BootstrapCompiler()
 }
 
 func TestKLToBytecode(t *testing.T) {
