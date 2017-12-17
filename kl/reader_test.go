@@ -55,3 +55,11 @@ de"`, MakeString("abc\nde")},
 		t.Error("read another sexp")
 	}
 }
+
+func TestReaderMacro(t *testing.T) {
+	a, _ := NewSexpReader(strings.NewReader("^'(a b c)")).Read()
+	b, _ := NewSexpReader(strings.NewReader("(cons a (cons b (cons c ())))")).Read()
+	if equal(a, b) == False {
+		t.Error("fail:", ObjString(a), ObjString(b))
+	}
+}

@@ -225,6 +225,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iTailApply:
 			vm.top--
 			obj := vm.stack[vm.top]
+			// TODO: panic if obj is not a closure
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// The only different with Apply is that TailApply doesn't save return address.
 			code = closure.code
@@ -234,6 +235,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iApply:
 			vm.top--
 			obj := vm.stack[vm.top]
+			// TODO: panic if obj is not a closure
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// save return address
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env})
@@ -332,6 +334,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// fmt.Fprintln(StdBC, "NATIVECALL", method)
 			vm.stack[vm.top-arity] = result
 			vm.top = vm.top - proc.Required
+			if kl.IsError(result) {
+				exception = true
+			}
 		default:
 			panic(fmt.Sprintf("unknown instruction %d", inst))
 		}
@@ -445,7 +450,7 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 			n := runtime.Stack(buf[:], false)
 			fmt.Println("Recovered in Eval:", kl.ObjString(sexp))
 			fmt.Println(string(buf[:n]))
-			res = kl.Nil
+			res = kl.MakeError("panic")
 		}
 	}()
 
@@ -537,5 +542,5 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 			return res
 		}
 	}
-	return kl.Nil
+	return args[0]
 }
