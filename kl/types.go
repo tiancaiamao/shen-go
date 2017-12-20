@@ -360,7 +360,7 @@ func (o *scmHead) GoString() string {
 		if o == True {
 			return fmt.Sprintf("true")
 		} else if o == False {
-			return fmt.Sprintf("false)")
+			return fmt.Sprintf("false")
 		} else {
 			return fmt.Sprintf("Boolean(something wrong)")
 		}

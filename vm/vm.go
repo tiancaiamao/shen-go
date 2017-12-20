@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"runtime"
+	"sync"
 	"unsafe"
 
 	"github.com/tiancaiamao/shen-go/kl"
@@ -57,7 +58,30 @@ type Procedure struct {
 
 const initStackSize = 128
 
-var auxVM *VM = newVM()
+type pool struct {
+	sync.Mutex
+	data []*VM
+}
+
+func (p *pool) Get() *VM {
+	p.Lock()
+	defer p.Unlock()
+
+	if len(p.data) == 0 {
+		return newVM()
+	}
+	ret := p.data[0]
+	p.data = p.data[1:]
+	return ret
+}
+
+func (p *pool) Put(v *VM) {
+	p.Lock()
+	p.data = append(p.data, v)
+	p.Unlock()
+}
+
+var auxVM pool
 var stackMarkDummyValue int
 var stackMark = kl.MakeRaw(&stackMarkDummyValue)
 
@@ -105,19 +129,8 @@ func initSymbolTable(symbolTable map[string]kl.Obj) {
 
 func (vm *VM) Run(code *Code) kl.Obj {
 	vm.pc = 0
-
-	// From the example:
-	// case one: 1 	[[iConst 1] [iHalt]]
-	// case two: ((lambda X X) 1) [[iConst 1] [iGrab [iAccess 0] [iReturn]] [iTailApply 1] [iHalt]]
-	//
-	// We see that case one doesn't need the initial savedAddr, while case does.
-	// If savedAddr begins with empty, case two would panic. If savedAddr begins with 1,
-	// run case two would accumulate more and more savedAddrs.
-	// So reset savedAddr to length 1 and both case one and case two feel happy.
-	vm.savedAddr = vm.savedAddr[:0]
 	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
-	vm.stack[0] = stackMark
-	vm.top = 1
+	vm.stackPush(stackMark)
 
 	halt := false
 	for !halt {
@@ -138,7 +151,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				savedAddrPos: len(vm.savedAddr),
 				closure:      vm.stack[vm.top],
 			}
-			// fmt.Fprintln(StdBC, "SETJMP", vm.cc.savedAddrPos, vm.cc.address.pc)
+			fmt.Fprintln(StdDebug, "SETJMP", "top=", vm.top)
 		case iClearJmp:
 			// fmt.Fprintln(StdBC, "CLEARJMP")
 			vm.cc = nil
@@ -299,10 +312,12 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			case "value":
 				result = kl.PrimValue(vm.symbolTable, args[0])
 			case "eval-kl":
-				auxVM.symbolTable = vm.symbolTable
-				auxVM.functionTable = vm.functionTable
-				auxVM.nativeFunc = vm.nativeFunc
-				result = auxVM.Eval(args[0])
+				tmp := auxVM.Get()
+				tmp.symbolTable = vm.symbolTable
+				tmp.functionTable = vm.functionTable
+				tmp.nativeFunc = vm.nativeFunc
+				result = tmp.Eval(args[0])
+				auxVM.Put(tmp)
 			default:
 				result = prim.Function(args...)
 			}
@@ -342,10 +357,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		}
 
 		if exception {
-			// fmt.Fprintln(StdBC, "exception")
-			// vm.Debug()
+			fmt.Fprintln(StdDebug, "exception")
+			vm.Debug()
 			if vm.cc == nil {
 				err := vm.stack[vm.top-1]
+				fmt.Fprintln(StdDebug, "uncached exception", kl.ObjString(err))
 				vm.Reset()
 				return err
 			}
@@ -354,6 +370,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			jmpBuf := vm.cc
 			vm.cc = nil
 			// pop trap-error handler, prepare for call.
+			fmt.Fprintln(StdDebug, "in stack push top = ", vm.top)
 			vm.stackPush(vm.stack[vm.top-1])
 			vm.stack[vm.top-2] = stackMark
 			// recover savedAddr
@@ -370,7 +387,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		}
 	}
 
-	if vm.top != 1 {
+	if vm.top != 1 || len(vm.savedAddr) != 0 {
 		vm.Debug()
 		panic("vm in wrong status")
 	}
@@ -446,6 +463,7 @@ func klToByteCode(klambda kl.Obj) (*Code, error) {
 func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	defer func() {
 		if r := recover(); r != nil {
+			vm.Reset()
 			var buf [4096]byte
 			n := runtime.Stack(buf[:], false)
 			fmt.Println("Recovered in Eval:", kl.ObjString(sexp))
@@ -491,10 +509,13 @@ func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 		}
 		code := a.Comiple()
 
-		auxVM.symbolTable = vm.symbolTable
-		auxVM.functionTable = vm.functionTable
-		auxVM.nativeFunc = vm.nativeFunc
-		res := auxVM.Run(code)
+		tmp := auxVM.Get()
+		tmp.symbolTable = vm.symbolTable
+		tmp.functionTable = vm.functionTable
+		tmp.nativeFunc = vm.nativeFunc
+		res := tmp.Run(code)
+		auxVM.Put(tmp)
+
 		if kl.IsError(res) {
 			return res
 		}
@@ -534,10 +555,13 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 			break
 		}
 
-		auxVM.symbolTable = vm.symbolTable
-		auxVM.functionTable = vm.functionTable
-		auxVM.nativeFunc = vm.nativeFunc
-		res := auxVM.Eval(exp)
+		tmp := auxVM.Get()
+		tmp.symbolTable = vm.symbolTable
+		tmp.functionTable = vm.functionTable
+		tmp.nativeFunc = vm.nativeFunc
+		res := tmp.Eval(exp)
+		auxVM.Put(tmp)
+
 		if kl.IsError(res) {
 			return res
 		}
