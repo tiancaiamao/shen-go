@@ -154,24 +154,19 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				closure:       vm.stack[vm.top],
 			}
 			vm.cc = append(vm.cc, cc)
-			fmt.Fprintln(StdDebug, "SETJMP", "top=", vm.top)
 		case iClearJmp:
-			// fmt.Fprintln(StdBC, "CLEARJMP")
 			vm.cc = vm.cc[:len(vm.cc)-1]
 		case iConst:
 			n := instructionOPN(inst)
-			// fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(code.consts[n]), vm.top)
 			vm.stackPush(code.consts[n])
 		case iAccess:
 			n := instructionOPN(inst)
 			// get value from environment
 			vm.stackPush(vm.env[len(vm.env)-1-n])
-			// fmt.Fprintln(StdBC, "ACCESS", n, " get ", kl.ObjString(vm.stack[vm.top-1]))
 		case iFreeze:
 			// create closure directly
 			// nearly the same with grab, but if need zero arguments.
 			n := instructionOPN(inst)
-			// fmt.Fprintln(StdBC, "FREEZE", vm.pc, n)
 			tmp := &Procedure{
 				code: &Code{
 					bc:     code.bc[vm.pc:],
@@ -186,13 +181,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.stackPush(raw)
 			vm.pc += n
 		case iMark:
-			// fmt.Fprintln(StdBC, "MARK")
 			vm.stackPush(stackMark)
 		case iGrab:
 			vm.top--
 			if v := vm.stack[vm.top]; v == stackMark {
 				// make closure if there are not enough arguments
-				// fmt.Fprintln(StdBC, "GRAB, not enough argument, make a closure", vm.pc)
 				tmp := Procedure{
 					code: &Code{
 						bc:     code.bc[vm.pc-1:],
@@ -211,7 +204,6 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 			} else {
 				// grab data from stack to env
-				// fmt.Fprintln(StdBC, "GRAB, pop a value", kl.ObjString(v), len(vm.savedAddr))
 				vm.env = append(vm.env, v)
 			}
 		case iReturn:
@@ -225,11 +217,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 				vm.top--
 				vm.stack[vm.top-1] = vm.stack[vm.top]
-				// fmt.Fprintln(StdBC, "RETURN ", len(vm.savedAddr), vm.top, vm.pc)
 			} else {
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
-				// fmt.Fprintln(StdBC, "RETURN more arguments to be consumed!", len(vm.savedAddr))
 				vm.top--
 				obj := vm.stack[vm.top]
 				// TODO: panic if obj is not a closure
@@ -245,7 +235,6 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// The only different with Apply is that TailApply doesn't save return address.
 			code = closure.code
-			// fmt.Fprintln(StdBC, "TAILAPPLY", vm.top, len(code.bc), closure)
 			vm.pc = 0
 			vm.env = closure.env
 		case iApply:
@@ -255,24 +244,20 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// save return address
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env})
-			// fmt.Fprintln(StdBC, "APPLY", vm.top, len(vm.savedAddr), len(code.bc))
 			// set pc to closure code
 			code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
 		case iPop:
-			// fmt.Fprintln(StdBC, "POP")
 			vm.top--
 		case iDefun:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
 			function := (*Procedure)(unsafe.Pointer(vm.stack[vm.top-2]))
-			// fmt.Fprintln(StdBC, "DEFUN", symbol, len(function.code.bc), function)
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
 		case iGetF:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
-			// fmt.Fprintln(StdBC, "GETF", symbol)
 			if function, ok := vm.functionTable[symbol]; ok {
 				vm.stack[vm.top-1] = kl.MakeRaw(&function.scmHead)
 			} else {
@@ -280,15 +265,12 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				exception = true
 			}
 		case iJF:
-			// fmt.Fprintln(StdBC, "JF")
 			switch vm.stack[vm.top-1] {
 			case kl.False:
 				n := instructionOPN(inst)
 				vm.top--
 				vm.pc += n
-				// fmt.Fprintln(StdDebug, "JF false branch pc=", vm.pc, n)
 			case kl.True:
-				// fmt.Fprintln(StdDebug, "JF true branch pc=", vm.pc)
 				vm.top--
 			default:
 				// TODO: So what?
@@ -298,9 +280,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iJMP:
 			n := instructionOPN(inst)
 			vm.pc += n
-			// fmt.Fprintln(StdBC, "JMP", n, vm.pc)
 		case iHalt:
-			// fmt.Fprintln(StdBC, "HALT", vm.top, len(vm.savedAddr))
 			halt = true
 		case iPrimCall:
 			id := instructionOPN(inst)
@@ -325,7 +305,6 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				result = prim.Function(args...)
 			}
 
-			// fmt.Fprintln(StdBC, "PRIMCALL", prim.Name)
 			vm.stack[vm.top-prim.Required] = result
 			vm.top = vm.top - prim.Required + 1
 			if kl.IsError(result) {
@@ -349,7 +328,6 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			args := vm.stack[vm.top-proc.Required : vm.top]
 			result := proc.Function(args...)
 
-			// fmt.Fprintln(StdBC, "NATIVECALL", method)
 			vm.stack[vm.top-arity] = result
 			vm.top = vm.top - proc.Required
 			if kl.IsError(result) {
@@ -360,11 +338,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		}
 
 		if exception {
-			fmt.Fprintln(StdDebug, "exception")
-			vm.Debug()
 			if len(vm.cc) == 0 {
 				err := vm.stack[vm.top-1]
-				fmt.Fprintln(StdDebug, "uncached exception", kl.ObjString(err))
 				vm.Reset()
 				return err
 			}
@@ -373,7 +348,6 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			jmpBuf := vm.cc[len(vm.cc)-1]
 			vm.cc = vm.cc[:len(vm.cc)-1]
 			// pop trap-error handler, prepare for call.
-			// fmt.Fprintln(StdDebug, "in stack push top = ", vm.top, jmpBuf.savedStackTop)
 			value := vm.stack[vm.top-1]
 			vm.top = jmpBuf.savedStackTop
 			vm.stackPush(stackMark)
@@ -381,12 +355,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// recover savedAddr
 			vm.savedAddr = vm.savedAddr[:jmpBuf.savedAddrPos]
 			vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
-			// fmt.Fprintln(StdDebug, "exception", len(vm.savedAddr))
 			// longjmp... tail apply
 			closure := (*Procedure)(unsafe.Pointer(jmpBuf.closure))
 			code = closure.code
-			// fmt.Fprintf(StdDebug, "len code = %d\n", len(code.bc))
-			// fmt.Fprintf(StdDebug, "address = %#v\n", jmpBuf.address)
 			vm.pc = 0
 			vm.env = closure.env
 		}
@@ -419,18 +390,17 @@ func (vm *VM) Reset() {
 }
 
 func (vm *VM) Debug() {
-	fmt.Fprintln(StdDebug, "pc:", vm.pc)
-	fmt.Fprintln(StdDebug, "top:", vm.top)
-	fmt.Fprintln(StdDebug, "stack:")
+	fmt.Println("pc:", vm.pc)
+	fmt.Println("top:", vm.top)
+	fmt.Println("stack:")
 	for i := vm.top - 1; i >= 0; i-- {
 		if vm.stack[i] == stackMark {
-			fmt.Fprintln(StdDebug, "MARK")
+			fmt.Println("MARK")
 		} else {
-			fmt.Fprintln(StdDebug, kl.ObjString(vm.stack[i]))
+			fmt.Println(kl.ObjString(vm.stack[i]))
 		}
 	}
-	fmt.Fprintln(StdDebug, "function:", len(vm.functionTable))
-	fmt.Fprintln(StdDebug)
+	fmt.Println("function:", len(vm.functionTable))
 }
 
 var compiler = newVM()
@@ -454,14 +424,12 @@ func klToByteCode(klambda kl.Obj) (*Code, error) {
 	if bc == kl.Nil {
 		return nil, errors.New("klToByteCode return some thing wrong")
 	}
-	fmt.Fprintln(StdDebug, "bytecode in sexp:", kl.ObjString(bc))
 	var a Assember
 	err := a.FromSexp(bc)
 	if err != nil {
 		return nil, err
 	}
 	code := a.Comiple()
-	fmt.Fprintln(StdDebug, a.Decode(code))
 	return code, nil
 }
 

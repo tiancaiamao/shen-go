@@ -9,10 +9,7 @@ import (
 )
 
 func main() {
-	vm.StdBC, _ = os.Create("bytecode.log")
-	vm.StdDebug, _ = os.Create("debug.log")
-
-	r := kl.NewSexpReader(vm.StdIn)
+	r := kl.NewSexpReader(os.Stdin)
 	m := vm.New()
 
 	for i := 0; ; i++ {

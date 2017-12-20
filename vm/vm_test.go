@@ -1,7 +1,6 @@
 package vm
 
 import (
-	"os"
 	"strings"
 	"testing"
 
@@ -253,11 +252,6 @@ func TestFrancisFrenandez(t *testing.T) {
                  (let F2 (lambda X (+ X 4))
                       F2))) 5)
         6)) false)`, kl.False, t)
-}
-
-func init() {
-	StdDebug, _ = os.Open("/dev/null")
-	StdBC, _ = os.Open("/dev/null")
 }
 
 func TestKLToBytecode(t *testing.T) {
