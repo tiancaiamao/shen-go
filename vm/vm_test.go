@@ -77,6 +77,10 @@ func TestTrapError(t *testing.T) {
 	runTest(vm, "(defun value/or (V2876 V2877) (trap-error (value V2876) (lambda E (thaw V2877))))", kl.MakeSymbol("value/or"), t)
 	runTest(vm, "(value/or XXX (freeze 42))", kl.MakeInteger(42), t)
 	runTest(vm, "(trap-error ((lambda X (simple-error \"aa\")) 42) (lambda E false))", kl.False, t)
+	runTest(vm, `(trap-error
+  (yyy (trap-error (xxx 3)
+               (lambda X  42)) 4)
+               (lambda X true))`, kl.True, t)
 }
 
 func TestNativeCall(t *testing.T) {

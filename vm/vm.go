@@ -28,7 +28,7 @@ type VM struct {
 	nativeFunc map[string]*kl.ScmPrimitive
 
 	// jumpBuf is used to implement exception, similar to setjmp/longjmp in C.
-	cc *jumpBuf
+	cc []jumpBuf
 }
 
 type jumpBuf struct {
@@ -143,7 +143,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iSetJmp:
 			n := instructionOPN(inst)
 			vm.top--
-			vm.cc = &jumpBuf{
+			cc := jumpBuf{
 				address: address{
 					pc:   vm.pc + n,
 					code: code,
@@ -153,10 +153,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				savedStackTop: vm.top,
 				closure:       vm.stack[vm.top],
 			}
+			vm.cc = append(vm.cc, cc)
 			fmt.Fprintln(StdDebug, "SETJMP", "top=", vm.top)
 		case iClearJmp:
 			// fmt.Fprintln(StdBC, "CLEARJMP")
-			vm.cc = nil
+			vm.cc = vm.cc[:len(vm.cc)-1]
 		case iConst:
 			n := instructionOPN(inst)
 			// fmt.Fprintln(StdBC, "CONST ", n, kl.ObjString(code.consts[n]), vm.top)
@@ -361,7 +362,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		if exception {
 			fmt.Fprintln(StdDebug, "exception")
 			vm.Debug()
-			if vm.cc == nil {
+			if len(vm.cc) == 0 {
 				err := vm.stack[vm.top-1]
 				fmt.Fprintln(StdDebug, "uncached exception", kl.ObjString(err))
 				vm.Reset()
@@ -369,8 +370,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			}
 
 			// clear jmpBuf
-			jmpBuf := vm.cc
-			vm.cc = nil
+			jmpBuf := vm.cc[len(vm.cc)-1]
+			vm.cc = vm.cc[:len(vm.cc)-1]
 			// pop trap-error handler, prepare for call.
 			// fmt.Fprintln(StdDebug, "in stack push top = ", vm.top, jmpBuf.savedStackTop)
 			value := vm.stack[vm.top-1]
