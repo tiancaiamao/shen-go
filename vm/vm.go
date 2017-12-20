@@ -33,8 +33,9 @@ type VM struct {
 
 type jumpBuf struct {
 	address
-	savedAddrPos int
-	closure      kl.Obj
+	savedAddrPos  int
+	savedStackTop int
+	closure       kl.Obj
 }
 
 // Code is something executable to VM, it's immutable.
@@ -148,8 +149,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 					code: code,
 					env:  vm.env,
 				},
-				savedAddrPos: len(vm.savedAddr),
-				closure:      vm.stack[vm.top],
+				savedAddrPos:  len(vm.savedAddr),
+				savedStackTop: vm.top,
+				closure:       vm.stack[vm.top],
 			}
 			fmt.Fprintln(StdDebug, "SETJMP", "top=", vm.top)
 		case iClearJmp:
@@ -370,9 +372,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			jmpBuf := vm.cc
 			vm.cc = nil
 			// pop trap-error handler, prepare for call.
-			fmt.Fprintln(StdDebug, "in stack push top = ", vm.top)
-			vm.stackPush(vm.stack[vm.top-1])
-			vm.stack[vm.top-2] = stackMark
+			// fmt.Fprintln(StdDebug, "in stack push top = ", vm.top, jmpBuf.savedStackTop)
+			value := vm.stack[vm.top-1]
+			vm.top = jmpBuf.savedStackTop
+			vm.stackPush(stackMark)
+			vm.stackPush(value)
 			// recover savedAddr
 			vm.savedAddr = vm.savedAddr[:jmpBuf.savedAddrPos]
 			vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
