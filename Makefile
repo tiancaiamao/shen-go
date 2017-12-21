@@ -1,6 +1,6 @@
 .PHONY: all kl shen
 
-all: kl shen
+all: shen kl
 
 kl:
 	go install github.com/tiancaiamao/shen-go/cmd/kl

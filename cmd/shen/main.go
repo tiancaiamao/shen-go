@@ -1,26 +1,33 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"flag"
+	"net/http"
+	_ "net/http/pprof"
 
 	"github.com/tiancaiamao/shen-go/kl"
 	"github.com/tiancaiamao/shen-go/vm"
 )
 
+var pprof bool
+var boot string
+
+func init() {
+	flag.BoolVar(&pprof, "pprof", false, "enable pprof")
+	flag.StringVar(&boot, "boot", "", "bootstrap image")
+}
+
 func main() {
-	r := kl.NewSexpReader(os.Stdin)
-	m := vm.New()
+	flag.Parse()
 
-	for i := 0; ; i++ {
-		fmt.Printf("%d #> ", i)
-		sexp, err := r.Read()
-		if err != nil {
-			fmt.Println("read error:", err)
-			break
-		}
-
-		res := m.Eval(sexp)
-		fmt.Println(kl.ObjString(res))
+	if pprof {
+		go http.ListenAndServe(":8080", nil)
 	}
+	if boot != "" {
+	}
+
+	vm.Bootstrap()
+
+	m := vm.New()
+	m.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
 }

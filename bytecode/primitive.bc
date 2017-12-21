@@ -1,0 +1,8 @@
+((iFreeze (iGrab) (iConst primitive?) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst primitive-arity) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive-arity) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst primitive-id) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive-id) (iDefun) (iReturn) (iHalt))
+
+
+

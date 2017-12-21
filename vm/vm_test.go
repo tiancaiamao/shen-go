@@ -293,3 +293,7 @@ func testKLToBytecode(t *testing.T, input, expect string) {
 		t.Errorf("input:%s\n expect:%s\n get:%s\n", input, expect, kl.ObjString(bc))
 	}
 }
+
+func init() {
+	Bootstrap()
+}

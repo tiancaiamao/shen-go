@@ -93,6 +93,12 @@ func New() *VM {
 	vm.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
 	vm.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	vm.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
+	for k, v := range compiler.functionTable {
+		vm.functionTable[k] = v
+	}
+	for k, v := range compiler.symbolTable {
+		vm.symbolTable[k] = v
+	}
 	return vm
 }
 
@@ -453,14 +459,30 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	return
 }
 
-func init() {
+func Bootstrap() {
 	compiler.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
 	compiler.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	compiler.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
 
-	compiler.loadBytecode(kl.MakeString("bootstrap.bc"))
+	compiler.loadBytecode(kl.MakeString("primitive.bc"))
 	compiler.loadBytecode(kl.MakeString("de-bruijn.bc"))
 	compiler.loadBytecode(kl.MakeString("compile.bc"))
+
+	compiler.loadBytecode(kl.MakeString("toplevel.bc"))
+	compiler.loadBytecode(kl.MakeString("core.bc"))
+	compiler.loadBytecode(kl.MakeString("sys.bc"))
+	compiler.loadBytecode(kl.MakeString("sequent.bc"))
+	compiler.loadBytecode(kl.MakeString("yacc.bc"))
+	compiler.loadBytecode(kl.MakeString("reader.bc"))
+	compiler.loadBytecode(kl.MakeString("reader.bc"))
+	compiler.loadBytecode(kl.MakeString("prolog.bc"))
+	compiler.loadBytecode(kl.MakeString("track.bc"))
+	compiler.loadBytecode(kl.MakeString("load.bc"))
+	compiler.loadBytecode(kl.MakeString("writer.bc"))
+	compiler.loadBytecode(kl.MakeString("macros.bc"))
+	compiler.loadBytecode(kl.MakeString("declarations.bc"))
+	compiler.loadBytecode(kl.MakeString("t-star.bc"))
+	compiler.loadBytecode(kl.MakeString("types.bc"))
 }
 
 func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
