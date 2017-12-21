@@ -485,11 +485,19 @@ func Bootstrap() {
 	compiler.loadBytecode(kl.MakeString("types.bc"))
 }
 
+var Boot bool
+
 func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 	fileName := kl.GetString(args[0])
-	filePath := path.Join(kl.PackagePath(), "bytecode", fileName)
-
-	f, err := os.Open(filePath)
+	var f io.ReadCloser
+	var err error
+	if Boot {
+		filePath := path.Join(kl.PackagePath(), "bytecode", fileName)
+		f, err = os.Open(filePath)
+	} else {
+		filePath := path.Join("/bytecode", fileName)
+		f, err = FS(false).Open(filePath)
+	}
 	if err != nil {
 		return kl.MakeError(err.Error())
 	}
