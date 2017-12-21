@@ -12,30 +12,61 @@ Shen is a portable functional programming language by [Mark Tarver](http://markt
 
 shen-go is a port of the Shen language that runs on top of Go implementations.
 
-There is a klambda interpreter that is available, but it's quite slow. Right now I'm working on a bytecode compiler.
-
 ## Building
 
 Make sure you have [Go installed](https://golang.org/doc/install).
 
 ```
-go get github.com/tiancaiamao/shen-go/cmd/kl
+make shen
 ```
 
 ## Running
 
 ```
-$GOPATH/bin/kl -shen
+./shen
 ```
+
+This binary has no dependency, you can move it to any where you want.
 
 ## Testing
 
 ```
-cd $GOPATH/src/github.com/tiancaiamao/shen-go/ShenOSKernel-20.1/tests
-$GOPATH/bin/kl -shen
+cd ShenOSKernel-20.1/tests
+../../shen
 (load "README.shen")
 (load "tests.shen")
 ```
+
+## Bootstrap from scratch
+
+Run shen repl, then
+
+```
+(load "compiler/primitive.shen")
+```
+
+This would compile all necessary shen files into bytecode.
+
+Move the `.bc` files to bytecode directory
+
+```
+mv ShenOSKernel-20.1/sources/*.bc bytecode/
+mv compiler/*.bc bytecode/
+```
+
+And try it with
+
+```
+./shen -boot=true
+```
+
+If everything is ok, you can embedded those bytecode files into `asset.go`
+
+```
+make generate
+```
+
+And make shen again to get the new binary.
 
 ## Learn Shen
 * [Official website of Shen](http://shenlanguage.org/)
