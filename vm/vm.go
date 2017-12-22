@@ -427,8 +427,8 @@ func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 
 func klToByteCode(klambda kl.Obj) (*Code, error) {
 	bc := klToSexpByteCode(klambda)
-	if bc == kl.Nil {
-		return nil, errors.New("klToByteCode return some thing wrong")
+	if kl.IsError(bc) {
+		return nil, errors.New("klToByteCode return some thing wrong:" + kl.ObjString(bc))
 	}
 	var a Assember
 	err := a.FromSexp(bc)
@@ -464,34 +464,41 @@ func Bootstrap() {
 	compiler.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	compiler.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
 
-	compiler.loadBytecode(kl.MakeString("primitive.bc"))
-	compiler.loadBytecode(kl.MakeString("de-bruijn.bc"))
-	compiler.loadBytecode(kl.MakeString("compile.bc"))
+	compiler.mustLoadBytecode(kl.MakeString("primitive.bc"))
+	compiler.mustLoadBytecode(kl.MakeString("de-bruijn.bc"))
+	compiler.mustLoadBytecode(kl.MakeString("compile.bc"))
 
-	compiler.loadBytecode(kl.MakeString("toplevel.bc"))
-	compiler.loadBytecode(kl.MakeString("core.bc"))
-	compiler.loadBytecode(kl.MakeString("sys.bc"))
-	compiler.loadBytecode(kl.MakeString("sequent.bc"))
-	compiler.loadBytecode(kl.MakeString("yacc.bc"))
-	compiler.loadBytecode(kl.MakeString("reader.bc"))
-	compiler.loadBytecode(kl.MakeString("reader.bc"))
-	compiler.loadBytecode(kl.MakeString("prolog.bc"))
-	compiler.loadBytecode(kl.MakeString("track.bc"))
-	compiler.loadBytecode(kl.MakeString("load.bc"))
-	compiler.loadBytecode(kl.MakeString("writer.bc"))
-	compiler.loadBytecode(kl.MakeString("macros.bc"))
-	compiler.loadBytecode(kl.MakeString("declarations.bc"))
-	compiler.loadBytecode(kl.MakeString("t-star.bc"))
-	compiler.loadBytecode(kl.MakeString("types.bc"))
+	// compiler.loadBytecode(kl.MakeString("toplevel.bc"))
+	// compiler.loadBytecode(kl.MakeString("core.bc"))
+	// compiler.loadBytecode(kl.MakeString("sys.bc"))
+	// compiler.loadBytecode(kl.MakeString("sequent.bc"))
+	// compiler.loadBytecode(kl.MakeString("yacc.bc"))
+	// compiler.loadBytecode(kl.MakeString("reader.bc"))
+	// compiler.loadBytecode(kl.MakeString("reader.bc"))
+	// compiler.loadBytecode(kl.MakeString("prolog.bc"))
+	// compiler.loadBytecode(kl.MakeString("track.bc"))
+	// compiler.loadBytecode(kl.MakeString("load.bc"))
+	// compiler.loadBytecode(kl.MakeString("writer.bc"))
+	// compiler.loadBytecode(kl.MakeString("macros.bc"))
+	// compiler.loadBytecode(kl.MakeString("declarations.bc"))
+	// compiler.loadBytecode(kl.MakeString("t-star.bc"))
+	// compiler.loadBytecode(kl.MakeString("types.bc"))
 }
 
-var Boot bool
+var Debug bool
+
+func (vm *VM) mustLoadBytecode(args ...kl.Obj) {
+	res := vm.loadBytecode(args...)
+	if kl.IsError(res) {
+		panic(kl.ObjString(res))
+	}
+}
 
 func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 	fileName := kl.GetString(args[0])
 	var f io.ReadCloser
 	var err error
-	if Boot {
+	if Debug {
 		filePath := path.Join(kl.PackagePath(), "bytecode", fileName)
 		f, err = os.Open(filePath)
 	} else {

@@ -4,5 +4,29 @@
 
 ((iFreeze (iGrab) (iConst primitive-id) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive-id) (iDefun) (iReturn) (iHalt))
 
+((iFreeze (iConst fail!) (iReturn)) (iConst fail) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iAccess 0) (iPrimCall 12) (iPrimCall 18) (iReturn)) (iConst shen.f_error) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst true) (iAccess 0) (iPrimCall 19) (iJF (iConst true) (iReturn)) (iJMP (iConst false) (iAccess 0) (iPrimCall 19) (iJF (iConst true) (iReturn)) (iJMP (iConst true) (iJF (iConst false) (iReturn)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst boolean?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst ()) (iAccess 0) (iConst reverse_help) (iGetF) (iTailApply)) (iConst reverse) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iReturn)) (iJMP (iAccess 1) (iPrimCall 35) (iJF (iAccess 1) (iPrimCall 32) (iAccess 0) (iPrimCall 34) (iAccess 1) (iPrimCall 33) (iConst reverse_help) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst reverse_help) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst reverse_help) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 0) (iAccess 1) (iConst map-h) (iGetF) (iTailApply)) (iConst map) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iConst reverse) (iGetF) (iTailApply)) (iJMP (iAccess 1) (iPrimCall 35) (iJF (iMark) (iAccess 1) (iPrimCall 32) (iAccess 2) (iApply) (iAccess 0) (iPrimCall 34) (iAccess 1) (iPrimCall 33) (iAccess 2) (iConst map-h) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst map-h) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst map-h) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iReturn)) (iJMP (iAccess 1) (iPrimCall 35) (iJF (iAccess 1) (iPrimCall 32) (iMark) (iAccess 0) (iAccess 1) (iPrimCall 33) (iConst append) (iGetF) (iApply) (iPrimCall 34) (iReturn)) (iJMP (iConst true) (iJF (iConst append) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst append) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iGrab) (iConst ()) (iAccess 0) (iPrimCall 19) (iJF (iAccess 1) (iReturn)) (iJMP (iAccess 0) (iPrimCall 35) (iJF (iAccess 0) (iPrimCall 33) (iMark) (iAccess 0) (iPrimCall 32) (iAccess 1) (iAccess 2) (iApply) (iAccess 2) (iConst fold-left) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst fold-left) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst fold-left) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 0) (iPrimCall 19) (iJF (iConst ()) (iReturn)) (iJMP (iAccess 0) (iPrimCall 35) (iJF (iMark) (iAccess 0) (iPrimCall 33) (iAccess 1) (iConst mapcan) (iGetF) (iApply) (iMark) (iAccess 0) (iPrimCall 32) (iAccess 1) (iApply) (iConst append) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst mapcan) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst mapcan) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst 0) (iAccess 0) (iConst shen.length-h) (iGetF) (iTailApply)) (iConst length) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iReturn)) (iJMP (iConst true) (iJF (iAccess 0) (iConst 1) (iPrimCall 23) (iAccess 1) (iPrimCall 33) (iConst shen.length-h) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn)))) (iConst shen.length-h) (iDefun) (iReturn) (iHalt))
+
 
 
