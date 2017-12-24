@@ -41,6 +41,7 @@ type jumpBuf struct {
 	savedAddrPos  int
 	savedStackTop int
 	closure       kl.Obj
+	savedEnvTop   int
 }
 
 // Code is something executable to VM, it's immutable.
@@ -169,6 +170,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				savedAddrPos:  len(vm.savedAddr),
 				savedStackTop: vm.top,
 				closure:       vm.stack[vm.top],
+				savedEnvTop:   len(vm.volatile),
 			}
 			vm.cc = append(vm.cc, cc)
 		case iClearJmp:
@@ -280,6 +282,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				code = closure.code
 				vm.pc = 0
 				vm.env = closure.env
+				vm.volatile = vm.volatile[:vm.envMark]
 			}
 		case iTailApply:
 			if enableDebug {
@@ -449,11 +452,12 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
+			vm.envMark = jmpBuf.savedEnvTop
 			vm.volatile = vm.volatile[:vm.envMark]
 		}
 	}
 
-	if vm.top != 1 || len(vm.savedAddr) != 0 {
+	if vm.top != 1 || len(vm.savedAddr) != 0 || vm.envMark != 0 {
 		if enableDebug {
 			vm.Debug()
 		}
@@ -466,8 +470,8 @@ func (vm *VM) Run(code *Code) kl.Obj {
 func (vm *VM) envClose() []kl.Obj {
 	lenVolatile := len(vm.volatile) - vm.envMark
 	if len(vm.env) > 0 || lenVolatile > 0 {
-		env := make([]kl.Obj, len(vm.env), len(vm.env)+lenVolatile)
-		copy(env, vm.env)
+		env := make([]kl.Obj, 0, len(vm.env)+lenVolatile)
+		env = append(env, vm.env...)
 		env = append(env, vm.volatile[vm.envMark:len(vm.volatile)]...)
 		return env
 	}
