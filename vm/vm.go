@@ -151,7 +151,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		exception := false
 		switch instructionCode(inst) {
 		case iSetJmp:
-			// fmt.Fprintf(StdDebug, "SETJMP\n")
+			if enableDebug {
+				debugf("SETJMP\n")
+			}
 			n := instructionOPN(inst)
 			vm.top--
 			cc := jumpBuf{
@@ -171,20 +173,26 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iConst:
 			n := instructionOPN(inst)
 			vm.stackPush(code.consts[n])
-			// fmt.Fprintf(StdDebug, "CONST %s\n", kl.ObjString(code.consts[n]))
+			if enableDebug {
+				debugf("CONST %s\n", kl.ObjString(code.consts[n]))
+			}
 		case iAccess:
 			n := instructionOPN(inst)
 			if n+vm.envMark < len(vm.volatile) {
 				// get value from volatile environment
 				v := vm.volatile[len(vm.volatile)-1-n]
 				vm.stackPush(v)
-				// fmt.Fprintf(StdDebug, "ACCESS %d, get %s\n", n, kl.ObjString(v))
+				if enableDebug {
+					debugf("ACCESS %d, get %s\n", n, kl.ObjString(v))
+				}
 			} else {
 				// get value from persistent environment
 				n -= (len(vm.volatile) - vm.envMark)
 				v := vm.env[len(vm.env)-1-n]
 				vm.stackPush(v)
-				// fmt.Fprintf(StdDebug, "ACCESS %d from env, get %s\n", n, kl.ObjString(v))
+				if enableDebug {
+					debugf("ACCESS %d from env, get %s\n", n, kl.ObjString(v))
+				}
 			}
 		case iFreeze:
 			// create closure directly
@@ -198,11 +206,15 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				env: vm.envClose(),
 			}
 			raw := kl.MakeRaw(&tmp.scmHead)
-			// fmt.Fprintf(StdDebug, "FREEZE len(env)=%d\n", len(tmp.env))
+			if enableDebug {
+				debugf("FREEZE len(env)=%d\n", len(tmp.env))
+			}
 			vm.stackPush(raw)
 			vm.pc += n
 		case iMark:
-			// fmt.Fprintf(StdDebug, "MARK\n")
+			if enableDebug {
+				debugln("MARK")
+			}
 			vm.stackPush(stackMark)
 		case iGrab:
 			vm.top--
@@ -226,11 +238,15 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 				vm.volatile = vm.volatile[:vm.envMark]
 				vm.envMark = savedAddr.envMark
-				// fmt.Fprintf(StdDebug, "GRAB not enough argument\n")
+				if enableDebug {
+					debugln("GRAB not enough argument")
+				}
 			} else {
 				// grab data from stack to volatile env
 				vm.volatile = append(vm.volatile, v)
-				// fmt.Fprintf(StdDebug, "GRAB %s\n", kl.ObjString(v))
+				if enableDebug {
+					debugf("GRAB %s\n", kl.ObjString(v))
+				}
 			}
 		case iReturn:
 			// stack[top-1] is the result, so should check top-2
@@ -245,9 +261,13 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.stack[vm.top-1] = vm.stack[vm.top]
 				vm.volatile = vm.volatile[:vm.envMark]
 				vm.envMark = savedAddr.envMark
-				// fmt.Fprintf(StdDebug, "RETURN %d %d\n", vm.top, savedAddr.envMark)
+				if enableDebug {
+					debugf("RETURN %d %d\n", vm.top, savedAddr.envMark)
+				}
 			} else {
-				// fmt.Fprintf(StdDebug, "RETURN more argument\n")
+				if enableDebug {
+					debugf("RETURN more argument\n")
+				}
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
 				vm.top--
@@ -259,7 +279,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = closure.env
 			}
 		case iTailApply:
-			// fmt.Fprintf(StdDebug, "TAILAPPLY\n")
+			if enableDebug {
+				debugln("TAILAPPLY")
+			}
 			vm.top--
 			obj := vm.stack[vm.top]
 			// TODO: panic if obj is not a closure
@@ -271,7 +293,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.volatile = vm.volatile[:vm.envMark]
 		case iApply:
 			vm.top--
-			// fmt.Fprintf(StdDebug, "APPLY %d\n", vm.top)
+			if enableDebug {
+				debugf("APPLY %d\n", vm.top)
+			}
 			obj := vm.stack[vm.top]
 			// TODO: panic if obj is not a closure
 			closure := (*Procedure)(unsafe.Pointer(obj))
@@ -283,7 +307,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.env = closure.env
 			vm.envMark = len(vm.volatile)
 		case iPop:
-			// fmt.Fprintf(StdDebug, "POP\n")
+			if enableDebug {
+				debugln("POP")
+			}
 			vm.top--
 		case iDefun:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
@@ -291,7 +317,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
-			// fmt.Fprintf(StdDebug, "DEFUN %s\n", symbol)
+			if enableDebug {
+				debugf("DEFUN %s\n", symbol)
+			}
 		case iGetF:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
 			if function, ok := vm.functionTable[symbol]; ok {
@@ -300,16 +328,22 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.stack[vm.top-1] = kl.MakeError("unknown function:" + symbol)
 				exception = true
 			}
-			// fmt.Fprintf(StdDebug, "GETF %s\n", symbol)
+			if enableDebug {
+				debugf("GETF %s\n", symbol)
+			}
 		case iJF:
 			switch vm.stack[vm.top-1] {
 			case kl.False:
-				// fmt.Fprintf(StdDebug, "JF false\n")
+				if enableDebug {
+					debugln("JF false")
+				}
 				n := instructionOPN(inst)
 				vm.top--
 				vm.pc += n
 			case kl.True:
-				// fmt.Fprintf(StdDebug, "JF true\n")
+				if enableDebug {
+					debugln("JF true")
+				}
 				vm.top--
 			default:
 				// TODO: So what?
@@ -317,18 +351,24 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				exception = true
 			}
 		case iJMP:
-			// fmt.Fprintf(StdDebug, "JMP\n")
+			if enableDebug {
+				debugln("JMP")
+			}
 			n := instructionOPN(inst)
 			vm.pc += n
 		case iHalt:
-			// fmt.Fprintf(StdDebug, "HALT\n")
+			if enableDebug {
+				debugln("HALT")
+			}
 			halt = true
 		case iPrimCall:
 			id := instructionOPN(inst)
 			prim := kl.GetPrimitiveByID(id)
 			args := vm.stack[vm.top-prim.Required : vm.top]
 
-			// fmt.Fprintf(StdDebug, "PRIMCALL %s\n", prim.Name)
+			if enableDebug {
+				debugf("PRIMCALL %s\n", prim.Name)
+			}
 
 			var result kl.Obj
 			// Ugly hack: set function should not be global.
@@ -356,7 +396,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iNativeCall:
 			arity := instructionOPN(inst)
 			method := kl.GetSymbol(vm.stack[vm.top-arity])
-			// fmt.Fprintf(StdDebug, "NativeCall %s\n", method)
+			if enableDebug {
+				debugf("NativeCall %s\n", method)
+			}
 			proc, ok := vm.nativeFunc[method]
 			if !ok {
 				vm.stack[vm.top-1] = kl.MakeError("unknown native function:" + method)
@@ -409,7 +451,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 	}
 
 	if vm.top != 1 || len(vm.savedAddr) != 0 {
-		vm.Debug()
+		if enableDebug {
+			vm.Debug()
+		}
 		panic("vm in wrong status")
 	}
 	vm.top--
@@ -446,18 +490,18 @@ func (vm *VM) Reset() {
 }
 
 func (vm *VM) Debug() {
-	fmt.Fprintln(StdDebug, "pc:", vm.pc)
-	fmt.Fprintln(StdDebug, "top:", vm.top)
-	fmt.Fprintln(StdDebug, "envMark:", vm.envMark)
-	fmt.Fprintln(StdDebug, "stack:")
+	debugln("pc:", vm.pc)
+	debugln("top:", vm.top)
+	debugln("envMark:", vm.envMark)
+	debugln("stack:")
 	for i := vm.top - 1; i >= 0; i-- {
 		if vm.stack[i] == stackMark {
-			fmt.Fprintln(StdDebug, "MARK")
+			debugln("MARK")
 		} else {
-			fmt.Fprintln(StdDebug, kl.ObjString(vm.stack[i]))
+			debugln(kl.ObjString(vm.stack[i]))
 		}
 	}
-	fmt.Fprintln(StdDebug, "function:", len(vm.functionTable))
+	debugln("function:", len(vm.functionTable))
 }
 
 var compiler = newVM()
@@ -517,11 +561,7 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	return
 }
 
-var StdDebug io.Writer
-
 func Bootstrap() {
-	StdDebug, _ = os.OpenFile("debug.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
-
 	// evaluator.Silence = true
 	// evaluator.LoadFile("compiler/primitive.kl")
 	// evaluator.LoadFile("compiler/de-bruijn.kl")
@@ -644,4 +684,23 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 		}
 	}
 	return args[0]
+}
+
+// Go doesn't provide MACRO like C, but the compiler optimization can eliminate dead code "if false XX".
+const enableDebug = false
+
+var stdDebug io.Writer
+
+func init() {
+	if enableDebug {
+		stdDebug, _ = os.OpenFile("debug.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+	}
+}
+
+func debugf(format string, a ...interface{}) {
+	fmt.Fprintf(stdDebug, format, a...)
+}
+
+func debugln(a ...interface{}) {
+	fmt.Fprintln(stdDebug, a...)
 }
