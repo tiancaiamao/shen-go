@@ -53,7 +53,7 @@ func runTest(vm *VM, input string, result kl.Obj, t *testing.T) {
 		t.Error(err)
 	}
 
-	code, err := klToByteCode(sexp)
+	code, err := klToByteCode(sexp, compiler)
 	if err != nil {
 		t.Error("input to kl bytecode fail", input)
 	}
@@ -282,7 +282,7 @@ func testKLToBytecode(t *testing.T, input, expect string) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	bc := klToSexpByteCode(klambda)
+	bc := compiler.KLToSexpByteCode(klambda)
 
 	bc1, err := r2.Read()
 	if err != nil {
@@ -296,5 +296,5 @@ func testKLToBytecode(t *testing.T, input, expect string) {
 
 func init() {
 	Debug = true
-	Bootstrap()
+	BootstrapMin()
 }

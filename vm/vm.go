@@ -13,6 +13,9 @@ import (
 	"github.com/tiancaiamao/shen-go/kl"
 )
 
+// Go doesn't provide MACRO like C, but the compiler optimization can eliminate dead code "if false XX".
+const enableDebug = false
+
 type VM struct {
 	stack []kl.Obj
 	top   int // stack top
@@ -96,10 +99,10 @@ func New() *VM {
 	vm.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
 	vm.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	vm.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
-	for k, v := range compiler.functionTable {
+	for k, v := range prototype.functionTable {
 		vm.functionTable[k] = v
 	}
-	for k, v := range compiler.symbolTable {
+	for k, v := range prototype.symbolTable {
 		vm.symbolTable[k] = v
 	}
 	return vm
@@ -504,16 +507,23 @@ func (vm *VM) Debug() {
 	debugln("function:", len(vm.functionTable))
 }
 
-var compiler = newVM()
+type Compiler interface {
+	KLToSexpByteCode(kl.Obj) kl.Obj
+}
 
-// var evaluator = kl.NewEvaluator()
+var prototype = newVM()
+var compiler Compiler
 
-// func klToSexpByteCode(klambda kl.Obj) kl.Obj {
-// 	input := kl.Cons(kl.MakeSymbol("kl->bytecode"), kl.Cons(kl.RconsForm(klambda), kl.Nil))
-// 	return evaluator.Eval(input)
-// }
+type compileWithEvaluator struct {
+	*kl.Evaluator
+}
 
-func klToSexpByteCode(klambda kl.Obj) kl.Obj {
+func (cc *compileWithEvaluator) KLToSexpByteCode(klambda kl.Obj) kl.Obj {
+	input := kl.Cons(kl.MakeSymbol("kl->bytecode"), kl.Cons(kl.RconsForm(klambda), kl.Nil))
+	return cc.Eval(input)
+}
+
+func (vm *VM) KLToSexpByteCode(klambda kl.Obj) kl.Obj {
 	// TODO: Better way to do it?
 	// tailcall (kl->bytecode klambda)
 	var a Assember
@@ -524,11 +534,11 @@ func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 	a.HALT()
 
 	code := a.Comiple()
-	return compiler.Run(code)
+	return vm.Run(code)
 }
 
-func klToByteCode(klambda kl.Obj) (*Code, error) {
-	bc := klToSexpByteCode(klambda)
+func klToByteCode(klambda kl.Obj, cc Compiler) (*Code, error) {
+	bc := cc.KLToSexpByteCode(klambda)
 	if kl.IsError(bc) || bc == kl.Nil {
 		return nil, errors.New("klToByteCode return some thing wrong:" + kl.ObjString(bc))
 	}
@@ -553,7 +563,7 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 		}
 	}()
 
-	code, err := klToByteCode(sexp)
+	code, err := klToByteCode(sexp, compiler)
 	if err != nil {
 		return kl.MakeError(err.Error())
 	}
@@ -561,35 +571,43 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	return
 }
 
-func Bootstrap() {
-	// evaluator.Silence = true
-	// evaluator.LoadFile("compiler/primitive.kl")
-	// evaluator.LoadFile("compiler/de-bruijn.kl")
-	// evaluator.LoadFile("compiler/compile.kl")
+func BootstrapKL() {
+	evaluator := kl.NewEvaluator()
+	evaluator.Silence = true
+	evaluator.LoadFile("compiler/primitive.kl")
+	evaluator.LoadFile("compiler/de-bruijn.kl")
+	evaluator.LoadFile("compiler/compile.kl")
+	compiler = &compileWithEvaluator{evaluator}
+}
 
-	compiler.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
-	compiler.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
-	compiler.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
+func BootstrapMin() {
+	prototype.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
+	prototype.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
+	prototype.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
 
-	compiler.mustLoadBytecode(kl.MakeString("primitive.bc"))
-	compiler.mustLoadBytecode(kl.MakeString("de-bruijn.bc"))
-	compiler.mustLoadBytecode(kl.MakeString("compile.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("primitive.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("de-bruijn.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("compile.bc"))
+	compiler = prototype
+}
 
-	// compiler.loadBytecode(kl.MakeString("toplevel.bc"))
-	// compiler.loadBytecode(kl.MakeString("core.bc"))
-	// compiler.loadBytecode(kl.MakeString("sys.bc"))
-	// compiler.loadBytecode(kl.MakeString("sequent.bc"))
-	// compiler.loadBytecode(kl.MakeString("yacc.bc"))
-	// compiler.loadBytecode(kl.MakeString("reader.bc"))
-	// compiler.loadBytecode(kl.MakeString("reader.bc"))
-	// compiler.loadBytecode(kl.MakeString("prolog.bc"))
-	// compiler.loadBytecode(kl.MakeString("track.bc"))
-	// compiler.loadBytecode(kl.MakeString("load.bc"))
-	// compiler.loadBytecode(kl.MakeString("writer.bc"))
-	// compiler.loadBytecode(kl.MakeString("macros.bc"))
-	// compiler.loadBytecode(kl.MakeString("declarations.bc"))
-	// compiler.loadBytecode(kl.MakeString("t-star.bc"))
-	// compiler.loadBytecode(kl.MakeString("types.bc"))
+func BootstrapShen() {
+	BootstrapMin()
+	prototype.mustLoadBytecode(kl.MakeString("toplevel.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("core.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("sys.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("sequent.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("yacc.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("reader.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("reader.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("prolog.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("track.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("load.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("writer.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("macros.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("declarations.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("t-star.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("types.bc"))
 }
 
 var Debug bool
@@ -685,9 +703,6 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 	}
 	return args[0]
 }
-
-// Go doesn't provide MACRO like C, but the compiler optimization can eliminate dead code "if false XX".
-const enableDebug = false
 
 var stdDebug io.Writer
 

@@ -29,7 +29,7 @@ func main() {
 		vm.Debug = true
 	}
 
-	vm.Bootstrap()
+	vm.BootstrapMin()
 
 	m := vm.New()
 	// m.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
