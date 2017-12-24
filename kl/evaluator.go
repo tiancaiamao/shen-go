@@ -103,11 +103,11 @@ func (e *Evaluator) LoadFile(file string) Obj {
 		if *res == scmHeadError {
 			return res
 		}
-		if !e.Silence {
-			fmt.Printf("%#v\n", (*scmHead)(res))
-		}
 	}
-	return Nil
+	if !e.Silence {
+		fmt.Println(filePath)
+	}
+	return MakeString(file)
 }
 
 func (e *Evaluator) Eval(exp Obj) (res Obj) {
