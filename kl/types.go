@@ -206,6 +206,7 @@ func mustStream(o Obj) *scmStream {
 
 func mustPair(o Obj) *scmPair {
 	if (*o) != scmHeadPair {
+		fmt.Println(ObjString(o))
 		panic("mustPair")
 	}
 	return (*scmPair)(unsafe.Pointer(o))

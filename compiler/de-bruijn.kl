@@ -1,0 +1,43 @@
+"Copyright (c) 2015, Mark Tarver
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of Mark Tarver may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY Mark Tarver ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL Mark Tarver BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+
+(defun de-bruijn (V1490) (de-bruijn0 () V1490))
+
+(defun de-bruijn0 (V1493 V1494) (cond ((= () V1494) (cons $const (cons () ()))) ((or (boolean? V1494) (or (number? V1494) (string? V1494))) (cons $const (cons V1494 ()))) ((and (cons? V1494) (and (= let (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (and (cons? (tl (tl (tl V1494)))) (= () (tl (tl (tl (tl V1494)))))))))) (cons $app (cons (cons $abs (cons (de-bruijn0 (cons (hd (tl V1494)) V1493) (hd (tl (tl (tl V1494))))) ())) (cons (de-bruijn0 V1493 (hd (tl (tl V1494)))) ())))) ((and (cons? V1494) (and (= lambda (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (= () (tl (tl (tl V1494)))))))) (cons $abs (cons (de-bruijn0 (cons (hd (tl V1494)) V1493) (hd (tl (tl V1494)))) ()))) ((and (cons? V1494) (and (= freeze (hd V1494)) (and (cons? (tl V1494)) (= () (tl (tl V1494)))))) (cons $freeze (cons (de-bruijn0 V1493 (hd (tl V1494))) ()))) ((and (cons? V1494) (and (= if (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (and (cons? (tl (tl (tl V1494)))) (= () (tl (tl (tl (tl V1494)))))))))) (cons $if (cons (de-bruijn0 V1493 (hd (tl V1494))) (cons (de-bruijn0 V1493 (hd (tl (tl V1494)))) (cons (de-bruijn0 V1493 (hd (tl (tl (tl V1494))))) ()))))) ((and (cons? V1494) (and (= do (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (= () (tl (tl (tl V1494)))))))) (cons $do (cons (de-bruijn0 V1493 (hd (tl V1494))) (cons (de-bruijn0 V1493 (hd (tl (tl V1494)))) ())))) ((and (cons? V1494) (and (= defun (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (and (cons? (tl (tl (tl V1494)))) (= () (tl (tl (tl (tl V1494)))))))))) (cons $defun (cons (hd (tl V1494)) (cons (de-bruijn0 V1493 (defun-rewrite (hd (tl (tl V1494))) (hd (tl (tl (tl V1494)))))) ())))) ((and (cons? V1494) (= cond (hd V1494))) (de-bruijn0 V1493 (cond-rewrite (tl V1494)))) ((and (cons? V1494) (and (= and (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (= () (tl (tl (tl V1494)))))))) (cons $if (cons (de-bruijn0 V1493 (hd (tl V1494))) (cons (de-bruijn0 V1493 (hd (tl (tl V1494)))) (cons (cons $const (cons false ())) ()))))) ((and (cons? V1494) (and (= or (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (= () (tl (tl (tl V1494)))))))) (cons $if (cons (de-bruijn0 V1493 (hd (tl V1494))) (cons (cons $const (cons true ())) (cons (de-bruijn0 V1493 (hd (tl (tl V1494)))) ()))))) ((and (cons? V1494) (and (= trap-error (hd V1494)) (and (cons? (tl V1494)) (and (cons? (tl (tl V1494))) (= () (tl (tl (tl V1494)))))))) (cons $trap (cons (de-bruijn0 V1493 (hd (tl V1494))) (cons (de-bruijn0 V1493 (hd (tl (tl V1494)))) ())))) ((and (cons? V1494) (primitive? (hd V1494))) (cons $prim (cons (hd V1494) (map (de-bruijn0 V1493) (tl V1494))))) ((cons? V1494) (cons $app (cons (de-bruijn0 V1493 (hd V1494)) (map (de-bruijn0 V1493) (tl V1494))))) (true (de-bruijn-index V1494 V1493))))
+
+(defun de-bruijn-index (V1501 V1502) (let Result (find-env V1501 V1502) (if (= Result (fail)) (cons $symbol (cons V1501 ())) Result)))
+
+(defun find-env (V1505 V1506) (find-env0 V1505 0 V1506))
+
+(defun find-env0 (V1517 V1518 V1519) (cond ((= () V1519) (fail)) ((and (cons? V1519) (= (hd V1519) V1517)) (cons $var (cons V1518 ()))) ((cons? V1519) (find-env0 V1517 (+ V1518 1) (tl V1519))) (true (shen.f_error find-env0))))
+
+(defun defun-rewrite (V1522 V1523) (cond ((= () V1522) (cons freeze (cons V1523 ()))) (true (defun-rewrite0 V1522 V1523))))
+
+(defun defun-rewrite0 (V1526 V1527) (cond ((= () V1526) V1527) ((cons? V1526) (cons lambda (cons (hd V1526) (cons (defun-rewrite0 (tl V1526) V1527) ())))) (true (shen.f_error defun-rewrite0))))
+
+(defun cond-rewrite (V1529) (cond ((= () V1529) (cons simple-error (cons "no match cond" ()))) ((and (cons? V1529) (and (cons? (hd V1529)) (and (cons? (tl (hd V1529))) (= () (tl (tl (hd V1529))))))) (cons if (cons (hd (hd V1529)) (cons (hd (tl (hd V1529))) (cons (cond-rewrite (tl V1529)) ()))))) (true (shen.f_error cond-rewrite))))
+
+
+

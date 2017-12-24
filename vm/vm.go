@@ -17,7 +17,9 @@ type VM struct {
 	stack []kl.Obj
 	top   int // stack top
 
-	env []kl.Obj // environment
+	env      []kl.Obj // persistent environment
+	volatile []kl.Obj // volatile environment
+	envMark  int      // volatile[envMark: len(volatile)] is current env
 
 	pc        int       // pc register refer to the position in current code
 	savedAddr []address // saved return address
@@ -46,9 +48,10 @@ type Code struct {
 
 // address is the information to be saved before apply a closure.
 type address struct {
-	pc   int
-	code *Code
-	env  []kl.Obj
+	pc      int
+	code    *Code
+	env     []kl.Obj
+	envMark int
 }
 
 type Procedure struct {
@@ -105,7 +108,8 @@ func New() *VM {
 func newVM() *VM {
 	vm := &VM{
 		stack:         make([]kl.Obj, initStackSize),
-		env:           make([]kl.Obj, 0, 200),
+		env:           make([]kl.Obj, 0, 256),
+		volatile:      make([]kl.Obj, 0, 256),
 		functionTable: make(map[string]*Procedure),
 		symbolTable:   make(map[string]kl.Obj),
 		nativeFunc:    make(map[string]*kl.ScmPrimitive),
@@ -136,8 +140,8 @@ func initSymbolTable(symbolTable map[string]kl.Obj) {
 
 func (vm *VM) Run(code *Code) kl.Obj {
 	vm.pc = 0
-	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
 	vm.stackPush(stackMark)
+	vm.savedAddr = append(vm.savedAddr, address{pc: len(code.bc) - 1, code: code})
 
 	halt := false
 	for !halt {
@@ -147,13 +151,15 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		exception := false
 		switch instructionCode(inst) {
 		case iSetJmp:
+			// fmt.Fprintf(StdDebug, "SETJMP\n")
 			n := instructionOPN(inst)
 			vm.top--
 			cc := jumpBuf{
 				address: address{
-					pc:   vm.pc + n,
-					code: code,
-					env:  vm.env,
+					pc:      vm.pc + n,
+					code:    code,
+					env:     vm.env,
+					envMark: vm.envMark,
 				},
 				savedAddrPos:  len(vm.savedAddr),
 				savedStackTop: vm.top,
@@ -165,10 +171,21 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iConst:
 			n := instructionOPN(inst)
 			vm.stackPush(code.consts[n])
+			// fmt.Fprintf(StdDebug, "CONST %s\n", kl.ObjString(code.consts[n]))
 		case iAccess:
 			n := instructionOPN(inst)
-			// get value from environment
-			vm.stackPush(vm.env[len(vm.env)-1-n])
+			if n+vm.envMark < len(vm.volatile) {
+				// get value from volatile environment
+				v := vm.volatile[len(vm.volatile)-1-n]
+				vm.stackPush(v)
+				// fmt.Fprintf(StdDebug, "ACCESS %d, get %s\n", n, kl.ObjString(v))
+			} else {
+				// get value from persistent environment
+				n -= (len(vm.volatile) - vm.envMark)
+				v := vm.env[len(vm.env)-1-n]
+				vm.stackPush(v)
+				// fmt.Fprintf(StdDebug, "ACCESS %d from env, get %s\n", n, kl.ObjString(v))
+			}
 		case iFreeze:
 			// create closure directly
 			// nearly the same with grab, but if need zero arguments.
@@ -178,15 +195,14 @@ func (vm *VM) Run(code *Code) kl.Obj {
 					bc:     code.bc[vm.pc:],
 					consts: code.consts,
 				},
+				env: vm.envClose(),
 			}
 			raw := kl.MakeRaw(&tmp.scmHead)
-			if len(vm.env) > 0 {
-				tmp.env = make([]kl.Obj, len(vm.env))
-				copy(tmp.env, vm.env)
-			}
+			// fmt.Fprintf(StdDebug, "FREEZE len(env)=%d\n", len(tmp.env))
 			vm.stackPush(raw)
 			vm.pc += n
 		case iMark:
+			// fmt.Fprintf(StdDebug, "MARK\n")
 			vm.stackPush(stackMark)
 		case iGrab:
 			vm.top--
@@ -197,9 +213,9 @@ func (vm *VM) Run(code *Code) kl.Obj {
 						bc:     code.bc[vm.pc-1:],
 						consts: code.consts,
 					},
+					env: vm.envClose(),
 				}
 				raw := kl.MakeRaw(&tmp.scmHead)
-				tmp.env = vm.env
 				vm.stackPush(raw)
 
 				// return to saved address
@@ -208,9 +224,13 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				code = savedAddr.code
 				vm.pc = savedAddr.pc
 				vm.env = savedAddr.env
+				vm.volatile = vm.volatile[:vm.envMark]
+				vm.envMark = savedAddr.envMark
+				// fmt.Fprintf(StdDebug, "GRAB not enough argument\n")
 			} else {
-				// grab data from stack to env
-				vm.env = append(vm.env, v)
+				// grab data from stack to volatile env
+				vm.volatile = append(vm.volatile, v)
+				// fmt.Fprintf(StdDebug, "GRAB %s\n", kl.ObjString(v))
 			}
 		case iReturn:
 			// stack[top-1] is the result, so should check top-2
@@ -223,7 +243,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = savedAddr.env
 				vm.top--
 				vm.stack[vm.top-1] = vm.stack[vm.top]
+				vm.volatile = vm.volatile[:vm.envMark]
+				vm.envMark = savedAddr.envMark
+				// fmt.Fprintf(StdDebug, "RETURN %d %d\n", vm.top, savedAddr.envMark)
 			} else {
+				// fmt.Fprintf(StdDebug, "RETURN more argument\n")
 				// more arguments, continue the beta-reduce.
 				// similar to tail apply
 				vm.top--
@@ -235,6 +259,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.env = closure.env
 			}
 		case iTailApply:
+			// fmt.Fprintf(StdDebug, "TAILAPPLY\n")
 			vm.top--
 			obj := vm.stack[vm.top]
 			// TODO: panic if obj is not a closure
@@ -243,18 +268,22 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
+			vm.volatile = vm.volatile[:vm.envMark]
 		case iApply:
 			vm.top--
+			// fmt.Fprintf(StdDebug, "APPLY %d\n", vm.top)
 			obj := vm.stack[vm.top]
 			// TODO: panic if obj is not a closure
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// save return address
-			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env})
+			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env, vm.envMark})
 			// set pc to closure code
 			code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
+			vm.envMark = len(vm.volatile)
 		case iPop:
+			// fmt.Fprintf(StdDebug, "POP\n")
 			vm.top--
 		case iDefun:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
@@ -262,6 +291,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.functionTable[symbol] = function
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
+			// fmt.Fprintf(StdDebug, "DEFUN %s\n", symbol)
 		case iGetF:
 			symbol := kl.GetSymbol(vm.stack[vm.top-1])
 			if function, ok := vm.functionTable[symbol]; ok {
@@ -270,13 +300,16 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				vm.stack[vm.top-1] = kl.MakeError("unknown function:" + symbol)
 				exception = true
 			}
+			// fmt.Fprintf(StdDebug, "GETF %s\n", symbol)
 		case iJF:
 			switch vm.stack[vm.top-1] {
 			case kl.False:
+				// fmt.Fprintf(StdDebug, "JF false\n")
 				n := instructionOPN(inst)
 				vm.top--
 				vm.pc += n
 			case kl.True:
+				// fmt.Fprintf(StdDebug, "JF true\n")
 				vm.top--
 			default:
 				// TODO: So what?
@@ -284,14 +317,18 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				exception = true
 			}
 		case iJMP:
+			// fmt.Fprintf(StdDebug, "JMP\n")
 			n := instructionOPN(inst)
 			vm.pc += n
 		case iHalt:
+			// fmt.Fprintf(StdDebug, "HALT\n")
 			halt = true
 		case iPrimCall:
 			id := instructionOPN(inst)
 			prim := kl.GetPrimitiveByID(id)
 			args := vm.stack[vm.top-prim.Required : vm.top]
+
+			// fmt.Fprintf(StdDebug, "PRIMCALL %s\n", prim.Name)
 
 			var result kl.Obj
 			// Ugly hack: set function should not be global.
@@ -319,6 +356,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 		case iNativeCall:
 			arity := instructionOPN(inst)
 			method := kl.GetSymbol(vm.stack[vm.top-arity])
+			// fmt.Fprintf(StdDebug, "NativeCall %s\n", method)
 			proc, ok := vm.nativeFunc[method]
 			if !ok {
 				vm.stack[vm.top-1] = kl.MakeError("unknown native function:" + method)
@@ -366,6 +404,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			code = closure.code
 			vm.pc = 0
 			vm.env = closure.env
+			vm.volatile = vm.volatile[:vm.envMark]
 		}
 	}
 
@@ -375,6 +414,17 @@ func (vm *VM) Run(code *Code) kl.Obj {
 	}
 	vm.top--
 	return vm.stack[vm.top]
+}
+
+func (vm *VM) envClose() []kl.Obj {
+	lenVolatile := len(vm.volatile) - vm.envMark
+	if len(vm.env) > 0 || lenVolatile > 0 {
+		env := make([]kl.Obj, len(vm.env), len(vm.env)+lenVolatile)
+		copy(env, vm.env)
+		env = append(env, vm.volatile[vm.envMark:len(vm.volatile)]...)
+		return env
+	}
+	return nil
 }
 
 func (vm *VM) stackPush(o kl.Obj) {
@@ -396,20 +446,28 @@ func (vm *VM) Reset() {
 }
 
 func (vm *VM) Debug() {
-	fmt.Println("pc:", vm.pc)
-	fmt.Println("top:", vm.top)
-	fmt.Println("stack:")
+	fmt.Fprintln(StdDebug, "pc:", vm.pc)
+	fmt.Fprintln(StdDebug, "top:", vm.top)
+	fmt.Fprintln(StdDebug, "envMark:", vm.envMark)
+	fmt.Fprintln(StdDebug, "stack:")
 	for i := vm.top - 1; i >= 0; i-- {
 		if vm.stack[i] == stackMark {
-			fmt.Println("MARK")
+			fmt.Fprintln(StdDebug, "MARK")
 		} else {
-			fmt.Println(kl.ObjString(vm.stack[i]))
+			fmt.Fprintln(StdDebug, kl.ObjString(vm.stack[i]))
 		}
 	}
-	fmt.Println("function:", len(vm.functionTable))
+	fmt.Fprintln(StdDebug, "function:", len(vm.functionTable))
 }
 
 var compiler = newVM()
+
+// var evaluator = kl.NewEvaluator()
+
+// func klToSexpByteCode(klambda kl.Obj) kl.Obj {
+// 	input := kl.Cons(kl.MakeSymbol("kl->bytecode"), kl.Cons(kl.RconsForm(klambda), kl.Nil))
+// 	return evaluator.Eval(input)
+// }
 
 func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 	// TODO: Better way to do it?
@@ -427,7 +485,7 @@ func klToSexpByteCode(klambda kl.Obj) kl.Obj {
 
 func klToByteCode(klambda kl.Obj) (*Code, error) {
 	bc := klToSexpByteCode(klambda)
-	if kl.IsError(bc) {
+	if kl.IsError(bc) || bc == kl.Nil {
 		return nil, errors.New("klToByteCode return some thing wrong:" + kl.ObjString(bc))
 	}
 	var a Assember
@@ -459,7 +517,16 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	return
 }
 
+var StdDebug io.Writer
+
 func Bootstrap() {
+	StdDebug, _ = os.OpenFile("debug.log", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+
+	// evaluator.Silence = true
+	// evaluator.LoadFile("compiler/primitive.kl")
+	// evaluator.LoadFile("compiler/de-bruijn.kl")
+	// evaluator.LoadFile("compiler/compile.kl")
+
 	compiler.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
 	compiler.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	compiler.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)

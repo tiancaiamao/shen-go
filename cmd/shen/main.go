@@ -43,6 +43,12 @@ func main() {
 			break
 		}
 
+		// var a vm.Assember
+		// a.FromSexp(sexp)
+		// code := a.Comiple()
+		// res := m.Eval(code)
+		// fmt.Println(kl.ObjString(res))
+
 		res := m.Eval(sexp)
 		fmt.Println(kl.ObjString(res))
 	}

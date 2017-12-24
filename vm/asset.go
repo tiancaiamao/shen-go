@@ -471,12 +471,18 @@ mqp2PsCN3VUCFPi5uPgnAAD//+w6dt5LcAAA
 
 	"/bytecode/primitive.bc": {
 		local:   "bytecode/primitive.bc",
-		size:    394,
-		modtime: 1513876711,
+		size:    4067,
+		modtime: 1513962620,
 		compressed: `
-H4sIAAAAAAAC/9LQyHQrSk2tSlXQyHQvSkzSVNDIdM7PKy5RKCjKzM0sySxLtQeJOSYnpxYXKxiA2H6J
-IGHnxJwcBSMQPyi1pLQoTxOXVpfUtNI8JHUKGpkeiTklmppcXETYrptYlFlSSb4TEPopdEdmCgWOgGjG
-4wIuLkAAAAD//zSO0CuKAQAA
+H4sIAAAAAAAC/9RWz2+bMBi956/wesKHTCRs0naaqk7pVKlTNe1eueRjWDMGGadS99dPDm3iGBsbg9B2
+SjDfj8d777OdJHQnAP4ASuitIE8YJfSm5q1EjaAVlfQZvqi16zyHtkWp+v+dqOUbwhjaqucfIA+CY1fq
+VygOXItDCf1GmMR4tQroviaCypd4COf8iTjofgKILjkQQZdcEMreWcuqNxEfpEN/ELQ6At9sLx8/WTu2
+JfD3xSMIUYtoKqU4gBvHZ/V4t+tFa1ju7h80Dlg7X7W311rGqYEj5YrXqCIyL1Fe8/3VAItYI/KprhkQ
+Hj8XCTY/ulsX8AyihccSWKNWb0Hu1O9PQtl107AX3IuNwDCAZeMSQMfa49KanH00k433W6fw2QcnpCwb
+y5bHIWYR+6j4S8c5yew+n5KpSWEXU5FmXfqsVZEpYKbaq2fvIfJ91rsn4jcOsmD3/1g+2pd6qSC+PeY8
+ZS/rylPb/3hjMYRPg3YU0jTA9zq1J0MYJgg/gs41lxXx3Hf+OU49am6G1Ew9aqYWeWxq2sd44xtpbTiL
+mu3XDAoZPaAXFZbV96L1zOeG+wrWxY6Wdli/zHlW5YRbp3GsH97yXGM+dld+xbX4tvzaN+rSmdrvnEf0
+DPgvWfpvBl3cv3A0WNTpf9tl6W0WdAgEEhKrp7vPAKWr1d8AAAD//y/naDDjDwAA
 `,
 	},
 

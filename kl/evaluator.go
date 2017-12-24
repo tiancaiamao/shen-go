@@ -115,6 +115,7 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 		if r := recover(); r != nil {
 			var buf [4096]byte
 			n := runtime.Stack(buf[:], false)
+			fmt.Println("Panic:", r)
 			fmt.Println("Recovered in Eval:", ObjString(exp))
 			fmt.Println(string(buf[:n]))
 			res = Nil

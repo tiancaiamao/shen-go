@@ -66,6 +66,10 @@ func (r *SexpReader) readerMacro() (Obj, error) {
 	return obj, nil
 }
 
+func RconsForm(o Obj) Obj {
+	return rconsForm(o)
+}
+
 func rconsForm(o Obj) Obj {
 	if *o == scmHeadPair {
 		return cons(MakeSymbol("cons"),
