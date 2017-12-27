@@ -29,10 +29,11 @@ func main() {
 		vm.Debug = true
 	}
 
-	vm.BootstrapMin()
+	vm.BootstrapShen()
 
 	m := vm.New()
-	// m.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
+	m.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
+	return
 
 	r := kl.NewSexpReader(os.Stdin)
 	for i := 0; ; i++ {
