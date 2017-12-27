@@ -40,8 +40,8 @@ type jumpBuf struct {
 	address
 	savedAddrPos  int
 	savedStackTop int
-	closure       kl.Obj
 	savedEnvTop   int
+	closure       kl.Obj
 }
 
 // Code is something executable to VM, it's immutable.
@@ -60,7 +60,7 @@ type address struct {
 
 type Procedure struct {
 	scmHead int
-	code    *Code
+	code    Code
 	env     []kl.Obj
 }
 
@@ -204,7 +204,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// nearly the same with grab, but if need zero arguments.
 			n := instructionOPN(inst)
 			tmp := &Procedure{
-				code: &Code{
+				code: Code{
 					bc:     code.bc[vm.pc:],
 					consts: code.consts,
 				},
@@ -226,7 +226,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			if v := vm.stack[vm.top]; v == stackMark {
 				// make closure if there are not enough arguments
 				tmp := Procedure{
-					code: &Code{
+					code: Code{
 						bc:     code.bc[vm.pc-1:],
 						consts: code.consts,
 					},
@@ -279,7 +279,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				obj := vm.stack[vm.top]
 				// TODO: panic if obj is not a closure
 				closure := (*Procedure)(unsafe.Pointer(obj))
-				code = closure.code
+				code = &closure.code
 				vm.pc = 0
 				vm.env = closure.env
 				vm.volatile = vm.volatile[:vm.envMark]
@@ -293,7 +293,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// TODO: panic if obj is not a closure
 			closure := (*Procedure)(unsafe.Pointer(obj))
 			// The only different with Apply is that TailApply doesn't save return address.
-			code = closure.code
+			code = &closure.code
 			vm.pc = 0
 			vm.env = closure.env
 			vm.volatile = vm.volatile[:vm.envMark]
@@ -308,7 +308,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// save return address
 			vm.savedAddr = append(vm.savedAddr, address{vm.pc, code, vm.env, vm.envMark})
 			// set pc to closure code
-			code = closure.code
+			code = &closure.code
 			vm.pc = 0
 			vm.env = closure.env
 			vm.envMark = len(vm.volatile)
@@ -449,7 +449,7 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
 			// longjmp... tail apply
 			closure := (*Procedure)(unsafe.Pointer(jmpBuf.closure))
-			code = closure.code
+			code = &closure.code
 			vm.pc = 0
 			vm.env = closure.env
 			vm.envMark = jmpBuf.savedEnvTop
