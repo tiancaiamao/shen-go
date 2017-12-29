@@ -3,6 +3,7 @@ package kl
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"time"
 	"unsafe"
@@ -52,6 +53,8 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: primIsSymbol},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 9999},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: primReadFileAsByteList},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: primReadFileAsString},
 }
 
 var primitiveIdx map[string]*ScmPrimitive
@@ -513,4 +516,31 @@ func objHash(x Obj) int {
 		sum = sum ^ *((*int)(unsafe.Pointer(mustStream(x))))
 	}
 	return sum
+}
+
+func primReadFileAsByteList(args ...Obj) Obj {
+	fileName := mustString(args[0])
+	buf, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return MakeError(err.Error())
+	}
+
+	ret := cons(Nil, Nil)
+	curr := mustPair(ret)
+	for _, b := range buf {
+		tmp := cons(MakeInteger(int(b)), Nil)
+		curr.cdr = tmp
+		curr = mustPair(tmp)
+	}
+	return cdr(ret)
+}
+
+func primReadFileAsString(args ...Obj) Obj {
+	fileName := mustString(args[0])
+	buf, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return MakeError(err.Error())
+	}
+
+	return MakeString(string(buf))
 }
