@@ -55,6 +55,8 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: primReadFileAsByteList},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: primReadFileAsString},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "variable?", Required: 1, Function: primIsVariable},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "integer?", Required: 1, Function: primIsInteger},
 }
 
 var primitiveIdx map[string]*ScmPrimitive
@@ -543,4 +545,27 @@ func primReadFileAsString(args ...Obj) Obj {
 	}
 
 	return MakeString(string(buf))
+}
+
+func primIsVariable(args ...Obj) Obj {
+	if *args[0] != scmHeadSymbol {
+		return False
+	}
+
+	sym := GetSymbol(args[0])
+	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
+		return False
+	}
+	return True
+}
+
+func primIsInteger(args ...Obj) Obj {
+	if *args[0] != scmHeadNumber {
+		return False
+	}
+	f := mustNumber(args[0]).val
+	if isPreciseInteger(f) {
+		return True
+	}
+	return False
 }
