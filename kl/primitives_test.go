@@ -30,3 +30,27 @@ func TestIntern(t *testing.T) {
 		t.FailNow()
 	}
 }
+
+func TestHash(t *testing.T) {
+	objs := []Obj{
+		MakeInteger(3),
+		MakeNumber(3.1),
+		MakeSymbol("sdsd"),
+		MakeString("sdsd"),
+		MakeError("sdsd"),
+		Obj(&allPrimitives[3].scmHead),
+		True,
+		False,
+		Nil,
+	}
+
+	m := make(map[int]Obj)
+	for _, o := range objs {
+		hash := objHash(o)
+		t.Log(hash, ObjString(o))
+		if m[hash] != nil {
+			t.FailNow()
+		}
+		m[hash] = o
+	}
+}

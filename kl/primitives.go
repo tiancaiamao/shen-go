@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"time"
+	"unsafe"
 )
 
 var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
@@ -50,6 +51,7 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: primIf},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: primIsSymbol},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 9999},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
 }
 
 var primitiveIdx map[string]*ScmPrimitive
@@ -455,4 +457,60 @@ func primIsSymbol(args ...Obj) Obj {
 		return True
 	}
 	return False
+}
+
+// A --> number --> number
+func primHash(args ...Obj) Obj {
+	mod := mustNumber(args[1]).val
+	ret := objHash(args[0]) % int(mod)
+	return MakeInteger(ret)
+}
+
+func objHash(x Obj) int {
+	// initialize value is its type, then mixed with value part.
+	sum := (int)(*x)
+	switch *x {
+	case scmHeadNull:
+	case scmHeadBoolean:
+		if x == True {
+			sum = sum<<23 + 17
+		} else {
+			sum = sum<<23 + 13
+		}
+	case scmHeadNumber:
+		sum = sum<<23 + *((*int)(unsafe.Pointer(&mustNumber(x).val)))
+	case scmHeadString:
+		str := mustString(x)
+		for _, s := range str {
+			sum = ((sum + 13) << 7) + int(s)
+		}
+	case scmHeadSymbol:
+		str := GetSymbol(x)
+		for _, s := range str {
+			sum = ((sum + 13) << 7) + int(s)
+		}
+	case scmHeadVector:
+		objs := mustVector(x)
+		for _, o := range objs {
+			sum = ((sum + 17) << 13) + objHash(o)
+		}
+	case scmHeadError:
+		str := mustError(x).err
+		for _, s := range str {
+			sum = ((sum + 123) << 7) + int(s)
+		}
+	case scmHeadPair:
+		sum = objHash(car(x)) ^ objHash(cdr(x))
+	case scmHeadProcedure:
+		sum = sum ^ *((*int)(unsafe.Pointer(mustProcedure(x))))
+	case scmHeadStream:
+		sum = sum ^ *((*int)(unsafe.Pointer(mustStream(x))))
+	case scmHeadPrimitive:
+		for _, s := range mustPrimitive(x).Name {
+			sum = ((sum + 17) << 7) + int(s)
+		}
+	case scmHeadRaw:
+		sum = sum ^ *((*int)(unsafe.Pointer(mustStream(x))))
+	}
+	return sum
 }
