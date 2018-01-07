@@ -243,18 +243,20 @@ func or(args ...Obj) Obj {
 	return True
 }
 
-func PrimSet(symbolTable map[string]Obj, key Obj, val Obj) Obj {
-	sym := GetSymbol(key)
-	symbolTable[sym] = val
+func PrimSet(key Obj, val Obj) Obj {
+	sym := mustSymbol(key)
+	symVal := &symbolArray[sym.offset]
+	symVal.value = val
 	return val
 }
 
-func PrimValue(symbolTable map[string]Obj, key Obj) Obj {
-	sym := GetSymbol(key)
-	if val, ok := symbolTable[sym]; ok {
-		return val
+func PrimValue(key Obj) Obj {
+	sym := mustSymbol(key)
+	symVal := &symbolArray[sym.offset]
+	if symVal.value != nil {
+		return symVal.value
 	}
-	return MakeError(fmt.Sprintf("variable %s not bound", sym))
+	return MakeError(fmt.Sprintf("variable %s not bound", symVal.str))
 }
 
 func simpleError(args ...Obj) Obj {

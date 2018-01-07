@@ -119,7 +119,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 	pair := mustPair(exp)
 	if ok, sym := isSymbol(pair.car); ok {
 		exp = pair.cdr // handle special form
-		switch symbolArray[sym.offset] {
+		switch symbolArray[sym.offset].str {
 		case "quote":
 			// Extension to make vm work.
 			// TODO: remove it later

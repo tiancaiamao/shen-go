@@ -224,7 +224,13 @@ const intConstCount = 8192
 var True, False, Nil, undefined Obj
 var uptime time.Time
 var intConst [intConstCount]Obj
-var symbolArray []string
+
+type symbolArrayObj struct {
+	str   string // The string of this symbol
+	value Obj    // The value bind to this symbol
+}
+
+var symbolArray []symbolArrayObj
 
 type trieNode struct {
 	children [256]*trieNode
@@ -263,7 +269,7 @@ func init() {
 		intConst[i] = makeInteger(i)
 	}
 
-	symbolArray = make([]string, 0, 4096)
+	symbolArray = make([]symbolArrayObj, 0, 4096)
 	trieRoot = &trieNode{}
 }
 
@@ -303,7 +309,7 @@ func GetString(o Obj) string {
 }
 
 func GetSymbol(o Obj) string {
-	return symbolArray[mustSymbol(o).offset]
+	return symbolArray[mustSymbol(o).offset].str
 }
 
 func cons(x, y Obj) Obj {
@@ -341,7 +347,7 @@ func MakeSymbol(s string) Obj {
 	p := trieFindOrInsert(s)
 	if p.value < 0 {
 		idx = len(symbolArray)
-		symbolArray = append(symbolArray, s)
+		symbolArray = append(symbolArray, symbolArrayObj{str: s})
 		p.value = idx
 	} else {
 		idx = p.value

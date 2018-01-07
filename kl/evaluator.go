@@ -9,7 +9,6 @@ import (
 )
 
 type Evaluator struct {
-	symbolTable   map[string]Obj
 	functionTable map[string]Obj
 	Silence       bool
 
@@ -18,7 +17,6 @@ type Evaluator struct {
 
 func NewEvaluator() *Evaluator {
 	var e Evaluator
-	e.symbolTable = make(map[string]Obj)
 
 	e.functionTable = make(map[string]Obj, len(allPrimitives))
 	for _, prim := range allPrimitives {
@@ -39,28 +37,28 @@ func NewEvaluator() *Evaluator {
 	e.RegistNativeCall(MakePrimitive("primitive-arity", 1, NativePrimitiveArity))
 	e.RegistNativeCall(MakePrimitive("primitive-id", 1, NativePrimitiveID))
 
-	e.symbolTable["*stinput*"] = MakeStream(os.Stdin)
-	e.symbolTable["*stoutput*"] = MakeStream(os.Stdout)
+	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
+	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
 	dir, _ := os.Getwd()
-	e.symbolTable["*home-directory*"] = MakeString(dir)
-	e.symbolTable["*language*"] = MakeString("Go")
-	e.symbolTable["*implementation*"] = MakeString("interpreter")
-	e.symbolTable["*relase*"] = MakeString(runtime.Version())
-	e.symbolTable["*os*"] = MakeString(runtime.GOOS)
-	e.symbolTable["*porters*"] = MakeString("Arthur Mao")
-	e.symbolTable["*port*"] = MakeString("0.0.1")
+	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
+	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
+	PrimSet(MakeSymbol("*implementation*"), MakeString("interpreter"))
+	PrimSet(MakeSymbol("*relase*"), MakeString(runtime.Version()))
+	PrimSet(MakeSymbol("*os*"), MakeString(runtime.GOOS))
+	PrimSet(MakeSymbol("*porters*"), MakeString("Arthur Mao"))
+	PrimSet(MakeSymbol("*port*"), MakeString("0.0.1"))
 
 	// Extended by shen-go implementation
-	e.symbolTable["*package-path*"] = MakeString(PackagePath())
+	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
 	return &e
 }
 
 func (e *Evaluator) primSet(args ...Obj) Obj {
-	return PrimSet(e.symbolTable, args[0], args[1])
+	return PrimSet(args[0], args[1])
 }
 
 func (e *Evaluator) primValue(args ...Obj) Obj {
-	return PrimValue(e.symbolTable, args[0])
+	return PrimValue(args[0])
 }
 
 func (e *Evaluator) primEvalKL(args ...Obj) Obj {

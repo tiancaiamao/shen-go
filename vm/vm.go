@@ -28,7 +28,6 @@ type VM struct {
 	savedAddr []address // saved return address
 
 	functionTable map[string]*Procedure
-	symbolTable   map[string]kl.Obj
 
 	nativeFunc map[string]*kl.ScmPrimitive
 
@@ -103,9 +102,6 @@ func New() *VM {
 	for k, v := range prototype.functionTable {
 		vm.functionTable[k] = v
 	}
-	for k, v := range prototype.symbolTable {
-		vm.symbolTable[k] = v
-	}
 	return vm
 }
 
@@ -115,10 +111,9 @@ func newVM() *VM {
 		env:           make([]kl.Obj, 0, 256),
 		volatile:      make([]kl.Obj, 0, 256),
 		functionTable: make(map[string]*Procedure),
-		symbolTable:   make(map[string]kl.Obj),
 		nativeFunc:    make(map[string]*kl.ScmPrimitive),
 	}
-	initSymbolTable(vm.symbolTable)
+	initSymbolTable()
 	return vm
 }
 
@@ -126,20 +121,20 @@ func (vm *VM) RegistNativeCall(name string, arity int, f func(...kl.Obj) kl.Obj)
 	vm.nativeFunc[name] = kl.MakePrimitive(name, arity, f)
 }
 
-func initSymbolTable(symbolTable map[string]kl.Obj) {
+func initSymbolTable() {
 	dir, _ := os.Getwd()
-	symbolTable["*stinput*"] = kl.MakeStream(os.Stdin)
-	symbolTable["*stoutput*"] = kl.MakeStream(os.Stdout)
-	symbolTable["*home-directory*"] = kl.MakeString(dir)
-	symbolTable["*language*"] = kl.MakeString("Go")
-	symbolTable["*implementation*"] = kl.MakeString("bytecode")
-	symbolTable["*relase*"] = kl.MakeString(runtime.Version())
-	symbolTable["*os*"] = kl.MakeString(runtime.GOOS)
-	symbolTable["*porters*"] = kl.MakeString("Arthur Mao")
-	symbolTable["*port*"] = kl.MakeString("0.0.1")
+	kl.PrimSet(kl.MakeSymbol("*stinput*"), kl.MakeStream(os.Stdin))
+	kl.PrimSet(kl.MakeSymbol("*stoutput*"), kl.MakeStream(os.Stdout))
+	kl.PrimSet(kl.MakeSymbol("*home-directory*"), kl.MakeString(dir))
+	kl.PrimSet(kl.MakeSymbol("*language*"), kl.MakeString("Go"))
+	kl.PrimSet(kl.MakeSymbol("*implementation*"), kl.MakeString("bytecode"))
+	kl.PrimSet(kl.MakeSymbol("*relase*"), kl.MakeString(runtime.Version()))
+	kl.PrimSet(kl.MakeSymbol("*os*"), kl.MakeString(runtime.GOOS))
+	kl.PrimSet(kl.MakeSymbol("*porters*"), kl.MakeString("Arthur Mao"))
+	kl.PrimSet(kl.MakeSymbol("*port*"), kl.MakeString("0.0.1"))
 
 	// Extended by shen-go implementation
-	symbolTable["*package-path*"] = kl.MakeString(kl.PackagePath())
+	kl.PrimSet(kl.MakeSymbol("*package-path*"), kl.MakeString(kl.PackagePath()))
 }
 
 func (vm *VM) Run(code *Code) kl.Obj {
@@ -380,12 +375,11 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			// Ugly hack: set function should not be global.
 			switch prim.Name {
 			case "set":
-				result = kl.PrimSet(vm.symbolTable, args[0], args[1])
+				result = kl.PrimSet(args[0], args[1])
 			case "value":
-				result = kl.PrimValue(vm.symbolTable, args[0])
+				result = kl.PrimValue(args[0])
 			case "eval-kl":
 				tmp := auxVM.Get()
-				tmp.symbolTable = vm.symbolTable
 				tmp.functionTable = vm.functionTable
 				tmp.nativeFunc = vm.nativeFunc
 				result = tmp.Eval(args[0])
@@ -649,7 +643,6 @@ func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 		code := a.Comiple()
 
 		tmp := auxVM.Get()
-		tmp.symbolTable = vm.symbolTable
 		tmp.functionTable = vm.functionTable
 		tmp.nativeFunc = vm.nativeFunc
 		res := tmp.Run(code)
@@ -695,7 +688,6 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 		}
 
 		tmp := auxVM.Get()
-		tmp.symbolTable = vm.symbolTable
 		tmp.functionTable = vm.functionTable
 		tmp.nativeFunc = vm.nativeFunc
 		res := tmp.Eval(exp)
