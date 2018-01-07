@@ -226,8 +226,9 @@ var uptime time.Time
 var intConst [intConstCount]Obj
 
 type symbolArrayObj struct {
-	str   string // The string of this symbol
-	value Obj    // The value bind to this symbol
+	str      string // The string of this symbol
+	value    Obj    // The value bind to this symbol
+	function Obj    // The function bind to this symbol
 }
 
 var symbolArray []symbolArrayObj
@@ -310,6 +311,16 @@ func GetString(o Obj) string {
 
 func GetSymbol(o Obj) string {
 	return symbolArray[mustSymbol(o).offset].str
+}
+
+func BindSymbolFunc(sym Obj, f Obj) {
+	o := &symbolArray[mustSymbol(sym).offset]
+	o.function = f
+}
+
+func GetSymbolFunc(sym Obj) Obj {
+	o := &symbolArray[mustSymbol(sym).offset]
+	return o.function
 }
 
 func cons(x, y Obj) Obj {

@@ -27,8 +27,6 @@ type VM struct {
 	pc        int       // pc register refer to the position in current code
 	savedAddr []address // saved return address
 
-	functionTable map[string]*Procedure
-
 	nativeFunc map[string]*kl.ScmPrimitive
 
 	// jumpBuf is used to implement exception, similar to setjmp/longjmp in C.
@@ -99,19 +97,15 @@ func New() *VM {
 	vm.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
 	vm.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	vm.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
-	for k, v := range prototype.functionTable {
-		vm.functionTable[k] = v
-	}
 	return vm
 }
 
 func newVM() *VM {
 	vm := &VM{
-		stack:         make([]kl.Obj, initStackSize),
-		env:           make([]kl.Obj, 0, 256),
-		volatile:      make([]kl.Obj, 0, 256),
-		functionTable: make(map[string]*Procedure),
-		nativeFunc:    make(map[string]*kl.ScmPrimitive),
+		stack:      make([]kl.Obj, initStackSize),
+		env:        make([]kl.Obj, 0, 256),
+		volatile:   make([]kl.Obj, 0, 256),
+		nativeFunc: make(map[string]*kl.ScmPrimitive),
 	}
 	initSymbolTable()
 	return vm
@@ -313,24 +307,24 @@ func (vm *VM) Run(code *Code) kl.Obj {
 			}
 			vm.top--
 		case iDefun:
-			symbol := kl.GetSymbol(vm.stack[vm.top-1])
-			function := (*Procedure)(unsafe.Pointer(vm.stack[vm.top-2]))
-			vm.functionTable[symbol] = function
+			symbol := vm.stack[vm.top-1]
+			function := vm.stack[vm.top-2]
+			kl.BindSymbolFunc(symbol, function)
 			vm.top--
 			vm.stack[vm.top-1] = vm.stack[vm.top]
 			if enableDebug {
 				debugf("DEFUN %s\n", symbol)
 			}
 		case iGetF:
-			symbol := kl.GetSymbol(vm.stack[vm.top-1])
-			if function, ok := vm.functionTable[symbol]; ok {
-				vm.stack[vm.top-1] = kl.MakeRaw(&function.scmHead)
+			function := kl.GetSymbolFunc(vm.stack[vm.top-1])
+			if function != nil {
+				vm.stack[vm.top-1] = function
 			} else {
-				vm.stack[vm.top-1] = kl.MakeError("unknown function:" + symbol)
+				vm.stack[vm.top-1] = kl.MakeError("unknown function:" + kl.GetSymbol(vm.stack[vm.top-1]))
 				exception = true
 			}
 			if enableDebug {
-				debugf("GETF %s\n", symbol)
+				debugf("GETF %s\n", kl.GetSymbol(vm.stack[vm.top-1]))
 			}
 		case iJF:
 			switch vm.stack[vm.top-1] {
@@ -380,7 +374,6 @@ func (vm *VM) Run(code *Code) kl.Obj {
 				result = kl.PrimValue(args[0])
 			case "eval-kl":
 				tmp := auxVM.Get()
-				tmp.functionTable = vm.functionTable
 				tmp.nativeFunc = vm.nativeFunc
 				result = tmp.Eval(args[0])
 				auxVM.Put(tmp)
@@ -502,7 +495,6 @@ func (vm *VM) Debug() {
 			debugln(kl.ObjString(vm.stack[i]))
 		}
 	}
-	debugln("function:", len(vm.functionTable))
 }
 
 type Compiler interface {
@@ -643,7 +635,6 @@ func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 		code := a.Comiple()
 
 		tmp := auxVM.Get()
-		tmp.functionTable = vm.functionTable
 		tmp.nativeFunc = vm.nativeFunc
 		res := tmp.Run(code)
 		auxVM.Put(tmp)
@@ -688,7 +679,6 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 		}
 
 		tmp := auxVM.Get()
-		tmp.functionTable = vm.functionTable
 		tmp.nativeFunc = vm.nativeFunc
 		res := tmp.Eval(exp)
 		auxVM.Put(tmp)
