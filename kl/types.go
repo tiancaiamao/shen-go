@@ -35,7 +35,7 @@ type scmNumber struct {
 
 type scmSymbol struct {
 	scmHead
-	sym string
+	offset int
 }
 
 type scmPair struct {
@@ -224,6 +224,26 @@ const intConstCount = 8192
 var True, False, Nil, undefined Obj
 var uptime time.Time
 var intConst [intConstCount]Obj
+var symbolArray []string
+
+type trieNode struct {
+	children [256]*trieNode
+	value    int
+}
+
+var trieRoot *trieNode
+
+func trieFindOrInsert(str string) *trieNode {
+	p := trieRoot
+	for i := 0; i < len(str); i++ {
+		v := str[i]
+		if p.children[v] == nil {
+			p.children[v] = &trieNode{value: -1}
+		}
+		p = p.children[v]
+	}
+	return p
+}
 
 func init() {
 	uptime = time.Now()
@@ -242,6 +262,9 @@ func init() {
 	for i := 0; i < intConstCount; i++ {
 		intConst[i] = makeInteger(i)
 	}
+
+	symbolArray = make([]string, 0, 4096)
+	trieRoot = &trieNode{}
 }
 
 func MakeInteger(v int) Obj {
@@ -280,7 +303,7 @@ func GetString(o Obj) string {
 }
 
 func GetSymbol(o Obj) string {
-	return mustSymbol(o).sym
+	return symbolArray[mustSymbol(o).offset]
 }
 
 func cons(x, y Obj) Obj {
@@ -314,9 +337,19 @@ func MakeString(s string) Obj {
 }
 
 func MakeSymbol(s string) Obj {
+	var idx int
+	p := trieFindOrInsert(s)
+	if p.value < 0 {
+		idx = len(symbolArray)
+		symbolArray = append(symbolArray, s)
+		p.value = idx
+	} else {
+		idx = p.value
+	}
+
 	tmp := scmSymbol{
 		scmHeadSymbol,
-		s,
+		idx,
 	}
 	return &tmp.scmHead
 }
@@ -376,7 +409,7 @@ func (o *scmHead) GoString() string {
 	case scmHeadString:
 		return fmt.Sprintf(`"%s"`, mustString(o))
 	case scmHeadSymbol:
-		return fmt.Sprintf("%s", mustSymbol(o).sym)
+		return fmt.Sprintf("%s", GetSymbol(o))
 	case scmHeadBoolean:
 		if o == True {
 			return fmt.Sprintf("true")

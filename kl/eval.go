@@ -26,7 +26,7 @@ func (env *Environment) Extend(symbols, values []Obj) *Environment {
 
 	bind := make(map[string]Obj)
 	for i := 0; i < len(symbols); i++ {
-		name := mustSymbol(symbols[i]).sym
+		name := GetSymbol(symbols[i])
 		bind[name] = values[i]
 	}
 	return &Environment{
@@ -108,8 +108,8 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 		return
 	}
 
-	if ok, sym := isSymbol(exp); ok {
-		if val, ok := env.Get(sym.sym); ok {
+	if ok, _ := isSymbol(exp); ok {
+		if val, ok := env.Get(GetSymbol(exp)); ok {
 			exp = val
 		}
 		ctl.Return(exp)
@@ -119,7 +119,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 	pair := mustPair(exp)
 	if ok, sym := isSymbol(pair.car); ok {
 		exp = pair.cdr // handle special form
-		switch sym.sym {
+		switch symbolArray[sym.offset] {
 		case "quote":
 			// Extension to make vm work.
 			// TODO: remove it later
@@ -128,7 +128,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 		case "defun": // (defun f (x y) z)
 			proc := makeProcedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
-			e.functionTable[mustSymbol(funName).sym] = proc
+			e.functionTable[GetSymbol(funName)] = proc
 			ctl.Return(funName)
 			return
 		case "lambda": // (lambda x x)
@@ -188,11 +188,12 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 }
 
 func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
-	if ok, sym := isSymbol(fn); ok {
-		if proc, ok := env.Get(sym.sym); ok {
+	if ok, _ := isSymbol(fn); ok {
+		str := GetSymbol(fn)
+		if proc, ok := env.Get(str); ok {
 			return proc
 		}
-		if val, ok := e.functionTable[sym.sym]; ok {
+		if val, ok := e.functionTable[str]; ok {
 			return val
 		}
 	}
@@ -268,7 +269,7 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 		prim := mustPrimitive(f)
 		switch {
 		case prim.Name == "native":
-			method := mustSymbol(args[0]).sym
+			method := GetSymbol(args[0])
 			prim1, ok := e.nativeFunc[method]
 			if !ok {
 				ctl.Return(MakeError("undefined native " + method))

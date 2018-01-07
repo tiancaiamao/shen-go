@@ -73,7 +73,7 @@ func NativeIsPrimitive(args ...Obj) Obj {
 	if *args[0] != scmHeadSymbol {
 		return False
 	}
-	str := mustSymbol(args[0]).sym
+	str := GetSymbol(args[0])
 	_, ok := primitiveIdx[str]
 	if ok {
 		return True
@@ -82,7 +82,7 @@ func NativeIsPrimitive(args ...Obj) Obj {
 }
 
 func NativePrimitiveArity(args ...Obj) Obj {
-	str := mustSymbol(args[0]).sym
+	str := GetSymbol(args[0])
 	prim, ok := primitiveIdx[str]
 	if !ok {
 		return MakeInteger(-1)
@@ -91,7 +91,7 @@ func NativePrimitiveArity(args ...Obj) Obj {
 }
 
 func NativePrimitiveID(args ...Obj) Obj {
-	str := mustSymbol(args[0]).sym
+	str := GetSymbol(args[0])
 	prim, ok := primitiveIdx[str]
 	if !ok {
 		return MakeError("not a primitive")
@@ -172,8 +172,8 @@ func primStr(args ...Obj) Obj {
 	case scmHeadNull:
 		return MakeString("()")
 	case scmHeadSymbol:
-		sym := mustSymbol(args[0])
-		return MakeString(sym.sym)
+		str := GetSymbol(args[0])
+		return MakeString(str)
 	case scmHeadNumber:
 		f := mustNumber(args[0])
 		if !isPreciseInteger(f.val) {
@@ -244,17 +244,17 @@ func or(args ...Obj) Obj {
 }
 
 func PrimSet(symbolTable map[string]Obj, key Obj, val Obj) Obj {
-	sym := mustSymbol(key)
-	symbolTable[sym.sym] = val
+	sym := GetSymbol(key)
+	symbolTable[sym] = val
 	return val
 }
 
 func PrimValue(symbolTable map[string]Obj, key Obj) Obj {
-	sym := mustSymbol(key)
-	if val, ok := symbolTable[sym.sym]; ok {
+	sym := GetSymbol(key)
+	if val, ok := symbolTable[sym]; ok {
 		return val
 	}
-	return MakeError(fmt.Sprintf("variable %s not bound", sym.sym))
+	return MakeError(fmt.Sprintf("variable %s not bound", sym))
 }
 
 func simpleError(args ...Obj) Obj {
@@ -375,7 +375,7 @@ func primReadByte(args ...Obj) Obj {
 func openStream(args ...Obj) Obj {
 	file := mustString(args[0])
 	var flag int
-	mode := mustSymbol(args[1]).sym
+	mode := GetSymbol(args[1])
 	switch mode {
 	case "in":
 		flag |= os.O_RDONLY
@@ -400,7 +400,7 @@ func closeStream(args ...Obj) Obj {
 }
 
 func getTime(args ...Obj) Obj {
-	kind := mustSymbol(args[0]).sym
+	kind := GetSymbol(args[0])
 	switch kind {
 	case "unix":
 		return MakeNumber(float64(time.Now().Unix()))
