@@ -219,8 +219,11 @@ func isPair(o Obj) (bool, *scmPair) {
 	return false, nil
 }
 
+const intConstCount = 8192
+
 var True, False, Nil, undefined Obj
 var uptime time.Time
+var intConst [intConstCount]Obj
 
 func init() {
 	uptime = time.Now()
@@ -235,14 +238,31 @@ func init() {
 
 	var tmp4 int
 	undefined = MakeRaw(&tmp4)
+
+	for i := 0; i < intConstCount; i++ {
+		intConst[i] = makeInteger(i)
+	}
 }
 
 func MakeInteger(v int) Obj {
+	if v >= 0 && v < intConstCount {
+		return intConst[v]
+	}
+	return makeInteger(v)
+}
+
+func makeInteger(v int) Obj {
 	tmp := scmNumber{scmHeadNumber, float64(v)}
 	return &tmp.scmHead
 }
 
 func MakeNumber(f float64) Obj {
+	if isPreciseInteger(f) {
+		if f >= 0 && int(f) < intConstCount {
+			return intConst[int(f)]
+		}
+	}
+
 	tmp := scmNumber{scmHeadNumber, f}
 	return &tmp.scmHead
 }
