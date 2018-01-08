@@ -581,26 +581,29 @@ func BootstrapMin() {
 	compiler = prototype
 }
 
-func BootstrapShen() {
+func BootstrapCora() {
 	BootstrapMin()
 	prototype.mustLoadBytecode(kl.MakeString("toplevel.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("core.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("sys.bc"))
-	prototype.mustLoadBytecode(kl.MakeString("sequent.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("yacc.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("reader.bc"))
-	prototype.mustLoadBytecode(kl.MakeString("reader.bc"))
-	prototype.mustLoadBytecode(kl.MakeString("prolog.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("track.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("load.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("writer.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("macros.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("declarations.bc"))
+}
+
+func BootstrapShen() {
+	BootstrapCora()
+	prototype.mustLoadBytecode(kl.MakeString("sequent.bc"))
+	prototype.mustLoadBytecode(kl.MakeString("prolog.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("t-star.bc"))
 	prototype.mustLoadBytecode(kl.MakeString("types.bc"))
 }
 
-var Debug bool
+var Boot string
 
 func (vm *VM) mustLoadBytecode(args ...kl.Obj) {
 	res := vm.loadBytecode(args...)
@@ -613,8 +616,8 @@ func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 	fileName := kl.GetString(args[0])
 	var f io.ReadCloser
 	var err error
-	if Debug {
-		filePath := path.Join(kl.PackagePath(), "bytecode", fileName)
+	if Boot != "" {
+		filePath := path.Join(Boot, "bytecode", fileName)
 		f, err = os.Open(filePath)
 	} else {
 		filePath := path.Join("/bytecode", fileName)

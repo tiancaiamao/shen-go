@@ -12,11 +12,11 @@ import (
 )
 
 var pprof bool
-var boot bool
+var boot string
 
 func init() {
 	flag.BoolVar(&pprof, "pprof", false, "enable pprof")
-	flag.BoolVar(&boot, "boot", false, "use bootstrap file for testing")
+	flag.StringVar(&boot, "boot", "", "use bootstrap file for testing")
 }
 
 func main() {
@@ -25,10 +25,7 @@ func main() {
 	if pprof {
 		go http.ListenAndServe(":8080", nil)
 	}
-	if boot {
-		vm.Debug = true
-	}
-
+	vm.Boot = boot
 	vm.BootstrapShen()
 
 	m := vm.New()

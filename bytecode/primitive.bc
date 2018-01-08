@@ -4,7 +4,7 @@
 
 ((iFreeze (iGrab) (iConst primitive-id) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive-id) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iConst fail!) (iReturn)) (iConst fail) (iDefun) (iReturn) (iHalt))
+((iFreeze (iConst ...) (iReturn)) (iConst fail) (iDefun) (iReturn) (iHalt))
 
 ((iFreeze (iGrab) (iAccess 0) (iPrimCall 12) (iPrimCall 18) (iReturn)) (iConst shen.f_error) (iDefun) (iReturn) (iHalt))
 

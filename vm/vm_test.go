@@ -295,6 +295,6 @@ func testKLToBytecode(t *testing.T, input, expect string) {
 }
 
 func init() {
-	Debug = true
+	Boot = ".."
 	BootstrapMin()
 }

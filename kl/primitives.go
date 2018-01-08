@@ -52,7 +52,7 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: primIf},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: primIsSymbol},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 9999},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
+	// &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: primReadFileAsByteList},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: primReadFileAsString},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "variable?", Required: 1, Function: primIsVariable},

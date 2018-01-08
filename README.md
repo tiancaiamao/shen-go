@@ -42,7 +42,7 @@ cd ShenOSKernel-20.1/tests
 Run shen repl, then
 
 ```
-(load "compiler/primitive.shen")
+(load "compiler/bootstrap.shen")
 ```
 
 This would compile all necessary shen files into bytecode.
@@ -57,7 +57,7 @@ mv compiler/*.bc bytecode/
 And try it with
 
 ```
-./shen -boot=true
+./shen -boot=.
 ```
 
 If everything is ok, you can embedded those bytecode files into `asset.go`
