@@ -21,7 +21,7 @@ func TestProcedureCall(t *testing.T) {
 	a.RETURN()
 	a.TAILAPPLY()
 	a.HALT()
-	code := a.Comiple()
+	code := a.Compile()
 
 	vm := New()
 	o := vm.Run(code)

@@ -1,7 +1,6 @@
 package vm
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"strings"
@@ -15,7 +14,6 @@ const (
 	iAccess = iota
 	iGrab
 	iFreeze
-	iPush
 	iPop
 	iApply
 	iMark
@@ -41,7 +39,6 @@ type instructionInfo struct {
 var instructionTable = []instructionInfo{
 	{iAccess, "ACCESS"},
 	{iGrab, "GRAB"},
-	{iPush, "PUSH"},
 	{iPop, "POP"},
 	{iApply, "APPLY"},
 	{iMark, "MARK"},
@@ -89,8 +86,6 @@ func (i instruction) String() string {
 		return fmt.Sprintf("ACCESS %d", instructionOPN(i))
 	case iGrab:
 		return "GRAB"
-	case iPush:
-		return "PUSH"
 	case iPop:
 		return "POP"
 	case iApply:
@@ -231,14 +226,56 @@ func (a *Assember) NATIVECALL(id int) {
 	a.buf = append(a.buf, inst)
 }
 
-func (a *Assember) Comiple() *Code {
-	code := Code{
-		bc:     a.buf,
-		consts: a.consts,
+func (a *Assember) Compile() Code {
+	ret := make([]instFunc, 0, len(a.buf))
+	for _, inst := range a.buf {
+		switch instructionCode(inst) {
+		case iAccess:
+			ret = append(ret, opAccess(instructionOPN(inst)))
+		case iGrab:
+			ret = append(ret, opGrab)
+		case iFreeze:
+			ret = append(ret, opFreeze(instructionOPN(inst)))
+		case iPop:
+			ret = append(ret, opPop)
+		case iApply:
+			ret = append(ret, opApply)
+		case iMark:
+			ret = append(ret, opMark)
+		case iTailApply:
+			ret = append(ret, opTailApply)
+		case iPrimCall:
+			ret = append(ret, opPrimCall(instructionOPN(inst)))
+		case iConst:
+			n := instructionOPN(inst)
+			o := a.consts[n]
+			ret = append(ret, opConst(o))
+		case iReturn:
+			ret = append(ret, opReturn)
+		case iHalt:
+			ret = append(ret, opHalt)
+		case iDefun:
+			ret = append(ret, opDefun)
+		case iGetF:
+			ret = append(ret, opGetF)
+		case iJF:
+			ret = append(ret, opJF(instructionOPN(inst)))
+		case iJMP:
+			ret = append(ret, opJMP(instructionOPN(inst)))
+		case iSetJmp:
+			ret = append(ret, opSetJmp(instructionOPN(inst)))
+		case iClearJmp:
+			ret = append(ret, opClearJmp)
+		case iNativeCall:
+			ret = append(ret, opNativeCall(instructionOPN(inst)))
+		default:
+			panic("unknown instruction")
+		}
 	}
+
 	a.buf = nil
 	a.consts = nil
-	return &code
+	return ret
 }
 
 func (a *Assember) Encode(str string) (*Code, error) {
@@ -255,14 +292,6 @@ func (a *Assember) Encode(str string) (*Code, error) {
 		}
 	}
 	return nil, errors.New("fuck")
-}
-
-func (a *Assember) Decode(code *Code) string {
-	var buf bytes.Buffer
-	for _, bc := range code.bc {
-		fmt.Fprintln(&buf, bc.String())
-	}
-	return buf.String()
 }
 
 func (a *Assember) FromSexp(input kl.Obj) error {

@@ -55,22 +55,4 @@ func TestFromSexp(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
-	code := a.Comiple()
-	str := a.Decode(code)
-	result := `GRAB
-GRAB
-ACCESS 1
-ACCESS 0
-PRIMCALL
-RETURN
-RETURN
-CONST 0
-CONST 1
-APPLY
-HALT
-`
-	if str != result {
-		t.Errorf("get: %s\nexcept:%s\n", str, result)
-	}
 }
