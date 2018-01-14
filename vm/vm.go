@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"plugin"
 	"runtime"
 	"sync"
 	"unsafe"
@@ -102,6 +103,7 @@ func New() *VM {
 	vm := newVM()
 	vm.RegistNativeCall("load-bytecode", 1, vm.loadBytecode)
 	vm.RegistNativeCall("load-file", 1, vm.loadFile)
+	vm.RegistNativeCall("plugin-bind", 2, vm.pluginBind)
 	vm.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
 	vm.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
 	vm.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
@@ -761,6 +763,49 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 		}
 	}
 	return args[0]
+}
+
+// (native plugin-bind "/path/to/plugin.so" [bit-shift 2 "BitLeftShift"])
+func (m *VM) pluginBind(args ...kl.Obj) kl.Obj {
+	pluginPath := kl.GetString(args[0])
+	bindInfo := getBindInfo(args[1])
+	p, err := plugin.Open(pluginPath)
+	if err != nil {
+		return kl.MakeError(err.Error())
+	}
+
+	for _, info := range bindInfo {
+		f, err := p.Lookup(info.PluginFunc)
+		if err != nil {
+			return kl.MakeError(err.Error())
+		}
+		if funcAddr, ok := f.(func(...kl.Obj) kl.Obj); !ok {
+			return kl.MakeError(fmt.Sprintf("func %s signature is illeagel", info.PluginFunc))
+		} else {
+			m.RegistNativeCall(info.Name, info.Arity, funcAddr)
+		}
+	}
+	return args[0]
+}
+
+type bindInfo struct {
+	Name       string
+	Arity      int
+	PluginFunc string
+}
+
+func getBindInfo(l kl.Obj) []bindInfo {
+	ret := make([]bindInfo, 0, 1)
+	for l != kl.Nil {
+		name := kl.GetSymbol(kl.Car(l))
+		l = kl.Cdr(l)
+		arity := kl.GetInteger(kl.Car(l))
+		l = kl.Cdr(l)
+		pluginName := kl.GetString(kl.Car(l))
+		l = kl.Cdr(l)
+		ret = append(ret, bindInfo{name, arity, pluginName})
+	}
+	return ret
 }
 
 var stdDebug io.Writer
