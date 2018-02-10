@@ -100,29 +100,30 @@ var stackMarkDummyValue int
 var stackMark = kl.MakeRaw(&stackMarkDummyValue)
 
 func New() *VM {
-	vm := newVM()
-	vm.RegistNativeCall("load-bytecode", 1, vm.loadBytecode)
-	vm.RegistNativeCall("load-file", 1, vm.loadFile)
-	vm.RegistNativeCall("plugin-bind", 2, vm.pluginBind)
-	vm.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
-	vm.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
-	vm.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
-	return vm
+	m := newVM()
+	m.RegistNativeCall("load-bytecode", 1, m.loadBytecode)
+	m.RegistNativeCall("load-file", 1, m.loadFile)
+	m.RegistNativeCall("load-plugin", 1, m.loadPlugin)
+	m.RegistNativeCall("plugin-bind", 2, m.pluginBind)
+	m.RegistNativeCall("primitive?", 1, kl.NativeIsPrimitive)
+	m.RegistNativeCall("primitive-arity", 1, kl.NativePrimitiveArity)
+	m.RegistNativeCall("primitive-id", 1, kl.NativePrimitiveID)
+	return m
 }
 
 func newVM() *VM {
-	vm := &VM{
+	m := &VM{
 		stack:      make([]kl.Obj, initStackSize),
 		env:        make([]kl.Obj, 0, 256),
 		volatile:   make([]kl.Obj, 0, 256),
 		nativeFunc: make(map[string]*kl.ScmPrimitive),
 	}
 	initSymbolTable()
-	return vm
+	return m
 }
 
-func (vm *VM) RegistNativeCall(name string, arity int, f func(...kl.Obj) kl.Obj) {
-	vm.nativeFunc[name] = kl.MakePrimitive(name, arity, f)
+func (m *VM) RegistNativeCall(name string, arity int, f func(...kl.Obj) kl.Obj) {
+	m.nativeFunc[name] = kl.MakePrimitive(name, arity, f)
 }
 
 func initSymbolTable() {
@@ -141,100 +142,100 @@ func initSymbolTable() {
 	kl.PrimSet(kl.MakeSymbol("*package-path*"), kl.MakeString(kl.PackagePath()))
 }
 
-func (vm *VM) Run(code Code) kl.Obj {
-	vm.setup(code)
+func (m *VM) Run(code Code) kl.Obj {
+	m.setup(code)
 
 	// May be the fastest dispatch method in Go.
 Dispatch:
-	vm.status = statusNormal
-	for vm.status == statusNormal {
-		vm.code[vm.pc](vm)
+	m.status = statusNormal
+	for m.status == statusNormal {
+		m.code[m.pc](m)
 	}
 
-	if vm.status == statusException {
-		if len(vm.cc) == 0 {
-			err := vm.stack[vm.top-1]
-			vm.Reset()
+	if m.status == statusException {
+		if len(m.cc) == 0 {
+			err := m.stack[m.top-1]
+			m.Reset()
 			return err
 		}
-		vm.handleException()
+		m.handleException()
 		goto Dispatch
 	}
-	return vm.done()
+	return m.done()
 }
 
-func (vm *VM) setup(code Code) {
-	vm.code = code
-	vm.pc = 0
-	vm.stackPush(stackMark)
-	vm.savedAddr = append(vm.savedAddr, address{pc: len(code) - 1, code: code})
+func (m *VM) setup(code Code) {
+	m.code = code
+	m.pc = 0
+	m.stackPush(stackMark)
+	m.savedAddr = append(m.savedAddr, address{pc: len(code) - 1, code: code})
 }
 
-func (vm *VM) done() kl.Obj {
-	if vm.top != 1 || len(vm.savedAddr) != 0 || vm.envMark != 0 {
+func (m *VM) done() kl.Obj {
+	if m.top != 1 || len(m.savedAddr) != 0 || m.envMark != 0 {
 		if enableDebug {
-			vm.Debug()
+			m.Debug()
 		}
-		panic("vm in wrong status")
+		panic("m in wrong status")
 	}
-	vm.top--
-	return vm.stack[vm.top]
+	m.top--
+	return m.stack[m.top]
 }
 
-func (vm *VM) handleException() {
+func (m *VM) handleException() {
 	// clear jmpBuf
-	jmpBuf := vm.cc[len(vm.cc)-1]
-	vm.cc = vm.cc[:len(vm.cc)-1]
+	jmpBuf := m.cc[len(m.cc)-1]
+	m.cc = m.cc[:len(m.cc)-1]
 	// pop trap-error handler, prepare for call.
-	value := vm.stack[vm.top-1]
-	vm.top = jmpBuf.savedStackTop
-	vm.stackPush(stackMark)
-	vm.stackPush(value)
+	value := m.stack[m.top-1]
+	m.top = jmpBuf.savedStackTop
+	m.stackPush(stackMark)
+	m.stackPush(value)
 	// recover savedAddr
-	vm.savedAddr = vm.savedAddr[:jmpBuf.savedAddrPos]
-	vm.savedAddr = append(vm.savedAddr, jmpBuf.address)
+	m.savedAddr = m.savedAddr[:jmpBuf.savedAddrPos]
+	m.savedAddr = append(m.savedAddr, jmpBuf.address)
 	// longjmp... tail apply
 	closure := (*Procedure)(unsafe.Pointer(jmpBuf.closure))
-	vm.code = closure.code
-	vm.pc = 0
-	vm.env = closure.env
-	vm.envMark = jmpBuf.savedEnvTop
-	vm.volatile = vm.volatile[:vm.envMark]
+	m.code = closure.code
+	m.pc = 0
+	m.env = closure.env
+	m.envMark = jmpBuf.savedEnvTop
+	m.volatile = m.volatile[:m.envMark]
 }
 
 func opSetJmp(n int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
+	return func(m *VM) {
+		m.pc++
 		if enableDebug {
 			debugf("SETJMP\n")
 		}
 
-		vm.top--
+		m.top--
 		cc := jumpBuf{
 			address: address{
-				pc:      vm.pc + n,
-				code:    vm.code,
-				env:     vm.env,
-				envMark: vm.envMark,
+				pc:      m.pc + n,
+				code:    m.code,
+				env:     m.env,
+				envMark: m.envMark,
 			},
-			savedAddrPos:  len(vm.savedAddr),
-			savedStackTop: vm.top,
-			closure:       vm.stack[vm.top],
-			savedEnvTop:   len(vm.volatile),
+			savedAddrPos:  len(m.savedAddr),
+			savedStackTop: m.top,
+			closure:       m.stack[m.top],
+			savedEnvTop:   len(m.volatile),
 		}
-		vm.cc = append(vm.cc, cc)
+		m.cc = append(m.cc, cc)
 	}
 }
 
-func opClearJmp(vm *VM) {
-	vm.pc++
-	vm.cc = vm.cc[:len(vm.cc)-1]
+func opClearJmp(m *VM) {
+	m.pc++
+	m.cc = m.cc[:len(m.cc)-1]
 }
 
 func opConst(o kl.Obj) instFunc {
-	return func(vm *VM) {
-		vm.pc++
-		vm.stackPush(o)
+	return func(m *VM) {
+		m.pc++
+		m.stackPush(o)
 		if enableDebug {
 			debugf("CONST %s\n", kl.ObjString(o))
 		}
@@ -242,20 +243,20 @@ func opConst(o kl.Obj) instFunc {
 }
 
 func opAccess(n int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
-		if n+vm.envMark < len(vm.volatile) {
+	return func(m *VM) {
+		m.pc++
+		if n+m.envMark < len(m.volatile) {
 			// get value from volatile environment
-			v := vm.volatile[len(vm.volatile)-1-n]
-			vm.stackPush(v)
+			v := m.volatile[len(m.volatile)-1-n]
+			m.stackPush(v)
 			if enableDebug {
 				debugf("ACCESS %d, get %s\n", n, kl.ObjString(v))
 			}
 		} else {
 			// get value from persistent environment
-			xx := n - (len(vm.volatile) - vm.envMark)
-			v := vm.env[len(vm.env)-1-xx]
-			vm.stackPush(v)
+			xx := n - (len(m.volatile) - m.envMark)
+			v := m.env[len(m.env)-1-xx]
+			m.stackPush(v)
 			if enableDebug {
 				debugf("ACCESS %d from env, get %s\n", n, kl.ObjString(v))
 			}
@@ -264,78 +265,78 @@ func opAccess(n int) instFunc {
 }
 
 func opFreeze(n int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
+	return func(m *VM) {
+		m.pc++
 		// create closure directly
 		// nearly the same with grab, but if need zero arguments.
 		tmp := &Procedure{
-			code: vm.code[vm.pc:],
-			env:  vm.envClose(),
+			code: m.code[m.pc:],
+			env:  m.envClose(),
 		}
 		raw := kl.MakeRaw(&tmp.scmHead)
 		if enableDebug {
 			debugf("FREEZE len(env)=%d\n", len(tmp.env))
 		}
-		vm.stackPush(raw)
-		vm.pc += n
+		m.stackPush(raw)
+		m.pc += n
 	}
 }
 
-func opMark(vm *VM) {
-	vm.pc++
-	vm.stackPush(stackMark)
+func opMark(m *VM) {
+	m.pc++
+	m.stackPush(stackMark)
 	if enableDebug {
 		debugln("MARK")
 	}
 }
 
-func opGrab(vm *VM) {
-	vm.pc++
-	vm.top--
-	if v := vm.stack[vm.top]; v == stackMark {
+func opGrab(m *VM) {
+	m.pc++
+	m.top--
+	if v := m.stack[m.top]; v == stackMark {
 		// make closure if there are not enough arguments
 		tmp := Procedure{
-			code: vm.code[vm.pc-1:],
-			env:  vm.envClose(),
+			code: m.code[m.pc-1:],
+			env:  m.envClose(),
 		}
 		raw := kl.MakeRaw(&tmp.scmHead)
-		vm.stackPush(raw)
+		m.stackPush(raw)
 
 		// return to saved address
-		savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
-		vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
-		vm.code = savedAddr.code
-		vm.pc = savedAddr.pc
-		vm.env = savedAddr.env
-		vm.volatile = vm.volatile[:vm.envMark]
-		vm.envMark = savedAddr.envMark
+		savedAddr := m.savedAddr[len(m.savedAddr)-1]
+		m.savedAddr = m.savedAddr[:len(m.savedAddr)-1]
+		m.code = savedAddr.code
+		m.pc = savedAddr.pc
+		m.env = savedAddr.env
+		m.volatile = m.volatile[:m.envMark]
+		m.envMark = savedAddr.envMark
 		if enableDebug {
 			debugln("GRAB not enough argument")
 		}
 	} else {
 		// grab data from stack to volatile env
-		vm.volatile = append(vm.volatile, v)
+		m.volatile = append(m.volatile, v)
 		if enableDebug {
 			debugf("GRAB %s\n", kl.ObjString(v))
 		}
 	}
 }
 
-func opReturn(vm *VM) {
+func opReturn(m *VM) {
 	// stack[top-1] is the result, so should check top-2
-	if vm.stack[vm.top-2] == stackMark {
-		savedAddr := vm.savedAddr[len(vm.savedAddr)-1]
-		vm.savedAddr = vm.savedAddr[:len(vm.savedAddr)-1]
+	if m.stack[m.top-2] == stackMark {
+		savedAddr := m.savedAddr[len(m.savedAddr)-1]
+		m.savedAddr = m.savedAddr[:len(m.savedAddr)-1]
 
-		vm.code = savedAddr.code
-		vm.pc = savedAddr.pc
-		vm.env = savedAddr.env
-		vm.top--
-		vm.stack[vm.top-1] = vm.stack[vm.top]
-		vm.volatile = vm.volatile[:vm.envMark]
-		vm.envMark = savedAddr.envMark
+		m.code = savedAddr.code
+		m.pc = savedAddr.pc
+		m.env = savedAddr.env
+		m.top--
+		m.stack[m.top-1] = m.stack[m.top]
+		m.volatile = m.volatile[:m.envMark]
+		m.envMark = savedAddr.envMark
 		if enableDebug {
-			debugf("RETURN %d %d %s\n", vm.top, savedAddr.envMark, kl.ObjString(vm.stack[vm.top-1]))
+			debugf("RETURN %d %d %s\n", m.top, savedAddr.envMark, kl.ObjString(m.stack[m.top-1]))
 		}
 	} else {
 		if enableDebug {
@@ -343,130 +344,130 @@ func opReturn(vm *VM) {
 		}
 		// more arguments, continue the beta-reduce.
 		// similar to tail apply
-		vm.top--
-		obj := vm.stack[vm.top]
+		m.top--
+		obj := m.stack[m.top]
 		// TODO: panic if obj is not a closure
 		closure := (*Procedure)(unsafe.Pointer(obj))
-		vm.code = closure.code
-		vm.pc = 0
-		vm.env = closure.env
-		vm.volatile = vm.volatile[:vm.envMark]
+		m.code = closure.code
+		m.pc = 0
+		m.env = closure.env
+		m.volatile = m.volatile[:m.envMark]
 	}
 }
 
-func opTailApply(vm *VM) {
+func opTailApply(m *VM) {
 	if enableDebug {
 		debugln("TAILAPPLY")
 	}
-	vm.top--
-	obj := vm.stack[vm.top]
+	m.top--
+	obj := m.stack[m.top]
 	// TODO: panic if obj is not a closure
 	closure := (*Procedure)(unsafe.Pointer(obj))
 	// The only different with Apply is that TailApply doesn't save return address.
-	vm.code = closure.code
-	vm.pc = 0
-	vm.env = closure.env
-	vm.volatile = vm.volatile[:vm.envMark]
+	m.code = closure.code
+	m.pc = 0
+	m.env = closure.env
+	m.volatile = m.volatile[:m.envMark]
 }
 
-func opApply(vm *VM) {
-	vm.top--
-	vm.pc++
+func opApply(m *VM) {
+	m.top--
+	m.pc++
 	if enableDebug {
-		debugf("APPLY %d\n", vm.top)
+		debugf("APPLY %d\n", m.top)
 	}
-	obj := vm.stack[vm.top]
+	obj := m.stack[m.top]
 	// TODO: panic if obj is not a closure
 	closure := (*Procedure)(unsafe.Pointer(obj))
 	// save return address
-	vm.savedAddr = append(vm.savedAddr, address{vm.pc, vm.code, vm.env, vm.envMark})
+	m.savedAddr = append(m.savedAddr, address{m.pc, m.code, m.env, m.envMark})
 	// set pc to closure code
-	vm.code = closure.code
-	vm.pc = 0
-	vm.env = closure.env
-	vm.envMark = len(vm.volatile)
+	m.code = closure.code
+	m.pc = 0
+	m.env = closure.env
+	m.envMark = len(m.volatile)
 }
 
-func opPop(vm *VM) {
-	vm.pc++
+func opPop(m *VM) {
+	m.pc++
 	if enableDebug {
 		debugln("POP")
 	}
-	vm.top--
+	m.top--
 }
 
-func opDefun(vm *VM) {
-	vm.pc++
-	symbol := vm.stack[vm.top-1]
-	function := vm.stack[vm.top-2]
+func opDefun(m *VM) {
+	m.pc++
+	symbol := m.stack[m.top-1]
+	function := m.stack[m.top-2]
 	kl.BindSymbolFunc(symbol, function)
-	vm.top--
-	vm.stack[vm.top-1] = vm.stack[vm.top]
+	m.top--
+	m.stack[m.top-1] = m.stack[m.top]
 	if enableDebug {
 		debugf("DEFUN %s\n", kl.ObjString(symbol))
 	}
 }
 
-func opGetF(vm *VM) {
-	vm.pc++
-	function := kl.GetSymbolFunc(vm.stack[vm.top-1])
+func opGetF(m *VM) {
+	m.pc++
+	function := kl.GetSymbolFunc(m.stack[m.top-1])
 	if enableDebug {
-		debugf("GETF %s\n", kl.GetSymbol(vm.stack[vm.top-1]))
+		debugf("GETF %s\n", kl.GetSymbol(m.stack[m.top-1]))
 	}
 	if function != nil {
-		vm.stack[vm.top-1] = function
+		m.stack[m.top-1] = function
 	} else {
-		vm.stack[vm.top-1] = kl.MakeError("unknown function:" + kl.GetSymbol(vm.stack[vm.top-1]))
-		vm.status = statusException
+		m.stack[m.top-1] = kl.MakeError("unknown function:" + kl.GetSymbol(m.stack[m.top-1]))
+		m.status = statusException
 	}
 }
 
 func opJF(n int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
-		switch vm.stack[vm.top-1] {
+	return func(m *VM) {
+		m.pc++
+		switch m.stack[m.top-1] {
 		case kl.False:
 			if enableDebug {
 				debugln("JF false")
 			}
-			vm.top--
-			vm.pc += n
+			m.top--
+			m.pc += n
 			return
 		case kl.True:
 			if enableDebug {
 				debugln("JF true")
 			}
-			vm.top--
+			m.top--
 		default:
 			// TODO: So what?
-			vm.stack[vm.top-1] = kl.MakeError("test condition need to be boolean")
-			vm.status = statusException
+			m.stack[m.top-1] = kl.MakeError("test condition need to be boolean")
+			m.status = statusException
 		}
 	}
 }
 
 func opJMP(n int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
+	return func(m *VM) {
+		m.pc++
 		if enableDebug {
 			debugln("JMP")
 		}
-		vm.pc += n
+		m.pc += n
 	}
 }
 
-func opHalt(vm *VM) {
+func opHalt(m *VM) {
 	if enableDebug {
 		debugln("HALT")
 	}
-	vm.status = statusHalt
+	m.status = statusHalt
 }
 
 func opPrimCall(id int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
+	return func(m *VM) {
+		m.pc++
 		prim := kl.GetPrimitiveByID(id)
-		args := vm.stack[vm.top-prim.Required : vm.top]
+		args := m.stack[m.top-prim.Required : m.top]
 
 		if enableDebug {
 			debugf("PRIMCALL %s\n", prim.Name)
@@ -481,90 +482,90 @@ func opPrimCall(id int) instFunc {
 			result = kl.PrimValue(args[0])
 		case "eval-kl":
 			tmp := auxVM.Get()
-			tmp.nativeFunc = vm.nativeFunc
+			tmp.nativeFunc = m.nativeFunc
 			result = tmp.Eval(args[0])
 			auxVM.Put(tmp)
 		default:
 			result = prim.Function(args...)
 		}
 
-		vm.stack[vm.top-prim.Required] = result
-		vm.top = vm.top - prim.Required + 1
+		m.stack[m.top-prim.Required] = result
+		m.top = m.top - prim.Required + 1
 		if kl.IsError(result) {
-			vm.status = statusException
+			m.status = statusException
 		}
 	}
 }
 
 func opNativeCall(arity int) instFunc {
-	return func(vm *VM) {
-		vm.pc++
-		method := kl.GetSymbol(vm.stack[vm.top-arity])
+	return func(m *VM) {
+		m.pc++
+		method := kl.GetSymbol(m.stack[m.top-arity])
 		if enableDebug {
 			debugf("NativeCall %s\n", method)
 		}
-		proc, ok := vm.nativeFunc[method]
+		proc, ok := m.nativeFunc[method]
 		if !ok {
-			vm.stack[vm.top-1] = kl.MakeError("unknown native function:" + method)
-			vm.status = statusException
+			m.stack[m.top-1] = kl.MakeError("unknown native function:" + method)
+			m.status = statusException
 			return
 		}
 		// Note the invariance arity = len(method + args), so arity-1 = proc.Required
 		if arity-1 != proc.Required {
-			vm.stack[vm.top-1] = kl.MakeError("wrong arity for native " + method)
-			vm.status = statusException
+			m.stack[m.top-1] = kl.MakeError("wrong arity for native " + method)
+			m.status = statusException
 			return
 		}
-		args := vm.stack[vm.top-proc.Required : vm.top]
+		args := m.stack[m.top-proc.Required : m.top]
 		result := proc.Function(args...)
 
-		vm.stack[vm.top-arity] = result
-		vm.top = vm.top - proc.Required
+		m.stack[m.top-arity] = result
+		m.top = m.top - proc.Required
 		if kl.IsError(result) {
-			vm.status = statusException
+			m.status = statusException
 		}
 	}
 }
 
-func (vm *VM) envClose() []kl.Obj {
-	lenVolatile := len(vm.volatile) - vm.envMark
-	if len(vm.env) > 0 || lenVolatile > 0 {
-		env := make([]kl.Obj, 0, len(vm.env)+lenVolatile)
-		env = append(env, vm.env...)
-		env = append(env, vm.volatile[vm.envMark:len(vm.volatile)]...)
+func (m *VM) envClose() []kl.Obj {
+	lenVolatile := len(m.volatile) - m.envMark
+	if len(m.env) > 0 || lenVolatile > 0 {
+		env := make([]kl.Obj, 0, len(m.env)+lenVolatile)
+		env = append(env, m.env...)
+		env = append(env, m.volatile[m.envMark:len(m.volatile)]...)
 		return env
 	}
 	return nil
 }
 
-func (vm *VM) stackPush(o kl.Obj) {
-	if vm.top == len(vm.stack) {
-		stack := make([]kl.Obj, len(vm.stack)*2)
-		copy(stack, vm.stack)
-		vm.stack = stack
+func (m *VM) stackPush(o kl.Obj) {
+	if m.top == len(m.stack) {
+		stack := make([]kl.Obj, len(m.stack)*2)
+		copy(stack, m.stack)
+		m.stack = stack
 	}
-	vm.stack[vm.top] = o
-	vm.top++
+	m.stack[m.top] = o
+	m.top++
 }
 
-func (vm *VM) Reset() {
-	vm.stack = vm.stack[:initStackSize]
-	vm.top = 0
-	vm.env = vm.env[:0]
-	vm.savedAddr = vm.savedAddr[:0]
-	vm.cc = nil
+func (m *VM) Reset() {
+	m.stack = m.stack[:initStackSize]
+	m.top = 0
+	m.env = m.env[:0]
+	m.savedAddr = m.savedAddr[:0]
+	m.cc = nil
 }
 
-func (vm *VM) Debug() {
-	debugln("pc:", vm.pc)
-	debugln("top:", vm.top)
-	debugln("envMark:", vm.envMark)
+func (m *VM) Debug() {
+	debugln("pc:", m.pc)
+	debugln("top:", m.top)
+	debugln("envMark:", m.envMark)
 	debugln("stack:")
-	for i := vm.top - 1; i >= 0; i-- {
-		if vm.stack[i] == stackMark {
+	for i := m.top - 1; i >= 0; i-- {
+		if m.stack[i] == stackMark {
 			debugln("MARK")
 		} else {
-			debugln(kl.ObjString(vm.stack[i]))
+			debugln(kl.ObjString(m.stack[i]))
 		}
 	}
 }
@@ -585,7 +586,7 @@ func (cc *compileWithEvaluator) KLToSexpByteCode(klambda kl.Obj) kl.Obj {
 	return cc.Eval(input)
 }
 
-func (vm *VM) KLToSexpByteCode(klambda kl.Obj) kl.Obj {
+func (m *VM) KLToSexpByteCode(klambda kl.Obj) kl.Obj {
 	// TODO: Better way to do it?
 	// tailcall (kl->bytecode klambda)
 	var a Assember
@@ -596,7 +597,7 @@ func (vm *VM) KLToSexpByteCode(klambda kl.Obj) kl.Obj {
 	a.HALT()
 
 	code := a.Compile()
-	return vm.Run(code)
+	return m.Run(code)
 }
 
 func klToByteCode(klambda kl.Obj, cc Compiler) (Code, error) {
@@ -613,10 +614,10 @@ func klToByteCode(klambda kl.Obj, cc Compiler) (Code, error) {
 	return code, nil
 }
 
-func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
+func (m *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	defer func() {
 		if r := recover(); r != nil {
-			vm.Reset()
+			m.Reset()
 			var buf [4096]byte
 			n := runtime.Stack(buf[:], false)
 			fmt.Println("Recovered in Eval:", kl.ObjString(sexp))
@@ -629,7 +630,7 @@ func (vm *VM) Eval(sexp kl.Obj) (res kl.Obj) {
 	if err != nil {
 		return kl.MakeError(err.Error())
 	}
-	res = vm.Run(code)
+	res = m.Run(code)
 	return
 }
 
@@ -677,14 +678,14 @@ func BootstrapShen() {
 
 var Boot string
 
-func (vm *VM) mustLoadBytecode(args ...kl.Obj) {
-	res := vm.loadBytecode(args...)
+func (m *VM) mustLoadBytecode(args ...kl.Obj) {
+	res := m.loadBytecode(args...)
 	if kl.IsError(res) {
 		panic(kl.ObjString(res))
 	}
 }
 
-func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
+func (m *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 	fileName := kl.GetString(args[0])
 	var f io.ReadCloser
 	var err error
@@ -710,7 +711,7 @@ func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 		code := a.Compile()
 
 		tmp := auxVM.Get()
-		tmp.nativeFunc = vm.nativeFunc
+		tmp.nativeFunc = m.nativeFunc
 		res := tmp.Run(code)
 		auxVM.Put(tmp)
 
@@ -725,7 +726,7 @@ func (vm *VM) loadBytecode(args ...kl.Obj) kl.Obj {
 	return args[0]
 }
 
-func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
+func (m *VM) loadFile(args ...kl.Obj) kl.Obj {
 	file := kl.GetString(args[0])
 	var filePath string
 	if _, err := os.Stat(file); err == nil {
@@ -754,7 +755,7 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 		}
 
 		tmp := auxVM.Get()
-		tmp.nativeFunc = vm.nativeFunc
+		tmp.nativeFunc = m.nativeFunc
 		res := tmp.Eval(exp)
 		auxVM.Put(tmp)
 
@@ -762,6 +763,27 @@ func (vm *VM) loadFile(args ...kl.Obj) kl.Obj {
 			return res
 		}
 	}
+	return args[0]
+}
+
+func (m *VM) loadPlugin(args ...kl.Obj) kl.Obj {
+	pluginPath := kl.GetString(args[0])
+	p, err := plugin.Open(pluginPath)
+	if err != nil {
+		return kl.MakeError(err.Error())
+	}
+
+	entry, err := p.Lookup("Main")
+	if err != nil {
+		return kl.MakeError(err.Error())
+	}
+
+	f, ok := entry.(func(*VM))
+	if !ok {
+		return kl.MakeError("plugin Main should be func(*vm.VM)")
+	}
+
+	f(m)
 	return args[0]
 }
 

@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"time"
 	"unsafe"
 
 	"github.com/tiancaiamao/shen-go/kl"
+	"github.com/tiancaiamao/shen-go/vm"
 )
 
 func BitLeftShift(args ...kl.Obj) kl.Obj {
@@ -31,4 +33,10 @@ func TimeSub(args ...kl.Obj) kl.Obj {
 	t2 := (*rawTime)(unsafe.Pointer(args[1]))
 	duration := t2.Time.Sub(t1.Time)
 	return kl.MakeString(duration.String())
+}
+
+func Main(vm *vm.VM) {
+	fmt.Println("hello world")
+	vm.RegistNativeCall("now", 0, Now)
+	vm.RegistNativeCall("time-sub", 2, TimeSub)
 }
