@@ -72,26 +72,24 @@
   [[defun fail | _] | Y] -> (@s "(defun fail () shen.fail!)" (list->string Y))
   [X | Y] -> (@s (make-string "~R~%~%" X) (list->string Y)))
 
-(load "compiler/primitive.shen")
-(load "compiler/de-bruijn.shen")
-(load "compiler/compile.shen")
 (set *maximum-print-sequence-size* 2000)
 
 (map (function make-file)
-     ["ShenOSKernel-20.1/sources/toplevel.shen"
-      "ShenOSKernel-20.1/sources/core.shen"
-      "ShenOSKernel-20.1/sources/sys.shen"
-      "ShenOSKernel-20.1/sources/sequent.shen"
-      "ShenOSKernel-20.1/sources/yacc.shen"
-      "ShenOSKernel-20.1/sources/reader.shen"
-      "ShenOSKernel-20.1/sources/prolog.shen"
-      "ShenOSKernel-20.1/sources/track.shen"
-      "ShenOSKernel-20.1/sources/load.shen"
-      "ShenOSKernel-20.1/sources/writer.shen"
-      "ShenOSKernel-20.1/sources/macros.shen"
-      "ShenOSKernel-20.1/sources/declarations.shen"
-      "ShenOSKernel-20.1/sources/t-star.shen"
-      "ShenOSKernel-20.1/sources/types.shen"
-      "compiler/primitive.shen"
+     ["ShenOSKernel-21.0/sources/toplevel.shen"
+      "ShenOSKernel-21.0/sources/core.shen"
+      "ShenOSKernel-21.0/sources/sys.shen"
+      "ShenOSKernel-21.0/sources/dict.shen"
+      "ShenOSKernel-21.0/sources/sequent.shen"
+      "ShenOSKernel-21.0/sources/yacc.shen"
+      "ShenOSKernel-21.0/sources/reader.shen"
+      "ShenOSKernel-21.0/sources/prolog.shen"
+      "ShenOSKernel-21.0/sources/track.shen"
+      "ShenOSKernel-21.0/sources/load.shen"
+      "ShenOSKernel-21.0/sources/writer.shen"
+      "ShenOSKernel-21.0/sources/macros.shen"
+      "ShenOSKernel-21.0/sources/declarations.shen"
+      "ShenOSKernel-21.0/sources/t-star.shen"
+      "ShenOSKernel-21.0/sources/types.shen"
       "compiler/de-bruijn.shen"
-      "compiler/compile.shen"])
+      "compiler/compile.shen"
+      "compiler/primitive.shen"])

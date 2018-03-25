@@ -548,24 +548,29 @@ func Eval(sexp Obj) Obj {
 	return vm.Eval(sexp)
 }
 
-func bootstrapMin() {
+func BootstrapMin() {
 	prototype.mustLoadBytecode(MakeString("primitive.bc"))
 	prototype.mustLoadBytecode(MakeString("de-bruijn.bc"))
 	prototype.mustLoadBytecode(MakeString("compile.bc"))
 }
 
-func BootstrapCora() {
-	bootstrapMin()
+func BootstrapShen() {
+	BootstrapMin()
 	prototype.mustLoadBytecode(MakeString("toplevel.bc"))
 	prototype.mustLoadBytecode(MakeString("core.bc"))
 	prototype.mustLoadBytecode(MakeString("sys.bc"))
+	prototype.mustLoadBytecode(MakeString("dict.bc"))
+	prototype.mustLoadBytecode(MakeString("sequent.bc"))
 	prototype.mustLoadBytecode(MakeString("yacc.bc"))
 	prototype.mustLoadBytecode(MakeString("reader.bc"))
+	prototype.mustLoadBytecode(MakeString("prolog.bc"))
 	prototype.mustLoadBytecode(MakeString("track.bc"))
 	prototype.mustLoadBytecode(MakeString("load.bc"))
 	prototype.mustLoadBytecode(MakeString("writer.bc"))
 	prototype.mustLoadBytecode(MakeString("macros.bc"))
 	prototype.mustLoadBytecode(MakeString("declarations.bc"))
+	prototype.mustLoadBytecode(MakeString("t-star.bc"))
+	prototype.mustLoadBytecode(MakeString("types.bc"))
 }
 
 var Boot string
@@ -573,7 +578,7 @@ var Boot string
 func (m *VM) mustLoadBytecode(args ...Obj) {
 	res := loadBytecode(args...)
 	if IsError(res) {
-		panic(ObjString(res))
+		panic(ObjString(res) + ObjString(args[0]))
 	}
 }
 

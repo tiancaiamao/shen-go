@@ -1,49 +1,45 @@
-(define primitive?
-        X -> (native primitive? X))
-
-(define primitive-arity
-        X -> (native primitive-arity X))
-
-(define primitive-id
-        X -> (native primitive-id X))
-
-
-(defun fail () fail!)
-(defun shen.f_error (X) (simple-error (str X)))
-
-(define boolean?
-  true -> true
-  false -> true
-  _ -> false)
-
-(define reverse
-  X -> (reverse_help X []))
-
-(define reverse_help
-  [] R -> R
-  [X | Y] R -> (reverse_help Y [X | R]))
-
-(define map
-  F X -> (map-h F X []))
-
-(define map-h
-  _ [] X -> (reverse X)
-  F [X | Y] Z -> (map-h F Y [(F X) | Z]))
-
-(define append
-  [] X -> X
-  [X | Y] Z -> [X | (append Y Z)])
-
-(define fold-left
-  F Acc [] -> Acc
-  F Acc [X | Rest] -> (fold-left F (F Acc X) Rest))
-
-(define mapcan
-  _ [] -> []
-  F [X | Y] -> (append (F X) (mapcan F Y)))
-
-(defun length (V3293) (shen.length-h V3293 0))
-
-(defun shen.length-h (V3296 V3297)
-  (cond ((= () V3296) V3297)
-        (true (shen.length-h (tl V3296) (+ V3297 1)))))
+(defun = (X Y) (native "primitive.=" X Y))
+(defun / (X Y) (native "primitive./" X Y))
+(defun + (X Y) (native "primitive.+" X Y))
+(defun - (X Y) (native "primitive.-" X Y))
+(defun * (X Y) (native "primitive.*" X Y))
+(defun > (X Y) (native "primitive.>" X Y))
+(defun < (X Y) (native "primitive.<" X Y))
+(defun >= (X Y) (native "primitive.>=" X Y))
+(defun <= (X Y) (native "primitive.<=" X Y))
+(defun cons (X Y) (native "primitive.cons" X Y))
+(defun cons? (X) (native "primitive.cons?" X))
+(defun hd (X) (native "primitive.hd" X))
+(defun tl (X) (native "primitive.tl" X))
+(defun string->n (X) (native "primitive.string->n" X))
+(defun n->string (X) (native "primitive.n->string" X))
+(defun number? (X) (native "primitive.number?" X))
+(defun string? (X) (native "primitive.string?" X))
+(defun absvector? (X) (native "primitive.absvector?" X))
+(defun absvector (X) (native "primitive.absvector" X))
+(defun symbol? (X) (native "primitive.symbol?" X))
+(defun integer? (X) (native "primitive.integer?" X))
+(defun variable? (X) (native "primitive.variable?" X))
+(defun pos (X Y) (native "primitive.pos" X Y))
+(defun value (X) (native "primitive.value" X))
+(defun set (X Y) (native "primitive.set" X Y))
+(defun cn (X Y) (native "primitive.cn" X Y))
+(defun tlstr (X) (native "primitive.tlstr" X))
+(defun intern (X) (native "primitive.intern" X))
+(defun not (X) (native "primitive.not" X))
+(defun simple-error (X) (native "primitive.simple-error" X))
+(defun error-to-string (X) (native "primitive.error-to-string" X))
+(defun get-time (X) (native "primitive.get-time" X))
+(defun eval-kl (X) (native "primitive.eval-kl" X))
+(defun close (X) (native "primitive.close" X))
+(defun read-byte (X) (native "primitive.read-byte" X))
+(defun write-byte (X Y) (native "primitive.write-byte" X Y))
+(defun <-address (X Y) (native "primitive.<-address" X Y))
+(defun str (X) (native "primitive.str" X))
+(defun type (X Y) (native "primitive.type" X Y))
+(defun open (X Y) (native "primitive.open" X Y))
+(defun read-file-as-bytelist (X) (native "primitive.read-file-as-bytelist" X))
+(defun read-file-as-string (X) (native "primitive.read-file-as-string" X))
+(defun address-> (X Y Z) (native "primitive.address->" X Y Z))
+(defun load-plugin (X) (native "primitive.load-plugin" X))
+(defun load-file (X) (native "primitive.load-file" X))

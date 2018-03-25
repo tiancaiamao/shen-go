@@ -1,32 +1,92 @@
-((iFreeze (iGrab) (iConst primitive?) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive?) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.=") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst =) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iConst primitive-arity) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive-arity) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive./") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst /) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iConst primitive-id) (iAccess 0) (iNativeCall 2) (iReturn)) (iConst primitive-id) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.+") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst +) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iConst ...) (iReturn)) (iConst fail) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.-") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst -) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iAccess 0) (iPrimCall 12) (iPrimCall 18) (iReturn)) (iConst shen.f_error) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.*") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst *) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iConst true) (iAccess 0) (iPrimCall 19) (iJF (iConst true) (iReturn)) (iJMP (iConst false) (iAccess 0) (iPrimCall 19) (iJF (iConst true) (iReturn)) (iJMP (iConst true) (iJF (iConst false) (iReturn)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst boolean?) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.>") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst >) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iConst ()) (iAccess 0) (iConst reverse_help) (iGetF) (iTailApply)) (iConst reverse) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.<") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst <) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iReturn)) (iJMP (iAccess 1) (iPrimCall 35) (iJF (iAccess 1) (iPrimCall 32) (iAccess 0) (iPrimCall 34) (iAccess 1) (iPrimCall 33) (iConst reverse_help) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst reverse_help) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst reverse_help) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.>=") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst >=) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 0) (iAccess 1) (iConst map-h) (iGetF) (iTailApply)) (iConst map) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.<=") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst <=) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iConst reverse) (iGetF) (iTailApply)) (iJMP (iAccess 1) (iPrimCall 35) (iJF (iMark) (iAccess 1) (iPrimCall 32) (iAccess 2) (iApply) (iAccess 0) (iPrimCall 34) (iAccess 1) (iPrimCall 33) (iAccess 2) (iConst map-h) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst map-h) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst map-h) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iGrab) (iConst "primitive.cons") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst cons) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iReturn)) (iJMP (iAccess 1) (iPrimCall 35) (iJF (iAccess 1) (iPrimCall 32) (iMark) (iAccess 0) (iAccess 1) (iPrimCall 33) (iConst append) (iGetF) (iApply) (iPrimCall 34) (iReturn)) (iJMP (iConst true) (iJF (iConst append) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst append) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iConst "primitive.cons?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst cons?) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iGrab) (iConst ()) (iAccess 0) (iPrimCall 19) (iJF (iAccess 1) (iReturn)) (iJMP (iAccess 0) (iPrimCall 35) (iJF (iAccess 0) (iPrimCall 33) (iMark) (iAccess 0) (iPrimCall 32) (iAccess 1) (iAccess 2) (iApply) (iAccess 2) (iConst fold-left) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst fold-left) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst fold-left) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iConst "primitive.hd") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst hd) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 0) (iPrimCall 19) (iJF (iConst ()) (iReturn)) (iJMP (iAccess 0) (iPrimCall 35) (iJF (iMark) (iAccess 0) (iPrimCall 33) (iAccess 1) (iConst mapcan) (iGetF) (iApply) (iMark) (iAccess 0) (iPrimCall 32) (iAccess 1) (iApply) (iConst append) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst mapcan) (iConst shen.f_error) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn))))) (iConst mapcan) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iConst "primitive.tl") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst tl) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iConst 0) (iAccess 0) (iConst shen.length-h) (iGetF) (iTailApply)) (iConst length) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iConst "primitive.string->n") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst string->n) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iGrab) (iGrab) (iConst ()) (iAccess 1) (iPrimCall 19) (iJF (iAccess 0) (iReturn)) (iJMP (iConst true) (iJF (iAccess 0) (iConst 1) (iPrimCall 23) (iAccess 1) (iPrimCall 33) (iConst shen.length-h) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iPrimCall 18) (iReturn)))) (iConst shen.length-h) (iDefun) (iReturn) (iHalt))
+((iFreeze (iGrab) (iConst "primitive.n->string") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst n->string) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.number?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst number?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.string?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst string?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.absvector?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst absvector?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.absvector") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst absvector) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.symbol?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst symbol?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.integer?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst integer?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.variable?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst variable?) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.pos") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst pos) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.value") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst value) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.set") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst set) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.cn") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst cn) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.tlstr") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst tlstr) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.intern") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst intern) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.not") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst not) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.simple-error") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst simple-error) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.error-to-string") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst error-to-string) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.get-time") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst get-time) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.eval-kl") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst eval-kl) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.close") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst close) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.read-byte") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst read-byte) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.write-byte") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst write-byte) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.<-address") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst <-address) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.str") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst str) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.type") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst type) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iConst "primitive.open") (iAccess 1) (iAccess 0) (iNativeCall 3) (iReturn)) (iConst open) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.read-file-as-bytelist") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst read-file-as-bytelist) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.read-file-as-string") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst read-file-as-string) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iGrab) (iGrab) (iConst "primitive.address->") (iAccess 2) (iAccess 1) (iAccess 0) (iNativeCall 4) (iReturn)) (iConst address->) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.load-plugin") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst load-plugin) (iDefun) (iReturn) (iHalt))
+
+((iFreeze (iGrab) (iConst "primitive.load-file") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst load-file) (iDefun) (iReturn) (iHalt))
 
 
 
