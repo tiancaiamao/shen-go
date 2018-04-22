@@ -573,14 +573,20 @@ func BootstrapMin() {
 	prototype.mustLoadBytecode(MakeString("primitive.bc"))
 	prototype.mustLoadBytecode(MakeString("de-bruijn.bc"))
 	prototype.mustLoadBytecode(MakeString("compile.bc"))
-}
-
-func BootstrapCora() {
-	BootstrapMin()
-	prototype.mustLoadBytecode(MakeString("toplevel.bc"))
 	prototype.mustLoadBytecode(MakeString("core.bc"))
 	prototype.mustLoadBytecode(MakeString("sys.bc"))
 	prototype.mustLoadBytecode(MakeString("yacc.bc"))
+	prototype.mustLoadBytecode(MakeString("override.bc"))
+}
+
+func BootstrapCora() {
+	prototype.mustLoadBytecode(MakeString("primitive.bc"))
+	prototype.mustLoadBytecode(MakeString("de-bruijn.bc"))
+	prototype.mustLoadBytecode(MakeString("compile.bc"))
+	prototype.mustLoadBytecode(MakeString("core.bc"))
+	prototype.mustLoadBytecode(MakeString("sys.bc"))
+	prototype.mustLoadBytecode(MakeString("yacc.bc"))
+	prototype.mustLoadBytecode(MakeString("toplevel.bc"))
 	prototype.mustLoadBytecode(MakeString("reader.bc"))
 	prototype.mustLoadBytecode(MakeString("track.bc"))
 	prototype.mustLoadBytecode(MakeString("load.bc"))
@@ -606,7 +612,6 @@ func BootstrapShen() {
 	prototype.mustLoadBytecode(MakeString("declarations.bc"))
 	prototype.mustLoadBytecode(MakeString("t-star.bc"))
 	prototype.mustLoadBytecode(MakeString("types.bc"))
-	prototype.mustLoadBytecode(MakeString("override.bc"))
 }
 
 var Boot string

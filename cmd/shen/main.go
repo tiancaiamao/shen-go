@@ -29,12 +29,12 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 	runtime.Boot = boot
-	runtime.BootstrapShen()
 	runtime.RegistNativeCall("primitive.load-file", 1, loadFile)
 
 	m := runtime.NewVM()
 
 	if kl {
+		runtime.BootstrapMin()
 		r := runtime.NewSexpReader(os.Stdin)
 		for i := 0; ; i++ {
 			fmt.Printf("%d #> ", i)
@@ -54,6 +54,7 @@ func main() {
 			fmt.Println(runtime.ObjString(res))
 		}
 	} else {
+		runtime.BootstrapShen()
 		res := m.Eval(runtime.Cons(runtime.MakeSymbol("shen.shen"), runtime.Nil))
 		fmt.Println(runtime.ObjString(res))
 	}
