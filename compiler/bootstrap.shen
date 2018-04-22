@@ -73,6 +73,7 @@
   [X | Y] -> (@s (make-string "~R~%~%" X) (list->string Y)))
 
 (set *maximum-print-sequence-size* 2000)
+(load "compiler/compile.shen")
 
 (map (function make-file)
      ["ShenOSKernel-21.0/sources/toplevel.shen"

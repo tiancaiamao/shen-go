@@ -598,11 +598,8 @@ func BootstrapCora() {
 func BootstrapShen() {
 	BootstrapMin()
 	prototype.mustLoadBytecode(MakeString("toplevel.bc"))
-	prototype.mustLoadBytecode(MakeString("core.bc"))
-	prototype.mustLoadBytecode(MakeString("sys.bc"))
 	prototype.mustLoadBytecode(MakeString("dict.bc"))
 	prototype.mustLoadBytecode(MakeString("sequent.bc"))
-	prototype.mustLoadBytecode(MakeString("yacc.bc"))
 	prototype.mustLoadBytecode(MakeString("reader.bc"))
 	prototype.mustLoadBytecode(MakeString("prolog.bc"))
 	prototype.mustLoadBytecode(MakeString("track.bc"))

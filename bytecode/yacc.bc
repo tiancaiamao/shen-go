@@ -58,7 +58,7 @@
 
 ((iFreeze (iGrab) (iMark) (iAccess 0) (iConst cons?) (iGetF) (iApply) (iJF (iMark) (iMark) (iAccess 0) (iConst tl) (iGetF) (iApply) (iConst cons?) (iGetF) (iApply) (iJF (iMark) (iMark) (iMark) (iAccess 0) (iConst tl) (iGetF) (iApply) (iConst tl) (iGetF) (iApply) (iConst ()) (iConst =) (iGetF) (iApply) (iJF (iConst true)) (iJMP (iConst false))) (iJMP (iConst false)) (iJF (iConst true)) (iJMP (iConst false))) (iJMP (iConst false)) (iJF (iMark) (iAccess 0) (iConst tl) (iGetF) (iApply) (iConst hd) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst fail) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iConst simple-error) (iGetF) (iTailApply)))) (iConst shen.snd-or-fail) (iDefun) (iReturn) (iHalt))
 
-((iFreeze (iConst ...) (iReturn)) (iConst fail) (iDefun) (iReturn) (iHalt))
+((iFreeze (iConst shen.fail!) (iReturn)) (iConst fail) (iDefun) (iReturn) (iHalt))
 
 ((iFreeze (iGrab) (iMark) (iAccess 0) (iConst cons?) (iGetF) (iApply) (iJF (iMark) (iMark) (iAccess 0) (iConst tl) (iGetF) (iApply) (iConst cons?) (iGetF) (iApply) (iJF (iMark) (iMark) (iMark) (iAccess 0) (iConst tl) (iGetF) (iApply) (iConst tl) (iGetF) (iApply) (iConst ()) (iConst =) (iGetF) (iApply) (iJF (iConst true)) (iJMP (iConst false))) (iJMP (iConst false)) (iJF (iConst true)) (iJMP (iConst false))) (iJMP (iConst false)) (iJF (iMark) (iConst ()) (iMark) (iAccess 0) (iConst hd) (iGetF) (iApply) (iConst cons) (iGetF) (iApply) (iConst ()) (iConst cons) (iGetF) (iTailApply)) (iJMP (iConst true) (iJF (iConst fail) (iGetF) (iTailApply)) (iJMP (iConst "no match cond") (iConst simple-error) (iGetF) (iTailApply)))) (iConst <!>) (iDefun) (iReturn) (iHalt))
 
