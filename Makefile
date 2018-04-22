@@ -15,5 +15,5 @@ shen:
 	go build -o shen cmd/shen/main.go
 
 test:
-	go test github.com/tiancaiamao/shen-go/vm
+	go test github.com/tiancaiamao/shen-go/runtime
 	go test github.com/tiancaiamao/shen-go/kl

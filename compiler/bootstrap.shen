@@ -92,4 +92,5 @@
       "ShenOSKernel-21.0/sources/types.shen"
       "compiler/de-bruijn.shen"
       "compiler/compile.shen"
-      "compiler/primitive.shen"])
+      "compiler/primitive.shen"
+      "compiler/override.shen"])

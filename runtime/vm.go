@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"runtime"
+	"strings"
 	"sync"
 	"time"
 )
@@ -542,6 +543,26 @@ func (m *VM) Eval(sexp Obj) (res Obj) {
 	return
 }
 
+func shenRead(input string) (res Obj) {
+	r := strings.NewReader(input)
+	stream := MakeStream(r)
+	sexp := Cons(MakeSymbol("read"), Cons(stream, Nil))
+	return Eval(sexp)
+}
+
+func shenEval(obj Obj) (res Obj) {
+	sexp := Cons(MakeSymbol("eval"), Cons(obj, Nil))
+	return Eval(sexp)
+}
+
+func EvalString(input string) Obj {
+	obj := shenRead(input)
+	if IsError(obj) {
+		return obj
+	}
+	return Eval(obj)
+}
+
 func Eval(sexp Obj) Obj {
 	vm := auxVM.Get()
 	defer auxVM.Put(vm)
@@ -552,6 +573,20 @@ func BootstrapMin() {
 	prototype.mustLoadBytecode(MakeString("primitive.bc"))
 	prototype.mustLoadBytecode(MakeString("de-bruijn.bc"))
 	prototype.mustLoadBytecode(MakeString("compile.bc"))
+}
+
+func BootstrapCora() {
+	BootstrapMin()
+	prototype.mustLoadBytecode(MakeString("toplevel.bc"))
+	prototype.mustLoadBytecode(MakeString("core.bc"))
+	prototype.mustLoadBytecode(MakeString("sys.bc"))
+	prototype.mustLoadBytecode(MakeString("yacc.bc"))
+	prototype.mustLoadBytecode(MakeString("reader.bc"))
+	prototype.mustLoadBytecode(MakeString("track.bc"))
+	prototype.mustLoadBytecode(MakeString("load.bc"))
+	prototype.mustLoadBytecode(MakeString("writer.bc"))
+	prototype.mustLoadBytecode(MakeString("macros.bc"))
+	prototype.mustLoadBytecode(MakeString("declarations.bc"))
 }
 
 func BootstrapShen() {
@@ -571,6 +606,7 @@ func BootstrapShen() {
 	prototype.mustLoadBytecode(MakeString("declarations.bc"))
 	prototype.mustLoadBytecode(MakeString("t-star.bc"))
 	prototype.mustLoadBytecode(MakeString("types.bc"))
+	prototype.mustLoadBytecode(MakeString("override.bc"))
 }
 
 var Boot string

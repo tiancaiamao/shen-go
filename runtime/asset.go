@@ -212,7 +212,7 @@ Yz5wtXIWAAA=
 	"/bytecode/compile.bc": {
 		local:   "bytecode/compile.bc",
 		size:    18621,
-		modtime: 1521953326,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xc247aMBB95yvQqg/wkKr7AW1VUbEVEhVq+16ZZLK469iWY5Do11ckXALNxbnihNkX
 srEZe+wzZ5yT2Z1M6FwB/IXxhL4osp6OJ3RJ1Nvh84vrQhiOPxyuZ4KHeuwKHn4+/PoCeh51kZLtDxeL
@@ -233,7 +233,7 @@ wN9yV1PBK4JNwQ5UCN0UY2WgtC/CJ/7/iUGfbQxJ7bQOd62QbOFv/1Po3oxv26LTXKoryRlJT3IbTd2M
 	"/bytecode/core.bc": {
 		local:   "bytecode/core.bc",
 		size:    130196,
-		modtime: 1521950432,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xdW2/jyHJ+96/Q0dPYJ5xYtmceBnM5iwSbYIEFFosgSJ6ENtWSCFMk0d30WFnkvx9I
 lG1KZN8vbEr1sjszIpt9qa766uvqqg8fsl8Jxv+HJx+y/yDo8br1/84Pv6QppnRy2/rz3e7P/1YWlE3o
@@ -326,7 +326,7 @@ V1NBZlZUVYLRTumWMryZLOsi3fV80hKXtBBNvVyWBOlrBJNzdfXPAAAA//9B5qjHlPwBAA==
 	"/bytecode/de-bruijn.bc": {
 		local:   "bytecode/de-bruijn.bc",
 		size:    19453,
-		modtime: 1521950730,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xc32+bMBB+z18RVX0ImjIlfZ+qalM7Vao0TXufTDCrN2KQcbp1f/3Ej64u2AYb40By
 fSkK5PzZd/4+3xlntSK3DOO/eLkidwyFwXJFbnY7nOfLTXH9MaU5X66C1+sIr0N2ID9pef8O89vi/zdE
@@ -350,7 +350,7 @@ TTwapVgs/gUAAP//VJDyY/1LAAA=
 	"/bytecode/declarations.bc": {
 		local:   "bytecode/declarations.bc",
 		size:    47172,
-		modtime: 1521950588,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xd63MbtxH/7r/C1nQykdyLJbmd6aSxlTSpk7pNmyZp+vjiAe+WPFQ44ALgKNGd/u8d
 3pHSifcgfuCt8yg/nWUuFovFex8/vP++/NRo5x/PhXJ0+nj7p8tJf3AmtfNCKakXybU6a/1Kfv3H5+Rf
@@ -414,7 +414,7 @@ tgf4pDVUhRuAxvnKlKfDyCp9kSmRmyufRu4jld6hTnbdiiNaefTofwEAAP//kXtuykS4AAA=
 	"/bytecode/dict.bc": {
 		local:   "bytecode/dict.bc",
 		size:    7257,
-		modtime: 1521950446,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xZ3WrbMBS+z1OIXNkMD9tpdzG6lbHRjkJhbLsfqq0soopsJLmQPv2wnTWyrV/L2Rjs
 qk5zdH6/7/gcJYrwDUPoGYEI3zL4EIMI30P22P79WFEuQNY+figKxDlIT/++ah9vkbjpvq5rcmgf7m6k
@@ -437,7 +437,7 @@ AAAA//+fRITuWRwAAA==
 	"/bytecode/load.bc": {
 		local:   "bytecode/load.bc",
 		size:    8841,
-		modtime: 1521950568,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/9RaW2/bNhR+96/Q/GR3UOF2exraDkGHdAhQINj2PjDUkUWYIgmSSuD9+oGmE1OyeNHF
 cfNk3Uie2/edc0ivVuRWAvwH2Yp8k+hhna3IdyR37u9XzpTOZMNON1vQuSY1mCffQN+a3xsh6N5cRCe8
@@ -463,7 +463,7 @@ f+xOiSIAAA==
 	"/bytecode/macros.bc": {
 		local:   "bytecode/macros.bc",
 		size:    45685,
-		modtime: 1521950578,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+wdX2/btvM9n0LwDz8gSaE27vbUNW2HbekwoMDQFkPfCsY620IkSiCptN5DP/tgSXFo
 /aFIiZLImE+JbYm84/0/Ho/n5+ENAfgXvPPwPUG3F955+AGRu/3fX1croNS74r/7LcGUeZcxWpGEXj5+
@@ -505,10 +505,21 @@ nVNr5/ts2NWj3FxmXDrKAaRHMpeNy3bd56LwsU93dTGOGXfqtvtOyy7fSd5yzHYX7zFcM8mECCSBVJyd
 `,
 	},
 
+	"/bytecode/override.bc": {
+		local:   "bytecode/override.bc",
+		size:    404,
+		modtime: 1524383503,
+		compressed: `
+H4sIAAAAAAAC/9LQyHQrSk2tSlXQyHQvSkzSVNDIdM7PKy5RUCooyszNLMksS9UrrsxNys+xVwJJOiYn
+pxYXKxiA2H6JIGnnxJwcBSMQPyi1pLQoTxNhBlQjSMAlNa00D0mRgkamR2JOiaYmFxdRbsjMK0lNTy0i
+wxEwndRwRVliUWZiUk4qGc6AayXgDi4uQAAAAP//XfxPb5QBAAA=
+`,
+	},
+
 	"/bytecode/primitive.bc": {
 		local:   "bytecode/primitive.bc",
 		size:    6254,
-		modtime: 1521950803,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/6yYwXLTMBCG73kKT05JO6JQOKbOMGWAEwfeQI63rgZZ8khrM+HpGSWNY0oK9eo/1W3z
 //vNrle7ymplPgeiX1SszJegq/Xk5713kYtlF0xr2Az05m6Z/vxxt6MYi3eT57fp+ZtOH7rX1hbv0+/f
@@ -526,7 +537,7 @@ AAD//+XlRmluGAAA
 	"/bytecode/prolog.bc": {
 		local:   "bytecode/prolog.bc",
 		size:    169252,
-		modtime: 1521950565,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xdW4/bOJZ+r1/hGNhFKoEWZdfuPvR2dbDoQc8gwAwaPYN+NVgyHWsjSwJFVVL59Qtb
 tou2eL9IlHz6pasiFXVInst3Ljx8/z77jWD8A8/eZ38l6Pl+9j77OyJf9///3zTFdT172P/8a1nUdFZv
@@ -643,7 +654,7 @@ AwAA//9UPdb7JJUCAA==
 	"/bytecode/reader.bc": {
 		local:   "bytecode/reader.bc",
 		size:    97732,
-		modtime: 1521950491,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xdW3PjtvV/96dQ9P8/rJwyFXXxrje7djJtkk5mMpNp+9C3HYiCLY55Cwh57Xb63Tsi
 JYsUcSdAkRCefCEI4nLO7/xwcHDw7l34M4Lw33D0LvwFgdVk9C78MQhgno+mu9//kiY5HiEI1t7qFcPd
@@ -722,7 +733,7 @@ SJMAYAV+wNRHg6vzDYcYXF39LwAA///omBsCxH0BAA==
 	"/bytecode/sequent.bc": {
 		local:   "bytecode/sequent.bc",
 		size:    59940,
-		modtime: 1521950458,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+wdXXPjtvHdv0KnJ+tSpid5kk6vsd1MOpc2M5mmnTz0zQORkMWGBFkQtK3++oxEyeYX
 gMUHP417OVkigcVisd+7uL4Ov1CM/48X1+GPFG1Xi+vwZ0R/O/7/ve/jLFt8On7+ISEZW/gJye6Pf/6I
@@ -781,7 +792,7 @@ rZ1CaYrLvcyFt6OWjKDgtQZSq7z69z92TS3poPxrr2rkLFjh1dXvAQAA//9CQrV7JOoAAA==
 	"/bytecode/sys.bc": {
 		local:   "bytecode/sys.bc",
 		size:    58982,
-		modtime: 1521950445,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+w923rjttH3+xT89fdge8uNpU16StZKmnSTbps2TdI27c0WIiGRMQmwJOi10q999n4i
 KQsUcRoQFOld3ST2eggMBoPBYI4XF/HLHOMfsHcRf56j1aV3EX8SBLgovOvdz9+iOPkky5Lt5e63Tykp
@@ -858,7 +869,7 @@ YzzaScUOPXnyvwAAAP//SQiWX2bmAAA=
 	"/bytecode/t-star.bc": {
 		local:   "bytecode/t-star.bc",
 		size:    222917,
-		modtime: 1521950719,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xdW2/jOJZ+z69wB9hGJQUPdLNkF7arZrGN3sYAAwwW+95QbLqsHVkSJDlpz8P+9kVi
 J6ULSZEUKZHm6Zd0JRLF2/nO/ZxPn5LfSoT+hRafkv8q46eHxs+/x+U/X3/+x3aLqmrhvv7/f+ZZVS+q
@@ -994,7 +1005,7 @@ AP//I1V+68VmAwA=
 	"/bytecode/toplevel.bc": {
 		local:   "bytecode/toplevel.bc",
 		size:    26888,
-		modtime: 1521950397,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+wd227bOPbdXyHkKU7LwnZnsdhiO51BF51FgQEGO/Me0NKxRVQiCYpy4v36gSQ70Y1X
 UU7S5mXisanDw8Nzv6jX1+SLAPg/RNfkdyy+LaNr8pnRQkZFCvRdLCAhsqi+/Q3kl+rvr5xnx+rDH4z3
@@ -1040,7 +1051,7 @@ pzMM1k5Ri56hiDE4T9hSxsbZE9P2X0wulLhA3/hWGtfPI4D1LVtubOWhr9X8s85qDOxeVG3SsLavqX6E
 	"/bytecode/track.bc": {
 		local:   "bytecode/track.bc",
 		size:    17996,
-		modtime: 1521950567,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xbS2/jthO/+1MIPsXJX4u/A/TUJmmRItsGWHSR7X3ByONYCEUSJOXW/fSFZTumJT4l
 ylZSn7KWqOG8OJzHby8u8gcO8A8kF/lnjp4nyUX+BfFX9e89JUImQtJSslKun3wG+bD++wtjeGX5ZAHk
@@ -1072,7 +1083,7 @@ DC30ewyIPxZsUmPT7AIts6YIYmqa5A2RFSerjRTNB6j0lW80+jcAAP//cHH+D0xGAAA=
 	"/bytecode/types.bc": {
 		local:   "bytecode/types.bc",
 		size:    54552,
-		modtime: 1521950729,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+wdTW/juPWeX+GdU5xC7aTd02ITw5liWgywxaLtobcBLT1bbCiSIJ+ceH79wlJmosiy
 LTqiREo8xbElku/7g4+P19f0swL4BrNr+g9FVvPK39+Iemz6+0lwjTOdAv/zjaYbDsk657G+ef1tS1gO
@@ -1118,7 +1129,7 @@ khjVAAA=
 	"/bytecode/writer.bc": {
 		local:   "bytecode/writer.bc",
 		size:    26198,
-		modtime: 1521950571,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+xcS2/jthO/5/T/fwNDQAFrFzJsZ3vbJlm0SIsACyyS3oqiUGQ6FiJRWopKk0Wxn72Q
 5NSUxMfwIdtJdIoiU+Q8fjOcGT6m0/iSIPQNTabxryS89Zm/vR8+RREqismyer5GtCTYrx5vEL1K88k0
@@ -1156,7 +1167,7 @@ OX06t843tDevK/oVJgqCpWaJPE5O/g0AAP//62wY3lZmAAA=
 	"/bytecode/yacc.bc": {
 		local:   "bytecode/yacc.bc",
 		size:    35492,
-		modtime: 1521950463,
+		modtime: 1524378879,
 		compressed: `
 H4sIAAAAAAAC/+wdS2/bNvieX+H5FB8UxG62Q9ekGLa1w4AOxbbLTgZD0bEWihIoum326wfLdiJLIvnx
 IYmOdYod0eT35vcidXmZfOCE/Ecml8lHju5nk8vkE+KP278/YUyKYnK9/fxzxgoxwRkr3m+/fiTiQzkk

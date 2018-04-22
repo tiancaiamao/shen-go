@@ -294,5 +294,5 @@ func testKLToBytecode(t *testing.T, input, expect string) {
 }
 
 func init() {
-	BootstrapCora()
+	BootstrapShen()
 }
