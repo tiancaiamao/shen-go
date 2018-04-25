@@ -276,8 +276,9 @@ func makeInteger(v int) Obj {
 
 func MakeNumber(f float64) Obj {
 	if isPreciseInteger(f) {
-		if f >= 0 && int(f) < intConstCount {
-			return intConst[int(f)]
+		i := int(f)
+		if i >= 0 && i < intConstCount {
+			return intConst[i]
 		}
 	}
 
