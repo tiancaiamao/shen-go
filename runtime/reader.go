@@ -71,7 +71,7 @@ func RconsForm(o Obj) Obj {
 }
 
 func rconsForm(o Obj) Obj {
-	if *o == scmHeadPair {
+	if objType(o) == scmHeadPair {
 		return cons(MakeSymbol("cons"),
 			cons(rconsForm(car(o)),
 				cons(rconsForm(cdr(o)), Nil)))

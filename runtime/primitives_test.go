@@ -35,7 +35,7 @@ func TestIntern(t *testing.T) {
 func TestMakeNumber(t *testing.T) {
 	// Test a overflow case
 	o := MakeNumber(51090942171709440000)
-	if *((*scmHead)(o)) != scmHeadNumber {
+	if objType(o) != scmHeadNumber {
 		n := (*scmNumber)(unsafe.Pointer(o))
 		if n.val != 51090942171709440000 {
 			t.Error("make number wrong")

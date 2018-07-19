@@ -5,6 +5,7 @@ import (
 	// "fmt"
 	"strings"
 	"testing"
+	"unsafe"
 )
 
 func TestSexpReader(t *testing.T) {
@@ -34,7 +35,7 @@ de"`, MakeString("abc\nde")},
 			t.Error("read error", err)
 		}
 		if equal(o, test.expect) == False {
-			t.Errorf("%s fail, expect: %#v, but get: %#v\n", test.input, (*scmHead)(test.expect), (*scmHead)(o))
+			t.Errorf("%s fail, expect: %#v, but get: %#v\n", test.input, (*scmHead)(unsafe.Pointer(test.expect)), (*scmHead)(unsafe.Pointer(o)))
 		}
 	}
 
@@ -44,7 +45,7 @@ de"`, MakeString("abc\nde")},
 		t.Fatal("read error", err)
 	}
 	if equal(o1, cons(MakeSymbol("if"), cons(True, cons(MakeInteger(1), cons(False, Nil))))) == False {
-		t.Errorf("if true... %#v", (*scmHead)(o1))
+		t.Errorf("if true... %#v", (*scmHead)(unsafe.Pointer(o1)))
 	}
 
 	o2, err := r.Read()

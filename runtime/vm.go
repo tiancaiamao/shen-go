@@ -687,13 +687,13 @@ func initSymbolTable() {
 func init() {
 	uptime = time.Now()
 	tmp1 := &scmBoolean{scmHeadBoolean, false}
-	False = Obj(&tmp1.scmHead)
+	False = makeObj(&tmp1.scmHead)
 
 	tmp2 := &scmBoolean{scmHeadBoolean, true}
-	True = Obj(&tmp2.scmHead)
+	True = makeObj(&tmp2.scmHead)
 
 	tmp3 := &scmPair{scmHeadNull, nil, nil}
-	Nil = Obj(&tmp3.scmHead)
+	Nil = makeObj(&tmp3.scmHead)
 
 	var tmp4 int
 	undefined = MakeRaw(&tmp4)

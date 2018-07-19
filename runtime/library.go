@@ -37,11 +37,11 @@ func reverse(o Obj) Obj {
 }
 
 func equal(x, y Obj) Obj {
-	if *x != *y {
+	if objType(x) != objType(y) {
 		return False
 	}
 
-	switch *x {
+	switch objType(x) {
 	case scmHeadNumber:
 		if mustNumber(x).val != mustNumber(y).val {
 			return False
@@ -59,7 +59,7 @@ func equal(x, y Obj) Obj {
 			return False
 		}
 	case scmHeadNull:
-		if *y != scmHeadNull {
+		if objType(y) != scmHeadNull {
 			return False
 		}
 	case scmHeadPair:
@@ -96,7 +96,7 @@ func equal(x, y Obj) Obj {
 
 func listLength(l Obj) int {
 	count := 0
-	for *l == scmHeadPair {
+	for objType(l) == scmHeadPair {
 		count++
 		l = cdr(l)
 	}
@@ -105,7 +105,7 @@ func listLength(l Obj) int {
 
 func ListToSlice(l Obj) []Obj {
 	var ret []Obj
-	for *l == scmHeadPair {
+	for objType(l) == scmHeadPair {
 		ret = append(ret, car(l))
 		l = cdr(l)
 	}

@@ -121,7 +121,7 @@ func primTail(args ...Obj) Obj {
 }
 
 func primIsNumber(args ...Obj) Obj {
-	if *args[0] == scmHeadNumber {
+	if objType(args[0]) == scmHeadNumber {
 		return True
 	}
 	return False
@@ -139,7 +139,7 @@ func primNumberToString(args ...Obj) Obj {
 }
 
 func primStr(args ...Obj) Obj {
-	switch *args[0] {
+	switch objType(args[0]) {
 	case scmHeadPair:
 		// Pair may contain recursive list.
 		return MakeError("can't str pair object")
@@ -309,7 +309,7 @@ func primVectorGet(args ...Obj) Obj {
 }
 
 func isVector(args ...Obj) Obj {
-	if *args[0] == scmHeadVector {
+	if objType(args[0]) == scmHeadVector {
 		return True
 	}
 	return False
@@ -387,14 +387,14 @@ func getTime(args ...Obj) Obj {
 }
 
 func primIsString(args ...Obj) Obj {
-	if *args[0] == scmHeadString {
+	if objType(args[0]) == scmHeadString {
 		return True
 	}
 	return False
 }
 
 func primIsPair(args ...Obj) Obj {
-	if *args[0] == scmHeadPair {
+	if objType(args[0]) == scmHeadPair {
 		return True
 	}
 	return False
@@ -463,7 +463,7 @@ func primReadFileAsString(args ...Obj) Obj {
 }
 
 func primIsVariable(args ...Obj) Obj {
-	if *args[0] != scmHeadSymbol {
+	if objType(args[0]) != scmHeadSymbol {
 		return False
 	}
 
@@ -475,7 +475,7 @@ func primIsVariable(args ...Obj) Obj {
 }
 
 func primIsInteger(args ...Obj) Obj {
-	if *args[0] != scmHeadNumber {
+	if objType(args[0]) != scmHeadNumber {
 		return False
 	}
 	f := mustNumber(args[0]).val
