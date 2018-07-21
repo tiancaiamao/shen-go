@@ -29,6 +29,27 @@ func TestProcedureCall(t *testing.T) {
 	}
 }
 
+// str := "((iFreeze (iGrab) (iMark) (iConst 0) (iAccess 0) (iConst =) (iGetF) (iApply) (iJF (iConst 1) (iReturn)) (iJMP (iMark) (iMark) (iConst 1) (iAccess 0) (iConst -) (iGetF) (iApply) (iConst fact) (iGetF) (iApply) (iAccess 0) (iConst *) (iGetF) (iTailApply))) (iConst fact) (iDefun) (iPop) (iConst 5) (iConst fact) (iGetF) (iTailApply) (iHalt))"
+func testManual(t *testing.T, str string) {
+	r := NewSexpReader(strings.NewReader(str))
+	bc, err := r.Read()
+	if err != nil {
+		panic(err)
+	}
+	var a assember
+	err = a.FromSexp(bc)
+	if err != nil {
+		panic(err)
+	}
+	code := a.Compile()
+
+	vm := NewVM()
+	o := vm.Run(code)
+	if primEqual(o, MakeInteger(3)) != True {
+		t.Error("failed!")
+	}
+}
+
 func TestVM(t *testing.T) {
 	vm := NewVM()
 	runTest(vm, "(* 4 7)", MakeInteger(28), t)

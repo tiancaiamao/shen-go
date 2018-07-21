@@ -29,6 +29,12 @@ type Code []instFunc
 type VM struct {
 	stack []Obj
 	sp    int // stack top
+	fp    int // frame pos
+
+	// [saved fp]  <-- fp
+	// [arg3]
+	// [arg2]
+	// [arg1] <- sp
 
 	env      []Obj // persistent environment
 	volatile []Obj // volatile environment
@@ -48,6 +54,7 @@ type jumpBuf struct {
 	address
 	savedAddrPos  int
 	savedStackTop int
+	savedFp       int
 	savedEnvTop   int
 	closure       Obj
 }
@@ -86,8 +93,6 @@ func (p *pool) Put(v *VM) {
 }
 
 var auxVM pool
-var stackMarkDummyValue int
-var stackMark = MakeRaw(&stackMarkDummyValue)
 var nativeFunc = make(map[string]*scmPrimitive)
 
 func NewVM() *VM {
@@ -134,7 +139,8 @@ Dispatch:
 func (m *VM) setup(code Code) {
 	m.code = code
 	m.pc = 0
-	m.stackPush(stackMark)
+	m.stackPush(MakeInteger(m.fp))
+	m.fp = m.sp - 1
 	m.savedAddr = append(m.savedAddr, address{pc: len(code) - 1, code: code})
 }
 
@@ -156,7 +162,9 @@ func (m *VM) handleException() {
 	// pop trap-error handler, prepare for call.
 	value := m.stack[m.sp-1]
 	m.sp = jmpBuf.savedStackTop
-	m.stackPush(stackMark)
+	m.fp = jmpBuf.savedFp
+	m.stackPush(MakeInteger(m.fp))
+	m.fp = m.sp - 1
 	m.stackPush(value)
 	// recover savedAddr
 	m.savedAddr = m.savedAddr[:jmpBuf.savedAddrPos]
@@ -187,6 +195,7 @@ func opSetJmp(n int) instFunc {
 			},
 			savedAddrPos:  len(m.savedAddr),
 			savedStackTop: m.sp,
+			savedFp:       m.fp,
 			closure:       m.stack[m.sp],
 			savedEnvTop:   len(m.volatile),
 		}
@@ -248,17 +257,20 @@ func opFreeze(n int) instFunc {
 
 func opMark(m *VM) {
 	m.pc++
-	m.stackPush(stackMark)
+	m.stackPush(MakeInteger(m.fp))
+	m.fp = m.sp - 1
 	if enableDebug {
-		debugln("MARK")
+		debugln("MARK", m.fp)
 	}
 }
 
 func opGrab(m *VM) {
 	m.pc++
 	m.sp--
-	if v := m.stack[m.sp]; v == stackMark {
+	v := m.stack[m.sp]
+	if m.sp == m.fp {
 		// make closure if there are not enough arguments
+		m.fp = mustInteger(v)
 		proc := makeClosure(m.code[m.pc-1:], m.envClose())
 		m.stackPush(proc)
 
@@ -284,7 +296,7 @@ func opGrab(m *VM) {
 
 func opReturn(m *VM) {
 	// stack[sp-1] is the result, so should check sp-2
-	if m.stack[m.sp-2] == stackMark {
+	if m.sp-2 == m.fp {
 		savedAddr := m.savedAddr[len(m.savedAddr)-1]
 		m.savedAddr = m.savedAddr[:len(m.savedAddr)-1]
 
@@ -292,6 +304,7 @@ func opReturn(m *VM) {
 		m.pc = savedAddr.pc
 		m.env = savedAddr.env
 		m.sp--
+		m.fp = mustInteger(m.stack[m.sp-1])
 		m.stack[m.sp-1] = m.stack[m.sp]
 		m.volatile = m.volatile[:m.envMark]
 		m.envMark = savedAddr.envMark
@@ -482,14 +495,11 @@ func (m *VM) Reset() {
 func (m *VM) Debug() {
 	debugln("pc:", m.pc)
 	debugln("sp:", m.sp)
+	debugln("fp:", m.fp)
 	debugln("envMark:", m.envMark)
 	debugln("stack:")
 	for i := m.sp - 1; i >= 0; i-- {
-		if m.stack[i] == stackMark {
-			debugln("MARK")
-		} else {
-			debugln(ObjString(m.stack[i]))
-		}
+		debugln(ObjString(m.stack[i]))
 	}
 }
 
