@@ -28,7 +28,7 @@ type Code []instFunc
 
 type VM struct {
 	stack []Obj
-	top   int // stack top
+	sp    int // stack top
 
 	env      []Obj // persistent environment
 	volatile []Obj // volatile environment
@@ -121,7 +121,7 @@ Dispatch:
 
 	if m.status == statusException {
 		if len(m.cc) == 0 {
-			err := m.stack[m.top-1]
+			err := m.stack[m.sp-1]
 			m.Reset()
 			return err
 		}
@@ -139,14 +139,14 @@ func (m *VM) setup(code Code) {
 }
 
 func (m *VM) done() Obj {
-	if m.top != 1 || len(m.savedAddr) != 0 || m.envMark != 0 {
+	if m.sp != 1 || len(m.savedAddr) != 0 || m.envMark != 0 {
 		if enableDebug {
 			m.Debug()
 		}
 		panic("m in wrong status")
 	}
-	m.top--
-	return m.stack[m.top]
+	m.sp--
+	return m.stack[m.sp]
 }
 
 func (m *VM) handleException() {
@@ -154,8 +154,8 @@ func (m *VM) handleException() {
 	jmpBuf := m.cc[len(m.cc)-1]
 	m.cc = m.cc[:len(m.cc)-1]
 	// pop trap-error handler, prepare for call.
-	value := m.stack[m.top-1]
-	m.top = jmpBuf.savedStackTop
+	value := m.stack[m.sp-1]
+	m.sp = jmpBuf.savedStackTop
 	m.stackPush(stackMark)
 	m.stackPush(value)
 	// recover savedAddr
@@ -177,7 +177,7 @@ func opSetJmp(n int) instFunc {
 			debugf("SETJMP\n")
 		}
 
-		m.top--
+		m.sp--
 		cc := jumpBuf{
 			address: address{
 				pc:      m.pc + n,
@@ -186,8 +186,8 @@ func opSetJmp(n int) instFunc {
 				envMark: m.envMark,
 			},
 			savedAddrPos:  len(m.savedAddr),
-			savedStackTop: m.top,
-			closure:       m.stack[m.top],
+			savedStackTop: m.sp,
+			closure:       m.stack[m.sp],
 			savedEnvTop:   len(m.volatile),
 		}
 		m.cc = append(m.cc, cc)
@@ -256,8 +256,8 @@ func opMark(m *VM) {
 
 func opGrab(m *VM) {
 	m.pc++
-	m.top--
-	if v := m.stack[m.top]; v == stackMark {
+	m.sp--
+	if v := m.stack[m.sp]; v == stackMark {
 		// make closure if there are not enough arguments
 		proc := makeClosure(m.code[m.pc-1:], m.envClose())
 		m.stackPush(proc)
@@ -283,20 +283,20 @@ func opGrab(m *VM) {
 }
 
 func opReturn(m *VM) {
-	// stack[top-1] is the result, so should check top-2
-	if m.stack[m.top-2] == stackMark {
+	// stack[sp-1] is the result, so should check sp-2
+	if m.stack[m.sp-2] == stackMark {
 		savedAddr := m.savedAddr[len(m.savedAddr)-1]
 		m.savedAddr = m.savedAddr[:len(m.savedAddr)-1]
 
 		m.code = savedAddr.code
 		m.pc = savedAddr.pc
 		m.env = savedAddr.env
-		m.top--
-		m.stack[m.top-1] = m.stack[m.top]
+		m.sp--
+		m.stack[m.sp-1] = m.stack[m.sp]
 		m.volatile = m.volatile[:m.envMark]
 		m.envMark = savedAddr.envMark
 		if enableDebug {
-			debugf("RETURN %d %d %s\n", m.top, savedAddr.envMark, ObjString(m.stack[m.top-1]))
+			debugf("RETURN %d %d %s\n", m.sp, savedAddr.envMark, ObjString(m.stack[m.sp-1]))
 		}
 	} else {
 		if enableDebug {
@@ -304,8 +304,8 @@ func opReturn(m *VM) {
 		}
 		// more arguments, continue the beta-reduce.
 		// similar to tail apply
-		m.top--
-		obj := m.stack[m.top]
+		m.sp--
+		obj := m.stack[m.sp]
 		closure := mustClosure(obj)
 		m.code = closure.code
 		m.pc = 0
@@ -318,8 +318,8 @@ func opTailApply(m *VM) {
 	if enableDebug {
 		debugln("TAILAPPLY")
 	}
-	m.top--
-	obj := m.stack[m.top]
+	m.sp--
+	obj := m.stack[m.sp]
 	closure := mustClosure(obj)
 	// The only different with Apply is that TailApply doesn't save return address.
 	m.code = closure.code
@@ -329,12 +329,12 @@ func opTailApply(m *VM) {
 }
 
 func opApply(m *VM) {
-	m.top--
+	m.sp--
 	m.pc++
 	if enableDebug {
-		debugf("APPLY %d\n", m.top)
+		debugf("APPLY %d\n", m.sp)
 	}
-	obj := m.stack[m.top]
+	obj := m.stack[m.sp]
 	closure := mustClosure(obj)
 	// save return address
 	m.savedAddr = append(m.savedAddr, address{m.pc, m.code, m.env, m.envMark})
@@ -350,16 +350,16 @@ func opPop(m *VM) {
 	if enableDebug {
 		debugln("POP")
 	}
-	m.top--
+	m.sp--
 }
 
 func opDefun(m *VM) {
 	m.pc++
-	symbol := m.stack[m.top-1]
-	function := m.stack[m.top-2]
+	symbol := m.stack[m.sp-1]
+	function := m.stack[m.sp-2]
 	bindSymbolFunc(symbol, function)
-	m.top--
-	m.stack[m.top-1] = m.stack[m.top]
+	m.sp--
+	m.stack[m.sp-1] = m.stack[m.sp]
 	if enableDebug {
 		debugf("DEFUN %s\n", ObjString(symbol))
 	}
@@ -367,14 +367,14 @@ func opDefun(m *VM) {
 
 func opGetF(m *VM) {
 	m.pc++
-	function := GetSymbolFunc(m.stack[m.top-1])
+	function := GetSymbolFunc(m.stack[m.sp-1])
 	if enableDebug {
-		debugf("GETF %s\n", GetSymbol(m.stack[m.top-1]))
+		debugf("GETF %s\n", GetSymbol(m.stack[m.sp-1]))
 	}
 	if function != nil {
-		m.stack[m.top-1] = function
+		m.stack[m.sp-1] = function
 	} else {
-		m.stack[m.top-1] = MakeError("unknown function:" + GetSymbol(m.stack[m.top-1]))
+		m.stack[m.sp-1] = MakeError("unknown function:" + GetSymbol(m.stack[m.sp-1]))
 		m.status = statusException
 	}
 }
@@ -382,22 +382,22 @@ func opGetF(m *VM) {
 func opJF(n int) instFunc {
 	return func(m *VM) {
 		m.pc++
-		switch m.stack[m.top-1] {
+		switch m.stack[m.sp-1] {
 		case False:
 			if enableDebug {
 				debugln("JF false")
 			}
-			m.top--
+			m.sp--
 			m.pc += n
 			return
 		case True:
 			if enableDebug {
 				debugln("JF true")
 			}
-			m.top--
+			m.sp--
 		default:
 			// TODO: So what?
-			m.stack[m.top-1] = MakeError("test condition need to be boolean")
+			m.stack[m.sp-1] = MakeError("test condition need to be boolean")
 			m.status = statusException
 		}
 	}
@@ -423,27 +423,27 @@ func opHalt(m *VM) {
 func opNativeCall(arity int) instFunc {
 	return func(m *VM) {
 		m.pc++
-		method := mustString(m.stack[m.top-arity])
+		method := mustString(m.stack[m.sp-arity])
 		if enableDebug {
 			debugf("NativeCall %s\n", method)
 		}
 		proc, ok := nativeFunc[method]
 		if !ok {
-			m.stack[m.top-1] = MakeError("unknown native function:" + method)
+			m.stack[m.sp-1] = MakeError("unknown native function:" + method)
 			m.status = statusException
 			return
 		}
 		// Note the invariance arity = len(method + args), so arity-1 = proc.Required
 		if arity-1 != proc.Required {
-			m.stack[m.top-1] = MakeError("wrong arity for native " + method)
+			m.stack[m.sp-1] = MakeError("wrong arity for native " + method)
 			m.status = statusException
 			return
 		}
-		args := m.stack[m.top-proc.Required : m.top]
+		args := m.stack[m.sp-proc.Required : m.sp]
 		result := proc.Function(args...)
 
-		m.stack[m.top-arity] = result
-		m.top = m.top - proc.Required
+		m.stack[m.sp-arity] = result
+		m.sp = m.sp - proc.Required
 		if IsError(result) {
 			m.status = statusException
 		}
@@ -462,18 +462,18 @@ func (m *VM) envClose() []Obj {
 }
 
 func (m *VM) stackPush(o Obj) {
-	if m.top == len(m.stack) {
+	if m.sp == len(m.stack) {
 		stack := make([]Obj, len(m.stack)*2)
 		copy(stack, m.stack)
 		m.stack = stack
 	}
-	m.stack[m.top] = o
-	m.top++
+	m.stack[m.sp] = o
+	m.sp++
 }
 
 func (m *VM) Reset() {
 	m.stack = m.stack[:initStackSize]
-	m.top = 0
+	m.sp = 0
 	m.env = m.env[:0]
 	m.savedAddr = m.savedAddr[:0]
 	m.cc = nil
@@ -481,10 +481,10 @@ func (m *VM) Reset() {
 
 func (m *VM) Debug() {
 	debugln("pc:", m.pc)
-	debugln("top:", m.top)
+	debugln("sp:", m.sp)
 	debugln("envMark:", m.envMark)
 	debugln("stack:")
-	for i := m.top - 1; i >= 0; i-- {
+	for i := m.sp - 1; i >= 0; i-- {
 		if m.stack[i] == stackMark {
 			debugln("MARK")
 		} else {
