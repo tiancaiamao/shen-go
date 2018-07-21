@@ -30,6 +30,7 @@ const (
 	scmHeadPrimitive         = 21
 	scmHeadError             = 22
 	scmHeadRaw               = 42
+	scmHeadAddress           = 43
 )
 
 type scmClosure struct {

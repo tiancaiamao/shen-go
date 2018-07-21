@@ -10,6 +10,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unsafe"
 )
 
 // Go doesn't provide MACRO like C, but the compiler optimization can eliminate dead code "if false XX".
@@ -28,9 +29,15 @@ type Code []instFunc
 
 type VM struct {
 	stack []Obj
+	pc    int // pc register refer to the position in current code
 	sp    int // stack top
 	fp    int // frame pos
 
+	// Calling convention:
+	//
+	// [Mark] [Arg3] [Arg2] [Arg1] [Apply]
+	//
+	// [saved address]
 	// [saved fp]  <-- fp
 	// [arg3]
 	// [arg2]
@@ -39,9 +46,6 @@ type VM struct {
 	env      []Obj // persistent environment
 	volatile []Obj // volatile environment
 	envMark  int   // volatile[envMark: len(volatile)] is current env
-
-	pc        int       // pc register refer to the position in current code
-	savedAddr []address // saved return address
 
 	// jumpBuf is used to implement exception, similar to setjmp/longjmp in C.
 	cc []jumpBuf
@@ -52,7 +56,6 @@ type VM struct {
 
 type jumpBuf struct {
 	address
-	savedAddrPos  int
 	savedStackTop int
 	savedFp       int
 	savedEnvTop   int
@@ -61,10 +64,29 @@ type jumpBuf struct {
 
 // address is the information to be saved before apply a closure.
 type address struct {
+	scmHead
 	pc      int
 	code    Code
 	env     []Obj
 	envMark int
+}
+
+func makeAddress(pc int, code Code, env []Obj, envMark int) Obj {
+	tmp := &address{
+		scmHead: scmHeadAddress,
+		pc:      pc,
+		code:    code,
+		env:     env,
+		envMark: envMark,
+	}
+	return makeObj(&tmp.scmHead)
+}
+
+func mustAddress(o Obj) *address {
+	if objType(o) != scmHeadAddress {
+		panic("mustAddress")
+	}
+	return (*address)(unsafe.Pointer(o))
 }
 
 const initStackSize = 128
@@ -139,13 +161,13 @@ Dispatch:
 func (m *VM) setup(code Code) {
 	m.code = code
 	m.pc = 0
+	m.stackPush(makeAddress(len(code)-1, code, nil, 0))
 	m.stackPush(MakeInteger(m.fp))
 	m.fp = m.sp - 1
-	m.savedAddr = append(m.savedAddr, address{pc: len(code) - 1, code: code})
 }
 
 func (m *VM) done() Obj {
-	if m.sp != 1 || len(m.savedAddr) != 0 || m.envMark != 0 {
+	if m.sp != 1 || m.envMark != 0 {
 		if enableDebug {
 			m.Debug()
 		}
@@ -161,14 +183,16 @@ func (m *VM) handleException() {
 	m.cc = m.cc[:len(m.cc)-1]
 	// pop trap-error handler, prepare for call.
 	value := m.stack[m.sp-1]
-	m.sp = jmpBuf.savedStackTop
+	// recover the snapshot
 	m.fp = jmpBuf.savedFp
+	m.sp = jmpBuf.savedStackTop
+	// make the trap-error handler execute environment
+	m.stackPush(nil)
 	m.stackPush(MakeInteger(m.fp))
 	m.fp = m.sp - 1
 	m.stackPush(value)
-	// recover savedAddr
-	m.savedAddr = m.savedAddr[:jmpBuf.savedAddrPos]
-	m.savedAddr = append(m.savedAddr, jmpBuf.address)
+	// recover savedAddr, for the trap-error handler to return
+	m.stack[m.fp-1] = makeObj(&jmpBuf.address.scmHead)
 	// longjmp... tail apply
 	closure := mustClosure(jmpBuf.closure)
 	m.code = closure.code
@@ -188,12 +212,12 @@ func opSetJmp(n int) instFunc {
 		m.sp--
 		cc := jumpBuf{
 			address: address{
+				scmHead: scmHeadAddress,
 				pc:      m.pc + n,
 				code:    m.code,
 				env:     m.env,
 				envMark: m.envMark,
 			},
-			savedAddrPos:  len(m.savedAddr),
 			savedStackTop: m.sp,
 			savedFp:       m.fp,
 			closure:       m.stack[m.sp],
@@ -257,6 +281,7 @@ func opFreeze(n int) instFunc {
 
 func opMark(m *VM) {
 	m.pc++
+	m.stackPush(nil) // reserve for return addr
 	m.stackPush(MakeInteger(m.fp))
 	m.fp = m.sp - 1
 	if enableDebug {
@@ -270,13 +295,14 @@ func opGrab(m *VM) {
 	v := m.stack[m.sp]
 	if m.sp == m.fp {
 		// make closure if there are not enough arguments
-		m.fp = mustInteger(v)
+		oldFp := mustInteger(v)
+		m.sp--
+		savedAddr := mustAddress(m.stack[m.sp])
 		proc := makeClosure(m.code[m.pc-1:], m.envClose())
 		m.stackPush(proc)
 
 		// return to saved address
-		savedAddr := m.savedAddr[len(m.savedAddr)-1]
-		m.savedAddr = m.savedAddr[:len(m.savedAddr)-1]
+		m.fp = oldFp
 		m.code = savedAddr.code
 		m.pc = savedAddr.pc
 		m.env = savedAddr.env
@@ -297,15 +323,14 @@ func opGrab(m *VM) {
 func opReturn(m *VM) {
 	// stack[sp-1] is the result, so should check sp-2
 	if m.sp-2 == m.fp {
-		savedAddr := m.savedAddr[len(m.savedAddr)-1]
-		m.savedAddr = m.savedAddr[:len(m.savedAddr)-1]
-
+		savedAddr := mustAddress(m.stack[m.sp-3])
 		m.code = savedAddr.code
 		m.pc = savedAddr.pc
 		m.env = savedAddr.env
 		m.sp--
 		m.fp = mustInteger(m.stack[m.sp-1])
-		m.stack[m.sp-1] = m.stack[m.sp]
+		m.stack[m.sp-2] = m.stack[m.sp]
+		m.sp--
 		m.volatile = m.volatile[:m.envMark]
 		m.envMark = savedAddr.envMark
 		if enableDebug {
@@ -350,7 +375,7 @@ func opApply(m *VM) {
 	obj := m.stack[m.sp]
 	closure := mustClosure(obj)
 	// save return address
-	m.savedAddr = append(m.savedAddr, address{m.pc, m.code, m.env, m.envMark})
+	m.stack[m.fp-1] = makeAddress(m.pc, m.code, m.env, m.envMark)
 	// set pc to closure code
 	m.code = closure.code
 	m.pc = 0
@@ -487,8 +512,8 @@ func (m *VM) stackPush(o Obj) {
 func (m *VM) Reset() {
 	m.stack = m.stack[:initStackSize]
 	m.sp = 0
+	m.fp = 0
 	m.env = m.env[:0]
-	m.savedAddr = m.savedAddr[:0]
 	m.cc = nil
 }
 
