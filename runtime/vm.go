@@ -45,7 +45,7 @@ type VM struct {
 
 	env      []Obj // persistent environment
 	volatile []Obj // volatile environment
-	envMark  int   // volatile[envMark: len(volatile)] is current env
+	ebp      int   // volatile[ebp: len(volatile)] is current env
 
 	// jumpBuf is used to implement exception, similar to setjmp/longjmp in C.
 	cc []jumpBuf
@@ -65,19 +65,19 @@ type jumpBuf struct {
 // address is the information to be saved before apply a closure.
 type address struct {
 	scmHead
-	pc      int
-	code    Code
-	env     []Obj
-	envMark int
+	pc   int
+	code Code
+	env  []Obj
+	ebp  int
 }
 
-func makeAddress(pc int, code Code, env []Obj, envMark int) Obj {
+func makeAddress(pc int, code Code, env []Obj, ebp int) Obj {
 	tmp := &address{
 		scmHead: scmHeadAddress,
 		pc:      pc,
 		code:    code,
 		env:     env,
-		envMark: envMark,
+		ebp:     ebp,
 	}
 	return makeObj(&tmp.scmHead)
 }
@@ -167,7 +167,7 @@ func (m *VM) setup(code Code) {
 }
 
 func (m *VM) done() Obj {
-	if m.sp != 1 || m.envMark != 0 {
+	if m.sp != 1 || m.ebp != 0 {
 		if enableDebug {
 			m.Debug()
 		}
@@ -198,8 +198,8 @@ func (m *VM) handleException() {
 	m.code = closure.code
 	m.pc = 0
 	m.env = closure.env
-	m.envMark = jmpBuf.savedEnvTop
-	m.volatile = m.volatile[:m.envMark]
+	m.ebp = jmpBuf.savedEnvTop
+	m.volatile = m.volatile[:m.ebp]
 }
 
 func opSetJmp(n int) instFunc {
@@ -216,7 +216,7 @@ func opSetJmp(n int) instFunc {
 				pc:      m.pc + n,
 				code:    m.code,
 				env:     m.env,
-				envMark: m.envMark,
+				ebp:     m.ebp,
 			},
 			savedStackTop: m.sp,
 			savedFp:       m.fp,
@@ -245,7 +245,7 @@ func opConst(o Obj) instFunc {
 func opAccess(n int) instFunc {
 	return func(m *VM) {
 		m.pc++
-		if n+m.envMark < len(m.volatile) {
+		if n+m.ebp < len(m.volatile) {
 			// get value from volatile environment
 			v := m.volatile[len(m.volatile)-1-n]
 			m.stackPush(v)
@@ -254,7 +254,7 @@ func opAccess(n int) instFunc {
 			}
 		} else {
 			// get value from persistent environment
-			xx := n - (len(m.volatile) - m.envMark)
+			xx := n - (len(m.volatile) - m.ebp)
 			v := m.env[len(m.env)-1-xx]
 			m.stackPush(v)
 			if enableDebug {
@@ -270,7 +270,7 @@ func opFreeze(n int) instFunc {
 		// create closure directly
 		// nearly the same with grab, but if need zero arguments.
 		env := m.envClose()
-		proc := makeClosure(m.code[m.pc:], m.envClose())
+		proc := makeClosure(m.code[m.pc:], env)
 		if enableDebug {
 			debugf("FREEZE len(env)=%d\n", len(env))
 		}
@@ -306,8 +306,8 @@ func opGrab(m *VM) {
 		m.code = savedAddr.code
 		m.pc = savedAddr.pc
 		m.env = savedAddr.env
-		m.volatile = m.volatile[:m.envMark]
-		m.envMark = savedAddr.envMark
+		m.volatile = m.volatile[:m.ebp]
+		m.ebp = savedAddr.ebp
 		if enableDebug {
 			debugln("GRAB not enough argument")
 		}
@@ -331,10 +331,10 @@ func opReturn(m *VM) {
 		m.fp = mustInteger(m.stack[m.sp-1])
 		m.stack[m.sp-2] = m.stack[m.sp]
 		m.sp--
-		m.volatile = m.volatile[:m.envMark]
-		m.envMark = savedAddr.envMark
+		m.volatile = m.volatile[:m.ebp]
+		m.ebp = savedAddr.ebp
 		if enableDebug {
-			debugf("RETURN %d %d %s\n", m.sp, savedAddr.envMark, ObjString(m.stack[m.sp-1]))
+			debugf("RETURN %d %d %s\n", m.sp, savedAddr.ebp, ObjString(m.stack[m.sp-1]))
 		}
 	} else {
 		if enableDebug {
@@ -348,7 +348,7 @@ func opReturn(m *VM) {
 		m.code = closure.code
 		m.pc = 0
 		m.env = closure.env
-		m.volatile = m.volatile[:m.envMark]
+		m.volatile = m.volatile[:m.ebp]
 	}
 }
 
@@ -363,7 +363,7 @@ func opTailApply(m *VM) {
 	m.code = closure.code
 	m.pc = 0
 	m.env = closure.env
-	m.volatile = m.volatile[:m.envMark]
+	m.volatile = m.volatile[:m.ebp]
 }
 
 func opApply(m *VM) {
@@ -375,12 +375,12 @@ func opApply(m *VM) {
 	obj := m.stack[m.sp]
 	closure := mustClosure(obj)
 	// save return address
-	m.stack[m.fp-1] = makeAddress(m.pc, m.code, m.env, m.envMark)
+	m.stack[m.fp-1] = makeAddress(m.pc, m.code, m.env, m.ebp)
 	// set pc to closure code
 	m.code = closure.code
 	m.pc = 0
 	m.env = closure.env
-	m.envMark = len(m.volatile)
+	m.ebp = len(m.volatile)
 }
 
 func opPop(m *VM) {
@@ -489,11 +489,11 @@ func opNativeCall(arity int) instFunc {
 }
 
 func (m *VM) envClose() []Obj {
-	lenVolatile := len(m.volatile) - m.envMark
+	lenVolatile := len(m.volatile) - m.ebp
 	if len(m.env) > 0 || lenVolatile > 0 {
 		env := make([]Obj, 0, len(m.env)+lenVolatile)
 		env = append(env, m.env...)
-		env = append(env, m.volatile[m.envMark:len(m.volatile)]...)
+		env = append(env, m.volatile[m.ebp:len(m.volatile)]...)
 		return env
 	}
 	return nil
@@ -513,7 +513,7 @@ func (m *VM) Reset() {
 	m.stack = m.stack[:initStackSize]
 	m.sp = 0
 	m.fp = 0
-	m.env = m.env[:0]
+	m.env = nil
 	m.cc = nil
 }
 
@@ -521,7 +521,7 @@ func (m *VM) Debug() {
 	debugln("pc:", m.pc)
 	debugln("sp:", m.sp)
 	debugln("fp:", m.fp)
-	debugln("envMark:", m.envMark)
+	debugln("ebp:", m.ebp)
 	debugln("stack:")
 	for i := m.sp - 1; i >= 0; i-- {
 		debugln(ObjString(m.stack[i]))
