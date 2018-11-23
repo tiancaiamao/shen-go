@@ -1,4 +1,4 @@
-.PHONY: all shen esc generate
+.PHONY: all docker esc generate generate test
 
 all: shen
 
@@ -10,6 +10,12 @@ esc: ${GOPATH}/bin/esc
 
 shen:
 	go build -o shen cmd/shen/main.go
+
+docker:
+	docker build -t shen-go .
+	docker run -i -t --rm -v /tmp:/tmp shen-go \
+		/bin/sh -c 'cp -a /usr/local/bin/shen /tmp/'
+	cp -a /tmp/shen ./shen
 
 test:
 	go test github.com/tiancaiamao/shen-go/runtime
