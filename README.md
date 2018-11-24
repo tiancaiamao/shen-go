@@ -72,7 +72,7 @@ Run in shen-go repl:
 (native "hello" "world")
 ```
 
-The `native` keyword tells the compiler to use the right calling convention, the first argument is the function name, which you regist in the Go plugin file using `runtime.RegistNativeCall`.
+The `native` keyword tells the compiler to use the correct calling convention, the first argument is the function name, which you regist in the Go plugin file using `runtime.RegistNativeCall`.
 
 Notice that native call is not curry function, If you want to partial apply them, you have to wrap it:
 
