@@ -1,12 +1,15 @@
-.PHONY: all docker esc generate generate test
+.PHONY: all kl docker esc generate generate test
 
-all: shen
+all: kl shen
 
 generate: esc
 	${GOPATH}/bin/esc -o runtime/asset.go -pkg=runtime bytecode
 
 esc: ${GOPATH}/bin/esc
 	go get -u -v github.com/mjibson/esc
+
+kl:
+	go install github.com/tiancaiamao/shen-go/cmd/kl
 
 shen:
 	go build -o shen cmd/shen/main.go
