@@ -176,16 +176,22 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
 	if ok, _ := isSymbol(fn); ok {
 		str := GetSymbol(fn)
+		// Native function has higher priority to overload primitive.
+		if native, ok := e.nativeFunc[str]; ok {
+			return native
+		}
+
 		if proc, ok := env.Get(str); ok {
 			return proc
 		}
+
 		if val, ok := e.functionTable[str]; ok {
 			return val
 		}
 	}
 
 	switch *fn {
-	case scmHeadPrimitive, scmHeadProcedure:
+	case scmHeadPrimitive, scmHeadProcedure, scmHeadNative:
 		return fn
 	case scmHeadPair:
 		return e.trampoline(fn, env)
@@ -254,16 +260,6 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
 		switch {
-		case prim.Name == "native":
-			method := GetSymbol(args[0])
-			prim1, ok := e.nativeFunc[method]
-			if !ok {
-				ctl.Return(MakeError("undefined native " + method))
-				return
-			}
-			prim = prim1
-			ctl.Return(prim.Function(args[1:]...))
-			return
 		case len(args) < prim.Required:
 			ctl.Return(partialApply(prim.Required, args, nil, f))
 			return

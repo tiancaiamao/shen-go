@@ -22,3 +22,4 @@ docker:
 
 test:
 	go test github.com/tiancaiamao/shen-go/runtime
+	go test github.com/tiancaiamao/shen-go/kl

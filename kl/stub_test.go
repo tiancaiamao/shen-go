@@ -9,7 +9,7 @@ func TestTrampoline(t *testing.T) {
 	_ = Call(__defun_recur, MakeNumber(100000))
 }
 
-func TestNativeFact(t *testing.T) {
+func TestFact(t *testing.T) {
 	res := Call(__defun_fact0, MakeInteger(5))
 	n := mustInteger(res)
 	if n != 120 {
@@ -28,6 +28,15 @@ func TestPartialApply(t *testing.T) {
 		ctx.Return(__defun_fact0)
 		return
 	}, 0), MakeInteger(5))
+	if mustInteger(res) != 120 {
+		t.Fail()
+	}
+}
+
+func TestNativeCall(t *testing.T) {
+	e := NewEvaluator()
+	e.RegistNativeCall("fact", 1, __defun_fact0)
+	res := e.Eval(cons(MakeSymbol("fact"), cons(MakeInteger(5), Nil)))
 	if mustInteger(res) != 120 {
 		t.Fail()
 	}

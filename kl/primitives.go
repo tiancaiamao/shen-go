@@ -51,7 +51,6 @@ var allPrimitives []*ScmPrimitive = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: primNot},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: primIf},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: primIsSymbol},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "native", Required: 9999},
 	// &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: primReadFileAsByteList},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: primReadFileAsString},
@@ -67,36 +66,6 @@ func init() {
 		prim.id = i
 		primitiveIdx[prim.Name] = prim
 	}
-}
-
-func NativeIsPrimitive(args ...Obj) Obj {
-	if *args[0] != scmHeadSymbol {
-		return False
-	}
-	str := GetSymbol(args[0])
-	_, ok := primitiveIdx[str]
-	if ok {
-		return True
-	}
-	return False
-}
-
-func NativePrimitiveArity(args ...Obj) Obj {
-	str := GetSymbol(args[0])
-	prim, ok := primitiveIdx[str]
-	if !ok {
-		return MakeInteger(-1)
-	}
-	return MakeInteger(prim.Required)
-}
-
-func NativePrimitiveID(args ...Obj) Obj {
-	str := GetSymbol(args[0])
-	prim, ok := primitiveIdx[str]
-	if !ok {
-		return MakeError("not a primitive")
-	}
-	return MakeInteger(prim.id)
 }
 
 func GetPrimitiveByID(id int) *ScmPrimitive {

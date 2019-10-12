@@ -12,7 +12,7 @@ type Evaluator struct {
 	functionTable map[string]Obj
 	Silence       bool
 
-	nativeFunc map[string]*ScmPrimitive
+	nativeFunc map[string]Obj
 }
 
 func NewEvaluator() *Evaluator {
@@ -32,10 +32,7 @@ func NewEvaluator() *Evaluator {
 	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
 	e.functionTable["load-file"] = Obj(&tmp.scmHead)
 
-	e.nativeFunc = make(map[string]*ScmPrimitive)
-	e.RegistNativeCall(MakePrimitive("primitive?", 1, NativeIsPrimitive))
-	e.RegistNativeCall(MakePrimitive("primitive-arity", 1, NativePrimitiveArity))
-	e.RegistNativeCall(MakePrimitive("primitive-id", 1, NativePrimitiveID))
+	e.nativeFunc = make(map[string]Obj)
 
 	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
 	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
@@ -123,8 +120,9 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 	return
 }
 
-func (e *Evaluator) RegistNativeCall(prim *ScmPrimitive) {
-	e.nativeFunc[prim.Name] = prim
+func (e *Evaluator) RegistNativeCall(name string, arity int, f Obj) {
+	_ = MustNative(f)
+	e.nativeFunc[name] = f
 }
 
 func (e *Evaluator) BootstrapShen() {
