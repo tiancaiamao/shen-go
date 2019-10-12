@@ -28,110 +28,55 @@ func MustNative(o Obj) *scmNative {
 	return (*scmNative)(unsafe.Pointer(o))
 }
 
-// type Trampoline struct {
-// 	pc   *scmFunc
-// 	args []Obj
-// }
+// Trampoline are used by native code to implement tail call.
+type Trampoline struct {
+	kind controlFlowKind
+	// arguments for apply
+	f    Obj
+	args []Obj
+	// return result
+	result Obj
+}
 
-// func (t *Trampoline) Return(res Obj) {
-// 	t.pc = nil
-// 	t.args = t.args[:0]
-// 	t.args = append(t.args, res)
-// }
+func (t *Trampoline) TailApply(f Obj, args ...Obj) {
+	t.f = f
+	t.args = args
+	t.kind = controlFlowApply
+}
 
-// func (t *Trampoline) TailCall(f Obj, args ...Obj) {
-// 	t.pc = MustFunc(f)
-// 	t.args = t.args[:0]
-// 	t.args = append(t.args, args...)
-// }
+func (t *Trampoline) Return(result Obj) {
+	t.result = result
+	t.kind = controlFlowReturn
+}
 
-// func (t *Trampoline) partialApply() {
-// 	provided := len(t.pc.captured) + len(t.args)
-// 	required := t.pc.require
-// 	if provided == required {
-// 		t.pc.fn(t, t.args...)
-// 		return
-// 	}
+// Call is used in native function for non-tail-call.
+// Similar to Evaluator.trampoline, but not as general as it.
+func Call(f Obj, args ...Obj) Obj {
+	var t = Trampoline{
+		kind: controlFlowApply,
+		f:    f,
+		args: args,
+	}
+	for t.kind != controlFlowReturn {
+		fn := MustNative(t.f)
+		provided := len(fn.captured) + len(args)
+		required := fn.require
+		if provided == required {
+			fn.fn(&t, t.args...)
+			continue
+		}
 
-// 	tmp := make([]Obj, 0, t.pc.require)
-// 	tmp = append(tmp, t.pc.captured...)
-// 	if provided < required {
-// 		tmp = append(tmp, t.args...)
-// 		t.Return(MakeFunc(t.pc.fn, t.pc.require, tmp...))
-// 		return
-// 	}
+		tmp := make([]Obj, 0, fn.require)
+		tmp = append(tmp, fn.captured...)
+		if provided < required {
+			tmp = append(tmp, t.args...)
+			return MakeNative(fn.fn, fn.require, tmp...)
+		}
 
-// 	tmp = append(tmp, t.args[:provided-required]...)
-// 	fn := Call(MakeFunc(t.pc.fn, t.pc.require), tmp...)
-// 	t.TailCall(fn, t.args[provided-required:]...)
-// 	return
-// }
-
-// func (t *Trampoline) Run(pc *scmFunc, args ...Obj) Obj {
-// 	t.pc = pc
-// 	t.args = args
-// 	for t.pc != nil {
-// 		t.partialApply()
-// 	}
-// 	return t.args[0]
-// }
-
-// func Call(f Obj, args ...Obj) Obj {
-// 	fn := MustFunc(f)
-// 	var ctx Trampoline
-// 	return ctx.Run(fn, args...)
-// }
-
-// func BuiltinEQ(x, y Obj) Obj {
-// 	return equal(x, y)
-// }
-
-// func BuiltinSub(x, y Obj) Obj {
-// 	x1 := mustNumber(x)
-// 	y1 := mustNumber(y)
-// 	return MakeNumber(x1.val - y1.val)
-// }
-
-// func BuiltinAdd(x, y Obj) Obj {
-// 	x1 := mustNumber(x)
-// 	y1 := mustNumber(y)
-// 	return MakeNumber(x1.val + y1.val)
-// }
-
-// func BuiltinMul(x, y Obj) Obj {
-// 	x1 := mustNumber(x)
-// 	y1 := mustNumber(y)
-// 	return MakeNumber(x1.val * y1.val)
-// }
-
-// func BuiltinCons(x, y Obj) Obj {
-// 	return cons(x, y)
-// }
-
-// func BuiltinHD(x Obj) Obj {
-// 	return car(x)
-// }
-
-// func BuiltinTL(x Obj) Obj {
-// 	return cdr(x)
-// }
-
-// func BuiltinConsP(x Obj) Obj {
-// 	return primIsPair(x)
-// }
-
-// func BuiltinSet(symbol, val Obj) Obj {
-// 	sym := mustSymbol(symbol)
-// 	symVal := &symbolArray[sym.offset]
-// 	symVal.value = val
-// 	return val
-// }
-
-// func BuiltinValue(arg Obj) Obj {
-// 	sym := mustSymbol(arg)
-// 	symVal := &symbolArray[sym.offset]
-// 	if symVal.value != nil {
-// 		return symVal.value
-// 	}
-// 	return MakeError(fmt.Sprintf("variable %s not bound", symVal.str))
-// }
+		taken := required - len(tmp)
+		tmp = append(tmp, t.args[:taken]...)
+		t.f = Call(t.f, tmp...)
+		t.args = t.args[taken:]
+	}
+	return t.result
+}
