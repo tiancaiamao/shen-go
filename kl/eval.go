@@ -43,27 +43,6 @@ const (
 	controlFlowApply
 )
 
-// Trampoline are used by native code to implement tail call.
-type Trampoline struct {
-	kind controlFlowKind
-	// arguments for apply
-	f    Obj
-	args []Obj
-	// return result
-	result Obj
-}
-
-func (ctl *Trampoline) TailApply(f Obj, args []Obj) {
-	ctl.f = f
-	ctl.args = args
-	ctl.kind = controlFlowApply
-}
-
-func (ctl *Trampoline) Return(result Obj) {
-	ctl.result = result
-	ctl.kind = controlFlowReturn
-}
-
 type controlFlow struct {
 	Trampoline
 	inException bool
@@ -190,7 +169,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 		ctl.Exception(args[0])
 		return
 	}
-	ctl.TailApply(fn, args)
+	ctl.TailApply(fn, args...)
 	return
 }
 
@@ -261,7 +240,7 @@ func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
 	if *v == scmHeadError {
 		ctl.inException = true
 		handler := e.evalFunction(cadr(exp), env)
-		ctl.TailApply(handler, []Obj{v})
+		ctl.TailApply(handler, v)
 		return
 	}
 	ctl.Return(v)
@@ -305,9 +284,12 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 		case len(args) > proc.arity:
 			newEnv := proc.env.Extend(proc.arg, args[:proc.arity])
 			res := e.trampoline(proc.body, newEnv)
-			ctl.TailApply(res, args[proc.arity:])
+			ctl.TailApply(res, args[proc.arity:]...)
 			return
 		}
+	} else if *f == scmHeadNative {
+		ctl.Return(Call(f, args...))
+		return
 	}
 	panic("can't apply object")
 }
