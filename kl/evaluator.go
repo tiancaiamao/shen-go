@@ -129,6 +129,7 @@ func (e *Evaluator) RegistNativeCall(prim *ScmPrimitive) {
 
 func (e *Evaluator) BootstrapShen() {
 	e.LoadFile("ShenOSKernel-21.0/klambda/toplevel.kl")
+	e.LoadFile("ShenOSKernel-21.0/klambda/dict.kl")
 	e.LoadFile("ShenOSKernel-21.0/klambda/core.kl")
 	e.LoadFile("ShenOSKernel-21.0/klambda/sys.kl")
 	e.LoadFile("ShenOSKernel-21.0/klambda/sequent.kl")
