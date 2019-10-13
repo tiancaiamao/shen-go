@@ -63,12 +63,12 @@ func TestEqual(t *testing.T) {
 
 func TestVectorGet(t *testing.T) {
 	vec := MakeVector(1)
-	primVectorSet(vec, MakeInteger(0), MakeNumber(42))
-	err := primVectorGet(vec, MakeInteger(1))
+	PrimVectorSet(vec, MakeInteger(0), MakeNumber(42))
+	err := PrimVectorGet(vec, MakeInteger(1))
 	if *err != scmHeadError {
 		t.Error("should be error out of range")
 	}
-	if equal(primVectorGet(vec, MakeInteger(0)), MakeNumber(42)) != True {
+	if equal(PrimVectorGet(vec, MakeInteger(0)), MakeNumber(42)) != True {
 		t.Error("vector set or get wrong")
 	}
 }
