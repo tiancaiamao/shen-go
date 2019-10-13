@@ -80,3 +80,32 @@ func Call(f Obj, args ...Obj) Obj {
 	}
 	return t.result
 }
+
+type tryResult struct {
+	data Obj
+}
+
+func Try(f Obj) (res tryResult) {
+	defer func() {
+		if err := recover(); err != nil {
+			val := err.(Obj)
+			res = tryResult{data: val}
+		}
+	}()
+	MustNative(f)
+	val := Call(f, Nil)
+	res = tryResult{data: val}
+	return
+}
+
+func (t tryResult) Catch(f Obj) Obj {
+	if IsError(t.data) {
+		return Call(f, t.data)
+	}
+	return t.data
+}
+
+func PrimSimpleError(args ...Obj) Obj {
+	str := mustString(args[0])
+	panic(MakeError(str))
+}
