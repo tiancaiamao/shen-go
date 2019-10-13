@@ -76,10 +76,10 @@ type scmProcedure struct {
 
 type ScmPrimitive struct {
 	scmHead
-	id       int
 	Name     string
 	Required int
 	Function func(...Obj) Obj
+	CodeGen  string
 }
 
 type scmError struct {

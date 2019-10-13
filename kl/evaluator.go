@@ -18,8 +18,8 @@ type Evaluator struct {
 func NewEvaluator() *Evaluator {
 	var e Evaluator
 
-	e.functionTable = make(map[string]Obj, len(allPrimitives))
-	for _, prim := range allPrimitives {
+	e.functionTable = make(map[string]Obj, len(AllPrimitives))
+	for _, prim := range AllPrimitives {
 		e.functionTable[prim.Name] = Obj(&prim.scmHead)
 	}
 	// Overload for primitive set and value.
@@ -143,6 +143,6 @@ func (e *Evaluator) BootstrapShen() {
 	e.LoadFile("ShenOSKernel-21.0/klambda/types.kl")
 
 	// override
-	isSymbol := MakePrimitive("symbol?", 1, primIsSymbol)
+	isSymbol := MakePrimitive("symbol?", 1, PrimIsSymbol)
 	e.functionTable["symbol?"] = Obj(&isSymbol.scmHead)
 }

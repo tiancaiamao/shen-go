@@ -53,7 +53,7 @@ func init() {
 			ctx.Return(n)
 			return
 		} else {
-			n = primNumberSubtract(n, MakeInteger(1))
+			n = PrimNumberSubtract(n, MakeInteger(1))
 			ctx.TailApply(__defun_recur, n)
 			return
 		}
@@ -66,8 +66,8 @@ func init() {
 			ctx.Return(sum)
 			return
 		} else {
-			sum = primNumberMultiply(sum, n)
-			n = primNumberSubtract(n, MakeInteger(1))
+			sum = PrimNumberMultiply(sum, n)
+			n = PrimNumberSubtract(n, MakeInteger(1))
 			ctx.TailApply(__defun_fact, sum, n)
 			return
 		}
