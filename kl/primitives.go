@@ -28,7 +28,7 @@ var AllPrimitives = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "<", Required: 2, Function: PrimLessThan, CodeGen: "PrimLessThan"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: ">", Required: 2, Function: PrimGreatThan, CodeGen: "PrimGreatThan"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "error-to-string", Required: 1, Function: PrimErrorToString, CodeGen: "PrimErrorToString"},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "simple-error", Required: 1, Function: PrimSimpleError, CodeGen: "PrimSimpleError"},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "simple-error", Required: 1, Function: simpleError, CodeGen: "PrimSimpleError"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "=", Required: 2, Function: PrimEqual, CodeGen: "PrimEqual"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "-", Required: 2, Function: PrimNumberSubtract, CodeGen: "PrimNumberSubtract"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "*", Required: 2, Function: PrimNumberMultiply, CodeGen: "PrimNumberMultiply"},
@@ -214,7 +214,7 @@ func PrimValue(key Obj) Obj {
 	return MakeError(fmt.Sprintf("variable %s not bound", symVal.str))
 }
 
-func PrimSimpleError(args ...Obj) Obj {
+func simpleError(args ...Obj) Obj {
 	str := mustString(args[0])
 	return MakeError(str)
 }

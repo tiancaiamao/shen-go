@@ -45,6 +45,7 @@ func TestNativeCall(t *testing.T) {
 var __defun_fact Obj
 var __defun_fact0 Obj
 var __defun_recur Obj
+var __defun__trycatch Obj
 
 func init() {
 	__defun_recur = MakeNative(func(ctx *Trampoline, args ...Obj) {
@@ -78,4 +79,67 @@ func init() {
 		ctx.Return(res)
 		return
 	}, 1)
+
+	// (define trycatch
+	//         -> (trap-error (+ 4 (simple-error "xxx")) (/. E (error-to-string E))))
+	__defun__trycatch = MakeNative(func(__ctx *Trampoline, __args ...Obj) {
+		reg94576 := MakeNative(func(__ctx *Trampoline, __args ...Obj) {
+			ignore := __args[0]
+			_ = ignore
+			reg94577 := MakeNumber(4)
+			reg94578 := MakeString("xxx")
+			reg94579 := PrimSimpleError(reg94578)
+			reg94580 := PrimNumberAdd(reg94577, reg94579)
+			__ctx.Return(reg94580)
+			return
+		}, 1)
+		reg94581 := MakeNative(func(__ctx *Trampoline, __args ...Obj) {
+			E := __args[0]
+			_ = E
+			reg94582 := PrimErrorToString(E)
+			__ctx.Return(reg94582)
+			return
+		}, 1)
+		reg94575 := Try(reg94576).Catch(reg94581)
+		__ctx.Return(reg94575)
+		return
+	}, 0)
+}
+
+func TestTryCatch(t *testing.T) {
+	// (trap-error (+ 2 (simple-error "xxx")) (lambda X (error-to-string X)))
+	res := Try(MakeNative(func(ctx *Trampoline, args ...Obj) {
+		regXX := MakeString("xxx")
+		regYY := PrimSimpleError(regXX)
+		res := PrimNumberAdd(MakeNumber(2), regYY)
+		ctx.Return(res)
+		return
+	}, 1)).Catch(MakeNative(func(ctx *Trampoline, args ...Obj) {
+		err := args[0]
+		res := PrimErrorToString(err)
+		ctx.Return(res)
+		return
+	}, 1))
+
+	if mustString(res) != "xxx" {
+		t.Fail()
+	}
+
+	res = Call(__defun__trycatch)
+	if mustString(res) != "xxx" {
+		t.Fail()
+	}
+
+	res = Try(MakeNative(func(ctx *Trampoline, args ...Obj) {
+		ctx.Return(MakeNumber(42))
+		return
+	}, 1)).Catch(MakeNative(func(ctx *Trampoline, args ...Obj) {
+		err := args[0]
+		res := PrimErrorToString(err)
+		ctx.Return(res)
+		return
+	}, 1))
+	if mustNumber(res).val != 42 {
+		t.Fail()
+	}
 }
