@@ -123,24 +123,3 @@
 (define bcfile
   ".kl" -> ".bc"
   (@s S Ss) -> (@s S (bcfile Ss)))
-
-\*
-(map (/. KLFile
-         (compile-file KLFile (bcfile KLFile)))
-              ["/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/toplevel.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/core.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/sys.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/dict.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/sequent.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/yacc.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/reader.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/prolog.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/track.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/load.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/writer.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/macros.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/declarations.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/t-star.kl"
-              "/media/genius/OS/project/src/github.com/tiancaiamao/shen-go/ShenOSKernel-21.0/klambda/types.kl"
-     ])
-*\
