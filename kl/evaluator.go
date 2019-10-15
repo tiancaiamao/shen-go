@@ -59,6 +59,7 @@ func (e *Evaluator) primValue(args ...Obj) Obj {
 }
 
 func (e *Evaluator) primEvalKL(args ...Obj) Obj {
+	// fmt.Println("eval-kl: ", ObjString(args[0]))
 	return e.trampoline(args[0], nil)
 }
 
@@ -120,7 +121,7 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 	return
 }
 
-func (e *Evaluator) RegistNativeCall(name string, arity int, f Obj) {
+func (e *Evaluator) RegistNativeCall(name string, f Obj) {
 	_ = MustNative(f)
 	e.nativeFunc[name] = f
 }
