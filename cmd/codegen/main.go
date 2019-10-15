@@ -135,7 +135,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 	case "$defun":
 		name := defunSymbolVar(kl.Cadr(sexp))
 		fmt.Fprintf(declare, "var %s Obj\n", name)
-		fmt.Fprintf(w, "%s = MakeNative(func(__ctx *Trampoline, __args ...Obj) {\n", name)
+		fmt.Fprintf(w, "%s = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", name)
 		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
 		args1 := kl.ListToSlice(args)
 		for i, arg := range args1 {
@@ -149,7 +149,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 	case "$lambda":
 		dest := kl.Cadr(sexp)
 		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		fmt.Fprintf(w, "%s := MakeNative(func(__ctx *Trampoline, __args ...Obj) {\n", symbolString(dest))
+		fmt.Fprintf(w, "%s := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", symbolString(dest))
 		fmt.Fprintf(w, "%s := __args[0]\n", symbolAsVar(args))
 		fmt.Fprintf(w, "_ = %s\n", symbolAsVar(args))
 		if err := generateExprs(declare, w, kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))); err != nil {
@@ -221,7 +221,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		fname := kl.Cadr(sexp)
 		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
 		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		fmt.Fprintf(w, "%s := Call(%s", symbolAsVar(res), defunSymbolVar(fname))
+		fmt.Fprintf(w, "%s := __e.Call(%s", symbolAsVar(res), defunSymbolVar(fname))
 		for _, arg := range kl.ListToSlice(args) {
 			fmt.Fprintf(w, ", ")
 			fmt.Fprintf(w, "%s", symbolAsVar(arg))
@@ -240,7 +240,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		fname := kl.Cadr(sexp)
 		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
 		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		fmt.Fprintf(w, "%s := Call(%s", symbolAsVar(res), symbolAsVar(fname))
+		fmt.Fprintf(w, "%s := __e.Call(%s", symbolAsVar(res), symbolAsVar(fname))
 		for _, arg := range kl.ListToSlice(args) {
 			fmt.Fprintf(w, ", ")
 			fmt.Fprintf(w, "%s", symbolAsVar(arg))
@@ -258,7 +258,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
 		exp1 := kl.Cadr(exp)
 		handle1 := kl.Cadr(handle)
-		fmt.Fprintf(w, "%s := Try(%s).Catch(%s)\n", symbolAsVar(res), symbolAsVar(exp1), symbolAsVar(handle1))
+		fmt.Fprintf(w, "%s := __e.Try(%s).Catch(%s)\n", symbolAsVar(res), symbolAsVar(exp1), symbolAsVar(handle1))
 	case "$return":
 		fmt.Fprintf(w, "__ctx.Return(%s)\nreturn\n", symbolAsVar(kl.Cadr(sexp)))
 	default:

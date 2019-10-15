@@ -35,16 +35,22 @@ func (env *Environment) Extend(symbols, values []Obj) *Environment {
 	}
 }
 
-type controlFlowKind int
+type ControlFlowKind int
 
 const (
-	controlFlowReturn controlFlowKind = iota
-	controlFlowEval
-	controlFlowApply
+	ControlFlowReturn ControlFlowKind = iota
+	ControlFlowEval
+	ControlFlowApply
 )
 
-type controlFlow struct {
-	Trampoline
+type ControlFlow struct {
+	kind ControlFlowKind
+	// arguments for apply
+	f    Obj
+	args []Obj
+	// return result
+	result Obj
+
 	inException bool
 	// arguments for eval
 	exp Obj
@@ -53,38 +59,60 @@ type controlFlow struct {
 
 // trampoline is introduced for tail call optimization.
 func (e *Evaluator) trampoline(exp Obj, env *Environment) Obj {
-	var ctl = controlFlow{
-		Trampoline: Trampoline{
-			kind: controlFlowEval,
-		},
-		exp: exp,
-		env: env,
+	var ctl = ControlFlow{
+		kind: ControlFlowEval,
+		exp:  exp,
+		env:  env,
 	}
-	for ctl.kind != controlFlowReturn {
+	return e.do(&ctl)
+}
+
+func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
+	var ctl = ControlFlow{
+		kind: ControlFlowApply,
+		f:    f,
+		args: args,
+	}
+	return e.do(&ctl)
+}
+
+func (e *Evaluator) do(ctl *ControlFlow) Obj {
+	for ctl.kind != ControlFlowReturn {
 		switch ctl.kind {
-		case controlFlowEval:
-			e.eval(&ctl)
-		case controlFlowApply:
-			e.apply(&ctl)
+		case ControlFlowEval:
+			e.eval(ctl)
+		case ControlFlowApply:
+			e.apply(ctl)
 		}
 	}
 	return ctl.result
 }
 
-func (ctl *controlFlow) TailEval(exp Obj, env *Environment) {
+func (ctl *ControlFlow) TailEval(exp Obj, env *Environment) {
 	ctl.exp = exp
 	ctl.env = env
-	ctl.kind = controlFlowEval
+	ctl.kind = ControlFlowEval
+}
+
+func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
+	ctl.f = f
+	ctl.args = args
+	ctl.kind = ControlFlowApply
+}
+
+func (ctl *ControlFlow) Return(result Obj) {
+	ctl.result = result
+	ctl.kind = ControlFlowReturn
 }
 
 // Exception can be replaced by Return totally, just defined as a name alias.
-func (ctl *controlFlow) Exception(err Obj) {
+func (ctl *ControlFlow) Exception(err Obj) {
 	mustError(err)
 	ctl.result = err
-	ctl.kind = controlFlowReturn
+	ctl.kind = ControlFlowReturn
 }
 
-func (e *Evaluator) eval(ctl *controlFlow) {
+func (e *Evaluator) eval(ctl *ControlFlow) {
 	exp := ctl.exp
 	env := ctl.env
 
@@ -169,6 +197,7 @@ func (e *Evaluator) eval(ctl *controlFlow) {
 		ctl.Exception(args[0])
 		return
 	}
+
 	ctl.TailApply(fn, args...)
 	return
 }
@@ -199,7 +228,7 @@ func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }
 
-func (e *Evaluator) evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
+func (e *Evaluator) evalIf(a, b, c Obj, env *Environment, ctl *ControlFlow) {
 	t := e.trampoline(a, env)
 	switch t {
 	case True:
@@ -212,7 +241,7 @@ func (e *Evaluator) evalIf(a, b, c Obj, env *Environment, ctl *controlFlow) {
 	panic("second argument of if should be boolean")
 }
 
-func (e *Evaluator) evalAnd(a, b Obj, env *Environment, ctl *controlFlow) {
+func (e *Evaluator) evalAnd(a, b Obj, env *Environment, ctl *ControlFlow) {
 	if e.trampoline(a, env) == False {
 		ctl.Return(False)
 		return
@@ -220,7 +249,7 @@ func (e *Evaluator) evalAnd(a, b Obj, env *Environment, ctl *controlFlow) {
 	ctl.TailEval(b, env)
 }
 
-func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *controlFlow) {
+func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *ControlFlow) {
 	if e.trampoline(a, env) == True {
 		ctl.Return(True)
 		return
@@ -228,7 +257,7 @@ func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *controlFlow) {
 	ctl.TailEval(b, env)
 }
 
-func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *controlFlow) {
+func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *ControlFlow) {
 	for *l == scmHeadPair {
 		curr := car(l)
 		if e.trampoline(car(curr), env) == True {
@@ -241,7 +270,7 @@ func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *controlFlow) {
 	return
 }
 
-func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
+func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *ControlFlow) {
 	v := e.trampoline(car(exp), env)
 	if *v == scmHeadError {
 		ctl.inException = true
@@ -253,7 +282,7 @@ func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *controlFlow) {
 	return
 }
 
-func (e *Evaluator) apply(ctl *controlFlow) {
+func (e *Evaluator) apply(ctl *ControlFlow) {
 	f := ctl.f
 	args := ctl.args
 
@@ -284,7 +313,27 @@ func (e *Evaluator) apply(ctl *controlFlow) {
 			return
 		}
 	} else if *f == scmHeadNative {
-		ctl.Return(Call(f, args...))
+		fn := MustNative(f)
+		provided := len(fn.captured) + len(args)
+		required := fn.require
+		if provided == required {
+			fn.fn(e, ctl, args...)
+			return
+		}
+
+		tmp := make([]Obj, 0, fn.require)
+		tmp = append(tmp, fn.captured...)
+		if provided < required {
+			tmp = append(tmp, args...)
+			ctl.Return(MakeNative(fn.fn, fn.require, tmp...))
+			return
+		}
+
+		taken := required - len(tmp)
+		tmp = append(tmp, args[:taken]...)
+		f = e.Call(f, tmp...)
+		args = args[taken:]
+		ctl.TailApply(f, args...)
 		return
 	}
 	panic("can't apply object")

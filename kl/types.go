@@ -439,14 +439,16 @@ func (o *scmHead) GoString() string {
 	case scmHeadError:
 		return fmt.Sprintf("Error(%s)", mustError(o).err)
 	case scmHeadProcedure:
-		return fmt.Sprintf("#procedure")
+		return "#procedure"
 	case scmHeadStream:
-		return fmt.Sprintf("#stream")
+		return "#stream"
 	case scmHeadPrimitive:
 		prim := mustPrimitive(o)
 		return fmt.Sprintf("#primitive(%s)", prim.Name)
 	case scmHeadRaw:
 		return "#raw"
+	case scmHeadNative:
+		return "#native"
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }
