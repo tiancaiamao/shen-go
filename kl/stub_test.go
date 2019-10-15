@@ -1,6 +1,7 @@
 package kl
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -47,6 +48,10 @@ var __defun_fact Obj
 var __defun_fact0 Obj
 var __defun_recur Obj
 var __defun__trycatch Obj
+var __defun__reverse Obj
+var __defun__shen_4reverse__help Obj
+var __defun__map Obj
+var __defun__shen_4map_1h Obj
 
 func init() {
 	__defun_recur = MakeNative(func(_e *Evaluator, ctx *ControlFlow, args ...Obj) {
@@ -105,6 +110,68 @@ func init() {
 		__ctx.Return(reg94575)
 		return
 	}, 0)
+
+	__defun__map = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		V3161 := __args[0]
+		_ = V3161
+		V3162 := __args[1]
+		_ = V3162
+		reg100263 := Nil
+		__ctx.TailApply(__defun__shen_4map_1h, V3161, V3162, reg100263)
+		return
+	}, 2)
+	__defun__shen_4map_1h = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		V3168 := __args[0]
+		_ = V3168
+		V3169 := __args[1]
+		_ = V3169
+		V3170 := __args[2]
+		_ = V3170
+		reg100265 := Nil
+		reg100266 := PrimEqual(reg100265, V3169)
+		if reg100266 == True {
+			__ctx.TailApply(__defun__reverse, V3170)
+			return
+		} else {
+			reg100268 := PrimIsPair(V3169)
+			if reg100268 == True {
+				reg100269 := PrimTail(V3169)
+				reg100270 := PrimHead(V3169)
+				reg100271 := __e.Call(V3168, reg100270)
+				reg100272 := PrimCons(reg100271, V3170)
+				__ctx.TailApply(__defun__shen_4map_1h, V3168, reg100269, reg100272)
+				return
+			}
+		}
+	}, 3)
+	__defun__reverse = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		V3121 := __args[0]
+		_ = V3121
+		reg100177 := Nil
+		__ctx.TailApply(__defun__shen_4reverse__help, V3121, reg100177)
+		return
+	}, 1)
+	__defun__shen_4reverse__help = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		V3124 := __args[0]
+		_ = V3124
+		V3125 := __args[1]
+		_ = V3125
+		reg100179 := Nil
+		reg100180 := PrimEqual(reg100179, V3124)
+		if reg100180 == True {
+			__ctx.Return(V3125)
+			return
+		} else {
+			reg100181 := PrimIsPair(V3124)
+			if reg100181 == True {
+				reg100182 := PrimTail(V3124)
+				reg100183 := PrimHead(V3124)
+				reg100184 := PrimCons(reg100183, V3125)
+				__ctx.TailApply(__defun__shen_4reverse__help, reg100182, reg100184)
+				return
+			}
+		}
+	}, 2)
 }
 
 func TestTryCatch(t *testing.T) {
@@ -143,5 +210,32 @@ func TestTryCatch(t *testing.T) {
 	}, 1))
 	if mustNumber(res).val != 42 {
 		t.Fail()
+	}
+}
+
+func TestFusion(t *testing.T) {
+	e := NewEvaluator()
+	e.RegistNativeCall("map", __defun__map)
+	expect := Cons(MakeNumber(2), Cons(MakeNumber(3), Cons(MakeNumber(4), Nil)))
+
+	// Partial apply, generated code and intepreted code fusion!!
+	cases := []string{
+		"(map (lambda x (+ x 1)) (cons 1 (cons 2 (cons 3 ()))))",
+		"(map (+ 1) (cons 1 (cons 2 (cons 3 ()))))",
+		"((map (+ 1)) (cons 1 (cons 2 (cons 3 ()))))",
+		"((map) (+ 1) (cons 1 (cons 2 (cons 3 ()))))",
+	}
+
+	for _, input := range cases {
+		r := NewSexpReader(strings.NewReader(input))
+		sexp, err := r.Read()
+		if err != nil {
+			t.Error(err)
+		}
+
+		obtain := e.Eval(sexp)
+		if equal(expect, obtain) == False {
+			t.Fail()
+		}
 	}
 }

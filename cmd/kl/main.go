@@ -30,11 +30,6 @@ func main() {
 	}
 
 	e := kl.NewEvaluator()
-	if shen {
-		e.BootstrapShen()
-		e.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
-		return
-	}
 
 	if len(pluginFile) > 0 {
 		p, err := plugin.Open(pluginFile)
@@ -53,6 +48,12 @@ func main() {
 			return
 		}
 		regist(e)
+	}
+
+	if shen {
+		e.BootstrapShen()
+		e.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
+		return
 	}
 
 	r := kl.NewSexpReader(os.Stdin)

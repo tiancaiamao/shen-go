@@ -317,7 +317,15 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 		provided := len(fn.captured) + len(args)
 		required := fn.require
 		if provided == required {
-			fn.fn(e, ctl, args...)
+			var tmp []Obj
+			if len(fn.captured) == 0 {
+				tmp = args
+			} else {
+				tmp = make([]Obj, 0, required)
+				tmp = append(tmp, fn.captured...)
+				tmp = append(tmp, args...)
+			}
+			fn.fn(e, ctl, tmp...)
 			return
 		}
 
