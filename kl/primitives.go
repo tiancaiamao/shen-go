@@ -529,6 +529,6 @@ func PrimIsInteger(args ...Obj) Obj {
 	return False
 }
 
-func PrimEvalKL(args ...Obj) Obj {
-	panic("not implement")
+func PrimEvalKL(e *Evaluator, args ...Obj) Obj {
+	return e.trampoline(args[0], nil)
 }

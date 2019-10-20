@@ -285,7 +285,13 @@ func generateBuiltinCall(w io.Writer, op, args, dst kl.Obj) {
 		return
 	}
 
-	fmt.Fprintf(w, "%s := %s(", symbolAsVar(dst), prim.CodeGen)
+	// Special handle for eval-kl.
+	if prim.CodeGen == "PrimEvalKL" {
+		fmt.Fprintf(w, "%s := PrimEvalKL(__e, ", symbolAsVar(dst))
+	} else {
+		fmt.Fprintf(w, "%s := %s(", symbolAsVar(dst), prim.CodeGen)
+	}
+
 	for i := 0; i < len(input); i++ {
 		if i != 0 {
 			fmt.Fprintf(w, ", ")
