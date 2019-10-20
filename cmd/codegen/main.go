@@ -132,6 +132,12 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 	fmt.Printf("handle %s ...\n", kl.ObjString(sexp))
 	kind := kl.GetSymbol(kl.Car(sexp))
 	switch kind {
+	case "$expr":
+		fmt.Fprintf(w, "__initExprs = append(__initExprs, MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n")
+		if err := generateExprs(declare, w, kl.Cdr(sexp)); err != nil {
+			return err
+		}
+		fmt.Fprintf(w, "}, 0))\n")
 	case "$defun":
 		name := defunSymbolVar(kl.Cadr(sexp))
 		fmt.Fprintf(declare, "var %s Obj\n", name)

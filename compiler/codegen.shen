@@ -97,14 +97,15 @@
   BC false [$var F] Args Reg -> (cons [$call F Args Reg] BC)
   BC true [$var F] Args Reg -> (cons [$tailcall F Args] BC))
 
-(define compile-defun
+(define compile-expr
   X -> (let Input (parse [] X)
-            (code-gen [] true Input (/. BC (/. Reg BC)))))
-
+            Code (code-gen [] true Input (/. BC (/. Reg BC)))
+            (if (and (cons? X) (= (hd X) defun))
+                Code
+                [$expr | (reverse Code)])))
+                
 (define compile-file-content
-  Content -> (let Fn (/. X (and (cons? X) (= (hd X) defun)))
-                  Defuns (filter Fn Content)
-                  (map compile-defun Defuns)))
+  Content -> (map (function compile-expr) Content))
 
 (set *maximum-print-sequence-size* 2000)
 
