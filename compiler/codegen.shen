@@ -7,9 +7,9 @@
   Env [if true Y Z] -> (parse Env Y)
   Env [if false Y Z] -> (parse Env Z)
   Env [if X Y Z] -> [$if (parse Env X) (parse Env Y) (parse Env Z)]
-  Env [lambda X Y] -> [$abs X (parse [X | Env] Y)]
-  Env [freeze Body] -> [$abs ignore (parse Env Body)]
-  Env [trap-error Body Handler] -> [$try-catch [$abs ignore (parse Env Body)] (parse Env Handler)]
+  Env [lambda X Y] -> [$abs [X] (parse [X | Env] Y)]
+  Env [freeze Body] -> [$abs [] (parse Env Body)]
+  Env [trap-error Body Handler] -> [$try-catch [$abs [] (parse Env Body)] (parse Env Handler)]
   Env [defun F X Y] -> [$defun F X (parse X Y)]
   Env [do X Y] -> [$do (parse Env X) (parse Env Y)]
   Env [or X Y] -> (parse Env [if X true [if Y true false]])
@@ -54,20 +54,21 @@
                                         (/. BC1 (/. X1
                                             (let BC2 (cons [mov X1 _] BC1)
                                                  (code-gen BC2 Tail Y Return)))))
-  BC Tail [$abs Arg Body] Return -> (let Reg (gensym reg)
-                                         Body2 (code-gen [] true Body
-                                                         (/. Body1 (/. Reg1
-                                                                       (reverse Body1))))
-                                         (Return (cons [$lambda Reg Arg Body2] BC)
-                                                 Reg))
+  BC Tail [$abs Args Body] Return -> (let Reg (gensym reg)
+                                          Body2 (code-gen [] true Body
+                                                          (/. Body1 (/. Reg1
+                                                                        (reverse Body1))))
+                                         (handle-return Tail Return
+                                                        (cons [$lambda Reg Args Body2] BC)
+                                                        Reg))
   BC Tail [$let X Y Z] Return -> (code-gen BC false Y
                                            (/. BC1 (/. Y1
                                                        (code-gen (cons [mov X _] (cons [$declare-mov Y1 X] BC1)) Tail Z Return))))
-  BC Tail [$try-catch Exp Handle] Return -> (let Reg (gensym reg)
-                                                 Exp1 (code-gen [] true Exp (/. BC (/. Reg BC)))
-                                                 Handle1 (code-gen [] true Handle (/. BC (/. Reg BC)))
-                                                 (handle-return Tail Return
-                                                                (cons [$try-catch (hd Exp1) (hd Handle1) Reg] BC) Reg))
+  BC Tail [$try-catch Exp Handle] Return -> (code-gen BC false Exp (/. BC1 (/. Exp1
+                                                      (code-gen BC1 false Handle (/. BC2 (/. Handle1
+                                                                (let Reg (gensym reg)
+                                                                     (handle-return Tail Return
+                                                                                    (cons [$try-catch Exp1 Handle1 Reg] BC2) Reg))))))))
   BC Tail [$defun F Params Body] Return -> [$defun F Params (code-gen-body Body)]
   BC Tail [$app F | Args] Return ->
       (code-gen-list [] BC Args

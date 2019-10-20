@@ -41,7 +41,7 @@ func (e *Evaluator) Try(f Obj) (res tryResult) {
 		}
 	}()
 	MustNative(f)
-	val := e.Call(f, Nil)
+	val := e.Call(f)
 	res = tryResult{e: e, data: val}
 	return
 }

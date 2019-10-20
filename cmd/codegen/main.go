@@ -148,14 +148,17 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		fmt.Fprintf(w, "}, %d)\n", len(args1))
 	case "$lambda":
 		dest := kl.Cadr(sexp)
-		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		tmp := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		args := kl.ListToSlice(tmp)
 		fmt.Fprintf(w, "%s := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", symbolString(dest))
-		fmt.Fprintf(w, "%s := __args[0]\n", symbolAsVar(args))
-		fmt.Fprintf(w, "_ = %s\n", symbolAsVar(args))
+		for _, arg := range args {
+			fmt.Fprintf(w, "%s := __args[0]\n", symbolAsVar(arg))
+			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
+		}
 		if err := generateExprs(declare, w, kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))); err != nil {
 			return err
 		}
-		fmt.Fprintf(w, "}, 1)\n")
+		fmt.Fprintf(w, "}, %d)\n", len(args))
 	case "mov":
 		// (mov SRC DST)
 		src := kl.Car(kl.Cdr(sexp))
@@ -247,18 +250,11 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		}
 		fmt.Fprintf(w, ")\n")
 	case "$try-catch":
+		// ($try-catch RegExp RegHandle Dst)
 		exp := kl.Cadr(sexp)
-		if err := generateExpr(declare, w, exp); err != nil {
-			return err
-		}
 		handle := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		if err := generateExpr(declare, w, handle); err != nil {
-			return err
-		}
 		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		exp1 := kl.Cadr(exp)
-		handle1 := kl.Cadr(handle)
-		fmt.Fprintf(w, "%s := __e.Try(%s).Catch(%s)\n", symbolAsVar(res), symbolAsVar(exp1), symbolAsVar(handle1))
+		fmt.Fprintf(w, "%s := __e.Try(%s).Catch(%s)\n", symbolAsVar(res), symbolAsVar(exp), symbolAsVar(handle))
 	case "$return":
 		fmt.Fprintf(w, "__ctx.Return(%s)\nreturn\n", symbolAsVar(kl.Cadr(sexp)))
 	default:

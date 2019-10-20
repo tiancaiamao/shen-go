@@ -86,28 +86,27 @@ func init() {
 		return
 	}, 1)
 
-	// (define trycatch
-	//         -> (trap-error (+ 4 (simple-error "xxx")) (/. E (error-to-string E))))
-	__defun__trycatch = MakeNative(func(___e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		reg94576 := MakeNative(func(___e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-			ignore := __args[0]
-			_ = ignore
-			reg94577 := MakeNumber(4)
-			reg94578 := MakeString("xxx")
-			reg94579 := PrimSimpleError(reg94578)
-			reg94580 := PrimNumberAdd(reg94577, reg94579)
-			__ctx.Return(reg94580)
+	// (defun f () (+ 1 (trap-error (+ 2 (simple-error "xxx")) (lambda e 2))))
+	__defun__trycatch = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg119880 := MakeNumber(1)
+		reg119881 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg119882 := MakeNumber(2)
+			reg119883 := MakeString("xxx")
+			reg119884 := PrimSimpleError(reg119883)
+			reg119885 := PrimNumberAdd(reg119882, reg119884)
+			__ctx.Return(reg119885)
+			return
+		}, 0)
+		reg119886 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			e := __args[0]
+			_ = e
+			reg119887 := MakeNumber(2)
+			__ctx.Return(reg119887)
 			return
 		}, 1)
-		reg94581 := MakeNative(func(___e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-			E := __args[0]
-			_ = E
-			reg94582 := PrimErrorToString(E)
-			__ctx.Return(reg94582)
-			return
-		}, 1)
-		reg94575 := ___e.Try(reg94576).Catch(reg94581)
-		__ctx.Return(reg94575)
+		reg119888 := __e.Try(reg119881).Catch(reg119886)
+		reg119889 := PrimNumberAdd(reg119880, reg119888)
+		__ctx.Return(reg119889)
 		return
 	}, 0)
 
@@ -183,7 +182,7 @@ func TestTryCatch(t *testing.T) {
 		res := PrimNumberAdd(MakeNumber(2), regYY)
 		ctx.Return(res)
 		return
-	}, 1)).Catch(MakeNative(func(_e *Evaluator, ctx *ControlFlow, args ...Obj) {
+	}, 0)).Catch(MakeNative(func(_e *Evaluator, ctx *ControlFlow, args ...Obj) {
 		err := args[0]
 		res := PrimErrorToString(err)
 		ctx.Return(res)
@@ -195,14 +194,14 @@ func TestTryCatch(t *testing.T) {
 	}
 
 	res = e.Call(__defun__trycatch)
-	if mustString(res) != "xxx" {
+	if mustNumber(res).val != 3 {
 		t.Fail()
 	}
 
 	res = e.Try(MakeNative(func(_e *Evaluator, ctx *ControlFlow, args ...Obj) {
 		ctx.Return(MakeNumber(42))
 		return
-	}, 1)).Catch(MakeNative(func(_e *Evaluator, ctx *ControlFlow, args ...Obj) {
+	}, 0)).Catch(MakeNative(func(_e *Evaluator, ctx *ControlFlow, args ...Obj) {
 		err := args[0]
 		res := PrimErrorToString(err)
 		ctx.Return(res)
