@@ -51,7 +51,6 @@ type ControlFlow struct {
 	// return result
 	result Obj
 
-	inException bool
 	// arguments for eval
 	exp Obj
 	env *Environment
@@ -105,13 +104,6 @@ func (ctl *ControlFlow) Return(result Obj) {
 	ctl.kind = ControlFlowReturn
 }
 
-// Exception can be replaced by Return totally, just defined as a name alias.
-func (ctl *ControlFlow) Exception(err Obj) {
-	mustError(err)
-	ctl.result = err
-	ctl.kind = ControlFlowReturn
-}
-
 func (e *Evaluator) eval(ctl *ControlFlow) {
 	exp := ctl.exp
 	env := ctl.env
@@ -153,10 +145,6 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 			return
 		case "let": // (let x y z)
 			args := e.trampoline(cadr(exp), env)
-			if *args == scmHeadError {
-				ctl.Exception(args)
-				return
-			}
 			newEnv := env.Extend([]Obj{car(exp)}, []Obj{args})
 			ctl.TailEval(caddr(exp), newEnv)
 			return
@@ -178,26 +166,14 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 			e.evalTrapError(exp, env, ctl)
 			return
 		case "do": // (do A A)
-			if tmp := e.trampoline(car(exp), env); *tmp == scmHeadError {
-				ctl.Exception(tmp)
-				return
-			}
+			e.trampoline(car(exp), env)
 			ctl.TailEval(cadr(exp), env)
 			return
 		}
 	}
 
 	fn := e.evalFunction(pair.car, env)
-	if *fn == scmHeadError {
-		ctl.Exception(fn)
-		return
-	}
 	args := e.evalArgumentList(pair.cdr, env)
-	if !ctl.inException && len(args) == 1 && *args[0] == scmHeadError {
-		ctl.Exception(args[0])
-		return
-	}
-
 	ctl.TailApply(fn, args...)
 	return
 }
@@ -271,13 +247,18 @@ func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *ControlFlow) {
 }
 
 func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *ControlFlow) {
+	defer func() {
+		if err := recover(); err != nil {
+			if val, ok := err.(Obj); ok {
+				if IsError(val) {
+					handle := e.evalFunction(cadr(exp), env)
+					ctl.TailApply(handle, val)
+					return
+				}
+			}
+		}
+	}()
 	v := e.trampoline(car(exp), env)
-	if *v == scmHeadError {
-		ctl.inException = true
-		handler := e.evalFunction(cadr(exp), env)
-		ctl.TailApply(handler, v)
-		return
-	}
 	ctl.Return(v)
 	return
 }

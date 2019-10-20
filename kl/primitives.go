@@ -28,7 +28,7 @@ var AllPrimitives = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "<", Required: 2, Function: PrimLessThan, CodeGen: "PrimLessThan"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: ">", Required: 2, Function: PrimGreatThan, CodeGen: "PrimGreatThan"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "error-to-string", Required: 1, Function: PrimErrorToString, CodeGen: "PrimErrorToString"},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "simple-error", Required: 1, Function: simpleError, CodeGen: "PrimSimpleError"},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "simple-error", Required: 1, Function: PrimSimpleError, CodeGen: "PrimSimpleError"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "=", Required: 2, Function: PrimEqual, CodeGen: "PrimEqual"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "-", Required: 2, Function: PrimNumberSubtract, CodeGen: "PrimNumberSubtract"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "*", Required: 2, Function: PrimNumberMultiply, CodeGen: "PrimNumberMultiply"},
@@ -123,7 +123,7 @@ func PrimStr(args ...Obj) Obj {
 	switch *args[0] {
 	case scmHeadPair:
 		// Pair may contain recursive list.
-		return MakeError("can't str pair object")
+		panic(MakeError("can't str pair object"))
 	case scmHeadNull:
 		return MakeString("()")
 	case scmHeadSymbol:
@@ -172,7 +172,7 @@ func PrimStringConcat(args ...Obj) Obj {
 func PrimTailString(args ...Obj) Obj {
 	str := mustString(args[0])
 	if len(str) == 0 {
-		return MakeError("empty string")
+		panic(MakeError("empty string"))
 	}
 	return MakeString(string([]rune(str)[1:]))
 }
@@ -181,7 +181,7 @@ func PrimPos(args ...Obj) Obj {
 	s := []rune(mustString(args[0]))
 	n := mustInteger(args[1])
 	if n >= len(s) {
-		return MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s)))
+		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
 	}
 	return MakeString(string([]rune(s)[n]))
 }
@@ -213,12 +213,12 @@ func PrimValue(key Obj) Obj {
 	if symVal.value != nil {
 		return symVal.value
 	}
-	return MakeError(fmt.Sprintf("variable %s not bound", symVal.str))
+	panic(MakeError(fmt.Sprintf("variable %s not bound", symVal.str)))
 }
 
-func simpleError(args ...Obj) Obj {
+func PrimSimpleError(args ...Obj) Obj {
 	str := mustString(args[0])
-	return MakeError(str)
+	panic(MakeError(str))
 }
 
 func PrimErrorToString(args ...Obj) Obj {
@@ -265,7 +265,7 @@ func PrimGreatEqual(args ...Obj) Obj {
 func PrimAbsvector(args ...Obj) Obj {
 	n := mustInteger(args[0])
 	if n < 0 {
-		return MakeError("absvector wrong argument")
+		panic(MakeError("absvector wrong argument"))
 	}
 	return MakeVector(n)
 }
@@ -282,7 +282,7 @@ func PrimVectorGet(args ...Obj) Obj {
 	vec := mustVector(args[0])
 	off := mustInteger(args[1])
 	if off >= len(vec) {
-		return MakeError(fmt.Sprintf("index %d out of range %d", off, len(vec)))
+		panic(MakeError(fmt.Sprintf("index %d out of range %d", off, len(vec))))
 	}
 	ret := vec[off]
 	if ret == nil {
@@ -303,13 +303,13 @@ func PrimWriteByte(args ...Obj) Obj {
 	s := mustStream(args[1])
 	w, ok := s.raw.(io.Writer)
 	if !ok {
-		return MakeError("stream is not opened in out mode")
+		panic(MakeError("stream is not opened in out mode"))
 	}
 	var b [1]byte
 	b[0] = byte(n)
 	_, err := w.Write(b[:])
 	if err != nil {
-		return MakeError(err.Error())
+		panic(MakeError(err.Error()))
 	}
 	return args[0]
 }
@@ -318,7 +318,7 @@ func PrimReadByte(args ...Obj) Obj {
 	s := mustStream(args[0])
 	r, ok := s.raw.(io.Reader)
 	if !ok {
-		return MakeError("stream is closed of not opened in in mode")
+		panic(MakeError("stream is closed of not opened in in mode"))
 	}
 	var buf [1]byte
 	_, err := r.Read(buf[:])
@@ -326,7 +326,7 @@ func PrimReadByte(args ...Obj) Obj {
 		if err == io.EOF {
 			return MakeInteger(-1)
 		}
-		return MakeError(err.Error())
+		panic(MakeError(err.Error()))
 	}
 	return MakeInteger(int(buf[0]))
 }
@@ -346,7 +346,7 @@ func PrimOpenStream(args ...Obj) Obj {
 
 	f, err := os.OpenFile(file, flag, 0666)
 	if err != nil {
-		return MakeError(err.Error())
+		panic(MakeError(err.Error()))
 	}
 	return MakeStream(f)
 }
@@ -366,7 +366,7 @@ func PrimGetTime(args ...Obj) Obj {
 	case "run":
 		return MakeNumber(time.Since(uptime).Seconds())
 	}
-	return MakeError(fmt.Sprintf("get-time does not understand the parameter %s", kind))
+	panic(MakeError(fmt.Sprintf("get-time does not understand the parameter %s", kind)))
 }
 
 func PrimTypeFunc(args ...Obj) Obj {
@@ -394,7 +394,7 @@ func PrimNot(args ...Obj) Obj {
 	} else if args[0] == True {
 		return False
 	}
-	return MakeError("PrimNot")
+	panic(MakeError("PrimNot"))
 
 }
 
@@ -405,7 +405,7 @@ func PrimIf(args ...Obj) Obj {
 	case False:
 		return args[2]
 	}
-	return MakeError("PrimIf")
+	panic(MakeError("PrimIf"))
 }
 
 func PrimEqual(args ...Obj) Obj {
@@ -483,7 +483,7 @@ func PrimReadFileAsByteList(args ...Obj) Obj {
 	fileName := mustString(args[0])
 	buf, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		return MakeError(err.Error())
+		panic(MakeError(err.Error()))
 	}
 
 	ret := cons(Nil, Nil)
@@ -500,7 +500,7 @@ func PrimReadFileAsString(args ...Obj) Obj {
 	fileName := mustString(args[0])
 	buf, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		return MakeError(err.Error())
+		panic(MakeError(err.Error()))
 	}
 
 	return MakeString(string(buf))

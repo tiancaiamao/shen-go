@@ -52,8 +52,3 @@ func (t tryResult) Catch(f Obj) Obj {
 	}
 	return t.data
 }
-
-func PrimSimpleError(args ...Obj) Obj {
-	str := mustString(args[0])
-	panic(MakeError(str))
-}
