@@ -140,7 +140,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		fmt.Fprintf(w, "}, 0))\n")
 	case "$defun":
 		name := defunSymbolVar(kl.Cadr(sexp))
-		fmt.Fprintf(declare, "var %s Obj\n", name)
+		fmt.Fprintf(declare, "var %s Obj // %s\n", name, symbolString(kl.Cadr(sexp)))
 		fmt.Fprintf(w, "%s = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", name)
 		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
 		args1 := kl.ListToSlice(args)

@@ -2,6 +2,7 @@ package kl
 
 import (
 	"fmt"
+	"runtime"
 )
 
 type Environment struct {
@@ -256,6 +257,12 @@ func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *ControlFlow) {
 					return
 				}
 			}
+			// Unexpected panic?
+			var buf [4096]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Panic:", err)
+			fmt.Println("Recovered in trap-error:", ObjString(exp))
+			fmt.Println(string(buf[:n]))
 		}
 	}()
 	v := e.trampoline(car(exp), env)
@@ -369,4 +376,39 @@ func makeTempSymbols(n int) []Obj {
 		ret[i] = MakeSymbol(fmt.Sprintf("tmp%d", i))
 	}
 	return ret
+}
+
+type tryResult struct {
+	e    *Evaluator
+	data Obj
+}
+
+func (e *Evaluator) Try(f Obj) (res tryResult) {
+	defer func() {
+		if err := recover(); err != nil {
+			if val, ok := err.(Obj); ok {
+				if IsError(val) {
+					res = tryResult{e: e, data: val}
+					return
+				}
+			}
+			// Unexpected panic?
+			var buf [4096]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Panic:", err)
+			fmt.Println("Recovered in Try:", ObjString(f))
+			fmt.Println(string(buf[:n]))
+		}
+	}()
+	MustNative(f)
+	val := e.Call(f)
+	res = tryResult{e: e, data: val}
+	return
+}
+
+func (t tryResult) Catch(f Obj) Obj {
+	if IsError(t.data) {
+		return t.e.Call(f, t.data)
+	}
+	return t.data
 }

@@ -82,6 +82,30 @@ type ScmPrimitive struct {
 	CodeGen  string
 }
 
+type scmNative struct {
+	scmHead
+	fn       func(*Evaluator, *ControlFlow, ...Obj)
+	require  int
+	captured []Obj
+}
+
+func MakeNative(fn func(*Evaluator, *ControlFlow, ...Obj), require int, captured ...Obj) Obj {
+	tmp := scmNative{
+		scmHead:  scmHeadNative,
+		fn:       fn,
+		require:  require,
+		captured: captured,
+	}
+	return &tmp.scmHead
+}
+
+func MustNative(o Obj) *scmNative {
+	if *o != scmHeadNative {
+		panic("mustNative")
+	}
+	return (*scmNative)(unsafe.Pointer(o))
+}
+
 type scmError struct {
 	scmHead
 	err string
@@ -107,7 +131,7 @@ func MakeError(err string) Obj {
 
 func mustError(o Obj) *scmError {
 	if *o != scmHeadError {
-		panic("mustError")
+		panic(MakeError("mustError"))
 	}
 	return (*scmError)(unsafe.Pointer(o))
 }
@@ -142,14 +166,14 @@ func isPrimitive(o Obj) (bool, *ScmPrimitive) {
 
 func mustPrimitive(o Obj) *ScmPrimitive {
 	if *o != scmHeadPrimitive {
-		panic("mustPrimitive")
+		panic(MakeError("mustPrimitive"))
 	}
 	return (*ScmPrimitive)(unsafe.Pointer(o))
 }
 
 func mustVector(o Obj) []Obj {
 	if (*o) != scmHeadVector {
-		panic("mustVector")
+		panic(MakeError("mustVector"))
 	}
 	tmp := (*scmVector)(unsafe.Pointer(o))
 	return tmp.vector
@@ -157,21 +181,21 @@ func mustVector(o Obj) []Obj {
 
 func mustProcedure(o Obj) *scmProcedure {
 	if (*o) != scmHeadProcedure {
-		panic("mustProcedure")
+		panic(MakeError("mustProcedure"))
 	}
 	return (*scmProcedure)(unsafe.Pointer(o))
 }
 
 func mustString(o Obj) string {
 	if (*o) != scmHeadString {
-		panic("mustString")
+		panic(MakeError("mustString"))
 	}
 	return (*scmString)(unsafe.Pointer(o)).str
 }
 
 func mustInteger(o Obj) int {
 	if (*o) != scmHeadNumber {
-		panic("mustNumber")
+		panic(MakeError("mustNumber"))
 	}
 	f := (*scmNumber)(unsafe.Pointer(o)).val
 	return int(f)
@@ -179,14 +203,14 @@ func mustInteger(o Obj) int {
 
 func mustNumber(o Obj) *scmNumber {
 	if (*o) != scmHeadNumber {
-		panic("mustNumber")
+		panic(MakeError("mustNumber"))
 	}
 	return (*scmNumber)(unsafe.Pointer(o))
 }
 
 func mustSymbol(o Obj) *scmSymbol {
 	if (*o) != scmHeadSymbol {
-		panic("mustSymbol")
+		panic(MakeError("mustSymbol"))
 	}
 	return (*scmSymbol)(unsafe.Pointer(o))
 }
@@ -200,7 +224,7 @@ func isSymbol(o Obj) (bool, *scmSymbol) {
 
 func mustStream(o Obj) *scmStream {
 	if (*o) != scmHeadStream {
-		panic("mustStream")
+		panic(MakeError("mustStream"))
 	}
 	return (*scmStream)(unsafe.Pointer(o))
 }
@@ -208,7 +232,7 @@ func mustStream(o Obj) *scmStream {
 func mustPair(o Obj) *scmPair {
 	if (*o) != scmHeadPair {
 		fmt.Println(ObjString(o))
-		panic("mustPair")
+		panic(MakeError("mustPair"))
 	}
 	return (*scmPair)(unsafe.Pointer(o))
 }
