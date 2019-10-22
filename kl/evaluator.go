@@ -39,11 +39,11 @@ func NewEvaluator() *Evaluator {
 	dir, _ := os.Getwd()
 	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
 	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
-	PrimSet(MakeSymbol("*implementation*"), MakeString("interpreter"))
+	PrimSet(MakeSymbol("*implementation*"), MakeString("fusion"))
 	PrimSet(MakeSymbol("*relase*"), MakeString(runtime.Version()))
 	PrimSet(MakeSymbol("*os*"), MakeString(runtime.GOOS))
 	PrimSet(MakeSymbol("*porters*"), MakeString("Arthur Mao"))
-	PrimSet(MakeSymbol("*port*"), MakeString("0.0.1"))
+	PrimSet(MakeSymbol("*port*"), MakeString("1.0.0"))
 
 	// Extended by shen-go implementation
 	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))

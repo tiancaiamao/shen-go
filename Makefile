@@ -11,8 +11,12 @@ esc: ${GOPATH}/bin/esc
 kl:
 	go install github.com/tiancaiamao/shen-go/cmd/kl
 
+codegen/codegen.so:
+	cd codegen;
+	go build -buildmode=plugin
+
 shen:
-	go build -o shen cmd/shen/main.go
+	go build -o shen github.com/tiancaiamao/shen-go/cmd/shen
 
 docker:
 	docker build -t shen-go .
