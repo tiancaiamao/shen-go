@@ -139,9 +139,10 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 		}
 		fmt.Fprintf(w, "}, 0))\n")
 	case "$defun":
-		name := defunSymbolVar(kl.Cadr(sexp))
-		fmt.Fprintf(declare, "var %s Obj // %s\n", name, symbolString(kl.Cadr(sexp)))
-		fmt.Fprintf(w, "%s = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", name)
+		goName := defunSymbolVar(kl.Cadr(sexp))
+		shenName := symbolString(kl.Cadr(sexp))
+		fmt.Fprintf(declare, "var %s Obj // %s\n", goName, shenName)
+		fmt.Fprintf(w, "%s = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", goName)
 		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
 		args1 := kl.ListToSlice(args)
 		for i, arg := range args1 {
@@ -152,6 +153,7 @@ func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
 			return err
 		}
 		fmt.Fprintf(w, "}, %d)\n", len(args1))
+		fmt.Fprintf(w, "__initDefs = append(__initDefs, defType{name: %#v, value: %s})\n\n", shenName, goName)
 	case "$lambda":
 		dest := kl.Cadr(sexp)
 		tmp := kl.Car(kl.Cdr(kl.Cdr(sexp)))
