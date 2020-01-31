@@ -1,8 +1,0 @@
-((iFreeze (iGrab) (iConst "primitive.symbol?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst symbol?) (iDefun) (iReturn) (iHalt))
-
-((iFreeze (iGrab) (iConst "primitive.integer?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst integer?) (iDefun) (iReturn) (iHalt))
-
-((iFreeze (iGrab) (iConst "primitive.variable?") (iAccess 0) (iNativeCall 2) (iReturn)) (iConst variable?) (iDefun) (iReturn) (iHalt))
-
-
-
