@@ -1,0 +1,52 @@
+"Copyright (c) 2010-2015, Mark Tarver
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software without
+specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"
+
+(defun shen.initialise_arity_table (V421) (cond ((= () V421) ()) ((and (cons? V421) (cons? (tl V421))) (let DecArity (put (hd V421) arity (hd (tl V421)) (value *property-vector*)) (shen.initialise_arity_table (tl (tl V421))))) (true (shen.f_error shen.initialise_arity_table))))
+
+(defun arity (V423) (trap-error (get V423 arity (value *property-vector*)) (lambda E -1)))
+
+(defun systemf (V425) (let Shen (intern "shen") (let External (get Shen shen.external-symbols (value *property-vector*)) (let Place (put Shen shen.external-symbols (adjoin V425 External) (value *property-vector*)) V425))))
+
+(defun adjoin (V428 V429) (if (element? V428 V429) V429 (cons V428 V429)))
+
+(defun shen.lambda-form-entry (V431) (cond ((= package V431) ()) ((= receive V431) ()) (true (let ArityF (arity V431) (if (= ArityF -1) () (if (= ArityF 0) () (cons (cons V431 (eval-kl (shen.lambda-form V431 ArityF))) ())))))))
+
+(defun shen.lambda-form (V434 V435) (cond ((= 0 V435) V434) (true (let X (gensym V) (cons lambda (cons X (cons (shen.lambda-form (shen.add-end V434 X) (- V435 1)) ())))))))
+
+(defun shen.add-end (V438 V439) (cond ((cons? V438) (append V438 (cons V439 ()))) (true (cons V438 (cons V439 ())))))
+
+(defun shen.set-lambda-form-entry (V441) (cond ((cons? V441) (put (hd V441) shen.lambda-form (tl V441) (value *property-vector*))) (true (shen.f_error shen.set-lambda-form-entry))))
+
+(defun specialise (V443) (do (set shen.*special* (cons V443 (value shen.*special*))) V443))
+
+(defun unspecialise (V445) (do (set shen.*special* (remove V445 (value shen.*special*))) V445))
+
+
+

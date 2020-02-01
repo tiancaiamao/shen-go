@@ -26,76 +26,76 @@ var __defun__shen_4put_1profile Obj           // shen.put-profile
 
 func init() {
 	__initExprs = append(__initExprs, MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		reg307342 := MakeString("Copyright (c) 2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n1. Redistributions of source code must retain the above copyright\n   notice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above copyright\n   notice, this list of conditions and the following disclaimer in the\n   documentation and/or other materials provided with the distribution.\n3. The name of Mark Tarver may not be used to endorse or promote products\n   derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY Mark Tarver ''AS IS'' AND ANY\nEXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL Mark Tarver BE LIABLE FOR ANY\nDIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES\n(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND\nON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\nSOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.")
-		__ctx.Return(reg307342)
+		reg15974 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
+		__ctx.Return(reg15974)
 		return
 	}, 0))
 	__defun__shen_4f__error = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4048 := __args[0]
-		_ = V4048
-		reg307343 := MakeString("partial function ")
-		reg307344 := MakeString(";\n")
-		reg307345 := MakeSymbol("shen.a")
-		reg307346 := __e.Call(__defun__shen_4app, V4048, reg307344, reg307345)
-		reg307347 := PrimStringConcat(reg307343, reg307346)
-		reg307348 := __e.Call(__defun__stoutput)
-		reg307349 := __e.Call(__defun__shen_4prhush, reg307347, reg307348)
-		_ = reg307349
-		reg307350 := __e.Call(__defun__shen_4tracked_2, V4048)
-		reg307351 := PrimNot(reg307350)
-		var reg307362 Obj
-		if reg307351 == True {
-			reg307352 := MakeString("track ")
-			reg307353 := MakeString("? ")
-			reg307354 := MakeSymbol("shen.a")
-			reg307355 := __e.Call(__defun__shen_4app, V4048, reg307353, reg307354)
-			reg307356 := PrimStringConcat(reg307352, reg307355)
-			reg307357 := __e.Call(__defun__y_1or_1n_2, reg307356)
-			var reg307360 Obj
-			if reg307357 == True {
-				reg307358 := True
-				reg307360 = reg307358
+		V3105 := __args[0]
+		_ = V3105
+		reg15975 := MakeString("partial function ")
+		reg15976 := MakeString(";\n")
+		reg15977 := MakeSymbol("shen.a")
+		reg15978 := __e.Call(__defun__shen_4app, V3105, reg15976, reg15977)
+		reg15979 := PrimStringConcat(reg15975, reg15978)
+		reg15980 := __e.Call(__defun__stoutput)
+		reg15981 := __e.Call(__defun__shen_4prhush, reg15979, reg15980)
+		_ = reg15981
+		reg15982 := __e.Call(__defun__shen_4tracked_2, V3105)
+		reg15983 := PrimNot(reg15982)
+		var reg15994 Obj
+		if reg15983 == True {
+			reg15984 := MakeString("track ")
+			reg15985 := MakeString("? ")
+			reg15986 := MakeSymbol("shen.a")
+			reg15987 := __e.Call(__defun__shen_4app, V3105, reg15985, reg15986)
+			reg15988 := PrimStringConcat(reg15984, reg15987)
+			reg15989 := __e.Call(__defun__y_1or_1n_2, reg15988)
+			var reg15992 Obj
+			if reg15989 == True {
+				reg15990 := True
+				reg15992 = reg15990
 			} else {
-				reg307359 := False
-				reg307360 = reg307359
+				reg15991 := False
+				reg15992 = reg15991
 			}
-			reg307362 = reg307360
+			reg15994 = reg15992
 		} else {
-			reg307361 := False
-			reg307362 = reg307361
+			reg15993 := False
+			reg15994 = reg15993
 		}
-		var reg307366 Obj
-		if reg307362 == True {
-			reg307363 := __e.Call(__defun__ps, V4048)
-			reg307364 := __e.Call(__defun__shen_4track_1function, reg307363)
-			reg307366 = reg307364
+		var reg15998 Obj
+		if reg15994 == True {
+			reg15995 := __e.Call(__defun__ps, V3105)
+			reg15996 := __e.Call(__defun__shen_4track_1function, reg15995)
+			reg15998 = reg15996
 		} else {
-			reg307365 := MakeSymbol("shen.ok")
-			reg307366 = reg307365
+			reg15997 := MakeSymbol("shen.ok")
+			reg15998 = reg15997
 		}
-		_ = reg307366
-		reg307367 := MakeString("aborted")
-		reg307368 := PrimSimpleError(reg307367)
-		__ctx.Return(reg307368)
+		_ = reg15998
+		reg15999 := MakeString("aborted")
+		reg16000 := PrimSimpleError(reg15999)
+		__ctx.Return(reg16000)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.f_error", value: __defun__shen_4f__error})
 
 	__defun__shen_4tracked_2 = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4050 := __args[0]
-		_ = V4050
-		reg307369 := MakeSymbol("shen.*tracking*")
-		reg307370 := PrimValue(reg307369)
-		__ctx.TailApply(__defun__element_2, V4050, reg307370)
+		V3107 := __args[0]
+		_ = V3107
+		reg16001 := MakeSymbol("shen.*tracking*")
+		reg16002 := PrimValue(reg16001)
+		__ctx.TailApply(__defun__element_2, V3107, reg16002)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.tracked?", value: __defun__shen_4tracked_2})
 
 	__defun__track = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4052 := __args[0]
-		_ = V4052
-		reg307372 := __e.Call(__defun__ps, V4052)
-		Source := reg307372
+		V3109 := __args[0]
+		_ = V3109
+		reg16004 := __e.Call(__defun__ps, V3109)
+		Source := reg16004
 		_ = Source
 		__ctx.TailApply(__defun__shen_4track_1function, Source)
 		return
@@ -103,291 +103,284 @@ func init() {
 	__initDefs = append(__initDefs, defType{name: "track", value: __defun__track})
 
 	__defun__shen_4track_1function = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4054 := __args[0]
-		_ = V4054
-		reg307374 := PrimIsPair(V4054)
-		var reg307417 Obj
-		if reg307374 == True {
-			reg307375 := MakeSymbol("defun")
-			reg307376 := PrimHead(V4054)
-			reg307377 := PrimEqual(reg307375, reg307376)
-			var reg307412 Obj
-			if reg307377 == True {
-				reg307378 := PrimTail(V4054)
-				reg307379 := PrimIsPair(reg307378)
-				var reg307407 Obj
-				if reg307379 == True {
-					reg307380 := PrimTail(V4054)
-					reg307381 := PrimTail(reg307380)
-					reg307382 := PrimIsPair(reg307381)
-					var reg307402 Obj
-					if reg307382 == True {
-						reg307383 := PrimTail(V4054)
-						reg307384 := PrimTail(reg307383)
-						reg307385 := PrimTail(reg307384)
-						reg307386 := PrimIsPair(reg307385)
-						var reg307397 Obj
-						if reg307386 == True {
-							reg307387 := Nil
-							reg307388 := PrimTail(V4054)
-							reg307389 := PrimTail(reg307388)
-							reg307390 := PrimTail(reg307389)
-							reg307391 := PrimTail(reg307390)
-							reg307392 := PrimEqual(reg307387, reg307391)
-							var reg307395 Obj
-							if reg307392 == True {
-								reg307393 := True
-								reg307395 = reg307393
+		V3111 := __args[0]
+		_ = V3111
+		reg16006 := PrimIsPair(V3111)
+		var reg16049 Obj
+		if reg16006 == True {
+			reg16007 := MakeSymbol("defun")
+			reg16008 := PrimHead(V3111)
+			reg16009 := PrimEqual(reg16007, reg16008)
+			var reg16044 Obj
+			if reg16009 == True {
+				reg16010 := PrimTail(V3111)
+				reg16011 := PrimIsPair(reg16010)
+				var reg16039 Obj
+				if reg16011 == True {
+					reg16012 := PrimTail(V3111)
+					reg16013 := PrimTail(reg16012)
+					reg16014 := PrimIsPair(reg16013)
+					var reg16034 Obj
+					if reg16014 == True {
+						reg16015 := PrimTail(V3111)
+						reg16016 := PrimTail(reg16015)
+						reg16017 := PrimTail(reg16016)
+						reg16018 := PrimIsPair(reg16017)
+						var reg16029 Obj
+						if reg16018 == True {
+							reg16019 := Nil
+							reg16020 := PrimTail(V3111)
+							reg16021 := PrimTail(reg16020)
+							reg16022 := PrimTail(reg16021)
+							reg16023 := PrimTail(reg16022)
+							reg16024 := PrimEqual(reg16019, reg16023)
+							var reg16027 Obj
+							if reg16024 == True {
+								reg16025 := True
+								reg16027 = reg16025
 							} else {
-								reg307394 := False
-								reg307395 = reg307394
+								reg16026 := False
+								reg16027 = reg16026
 							}
-							reg307397 = reg307395
+							reg16029 = reg16027
 						} else {
-							reg307396 := False
-							reg307397 = reg307396
+							reg16028 := False
+							reg16029 = reg16028
 						}
-						var reg307400 Obj
-						if reg307397 == True {
-							reg307398 := True
-							reg307400 = reg307398
+						var reg16032 Obj
+						if reg16029 == True {
+							reg16030 := True
+							reg16032 = reg16030
 						} else {
-							reg307399 := False
-							reg307400 = reg307399
+							reg16031 := False
+							reg16032 = reg16031
 						}
-						reg307402 = reg307400
+						reg16034 = reg16032
 					} else {
-						reg307401 := False
-						reg307402 = reg307401
+						reg16033 := False
+						reg16034 = reg16033
 					}
-					var reg307405 Obj
-					if reg307402 == True {
-						reg307403 := True
-						reg307405 = reg307403
+					var reg16037 Obj
+					if reg16034 == True {
+						reg16035 := True
+						reg16037 = reg16035
 					} else {
-						reg307404 := False
-						reg307405 = reg307404
+						reg16036 := False
+						reg16037 = reg16036
 					}
-					reg307407 = reg307405
+					reg16039 = reg16037
 				} else {
-					reg307406 := False
-					reg307407 = reg307406
+					reg16038 := False
+					reg16039 = reg16038
 				}
-				var reg307410 Obj
-				if reg307407 == True {
-					reg307408 := True
-					reg307410 = reg307408
+				var reg16042 Obj
+				if reg16039 == True {
+					reg16040 := True
+					reg16042 = reg16040
 				} else {
-					reg307409 := False
-					reg307410 = reg307409
+					reg16041 := False
+					reg16042 = reg16041
 				}
-				reg307412 = reg307410
+				reg16044 = reg16042
 			} else {
-				reg307411 := False
-				reg307412 = reg307411
+				reg16043 := False
+				reg16044 = reg16043
 			}
-			var reg307415 Obj
-			if reg307412 == True {
-				reg307413 := True
-				reg307415 = reg307413
+			var reg16047 Obj
+			if reg16044 == True {
+				reg16045 := True
+				reg16047 = reg16045
 			} else {
-				reg307414 := False
-				reg307415 = reg307414
+				reg16046 := False
+				reg16047 = reg16046
 			}
-			reg307417 = reg307415
+			reg16049 = reg16047
 		} else {
-			reg307416 := False
-			reg307417 = reg307416
+			reg16048 := False
+			reg16049 = reg16048
 		}
-		if reg307417 == True {
-			reg307418 := MakeSymbol("defun")
-			reg307419 := PrimTail(V4054)
-			reg307420 := PrimHead(reg307419)
-			reg307421 := PrimTail(V4054)
-			reg307422 := PrimTail(reg307421)
-			reg307423 := PrimHead(reg307422)
-			reg307424 := PrimTail(V4054)
-			reg307425 := PrimHead(reg307424)
-			reg307426 := PrimTail(V4054)
-			reg307427 := PrimTail(reg307426)
-			reg307428 := PrimHead(reg307427)
-			reg307429 := PrimTail(V4054)
-			reg307430 := PrimTail(reg307429)
-			reg307431 := PrimTail(reg307430)
-			reg307432 := PrimHead(reg307431)
-			reg307433 := __e.Call(__defun__shen_4insert_1tracking_1code, reg307425, reg307428, reg307432)
-			reg307434 := Nil
-			reg307435 := PrimCons(reg307433, reg307434)
-			reg307436 := PrimCons(reg307423, reg307435)
-			reg307437 := PrimCons(reg307420, reg307436)
-			reg307438 := PrimCons(reg307418, reg307437)
-			KL := reg307438
+		if reg16049 == True {
+			reg16050 := MakeSymbol("defun")
+			reg16051 := PrimTail(V3111)
+			reg16052 := PrimHead(reg16051)
+			reg16053 := PrimTail(V3111)
+			reg16054 := PrimTail(reg16053)
+			reg16055 := PrimHead(reg16054)
+			reg16056 := PrimTail(V3111)
+			reg16057 := PrimHead(reg16056)
+			reg16058 := PrimTail(V3111)
+			reg16059 := PrimTail(reg16058)
+			reg16060 := PrimHead(reg16059)
+			reg16061 := PrimTail(V3111)
+			reg16062 := PrimTail(reg16061)
+			reg16063 := PrimTail(reg16062)
+			reg16064 := PrimHead(reg16063)
+			reg16065 := __e.Call(__defun__shen_4insert_1tracking_1code, reg16057, reg16060, reg16064)
+			reg16066 := Nil
+			reg16067 := PrimCons(reg16065, reg16066)
+			reg16068 := PrimCons(reg16055, reg16067)
+			reg16069 := PrimCons(reg16052, reg16068)
+			reg16070 := PrimCons(reg16050, reg16069)
+			KL := reg16070
 			_ = KL
-			reg307439 := PrimEvalKL(__e, KL)
-			Ob := reg307439
+			reg16071 := PrimEvalKL(__e, KL)
+			Ob := reg16071
 			_ = Ob
-			reg307440 := MakeSymbol("shen.*tracking*")
-			reg307441 := MakeSymbol("shen.*tracking*")
-			reg307442 := PrimValue(reg307441)
-			reg307443 := PrimCons(Ob, reg307442)
-			reg307444 := PrimSet(reg307440, reg307443)
-			Tr := reg307444
+			reg16072 := MakeSymbol("shen.*tracking*")
+			reg16073 := MakeSymbol("shen.*tracking*")
+			reg16074 := PrimValue(reg16073)
+			reg16075 := PrimCons(Ob, reg16074)
+			reg16076 := PrimSet(reg16072, reg16075)
+			Tr := reg16076
 			_ = Tr
 			__ctx.Return(Ob)
 			return
 		} else {
-			reg307445 := MakeSymbol("shen.track-function")
-			__ctx.TailApply(__defun__shen_4f__error, reg307445)
+			reg16077 := MakeSymbol("shen.track-function")
+			__ctx.TailApply(__defun__shen_4f__error, reg16077)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.track-function", value: __defun__shen_4track_1function})
 
 	__defun__shen_4insert_1tracking_1code = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4058 := __args[0]
-		_ = V4058
-		V4059 := __args[1]
-		_ = V4059
-		V4060 := __args[2]
-		_ = V4060
-		reg307447 := MakeSymbol("do")
-		reg307448 := MakeSymbol("set")
-		reg307449 := MakeSymbol("shen.*call*")
-		reg307450 := MakeSymbol("+")
-		reg307451 := MakeSymbol("value")
-		reg307452 := MakeSymbol("shen.*call*")
-		reg307453 := Nil
-		reg307454 := PrimCons(reg307452, reg307453)
-		reg307455 := PrimCons(reg307451, reg307454)
-		reg307456 := MakeNumber(1)
-		reg307457 := Nil
-		reg307458 := PrimCons(reg307456, reg307457)
-		reg307459 := PrimCons(reg307455, reg307458)
-		reg307460 := PrimCons(reg307450, reg307459)
-		reg307461 := Nil
-		reg307462 := PrimCons(reg307460, reg307461)
-		reg307463 := PrimCons(reg307449, reg307462)
-		reg307464 := PrimCons(reg307448, reg307463)
-		reg307465 := MakeSymbol("do")
-		reg307466 := MakeSymbol("shen.input-track")
-		reg307467 := MakeSymbol("value")
-		reg307468 := MakeSymbol("shen.*call*")
-		reg307469 := Nil
-		reg307470 := PrimCons(reg307468, reg307469)
-		reg307471 := PrimCons(reg307467, reg307470)
-		reg307472 := __e.Call(__defun__shen_4cons__form, V4059)
-		reg307473 := Nil
-		reg307474 := PrimCons(reg307472, reg307473)
-		reg307475 := PrimCons(V4058, reg307474)
-		reg307476 := PrimCons(reg307471, reg307475)
-		reg307477 := PrimCons(reg307466, reg307476)
-		reg307478 := MakeSymbol("do")
-		reg307479 := MakeSymbol("shen.terpri-or-read-char")
-		reg307480 := Nil
-		reg307481 := PrimCons(reg307479, reg307480)
-		reg307482 := MakeSymbol("let")
-		reg307483 := MakeSymbol("Result")
-		reg307484 := MakeSymbol("do")
-		reg307485 := MakeSymbol("shen.output-track")
-		reg307486 := MakeSymbol("value")
-		reg307487 := MakeSymbol("shen.*call*")
-		reg307488 := Nil
-		reg307489 := PrimCons(reg307487, reg307488)
-		reg307490 := PrimCons(reg307486, reg307489)
-		reg307491 := MakeSymbol("Result")
-		reg307492 := Nil
-		reg307493 := PrimCons(reg307491, reg307492)
-		reg307494 := PrimCons(V4058, reg307493)
-		reg307495 := PrimCons(reg307490, reg307494)
-		reg307496 := PrimCons(reg307485, reg307495)
-		reg307497 := MakeSymbol("do")
-		reg307498 := MakeSymbol("set")
-		reg307499 := MakeSymbol("shen.*call*")
-		reg307500 := MakeSymbol("-")
-		reg307501 := MakeSymbol("value")
-		reg307502 := MakeSymbol("shen.*call*")
-		reg307503 := Nil
-		reg307504 := PrimCons(reg307502, reg307503)
-		reg307505 := PrimCons(reg307501, reg307504)
-		reg307506 := MakeNumber(1)
-		reg307507 := Nil
-		reg307508 := PrimCons(reg307506, reg307507)
-		reg307509 := PrimCons(reg307505, reg307508)
-		reg307510 := PrimCons(reg307500, reg307509)
-		reg307511 := Nil
-		reg307512 := PrimCons(reg307510, reg307511)
-		reg307513 := PrimCons(reg307499, reg307512)
-		reg307514 := PrimCons(reg307498, reg307513)
-		reg307515 := MakeSymbol("do")
-		reg307516 := MakeSymbol("shen.terpri-or-read-char")
-		reg307517 := Nil
-		reg307518 := PrimCons(reg307516, reg307517)
-		reg307519 := MakeSymbol("Result")
-		reg307520 := Nil
-		reg307521 := PrimCons(reg307519, reg307520)
-		reg307522 := PrimCons(reg307518, reg307521)
-		reg307523 := PrimCons(reg307515, reg307522)
-		reg307524 := Nil
-		reg307525 := PrimCons(reg307523, reg307524)
-		reg307526 := PrimCons(reg307514, reg307525)
-		reg307527 := PrimCons(reg307497, reg307526)
-		reg307528 := Nil
-		reg307529 := PrimCons(reg307527, reg307528)
-		reg307530 := PrimCons(reg307496, reg307529)
-		reg307531 := PrimCons(reg307484, reg307530)
-		reg307532 := Nil
-		reg307533 := PrimCons(reg307531, reg307532)
-		reg307534 := PrimCons(V4060, reg307533)
-		reg307535 := PrimCons(reg307483, reg307534)
-		reg307536 := PrimCons(reg307482, reg307535)
-		reg307537 := Nil
-		reg307538 := PrimCons(reg307536, reg307537)
-		reg307539 := PrimCons(reg307481, reg307538)
-		reg307540 := PrimCons(reg307478, reg307539)
-		reg307541 := Nil
-		reg307542 := PrimCons(reg307540, reg307541)
-		reg307543 := PrimCons(reg307477, reg307542)
-		reg307544 := PrimCons(reg307465, reg307543)
-		reg307545 := Nil
-		reg307546 := PrimCons(reg307544, reg307545)
-		reg307547 := PrimCons(reg307464, reg307546)
-		reg307548 := PrimCons(reg307447, reg307547)
-		__ctx.Return(reg307548)
+		V3115 := __args[0]
+		_ = V3115
+		V3116 := __args[1]
+		_ = V3116
+		V3117 := __args[2]
+		_ = V3117
+		reg16079 := MakeSymbol("do")
+		reg16080 := MakeSymbol("set")
+		reg16081 := MakeSymbol("shen.*call*")
+		reg16082 := MakeSymbol("+")
+		reg16083 := MakeSymbol("value")
+		reg16084 := MakeSymbol("shen.*call*")
+		reg16085 := Nil
+		reg16086 := PrimCons(reg16084, reg16085)
+		reg16087 := PrimCons(reg16083, reg16086)
+		reg16088 := MakeNumber(1)
+		reg16089 := Nil
+		reg16090 := PrimCons(reg16088, reg16089)
+		reg16091 := PrimCons(reg16087, reg16090)
+		reg16092 := PrimCons(reg16082, reg16091)
+		reg16093 := Nil
+		reg16094 := PrimCons(reg16092, reg16093)
+		reg16095 := PrimCons(reg16081, reg16094)
+		reg16096 := PrimCons(reg16080, reg16095)
+		reg16097 := MakeSymbol("do")
+		reg16098 := MakeSymbol("shen.input-track")
+		reg16099 := MakeSymbol("value")
+		reg16100 := MakeSymbol("shen.*call*")
+		reg16101 := Nil
+		reg16102 := PrimCons(reg16100, reg16101)
+		reg16103 := PrimCons(reg16099, reg16102)
+		reg16104 := __e.Call(__defun__shen_4cons__form, V3116)
+		reg16105 := Nil
+		reg16106 := PrimCons(reg16104, reg16105)
+		reg16107 := PrimCons(V3115, reg16106)
+		reg16108 := PrimCons(reg16103, reg16107)
+		reg16109 := PrimCons(reg16098, reg16108)
+		reg16110 := MakeSymbol("do")
+		reg16111 := MakeSymbol("shen.terpri-or-read-char")
+		reg16112 := Nil
+		reg16113 := PrimCons(reg16111, reg16112)
+		reg16114 := MakeSymbol("let")
+		reg16115 := MakeSymbol("Result")
+		reg16116 := MakeSymbol("do")
+		reg16117 := MakeSymbol("shen.output-track")
+		reg16118 := MakeSymbol("value")
+		reg16119 := MakeSymbol("shen.*call*")
+		reg16120 := Nil
+		reg16121 := PrimCons(reg16119, reg16120)
+		reg16122 := PrimCons(reg16118, reg16121)
+		reg16123 := MakeSymbol("Result")
+		reg16124 := Nil
+		reg16125 := PrimCons(reg16123, reg16124)
+		reg16126 := PrimCons(V3115, reg16125)
+		reg16127 := PrimCons(reg16122, reg16126)
+		reg16128 := PrimCons(reg16117, reg16127)
+		reg16129 := MakeSymbol("do")
+		reg16130 := MakeSymbol("set")
+		reg16131 := MakeSymbol("shen.*call*")
+		reg16132 := MakeSymbol("-")
+		reg16133 := MakeSymbol("value")
+		reg16134 := MakeSymbol("shen.*call*")
+		reg16135 := Nil
+		reg16136 := PrimCons(reg16134, reg16135)
+		reg16137 := PrimCons(reg16133, reg16136)
+		reg16138 := MakeNumber(1)
+		reg16139 := Nil
+		reg16140 := PrimCons(reg16138, reg16139)
+		reg16141 := PrimCons(reg16137, reg16140)
+		reg16142 := PrimCons(reg16132, reg16141)
+		reg16143 := Nil
+		reg16144 := PrimCons(reg16142, reg16143)
+		reg16145 := PrimCons(reg16131, reg16144)
+		reg16146 := PrimCons(reg16130, reg16145)
+		reg16147 := MakeSymbol("do")
+		reg16148 := MakeSymbol("shen.terpri-or-read-char")
+		reg16149 := Nil
+		reg16150 := PrimCons(reg16148, reg16149)
+		reg16151 := MakeSymbol("Result")
+		reg16152 := Nil
+		reg16153 := PrimCons(reg16151, reg16152)
+		reg16154 := PrimCons(reg16150, reg16153)
+		reg16155 := PrimCons(reg16147, reg16154)
+		reg16156 := Nil
+		reg16157 := PrimCons(reg16155, reg16156)
+		reg16158 := PrimCons(reg16146, reg16157)
+		reg16159 := PrimCons(reg16129, reg16158)
+		reg16160 := Nil
+		reg16161 := PrimCons(reg16159, reg16160)
+		reg16162 := PrimCons(reg16128, reg16161)
+		reg16163 := PrimCons(reg16116, reg16162)
+		reg16164 := Nil
+		reg16165 := PrimCons(reg16163, reg16164)
+		reg16166 := PrimCons(V3117, reg16165)
+		reg16167 := PrimCons(reg16115, reg16166)
+		reg16168 := PrimCons(reg16114, reg16167)
+		reg16169 := Nil
+		reg16170 := PrimCons(reg16168, reg16169)
+		reg16171 := PrimCons(reg16113, reg16170)
+		reg16172 := PrimCons(reg16110, reg16171)
+		reg16173 := Nil
+		reg16174 := PrimCons(reg16172, reg16173)
+		reg16175 := PrimCons(reg16109, reg16174)
+		reg16176 := PrimCons(reg16097, reg16175)
+		reg16177 := Nil
+		reg16178 := PrimCons(reg16176, reg16177)
+		reg16179 := PrimCons(reg16096, reg16178)
+		reg16180 := PrimCons(reg16079, reg16179)
+		__ctx.Return(reg16180)
 		return
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.insert-tracking-code", value: __defun__shen_4insert_1tracking_1code})
 
-	__initExprs = append(__initExprs, MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		reg307549 := MakeSymbol("shen.*step*")
-		reg307550 := False
-		reg307551 := PrimSet(reg307549, reg307550)
-		__ctx.Return(reg307551)
-		return
-	}, 0))
 	__defun__step = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4066 := __args[0]
-		_ = V4066
-		reg307552 := MakeSymbol("+")
-		reg307553 := PrimEqual(reg307552, V4066)
-		if reg307553 == True {
-			reg307554 := MakeSymbol("shen.*step*")
-			reg307555 := True
-			reg307556 := PrimSet(reg307554, reg307555)
-			__ctx.Return(reg307556)
+		V3123 := __args[0]
+		_ = V3123
+		reg16181 := MakeSymbol("+")
+		reg16182 := PrimEqual(reg16181, V3123)
+		if reg16182 == True {
+			reg16183 := MakeSymbol("shen.*step*")
+			reg16184 := True
+			reg16185 := PrimSet(reg16183, reg16184)
+			__ctx.Return(reg16185)
 			return
 		} else {
-			reg307557 := MakeSymbol("-")
-			reg307558 := PrimEqual(reg307557, V4066)
-			if reg307558 == True {
-				reg307559 := MakeSymbol("shen.*step*")
-				reg307560 := False
-				reg307561 := PrimSet(reg307559, reg307560)
-				__ctx.Return(reg307561)
+			reg16186 := MakeSymbol("-")
+			reg16187 := PrimEqual(reg16186, V3123)
+			if reg16187 == True {
+				reg16188 := MakeSymbol("shen.*step*")
+				reg16189 := False
+				reg16190 := PrimSet(reg16188, reg16189)
+				__ctx.Return(reg16190)
 				return
 			} else {
-				reg307562 := MakeString("step expects a + or a -.\n")
-				reg307563 := PrimSimpleError(reg307562)
-				__ctx.Return(reg307563)
+				reg16191 := MakeString("step expects a + or a -.\n")
+				reg16192 := PrimSimpleError(reg16191)
+				__ctx.Return(reg16192)
 				return
 			}
 		}
@@ -395,29 +388,29 @@ func init() {
 	__initDefs = append(__initDefs, defType{name: "step", value: __defun__step})
 
 	__defun__spy = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4072 := __args[0]
-		_ = V4072
-		reg307564 := MakeSymbol("+")
-		reg307565 := PrimEqual(reg307564, V4072)
-		if reg307565 == True {
-			reg307566 := MakeSymbol("shen.*spy*")
-			reg307567 := True
-			reg307568 := PrimSet(reg307566, reg307567)
-			__ctx.Return(reg307568)
+		V3129 := __args[0]
+		_ = V3129
+		reg16193 := MakeSymbol("+")
+		reg16194 := PrimEqual(reg16193, V3129)
+		if reg16194 == True {
+			reg16195 := MakeSymbol("shen.*spy*")
+			reg16196 := True
+			reg16197 := PrimSet(reg16195, reg16196)
+			__ctx.Return(reg16197)
 			return
 		} else {
-			reg307569 := MakeSymbol("-")
-			reg307570 := PrimEqual(reg307569, V4072)
-			if reg307570 == True {
-				reg307571 := MakeSymbol("shen.*spy*")
-				reg307572 := False
-				reg307573 := PrimSet(reg307571, reg307572)
-				__ctx.Return(reg307573)
+			reg16198 := MakeSymbol("-")
+			reg16199 := PrimEqual(reg16198, V3129)
+			if reg16199 == True {
+				reg16200 := MakeSymbol("shen.*spy*")
+				reg16201 := False
+				reg16202 := PrimSet(reg16200, reg16201)
+				__ctx.Return(reg16202)
 				return
 			} else {
-				reg307574 := MakeString("spy expects a + or a -.\n")
-				reg307575 := PrimSimpleError(reg307574)
-				__ctx.Return(reg307575)
+				reg16203 := MakeString("spy expects a + or a -.\n")
+				reg16204 := PrimSimpleError(reg16203)
+				__ctx.Return(reg16204)
 				return
 			}
 		}
@@ -425,100 +418,100 @@ func init() {
 	__initDefs = append(__initDefs, defType{name: "spy", value: __defun__spy})
 
 	__defun__shen_4terpri_1or_1read_1char = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		reg307576 := MakeSymbol("shen.*step*")
-		reg307577 := PrimValue(reg307576)
-		if reg307577 == True {
-			reg307578 := MakeSymbol("*stinput*")
-			reg307579 := PrimValue(reg307578)
-			reg307580 := PrimReadByte(reg307579)
-			__ctx.TailApply(__defun__shen_4check_1byte, reg307580)
+		reg16205 := MakeSymbol("shen.*step*")
+		reg16206 := PrimValue(reg16205)
+		if reg16206 == True {
+			reg16207 := MakeSymbol("*stinput*")
+			reg16208 := PrimValue(reg16207)
+			reg16209 := PrimReadByte(reg16208)
+			__ctx.TailApply(__defun__shen_4check_1byte, reg16209)
 			return
 		} else {
-			reg307582 := MakeNumber(1)
-			__ctx.TailApply(__defun__nl, reg307582)
+			reg16211 := MakeNumber(1)
+			__ctx.TailApply(__defun__nl, reg16211)
 			return
 		}
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "shen.terpri-or-read-char", value: __defun__shen_4terpri_1or_1read_1char})
 
 	__defun__shen_4check_1byte = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4078 := __args[0]
-		_ = V4078
-		reg307584 := __e.Call(__defun__shen_4hat)
-		reg307585 := PrimEqual(V4078, reg307584)
-		if reg307585 == True {
-			reg307586 := MakeString("aborted")
-			reg307587 := PrimSimpleError(reg307586)
-			__ctx.Return(reg307587)
+		V3135 := __args[0]
+		_ = V3135
+		reg16213 := __e.Call(__defun__shen_4hat)
+		reg16214 := PrimEqual(V3135, reg16213)
+		if reg16214 == True {
+			reg16215 := MakeString("aborted")
+			reg16216 := PrimSimpleError(reg16215)
+			__ctx.Return(reg16216)
 			return
 		} else {
-			reg307588 := True
-			__ctx.Return(reg307588)
+			reg16217 := True
+			__ctx.Return(reg16217)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.check-byte", value: __defun__shen_4check_1byte})
 
 	__defun__shen_4input_1track = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4082 := __args[0]
-		_ = V4082
-		V4083 := __args[1]
-		_ = V4083
-		V4084 := __args[2]
-		_ = V4084
-		reg307589 := MakeString("\n")
-		reg307590 := __e.Call(__defun__shen_4spaces, V4082)
-		reg307591 := MakeString("<")
-		reg307592 := MakeString("> Inputs to ")
-		reg307593 := MakeString(" \n")
-		reg307594 := __e.Call(__defun__shen_4spaces, V4082)
-		reg307595 := MakeString("")
-		reg307596 := MakeSymbol("shen.a")
-		reg307597 := __e.Call(__defun__shen_4app, reg307594, reg307595, reg307596)
-		reg307598 := PrimStringConcat(reg307593, reg307597)
-		reg307599 := MakeSymbol("shen.a")
-		reg307600 := __e.Call(__defun__shen_4app, V4083, reg307598, reg307599)
-		reg307601 := PrimStringConcat(reg307592, reg307600)
-		reg307602 := MakeSymbol("shen.a")
-		reg307603 := __e.Call(__defun__shen_4app, V4082, reg307601, reg307602)
-		reg307604 := PrimStringConcat(reg307591, reg307603)
-		reg307605 := MakeSymbol("shen.a")
-		reg307606 := __e.Call(__defun__shen_4app, reg307590, reg307604, reg307605)
-		reg307607 := PrimStringConcat(reg307589, reg307606)
-		reg307608 := __e.Call(__defun__stoutput)
-		reg307609 := __e.Call(__defun__shen_4prhush, reg307607, reg307608)
-		_ = reg307609
-		__ctx.TailApply(__defun__shen_4recursively_1print, V4084)
+		V3139 := __args[0]
+		_ = V3139
+		V3140 := __args[1]
+		_ = V3140
+		V3141 := __args[2]
+		_ = V3141
+		reg16218 := MakeString("\n")
+		reg16219 := __e.Call(__defun__shen_4spaces, V3139)
+		reg16220 := MakeString("<")
+		reg16221 := MakeString("> Inputs to ")
+		reg16222 := MakeString(" \n")
+		reg16223 := __e.Call(__defun__shen_4spaces, V3139)
+		reg16224 := MakeString("")
+		reg16225 := MakeSymbol("shen.a")
+		reg16226 := __e.Call(__defun__shen_4app, reg16223, reg16224, reg16225)
+		reg16227 := PrimStringConcat(reg16222, reg16226)
+		reg16228 := MakeSymbol("shen.a")
+		reg16229 := __e.Call(__defun__shen_4app, V3140, reg16227, reg16228)
+		reg16230 := PrimStringConcat(reg16221, reg16229)
+		reg16231 := MakeSymbol("shen.a")
+		reg16232 := __e.Call(__defun__shen_4app, V3139, reg16230, reg16231)
+		reg16233 := PrimStringConcat(reg16220, reg16232)
+		reg16234 := MakeSymbol("shen.a")
+		reg16235 := __e.Call(__defun__shen_4app, reg16219, reg16233, reg16234)
+		reg16236 := PrimStringConcat(reg16218, reg16235)
+		reg16237 := __e.Call(__defun__stoutput)
+		reg16238 := __e.Call(__defun__shen_4prhush, reg16236, reg16237)
+		_ = reg16238
+		__ctx.TailApply(__defun__shen_4recursively_1print, V3141)
 		return
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.input-track", value: __defun__shen_4input_1track})
 
 	__defun__shen_4recursively_1print = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4086 := __args[0]
-		_ = V4086
-		reg307611 := Nil
-		reg307612 := PrimEqual(reg307611, V4086)
-		if reg307612 == True {
-			reg307613 := MakeString(" ==>")
-			reg307614 := __e.Call(__defun__stoutput)
-			__ctx.TailApply(__defun__shen_4prhush, reg307613, reg307614)
+		V3143 := __args[0]
+		_ = V3143
+		reg16240 := Nil
+		reg16241 := PrimEqual(reg16240, V3143)
+		if reg16241 == True {
+			reg16242 := MakeString(" ==>")
+			reg16243 := __e.Call(__defun__stoutput)
+			__ctx.TailApply(__defun__shen_4prhush, reg16242, reg16243)
 			return
 		} else {
-			reg307616 := PrimIsPair(V4086)
-			if reg307616 == True {
-				reg307617 := PrimHead(V4086)
-				reg307618 := __e.Call(__defun__print, reg307617)
-				_ = reg307618
-				reg307619 := MakeString(", ")
-				reg307620 := __e.Call(__defun__stoutput)
-				reg307621 := __e.Call(__defun__shen_4prhush, reg307619, reg307620)
-				_ = reg307621
-				reg307622 := PrimTail(V4086)
-				__ctx.TailApply(__defun__shen_4recursively_1print, reg307622)
+			reg16245 := PrimIsPair(V3143)
+			if reg16245 == True {
+				reg16246 := PrimHead(V3143)
+				reg16247 := __e.Call(__defun__print, reg16246)
+				_ = reg16247
+				reg16248 := MakeString(", ")
+				reg16249 := __e.Call(__defun__stoutput)
+				reg16250 := __e.Call(__defun__shen_4prhush, reg16248, reg16249)
+				_ = reg16250
+				reg16251 := PrimTail(V3143)
+				__ctx.TailApply(__defun__shen_4recursively_1print, reg16251)
 				return
 			} else {
-				reg307624 := MakeSymbol("shen.recursively-print")
-				__ctx.TailApply(__defun__shen_4f__error, reg307624)
+				reg16253 := MakeSymbol("shen.recursively-print")
+				__ctx.TailApply(__defun__shen_4f__error, reg16253)
 				return
 			}
 		}
@@ -526,378 +519,378 @@ func init() {
 	__initDefs = append(__initDefs, defType{name: "shen.recursively-print", value: __defun__shen_4recursively_1print})
 
 	__defun__shen_4spaces = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4088 := __args[0]
-		_ = V4088
-		reg307626 := MakeNumber(0)
-		reg307627 := PrimEqual(reg307626, V4088)
-		if reg307627 == True {
-			reg307628 := MakeString("")
-			__ctx.Return(reg307628)
+		V3145 := __args[0]
+		_ = V3145
+		reg16255 := MakeNumber(0)
+		reg16256 := PrimEqual(reg16255, V3145)
+		if reg16256 == True {
+			reg16257 := MakeString("")
+			__ctx.Return(reg16257)
 			return
 		} else {
-			reg307629 := MakeString(" ")
-			reg307630 := MakeNumber(1)
-			reg307631 := PrimNumberSubtract(V4088, reg307630)
-			reg307632 := __e.Call(__defun__shen_4spaces, reg307631)
-			reg307633 := PrimStringConcat(reg307629, reg307632)
-			__ctx.Return(reg307633)
+			reg16258 := MakeString(" ")
+			reg16259 := MakeNumber(1)
+			reg16260 := PrimNumberSubtract(V3145, reg16259)
+			reg16261 := __e.Call(__defun__shen_4spaces, reg16260)
+			reg16262 := PrimStringConcat(reg16258, reg16261)
+			__ctx.Return(reg16262)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.spaces", value: __defun__shen_4spaces})
 
 	__defun__shen_4output_1track = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4092 := __args[0]
-		_ = V4092
-		V4093 := __args[1]
-		_ = V4093
-		V4094 := __args[2]
-		_ = V4094
-		reg307634 := MakeString("\n")
-		reg307635 := __e.Call(__defun__shen_4spaces, V4092)
-		reg307636 := MakeString("<")
-		reg307637 := MakeString("> Output from ")
-		reg307638 := MakeString(" \n")
-		reg307639 := __e.Call(__defun__shen_4spaces, V4092)
-		reg307640 := MakeString("==> ")
-		reg307641 := MakeString("")
-		reg307642 := MakeSymbol("shen.s")
-		reg307643 := __e.Call(__defun__shen_4app, V4094, reg307641, reg307642)
-		reg307644 := PrimStringConcat(reg307640, reg307643)
-		reg307645 := MakeSymbol("shen.a")
-		reg307646 := __e.Call(__defun__shen_4app, reg307639, reg307644, reg307645)
-		reg307647 := PrimStringConcat(reg307638, reg307646)
-		reg307648 := MakeSymbol("shen.a")
-		reg307649 := __e.Call(__defun__shen_4app, V4093, reg307647, reg307648)
-		reg307650 := PrimStringConcat(reg307637, reg307649)
-		reg307651 := MakeSymbol("shen.a")
-		reg307652 := __e.Call(__defun__shen_4app, V4092, reg307650, reg307651)
-		reg307653 := PrimStringConcat(reg307636, reg307652)
-		reg307654 := MakeSymbol("shen.a")
-		reg307655 := __e.Call(__defun__shen_4app, reg307635, reg307653, reg307654)
-		reg307656 := PrimStringConcat(reg307634, reg307655)
-		reg307657 := __e.Call(__defun__stoutput)
-		__ctx.TailApply(__defun__shen_4prhush, reg307656, reg307657)
+		V3149 := __args[0]
+		_ = V3149
+		V3150 := __args[1]
+		_ = V3150
+		V3151 := __args[2]
+		_ = V3151
+		reg16263 := MakeString("\n")
+		reg16264 := __e.Call(__defun__shen_4spaces, V3149)
+		reg16265 := MakeString("<")
+		reg16266 := MakeString("> Output from ")
+		reg16267 := MakeString(" \n")
+		reg16268 := __e.Call(__defun__shen_4spaces, V3149)
+		reg16269 := MakeString("==> ")
+		reg16270 := MakeString("")
+		reg16271 := MakeSymbol("shen.s")
+		reg16272 := __e.Call(__defun__shen_4app, V3151, reg16270, reg16271)
+		reg16273 := PrimStringConcat(reg16269, reg16272)
+		reg16274 := MakeSymbol("shen.a")
+		reg16275 := __e.Call(__defun__shen_4app, reg16268, reg16273, reg16274)
+		reg16276 := PrimStringConcat(reg16267, reg16275)
+		reg16277 := MakeSymbol("shen.a")
+		reg16278 := __e.Call(__defun__shen_4app, V3150, reg16276, reg16277)
+		reg16279 := PrimStringConcat(reg16266, reg16278)
+		reg16280 := MakeSymbol("shen.a")
+		reg16281 := __e.Call(__defun__shen_4app, V3149, reg16279, reg16280)
+		reg16282 := PrimStringConcat(reg16265, reg16281)
+		reg16283 := MakeSymbol("shen.a")
+		reg16284 := __e.Call(__defun__shen_4app, reg16264, reg16282, reg16283)
+		reg16285 := PrimStringConcat(reg16263, reg16284)
+		reg16286 := __e.Call(__defun__stoutput)
+		__ctx.TailApply(__defun__shen_4prhush, reg16285, reg16286)
 		return
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.output-track", value: __defun__shen_4output_1track})
 
 	__defun__untrack = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4096 := __args[0]
-		_ = V4096
-		reg307659 := MakeSymbol("shen.*tracking*")
-		reg307660 := PrimValue(reg307659)
-		Tracking := reg307660
+		V3153 := __args[0]
+		_ = V3153
+		reg16288 := MakeSymbol("shen.*tracking*")
+		reg16289 := PrimValue(reg16288)
+		Tracking := reg16289
 		_ = Tracking
-		reg307661 := MakeSymbol("shen.*tracking*")
-		reg307662 := __e.Call(__defun__remove, V4096, Tracking)
-		reg307663 := PrimSet(reg307661, reg307662)
-		Tracking = reg307663
+		reg16290 := MakeSymbol("shen.*tracking*")
+		reg16291 := __e.Call(__defun__remove, V3153, Tracking)
+		reg16292 := PrimSet(reg16290, reg16291)
+		Tracking = reg16292
 		_ = Tracking
-		reg307664 := __e.Call(__defun__ps, V4096)
-		__ctx.TailApply(__defun__eval, reg307664)
+		reg16293 := __e.Call(__defun__ps, V3153)
+		__ctx.TailApply(__defun__eval, reg16293)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "untrack", value: __defun__untrack})
 
 	__defun__profile = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4098 := __args[0]
-		_ = V4098
-		reg307666 := __e.Call(__defun__ps, V4098)
-		__ctx.TailApply(__defun__shen_4profile_1help, reg307666)
+		V3155 := __args[0]
+		_ = V3155
+		reg16295 := __e.Call(__defun__ps, V3155)
+		__ctx.TailApply(__defun__shen_4profile_1help, reg16295)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "profile", value: __defun__profile})
 
 	__defun__shen_4profile_1help = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4104 := __args[0]
-		_ = V4104
-		reg307668 := PrimIsPair(V4104)
-		var reg307711 Obj
-		if reg307668 == True {
-			reg307669 := MakeSymbol("defun")
-			reg307670 := PrimHead(V4104)
-			reg307671 := PrimEqual(reg307669, reg307670)
-			var reg307706 Obj
-			if reg307671 == True {
-				reg307672 := PrimTail(V4104)
-				reg307673 := PrimIsPair(reg307672)
-				var reg307701 Obj
-				if reg307673 == True {
-					reg307674 := PrimTail(V4104)
-					reg307675 := PrimTail(reg307674)
-					reg307676 := PrimIsPair(reg307675)
-					var reg307696 Obj
-					if reg307676 == True {
-						reg307677 := PrimTail(V4104)
-						reg307678 := PrimTail(reg307677)
-						reg307679 := PrimTail(reg307678)
-						reg307680 := PrimIsPair(reg307679)
-						var reg307691 Obj
-						if reg307680 == True {
-							reg307681 := Nil
-							reg307682 := PrimTail(V4104)
-							reg307683 := PrimTail(reg307682)
-							reg307684 := PrimTail(reg307683)
-							reg307685 := PrimTail(reg307684)
-							reg307686 := PrimEqual(reg307681, reg307685)
-							var reg307689 Obj
-							if reg307686 == True {
-								reg307687 := True
-								reg307689 = reg307687
+		V3161 := __args[0]
+		_ = V3161
+		reg16297 := PrimIsPair(V3161)
+		var reg16340 Obj
+		if reg16297 == True {
+			reg16298 := MakeSymbol("defun")
+			reg16299 := PrimHead(V3161)
+			reg16300 := PrimEqual(reg16298, reg16299)
+			var reg16335 Obj
+			if reg16300 == True {
+				reg16301 := PrimTail(V3161)
+				reg16302 := PrimIsPair(reg16301)
+				var reg16330 Obj
+				if reg16302 == True {
+					reg16303 := PrimTail(V3161)
+					reg16304 := PrimTail(reg16303)
+					reg16305 := PrimIsPair(reg16304)
+					var reg16325 Obj
+					if reg16305 == True {
+						reg16306 := PrimTail(V3161)
+						reg16307 := PrimTail(reg16306)
+						reg16308 := PrimTail(reg16307)
+						reg16309 := PrimIsPair(reg16308)
+						var reg16320 Obj
+						if reg16309 == True {
+							reg16310 := Nil
+							reg16311 := PrimTail(V3161)
+							reg16312 := PrimTail(reg16311)
+							reg16313 := PrimTail(reg16312)
+							reg16314 := PrimTail(reg16313)
+							reg16315 := PrimEqual(reg16310, reg16314)
+							var reg16318 Obj
+							if reg16315 == True {
+								reg16316 := True
+								reg16318 = reg16316
 							} else {
-								reg307688 := False
-								reg307689 = reg307688
+								reg16317 := False
+								reg16318 = reg16317
 							}
-							reg307691 = reg307689
+							reg16320 = reg16318
 						} else {
-							reg307690 := False
-							reg307691 = reg307690
+							reg16319 := False
+							reg16320 = reg16319
 						}
-						var reg307694 Obj
-						if reg307691 == True {
-							reg307692 := True
-							reg307694 = reg307692
+						var reg16323 Obj
+						if reg16320 == True {
+							reg16321 := True
+							reg16323 = reg16321
 						} else {
-							reg307693 := False
-							reg307694 = reg307693
+							reg16322 := False
+							reg16323 = reg16322
 						}
-						reg307696 = reg307694
+						reg16325 = reg16323
 					} else {
-						reg307695 := False
-						reg307696 = reg307695
+						reg16324 := False
+						reg16325 = reg16324
 					}
-					var reg307699 Obj
-					if reg307696 == True {
-						reg307697 := True
-						reg307699 = reg307697
+					var reg16328 Obj
+					if reg16325 == True {
+						reg16326 := True
+						reg16328 = reg16326
 					} else {
-						reg307698 := False
-						reg307699 = reg307698
+						reg16327 := False
+						reg16328 = reg16327
 					}
-					reg307701 = reg307699
+					reg16330 = reg16328
 				} else {
-					reg307700 := False
-					reg307701 = reg307700
+					reg16329 := False
+					reg16330 = reg16329
 				}
-				var reg307704 Obj
-				if reg307701 == True {
-					reg307702 := True
-					reg307704 = reg307702
+				var reg16333 Obj
+				if reg16330 == True {
+					reg16331 := True
+					reg16333 = reg16331
 				} else {
-					reg307703 := False
-					reg307704 = reg307703
+					reg16332 := False
+					reg16333 = reg16332
 				}
-				reg307706 = reg307704
+				reg16335 = reg16333
 			} else {
-				reg307705 := False
-				reg307706 = reg307705
+				reg16334 := False
+				reg16335 = reg16334
 			}
-			var reg307709 Obj
-			if reg307706 == True {
-				reg307707 := True
-				reg307709 = reg307707
+			var reg16338 Obj
+			if reg16335 == True {
+				reg16336 := True
+				reg16338 = reg16336
 			} else {
-				reg307708 := False
-				reg307709 = reg307708
+				reg16337 := False
+				reg16338 = reg16337
 			}
-			reg307711 = reg307709
+			reg16340 = reg16338
 		} else {
-			reg307710 := False
-			reg307711 = reg307710
+			reg16339 := False
+			reg16340 = reg16339
 		}
-		if reg307711 == True {
-			reg307712 := MakeSymbol("shen.f")
-			reg307713 := __e.Call(__defun__gensym, reg307712)
-			G := reg307713
+		if reg16340 == True {
+			reg16341 := MakeSymbol("shen.f")
+			reg16342 := __e.Call(__defun__gensym, reg16341)
+			G := reg16342
 			_ = G
-			reg307714 := MakeSymbol("defun")
-			reg307715 := PrimTail(V4104)
-			reg307716 := PrimHead(reg307715)
-			reg307717 := PrimTail(V4104)
-			reg307718 := PrimTail(reg307717)
-			reg307719 := PrimHead(reg307718)
-			reg307720 := PrimTail(V4104)
-			reg307721 := PrimHead(reg307720)
-			reg307722 := PrimTail(V4104)
-			reg307723 := PrimTail(reg307722)
-			reg307724 := PrimHead(reg307723)
-			reg307725 := PrimTail(V4104)
-			reg307726 := PrimTail(reg307725)
-			reg307727 := PrimHead(reg307726)
-			reg307728 := PrimCons(G, reg307727)
-			reg307729 := __e.Call(__defun__shen_4profile_1func, reg307721, reg307724, reg307728)
-			reg307730 := Nil
-			reg307731 := PrimCons(reg307729, reg307730)
-			reg307732 := PrimCons(reg307719, reg307731)
-			reg307733 := PrimCons(reg307716, reg307732)
-			reg307734 := PrimCons(reg307714, reg307733)
-			Profile := reg307734
+			reg16343 := MakeSymbol("defun")
+			reg16344 := PrimTail(V3161)
+			reg16345 := PrimHead(reg16344)
+			reg16346 := PrimTail(V3161)
+			reg16347 := PrimTail(reg16346)
+			reg16348 := PrimHead(reg16347)
+			reg16349 := PrimTail(V3161)
+			reg16350 := PrimHead(reg16349)
+			reg16351 := PrimTail(V3161)
+			reg16352 := PrimTail(reg16351)
+			reg16353 := PrimHead(reg16352)
+			reg16354 := PrimTail(V3161)
+			reg16355 := PrimTail(reg16354)
+			reg16356 := PrimHead(reg16355)
+			reg16357 := PrimCons(G, reg16356)
+			reg16358 := __e.Call(__defun__shen_4profile_1func, reg16350, reg16353, reg16357)
+			reg16359 := Nil
+			reg16360 := PrimCons(reg16358, reg16359)
+			reg16361 := PrimCons(reg16348, reg16360)
+			reg16362 := PrimCons(reg16345, reg16361)
+			reg16363 := PrimCons(reg16343, reg16362)
+			Profile := reg16363
 			_ = Profile
-			reg307735 := MakeSymbol("defun")
-			reg307736 := PrimTail(V4104)
-			reg307737 := PrimTail(reg307736)
-			reg307738 := PrimHead(reg307737)
-			reg307739 := PrimTail(V4104)
-			reg307740 := PrimHead(reg307739)
-			reg307741 := PrimTail(V4104)
-			reg307742 := PrimTail(reg307741)
-			reg307743 := PrimTail(reg307742)
-			reg307744 := PrimHead(reg307743)
-			reg307745 := __e.Call(__defun__subst, G, reg307740, reg307744)
-			reg307746 := Nil
-			reg307747 := PrimCons(reg307745, reg307746)
-			reg307748 := PrimCons(reg307738, reg307747)
-			reg307749 := PrimCons(G, reg307748)
-			reg307750 := PrimCons(reg307735, reg307749)
-			Def := reg307750
+			reg16364 := MakeSymbol("defun")
+			reg16365 := PrimTail(V3161)
+			reg16366 := PrimTail(reg16365)
+			reg16367 := PrimHead(reg16366)
+			reg16368 := PrimTail(V3161)
+			reg16369 := PrimHead(reg16368)
+			reg16370 := PrimTail(V3161)
+			reg16371 := PrimTail(reg16370)
+			reg16372 := PrimTail(reg16371)
+			reg16373 := PrimHead(reg16372)
+			reg16374 := __e.Call(__defun__subst, G, reg16369, reg16373)
+			reg16375 := Nil
+			reg16376 := PrimCons(reg16374, reg16375)
+			reg16377 := PrimCons(reg16367, reg16376)
+			reg16378 := PrimCons(G, reg16377)
+			reg16379 := PrimCons(reg16364, reg16378)
+			Def := reg16379
 			_ = Def
-			reg307751 := __e.Call(__defun__shen_4eval_1without_1macros, Profile)
-			CompileProfile := reg307751
+			reg16380 := __e.Call(__defun__shen_4eval_1without_1macros, Profile)
+			CompileProfile := reg16380
 			_ = CompileProfile
-			reg307752 := __e.Call(__defun__shen_4eval_1without_1macros, Def)
-			CompileG := reg307752
+			reg16381 := __e.Call(__defun__shen_4eval_1without_1macros, Def)
+			CompileG := reg16381
 			_ = CompileG
-			reg307753 := PrimTail(V4104)
-			reg307754 := PrimHead(reg307753)
-			__ctx.Return(reg307754)
+			reg16382 := PrimTail(V3161)
+			reg16383 := PrimHead(reg16382)
+			__ctx.Return(reg16383)
 			return
 		} else {
-			reg307755 := MakeString("Cannot profile.\n")
-			reg307756 := PrimSimpleError(reg307755)
-			__ctx.Return(reg307756)
+			reg16384 := MakeString("Cannot profile.\n")
+			reg16385 := PrimSimpleError(reg16384)
+			__ctx.Return(reg16385)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.profile-help", value: __defun__shen_4profile_1help})
 
 	__defun__unprofile = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4106 := __args[0]
-		_ = V4106
-		__ctx.TailApply(__defun__untrack, V4106)
+		V3163 := __args[0]
+		_ = V3163
+		__ctx.TailApply(__defun__untrack, V3163)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "unprofile", value: __defun__unprofile})
 
 	__defun__shen_4profile_1func = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4110 := __args[0]
-		_ = V4110
-		V4111 := __args[1]
-		_ = V4111
-		V4112 := __args[2]
-		_ = V4112
-		reg307758 := MakeSymbol("let")
-		reg307759 := MakeSymbol("Start")
-		reg307760 := MakeSymbol("get-time")
-		reg307761 := MakeSymbol("run")
-		reg307762 := Nil
-		reg307763 := PrimCons(reg307761, reg307762)
-		reg307764 := PrimCons(reg307760, reg307763)
-		reg307765 := MakeSymbol("let")
-		reg307766 := MakeSymbol("Result")
-		reg307767 := MakeSymbol("let")
-		reg307768 := MakeSymbol("Finish")
-		reg307769 := MakeSymbol("-")
-		reg307770 := MakeSymbol("get-time")
-		reg307771 := MakeSymbol("run")
-		reg307772 := Nil
-		reg307773 := PrimCons(reg307771, reg307772)
-		reg307774 := PrimCons(reg307770, reg307773)
-		reg307775 := MakeSymbol("Start")
-		reg307776 := Nil
-		reg307777 := PrimCons(reg307775, reg307776)
-		reg307778 := PrimCons(reg307774, reg307777)
-		reg307779 := PrimCons(reg307769, reg307778)
-		reg307780 := MakeSymbol("let")
-		reg307781 := MakeSymbol("Record")
-		reg307782 := MakeSymbol("shen.put-profile")
-		reg307783 := MakeSymbol("+")
-		reg307784 := MakeSymbol("shen.get-profile")
-		reg307785 := Nil
-		reg307786 := PrimCons(V4110, reg307785)
-		reg307787 := PrimCons(reg307784, reg307786)
-		reg307788 := MakeSymbol("Finish")
-		reg307789 := Nil
-		reg307790 := PrimCons(reg307788, reg307789)
-		reg307791 := PrimCons(reg307787, reg307790)
-		reg307792 := PrimCons(reg307783, reg307791)
-		reg307793 := Nil
-		reg307794 := PrimCons(reg307792, reg307793)
-		reg307795 := PrimCons(V4110, reg307794)
-		reg307796 := PrimCons(reg307782, reg307795)
-		reg307797 := MakeSymbol("Result")
-		reg307798 := Nil
-		reg307799 := PrimCons(reg307797, reg307798)
-		reg307800 := PrimCons(reg307796, reg307799)
-		reg307801 := PrimCons(reg307781, reg307800)
-		reg307802 := PrimCons(reg307780, reg307801)
-		reg307803 := Nil
-		reg307804 := PrimCons(reg307802, reg307803)
-		reg307805 := PrimCons(reg307779, reg307804)
-		reg307806 := PrimCons(reg307768, reg307805)
-		reg307807 := PrimCons(reg307767, reg307806)
-		reg307808 := Nil
-		reg307809 := PrimCons(reg307807, reg307808)
-		reg307810 := PrimCons(V4112, reg307809)
-		reg307811 := PrimCons(reg307766, reg307810)
-		reg307812 := PrimCons(reg307765, reg307811)
-		reg307813 := Nil
-		reg307814 := PrimCons(reg307812, reg307813)
-		reg307815 := PrimCons(reg307764, reg307814)
-		reg307816 := PrimCons(reg307759, reg307815)
-		reg307817 := PrimCons(reg307758, reg307816)
-		__ctx.Return(reg307817)
+		V3167 := __args[0]
+		_ = V3167
+		V3168 := __args[1]
+		_ = V3168
+		V3169 := __args[2]
+		_ = V3169
+		reg16387 := MakeSymbol("let")
+		reg16388 := MakeSymbol("Start")
+		reg16389 := MakeSymbol("get-time")
+		reg16390 := MakeSymbol("run")
+		reg16391 := Nil
+		reg16392 := PrimCons(reg16390, reg16391)
+		reg16393 := PrimCons(reg16389, reg16392)
+		reg16394 := MakeSymbol("let")
+		reg16395 := MakeSymbol("Result")
+		reg16396 := MakeSymbol("let")
+		reg16397 := MakeSymbol("Finish")
+		reg16398 := MakeSymbol("-")
+		reg16399 := MakeSymbol("get-time")
+		reg16400 := MakeSymbol("run")
+		reg16401 := Nil
+		reg16402 := PrimCons(reg16400, reg16401)
+		reg16403 := PrimCons(reg16399, reg16402)
+		reg16404 := MakeSymbol("Start")
+		reg16405 := Nil
+		reg16406 := PrimCons(reg16404, reg16405)
+		reg16407 := PrimCons(reg16403, reg16406)
+		reg16408 := PrimCons(reg16398, reg16407)
+		reg16409 := MakeSymbol("let")
+		reg16410 := MakeSymbol("Record")
+		reg16411 := MakeSymbol("shen.put-profile")
+		reg16412 := MakeSymbol("+")
+		reg16413 := MakeSymbol("shen.get-profile")
+		reg16414 := Nil
+		reg16415 := PrimCons(V3167, reg16414)
+		reg16416 := PrimCons(reg16413, reg16415)
+		reg16417 := MakeSymbol("Finish")
+		reg16418 := Nil
+		reg16419 := PrimCons(reg16417, reg16418)
+		reg16420 := PrimCons(reg16416, reg16419)
+		reg16421 := PrimCons(reg16412, reg16420)
+		reg16422 := Nil
+		reg16423 := PrimCons(reg16421, reg16422)
+		reg16424 := PrimCons(V3167, reg16423)
+		reg16425 := PrimCons(reg16411, reg16424)
+		reg16426 := MakeSymbol("Result")
+		reg16427 := Nil
+		reg16428 := PrimCons(reg16426, reg16427)
+		reg16429 := PrimCons(reg16425, reg16428)
+		reg16430 := PrimCons(reg16410, reg16429)
+		reg16431 := PrimCons(reg16409, reg16430)
+		reg16432 := Nil
+		reg16433 := PrimCons(reg16431, reg16432)
+		reg16434 := PrimCons(reg16408, reg16433)
+		reg16435 := PrimCons(reg16397, reg16434)
+		reg16436 := PrimCons(reg16396, reg16435)
+		reg16437 := Nil
+		reg16438 := PrimCons(reg16436, reg16437)
+		reg16439 := PrimCons(V3169, reg16438)
+		reg16440 := PrimCons(reg16395, reg16439)
+		reg16441 := PrimCons(reg16394, reg16440)
+		reg16442 := Nil
+		reg16443 := PrimCons(reg16441, reg16442)
+		reg16444 := PrimCons(reg16393, reg16443)
+		reg16445 := PrimCons(reg16388, reg16444)
+		reg16446 := PrimCons(reg16387, reg16445)
+		__ctx.Return(reg16446)
 		return
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.profile-func", value: __defun__shen_4profile_1func})
 
 	__defun__profile_1results = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4114 := __args[0]
-		_ = V4114
-		reg307818 := __e.Call(__defun__shen_4get_1profile, V4114)
-		Results := reg307818
+		V3171 := __args[0]
+		_ = V3171
+		reg16447 := __e.Call(__defun__shen_4get_1profile, V3171)
+		Results := reg16447
 		_ = Results
-		reg307819 := MakeNumber(0)
-		reg307820 := __e.Call(__defun__shen_4put_1profile, V4114, reg307819)
-		Initialise := reg307820
+		reg16448 := MakeNumber(0)
+		reg16449 := __e.Call(__defun__shen_4put_1profile, V3171, reg16448)
+		Initialise := reg16449
 		_ = Initialise
-		__ctx.TailApply(__defun___8p, V4114, Results)
+		__ctx.TailApply(__defun___8p, V3171, Results)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "profile-results", value: __defun__profile_1results})
 
 	__defun__shen_4get_1profile = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4116 := __args[0]
-		_ = V4116
-		reg307822 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-			reg307823 := MakeSymbol("profile")
-			reg307824 := MakeSymbol("*property-vector*")
-			reg307825 := PrimValue(reg307824)
-			__ctx.TailApply(__defun__get, V4116, reg307823, reg307825)
+		V3173 := __args[0]
+		_ = V3173
+		reg16451 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg16452 := MakeSymbol("profile")
+			reg16453 := MakeSymbol("*property-vector*")
+			reg16454 := PrimValue(reg16453)
+			__ctx.TailApply(__defun__get, V3173, reg16452, reg16454)
 			return
 		}, 0)
-		reg307827 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg16456 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 			E := __args[0]
 			_ = E
-			reg307828 := MakeNumber(0)
-			__ctx.Return(reg307828)
+			reg16457 := MakeNumber(0)
+			__ctx.Return(reg16457)
 			return
 		}, 1)
-		reg307829 := __e.Try(reg307822).Catch(reg307827)
-		__ctx.Return(reg307829)
+		reg16458 := __e.Try(reg16451).Catch(reg16456)
+		__ctx.Return(reg16458)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.get-profile", value: __defun__shen_4get_1profile})
 
 	__defun__shen_4put_1profile = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		V4119 := __args[0]
-		_ = V4119
-		V4120 := __args[1]
-		_ = V4120
-		reg307830 := MakeSymbol("profile")
-		reg307831 := MakeSymbol("*property-vector*")
-		reg307832 := PrimValue(reg307831)
-		__ctx.TailApply(__defun__put, V4119, reg307830, V4120, reg307832)
+		V3176 := __args[0]
+		_ = V3176
+		V3177 := __args[1]
+		_ = V3177
+		reg16459 := MakeSymbol("profile")
+		reg16460 := MakeSymbol("*property-vector*")
+		reg16461 := PrimValue(reg16460)
+		__ctx.TailApply(__defun__put, V3176, reg16459, V3177, reg16461)
 		return
 	}, 2)
 	__initDefs = append(__initDefs, defType{name: "shen.put-profile", value: __defun__shen_4put_1profile})

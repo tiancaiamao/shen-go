@@ -21,50 +21,50 @@ var __defun__shen_4dict_1values Obj // shen.dict-values
 
 func init() {
 __initExprs = append(__initExprs, MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-reg297325 := MakeString("Copyright (c) 2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n1. Redistributions of source code must retain the above copyright\n   notice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above copyright\n   notice, this list of conditions and the following disclaimer in the\n   documentation and/or other materials provided with the distribution.\n3. The name of Mark Tarver may not be used to endorse or promote products\n   derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY Mark Tarver ''AS IS'' AND ANY\nEXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL Mark Tarver BE LIABLE FOR ANY\nDIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES\n(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND\nON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\nSOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.")
-__ctx.Return(reg297325)
+reg5830 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
+__ctx.Return(reg5830)
 return
 }, 0))
 __defun__shen_4dict = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3255 := __args[0]
-_ = V3255
-reg297326 := MakeNumber(1)
-reg297327 := PrimLessThan(V3255, reg297326)
-if reg297327 == True {
-reg297328 := MakeString("invalid initial dict size: ")
-reg297329 := MakeString("")
-reg297330 := MakeSymbol("shen.s")
-reg297331 := __e.Call(__defun__shen_4app, V3255, reg297329, reg297330)
-reg297332 := PrimStringConcat(reg297328, reg297331)
-reg297333 := PrimSimpleError(reg297332)
-__ctx.Return(reg297333)
+V2312 := __args[0]
+_ = V2312
+reg5831 := MakeNumber(1)
+reg5832 := PrimLessThan(V2312, reg5831)
+if reg5832 == True {
+reg5833 := MakeString("invalid initial dict size: ")
+reg5834 := MakeString("")
+reg5835 := MakeSymbol("shen.s")
+reg5836 := __e.Call(__defun__shen_4app, V2312, reg5834, reg5835)
+reg5837 := PrimStringConcat(reg5833, reg5836)
+reg5838 := PrimSimpleError(reg5837)
+__ctx.Return(reg5838)
 return
 } else {
-reg297334 := MakeNumber(3)
-reg297335 := PrimNumberAdd(reg297334, V3255)
-reg297336 := PrimAbsvector(reg297335)
-D := reg297336
+reg5839 := MakeNumber(3)
+reg5840 := PrimNumberAdd(reg5839, V2312)
+reg5841 := PrimAbsvector(reg5840)
+D := reg5841
 _ = D
-reg297337 := MakeNumber(0)
-reg297338 := MakeSymbol("shen.dictionary")
-reg297339 := PrimVectorSet(D, reg297337, reg297338)
-Tag := reg297339
+reg5842 := MakeNumber(0)
+reg5843 := MakeSymbol("shen.dictionary")
+reg5844 := PrimVectorSet(D, reg5842, reg5843)
+Tag := reg5844
 _ = Tag
-reg297340 := MakeNumber(1)
-reg297341 := PrimVectorSet(D, reg297340, V3255)
-Capacity := reg297341
+reg5845 := MakeNumber(1)
+reg5846 := PrimVectorSet(D, reg5845, V2312)
+Capacity := reg5846
 _ = Capacity
-reg297342 := MakeNumber(2)
-reg297343 := MakeNumber(0)
-reg297344 := PrimVectorSet(D, reg297342, reg297343)
-Count := reg297344
+reg5847 := MakeNumber(2)
+reg5848 := MakeNumber(0)
+reg5849 := PrimVectorSet(D, reg5847, reg5848)
+Count := reg5849
 _ = Count
-reg297345 := MakeNumber(3)
-reg297346 := MakeNumber(2)
-reg297347 := PrimNumberAdd(reg297346, V3255)
-reg297348 := Nil;
-reg297349 := __e.Call(__defun__shen_4fillvector, D, reg297345, reg297347, reg297348)
-Fill := reg297349
+reg5850 := MakeNumber(3)
+reg5851 := MakeNumber(2)
+reg5852 := PrimNumberAdd(reg5851, V2312)
+reg5853 := Nil;
+reg5854 := __e.Call(__defun__shen_4fillvector, D, reg5850, reg5852, reg5853)
+Fill := reg5854
 _ = Fill
 __ctx.Return(D)
 return
@@ -73,298 +73,298 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.dict", value: __defun__shen_4dict})
 
 __defun__shen_4dict_2 = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3257 := __args[0]
-_ = V3257
-reg297350 := PrimIsVector(V3257)
-if reg297350 == True {
-reg297351 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-reg297352 := MakeNumber(0)
-reg297353 := PrimVectorGet(V3257, reg297352)
-__ctx.Return(reg297353)
+V2314 := __args[0]
+_ = V2314
+reg5855 := PrimIsVector(V2314)
+if reg5855 == True {
+reg5856 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg5857 := MakeNumber(0)
+reg5858 := PrimVectorGet(V2314, reg5857)
+__ctx.Return(reg5858)
 return
 }, 0)
-reg297354 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg5859 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 E := __args[0]
 _ = E
-reg297355 := MakeSymbol("shen.not-dictionary")
-__ctx.Return(reg297355)
+reg5860 := MakeSymbol("shen.not-dictionary")
+__ctx.Return(reg5860)
 return
 }, 1)
-reg297356 := __e.Try(reg297351).Catch(reg297354)
-reg297357 := MakeSymbol("shen.dictionary")
-reg297358 := PrimEqual(reg297356, reg297357)
-if reg297358 == True {
-reg297359 := True;
-__ctx.Return(reg297359)
+reg5861 := __e.Try(reg5856).Catch(reg5859)
+reg5862 := MakeSymbol("shen.dictionary")
+reg5863 := PrimEqual(reg5861, reg5862)
+if reg5863 == True {
+reg5864 := True;
+__ctx.Return(reg5864)
 return
 } else {
-reg297360 := False;
-__ctx.Return(reg297360)
+reg5865 := False;
+__ctx.Return(reg5865)
 return
 }
 } else {
-reg297361 := False;
-__ctx.Return(reg297361)
+reg5866 := False;
+__ctx.Return(reg5866)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.dict?", value: __defun__shen_4dict_2})
 
 __defun__shen_4dict_1capacity = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3259 := __args[0]
-_ = V3259
-reg297362 := MakeNumber(1)
-reg297363 := PrimVectorGet(V3259, reg297362)
-__ctx.Return(reg297363)
+V2316 := __args[0]
+_ = V2316
+reg5867 := MakeNumber(1)
+reg5868 := PrimVectorGet(V2316, reg5867)
+__ctx.Return(reg5868)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.dict-capacity", value: __defun__shen_4dict_1capacity})
 
 __defun__shen_4dict_1count = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3261 := __args[0]
-_ = V3261
-reg297364 := MakeNumber(2)
-reg297365 := PrimVectorGet(V3261, reg297364)
-__ctx.Return(reg297365)
+V2318 := __args[0]
+_ = V2318
+reg5869 := MakeNumber(2)
+reg5870 := PrimVectorGet(V2318, reg5869)
+__ctx.Return(reg5870)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.dict-count", value: __defun__shen_4dict_1count})
 
 __defun__shen_4dict_1count_1_6 = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3264 := __args[0]
-_ = V3264
-V3265 := __args[1]
-_ = V3265
-reg297366 := MakeNumber(2)
-reg297367 := PrimVectorSet(V3264, reg297366, V3265)
-__ctx.Return(reg297367)
+V2321 := __args[0]
+_ = V2321
+V2322 := __args[1]
+_ = V2322
+reg5871 := MakeNumber(2)
+reg5872 := PrimVectorSet(V2321, reg5871, V2322)
+__ctx.Return(reg5872)
 return
 }, 2)
 __initDefs = append(__initDefs, defType{name: "shen.dict-count->", value: __defun__shen_4dict_1count_1_6})
 
 __defun__shen_4_5_1dict_1bucket = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3268 := __args[0]
-_ = V3268
-V3269 := __args[1]
-_ = V3269
-reg297368 := MakeNumber(3)
-reg297369 := PrimNumberAdd(reg297368, V3269)
-reg297370 := PrimVectorGet(V3268, reg297369)
-__ctx.Return(reg297370)
+V2325 := __args[0]
+_ = V2325
+V2326 := __args[1]
+_ = V2326
+reg5873 := MakeNumber(3)
+reg5874 := PrimNumberAdd(reg5873, V2326)
+reg5875 := PrimVectorGet(V2325, reg5874)
+__ctx.Return(reg5875)
 return
 }, 2)
 __initDefs = append(__initDefs, defType{name: "shen.<-dict-bucket", value: __defun__shen_4_5_1dict_1bucket})
 
 __defun__shen_4dict_1bucket_1_6 = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3273 := __args[0]
-_ = V3273
-V3274 := __args[1]
-_ = V3274
-V3275 := __args[2]
-_ = V3275
-reg297371 := MakeNumber(3)
-reg297372 := PrimNumberAdd(reg297371, V3274)
-reg297373 := PrimVectorSet(V3273, reg297372, V3275)
-__ctx.Return(reg297373)
+V2330 := __args[0]
+_ = V2330
+V2331 := __args[1]
+_ = V2331
+V2332 := __args[2]
+_ = V2332
+reg5876 := MakeNumber(3)
+reg5877 := PrimNumberAdd(reg5876, V2331)
+reg5878 := PrimVectorSet(V2330, reg5877, V2332)
+__ctx.Return(reg5878)
 return
 }, 3)
 __initDefs = append(__initDefs, defType{name: "shen.dict-bucket->", value: __defun__shen_4dict_1bucket_1_6})
 
 __defun__shen_4dict_1update_1count = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3279 := __args[0]
-_ = V3279
-V3280 := __args[1]
-_ = V3280
-V3281 := __args[2]
-_ = V3281
-reg297374 := __e.Call(__defun__length, V3281)
-reg297375 := __e.Call(__defun__length, V3280)
-reg297376 := PrimNumberSubtract(reg297374, reg297375)
-Diff := reg297376
+V2336 := __args[0]
+_ = V2336
+V2337 := __args[1]
+_ = V2337
+V2338 := __args[2]
+_ = V2338
+reg5879 := __e.Call(__defun__length, V2338)
+reg5880 := __e.Call(__defun__length, V2337)
+reg5881 := PrimNumberSubtract(reg5879, reg5880)
+Diff := reg5881
 _ = Diff
-reg297377 := __e.Call(__defun__shen_4dict_1count, V3279)
-reg297378 := PrimNumberAdd(Diff, reg297377)
-__ctx.TailApply(__defun__shen_4dict_1count_1_6, V3279, reg297378)
+reg5882 := __e.Call(__defun__shen_4dict_1count, V2336)
+reg5883 := PrimNumberAdd(Diff, reg5882)
+__ctx.TailApply(__defun__shen_4dict_1count_1_6, V2336, reg5883)
 return
 }, 3)
 __initDefs = append(__initDefs, defType{name: "shen.dict-update-count", value: __defun__shen_4dict_1update_1count})
 
 __defun__shen_4dict_1_6 = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3285 := __args[0]
-_ = V3285
-V3286 := __args[1]
-_ = V3286
-V3287 := __args[2]
-_ = V3287
-reg297380 := __e.Call(__defun__shen_4dict_1capacity, V3285)
-reg297381 := __e.Call(__defun__hash, V3286, reg297380)
-N := reg297381
+V2342 := __args[0]
+_ = V2342
+V2343 := __args[1]
+_ = V2343
+V2344 := __args[2]
+_ = V2344
+reg5885 := __e.Call(__defun__shen_4dict_1capacity, V2342)
+reg5886 := __e.Call(__defun__hash, V2343, reg5885)
+N := reg5886
 _ = N
-reg297382 := __e.Call(__defun__shen_4_5_1dict_1bucket, V3285, N)
-Bucket := reg297382
+reg5887 := __e.Call(__defun__shen_4_5_1dict_1bucket, V2342, N)
+Bucket := reg5887
 _ = Bucket
-reg297383 := __e.Call(__defun__shen_4assoc_1set, V3286, V3287, Bucket)
-NewBucket := reg297383
+reg5888 := __e.Call(__defun__shen_4assoc_1set, V2343, V2344, Bucket)
+NewBucket := reg5888
 _ = NewBucket
-reg297384 := __e.Call(__defun__shen_4dict_1bucket_1_6, V3285, N, NewBucket)
-Change := reg297384
+reg5889 := __e.Call(__defun__shen_4dict_1bucket_1_6, V2342, N, NewBucket)
+Change := reg5889
 _ = Change
-reg297385 := __e.Call(__defun__shen_4dict_1update_1count, V3285, Bucket, NewBucket)
-Count := reg297385
+reg5890 := __e.Call(__defun__shen_4dict_1update_1count, V2342, Bucket, NewBucket)
+Count := reg5890
 _ = Count
-__ctx.Return(V3287)
+__ctx.Return(V2344)
 return
 }, 3)
 __initDefs = append(__initDefs, defType{name: "shen.dict->", value: __defun__shen_4dict_1_6})
 
 __defun__shen_4_5_1dict = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3290 := __args[0]
-_ = V3290
-V3291 := __args[1]
-_ = V3291
-reg297386 := __e.Call(__defun__shen_4dict_1capacity, V3290)
-reg297387 := __e.Call(__defun__hash, V3291, reg297386)
-N := reg297387
+V2347 := __args[0]
+_ = V2347
+V2348 := __args[1]
+_ = V2348
+reg5891 := __e.Call(__defun__shen_4dict_1capacity, V2347)
+reg5892 := __e.Call(__defun__hash, V2348, reg5891)
+N := reg5892
 _ = N
-reg297388 := __e.Call(__defun__shen_4_5_1dict_1bucket, V3290, N)
-Bucket := reg297388
+reg5893 := __e.Call(__defun__shen_4_5_1dict_1bucket, V2347, N)
+Bucket := reg5893
 _ = Bucket
-reg297389 := __e.Call(__defun__assoc, V3291, Bucket)
-Result := reg297389
+reg5894 := __e.Call(__defun__assoc, V2348, Bucket)
+Result := reg5894
 _ = Result
-reg297390 := __e.Call(__defun__empty_2, Result)
-if reg297390 == True {
-reg297391 := MakeString("value ")
-reg297392 := MakeString(" not found in dict\n")
-reg297393 := MakeSymbol("shen.a")
-reg297394 := __e.Call(__defun__shen_4app, V3291, reg297392, reg297393)
-reg297395 := PrimStringConcat(reg297391, reg297394)
-reg297396 := PrimSimpleError(reg297395)
-__ctx.Return(reg297396)
+reg5895 := __e.Call(__defun__empty_2, Result)
+if reg5895 == True {
+reg5896 := MakeString("value ")
+reg5897 := MakeString(" not found in dict\n")
+reg5898 := MakeSymbol("shen.a")
+reg5899 := __e.Call(__defun__shen_4app, V2348, reg5897, reg5898)
+reg5900 := PrimStringConcat(reg5896, reg5899)
+reg5901 := PrimSimpleError(reg5900)
+__ctx.Return(reg5901)
 return
 } else {
-reg297397 := PrimTail(Result)
-__ctx.Return(reg297397)
+reg5902 := PrimTail(Result)
+__ctx.Return(reg5902)
 return
 }
 }, 2)
 __initDefs = append(__initDefs, defType{name: "shen.<-dict", value: __defun__shen_4_5_1dict})
 
 __defun__shen_4dict_1rm = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3294 := __args[0]
-_ = V3294
-V3295 := __args[1]
-_ = V3295
-reg297398 := __e.Call(__defun__shen_4dict_1capacity, V3294)
-reg297399 := __e.Call(__defun__hash, V3295, reg297398)
-N := reg297399
+V2351 := __args[0]
+_ = V2351
+V2352 := __args[1]
+_ = V2352
+reg5903 := __e.Call(__defun__shen_4dict_1capacity, V2351)
+reg5904 := __e.Call(__defun__hash, V2352, reg5903)
+N := reg5904
 _ = N
-reg297400 := __e.Call(__defun__shen_4_5_1dict_1bucket, V3294, N)
-Bucket := reg297400
+reg5905 := __e.Call(__defun__shen_4_5_1dict_1bucket, V2351, N)
+Bucket := reg5905
 _ = Bucket
-reg297401 := __e.Call(__defun__shen_4assoc_1rm, V3295, Bucket)
-NewBucket := reg297401
+reg5906 := __e.Call(__defun__shen_4assoc_1rm, V2352, Bucket)
+NewBucket := reg5906
 _ = NewBucket
-reg297402 := __e.Call(__defun__shen_4dict_1bucket_1_6, V3294, N, NewBucket)
-Change := reg297402
+reg5907 := __e.Call(__defun__shen_4dict_1bucket_1_6, V2351, N, NewBucket)
+Change := reg5907
 _ = Change
-reg297403 := __e.Call(__defun__shen_4dict_1update_1count, V3294, Bucket, NewBucket)
-Count := reg297403
+reg5908 := __e.Call(__defun__shen_4dict_1update_1count, V2351, Bucket, NewBucket)
+Count := reg5908
 _ = Count
-__ctx.Return(V3295)
+__ctx.Return(V2352)
 return
 }, 2)
 __initDefs = append(__initDefs, defType{name: "shen.dict-rm", value: __defun__shen_4dict_1rm})
 
 __defun__shen_4dict_1fold = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3299 := __args[0]
-_ = V3299
-V3300 := __args[1]
-_ = V3300
-V3301 := __args[2]
-_ = V3301
-reg297404 := __e.Call(__defun__shen_4dict_1capacity, V3300)
-Limit := reg297404
+V2356 := __args[0]
+_ = V2356
+V2357 := __args[1]
+_ = V2357
+V2358 := __args[2]
+_ = V2358
+reg5909 := __e.Call(__defun__shen_4dict_1capacity, V2357)
+Limit := reg5909
 _ = Limit
-reg297405 := MakeNumber(0)
-__ctx.TailApply(__defun__shen_4dict_1fold_1h, V3299, V3300, V3301, reg297405, Limit)
+reg5910 := MakeNumber(0)
+__ctx.TailApply(__defun__shen_4dict_1fold_1h, V2356, V2357, V2358, reg5910, Limit)
 return
 }, 3)
 __initDefs = append(__initDefs, defType{name: "shen.dict-fold", value: __defun__shen_4dict_1fold})
 
 __defun__shen_4dict_1fold_1h = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3308 := __args[0]
-_ = V3308
-V3309 := __args[1]
-_ = V3309
-V3310 := __args[2]
-_ = V3310
-V3311 := __args[3]
-_ = V3311
-V3312 := __args[4]
-_ = V3312
-reg297407 := PrimEqual(V3312, V3311)
-if reg297407 == True {
-__ctx.Return(V3310)
+V2365 := __args[0]
+_ = V2365
+V2366 := __args[1]
+_ = V2366
+V2367 := __args[2]
+_ = V2367
+V2368 := __args[3]
+_ = V2368
+V2369 := __args[4]
+_ = V2369
+reg5912 := PrimEqual(V2369, V2368)
+if reg5912 == True {
+__ctx.Return(V2367)
 return
 } else {
-reg297408 := __e.Call(__defun__shen_4_5_1dict_1bucket, V3309, V3311)
-B := reg297408
+reg5913 := __e.Call(__defun__shen_4_5_1dict_1bucket, V2366, V2368)
+B := reg5913
 _ = B
-reg297409 := __e.Call(__defun__shen_4bucket_1fold, V3308, B, V3310)
-Acc := reg297409
+reg5914 := __e.Call(__defun__shen_4bucket_1fold, V2365, B, V2367)
+Acc := reg5914
 _ = Acc
-reg297410 := MakeNumber(1)
-reg297411 := PrimNumberAdd(reg297410, V3311)
-__ctx.TailApply(__defun__shen_4dict_1fold_1h, V3308, V3309, Acc, reg297411, V3312)
+reg5915 := MakeNumber(1)
+reg5916 := PrimNumberAdd(reg5915, V2368)
+__ctx.TailApply(__defun__shen_4dict_1fold_1h, V2365, V2366, Acc, reg5916, V2369)
 return
 }
 }, 5)
 __initDefs = append(__initDefs, defType{name: "shen.dict-fold-h", value: __defun__shen_4dict_1fold_1h})
 
 __defun__shen_4bucket_1fold = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3316 := __args[0]
-_ = V3316
-V3317 := __args[1]
-_ = V3317
-V3318 := __args[2]
-_ = V3318
-reg297413 := Nil;
-reg297414 := PrimEqual(reg297413, V3317)
-if reg297414 == True {
-__ctx.Return(V3318)
+V2373 := __args[0]
+_ = V2373
+V2374 := __args[1]
+_ = V2374
+V2375 := __args[2]
+_ = V2375
+reg5918 := Nil;
+reg5919 := PrimEqual(reg5918, V2374)
+if reg5919 == True {
+__ctx.Return(V2375)
 return
 } else {
-reg297415 := PrimIsPair(V3317)
-var reg297422 Obj
-if reg297415 == True {
-reg297416 := PrimHead(V3317)
-reg297417 := PrimIsPair(reg297416)
-var reg297420 Obj
-if reg297417 == True {
-reg297418 := True;
-reg297420 = reg297418
+reg5920 := PrimIsPair(V2374)
+var reg5927 Obj
+if reg5920 == True {
+reg5921 := PrimHead(V2374)
+reg5922 := PrimIsPair(reg5921)
+var reg5925 Obj
+if reg5922 == True {
+reg5923 := True;
+reg5925 = reg5923
 } else {
-reg297419 := False;
-reg297420 = reg297419
+reg5924 := False;
+reg5925 = reg5924
 }
-reg297422 = reg297420
+reg5927 = reg5925
 } else {
-reg297421 := False;
-reg297422 = reg297421
+reg5926 := False;
+reg5927 = reg5926
 }
-if reg297422 == True {
-reg297423 := PrimHead(V3317)
-reg297424 := PrimHead(reg297423)
-reg297425 := PrimHead(V3317)
-reg297426 := PrimTail(reg297425)
-reg297427 := PrimTail(V3317)
-reg297428 := __e.Call(__defun__shen_4bucket_1fold, V3316, reg297427, V3318)
-__ctx.TailApply(V3316, reg297424, reg297426, reg297428)
+if reg5927 == True {
+reg5928 := PrimHead(V2374)
+reg5929 := PrimHead(reg5928)
+reg5930 := PrimHead(V2374)
+reg5931 := PrimTail(reg5930)
+reg5932 := PrimTail(V2374)
+reg5933 := __e.Call(__defun__shen_4bucket_1fold, V2373, reg5932, V2375)
+__ctx.TailApply(V2373, reg5929, reg5931, reg5933)
 return
 } else {
-reg297430 := MakeSymbol("shen.bucket-fold")
-__ctx.TailApply(__defun__shen_4f__error, reg297430)
+reg5935 := MakeSymbol("shen.bucket-fold")
+__ctx.TailApply(__defun__shen_4f__error, reg5935)
 return
 }
 }
@@ -372,57 +372,57 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.bucket-fold", value: __defun__shen_4bucket_1fold})
 
 __defun__shen_4dict_1keys = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3320 := __args[0]
-_ = V3320
-reg297432 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+V2377 := __args[0]
+_ = V2377
+reg5937 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 K := __args[0]
 _ = K
-reg297433 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg5938 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 __ := __args[0]
 _ = __
-reg297434 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg5939 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 Acc := __args[0]
 _ = Acc
-reg297435 := PrimCons(K, Acc)
-__ctx.Return(reg297435)
+reg5940 := PrimCons(K, Acc)
+__ctx.Return(reg5940)
 return
 }, 1)
-__ctx.Return(reg297434)
+__ctx.Return(reg5939)
 return
 }, 1)
-__ctx.Return(reg297433)
+__ctx.Return(reg5938)
 return
 }, 1)
-reg297436 := Nil;
-__ctx.TailApply(__defun__shen_4dict_1fold, reg297432, V3320, reg297436)
+reg5941 := Nil;
+__ctx.TailApply(__defun__shen_4dict_1fold, reg5937, V2377, reg5941)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.dict-keys", value: __defun__shen_4dict_1keys})
 
 __defun__shen_4dict_1values = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V3322 := __args[0]
-_ = V3322
-reg297438 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+V2379 := __args[0]
+_ = V2379
+reg5943 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 __ := __args[0]
 _ = __
-reg297439 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg5944 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 V := __args[0]
 _ = V
-reg297440 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg5945 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 Acc := __args[0]
 _ = Acc
-reg297441 := PrimCons(V, Acc)
-__ctx.Return(reg297441)
+reg5946 := PrimCons(V, Acc)
+__ctx.Return(reg5946)
 return
 }, 1)
-__ctx.Return(reg297440)
+__ctx.Return(reg5945)
 return
 }, 1)
-__ctx.Return(reg297439)
+__ctx.Return(reg5944)
 return
 }, 1)
-reg297442 := Nil;
-__ctx.TailApply(__defun__shen_4dict_1fold, reg297438, V3322, reg297442)
+reg5947 := Nil;
+__ctx.TailApply(__defun__shen_4dict_1fold, reg5943, V2379, reg5947)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.dict-values", value: __defun__shen_4dict_1values})

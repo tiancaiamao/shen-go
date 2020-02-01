@@ -31,7 +31,7 @@ This binary has no dependency, you can move it to any where you want.
 ## Testing
 
 ```
-cd ShenOSKernel-21.0/tests
+cd ShenOSKernel-22.2/tests
 ../../shen
 (load "README.shen")
 (load "tests.shen")
@@ -46,4 +46,4 @@ cd ShenOSKernel-21.0/tests
 ## License
 
 - Shen, Copyright © 2010-2015 Mark Tarver - [License](http://www.shenlanguage.org/license.pdf).
-- shen-go, Copyright © 2017-2019 Arthur Mao under [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause).
+- shen-go, Copyright © 2017-2020 Arthur Mao under [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause).

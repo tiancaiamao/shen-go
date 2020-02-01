@@ -10,8 +10,9 @@ var __defun__shen_4input_1macro Obj // shen.input-macro
 var __defun__shen_4compose Obj // shen.compose
 var __defun__shen_4compile_1macro Obj // shen.compile-macro
 var __defun__shen_4prolog_1macro Obj // shen.prolog-macro
-var __defun__shen_4receive_1terms Obj // shen.receive-terms
-var __defun__shen_4pass_1literals Obj // shen.pass-literals
+var __defun__shen_4externally_1bound Obj // shen.externally-bound
+var __defun__shen_4locally_1bind_1prolog_1vs Obj // shen.locally-bind-prolog-vs
+var __defun__shen_4bld_1prolog_1call Obj // shen.bld-prolog-call
 var __defun__shen_4defprolog_1macro Obj // shen.defprolog-macro
 var __defun__shen_4datatype_1macro Obj // shen.datatype-macro
 var __defun__shen_4intern_1type Obj // shen.intern-type
@@ -35,219 +36,219 @@ var __defun__shen_4remove_1nth Obj // shen.remove-nth
 
 func init() {
 __initExprs = append(__initExprs, MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-reg308762 := MakeString("Copyright (c) 2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n1. Redistributions of source code must retain the above copyright\n   notice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above copyright\n   notice, this list of conditions and the following disclaimer in the\n   documentation and/or other materials provided with the distribution.\n3. The name of Mark Tarver may not be used to endorse or promote products\n   derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY Mark Tarver ''AS IS'' AND ANY\nEXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL Mark Tarver BE LIABLE FOR ANY\nDIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES\n(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND\nON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\nSOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.")
-__ctx.Return(reg308762)
+reg17415 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
+__ctx.Return(reg17415)
 return
 }, 0))
 __defun__macroexpand = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1720 := __args[0]
-_ = V1720
-reg308763 := MakeSymbol("*macros*")
-reg308764 := PrimValue(reg308763)
-reg308765 := __e.Call(__defun__shen_4compose, reg308764, V1720)
-Y := reg308765
+V718 := __args[0]
+_ = V718
+reg17416 := MakeSymbol("*macros*")
+reg17417 := PrimValue(reg17416)
+reg17418 := __e.Call(__defun__shen_4compose, reg17417, V718)
+Y := reg17418
 _ = Y
-reg308766 := PrimEqual(V1720, Y)
-if reg308766 == True {
-__ctx.Return(V1720)
+reg17419 := PrimEqual(V718, Y)
+if reg17419 == True {
+__ctx.Return(V718)
 return
 } else {
-reg308767 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg17420 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 Z := __args[0]
 _ = Z
 __ctx.TailApply(__defun__macroexpand, Z)
 return
 }, 1)
-__ctx.TailApply(__defun__shen_4walk, reg308767, Y)
+__ctx.TailApply(__defun__shen_4walk, reg17420, Y)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "macroexpand", value: __defun__macroexpand})
 
 __defun__shen_4error_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1722 := __args[0]
-_ = V1722
-reg308770 := PrimIsPair(V1722)
-var reg308785 Obj
-if reg308770 == True {
-reg308771 := MakeSymbol("error")
-reg308772 := PrimHead(V1722)
-reg308773 := PrimEqual(reg308771, reg308772)
-var reg308780 Obj
-if reg308773 == True {
-reg308774 := PrimTail(V1722)
-reg308775 := PrimIsPair(reg308774)
-var reg308778 Obj
-if reg308775 == True {
-reg308776 := True;
-reg308778 = reg308776
+V720 := __args[0]
+_ = V720
+reg17423 := PrimIsPair(V720)
+var reg17438 Obj
+if reg17423 == True {
+reg17424 := MakeSymbol("error")
+reg17425 := PrimHead(V720)
+reg17426 := PrimEqual(reg17424, reg17425)
+var reg17433 Obj
+if reg17426 == True {
+reg17427 := PrimTail(V720)
+reg17428 := PrimIsPair(reg17427)
+var reg17431 Obj
+if reg17428 == True {
+reg17429 := True;
+reg17431 = reg17429
 } else {
-reg308777 := False;
-reg308778 = reg308777
+reg17430 := False;
+reg17431 = reg17430
 }
-reg308780 = reg308778
+reg17433 = reg17431
 } else {
-reg308779 := False;
-reg308780 = reg308779
+reg17432 := False;
+reg17433 = reg17432
 }
-var reg308783 Obj
-if reg308780 == True {
-reg308781 := True;
-reg308783 = reg308781
+var reg17436 Obj
+if reg17433 == True {
+reg17434 := True;
+reg17436 = reg17434
 } else {
-reg308782 := False;
-reg308783 = reg308782
+reg17435 := False;
+reg17436 = reg17435
 }
-reg308785 = reg308783
+reg17438 = reg17436
 } else {
-reg308784 := False;
-reg308785 = reg308784
+reg17437 := False;
+reg17438 = reg17437
 }
-if reg308785 == True {
-reg308786 := MakeSymbol("simple-error")
-reg308787 := PrimTail(V1722)
-reg308788 := PrimHead(reg308787)
-reg308789 := PrimTail(V1722)
-reg308790 := PrimTail(reg308789)
-reg308791 := __e.Call(__defun__shen_4mkstr, reg308788, reg308790)
-reg308792 := Nil;
-reg308793 := PrimCons(reg308791, reg308792)
-reg308794 := PrimCons(reg308786, reg308793)
-__ctx.Return(reg308794)
+if reg17438 == True {
+reg17439 := MakeSymbol("simple-error")
+reg17440 := PrimTail(V720)
+reg17441 := PrimHead(reg17440)
+reg17442 := PrimTail(V720)
+reg17443 := PrimTail(reg17442)
+reg17444 := __e.Call(__defun__shen_4mkstr, reg17441, reg17443)
+reg17445 := Nil;
+reg17446 := PrimCons(reg17444, reg17445)
+reg17447 := PrimCons(reg17439, reg17446)
+__ctx.Return(reg17447)
 return
 } else {
-__ctx.Return(V1722)
+__ctx.Return(V720)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.error-macro", value: __defun__shen_4error_1macro})
 
 __defun__shen_4output_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1724 := __args[0]
-_ = V1724
-reg308795 := PrimIsPair(V1724)
-var reg308810 Obj
-if reg308795 == True {
-reg308796 := MakeSymbol("output")
-reg308797 := PrimHead(V1724)
-reg308798 := PrimEqual(reg308796, reg308797)
-var reg308805 Obj
-if reg308798 == True {
-reg308799 := PrimTail(V1724)
-reg308800 := PrimIsPair(reg308799)
-var reg308803 Obj
-if reg308800 == True {
-reg308801 := True;
-reg308803 = reg308801
+V722 := __args[0]
+_ = V722
+reg17448 := PrimIsPair(V722)
+var reg17463 Obj
+if reg17448 == True {
+reg17449 := MakeSymbol("output")
+reg17450 := PrimHead(V722)
+reg17451 := PrimEqual(reg17449, reg17450)
+var reg17458 Obj
+if reg17451 == True {
+reg17452 := PrimTail(V722)
+reg17453 := PrimIsPair(reg17452)
+var reg17456 Obj
+if reg17453 == True {
+reg17454 := True;
+reg17456 = reg17454
 } else {
-reg308802 := False;
-reg308803 = reg308802
+reg17455 := False;
+reg17456 = reg17455
 }
-reg308805 = reg308803
+reg17458 = reg17456
 } else {
-reg308804 := False;
-reg308805 = reg308804
+reg17457 := False;
+reg17458 = reg17457
 }
-var reg308808 Obj
-if reg308805 == True {
-reg308806 := True;
-reg308808 = reg308806
+var reg17461 Obj
+if reg17458 == True {
+reg17459 := True;
+reg17461 = reg17459
 } else {
-reg308807 := False;
-reg308808 = reg308807
+reg17460 := False;
+reg17461 = reg17460
 }
-reg308810 = reg308808
+reg17463 = reg17461
 } else {
-reg308809 := False;
-reg308810 = reg308809
+reg17462 := False;
+reg17463 = reg17462
 }
-if reg308810 == True {
-reg308811 := MakeSymbol("shen.prhush")
-reg308812 := PrimTail(V1724)
-reg308813 := PrimHead(reg308812)
-reg308814 := PrimTail(V1724)
-reg308815 := PrimTail(reg308814)
-reg308816 := __e.Call(__defun__shen_4mkstr, reg308813, reg308815)
-reg308817 := MakeSymbol("stoutput")
-reg308818 := Nil;
-reg308819 := PrimCons(reg308817, reg308818)
-reg308820 := Nil;
-reg308821 := PrimCons(reg308819, reg308820)
-reg308822 := PrimCons(reg308816, reg308821)
-reg308823 := PrimCons(reg308811, reg308822)
-__ctx.Return(reg308823)
+if reg17463 == True {
+reg17464 := MakeSymbol("shen.prhush")
+reg17465 := PrimTail(V722)
+reg17466 := PrimHead(reg17465)
+reg17467 := PrimTail(V722)
+reg17468 := PrimTail(reg17467)
+reg17469 := __e.Call(__defun__shen_4mkstr, reg17466, reg17468)
+reg17470 := MakeSymbol("stoutput")
+reg17471 := Nil;
+reg17472 := PrimCons(reg17470, reg17471)
+reg17473 := Nil;
+reg17474 := PrimCons(reg17472, reg17473)
+reg17475 := PrimCons(reg17469, reg17474)
+reg17476 := PrimCons(reg17464, reg17475)
+__ctx.Return(reg17476)
 return
 } else {
-reg308824 := PrimIsPair(V1724)
-var reg308848 Obj
-if reg308824 == True {
-reg308825 := MakeSymbol("pr")
-reg308826 := PrimHead(V1724)
-reg308827 := PrimEqual(reg308825, reg308826)
-var reg308843 Obj
-if reg308827 == True {
-reg308828 := PrimTail(V1724)
-reg308829 := PrimIsPair(reg308828)
-var reg308838 Obj
-if reg308829 == True {
-reg308830 := Nil;
-reg308831 := PrimTail(V1724)
-reg308832 := PrimTail(reg308831)
-reg308833 := PrimEqual(reg308830, reg308832)
-var reg308836 Obj
-if reg308833 == True {
-reg308834 := True;
-reg308836 = reg308834
+reg17477 := PrimIsPair(V722)
+var reg17501 Obj
+if reg17477 == True {
+reg17478 := MakeSymbol("pr")
+reg17479 := PrimHead(V722)
+reg17480 := PrimEqual(reg17478, reg17479)
+var reg17496 Obj
+if reg17480 == True {
+reg17481 := PrimTail(V722)
+reg17482 := PrimIsPair(reg17481)
+var reg17491 Obj
+if reg17482 == True {
+reg17483 := Nil;
+reg17484 := PrimTail(V722)
+reg17485 := PrimTail(reg17484)
+reg17486 := PrimEqual(reg17483, reg17485)
+var reg17489 Obj
+if reg17486 == True {
+reg17487 := True;
+reg17489 = reg17487
 } else {
-reg308835 := False;
-reg308836 = reg308835
+reg17488 := False;
+reg17489 = reg17488
 }
-reg308838 = reg308836
+reg17491 = reg17489
 } else {
-reg308837 := False;
-reg308838 = reg308837
+reg17490 := False;
+reg17491 = reg17490
 }
-var reg308841 Obj
-if reg308838 == True {
-reg308839 := True;
-reg308841 = reg308839
+var reg17494 Obj
+if reg17491 == True {
+reg17492 := True;
+reg17494 = reg17492
 } else {
-reg308840 := False;
-reg308841 = reg308840
+reg17493 := False;
+reg17494 = reg17493
 }
-reg308843 = reg308841
+reg17496 = reg17494
 } else {
-reg308842 := False;
-reg308843 = reg308842
+reg17495 := False;
+reg17496 = reg17495
 }
-var reg308846 Obj
-if reg308843 == True {
-reg308844 := True;
-reg308846 = reg308844
+var reg17499 Obj
+if reg17496 == True {
+reg17497 := True;
+reg17499 = reg17497
 } else {
-reg308845 := False;
-reg308846 = reg308845
+reg17498 := False;
+reg17499 = reg17498
 }
-reg308848 = reg308846
+reg17501 = reg17499
 } else {
-reg308847 := False;
-reg308848 = reg308847
+reg17500 := False;
+reg17501 = reg17500
 }
-if reg308848 == True {
-reg308849 := MakeSymbol("pr")
-reg308850 := PrimTail(V1724)
-reg308851 := PrimHead(reg308850)
-reg308852 := MakeSymbol("stoutput")
-reg308853 := Nil;
-reg308854 := PrimCons(reg308852, reg308853)
-reg308855 := Nil;
-reg308856 := PrimCons(reg308854, reg308855)
-reg308857 := PrimCons(reg308851, reg308856)
-reg308858 := PrimCons(reg308849, reg308857)
-__ctx.Return(reg308858)
+if reg17501 == True {
+reg17502 := MakeSymbol("pr")
+reg17503 := PrimTail(V722)
+reg17504 := PrimHead(reg17503)
+reg17505 := MakeSymbol("stoutput")
+reg17506 := Nil;
+reg17507 := PrimCons(reg17505, reg17506)
+reg17508 := Nil;
+reg17509 := PrimCons(reg17507, reg17508)
+reg17510 := PrimCons(reg17504, reg17509)
+reg17511 := PrimCons(reg17502, reg17510)
+__ctx.Return(reg17511)
 return
 } else {
-__ctx.Return(V1724)
+__ctx.Return(V722)
 return
 }
 }
@@ -255,323 +256,323 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.output-macro", value: __defun__shen_4output_1macro})
 
 __defun__shen_4make_1string_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1726 := __args[0]
-_ = V1726
-reg308859 := PrimIsPair(V1726)
-var reg308874 Obj
-if reg308859 == True {
-reg308860 := MakeSymbol("make-string")
-reg308861 := PrimHead(V1726)
-reg308862 := PrimEqual(reg308860, reg308861)
-var reg308869 Obj
-if reg308862 == True {
-reg308863 := PrimTail(V1726)
-reg308864 := PrimIsPair(reg308863)
-var reg308867 Obj
-if reg308864 == True {
-reg308865 := True;
-reg308867 = reg308865
+V724 := __args[0]
+_ = V724
+reg17512 := PrimIsPair(V724)
+var reg17527 Obj
+if reg17512 == True {
+reg17513 := MakeSymbol("make-string")
+reg17514 := PrimHead(V724)
+reg17515 := PrimEqual(reg17513, reg17514)
+var reg17522 Obj
+if reg17515 == True {
+reg17516 := PrimTail(V724)
+reg17517 := PrimIsPair(reg17516)
+var reg17520 Obj
+if reg17517 == True {
+reg17518 := True;
+reg17520 = reg17518
 } else {
-reg308866 := False;
-reg308867 = reg308866
+reg17519 := False;
+reg17520 = reg17519
 }
-reg308869 = reg308867
+reg17522 = reg17520
 } else {
-reg308868 := False;
-reg308869 = reg308868
+reg17521 := False;
+reg17522 = reg17521
 }
-var reg308872 Obj
-if reg308869 == True {
-reg308870 := True;
-reg308872 = reg308870
+var reg17525 Obj
+if reg17522 == True {
+reg17523 := True;
+reg17525 = reg17523
 } else {
-reg308871 := False;
-reg308872 = reg308871
+reg17524 := False;
+reg17525 = reg17524
 }
-reg308874 = reg308872
+reg17527 = reg17525
 } else {
-reg308873 := False;
-reg308874 = reg308873
+reg17526 := False;
+reg17527 = reg17526
 }
-if reg308874 == True {
-reg308875 := PrimTail(V1726)
-reg308876 := PrimHead(reg308875)
-reg308877 := PrimTail(V1726)
-reg308878 := PrimTail(reg308877)
-__ctx.TailApply(__defun__shen_4mkstr, reg308876, reg308878)
+if reg17527 == True {
+reg17528 := PrimTail(V724)
+reg17529 := PrimHead(reg17528)
+reg17530 := PrimTail(V724)
+reg17531 := PrimTail(reg17530)
+__ctx.TailApply(__defun__shen_4mkstr, reg17529, reg17531)
 return
 } else {
-__ctx.Return(V1726)
+__ctx.Return(V724)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.make-string-macro", value: __defun__shen_4make_1string_1macro})
 
 __defun__shen_4input_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1728 := __args[0]
-_ = V1728
-reg308880 := PrimIsPair(V1728)
-var reg308896 Obj
-if reg308880 == True {
-reg308881 := MakeSymbol("lineread")
-reg308882 := PrimHead(V1728)
-reg308883 := PrimEqual(reg308881, reg308882)
-var reg308891 Obj
-if reg308883 == True {
-reg308884 := Nil;
-reg308885 := PrimTail(V1728)
-reg308886 := PrimEqual(reg308884, reg308885)
-var reg308889 Obj
-if reg308886 == True {
-reg308887 := True;
-reg308889 = reg308887
+V726 := __args[0]
+_ = V726
+reg17533 := PrimIsPair(V726)
+var reg17549 Obj
+if reg17533 == True {
+reg17534 := MakeSymbol("lineread")
+reg17535 := PrimHead(V726)
+reg17536 := PrimEqual(reg17534, reg17535)
+var reg17544 Obj
+if reg17536 == True {
+reg17537 := Nil;
+reg17538 := PrimTail(V726)
+reg17539 := PrimEqual(reg17537, reg17538)
+var reg17542 Obj
+if reg17539 == True {
+reg17540 := True;
+reg17542 = reg17540
 } else {
-reg308888 := False;
-reg308889 = reg308888
+reg17541 := False;
+reg17542 = reg17541
 }
-reg308891 = reg308889
+reg17544 = reg17542
 } else {
-reg308890 := False;
-reg308891 = reg308890
+reg17543 := False;
+reg17544 = reg17543
 }
-var reg308894 Obj
-if reg308891 == True {
-reg308892 := True;
-reg308894 = reg308892
+var reg17547 Obj
+if reg17544 == True {
+reg17545 := True;
+reg17547 = reg17545
 } else {
-reg308893 := False;
-reg308894 = reg308893
+reg17546 := False;
+reg17547 = reg17546
 }
-reg308896 = reg308894
+reg17549 = reg17547
 } else {
-reg308895 := False;
-reg308896 = reg308895
+reg17548 := False;
+reg17549 = reg17548
 }
-if reg308896 == True {
-reg308897 := MakeSymbol("lineread")
-reg308898 := MakeSymbol("stinput")
-reg308899 := Nil;
-reg308900 := PrimCons(reg308898, reg308899)
-reg308901 := Nil;
-reg308902 := PrimCons(reg308900, reg308901)
-reg308903 := PrimCons(reg308897, reg308902)
-__ctx.Return(reg308903)
+if reg17549 == True {
+reg17550 := MakeSymbol("lineread")
+reg17551 := MakeSymbol("stinput")
+reg17552 := Nil;
+reg17553 := PrimCons(reg17551, reg17552)
+reg17554 := Nil;
+reg17555 := PrimCons(reg17553, reg17554)
+reg17556 := PrimCons(reg17550, reg17555)
+__ctx.Return(reg17556)
 return
 } else {
-reg308904 := PrimIsPair(V1728)
-var reg308920 Obj
-if reg308904 == True {
-reg308905 := MakeSymbol("input")
-reg308906 := PrimHead(V1728)
-reg308907 := PrimEqual(reg308905, reg308906)
-var reg308915 Obj
-if reg308907 == True {
-reg308908 := Nil;
-reg308909 := PrimTail(V1728)
-reg308910 := PrimEqual(reg308908, reg308909)
-var reg308913 Obj
-if reg308910 == True {
-reg308911 := True;
-reg308913 = reg308911
+reg17557 := PrimIsPair(V726)
+var reg17573 Obj
+if reg17557 == True {
+reg17558 := MakeSymbol("input")
+reg17559 := PrimHead(V726)
+reg17560 := PrimEqual(reg17558, reg17559)
+var reg17568 Obj
+if reg17560 == True {
+reg17561 := Nil;
+reg17562 := PrimTail(V726)
+reg17563 := PrimEqual(reg17561, reg17562)
+var reg17566 Obj
+if reg17563 == True {
+reg17564 := True;
+reg17566 = reg17564
 } else {
-reg308912 := False;
-reg308913 = reg308912
+reg17565 := False;
+reg17566 = reg17565
 }
-reg308915 = reg308913
+reg17568 = reg17566
 } else {
-reg308914 := False;
-reg308915 = reg308914
+reg17567 := False;
+reg17568 = reg17567
 }
-var reg308918 Obj
-if reg308915 == True {
-reg308916 := True;
-reg308918 = reg308916
+var reg17571 Obj
+if reg17568 == True {
+reg17569 := True;
+reg17571 = reg17569
 } else {
-reg308917 := False;
-reg308918 = reg308917
+reg17570 := False;
+reg17571 = reg17570
 }
-reg308920 = reg308918
+reg17573 = reg17571
 } else {
-reg308919 := False;
-reg308920 = reg308919
+reg17572 := False;
+reg17573 = reg17572
 }
-if reg308920 == True {
-reg308921 := MakeSymbol("input")
-reg308922 := MakeSymbol("stinput")
-reg308923 := Nil;
-reg308924 := PrimCons(reg308922, reg308923)
-reg308925 := Nil;
-reg308926 := PrimCons(reg308924, reg308925)
-reg308927 := PrimCons(reg308921, reg308926)
-__ctx.Return(reg308927)
+if reg17573 == True {
+reg17574 := MakeSymbol("input")
+reg17575 := MakeSymbol("stinput")
+reg17576 := Nil;
+reg17577 := PrimCons(reg17575, reg17576)
+reg17578 := Nil;
+reg17579 := PrimCons(reg17577, reg17578)
+reg17580 := PrimCons(reg17574, reg17579)
+__ctx.Return(reg17580)
 return
 } else {
-reg308928 := PrimIsPair(V1728)
-var reg308944 Obj
-if reg308928 == True {
-reg308929 := MakeSymbol("read")
-reg308930 := PrimHead(V1728)
-reg308931 := PrimEqual(reg308929, reg308930)
-var reg308939 Obj
-if reg308931 == True {
-reg308932 := Nil;
-reg308933 := PrimTail(V1728)
-reg308934 := PrimEqual(reg308932, reg308933)
-var reg308937 Obj
-if reg308934 == True {
-reg308935 := True;
-reg308937 = reg308935
+reg17581 := PrimIsPair(V726)
+var reg17597 Obj
+if reg17581 == True {
+reg17582 := MakeSymbol("read")
+reg17583 := PrimHead(V726)
+reg17584 := PrimEqual(reg17582, reg17583)
+var reg17592 Obj
+if reg17584 == True {
+reg17585 := Nil;
+reg17586 := PrimTail(V726)
+reg17587 := PrimEqual(reg17585, reg17586)
+var reg17590 Obj
+if reg17587 == True {
+reg17588 := True;
+reg17590 = reg17588
 } else {
-reg308936 := False;
-reg308937 = reg308936
+reg17589 := False;
+reg17590 = reg17589
 }
-reg308939 = reg308937
+reg17592 = reg17590
 } else {
-reg308938 := False;
-reg308939 = reg308938
+reg17591 := False;
+reg17592 = reg17591
 }
-var reg308942 Obj
-if reg308939 == True {
-reg308940 := True;
-reg308942 = reg308940
+var reg17595 Obj
+if reg17592 == True {
+reg17593 := True;
+reg17595 = reg17593
 } else {
-reg308941 := False;
-reg308942 = reg308941
+reg17594 := False;
+reg17595 = reg17594
 }
-reg308944 = reg308942
+reg17597 = reg17595
 } else {
-reg308943 := False;
-reg308944 = reg308943
+reg17596 := False;
+reg17597 = reg17596
 }
-if reg308944 == True {
-reg308945 := MakeSymbol("read")
-reg308946 := MakeSymbol("stinput")
-reg308947 := Nil;
-reg308948 := PrimCons(reg308946, reg308947)
-reg308949 := Nil;
-reg308950 := PrimCons(reg308948, reg308949)
-reg308951 := PrimCons(reg308945, reg308950)
-__ctx.Return(reg308951)
+if reg17597 == True {
+reg17598 := MakeSymbol("read")
+reg17599 := MakeSymbol("stinput")
+reg17600 := Nil;
+reg17601 := PrimCons(reg17599, reg17600)
+reg17602 := Nil;
+reg17603 := PrimCons(reg17601, reg17602)
+reg17604 := PrimCons(reg17598, reg17603)
+__ctx.Return(reg17604)
 return
 } else {
-reg308952 := PrimIsPair(V1728)
-var reg308976 Obj
-if reg308952 == True {
-reg308953 := MakeSymbol("input+")
-reg308954 := PrimHead(V1728)
-reg308955 := PrimEqual(reg308953, reg308954)
-var reg308971 Obj
-if reg308955 == True {
-reg308956 := PrimTail(V1728)
-reg308957 := PrimIsPair(reg308956)
-var reg308966 Obj
-if reg308957 == True {
-reg308958 := Nil;
-reg308959 := PrimTail(V1728)
-reg308960 := PrimTail(reg308959)
-reg308961 := PrimEqual(reg308958, reg308960)
-var reg308964 Obj
-if reg308961 == True {
-reg308962 := True;
-reg308964 = reg308962
+reg17605 := PrimIsPair(V726)
+var reg17629 Obj
+if reg17605 == True {
+reg17606 := MakeSymbol("input+")
+reg17607 := PrimHead(V726)
+reg17608 := PrimEqual(reg17606, reg17607)
+var reg17624 Obj
+if reg17608 == True {
+reg17609 := PrimTail(V726)
+reg17610 := PrimIsPair(reg17609)
+var reg17619 Obj
+if reg17610 == True {
+reg17611 := Nil;
+reg17612 := PrimTail(V726)
+reg17613 := PrimTail(reg17612)
+reg17614 := PrimEqual(reg17611, reg17613)
+var reg17617 Obj
+if reg17614 == True {
+reg17615 := True;
+reg17617 = reg17615
 } else {
-reg308963 := False;
-reg308964 = reg308963
+reg17616 := False;
+reg17617 = reg17616
 }
-reg308966 = reg308964
+reg17619 = reg17617
 } else {
-reg308965 := False;
-reg308966 = reg308965
+reg17618 := False;
+reg17619 = reg17618
 }
-var reg308969 Obj
-if reg308966 == True {
-reg308967 := True;
-reg308969 = reg308967
+var reg17622 Obj
+if reg17619 == True {
+reg17620 := True;
+reg17622 = reg17620
 } else {
-reg308968 := False;
-reg308969 = reg308968
+reg17621 := False;
+reg17622 = reg17621
 }
-reg308971 = reg308969
+reg17624 = reg17622
 } else {
-reg308970 := False;
-reg308971 = reg308970
+reg17623 := False;
+reg17624 = reg17623
 }
-var reg308974 Obj
-if reg308971 == True {
-reg308972 := True;
-reg308974 = reg308972
+var reg17627 Obj
+if reg17624 == True {
+reg17625 := True;
+reg17627 = reg17625
 } else {
-reg308973 := False;
-reg308974 = reg308973
+reg17626 := False;
+reg17627 = reg17626
 }
-reg308976 = reg308974
+reg17629 = reg17627
 } else {
-reg308975 := False;
-reg308976 = reg308975
+reg17628 := False;
+reg17629 = reg17628
 }
-if reg308976 == True {
-reg308977 := MakeSymbol("input+")
-reg308978 := PrimTail(V1728)
-reg308979 := PrimHead(reg308978)
-reg308980 := MakeSymbol("stinput")
-reg308981 := Nil;
-reg308982 := PrimCons(reg308980, reg308981)
-reg308983 := Nil;
-reg308984 := PrimCons(reg308982, reg308983)
-reg308985 := PrimCons(reg308979, reg308984)
-reg308986 := PrimCons(reg308977, reg308985)
-__ctx.Return(reg308986)
+if reg17629 == True {
+reg17630 := MakeSymbol("input+")
+reg17631 := PrimTail(V726)
+reg17632 := PrimHead(reg17631)
+reg17633 := MakeSymbol("stinput")
+reg17634 := Nil;
+reg17635 := PrimCons(reg17633, reg17634)
+reg17636 := Nil;
+reg17637 := PrimCons(reg17635, reg17636)
+reg17638 := PrimCons(reg17632, reg17637)
+reg17639 := PrimCons(reg17630, reg17638)
+__ctx.Return(reg17639)
 return
 } else {
-reg308987 := PrimIsPair(V1728)
-var reg309003 Obj
-if reg308987 == True {
-reg308988 := MakeSymbol("read-byte")
-reg308989 := PrimHead(V1728)
-reg308990 := PrimEqual(reg308988, reg308989)
-var reg308998 Obj
-if reg308990 == True {
-reg308991 := Nil;
-reg308992 := PrimTail(V1728)
-reg308993 := PrimEqual(reg308991, reg308992)
-var reg308996 Obj
-if reg308993 == True {
-reg308994 := True;
-reg308996 = reg308994
+reg17640 := PrimIsPair(V726)
+var reg17656 Obj
+if reg17640 == True {
+reg17641 := MakeSymbol("read-byte")
+reg17642 := PrimHead(V726)
+reg17643 := PrimEqual(reg17641, reg17642)
+var reg17651 Obj
+if reg17643 == True {
+reg17644 := Nil;
+reg17645 := PrimTail(V726)
+reg17646 := PrimEqual(reg17644, reg17645)
+var reg17649 Obj
+if reg17646 == True {
+reg17647 := True;
+reg17649 = reg17647
 } else {
-reg308995 := False;
-reg308996 = reg308995
+reg17648 := False;
+reg17649 = reg17648
 }
-reg308998 = reg308996
+reg17651 = reg17649
 } else {
-reg308997 := False;
-reg308998 = reg308997
+reg17650 := False;
+reg17651 = reg17650
 }
-var reg309001 Obj
-if reg308998 == True {
-reg308999 := True;
-reg309001 = reg308999
+var reg17654 Obj
+if reg17651 == True {
+reg17652 := True;
+reg17654 = reg17652
 } else {
-reg309000 := False;
-reg309001 = reg309000
+reg17653 := False;
+reg17654 = reg17653
 }
-reg309003 = reg309001
+reg17656 = reg17654
 } else {
-reg309002 := False;
-reg309003 = reg309002
+reg17655 := False;
+reg17656 = reg17655
 }
-if reg309003 == True {
-reg309004 := MakeSymbol("read-byte")
-reg309005 := MakeSymbol("stinput")
-reg309006 := Nil;
-reg309007 := PrimCons(reg309005, reg309006)
-reg309008 := Nil;
-reg309009 := PrimCons(reg309007, reg309008)
-reg309010 := PrimCons(reg309004, reg309009)
-__ctx.Return(reg309010)
+if reg17656 == True {
+reg17657 := MakeSymbol("read-byte")
+reg17658 := MakeSymbol("stinput")
+reg17659 := Nil;
+reg17660 := PrimCons(reg17658, reg17659)
+reg17661 := Nil;
+reg17662 := PrimCons(reg17660, reg17661)
+reg17663 := PrimCons(reg17657, reg17662)
+__ctx.Return(reg17663)
 return
 } else {
-__ctx.Return(V1728)
+__ctx.Return(V726)
 return
 }
 }
@@ -582,28 +583,28 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.input-macro", value: __defun__shen_4input_1macro})
 
 __defun__shen_4compose = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1731 := __args[0]
-_ = V1731
-V1732 := __args[1]
-_ = V1732
-reg309012 := Nil;
-reg309013 := PrimEqual(reg309012, V1731)
-if reg309013 == True {
-__ctx.Return(V1732)
+V729 := __args[0]
+_ = V729
+V730 := __args[1]
+_ = V730
+reg17665 := Nil;
+reg17666 := PrimEqual(reg17665, V729)
+if reg17666 == True {
+__ctx.Return(V730)
 return
 } else {
-reg309014 := PrimIsPair(V1731)
-if reg309014 == True {
-reg309015 := PrimTail(V1731)
-reg309016 := PrimHead(V1731)
-f309011 := reg309016
-_ = f309011
-reg309017 := __e.Call(f309011, V1732)
-__ctx.TailApply(__defun__shen_4compose, reg309015, reg309017)
+reg17667 := PrimIsPair(V729)
+if reg17667 == True {
+reg17668 := PrimTail(V729)
+reg17669 := PrimHead(V729)
+f17664 := reg17669
+_ = f17664
+reg17670 := __e.Call(f17664, V730)
+__ctx.TailApply(__defun__shen_4compose, reg17668, reg17670)
 return
 } else {
-reg309019 := MakeSymbol("shen.compose")
-__ctx.TailApply(__defun__shen_4f__error, reg309019)
+reg17672 := MakeSymbol("shen.compose")
+__ctx.TailApply(__defun__shen_4f__error, reg17672)
 return
 }
 }
@@ -611,789 +612,1265 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.compose", value: __defun__shen_4compose})
 
 __defun__shen_4compile_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1734 := __args[0]
-_ = V1734
-reg309021 := PrimIsPair(V1734)
-var reg309054 Obj
-if reg309021 == True {
-reg309022 := MakeSymbol("compile")
-reg309023 := PrimHead(V1734)
-reg309024 := PrimEqual(reg309022, reg309023)
-var reg309049 Obj
-if reg309024 == True {
-reg309025 := PrimTail(V1734)
-reg309026 := PrimIsPair(reg309025)
-var reg309044 Obj
-if reg309026 == True {
-reg309027 := PrimTail(V1734)
-reg309028 := PrimTail(reg309027)
-reg309029 := PrimIsPair(reg309028)
-var reg309039 Obj
-if reg309029 == True {
-reg309030 := Nil;
-reg309031 := PrimTail(V1734)
-reg309032 := PrimTail(reg309031)
-reg309033 := PrimTail(reg309032)
-reg309034 := PrimEqual(reg309030, reg309033)
-var reg309037 Obj
-if reg309034 == True {
-reg309035 := True;
-reg309037 = reg309035
+V732 := __args[0]
+_ = V732
+reg17674 := PrimIsPair(V732)
+var reg17707 Obj
+if reg17674 == True {
+reg17675 := MakeSymbol("compile")
+reg17676 := PrimHead(V732)
+reg17677 := PrimEqual(reg17675, reg17676)
+var reg17702 Obj
+if reg17677 == True {
+reg17678 := PrimTail(V732)
+reg17679 := PrimIsPair(reg17678)
+var reg17697 Obj
+if reg17679 == True {
+reg17680 := PrimTail(V732)
+reg17681 := PrimTail(reg17680)
+reg17682 := PrimIsPair(reg17681)
+var reg17692 Obj
+if reg17682 == True {
+reg17683 := Nil;
+reg17684 := PrimTail(V732)
+reg17685 := PrimTail(reg17684)
+reg17686 := PrimTail(reg17685)
+reg17687 := PrimEqual(reg17683, reg17686)
+var reg17690 Obj
+if reg17687 == True {
+reg17688 := True;
+reg17690 = reg17688
 } else {
-reg309036 := False;
-reg309037 = reg309036
+reg17689 := False;
+reg17690 = reg17689
 }
-reg309039 = reg309037
+reg17692 = reg17690
 } else {
-reg309038 := False;
-reg309039 = reg309038
+reg17691 := False;
+reg17692 = reg17691
 }
-var reg309042 Obj
-if reg309039 == True {
-reg309040 := True;
-reg309042 = reg309040
+var reg17695 Obj
+if reg17692 == True {
+reg17693 := True;
+reg17695 = reg17693
 } else {
-reg309041 := False;
-reg309042 = reg309041
+reg17694 := False;
+reg17695 = reg17694
 }
-reg309044 = reg309042
+reg17697 = reg17695
 } else {
-reg309043 := False;
-reg309044 = reg309043
+reg17696 := False;
+reg17697 = reg17696
 }
-var reg309047 Obj
-if reg309044 == True {
-reg309045 := True;
-reg309047 = reg309045
+var reg17700 Obj
+if reg17697 == True {
+reg17698 := True;
+reg17700 = reg17698
 } else {
-reg309046 := False;
-reg309047 = reg309046
+reg17699 := False;
+reg17700 = reg17699
 }
-reg309049 = reg309047
+reg17702 = reg17700
 } else {
-reg309048 := False;
-reg309049 = reg309048
+reg17701 := False;
+reg17702 = reg17701
 }
-var reg309052 Obj
-if reg309049 == True {
-reg309050 := True;
-reg309052 = reg309050
+var reg17705 Obj
+if reg17702 == True {
+reg17703 := True;
+reg17705 = reg17703
 } else {
-reg309051 := False;
-reg309052 = reg309051
+reg17704 := False;
+reg17705 = reg17704
 }
-reg309054 = reg309052
+reg17707 = reg17705
 } else {
-reg309053 := False;
-reg309054 = reg309053
+reg17706 := False;
+reg17707 = reg17706
 }
-if reg309054 == True {
-reg309055 := MakeSymbol("compile")
-reg309056 := PrimTail(V1734)
-reg309057 := PrimHead(reg309056)
-reg309058 := PrimTail(V1734)
-reg309059 := PrimTail(reg309058)
-reg309060 := PrimHead(reg309059)
-reg309061 := MakeSymbol("lambda")
-reg309062 := MakeSymbol("E")
-reg309063 := MakeSymbol("if")
-reg309064 := MakeSymbol("cons?")
-reg309065 := MakeSymbol("E")
-reg309066 := Nil;
-reg309067 := PrimCons(reg309065, reg309066)
-reg309068 := PrimCons(reg309064, reg309067)
-reg309069 := MakeSymbol("error")
-reg309070 := MakeString("parse error here: ~S~%")
-reg309071 := MakeSymbol("E")
-reg309072 := Nil;
-reg309073 := PrimCons(reg309071, reg309072)
-reg309074 := PrimCons(reg309070, reg309073)
-reg309075 := PrimCons(reg309069, reg309074)
-reg309076 := MakeSymbol("error")
-reg309077 := MakeString("parse error~%")
-reg309078 := Nil;
-reg309079 := PrimCons(reg309077, reg309078)
-reg309080 := PrimCons(reg309076, reg309079)
-reg309081 := Nil;
-reg309082 := PrimCons(reg309080, reg309081)
-reg309083 := PrimCons(reg309075, reg309082)
-reg309084 := PrimCons(reg309068, reg309083)
-reg309085 := PrimCons(reg309063, reg309084)
-reg309086 := Nil;
-reg309087 := PrimCons(reg309085, reg309086)
-reg309088 := PrimCons(reg309062, reg309087)
-reg309089 := PrimCons(reg309061, reg309088)
-reg309090 := Nil;
-reg309091 := PrimCons(reg309089, reg309090)
-reg309092 := PrimCons(reg309060, reg309091)
-reg309093 := PrimCons(reg309057, reg309092)
-reg309094 := PrimCons(reg309055, reg309093)
-__ctx.Return(reg309094)
+if reg17707 == True {
+reg17708 := MakeSymbol("compile")
+reg17709 := PrimTail(V732)
+reg17710 := PrimHead(reg17709)
+reg17711 := PrimTail(V732)
+reg17712 := PrimTail(reg17711)
+reg17713 := PrimHead(reg17712)
+reg17714 := MakeSymbol("lambda")
+reg17715 := MakeSymbol("E")
+reg17716 := MakeSymbol("if")
+reg17717 := MakeSymbol("cons?")
+reg17718 := MakeSymbol("E")
+reg17719 := Nil;
+reg17720 := PrimCons(reg17718, reg17719)
+reg17721 := PrimCons(reg17717, reg17720)
+reg17722 := MakeSymbol("error")
+reg17723 := MakeString("parse error here: ~S~%")
+reg17724 := MakeSymbol("E")
+reg17725 := Nil;
+reg17726 := PrimCons(reg17724, reg17725)
+reg17727 := PrimCons(reg17723, reg17726)
+reg17728 := PrimCons(reg17722, reg17727)
+reg17729 := MakeSymbol("error")
+reg17730 := MakeString("parse error~%")
+reg17731 := Nil;
+reg17732 := PrimCons(reg17730, reg17731)
+reg17733 := PrimCons(reg17729, reg17732)
+reg17734 := Nil;
+reg17735 := PrimCons(reg17733, reg17734)
+reg17736 := PrimCons(reg17728, reg17735)
+reg17737 := PrimCons(reg17721, reg17736)
+reg17738 := PrimCons(reg17716, reg17737)
+reg17739 := Nil;
+reg17740 := PrimCons(reg17738, reg17739)
+reg17741 := PrimCons(reg17715, reg17740)
+reg17742 := PrimCons(reg17714, reg17741)
+reg17743 := Nil;
+reg17744 := PrimCons(reg17742, reg17743)
+reg17745 := PrimCons(reg17713, reg17744)
+reg17746 := PrimCons(reg17710, reg17745)
+reg17747 := PrimCons(reg17708, reg17746)
+__ctx.Return(reg17747)
 return
 } else {
-__ctx.Return(V1734)
+__ctx.Return(V732)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.compile-macro", value: __defun__shen_4compile_1macro})
 
 __defun__shen_4prolog_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1736 := __args[0]
-_ = V1736
-reg309095 := PrimIsPair(V1736)
-var reg309103 Obj
-if reg309095 == True {
-reg309096 := MakeSymbol("prolog?")
-reg309097 := PrimHead(V1736)
-reg309098 := PrimEqual(reg309096, reg309097)
-var reg309101 Obj
-if reg309098 == True {
-reg309099 := True;
-reg309101 = reg309099
+V734 := __args[0]
+_ = V734
+reg17748 := PrimIsPair(V734)
+var reg17756 Obj
+if reg17748 == True {
+reg17749 := MakeSymbol("prolog?")
+reg17750 := PrimHead(V734)
+reg17751 := PrimEqual(reg17749, reg17750)
+var reg17754 Obj
+if reg17751 == True {
+reg17752 := True;
+reg17754 = reg17752
 } else {
-reg309100 := False;
-reg309101 = reg309100
+reg17753 := False;
+reg17754 = reg17753
 }
-reg309103 = reg309101
+reg17756 = reg17754
 } else {
-reg309102 := False;
-reg309103 = reg309102
+reg17755 := False;
+reg17756 = reg17755
 }
-if reg309103 == True {
-reg309104 := MakeSymbol("shen.f")
-reg309105 := __e.Call(__defun__gensym, reg309104)
-F := reg309105
-_ = F
-reg309106 := PrimTail(V1736)
-reg309107 := __e.Call(__defun__shen_4receive_1terms, reg309106)
-Receive := reg309107
-_ = Receive
-reg309108 := MakeSymbol("defprolog")
-reg309109 := Nil;
-reg309110 := PrimCons(F, reg309109)
-reg309111 := PrimCons(reg309108, reg309110)
-reg309112 := MakeSymbol("<--")
-reg309113 := Nil;
-reg309114 := PrimCons(reg309112, reg309113)
-reg309115 := PrimTail(V1736)
-reg309116 := __e.Call(__defun__shen_4pass_1literals, reg309115)
-reg309117 := MakeSymbol(";")
-reg309118 := Nil;
-reg309119 := PrimCons(reg309117, reg309118)
-reg309120 := __e.Call(__defun__append, reg309116, reg309119)
-reg309121 := __e.Call(__defun__append, reg309114, reg309120)
-reg309122 := __e.Call(__defun__append, Receive, reg309121)
-reg309123 := __e.Call(__defun__append, reg309111, reg309122)
-reg309124 := __e.Call(__defun__eval, reg309123)
-PrologDef := reg309124
-_ = PrologDef
-reg309125 := MakeSymbol("shen.start-new-prolog-process")
-reg309126 := Nil;
-reg309127 := PrimCons(reg309125, reg309126)
-reg309128 := MakeSymbol("freeze")
-reg309129 := True;
-reg309130 := Nil;
-reg309131 := PrimCons(reg309129, reg309130)
-reg309132 := PrimCons(reg309128, reg309131)
-reg309133 := Nil;
-reg309134 := PrimCons(reg309132, reg309133)
-reg309135 := PrimCons(reg309127, reg309134)
-reg309136 := __e.Call(__defun__append, Receive, reg309135)
-reg309137 := PrimCons(F, reg309136)
-Query := reg309137
-_ = Query
-__ctx.Return(Query)
+if reg17756 == True {
+reg17757 := MakeSymbol("let")
+reg17758 := MakeSymbol("NPP")
+reg17759 := MakeSymbol("shen.start-new-prolog-process")
+reg17760 := Nil;
+reg17761 := PrimCons(reg17759, reg17760)
+reg17762 := MakeSymbol("NPP")
+reg17763 := PrimTail(V734)
+reg17764 := __e.Call(__defun__shen_4bld_1prolog_1call, reg17762, reg17763)
+Calls := reg17764
+_ = Calls
+reg17765 := PrimTail(V734)
+reg17766 := __e.Call(__defun__shen_4extract__vars, reg17765)
+Vs := reg17766
+_ = Vs
+reg17767 := PrimTail(V734)
+reg17768 := __e.Call(__defun__shen_4externally_1bound, reg17767)
+External := reg17768
+_ = External
+reg17769 := __e.Call(__defun__difference, Vs, External)
+PrologVs := reg17769
+_ = PrologVs
+reg17770 := MakeSymbol("NPP")
+reg17771 := __e.Call(__defun__shen_4locally_1bind_1prolog_1vs, reg17770, PrologVs, Calls)
+reg17772 := Nil;
+reg17773 := PrimCons(reg17771, reg17772)
+reg17774 := PrimCons(reg17761, reg17773)
+reg17775 := PrimCons(reg17758, reg17774)
+reg17776 := PrimCons(reg17757, reg17775)
+__ctx.Return(reg17776)
 return
 } else {
-__ctx.Return(V1736)
+__ctx.Return(V734)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.prolog-macro", value: __defun__shen_4prolog_1macro})
 
-__defun__shen_4receive_1terms = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1742 := __args[0]
-_ = V1742
-reg309138 := Nil;
-reg309139 := PrimEqual(reg309138, V1742)
-if reg309139 == True {
-reg309140 := Nil;
-__ctx.Return(reg309140)
+__defun__shen_4externally_1bound = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+V740 := __args[0]
+_ = V740
+reg17777 := PrimIsPair(V740)
+var reg17801 Obj
+if reg17777 == True {
+reg17778 := MakeSymbol("receive")
+reg17779 := PrimHead(V740)
+reg17780 := PrimEqual(reg17778, reg17779)
+var reg17796 Obj
+if reg17780 == True {
+reg17781 := PrimTail(V740)
+reg17782 := PrimIsPair(reg17781)
+var reg17791 Obj
+if reg17782 == True {
+reg17783 := Nil;
+reg17784 := PrimTail(V740)
+reg17785 := PrimTail(reg17784)
+reg17786 := PrimEqual(reg17783, reg17785)
+var reg17789 Obj
+if reg17786 == True {
+reg17787 := True;
+reg17789 = reg17787
+} else {
+reg17788 := False;
+reg17789 = reg17788
+}
+reg17791 = reg17789
+} else {
+reg17790 := False;
+reg17791 = reg17790
+}
+var reg17794 Obj
+if reg17791 == True {
+reg17792 := True;
+reg17794 = reg17792
+} else {
+reg17793 := False;
+reg17794 = reg17793
+}
+reg17796 = reg17794
+} else {
+reg17795 := False;
+reg17796 = reg17795
+}
+var reg17799 Obj
+if reg17796 == True {
+reg17797 := True;
+reg17799 = reg17797
+} else {
+reg17798 := False;
+reg17799 = reg17798
+}
+reg17801 = reg17799
+} else {
+reg17800 := False;
+reg17801 = reg17800
+}
+if reg17801 == True {
+reg17802 := PrimTail(V740)
+__ctx.Return(reg17802)
 return
 } else {
-reg309141 := PrimIsPair(V1742)
-var reg309175 Obj
-if reg309141 == True {
-reg309142 := PrimHead(V1742)
-reg309143 := PrimIsPair(reg309142)
-var reg309170 Obj
-if reg309143 == True {
-reg309144 := MakeSymbol("receive")
-reg309145 := PrimHead(V1742)
-reg309146 := PrimHead(reg309145)
-reg309147 := PrimEqual(reg309144, reg309146)
-var reg309165 Obj
-if reg309147 == True {
-reg309148 := PrimHead(V1742)
-reg309149 := PrimTail(reg309148)
-reg309150 := PrimIsPair(reg309149)
-var reg309160 Obj
-if reg309150 == True {
-reg309151 := Nil;
-reg309152 := PrimHead(V1742)
-reg309153 := PrimTail(reg309152)
-reg309154 := PrimTail(reg309153)
-reg309155 := PrimEqual(reg309151, reg309154)
-var reg309158 Obj
-if reg309155 == True {
-reg309156 := True;
-reg309158 = reg309156
-} else {
-reg309157 := False;
-reg309158 = reg309157
-}
-reg309160 = reg309158
-} else {
-reg309159 := False;
-reg309160 = reg309159
-}
-var reg309163 Obj
-if reg309160 == True {
-reg309161 := True;
-reg309163 = reg309161
-} else {
-reg309162 := False;
-reg309163 = reg309162
-}
-reg309165 = reg309163
-} else {
-reg309164 := False;
-reg309165 = reg309164
-}
-var reg309168 Obj
-if reg309165 == True {
-reg309166 := True;
-reg309168 = reg309166
-} else {
-reg309167 := False;
-reg309168 = reg309167
-}
-reg309170 = reg309168
-} else {
-reg309169 := False;
-reg309170 = reg309169
-}
-var reg309173 Obj
-if reg309170 == True {
-reg309171 := True;
-reg309173 = reg309171
-} else {
-reg309172 := False;
-reg309173 = reg309172
-}
-reg309175 = reg309173
-} else {
-reg309174 := False;
-reg309175 = reg309174
-}
-if reg309175 == True {
-reg309176 := PrimHead(V1742)
-reg309177 := PrimTail(reg309176)
-reg309178 := PrimHead(reg309177)
-reg309179 := PrimTail(V1742)
-reg309180 := __e.Call(__defun__shen_4receive_1terms, reg309179)
-reg309181 := PrimCons(reg309178, reg309180)
-__ctx.Return(reg309181)
+reg17803 := PrimIsPair(V740)
+if reg17803 == True {
+reg17804 := PrimHead(V740)
+reg17805 := __e.Call(__defun__shen_4externally_1bound, reg17804)
+reg17806 := PrimTail(V740)
+reg17807 := __e.Call(__defun__shen_4externally_1bound, reg17806)
+__ctx.TailApply(__defun__union, reg17805, reg17807)
 return
 } else {
-reg309182 := PrimIsPair(V1742)
-if reg309182 == True {
-reg309183 := PrimTail(V1742)
-__ctx.TailApply(__defun__shen_4receive_1terms, reg309183)
+reg17809 := Nil;
+__ctx.Return(reg17809)
 return
-} else {
-reg309185 := MakeSymbol("shen.receive-terms")
-__ctx.TailApply(__defun__shen_4f__error, reg309185)
-return
-}
 }
 }
 }, 1)
-__initDefs = append(__initDefs, defType{name: "shen.receive-terms", value: __defun__shen_4receive_1terms})
+__initDefs = append(__initDefs, defType{name: "shen.externally-bound", value: __defun__shen_4externally_1bound})
 
-__defun__shen_4pass_1literals = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1746 := __args[0]
-_ = V1746
-reg309187 := Nil;
-reg309188 := PrimEqual(reg309187, V1746)
-if reg309188 == True {
-reg309189 := Nil;
-__ctx.Return(reg309189)
+__defun__shen_4locally_1bind_1prolog_1vs = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+V758 := __args[0]
+_ = V758
+V759 := __args[1]
+_ = V759
+V760 := __args[2]
+_ = V760
+reg17810 := Nil;
+reg17811 := PrimEqual(reg17810, V759)
+if reg17811 == True {
+__ctx.Return(V760)
 return
 } else {
-reg309190 := PrimIsPair(V1746)
-var reg309224 Obj
-if reg309190 == True {
-reg309191 := PrimHead(V1746)
-reg309192 := PrimIsPair(reg309191)
-var reg309219 Obj
-if reg309192 == True {
-reg309193 := MakeSymbol("receive")
-reg309194 := PrimHead(V1746)
-reg309195 := PrimHead(reg309194)
-reg309196 := PrimEqual(reg309193, reg309195)
-var reg309214 Obj
-if reg309196 == True {
-reg309197 := PrimHead(V1746)
-reg309198 := PrimTail(reg309197)
-reg309199 := PrimIsPair(reg309198)
-var reg309209 Obj
-if reg309199 == True {
-reg309200 := Nil;
-reg309201 := PrimHead(V1746)
-reg309202 := PrimTail(reg309201)
-reg309203 := PrimTail(reg309202)
-reg309204 := PrimEqual(reg309200, reg309203)
-var reg309207 Obj
-if reg309204 == True {
-reg309205 := True;
-reg309207 = reg309205
-} else {
-reg309206 := False;
-reg309207 = reg309206
-}
-reg309209 = reg309207
-} else {
-reg309208 := False;
-reg309209 = reg309208
-}
-var reg309212 Obj
-if reg309209 == True {
-reg309210 := True;
-reg309212 = reg309210
-} else {
-reg309211 := False;
-reg309212 = reg309211
-}
-reg309214 = reg309212
-} else {
-reg309213 := False;
-reg309214 = reg309213
-}
-var reg309217 Obj
-if reg309214 == True {
-reg309215 := True;
-reg309217 = reg309215
-} else {
-reg309216 := False;
-reg309217 = reg309216
-}
-reg309219 = reg309217
-} else {
-reg309218 := False;
-reg309219 = reg309218
-}
-var reg309222 Obj
-if reg309219 == True {
-reg309220 := True;
-reg309222 = reg309220
-} else {
-reg309221 := False;
-reg309222 = reg309221
-}
-reg309224 = reg309222
-} else {
-reg309223 := False;
-reg309224 = reg309223
-}
-if reg309224 == True {
-reg309225 := PrimTail(V1746)
-__ctx.TailApply(__defun__shen_4pass_1literals, reg309225)
+reg17812 := PrimIsPair(V759)
+if reg17812 == True {
+reg17813 := MakeSymbol("let")
+reg17814 := PrimHead(V759)
+reg17815 := MakeSymbol("shen.newpv")
+reg17816 := Nil;
+reg17817 := PrimCons(V758, reg17816)
+reg17818 := PrimCons(reg17815, reg17817)
+reg17819 := PrimTail(V759)
+reg17820 := __e.Call(__defun__shen_4locally_1bind_1prolog_1vs, V758, reg17819, V760)
+reg17821 := Nil;
+reg17822 := PrimCons(reg17820, reg17821)
+reg17823 := PrimCons(reg17818, reg17822)
+reg17824 := PrimCons(reg17814, reg17823)
+reg17825 := PrimCons(reg17813, reg17824)
+__ctx.Return(reg17825)
 return
 } else {
-reg309227 := PrimIsPair(V1746)
-if reg309227 == True {
-reg309228 := PrimHead(V1746)
-reg309229 := PrimTail(V1746)
-reg309230 := __e.Call(__defun__shen_4pass_1literals, reg309229)
-reg309231 := PrimCons(reg309228, reg309230)
-__ctx.Return(reg309231)
-return
-} else {
-reg309232 := MakeSymbol("shen.pass-literals")
-__ctx.TailApply(__defun__shen_4f__error, reg309232)
+reg17826 := MakeString("implementation error inp locally-bind-prolog-vs")
+reg17827 := PrimSimpleError(reg17826)
+__ctx.Return(reg17827)
 return
 }
 }
+}, 3)
+__initDefs = append(__initDefs, defType{name: "shen.locally-bind-prolog-vs", value: __defun__shen_4locally_1bind_1prolog_1vs})
+
+__defun__shen_4bld_1prolog_1call = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+V773 := __args[0]
+_ = V773
+V774 := __args[1]
+_ = V774
+reg17828 := Nil;
+reg17829 := PrimEqual(reg17828, V774)
+if reg17829 == True {
+reg17830 := True;
+__ctx.Return(reg17830)
+return
+} else {
+reg17831 := PrimIsPair(V774)
+var reg17839 Obj
+if reg17831 == True {
+reg17832 := MakeSymbol("!")
+reg17833 := PrimHead(V774)
+reg17834 := PrimEqual(reg17832, reg17833)
+var reg17837 Obj
+if reg17834 == True {
+reg17835 := True;
+reg17837 = reg17835
+} else {
+reg17836 := False;
+reg17837 = reg17836
 }
-}, 1)
-__initDefs = append(__initDefs, defType{name: "shen.pass-literals", value: __defun__shen_4pass_1literals})
+reg17839 = reg17837
+} else {
+reg17838 := False;
+reg17839 = reg17838
+}
+if reg17839 == True {
+reg17840 := MakeSymbol("cut")
+reg17841 := False;
+reg17842 := MakeSymbol("freeze")
+reg17843 := PrimTail(V774)
+reg17844 := __e.Call(__defun__shen_4bld_1prolog_1call, V773, reg17843)
+reg17845 := Nil;
+reg17846 := PrimCons(reg17844, reg17845)
+reg17847 := PrimCons(reg17842, reg17846)
+reg17848 := Nil;
+reg17849 := PrimCons(reg17847, reg17848)
+reg17850 := PrimCons(V773, reg17849)
+reg17851 := PrimCons(reg17841, reg17850)
+reg17852 := PrimCons(reg17840, reg17851)
+__ctx.Return(reg17852)
+return
+} else {
+reg17853 := PrimIsPair(V774)
+var reg17887 Obj
+if reg17853 == True {
+reg17854 := PrimHead(V774)
+reg17855 := PrimIsPair(reg17854)
+var reg17882 Obj
+if reg17855 == True {
+reg17856 := MakeSymbol("when")
+reg17857 := PrimHead(V774)
+reg17858 := PrimHead(reg17857)
+reg17859 := PrimEqual(reg17856, reg17858)
+var reg17877 Obj
+if reg17859 == True {
+reg17860 := PrimHead(V774)
+reg17861 := PrimTail(reg17860)
+reg17862 := PrimIsPair(reg17861)
+var reg17872 Obj
+if reg17862 == True {
+reg17863 := Nil;
+reg17864 := PrimHead(V774)
+reg17865 := PrimTail(reg17864)
+reg17866 := PrimTail(reg17865)
+reg17867 := PrimEqual(reg17863, reg17866)
+var reg17870 Obj
+if reg17867 == True {
+reg17868 := True;
+reg17870 = reg17868
+} else {
+reg17869 := False;
+reg17870 = reg17869
+}
+reg17872 = reg17870
+} else {
+reg17871 := False;
+reg17872 = reg17871
+}
+var reg17875 Obj
+if reg17872 == True {
+reg17873 := True;
+reg17875 = reg17873
+} else {
+reg17874 := False;
+reg17875 = reg17874
+}
+reg17877 = reg17875
+} else {
+reg17876 := False;
+reg17877 = reg17876
+}
+var reg17880 Obj
+if reg17877 == True {
+reg17878 := True;
+reg17880 = reg17878
+} else {
+reg17879 := False;
+reg17880 = reg17879
+}
+reg17882 = reg17880
+} else {
+reg17881 := False;
+reg17882 = reg17881
+}
+var reg17885 Obj
+if reg17882 == True {
+reg17883 := True;
+reg17885 = reg17883
+} else {
+reg17884 := False;
+reg17885 = reg17884
+}
+reg17887 = reg17885
+} else {
+reg17886 := False;
+reg17887 = reg17886
+}
+if reg17887 == True {
+reg17888 := MakeSymbol("fwhen")
+reg17889 := PrimHead(V774)
+reg17890 := PrimTail(reg17889)
+reg17891 := PrimHead(reg17890)
+reg17892 := __e.Call(__defun__shen_4insert_1deref, reg17891, V773)
+reg17893 := MakeSymbol("freeze")
+reg17894 := PrimTail(V774)
+reg17895 := __e.Call(__defun__shen_4bld_1prolog_1call, V773, reg17894)
+reg17896 := Nil;
+reg17897 := PrimCons(reg17895, reg17896)
+reg17898 := PrimCons(reg17893, reg17897)
+reg17899 := Nil;
+reg17900 := PrimCons(reg17898, reg17899)
+reg17901 := PrimCons(V773, reg17900)
+reg17902 := PrimCons(reg17892, reg17901)
+reg17903 := PrimCons(reg17888, reg17902)
+__ctx.Return(reg17903)
+return
+} else {
+reg17904 := PrimIsPair(V774)
+var reg17948 Obj
+if reg17904 == True {
+reg17905 := PrimHead(V774)
+reg17906 := PrimIsPair(reg17905)
+var reg17943 Obj
+if reg17906 == True {
+reg17907 := MakeSymbol("is")
+reg17908 := PrimHead(V774)
+reg17909 := PrimHead(reg17908)
+reg17910 := PrimEqual(reg17907, reg17909)
+var reg17938 Obj
+if reg17910 == True {
+reg17911 := PrimHead(V774)
+reg17912 := PrimTail(reg17911)
+reg17913 := PrimIsPair(reg17912)
+var reg17933 Obj
+if reg17913 == True {
+reg17914 := PrimHead(V774)
+reg17915 := PrimTail(reg17914)
+reg17916 := PrimTail(reg17915)
+reg17917 := PrimIsPair(reg17916)
+var reg17928 Obj
+if reg17917 == True {
+reg17918 := Nil;
+reg17919 := PrimHead(V774)
+reg17920 := PrimTail(reg17919)
+reg17921 := PrimTail(reg17920)
+reg17922 := PrimTail(reg17921)
+reg17923 := PrimEqual(reg17918, reg17922)
+var reg17926 Obj
+if reg17923 == True {
+reg17924 := True;
+reg17926 = reg17924
+} else {
+reg17925 := False;
+reg17926 = reg17925
+}
+reg17928 = reg17926
+} else {
+reg17927 := False;
+reg17928 = reg17927
+}
+var reg17931 Obj
+if reg17928 == True {
+reg17929 := True;
+reg17931 = reg17929
+} else {
+reg17930 := False;
+reg17931 = reg17930
+}
+reg17933 = reg17931
+} else {
+reg17932 := False;
+reg17933 = reg17932
+}
+var reg17936 Obj
+if reg17933 == True {
+reg17934 := True;
+reg17936 = reg17934
+} else {
+reg17935 := False;
+reg17936 = reg17935
+}
+reg17938 = reg17936
+} else {
+reg17937 := False;
+reg17938 = reg17937
+}
+var reg17941 Obj
+if reg17938 == True {
+reg17939 := True;
+reg17941 = reg17939
+} else {
+reg17940 := False;
+reg17941 = reg17940
+}
+reg17943 = reg17941
+} else {
+reg17942 := False;
+reg17943 = reg17942
+}
+var reg17946 Obj
+if reg17943 == True {
+reg17944 := True;
+reg17946 = reg17944
+} else {
+reg17945 := False;
+reg17946 = reg17945
+}
+reg17948 = reg17946
+} else {
+reg17947 := False;
+reg17948 = reg17947
+}
+if reg17948 == True {
+reg17949 := MakeSymbol("bind")
+reg17950 := PrimHead(V774)
+reg17951 := PrimTail(reg17950)
+reg17952 := PrimHead(reg17951)
+reg17953 := PrimHead(V774)
+reg17954 := PrimTail(reg17953)
+reg17955 := PrimTail(reg17954)
+reg17956 := PrimHead(reg17955)
+reg17957 := __e.Call(__defun__shen_4insert_1deref, reg17956, V773)
+reg17958 := MakeSymbol("freeze")
+reg17959 := PrimTail(V774)
+reg17960 := __e.Call(__defun__shen_4bld_1prolog_1call, V773, reg17959)
+reg17961 := Nil;
+reg17962 := PrimCons(reg17960, reg17961)
+reg17963 := PrimCons(reg17958, reg17962)
+reg17964 := Nil;
+reg17965 := PrimCons(reg17963, reg17964)
+reg17966 := PrimCons(V773, reg17965)
+reg17967 := PrimCons(reg17957, reg17966)
+reg17968 := PrimCons(reg17952, reg17967)
+reg17969 := PrimCons(reg17949, reg17968)
+__ctx.Return(reg17969)
+return
+} else {
+reg17970 := PrimIsPair(V774)
+var reg18004 Obj
+if reg17970 == True {
+reg17971 := PrimHead(V774)
+reg17972 := PrimIsPair(reg17971)
+var reg17999 Obj
+if reg17972 == True {
+reg17973 := MakeSymbol("receive")
+reg17974 := PrimHead(V774)
+reg17975 := PrimHead(reg17974)
+reg17976 := PrimEqual(reg17973, reg17975)
+var reg17994 Obj
+if reg17976 == True {
+reg17977 := PrimHead(V774)
+reg17978 := PrimTail(reg17977)
+reg17979 := PrimIsPair(reg17978)
+var reg17989 Obj
+if reg17979 == True {
+reg17980 := Nil;
+reg17981 := PrimHead(V774)
+reg17982 := PrimTail(reg17981)
+reg17983 := PrimTail(reg17982)
+reg17984 := PrimEqual(reg17980, reg17983)
+var reg17987 Obj
+if reg17984 == True {
+reg17985 := True;
+reg17987 = reg17985
+} else {
+reg17986 := False;
+reg17987 = reg17986
+}
+reg17989 = reg17987
+} else {
+reg17988 := False;
+reg17989 = reg17988
+}
+var reg17992 Obj
+if reg17989 == True {
+reg17990 := True;
+reg17992 = reg17990
+} else {
+reg17991 := False;
+reg17992 = reg17991
+}
+reg17994 = reg17992
+} else {
+reg17993 := False;
+reg17994 = reg17993
+}
+var reg17997 Obj
+if reg17994 == True {
+reg17995 := True;
+reg17997 = reg17995
+} else {
+reg17996 := False;
+reg17997 = reg17996
+}
+reg17999 = reg17997
+} else {
+reg17998 := False;
+reg17999 = reg17998
+}
+var reg18002 Obj
+if reg17999 == True {
+reg18000 := True;
+reg18002 = reg18000
+} else {
+reg18001 := False;
+reg18002 = reg18001
+}
+reg18004 = reg18002
+} else {
+reg18003 := False;
+reg18004 = reg18003
+}
+if reg18004 == True {
+reg18005 := PrimTail(V774)
+__ctx.TailApply(__defun__shen_4bld_1prolog_1call, V773, reg18005)
+return
+} else {
+reg18007 := PrimIsPair(V774)
+var reg18051 Obj
+if reg18007 == True {
+reg18008 := PrimHead(V774)
+reg18009 := PrimIsPair(reg18008)
+var reg18046 Obj
+if reg18009 == True {
+reg18010 := MakeSymbol("bind")
+reg18011 := PrimHead(V774)
+reg18012 := PrimHead(reg18011)
+reg18013 := PrimEqual(reg18010, reg18012)
+var reg18041 Obj
+if reg18013 == True {
+reg18014 := PrimHead(V774)
+reg18015 := PrimTail(reg18014)
+reg18016 := PrimIsPair(reg18015)
+var reg18036 Obj
+if reg18016 == True {
+reg18017 := PrimHead(V774)
+reg18018 := PrimTail(reg18017)
+reg18019 := PrimTail(reg18018)
+reg18020 := PrimIsPair(reg18019)
+var reg18031 Obj
+if reg18020 == True {
+reg18021 := Nil;
+reg18022 := PrimHead(V774)
+reg18023 := PrimTail(reg18022)
+reg18024 := PrimTail(reg18023)
+reg18025 := PrimTail(reg18024)
+reg18026 := PrimEqual(reg18021, reg18025)
+var reg18029 Obj
+if reg18026 == True {
+reg18027 := True;
+reg18029 = reg18027
+} else {
+reg18028 := False;
+reg18029 = reg18028
+}
+reg18031 = reg18029
+} else {
+reg18030 := False;
+reg18031 = reg18030
+}
+var reg18034 Obj
+if reg18031 == True {
+reg18032 := True;
+reg18034 = reg18032
+} else {
+reg18033 := False;
+reg18034 = reg18033
+}
+reg18036 = reg18034
+} else {
+reg18035 := False;
+reg18036 = reg18035
+}
+var reg18039 Obj
+if reg18036 == True {
+reg18037 := True;
+reg18039 = reg18037
+} else {
+reg18038 := False;
+reg18039 = reg18038
+}
+reg18041 = reg18039
+} else {
+reg18040 := False;
+reg18041 = reg18040
+}
+var reg18044 Obj
+if reg18041 == True {
+reg18042 := True;
+reg18044 = reg18042
+} else {
+reg18043 := False;
+reg18044 = reg18043
+}
+reg18046 = reg18044
+} else {
+reg18045 := False;
+reg18046 = reg18045
+}
+var reg18049 Obj
+if reg18046 == True {
+reg18047 := True;
+reg18049 = reg18047
+} else {
+reg18048 := False;
+reg18049 = reg18048
+}
+reg18051 = reg18049
+} else {
+reg18050 := False;
+reg18051 = reg18050
+}
+if reg18051 == True {
+reg18052 := MakeSymbol("bind")
+reg18053 := PrimHead(V774)
+reg18054 := PrimTail(reg18053)
+reg18055 := PrimHead(reg18054)
+reg18056 := PrimHead(V774)
+reg18057 := PrimTail(reg18056)
+reg18058 := PrimTail(reg18057)
+reg18059 := PrimHead(reg18058)
+reg18060 := __e.Call(__defun__shen_4insert_1lazyderef, reg18059, V773)
+reg18061 := MakeSymbol("freeze")
+reg18062 := PrimTail(V774)
+reg18063 := __e.Call(__defun__shen_4bld_1prolog_1call, V773, reg18062)
+reg18064 := Nil;
+reg18065 := PrimCons(reg18063, reg18064)
+reg18066 := PrimCons(reg18061, reg18065)
+reg18067 := Nil;
+reg18068 := PrimCons(reg18066, reg18067)
+reg18069 := PrimCons(V773, reg18068)
+reg18070 := PrimCons(reg18060, reg18069)
+reg18071 := PrimCons(reg18055, reg18070)
+reg18072 := PrimCons(reg18052, reg18071)
+__ctx.Return(reg18072)
+return
+} else {
+reg18073 := PrimIsPair(V774)
+var reg18107 Obj
+if reg18073 == True {
+reg18074 := PrimHead(V774)
+reg18075 := PrimIsPair(reg18074)
+var reg18102 Obj
+if reg18075 == True {
+reg18076 := MakeSymbol("fwhen")
+reg18077 := PrimHead(V774)
+reg18078 := PrimHead(reg18077)
+reg18079 := PrimEqual(reg18076, reg18078)
+var reg18097 Obj
+if reg18079 == True {
+reg18080 := PrimHead(V774)
+reg18081 := PrimTail(reg18080)
+reg18082 := PrimIsPair(reg18081)
+var reg18092 Obj
+if reg18082 == True {
+reg18083 := Nil;
+reg18084 := PrimHead(V774)
+reg18085 := PrimTail(reg18084)
+reg18086 := PrimTail(reg18085)
+reg18087 := PrimEqual(reg18083, reg18086)
+var reg18090 Obj
+if reg18087 == True {
+reg18088 := True;
+reg18090 = reg18088
+} else {
+reg18089 := False;
+reg18090 = reg18089
+}
+reg18092 = reg18090
+} else {
+reg18091 := False;
+reg18092 = reg18091
+}
+var reg18095 Obj
+if reg18092 == True {
+reg18093 := True;
+reg18095 = reg18093
+} else {
+reg18094 := False;
+reg18095 = reg18094
+}
+reg18097 = reg18095
+} else {
+reg18096 := False;
+reg18097 = reg18096
+}
+var reg18100 Obj
+if reg18097 == True {
+reg18098 := True;
+reg18100 = reg18098
+} else {
+reg18099 := False;
+reg18100 = reg18099
+}
+reg18102 = reg18100
+} else {
+reg18101 := False;
+reg18102 = reg18101
+}
+var reg18105 Obj
+if reg18102 == True {
+reg18103 := True;
+reg18105 = reg18103
+} else {
+reg18104 := False;
+reg18105 = reg18104
+}
+reg18107 = reg18105
+} else {
+reg18106 := False;
+reg18107 = reg18106
+}
+if reg18107 == True {
+reg18108 := MakeSymbol("fwhen")
+reg18109 := PrimHead(V774)
+reg18110 := PrimTail(reg18109)
+reg18111 := PrimHead(reg18110)
+reg18112 := __e.Call(__defun__shen_4insert_1lazyderef, reg18111, V773)
+reg18113 := MakeSymbol("freeze")
+reg18114 := PrimTail(V774)
+reg18115 := __e.Call(__defun__shen_4bld_1prolog_1call, V773, reg18114)
+reg18116 := Nil;
+reg18117 := PrimCons(reg18115, reg18116)
+reg18118 := PrimCons(reg18113, reg18117)
+reg18119 := Nil;
+reg18120 := PrimCons(reg18118, reg18119)
+reg18121 := PrimCons(V773, reg18120)
+reg18122 := PrimCons(reg18112, reg18121)
+reg18123 := PrimCons(reg18108, reg18122)
+__ctx.Return(reg18123)
+return
+} else {
+reg18124 := PrimIsPair(V774)
+if reg18124 == True {
+reg18125 := PrimHead(V774)
+reg18126 := MakeSymbol("freeze")
+reg18127 := PrimTail(V774)
+reg18128 := __e.Call(__defun__shen_4bld_1prolog_1call, V773, reg18127)
+reg18129 := Nil;
+reg18130 := PrimCons(reg18128, reg18129)
+reg18131 := PrimCons(reg18126, reg18130)
+reg18132 := Nil;
+reg18133 := PrimCons(reg18131, reg18132)
+reg18134 := PrimCons(V773, reg18133)
+__ctx.TailApply(__defun__append, reg18125, reg18134)
+return
+} else {
+reg18136 := MakeString("implementation error in bld-prolog-call")
+reg18137 := PrimSimpleError(reg18136)
+__ctx.Return(reg18137)
+return
+}
+}
+}
+}
+}
+}
+}
+}
+}, 2)
+__initDefs = append(__initDefs, defType{name: "shen.bld-prolog-call", value: __defun__shen_4bld_1prolog_1call})
 
 __defun__shen_4defprolog_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1748 := __args[0]
-_ = V1748
-reg309234 := PrimIsPair(V1748)
-var reg309249 Obj
-if reg309234 == True {
-reg309235 := MakeSymbol("defprolog")
-reg309236 := PrimHead(V1748)
-reg309237 := PrimEqual(reg309235, reg309236)
-var reg309244 Obj
-if reg309237 == True {
-reg309238 := PrimTail(V1748)
-reg309239 := PrimIsPair(reg309238)
-var reg309242 Obj
-if reg309239 == True {
-reg309240 := True;
-reg309242 = reg309240
+V776 := __args[0]
+_ = V776
+reg18138 := PrimIsPair(V776)
+var reg18153 Obj
+if reg18138 == True {
+reg18139 := MakeSymbol("defprolog")
+reg18140 := PrimHead(V776)
+reg18141 := PrimEqual(reg18139, reg18140)
+var reg18148 Obj
+if reg18141 == True {
+reg18142 := PrimTail(V776)
+reg18143 := PrimIsPair(reg18142)
+var reg18146 Obj
+if reg18143 == True {
+reg18144 := True;
+reg18146 = reg18144
 } else {
-reg309241 := False;
-reg309242 = reg309241
+reg18145 := False;
+reg18146 = reg18145
 }
-reg309244 = reg309242
+reg18148 = reg18146
 } else {
-reg309243 := False;
-reg309244 = reg309243
+reg18147 := False;
+reg18148 = reg18147
 }
-var reg309247 Obj
-if reg309244 == True {
-reg309245 := True;
-reg309247 = reg309245
+var reg18151 Obj
+if reg18148 == True {
+reg18149 := True;
+reg18151 = reg18149
 } else {
-reg309246 := False;
-reg309247 = reg309246
+reg18150 := False;
+reg18151 = reg18150
 }
-reg309249 = reg309247
+reg18153 = reg18151
 } else {
-reg309248 := False;
-reg309249 = reg309248
+reg18152 := False;
+reg18153 = reg18152
 }
-if reg309249 == True {
-reg309250 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+if reg18153 == True {
+reg18154 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 Y := __args[0]
 _ = Y
 __ctx.TailApply(__defun__shen_4_5defprolog_6, Y)
 return
 }, 1)
-reg309252 := PrimTail(V1748)
-reg309253 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+reg18156 := PrimTail(V776)
+reg18157 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 Y := __args[0]
 _ = Y
-reg309254 := PrimTail(V1748)
-reg309255 := PrimHead(reg309254)
-__ctx.TailApply(__defun__shen_4prolog_1error, reg309255, Y)
+reg18158 := PrimTail(V776)
+reg18159 := PrimHead(reg18158)
+__ctx.TailApply(__defun__shen_4prolog_1error, reg18159, Y)
 return
 }, 1)
-__ctx.TailApply(__defun__compile, reg309250, reg309252, reg309253)
+__ctx.TailApply(__defun__compile, reg18154, reg18156, reg18157)
 return
 } else {
-__ctx.Return(V1748)
+__ctx.Return(V776)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.defprolog-macro", value: __defun__shen_4defprolog_1macro})
 
 __defun__shen_4datatype_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1750 := __args[0]
-_ = V1750
-reg309258 := PrimIsPair(V1750)
-var reg309273 Obj
-if reg309258 == True {
-reg309259 := MakeSymbol("datatype")
-reg309260 := PrimHead(V1750)
-reg309261 := PrimEqual(reg309259, reg309260)
-var reg309268 Obj
-if reg309261 == True {
-reg309262 := PrimTail(V1750)
-reg309263 := PrimIsPair(reg309262)
-var reg309266 Obj
-if reg309263 == True {
-reg309264 := True;
-reg309266 = reg309264
+V778 := __args[0]
+_ = V778
+reg18162 := PrimIsPair(V778)
+var reg18177 Obj
+if reg18162 == True {
+reg18163 := MakeSymbol("datatype")
+reg18164 := PrimHead(V778)
+reg18165 := PrimEqual(reg18163, reg18164)
+var reg18172 Obj
+if reg18165 == True {
+reg18166 := PrimTail(V778)
+reg18167 := PrimIsPair(reg18166)
+var reg18170 Obj
+if reg18167 == True {
+reg18168 := True;
+reg18170 = reg18168
 } else {
-reg309265 := False;
-reg309266 = reg309265
+reg18169 := False;
+reg18170 = reg18169
 }
-reg309268 = reg309266
+reg18172 = reg18170
 } else {
-reg309267 := False;
-reg309268 = reg309267
+reg18171 := False;
+reg18172 = reg18171
 }
-var reg309271 Obj
-if reg309268 == True {
-reg309269 := True;
-reg309271 = reg309269
+var reg18175 Obj
+if reg18172 == True {
+reg18173 := True;
+reg18175 = reg18173
 } else {
-reg309270 := False;
-reg309271 = reg309270
+reg18174 := False;
+reg18175 = reg18174
 }
-reg309273 = reg309271
+reg18177 = reg18175
 } else {
-reg309272 := False;
-reg309273 = reg309272
+reg18176 := False;
+reg18177 = reg18176
 }
-if reg309273 == True {
-reg309274 := MakeSymbol("shen.process-datatype")
-reg309275 := PrimTail(V1750)
-reg309276 := PrimHead(reg309275)
-reg309277 := __e.Call(__defun__shen_4intern_1type, reg309276)
-reg309278 := MakeSymbol("compile")
-reg309279 := MakeSymbol("lambda")
-reg309280 := MakeSymbol("X")
-reg309281 := MakeSymbol("shen.<datatype-rules>")
-reg309282 := MakeSymbol("X")
-reg309283 := Nil;
-reg309284 := PrimCons(reg309282, reg309283)
-reg309285 := PrimCons(reg309281, reg309284)
-reg309286 := Nil;
-reg309287 := PrimCons(reg309285, reg309286)
-reg309288 := PrimCons(reg309280, reg309287)
-reg309289 := PrimCons(reg309279, reg309288)
-reg309290 := PrimTail(V1750)
-reg309291 := PrimTail(reg309290)
-reg309292 := __e.Call(__defun__shen_4rcons__form, reg309291)
-reg309293 := MakeSymbol("function")
-reg309294 := MakeSymbol("shen.datatype-error")
-reg309295 := Nil;
-reg309296 := PrimCons(reg309294, reg309295)
-reg309297 := PrimCons(reg309293, reg309296)
-reg309298 := Nil;
-reg309299 := PrimCons(reg309297, reg309298)
-reg309300 := PrimCons(reg309292, reg309299)
-reg309301 := PrimCons(reg309289, reg309300)
-reg309302 := PrimCons(reg309278, reg309301)
-reg309303 := Nil;
-reg309304 := PrimCons(reg309302, reg309303)
-reg309305 := PrimCons(reg309277, reg309304)
-reg309306 := PrimCons(reg309274, reg309305)
-__ctx.Return(reg309306)
+if reg18177 == True {
+reg18178 := MakeSymbol("shen.process-datatype")
+reg18179 := PrimTail(V778)
+reg18180 := PrimHead(reg18179)
+reg18181 := __e.Call(__defun__shen_4intern_1type, reg18180)
+reg18182 := MakeSymbol("compile")
+reg18183 := MakeSymbol("lambda")
+reg18184 := MakeSymbol("X")
+reg18185 := MakeSymbol("shen.<datatype-rules>")
+reg18186 := MakeSymbol("X")
+reg18187 := Nil;
+reg18188 := PrimCons(reg18186, reg18187)
+reg18189 := PrimCons(reg18185, reg18188)
+reg18190 := Nil;
+reg18191 := PrimCons(reg18189, reg18190)
+reg18192 := PrimCons(reg18184, reg18191)
+reg18193 := PrimCons(reg18183, reg18192)
+reg18194 := PrimTail(V778)
+reg18195 := PrimTail(reg18194)
+reg18196 := __e.Call(__defun__shen_4rcons__form, reg18195)
+reg18197 := MakeSymbol("function")
+reg18198 := MakeSymbol("shen.datatype-error")
+reg18199 := Nil;
+reg18200 := PrimCons(reg18198, reg18199)
+reg18201 := PrimCons(reg18197, reg18200)
+reg18202 := Nil;
+reg18203 := PrimCons(reg18201, reg18202)
+reg18204 := PrimCons(reg18196, reg18203)
+reg18205 := PrimCons(reg18193, reg18204)
+reg18206 := PrimCons(reg18182, reg18205)
+reg18207 := Nil;
+reg18208 := PrimCons(reg18206, reg18207)
+reg18209 := PrimCons(reg18181, reg18208)
+reg18210 := PrimCons(reg18178, reg18209)
+__ctx.Return(reg18210)
 return
 } else {
-__ctx.Return(V1750)
+__ctx.Return(V778)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.datatype-macro", value: __defun__shen_4datatype_1macro})
 
 __defun__shen_4intern_1type = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1752 := __args[0]
-_ = V1752
-reg309307 := MakeString("type#")
-reg309308 := PrimStr(V1752)
-reg309309 := PrimStringConcat(reg309307, reg309308)
-reg309310 := PrimIntern(reg309309)
-__ctx.Return(reg309310)
+V780 := __args[0]
+_ = V780
+reg18211 := PrimStr(V780)
+reg18212 := MakeString("#type")
+reg18213 := PrimStringConcat(reg18211, reg18212)
+reg18214 := PrimIntern(reg18213)
+__ctx.Return(reg18214)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.intern-type", value: __defun__shen_4intern_1type})
 
 __defun__shen_4_8s_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1754 := __args[0]
-_ = V1754
-reg309311 := PrimIsPair(V1754)
-var reg309343 Obj
-if reg309311 == True {
-reg309312 := MakeSymbol("@s")
-reg309313 := PrimHead(V1754)
-reg309314 := PrimEqual(reg309312, reg309313)
-var reg309338 Obj
-if reg309314 == True {
-reg309315 := PrimTail(V1754)
-reg309316 := PrimIsPair(reg309315)
-var reg309333 Obj
-if reg309316 == True {
-reg309317 := PrimTail(V1754)
-reg309318 := PrimTail(reg309317)
-reg309319 := PrimIsPair(reg309318)
-var reg309328 Obj
-if reg309319 == True {
-reg309320 := PrimTail(V1754)
-reg309321 := PrimTail(reg309320)
-reg309322 := PrimTail(reg309321)
-reg309323 := PrimIsPair(reg309322)
-var reg309326 Obj
-if reg309323 == True {
-reg309324 := True;
-reg309326 = reg309324
+V782 := __args[0]
+_ = V782
+reg18215 := PrimIsPair(V782)
+var reg18247 Obj
+if reg18215 == True {
+reg18216 := MakeSymbol("@s")
+reg18217 := PrimHead(V782)
+reg18218 := PrimEqual(reg18216, reg18217)
+var reg18242 Obj
+if reg18218 == True {
+reg18219 := PrimTail(V782)
+reg18220 := PrimIsPair(reg18219)
+var reg18237 Obj
+if reg18220 == True {
+reg18221 := PrimTail(V782)
+reg18222 := PrimTail(reg18221)
+reg18223 := PrimIsPair(reg18222)
+var reg18232 Obj
+if reg18223 == True {
+reg18224 := PrimTail(V782)
+reg18225 := PrimTail(reg18224)
+reg18226 := PrimTail(reg18225)
+reg18227 := PrimIsPair(reg18226)
+var reg18230 Obj
+if reg18227 == True {
+reg18228 := True;
+reg18230 = reg18228
 } else {
-reg309325 := False;
-reg309326 = reg309325
+reg18229 := False;
+reg18230 = reg18229
 }
-reg309328 = reg309326
+reg18232 = reg18230
 } else {
-reg309327 := False;
-reg309328 = reg309327
+reg18231 := False;
+reg18232 = reg18231
 }
-var reg309331 Obj
-if reg309328 == True {
-reg309329 := True;
-reg309331 = reg309329
+var reg18235 Obj
+if reg18232 == True {
+reg18233 := True;
+reg18235 = reg18233
 } else {
-reg309330 := False;
-reg309331 = reg309330
+reg18234 := False;
+reg18235 = reg18234
 }
-reg309333 = reg309331
+reg18237 = reg18235
 } else {
-reg309332 := False;
-reg309333 = reg309332
+reg18236 := False;
+reg18237 = reg18236
 }
-var reg309336 Obj
-if reg309333 == True {
-reg309334 := True;
-reg309336 = reg309334
+var reg18240 Obj
+if reg18237 == True {
+reg18238 := True;
+reg18240 = reg18238
 } else {
-reg309335 := False;
-reg309336 = reg309335
+reg18239 := False;
+reg18240 = reg18239
 }
-reg309338 = reg309336
+reg18242 = reg18240
 } else {
-reg309337 := False;
-reg309338 = reg309337
+reg18241 := False;
+reg18242 = reg18241
 }
-var reg309341 Obj
-if reg309338 == True {
-reg309339 := True;
-reg309341 = reg309339
+var reg18245 Obj
+if reg18242 == True {
+reg18243 := True;
+reg18245 = reg18243
 } else {
-reg309340 := False;
-reg309341 = reg309340
+reg18244 := False;
+reg18245 = reg18244
 }
-reg309343 = reg309341
+reg18247 = reg18245
 } else {
-reg309342 := False;
-reg309343 = reg309342
+reg18246 := False;
+reg18247 = reg18246
 }
-if reg309343 == True {
-reg309344 := MakeSymbol("@s")
-reg309345 := PrimTail(V1754)
-reg309346 := PrimHead(reg309345)
-reg309347 := MakeSymbol("@s")
-reg309348 := PrimTail(V1754)
-reg309349 := PrimTail(reg309348)
-reg309350 := PrimCons(reg309347, reg309349)
-reg309351 := __e.Call(__defun__shen_4_8s_1macro, reg309350)
-reg309352 := Nil;
-reg309353 := PrimCons(reg309351, reg309352)
-reg309354 := PrimCons(reg309346, reg309353)
-reg309355 := PrimCons(reg309344, reg309354)
-__ctx.Return(reg309355)
+if reg18247 == True {
+reg18248 := MakeSymbol("@s")
+reg18249 := PrimTail(V782)
+reg18250 := PrimHead(reg18249)
+reg18251 := MakeSymbol("@s")
+reg18252 := PrimTail(V782)
+reg18253 := PrimTail(reg18252)
+reg18254 := PrimCons(reg18251, reg18253)
+reg18255 := __e.Call(__defun__shen_4_8s_1macro, reg18254)
+reg18256 := Nil;
+reg18257 := PrimCons(reg18255, reg18256)
+reg18258 := PrimCons(reg18250, reg18257)
+reg18259 := PrimCons(reg18248, reg18258)
+__ctx.Return(reg18259)
 return
 } else {
-reg309356 := PrimIsPair(V1754)
-var reg309397 Obj
-if reg309356 == True {
-reg309357 := MakeSymbol("@s")
-reg309358 := PrimHead(V1754)
-reg309359 := PrimEqual(reg309357, reg309358)
-var reg309392 Obj
-if reg309359 == True {
-reg309360 := PrimTail(V1754)
-reg309361 := PrimIsPair(reg309360)
-var reg309387 Obj
-if reg309361 == True {
-reg309362 := PrimTail(V1754)
-reg309363 := PrimTail(reg309362)
-reg309364 := PrimIsPair(reg309363)
-var reg309382 Obj
-if reg309364 == True {
-reg309365 := Nil;
-reg309366 := PrimTail(V1754)
-reg309367 := PrimTail(reg309366)
-reg309368 := PrimTail(reg309367)
-reg309369 := PrimEqual(reg309365, reg309368)
-var reg309377 Obj
-if reg309369 == True {
-reg309370 := PrimTail(V1754)
-reg309371 := PrimHead(reg309370)
-reg309372 := PrimIsString(reg309371)
-var reg309375 Obj
-if reg309372 == True {
-reg309373 := True;
-reg309375 = reg309373
+reg18260 := PrimIsPair(V782)
+var reg18301 Obj
+if reg18260 == True {
+reg18261 := MakeSymbol("@s")
+reg18262 := PrimHead(V782)
+reg18263 := PrimEqual(reg18261, reg18262)
+var reg18296 Obj
+if reg18263 == True {
+reg18264 := PrimTail(V782)
+reg18265 := PrimIsPair(reg18264)
+var reg18291 Obj
+if reg18265 == True {
+reg18266 := PrimTail(V782)
+reg18267 := PrimTail(reg18266)
+reg18268 := PrimIsPair(reg18267)
+var reg18286 Obj
+if reg18268 == True {
+reg18269 := Nil;
+reg18270 := PrimTail(V782)
+reg18271 := PrimTail(reg18270)
+reg18272 := PrimTail(reg18271)
+reg18273 := PrimEqual(reg18269, reg18272)
+var reg18281 Obj
+if reg18273 == True {
+reg18274 := PrimTail(V782)
+reg18275 := PrimHead(reg18274)
+reg18276 := PrimIsString(reg18275)
+var reg18279 Obj
+if reg18276 == True {
+reg18277 := True;
+reg18279 = reg18277
 } else {
-reg309374 := False;
-reg309375 = reg309374
+reg18278 := False;
+reg18279 = reg18278
 }
-reg309377 = reg309375
+reg18281 = reg18279
 } else {
-reg309376 := False;
-reg309377 = reg309376
+reg18280 := False;
+reg18281 = reg18280
 }
-var reg309380 Obj
-if reg309377 == True {
-reg309378 := True;
-reg309380 = reg309378
+var reg18284 Obj
+if reg18281 == True {
+reg18282 := True;
+reg18284 = reg18282
 } else {
-reg309379 := False;
-reg309380 = reg309379
+reg18283 := False;
+reg18284 = reg18283
 }
-reg309382 = reg309380
+reg18286 = reg18284
 } else {
-reg309381 := False;
-reg309382 = reg309381
+reg18285 := False;
+reg18286 = reg18285
 }
-var reg309385 Obj
-if reg309382 == True {
-reg309383 := True;
-reg309385 = reg309383
+var reg18289 Obj
+if reg18286 == True {
+reg18287 := True;
+reg18289 = reg18287
 } else {
-reg309384 := False;
-reg309385 = reg309384
+reg18288 := False;
+reg18289 = reg18288
 }
-reg309387 = reg309385
+reg18291 = reg18289
 } else {
-reg309386 := False;
-reg309387 = reg309386
+reg18290 := False;
+reg18291 = reg18290
 }
-var reg309390 Obj
-if reg309387 == True {
-reg309388 := True;
-reg309390 = reg309388
+var reg18294 Obj
+if reg18291 == True {
+reg18292 := True;
+reg18294 = reg18292
 } else {
-reg309389 := False;
-reg309390 = reg309389
+reg18293 := False;
+reg18294 = reg18293
 }
-reg309392 = reg309390
+reg18296 = reg18294
 } else {
-reg309391 := False;
-reg309392 = reg309391
+reg18295 := False;
+reg18296 = reg18295
 }
-var reg309395 Obj
-if reg309392 == True {
-reg309393 := True;
-reg309395 = reg309393
+var reg18299 Obj
+if reg18296 == True {
+reg18297 := True;
+reg18299 = reg18297
 } else {
-reg309394 := False;
-reg309395 = reg309394
+reg18298 := False;
+reg18299 = reg18298
 }
-reg309397 = reg309395
+reg18301 = reg18299
 } else {
-reg309396 := False;
-reg309397 = reg309396
+reg18300 := False;
+reg18301 = reg18300
 }
-if reg309397 == True {
-reg309398 := PrimTail(V1754)
-reg309399 := PrimHead(reg309398)
-reg309400 := __e.Call(__defun__explode, reg309399)
-E := reg309400
+if reg18301 == True {
+reg18302 := PrimTail(V782)
+reg18303 := PrimHead(reg18302)
+reg18304 := __e.Call(__defun__explode, reg18303)
+E := reg18304
 _ = E
-reg309401 := __e.Call(__defun__length, E)
-reg309402 := MakeNumber(1)
-reg309403 := PrimGreatThan(reg309401, reg309402)
-if reg309403 == True {
-reg309404 := MakeSymbol("@s")
-reg309405 := PrimTail(V1754)
-reg309406 := PrimTail(reg309405)
-reg309407 := __e.Call(__defun__append, E, reg309406)
-reg309408 := PrimCons(reg309404, reg309407)
-__ctx.TailApply(__defun__shen_4_8s_1macro, reg309408)
+reg18305 := __e.Call(__defun__length, E)
+reg18306 := MakeNumber(1)
+reg18307 := PrimGreatThan(reg18305, reg18306)
+if reg18307 == True {
+reg18308 := MakeSymbol("@s")
+reg18309 := PrimTail(V782)
+reg18310 := PrimTail(reg18309)
+reg18311 := __e.Call(__defun__append, E, reg18310)
+reg18312 := PrimCons(reg18308, reg18311)
+__ctx.TailApply(__defun__shen_4_8s_1macro, reg18312)
 return
 } else {
-__ctx.Return(V1754)
+__ctx.Return(V782)
 return
 }
 } else {
-__ctx.Return(V1754)
+__ctx.Return(V782)
 return
 }
 }
@@ -1401,524 +1878,524 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.@s-macro", value: __defun__shen_4_8s_1macro})
 
 __defun__shen_4synonyms_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1756 := __args[0]
-_ = V1756
-reg309410 := PrimIsPair(V1756)
-var reg309418 Obj
-if reg309410 == True {
-reg309411 := MakeSymbol("synonyms")
-reg309412 := PrimHead(V1756)
-reg309413 := PrimEqual(reg309411, reg309412)
-var reg309416 Obj
-if reg309413 == True {
-reg309414 := True;
-reg309416 = reg309414
+V784 := __args[0]
+_ = V784
+reg18314 := PrimIsPair(V784)
+var reg18322 Obj
+if reg18314 == True {
+reg18315 := MakeSymbol("synonyms")
+reg18316 := PrimHead(V784)
+reg18317 := PrimEqual(reg18315, reg18316)
+var reg18320 Obj
+if reg18317 == True {
+reg18318 := True;
+reg18320 = reg18318
 } else {
-reg309415 := False;
-reg309416 = reg309415
+reg18319 := False;
+reg18320 = reg18319
 }
-reg309418 = reg309416
+reg18322 = reg18320
 } else {
-reg309417 := False;
-reg309418 = reg309417
+reg18321 := False;
+reg18322 = reg18321
 }
-if reg309418 == True {
-reg309419 := MakeSymbol("shen.synonyms-help")
-reg309420 := PrimTail(V1756)
-reg309421 := __e.Call(__defun__shen_4curry_1synonyms, reg309420)
-reg309422 := __e.Call(__defun__shen_4rcons__form, reg309421)
-reg309423 := Nil;
-reg309424 := PrimCons(reg309422, reg309423)
-reg309425 := PrimCons(reg309419, reg309424)
-__ctx.Return(reg309425)
+if reg18322 == True {
+reg18323 := MakeSymbol("shen.synonyms-help")
+reg18324 := PrimTail(V784)
+reg18325 := __e.Call(__defun__shen_4curry_1synonyms, reg18324)
+reg18326 := __e.Call(__defun__shen_4rcons__form, reg18325)
+reg18327 := Nil;
+reg18328 := PrimCons(reg18326, reg18327)
+reg18329 := PrimCons(reg18323, reg18328)
+__ctx.Return(reg18329)
 return
 } else {
-__ctx.Return(V1756)
+__ctx.Return(V784)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.synonyms-macro", value: __defun__shen_4synonyms_1macro})
 
 __defun__shen_4curry_1synonyms = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1758 := __args[0]
-_ = V1758
-reg309426 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
+V786 := __args[0]
+_ = V786
+reg18330 := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
 X := __args[0]
 _ = X
 __ctx.TailApply(__defun__shen_4curry_1type, X)
 return
 }, 1)
-__ctx.TailApply(__defun__map, reg309426, V1758)
+__ctx.TailApply(__defun__map, reg18330, V786)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.curry-synonyms", value: __defun__shen_4curry_1synonyms})
 
 __defun__shen_4nl_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1760 := __args[0]
-_ = V1760
-reg309429 := PrimIsPair(V1760)
-var reg309445 Obj
-if reg309429 == True {
-reg309430 := MakeSymbol("nl")
-reg309431 := PrimHead(V1760)
-reg309432 := PrimEqual(reg309430, reg309431)
-var reg309440 Obj
-if reg309432 == True {
-reg309433 := Nil;
-reg309434 := PrimTail(V1760)
-reg309435 := PrimEqual(reg309433, reg309434)
-var reg309438 Obj
-if reg309435 == True {
-reg309436 := True;
-reg309438 = reg309436
+V788 := __args[0]
+_ = V788
+reg18333 := PrimIsPair(V788)
+var reg18349 Obj
+if reg18333 == True {
+reg18334 := MakeSymbol("nl")
+reg18335 := PrimHead(V788)
+reg18336 := PrimEqual(reg18334, reg18335)
+var reg18344 Obj
+if reg18336 == True {
+reg18337 := Nil;
+reg18338 := PrimTail(V788)
+reg18339 := PrimEqual(reg18337, reg18338)
+var reg18342 Obj
+if reg18339 == True {
+reg18340 := True;
+reg18342 = reg18340
 } else {
-reg309437 := False;
-reg309438 = reg309437
+reg18341 := False;
+reg18342 = reg18341
 }
-reg309440 = reg309438
+reg18344 = reg18342
 } else {
-reg309439 := False;
-reg309440 = reg309439
+reg18343 := False;
+reg18344 = reg18343
 }
-var reg309443 Obj
-if reg309440 == True {
-reg309441 := True;
-reg309443 = reg309441
+var reg18347 Obj
+if reg18344 == True {
+reg18345 := True;
+reg18347 = reg18345
 } else {
-reg309442 := False;
-reg309443 = reg309442
+reg18346 := False;
+reg18347 = reg18346
 }
-reg309445 = reg309443
+reg18349 = reg18347
 } else {
-reg309444 := False;
-reg309445 = reg309444
+reg18348 := False;
+reg18349 = reg18348
 }
-if reg309445 == True {
-reg309446 := MakeSymbol("nl")
-reg309447 := MakeNumber(1)
-reg309448 := Nil;
-reg309449 := PrimCons(reg309447, reg309448)
-reg309450 := PrimCons(reg309446, reg309449)
-__ctx.Return(reg309450)
+if reg18349 == True {
+reg18350 := MakeSymbol("nl")
+reg18351 := MakeNumber(1)
+reg18352 := Nil;
+reg18353 := PrimCons(reg18351, reg18352)
+reg18354 := PrimCons(reg18350, reg18353)
+__ctx.Return(reg18354)
 return
 } else {
-__ctx.Return(V1760)
+__ctx.Return(V788)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.nl-macro", value: __defun__shen_4nl_1macro})
 
 __defun__shen_4assoc_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1762 := __args[0]
-_ = V1762
-reg309451 := PrimIsPair(V1762)
-var reg309499 Obj
-if reg309451 == True {
-reg309452 := PrimTail(V1762)
-reg309453 := PrimIsPair(reg309452)
-var reg309494 Obj
-if reg309453 == True {
-reg309454 := PrimTail(V1762)
-reg309455 := PrimTail(reg309454)
-reg309456 := PrimIsPair(reg309455)
-var reg309489 Obj
-if reg309456 == True {
-reg309457 := PrimTail(V1762)
-reg309458 := PrimTail(reg309457)
-reg309459 := PrimTail(reg309458)
-reg309460 := PrimIsPair(reg309459)
-var reg309484 Obj
-if reg309460 == True {
-reg309461 := PrimHead(V1762)
-reg309462 := MakeSymbol("@p")
-reg309463 := MakeSymbol("@v")
-reg309464 := MakeSymbol("append")
-reg309465 := MakeSymbol("and")
-reg309466 := MakeSymbol("or")
-reg309467 := MakeSymbol("+")
-reg309468 := MakeSymbol("*")
-reg309469 := MakeSymbol("do")
-reg309470 := Nil;
-reg309471 := PrimCons(reg309469, reg309470)
-reg309472 := PrimCons(reg309468, reg309471)
-reg309473 := PrimCons(reg309467, reg309472)
-reg309474 := PrimCons(reg309466, reg309473)
-reg309475 := PrimCons(reg309465, reg309474)
-reg309476 := PrimCons(reg309464, reg309475)
-reg309477 := PrimCons(reg309463, reg309476)
-reg309478 := PrimCons(reg309462, reg309477)
-reg309479 := __e.Call(__defun__element_2, reg309461, reg309478)
-var reg309482 Obj
-if reg309479 == True {
-reg309480 := True;
-reg309482 = reg309480
+V790 := __args[0]
+_ = V790
+reg18355 := PrimIsPair(V790)
+var reg18403 Obj
+if reg18355 == True {
+reg18356 := PrimTail(V790)
+reg18357 := PrimIsPair(reg18356)
+var reg18398 Obj
+if reg18357 == True {
+reg18358 := PrimTail(V790)
+reg18359 := PrimTail(reg18358)
+reg18360 := PrimIsPair(reg18359)
+var reg18393 Obj
+if reg18360 == True {
+reg18361 := PrimTail(V790)
+reg18362 := PrimTail(reg18361)
+reg18363 := PrimTail(reg18362)
+reg18364 := PrimIsPair(reg18363)
+var reg18388 Obj
+if reg18364 == True {
+reg18365 := PrimHead(V790)
+reg18366 := MakeSymbol("@p")
+reg18367 := MakeSymbol("@v")
+reg18368 := MakeSymbol("append")
+reg18369 := MakeSymbol("and")
+reg18370 := MakeSymbol("or")
+reg18371 := MakeSymbol("+")
+reg18372 := MakeSymbol("*")
+reg18373 := MakeSymbol("do")
+reg18374 := Nil;
+reg18375 := PrimCons(reg18373, reg18374)
+reg18376 := PrimCons(reg18372, reg18375)
+reg18377 := PrimCons(reg18371, reg18376)
+reg18378 := PrimCons(reg18370, reg18377)
+reg18379 := PrimCons(reg18369, reg18378)
+reg18380 := PrimCons(reg18368, reg18379)
+reg18381 := PrimCons(reg18367, reg18380)
+reg18382 := PrimCons(reg18366, reg18381)
+reg18383 := __e.Call(__defun__element_2, reg18365, reg18382)
+var reg18386 Obj
+if reg18383 == True {
+reg18384 := True;
+reg18386 = reg18384
 } else {
-reg309481 := False;
-reg309482 = reg309481
+reg18385 := False;
+reg18386 = reg18385
 }
-reg309484 = reg309482
+reg18388 = reg18386
 } else {
-reg309483 := False;
-reg309484 = reg309483
+reg18387 := False;
+reg18388 = reg18387
 }
-var reg309487 Obj
-if reg309484 == True {
-reg309485 := True;
-reg309487 = reg309485
+var reg18391 Obj
+if reg18388 == True {
+reg18389 := True;
+reg18391 = reg18389
 } else {
-reg309486 := False;
-reg309487 = reg309486
+reg18390 := False;
+reg18391 = reg18390
 }
-reg309489 = reg309487
+reg18393 = reg18391
 } else {
-reg309488 := False;
-reg309489 = reg309488
+reg18392 := False;
+reg18393 = reg18392
 }
-var reg309492 Obj
-if reg309489 == True {
-reg309490 := True;
-reg309492 = reg309490
+var reg18396 Obj
+if reg18393 == True {
+reg18394 := True;
+reg18396 = reg18394
 } else {
-reg309491 := False;
-reg309492 = reg309491
+reg18395 := False;
+reg18396 = reg18395
 }
-reg309494 = reg309492
+reg18398 = reg18396
 } else {
-reg309493 := False;
-reg309494 = reg309493
+reg18397 := False;
+reg18398 = reg18397
 }
-var reg309497 Obj
-if reg309494 == True {
-reg309495 := True;
-reg309497 = reg309495
+var reg18401 Obj
+if reg18398 == True {
+reg18399 := True;
+reg18401 = reg18399
 } else {
-reg309496 := False;
-reg309497 = reg309496
+reg18400 := False;
+reg18401 = reg18400
 }
-reg309499 = reg309497
+reg18403 = reg18401
 } else {
-reg309498 := False;
-reg309499 = reg309498
+reg18402 := False;
+reg18403 = reg18402
 }
-if reg309499 == True {
-reg309500 := PrimHead(V1762)
-reg309501 := PrimTail(V1762)
-reg309502 := PrimHead(reg309501)
-reg309503 := PrimHead(V1762)
-reg309504 := PrimTail(V1762)
-reg309505 := PrimTail(reg309504)
-reg309506 := PrimCons(reg309503, reg309505)
-reg309507 := __e.Call(__defun__shen_4assoc_1macro, reg309506)
-reg309508 := Nil;
-reg309509 := PrimCons(reg309507, reg309508)
-reg309510 := PrimCons(reg309502, reg309509)
-reg309511 := PrimCons(reg309500, reg309510)
-__ctx.Return(reg309511)
+if reg18403 == True {
+reg18404 := PrimHead(V790)
+reg18405 := PrimTail(V790)
+reg18406 := PrimHead(reg18405)
+reg18407 := PrimHead(V790)
+reg18408 := PrimTail(V790)
+reg18409 := PrimTail(reg18408)
+reg18410 := PrimCons(reg18407, reg18409)
+reg18411 := __e.Call(__defun__shen_4assoc_1macro, reg18410)
+reg18412 := Nil;
+reg18413 := PrimCons(reg18411, reg18412)
+reg18414 := PrimCons(reg18406, reg18413)
+reg18415 := PrimCons(reg18404, reg18414)
+__ctx.Return(reg18415)
 return
 } else {
-__ctx.Return(V1762)
+__ctx.Return(V790)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.assoc-macro", value: __defun__shen_4assoc_1macro})
 
 __defun__shen_4let_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1764 := __args[0]
-_ = V1764
-reg309512 := PrimIsPair(V1764)
-var reg309554 Obj
-if reg309512 == True {
-reg309513 := MakeSymbol("let")
-reg309514 := PrimHead(V1764)
-reg309515 := PrimEqual(reg309513, reg309514)
-var reg309549 Obj
-if reg309515 == True {
-reg309516 := PrimTail(V1764)
-reg309517 := PrimIsPair(reg309516)
-var reg309544 Obj
-if reg309517 == True {
-reg309518 := PrimTail(V1764)
-reg309519 := PrimTail(reg309518)
-reg309520 := PrimIsPair(reg309519)
-var reg309539 Obj
-if reg309520 == True {
-reg309521 := PrimTail(V1764)
-reg309522 := PrimTail(reg309521)
-reg309523 := PrimTail(reg309522)
-reg309524 := PrimIsPair(reg309523)
-var reg309534 Obj
-if reg309524 == True {
-reg309525 := PrimTail(V1764)
-reg309526 := PrimTail(reg309525)
-reg309527 := PrimTail(reg309526)
-reg309528 := PrimTail(reg309527)
-reg309529 := PrimIsPair(reg309528)
-var reg309532 Obj
-if reg309529 == True {
-reg309530 := True;
-reg309532 = reg309530
+V792 := __args[0]
+_ = V792
+reg18416 := PrimIsPair(V792)
+var reg18458 Obj
+if reg18416 == True {
+reg18417 := MakeSymbol("let")
+reg18418 := PrimHead(V792)
+reg18419 := PrimEqual(reg18417, reg18418)
+var reg18453 Obj
+if reg18419 == True {
+reg18420 := PrimTail(V792)
+reg18421 := PrimIsPair(reg18420)
+var reg18448 Obj
+if reg18421 == True {
+reg18422 := PrimTail(V792)
+reg18423 := PrimTail(reg18422)
+reg18424 := PrimIsPair(reg18423)
+var reg18443 Obj
+if reg18424 == True {
+reg18425 := PrimTail(V792)
+reg18426 := PrimTail(reg18425)
+reg18427 := PrimTail(reg18426)
+reg18428 := PrimIsPair(reg18427)
+var reg18438 Obj
+if reg18428 == True {
+reg18429 := PrimTail(V792)
+reg18430 := PrimTail(reg18429)
+reg18431 := PrimTail(reg18430)
+reg18432 := PrimTail(reg18431)
+reg18433 := PrimIsPair(reg18432)
+var reg18436 Obj
+if reg18433 == True {
+reg18434 := True;
+reg18436 = reg18434
 } else {
-reg309531 := False;
-reg309532 = reg309531
+reg18435 := False;
+reg18436 = reg18435
 }
-reg309534 = reg309532
+reg18438 = reg18436
 } else {
-reg309533 := False;
-reg309534 = reg309533
+reg18437 := False;
+reg18438 = reg18437
 }
-var reg309537 Obj
-if reg309534 == True {
-reg309535 := True;
-reg309537 = reg309535
+var reg18441 Obj
+if reg18438 == True {
+reg18439 := True;
+reg18441 = reg18439
 } else {
-reg309536 := False;
-reg309537 = reg309536
+reg18440 := False;
+reg18441 = reg18440
 }
-reg309539 = reg309537
+reg18443 = reg18441
 } else {
-reg309538 := False;
-reg309539 = reg309538
+reg18442 := False;
+reg18443 = reg18442
 }
-var reg309542 Obj
-if reg309539 == True {
-reg309540 := True;
-reg309542 = reg309540
+var reg18446 Obj
+if reg18443 == True {
+reg18444 := True;
+reg18446 = reg18444
 } else {
-reg309541 := False;
-reg309542 = reg309541
+reg18445 := False;
+reg18446 = reg18445
 }
-reg309544 = reg309542
+reg18448 = reg18446
 } else {
-reg309543 := False;
-reg309544 = reg309543
+reg18447 := False;
+reg18448 = reg18447
 }
-var reg309547 Obj
-if reg309544 == True {
-reg309545 := True;
-reg309547 = reg309545
+var reg18451 Obj
+if reg18448 == True {
+reg18449 := True;
+reg18451 = reg18449
 } else {
-reg309546 := False;
-reg309547 = reg309546
+reg18450 := False;
+reg18451 = reg18450
 }
-reg309549 = reg309547
+reg18453 = reg18451
 } else {
-reg309548 := False;
-reg309549 = reg309548
+reg18452 := False;
+reg18453 = reg18452
 }
-var reg309552 Obj
-if reg309549 == True {
-reg309550 := True;
-reg309552 = reg309550
+var reg18456 Obj
+if reg18453 == True {
+reg18454 := True;
+reg18456 = reg18454
 } else {
-reg309551 := False;
-reg309552 = reg309551
+reg18455 := False;
+reg18456 = reg18455
 }
-reg309554 = reg309552
+reg18458 = reg18456
 } else {
-reg309553 := False;
-reg309554 = reg309553
+reg18457 := False;
+reg18458 = reg18457
 }
-if reg309554 == True {
-reg309555 := MakeSymbol("let")
-reg309556 := PrimTail(V1764)
-reg309557 := PrimHead(reg309556)
-reg309558 := PrimTail(V1764)
-reg309559 := PrimTail(reg309558)
-reg309560 := PrimHead(reg309559)
-reg309561 := MakeSymbol("let")
-reg309562 := PrimTail(V1764)
-reg309563 := PrimTail(reg309562)
-reg309564 := PrimTail(reg309563)
-reg309565 := PrimCons(reg309561, reg309564)
-reg309566 := __e.Call(__defun__shen_4let_1macro, reg309565)
-reg309567 := Nil;
-reg309568 := PrimCons(reg309566, reg309567)
-reg309569 := PrimCons(reg309560, reg309568)
-reg309570 := PrimCons(reg309557, reg309569)
-reg309571 := PrimCons(reg309555, reg309570)
-__ctx.Return(reg309571)
+if reg18458 == True {
+reg18459 := MakeSymbol("let")
+reg18460 := PrimTail(V792)
+reg18461 := PrimHead(reg18460)
+reg18462 := PrimTail(V792)
+reg18463 := PrimTail(reg18462)
+reg18464 := PrimHead(reg18463)
+reg18465 := MakeSymbol("let")
+reg18466 := PrimTail(V792)
+reg18467 := PrimTail(reg18466)
+reg18468 := PrimTail(reg18467)
+reg18469 := PrimCons(reg18465, reg18468)
+reg18470 := __e.Call(__defun__shen_4let_1macro, reg18469)
+reg18471 := Nil;
+reg18472 := PrimCons(reg18470, reg18471)
+reg18473 := PrimCons(reg18464, reg18472)
+reg18474 := PrimCons(reg18461, reg18473)
+reg18475 := PrimCons(reg18459, reg18474)
+__ctx.Return(reg18475)
 return
 } else {
-__ctx.Return(V1764)
+__ctx.Return(V792)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.let-macro", value: __defun__shen_4let_1macro})
 
 __defun__shen_4abs_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1766 := __args[0]
-_ = V1766
-reg309572 := PrimIsPair(V1766)
-var reg309604 Obj
-if reg309572 == True {
-reg309573 := MakeSymbol("/.")
-reg309574 := PrimHead(V1766)
-reg309575 := PrimEqual(reg309573, reg309574)
-var reg309599 Obj
-if reg309575 == True {
-reg309576 := PrimTail(V1766)
-reg309577 := PrimIsPair(reg309576)
-var reg309594 Obj
-if reg309577 == True {
-reg309578 := PrimTail(V1766)
-reg309579 := PrimTail(reg309578)
-reg309580 := PrimIsPair(reg309579)
-var reg309589 Obj
-if reg309580 == True {
-reg309581 := PrimTail(V1766)
-reg309582 := PrimTail(reg309581)
-reg309583 := PrimTail(reg309582)
-reg309584 := PrimIsPair(reg309583)
-var reg309587 Obj
-if reg309584 == True {
-reg309585 := True;
-reg309587 = reg309585
+V794 := __args[0]
+_ = V794
+reg18476 := PrimIsPair(V794)
+var reg18508 Obj
+if reg18476 == True {
+reg18477 := MakeSymbol("/.")
+reg18478 := PrimHead(V794)
+reg18479 := PrimEqual(reg18477, reg18478)
+var reg18503 Obj
+if reg18479 == True {
+reg18480 := PrimTail(V794)
+reg18481 := PrimIsPair(reg18480)
+var reg18498 Obj
+if reg18481 == True {
+reg18482 := PrimTail(V794)
+reg18483 := PrimTail(reg18482)
+reg18484 := PrimIsPair(reg18483)
+var reg18493 Obj
+if reg18484 == True {
+reg18485 := PrimTail(V794)
+reg18486 := PrimTail(reg18485)
+reg18487 := PrimTail(reg18486)
+reg18488 := PrimIsPair(reg18487)
+var reg18491 Obj
+if reg18488 == True {
+reg18489 := True;
+reg18491 = reg18489
 } else {
-reg309586 := False;
-reg309587 = reg309586
+reg18490 := False;
+reg18491 = reg18490
 }
-reg309589 = reg309587
+reg18493 = reg18491
 } else {
-reg309588 := False;
-reg309589 = reg309588
+reg18492 := False;
+reg18493 = reg18492
 }
-var reg309592 Obj
-if reg309589 == True {
-reg309590 := True;
-reg309592 = reg309590
+var reg18496 Obj
+if reg18493 == True {
+reg18494 := True;
+reg18496 = reg18494
 } else {
-reg309591 := False;
-reg309592 = reg309591
+reg18495 := False;
+reg18496 = reg18495
 }
-reg309594 = reg309592
+reg18498 = reg18496
 } else {
-reg309593 := False;
-reg309594 = reg309593
+reg18497 := False;
+reg18498 = reg18497
 }
-var reg309597 Obj
-if reg309594 == True {
-reg309595 := True;
-reg309597 = reg309595
+var reg18501 Obj
+if reg18498 == True {
+reg18499 := True;
+reg18501 = reg18499
 } else {
-reg309596 := False;
-reg309597 = reg309596
+reg18500 := False;
+reg18501 = reg18500
 }
-reg309599 = reg309597
+reg18503 = reg18501
 } else {
-reg309598 := False;
-reg309599 = reg309598
+reg18502 := False;
+reg18503 = reg18502
 }
-var reg309602 Obj
-if reg309599 == True {
-reg309600 := True;
-reg309602 = reg309600
+var reg18506 Obj
+if reg18503 == True {
+reg18504 := True;
+reg18506 = reg18504
 } else {
-reg309601 := False;
-reg309602 = reg309601
+reg18505 := False;
+reg18506 = reg18505
 }
-reg309604 = reg309602
+reg18508 = reg18506
 } else {
-reg309603 := False;
-reg309604 = reg309603
+reg18507 := False;
+reg18508 = reg18507
 }
-if reg309604 == True {
-reg309605 := MakeSymbol("lambda")
-reg309606 := PrimTail(V1766)
-reg309607 := PrimHead(reg309606)
-reg309608 := MakeSymbol("/.")
-reg309609 := PrimTail(V1766)
-reg309610 := PrimTail(reg309609)
-reg309611 := PrimCons(reg309608, reg309610)
-reg309612 := __e.Call(__defun__shen_4abs_1macro, reg309611)
-reg309613 := Nil;
-reg309614 := PrimCons(reg309612, reg309613)
-reg309615 := PrimCons(reg309607, reg309614)
-reg309616 := PrimCons(reg309605, reg309615)
-__ctx.Return(reg309616)
+if reg18508 == True {
+reg18509 := MakeSymbol("lambda")
+reg18510 := PrimTail(V794)
+reg18511 := PrimHead(reg18510)
+reg18512 := MakeSymbol("/.")
+reg18513 := PrimTail(V794)
+reg18514 := PrimTail(reg18513)
+reg18515 := PrimCons(reg18512, reg18514)
+reg18516 := __e.Call(__defun__shen_4abs_1macro, reg18515)
+reg18517 := Nil;
+reg18518 := PrimCons(reg18516, reg18517)
+reg18519 := PrimCons(reg18511, reg18518)
+reg18520 := PrimCons(reg18509, reg18519)
+__ctx.Return(reg18520)
 return
 } else {
-reg309617 := PrimIsPair(V1766)
-var reg309650 Obj
-if reg309617 == True {
-reg309618 := MakeSymbol("/.")
-reg309619 := PrimHead(V1766)
-reg309620 := PrimEqual(reg309618, reg309619)
-var reg309645 Obj
-if reg309620 == True {
-reg309621 := PrimTail(V1766)
-reg309622 := PrimIsPair(reg309621)
-var reg309640 Obj
-if reg309622 == True {
-reg309623 := PrimTail(V1766)
-reg309624 := PrimTail(reg309623)
-reg309625 := PrimIsPair(reg309624)
-var reg309635 Obj
-if reg309625 == True {
-reg309626 := Nil;
-reg309627 := PrimTail(V1766)
-reg309628 := PrimTail(reg309627)
-reg309629 := PrimTail(reg309628)
-reg309630 := PrimEqual(reg309626, reg309629)
-var reg309633 Obj
-if reg309630 == True {
-reg309631 := True;
-reg309633 = reg309631
+reg18521 := PrimIsPair(V794)
+var reg18554 Obj
+if reg18521 == True {
+reg18522 := MakeSymbol("/.")
+reg18523 := PrimHead(V794)
+reg18524 := PrimEqual(reg18522, reg18523)
+var reg18549 Obj
+if reg18524 == True {
+reg18525 := PrimTail(V794)
+reg18526 := PrimIsPair(reg18525)
+var reg18544 Obj
+if reg18526 == True {
+reg18527 := PrimTail(V794)
+reg18528 := PrimTail(reg18527)
+reg18529 := PrimIsPair(reg18528)
+var reg18539 Obj
+if reg18529 == True {
+reg18530 := Nil;
+reg18531 := PrimTail(V794)
+reg18532 := PrimTail(reg18531)
+reg18533 := PrimTail(reg18532)
+reg18534 := PrimEqual(reg18530, reg18533)
+var reg18537 Obj
+if reg18534 == True {
+reg18535 := True;
+reg18537 = reg18535
 } else {
-reg309632 := False;
-reg309633 = reg309632
+reg18536 := False;
+reg18537 = reg18536
 }
-reg309635 = reg309633
+reg18539 = reg18537
 } else {
-reg309634 := False;
-reg309635 = reg309634
+reg18538 := False;
+reg18539 = reg18538
 }
-var reg309638 Obj
-if reg309635 == True {
-reg309636 := True;
-reg309638 = reg309636
+var reg18542 Obj
+if reg18539 == True {
+reg18540 := True;
+reg18542 = reg18540
 } else {
-reg309637 := False;
-reg309638 = reg309637
+reg18541 := False;
+reg18542 = reg18541
 }
-reg309640 = reg309638
+reg18544 = reg18542
 } else {
-reg309639 := False;
-reg309640 = reg309639
+reg18543 := False;
+reg18544 = reg18543
 }
-var reg309643 Obj
-if reg309640 == True {
-reg309641 := True;
-reg309643 = reg309641
+var reg18547 Obj
+if reg18544 == True {
+reg18545 := True;
+reg18547 = reg18545
 } else {
-reg309642 := False;
-reg309643 = reg309642
+reg18546 := False;
+reg18547 = reg18546
 }
-reg309645 = reg309643
+reg18549 = reg18547
 } else {
-reg309644 := False;
-reg309645 = reg309644
+reg18548 := False;
+reg18549 = reg18548
 }
-var reg309648 Obj
-if reg309645 == True {
-reg309646 := True;
-reg309648 = reg309646
+var reg18552 Obj
+if reg18549 == True {
+reg18550 := True;
+reg18552 = reg18550
 } else {
-reg309647 := False;
-reg309648 = reg309647
+reg18551 := False;
+reg18552 = reg18551
 }
-reg309650 = reg309648
+reg18554 = reg18552
 } else {
-reg309649 := False;
-reg309650 = reg309649
+reg18553 := False;
+reg18554 = reg18553
 }
-if reg309650 == True {
-reg309651 := MakeSymbol("lambda")
-reg309652 := PrimTail(V1766)
-reg309653 := PrimCons(reg309651, reg309652)
-__ctx.Return(reg309653)
+if reg18554 == True {
+reg18555 := MakeSymbol("lambda")
+reg18556 := PrimTail(V794)
+reg18557 := PrimCons(reg18555, reg18556)
+__ctx.Return(reg18557)
 return
 } else {
-__ctx.Return(V1766)
+__ctx.Return(V794)
 return
 }
 }
@@ -1926,319 +2403,319 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.abs-macro", value: __defun__shen_4abs_1macro})
 
 __defun__shen_4cases_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1770 := __args[0]
-_ = V1770
-reg309654 := PrimIsPair(V1770)
-var reg309686 Obj
-if reg309654 == True {
-reg309655 := MakeSymbol("cases")
-reg309656 := PrimHead(V1770)
-reg309657 := PrimEqual(reg309655, reg309656)
-var reg309681 Obj
-if reg309657 == True {
-reg309658 := PrimTail(V1770)
-reg309659 := PrimIsPair(reg309658)
-var reg309676 Obj
-if reg309659 == True {
-reg309660 := True;
-reg309661 := PrimTail(V1770)
-reg309662 := PrimHead(reg309661)
-reg309663 := PrimEqual(reg309660, reg309662)
-var reg309671 Obj
-if reg309663 == True {
-reg309664 := PrimTail(V1770)
-reg309665 := PrimTail(reg309664)
-reg309666 := PrimIsPair(reg309665)
-var reg309669 Obj
-if reg309666 == True {
-reg309667 := True;
-reg309669 = reg309667
+V798 := __args[0]
+_ = V798
+reg18558 := PrimIsPair(V798)
+var reg18590 Obj
+if reg18558 == True {
+reg18559 := MakeSymbol("cases")
+reg18560 := PrimHead(V798)
+reg18561 := PrimEqual(reg18559, reg18560)
+var reg18585 Obj
+if reg18561 == True {
+reg18562 := PrimTail(V798)
+reg18563 := PrimIsPair(reg18562)
+var reg18580 Obj
+if reg18563 == True {
+reg18564 := True;
+reg18565 := PrimTail(V798)
+reg18566 := PrimHead(reg18565)
+reg18567 := PrimEqual(reg18564, reg18566)
+var reg18575 Obj
+if reg18567 == True {
+reg18568 := PrimTail(V798)
+reg18569 := PrimTail(reg18568)
+reg18570 := PrimIsPair(reg18569)
+var reg18573 Obj
+if reg18570 == True {
+reg18571 := True;
+reg18573 = reg18571
 } else {
-reg309668 := False;
-reg309669 = reg309668
+reg18572 := False;
+reg18573 = reg18572
 }
-reg309671 = reg309669
+reg18575 = reg18573
 } else {
-reg309670 := False;
-reg309671 = reg309670
+reg18574 := False;
+reg18575 = reg18574
 }
-var reg309674 Obj
-if reg309671 == True {
-reg309672 := True;
-reg309674 = reg309672
+var reg18578 Obj
+if reg18575 == True {
+reg18576 := True;
+reg18578 = reg18576
 } else {
-reg309673 := False;
-reg309674 = reg309673
+reg18577 := False;
+reg18578 = reg18577
 }
-reg309676 = reg309674
+reg18580 = reg18578
 } else {
-reg309675 := False;
-reg309676 = reg309675
+reg18579 := False;
+reg18580 = reg18579
 }
-var reg309679 Obj
-if reg309676 == True {
-reg309677 := True;
-reg309679 = reg309677
+var reg18583 Obj
+if reg18580 == True {
+reg18581 := True;
+reg18583 = reg18581
 } else {
-reg309678 := False;
-reg309679 = reg309678
+reg18582 := False;
+reg18583 = reg18582
 }
-reg309681 = reg309679
+reg18585 = reg18583
 } else {
-reg309680 := False;
-reg309681 = reg309680
+reg18584 := False;
+reg18585 = reg18584
 }
-var reg309684 Obj
-if reg309681 == True {
-reg309682 := True;
-reg309684 = reg309682
+var reg18588 Obj
+if reg18585 == True {
+reg18586 := True;
+reg18588 = reg18586
 } else {
-reg309683 := False;
-reg309684 = reg309683
+reg18587 := False;
+reg18588 = reg18587
 }
-reg309686 = reg309684
+reg18590 = reg18588
 } else {
-reg309685 := False;
-reg309686 = reg309685
+reg18589 := False;
+reg18590 = reg18589
 }
-if reg309686 == True {
-reg309687 := PrimTail(V1770)
-reg309688 := PrimTail(reg309687)
-reg309689 := PrimHead(reg309688)
-__ctx.Return(reg309689)
+if reg18590 == True {
+reg18591 := PrimTail(V798)
+reg18592 := PrimTail(reg18591)
+reg18593 := PrimHead(reg18592)
+__ctx.Return(reg18593)
 return
 } else {
-reg309690 := PrimIsPair(V1770)
-var reg309723 Obj
-if reg309690 == True {
-reg309691 := MakeSymbol("cases")
-reg309692 := PrimHead(V1770)
-reg309693 := PrimEqual(reg309691, reg309692)
-var reg309718 Obj
-if reg309693 == True {
-reg309694 := PrimTail(V1770)
-reg309695 := PrimIsPair(reg309694)
-var reg309713 Obj
-if reg309695 == True {
-reg309696 := PrimTail(V1770)
-reg309697 := PrimTail(reg309696)
-reg309698 := PrimIsPair(reg309697)
-var reg309708 Obj
-if reg309698 == True {
-reg309699 := Nil;
-reg309700 := PrimTail(V1770)
-reg309701 := PrimTail(reg309700)
-reg309702 := PrimTail(reg309701)
-reg309703 := PrimEqual(reg309699, reg309702)
-var reg309706 Obj
-if reg309703 == True {
-reg309704 := True;
-reg309706 = reg309704
+reg18594 := PrimIsPair(V798)
+var reg18627 Obj
+if reg18594 == True {
+reg18595 := MakeSymbol("cases")
+reg18596 := PrimHead(V798)
+reg18597 := PrimEqual(reg18595, reg18596)
+var reg18622 Obj
+if reg18597 == True {
+reg18598 := PrimTail(V798)
+reg18599 := PrimIsPair(reg18598)
+var reg18617 Obj
+if reg18599 == True {
+reg18600 := PrimTail(V798)
+reg18601 := PrimTail(reg18600)
+reg18602 := PrimIsPair(reg18601)
+var reg18612 Obj
+if reg18602 == True {
+reg18603 := Nil;
+reg18604 := PrimTail(V798)
+reg18605 := PrimTail(reg18604)
+reg18606 := PrimTail(reg18605)
+reg18607 := PrimEqual(reg18603, reg18606)
+var reg18610 Obj
+if reg18607 == True {
+reg18608 := True;
+reg18610 = reg18608
 } else {
-reg309705 := False;
-reg309706 = reg309705
+reg18609 := False;
+reg18610 = reg18609
 }
-reg309708 = reg309706
+reg18612 = reg18610
 } else {
-reg309707 := False;
-reg309708 = reg309707
+reg18611 := False;
+reg18612 = reg18611
 }
-var reg309711 Obj
-if reg309708 == True {
-reg309709 := True;
-reg309711 = reg309709
+var reg18615 Obj
+if reg18612 == True {
+reg18613 := True;
+reg18615 = reg18613
 } else {
-reg309710 := False;
-reg309711 = reg309710
+reg18614 := False;
+reg18615 = reg18614
 }
-reg309713 = reg309711
+reg18617 = reg18615
 } else {
-reg309712 := False;
-reg309713 = reg309712
+reg18616 := False;
+reg18617 = reg18616
 }
-var reg309716 Obj
-if reg309713 == True {
-reg309714 := True;
-reg309716 = reg309714
+var reg18620 Obj
+if reg18617 == True {
+reg18618 := True;
+reg18620 = reg18618
 } else {
-reg309715 := False;
-reg309716 = reg309715
+reg18619 := False;
+reg18620 = reg18619
 }
-reg309718 = reg309716
+reg18622 = reg18620
 } else {
-reg309717 := False;
-reg309718 = reg309717
+reg18621 := False;
+reg18622 = reg18621
 }
-var reg309721 Obj
-if reg309718 == True {
-reg309719 := True;
-reg309721 = reg309719
+var reg18625 Obj
+if reg18622 == True {
+reg18623 := True;
+reg18625 = reg18623
 } else {
-reg309720 := False;
-reg309721 = reg309720
+reg18624 := False;
+reg18625 = reg18624
 }
-reg309723 = reg309721
+reg18627 = reg18625
 } else {
-reg309722 := False;
-reg309723 = reg309722
+reg18626 := False;
+reg18627 = reg18626
 }
-if reg309723 == True {
-reg309724 := MakeSymbol("if")
-reg309725 := PrimTail(V1770)
-reg309726 := PrimHead(reg309725)
-reg309727 := PrimTail(V1770)
-reg309728 := PrimTail(reg309727)
-reg309729 := PrimHead(reg309728)
-reg309730 := MakeSymbol("simple-error")
-reg309731 := MakeString("error: cases exhausted")
-reg309732 := Nil;
-reg309733 := PrimCons(reg309731, reg309732)
-reg309734 := PrimCons(reg309730, reg309733)
-reg309735 := Nil;
-reg309736 := PrimCons(reg309734, reg309735)
-reg309737 := PrimCons(reg309729, reg309736)
-reg309738 := PrimCons(reg309726, reg309737)
-reg309739 := PrimCons(reg309724, reg309738)
-__ctx.Return(reg309739)
+if reg18627 == True {
+reg18628 := MakeSymbol("if")
+reg18629 := PrimTail(V798)
+reg18630 := PrimHead(reg18629)
+reg18631 := PrimTail(V798)
+reg18632 := PrimTail(reg18631)
+reg18633 := PrimHead(reg18632)
+reg18634 := MakeSymbol("simple-error")
+reg18635 := MakeString("error: cases exhausted")
+reg18636 := Nil;
+reg18637 := PrimCons(reg18635, reg18636)
+reg18638 := PrimCons(reg18634, reg18637)
+reg18639 := Nil;
+reg18640 := PrimCons(reg18638, reg18639)
+reg18641 := PrimCons(reg18633, reg18640)
+reg18642 := PrimCons(reg18630, reg18641)
+reg18643 := PrimCons(reg18628, reg18642)
+__ctx.Return(reg18643)
 return
 } else {
-reg309740 := PrimIsPair(V1770)
-var reg309763 Obj
-if reg309740 == True {
-reg309741 := MakeSymbol("cases")
-reg309742 := PrimHead(V1770)
-reg309743 := PrimEqual(reg309741, reg309742)
-var reg309758 Obj
-if reg309743 == True {
-reg309744 := PrimTail(V1770)
-reg309745 := PrimIsPair(reg309744)
-var reg309753 Obj
-if reg309745 == True {
-reg309746 := PrimTail(V1770)
-reg309747 := PrimTail(reg309746)
-reg309748 := PrimIsPair(reg309747)
-var reg309751 Obj
-if reg309748 == True {
-reg309749 := True;
-reg309751 = reg309749
+reg18644 := PrimIsPair(V798)
+var reg18667 Obj
+if reg18644 == True {
+reg18645 := MakeSymbol("cases")
+reg18646 := PrimHead(V798)
+reg18647 := PrimEqual(reg18645, reg18646)
+var reg18662 Obj
+if reg18647 == True {
+reg18648 := PrimTail(V798)
+reg18649 := PrimIsPair(reg18648)
+var reg18657 Obj
+if reg18649 == True {
+reg18650 := PrimTail(V798)
+reg18651 := PrimTail(reg18650)
+reg18652 := PrimIsPair(reg18651)
+var reg18655 Obj
+if reg18652 == True {
+reg18653 := True;
+reg18655 = reg18653
 } else {
-reg309750 := False;
-reg309751 = reg309750
+reg18654 := False;
+reg18655 = reg18654
 }
-reg309753 = reg309751
+reg18657 = reg18655
 } else {
-reg309752 := False;
-reg309753 = reg309752
+reg18656 := False;
+reg18657 = reg18656
 }
-var reg309756 Obj
-if reg309753 == True {
-reg309754 := True;
-reg309756 = reg309754
+var reg18660 Obj
+if reg18657 == True {
+reg18658 := True;
+reg18660 = reg18658
 } else {
-reg309755 := False;
-reg309756 = reg309755
+reg18659 := False;
+reg18660 = reg18659
 }
-reg309758 = reg309756
+reg18662 = reg18660
 } else {
-reg309757 := False;
-reg309758 = reg309757
+reg18661 := False;
+reg18662 = reg18661
 }
-var reg309761 Obj
-if reg309758 == True {
-reg309759 := True;
-reg309761 = reg309759
+var reg18665 Obj
+if reg18662 == True {
+reg18663 := True;
+reg18665 = reg18663
 } else {
-reg309760 := False;
-reg309761 = reg309760
+reg18664 := False;
+reg18665 = reg18664
 }
-reg309763 = reg309761
+reg18667 = reg18665
 } else {
-reg309762 := False;
-reg309763 = reg309762
+reg18666 := False;
+reg18667 = reg18666
 }
-if reg309763 == True {
-reg309764 := MakeSymbol("if")
-reg309765 := PrimTail(V1770)
-reg309766 := PrimHead(reg309765)
-reg309767 := PrimTail(V1770)
-reg309768 := PrimTail(reg309767)
-reg309769 := PrimHead(reg309768)
-reg309770 := MakeSymbol("cases")
-reg309771 := PrimTail(V1770)
-reg309772 := PrimTail(reg309771)
-reg309773 := PrimTail(reg309772)
-reg309774 := PrimCons(reg309770, reg309773)
-reg309775 := __e.Call(__defun__shen_4cases_1macro, reg309774)
-reg309776 := Nil;
-reg309777 := PrimCons(reg309775, reg309776)
-reg309778 := PrimCons(reg309769, reg309777)
-reg309779 := PrimCons(reg309766, reg309778)
-reg309780 := PrimCons(reg309764, reg309779)
-__ctx.Return(reg309780)
+if reg18667 == True {
+reg18668 := MakeSymbol("if")
+reg18669 := PrimTail(V798)
+reg18670 := PrimHead(reg18669)
+reg18671 := PrimTail(V798)
+reg18672 := PrimTail(reg18671)
+reg18673 := PrimHead(reg18672)
+reg18674 := MakeSymbol("cases")
+reg18675 := PrimTail(V798)
+reg18676 := PrimTail(reg18675)
+reg18677 := PrimTail(reg18676)
+reg18678 := PrimCons(reg18674, reg18677)
+reg18679 := __e.Call(__defun__shen_4cases_1macro, reg18678)
+reg18680 := Nil;
+reg18681 := PrimCons(reg18679, reg18680)
+reg18682 := PrimCons(reg18673, reg18681)
+reg18683 := PrimCons(reg18670, reg18682)
+reg18684 := PrimCons(reg18668, reg18683)
+__ctx.Return(reg18684)
 return
 } else {
-reg309781 := PrimIsPair(V1770)
-var reg309805 Obj
-if reg309781 == True {
-reg309782 := MakeSymbol("cases")
-reg309783 := PrimHead(V1770)
-reg309784 := PrimEqual(reg309782, reg309783)
-var reg309800 Obj
-if reg309784 == True {
-reg309785 := PrimTail(V1770)
-reg309786 := PrimIsPair(reg309785)
-var reg309795 Obj
-if reg309786 == True {
-reg309787 := Nil;
-reg309788 := PrimTail(V1770)
-reg309789 := PrimTail(reg309788)
-reg309790 := PrimEqual(reg309787, reg309789)
-var reg309793 Obj
-if reg309790 == True {
-reg309791 := True;
-reg309793 = reg309791
+reg18685 := PrimIsPair(V798)
+var reg18709 Obj
+if reg18685 == True {
+reg18686 := MakeSymbol("cases")
+reg18687 := PrimHead(V798)
+reg18688 := PrimEqual(reg18686, reg18687)
+var reg18704 Obj
+if reg18688 == True {
+reg18689 := PrimTail(V798)
+reg18690 := PrimIsPair(reg18689)
+var reg18699 Obj
+if reg18690 == True {
+reg18691 := Nil;
+reg18692 := PrimTail(V798)
+reg18693 := PrimTail(reg18692)
+reg18694 := PrimEqual(reg18691, reg18693)
+var reg18697 Obj
+if reg18694 == True {
+reg18695 := True;
+reg18697 = reg18695
 } else {
-reg309792 := False;
-reg309793 = reg309792
+reg18696 := False;
+reg18697 = reg18696
 }
-reg309795 = reg309793
+reg18699 = reg18697
 } else {
-reg309794 := False;
-reg309795 = reg309794
+reg18698 := False;
+reg18699 = reg18698
 }
-var reg309798 Obj
-if reg309795 == True {
-reg309796 := True;
-reg309798 = reg309796
+var reg18702 Obj
+if reg18699 == True {
+reg18700 := True;
+reg18702 = reg18700
 } else {
-reg309797 := False;
-reg309798 = reg309797
+reg18701 := False;
+reg18702 = reg18701
 }
-reg309800 = reg309798
+reg18704 = reg18702
 } else {
-reg309799 := False;
-reg309800 = reg309799
+reg18703 := False;
+reg18704 = reg18703
 }
-var reg309803 Obj
-if reg309800 == True {
-reg309801 := True;
-reg309803 = reg309801
+var reg18707 Obj
+if reg18704 == True {
+reg18705 := True;
+reg18707 = reg18705
 } else {
-reg309802 := False;
-reg309803 = reg309802
+reg18706 := False;
+reg18707 = reg18706
 }
-reg309805 = reg309803
+reg18709 = reg18707
 } else {
-reg309804 := False;
-reg309805 = reg309804
+reg18708 := False;
+reg18709 = reg18708
 }
-if reg309805 == True {
-reg309806 := MakeString("error: odd number of case elements\n")
-reg309807 := PrimSimpleError(reg309806)
-__ctx.Return(reg309807)
+if reg18709 == True {
+reg18710 := MakeString("error: odd number of case elements\n")
+reg18711 := PrimSimpleError(reg18710)
+__ctx.Return(reg18711)
 return
 } else {
-__ctx.Return(V1770)
+__ctx.Return(V798)
 return
 }
 }
@@ -2248,470 +2725,470 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.cases-macro", value: __defun__shen_4cases_1macro})
 
 __defun__shen_4timer_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1772 := __args[0]
-_ = V1772
-reg309808 := PrimIsPair(V1772)
-var reg309832 Obj
-if reg309808 == True {
-reg309809 := MakeSymbol("time")
-reg309810 := PrimHead(V1772)
-reg309811 := PrimEqual(reg309809, reg309810)
-var reg309827 Obj
-if reg309811 == True {
-reg309812 := PrimTail(V1772)
-reg309813 := PrimIsPair(reg309812)
-var reg309822 Obj
-if reg309813 == True {
-reg309814 := Nil;
-reg309815 := PrimTail(V1772)
-reg309816 := PrimTail(reg309815)
-reg309817 := PrimEqual(reg309814, reg309816)
-var reg309820 Obj
-if reg309817 == True {
-reg309818 := True;
-reg309820 = reg309818
+V800 := __args[0]
+_ = V800
+reg18712 := PrimIsPair(V800)
+var reg18736 Obj
+if reg18712 == True {
+reg18713 := MakeSymbol("time")
+reg18714 := PrimHead(V800)
+reg18715 := PrimEqual(reg18713, reg18714)
+var reg18731 Obj
+if reg18715 == True {
+reg18716 := PrimTail(V800)
+reg18717 := PrimIsPair(reg18716)
+var reg18726 Obj
+if reg18717 == True {
+reg18718 := Nil;
+reg18719 := PrimTail(V800)
+reg18720 := PrimTail(reg18719)
+reg18721 := PrimEqual(reg18718, reg18720)
+var reg18724 Obj
+if reg18721 == True {
+reg18722 := True;
+reg18724 = reg18722
 } else {
-reg309819 := False;
-reg309820 = reg309819
+reg18723 := False;
+reg18724 = reg18723
 }
-reg309822 = reg309820
+reg18726 = reg18724
 } else {
-reg309821 := False;
-reg309822 = reg309821
+reg18725 := False;
+reg18726 = reg18725
 }
-var reg309825 Obj
-if reg309822 == True {
-reg309823 := True;
-reg309825 = reg309823
+var reg18729 Obj
+if reg18726 == True {
+reg18727 := True;
+reg18729 = reg18727
 } else {
-reg309824 := False;
-reg309825 = reg309824
+reg18728 := False;
+reg18729 = reg18728
 }
-reg309827 = reg309825
+reg18731 = reg18729
 } else {
-reg309826 := False;
-reg309827 = reg309826
+reg18730 := False;
+reg18731 = reg18730
 }
-var reg309830 Obj
-if reg309827 == True {
-reg309828 := True;
-reg309830 = reg309828
+var reg18734 Obj
+if reg18731 == True {
+reg18732 := True;
+reg18734 = reg18732
 } else {
-reg309829 := False;
-reg309830 = reg309829
+reg18733 := False;
+reg18734 = reg18733
 }
-reg309832 = reg309830
+reg18736 = reg18734
 } else {
-reg309831 := False;
-reg309832 = reg309831
+reg18735 := False;
+reg18736 = reg18735
 }
-if reg309832 == True {
-reg309833 := MakeSymbol("let")
-reg309834 := MakeSymbol("Start")
-reg309835 := MakeSymbol("get-time")
-reg309836 := MakeSymbol("run")
-reg309837 := Nil;
-reg309838 := PrimCons(reg309836, reg309837)
-reg309839 := PrimCons(reg309835, reg309838)
-reg309840 := MakeSymbol("Result")
-reg309841 := PrimTail(V1772)
-reg309842 := PrimHead(reg309841)
-reg309843 := MakeSymbol("Finish")
-reg309844 := MakeSymbol("get-time")
-reg309845 := MakeSymbol("run")
-reg309846 := Nil;
-reg309847 := PrimCons(reg309845, reg309846)
-reg309848 := PrimCons(reg309844, reg309847)
-reg309849 := MakeSymbol("Time")
-reg309850 := MakeSymbol("-")
-reg309851 := MakeSymbol("Finish")
-reg309852 := MakeSymbol("Start")
-reg309853 := Nil;
-reg309854 := PrimCons(reg309852, reg309853)
-reg309855 := PrimCons(reg309851, reg309854)
-reg309856 := PrimCons(reg309850, reg309855)
-reg309857 := MakeSymbol("Message")
-reg309858 := MakeSymbol("shen.prhush")
-reg309859 := MakeSymbol("cn")
-reg309860 := MakeString("\nrun time: ")
-reg309861 := MakeSymbol("cn")
-reg309862 := MakeSymbol("str")
-reg309863 := MakeSymbol("Time")
-reg309864 := Nil;
-reg309865 := PrimCons(reg309863, reg309864)
-reg309866 := PrimCons(reg309862, reg309865)
-reg309867 := MakeString(" secs\n")
-reg309868 := Nil;
-reg309869 := PrimCons(reg309867, reg309868)
-reg309870 := PrimCons(reg309866, reg309869)
-reg309871 := PrimCons(reg309861, reg309870)
-reg309872 := Nil;
-reg309873 := PrimCons(reg309871, reg309872)
-reg309874 := PrimCons(reg309860, reg309873)
-reg309875 := PrimCons(reg309859, reg309874)
-reg309876 := MakeSymbol("stoutput")
-reg309877 := Nil;
-reg309878 := PrimCons(reg309876, reg309877)
-reg309879 := Nil;
-reg309880 := PrimCons(reg309878, reg309879)
-reg309881 := PrimCons(reg309875, reg309880)
-reg309882 := PrimCons(reg309858, reg309881)
-reg309883 := MakeSymbol("Result")
-reg309884 := Nil;
-reg309885 := PrimCons(reg309883, reg309884)
-reg309886 := PrimCons(reg309882, reg309885)
-reg309887 := PrimCons(reg309857, reg309886)
-reg309888 := PrimCons(reg309856, reg309887)
-reg309889 := PrimCons(reg309849, reg309888)
-reg309890 := PrimCons(reg309848, reg309889)
-reg309891 := PrimCons(reg309843, reg309890)
-reg309892 := PrimCons(reg309842, reg309891)
-reg309893 := PrimCons(reg309840, reg309892)
-reg309894 := PrimCons(reg309839, reg309893)
-reg309895 := PrimCons(reg309834, reg309894)
-reg309896 := PrimCons(reg309833, reg309895)
-__ctx.TailApply(__defun__shen_4let_1macro, reg309896)
+if reg18736 == True {
+reg18737 := MakeSymbol("let")
+reg18738 := MakeSymbol("Start")
+reg18739 := MakeSymbol("get-time")
+reg18740 := MakeSymbol("run")
+reg18741 := Nil;
+reg18742 := PrimCons(reg18740, reg18741)
+reg18743 := PrimCons(reg18739, reg18742)
+reg18744 := MakeSymbol("Result")
+reg18745 := PrimTail(V800)
+reg18746 := PrimHead(reg18745)
+reg18747 := MakeSymbol("Finish")
+reg18748 := MakeSymbol("get-time")
+reg18749 := MakeSymbol("run")
+reg18750 := Nil;
+reg18751 := PrimCons(reg18749, reg18750)
+reg18752 := PrimCons(reg18748, reg18751)
+reg18753 := MakeSymbol("Time")
+reg18754 := MakeSymbol("-")
+reg18755 := MakeSymbol("Finish")
+reg18756 := MakeSymbol("Start")
+reg18757 := Nil;
+reg18758 := PrimCons(reg18756, reg18757)
+reg18759 := PrimCons(reg18755, reg18758)
+reg18760 := PrimCons(reg18754, reg18759)
+reg18761 := MakeSymbol("Message")
+reg18762 := MakeSymbol("shen.prhush")
+reg18763 := MakeSymbol("cn")
+reg18764 := MakeString("\nrun time: ")
+reg18765 := MakeSymbol("cn")
+reg18766 := MakeSymbol("str")
+reg18767 := MakeSymbol("Time")
+reg18768 := Nil;
+reg18769 := PrimCons(reg18767, reg18768)
+reg18770 := PrimCons(reg18766, reg18769)
+reg18771 := MakeString(" secs\n")
+reg18772 := Nil;
+reg18773 := PrimCons(reg18771, reg18772)
+reg18774 := PrimCons(reg18770, reg18773)
+reg18775 := PrimCons(reg18765, reg18774)
+reg18776 := Nil;
+reg18777 := PrimCons(reg18775, reg18776)
+reg18778 := PrimCons(reg18764, reg18777)
+reg18779 := PrimCons(reg18763, reg18778)
+reg18780 := MakeSymbol("stoutput")
+reg18781 := Nil;
+reg18782 := PrimCons(reg18780, reg18781)
+reg18783 := Nil;
+reg18784 := PrimCons(reg18782, reg18783)
+reg18785 := PrimCons(reg18779, reg18784)
+reg18786 := PrimCons(reg18762, reg18785)
+reg18787 := MakeSymbol("Result")
+reg18788 := Nil;
+reg18789 := PrimCons(reg18787, reg18788)
+reg18790 := PrimCons(reg18786, reg18789)
+reg18791 := PrimCons(reg18761, reg18790)
+reg18792 := PrimCons(reg18760, reg18791)
+reg18793 := PrimCons(reg18753, reg18792)
+reg18794 := PrimCons(reg18752, reg18793)
+reg18795 := PrimCons(reg18747, reg18794)
+reg18796 := PrimCons(reg18746, reg18795)
+reg18797 := PrimCons(reg18744, reg18796)
+reg18798 := PrimCons(reg18743, reg18797)
+reg18799 := PrimCons(reg18738, reg18798)
+reg18800 := PrimCons(reg18737, reg18799)
+__ctx.TailApply(__defun__shen_4let_1macro, reg18800)
 return
 } else {
-__ctx.Return(V1772)
+__ctx.Return(V800)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.timer-macro", value: __defun__shen_4timer_1macro})
 
 __defun__shen_4tuple_1up = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1774 := __args[0]
-_ = V1774
-reg309898 := PrimIsPair(V1774)
-if reg309898 == True {
-reg309899 := MakeSymbol("@p")
-reg309900 := PrimHead(V1774)
-reg309901 := PrimTail(V1774)
-reg309902 := __e.Call(__defun__shen_4tuple_1up, reg309901)
-reg309903 := Nil;
-reg309904 := PrimCons(reg309902, reg309903)
-reg309905 := PrimCons(reg309900, reg309904)
-reg309906 := PrimCons(reg309899, reg309905)
-__ctx.Return(reg309906)
+V802 := __args[0]
+_ = V802
+reg18802 := PrimIsPair(V802)
+if reg18802 == True {
+reg18803 := MakeSymbol("@p")
+reg18804 := PrimHead(V802)
+reg18805 := PrimTail(V802)
+reg18806 := __e.Call(__defun__shen_4tuple_1up, reg18805)
+reg18807 := Nil;
+reg18808 := PrimCons(reg18806, reg18807)
+reg18809 := PrimCons(reg18804, reg18808)
+reg18810 := PrimCons(reg18803, reg18809)
+__ctx.Return(reg18810)
 return
 } else {
-__ctx.Return(V1774)
+__ctx.Return(V802)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.tuple-up", value: __defun__shen_4tuple_1up})
 
 __defun__shen_4put_cget_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1776 := __args[0]
-_ = V1776
-reg309907 := PrimIsPair(V1776)
-var reg309950 Obj
-if reg309907 == True {
-reg309908 := MakeSymbol("put")
-reg309909 := PrimHead(V1776)
-reg309910 := PrimEqual(reg309908, reg309909)
-var reg309945 Obj
-if reg309910 == True {
-reg309911 := PrimTail(V1776)
-reg309912 := PrimIsPair(reg309911)
-var reg309940 Obj
-if reg309912 == True {
-reg309913 := PrimTail(V1776)
-reg309914 := PrimTail(reg309913)
-reg309915 := PrimIsPair(reg309914)
-var reg309935 Obj
-if reg309915 == True {
-reg309916 := PrimTail(V1776)
-reg309917 := PrimTail(reg309916)
-reg309918 := PrimTail(reg309917)
-reg309919 := PrimIsPair(reg309918)
-var reg309930 Obj
-if reg309919 == True {
-reg309920 := Nil;
-reg309921 := PrimTail(V1776)
-reg309922 := PrimTail(reg309921)
-reg309923 := PrimTail(reg309922)
-reg309924 := PrimTail(reg309923)
-reg309925 := PrimEqual(reg309920, reg309924)
-var reg309928 Obj
-if reg309925 == True {
-reg309926 := True;
-reg309928 = reg309926
+V804 := __args[0]
+_ = V804
+reg18811 := PrimIsPair(V804)
+var reg18854 Obj
+if reg18811 == True {
+reg18812 := MakeSymbol("put")
+reg18813 := PrimHead(V804)
+reg18814 := PrimEqual(reg18812, reg18813)
+var reg18849 Obj
+if reg18814 == True {
+reg18815 := PrimTail(V804)
+reg18816 := PrimIsPair(reg18815)
+var reg18844 Obj
+if reg18816 == True {
+reg18817 := PrimTail(V804)
+reg18818 := PrimTail(reg18817)
+reg18819 := PrimIsPair(reg18818)
+var reg18839 Obj
+if reg18819 == True {
+reg18820 := PrimTail(V804)
+reg18821 := PrimTail(reg18820)
+reg18822 := PrimTail(reg18821)
+reg18823 := PrimIsPair(reg18822)
+var reg18834 Obj
+if reg18823 == True {
+reg18824 := Nil;
+reg18825 := PrimTail(V804)
+reg18826 := PrimTail(reg18825)
+reg18827 := PrimTail(reg18826)
+reg18828 := PrimTail(reg18827)
+reg18829 := PrimEqual(reg18824, reg18828)
+var reg18832 Obj
+if reg18829 == True {
+reg18830 := True;
+reg18832 = reg18830
 } else {
-reg309927 := False;
-reg309928 = reg309927
+reg18831 := False;
+reg18832 = reg18831
 }
-reg309930 = reg309928
+reg18834 = reg18832
 } else {
-reg309929 := False;
-reg309930 = reg309929
+reg18833 := False;
+reg18834 = reg18833
 }
-var reg309933 Obj
-if reg309930 == True {
-reg309931 := True;
-reg309933 = reg309931
+var reg18837 Obj
+if reg18834 == True {
+reg18835 := True;
+reg18837 = reg18835
 } else {
-reg309932 := False;
-reg309933 = reg309932
+reg18836 := False;
+reg18837 = reg18836
 }
-reg309935 = reg309933
+reg18839 = reg18837
 } else {
-reg309934 := False;
-reg309935 = reg309934
+reg18838 := False;
+reg18839 = reg18838
 }
-var reg309938 Obj
-if reg309935 == True {
-reg309936 := True;
-reg309938 = reg309936
+var reg18842 Obj
+if reg18839 == True {
+reg18840 := True;
+reg18842 = reg18840
 } else {
-reg309937 := False;
-reg309938 = reg309937
+reg18841 := False;
+reg18842 = reg18841
 }
-reg309940 = reg309938
+reg18844 = reg18842
 } else {
-reg309939 := False;
-reg309940 = reg309939
+reg18843 := False;
+reg18844 = reg18843
 }
-var reg309943 Obj
-if reg309940 == True {
-reg309941 := True;
-reg309943 = reg309941
+var reg18847 Obj
+if reg18844 == True {
+reg18845 := True;
+reg18847 = reg18845
 } else {
-reg309942 := False;
-reg309943 = reg309942
+reg18846 := False;
+reg18847 = reg18846
 }
-reg309945 = reg309943
+reg18849 = reg18847
 } else {
-reg309944 := False;
-reg309945 = reg309944
+reg18848 := False;
+reg18849 = reg18848
 }
-var reg309948 Obj
-if reg309945 == True {
-reg309946 := True;
-reg309948 = reg309946
+var reg18852 Obj
+if reg18849 == True {
+reg18850 := True;
+reg18852 = reg18850
 } else {
-reg309947 := False;
-reg309948 = reg309947
+reg18851 := False;
+reg18852 = reg18851
 }
-reg309950 = reg309948
+reg18854 = reg18852
 } else {
-reg309949 := False;
-reg309950 = reg309949
+reg18853 := False;
+reg18854 = reg18853
 }
-if reg309950 == True {
-reg309951 := MakeSymbol("put")
-reg309952 := PrimTail(V1776)
-reg309953 := PrimHead(reg309952)
-reg309954 := PrimTail(V1776)
-reg309955 := PrimTail(reg309954)
-reg309956 := PrimHead(reg309955)
-reg309957 := PrimTail(V1776)
-reg309958 := PrimTail(reg309957)
-reg309959 := PrimTail(reg309958)
-reg309960 := PrimHead(reg309959)
-reg309961 := MakeSymbol("value")
-reg309962 := MakeSymbol("*property-vector*")
-reg309963 := Nil;
-reg309964 := PrimCons(reg309962, reg309963)
-reg309965 := PrimCons(reg309961, reg309964)
-reg309966 := Nil;
-reg309967 := PrimCons(reg309965, reg309966)
-reg309968 := PrimCons(reg309960, reg309967)
-reg309969 := PrimCons(reg309956, reg309968)
-reg309970 := PrimCons(reg309953, reg309969)
-reg309971 := PrimCons(reg309951, reg309970)
-__ctx.Return(reg309971)
+if reg18854 == True {
+reg18855 := MakeSymbol("put")
+reg18856 := PrimTail(V804)
+reg18857 := PrimHead(reg18856)
+reg18858 := PrimTail(V804)
+reg18859 := PrimTail(reg18858)
+reg18860 := PrimHead(reg18859)
+reg18861 := PrimTail(V804)
+reg18862 := PrimTail(reg18861)
+reg18863 := PrimTail(reg18862)
+reg18864 := PrimHead(reg18863)
+reg18865 := MakeSymbol("value")
+reg18866 := MakeSymbol("*property-vector*")
+reg18867 := Nil;
+reg18868 := PrimCons(reg18866, reg18867)
+reg18869 := PrimCons(reg18865, reg18868)
+reg18870 := Nil;
+reg18871 := PrimCons(reg18869, reg18870)
+reg18872 := PrimCons(reg18864, reg18871)
+reg18873 := PrimCons(reg18860, reg18872)
+reg18874 := PrimCons(reg18857, reg18873)
+reg18875 := PrimCons(reg18855, reg18874)
+__ctx.Return(reg18875)
 return
 } else {
-reg309972 := PrimIsPair(V1776)
-var reg310005 Obj
-if reg309972 == True {
-reg309973 := MakeSymbol("get")
-reg309974 := PrimHead(V1776)
-reg309975 := PrimEqual(reg309973, reg309974)
-var reg310000 Obj
-if reg309975 == True {
-reg309976 := PrimTail(V1776)
-reg309977 := PrimIsPair(reg309976)
-var reg309995 Obj
-if reg309977 == True {
-reg309978 := PrimTail(V1776)
-reg309979 := PrimTail(reg309978)
-reg309980 := PrimIsPair(reg309979)
-var reg309990 Obj
-if reg309980 == True {
-reg309981 := Nil;
-reg309982 := PrimTail(V1776)
-reg309983 := PrimTail(reg309982)
-reg309984 := PrimTail(reg309983)
-reg309985 := PrimEqual(reg309981, reg309984)
-var reg309988 Obj
-if reg309985 == True {
-reg309986 := True;
-reg309988 = reg309986
+reg18876 := PrimIsPair(V804)
+var reg18909 Obj
+if reg18876 == True {
+reg18877 := MakeSymbol("get")
+reg18878 := PrimHead(V804)
+reg18879 := PrimEqual(reg18877, reg18878)
+var reg18904 Obj
+if reg18879 == True {
+reg18880 := PrimTail(V804)
+reg18881 := PrimIsPair(reg18880)
+var reg18899 Obj
+if reg18881 == True {
+reg18882 := PrimTail(V804)
+reg18883 := PrimTail(reg18882)
+reg18884 := PrimIsPair(reg18883)
+var reg18894 Obj
+if reg18884 == True {
+reg18885 := Nil;
+reg18886 := PrimTail(V804)
+reg18887 := PrimTail(reg18886)
+reg18888 := PrimTail(reg18887)
+reg18889 := PrimEqual(reg18885, reg18888)
+var reg18892 Obj
+if reg18889 == True {
+reg18890 := True;
+reg18892 = reg18890
 } else {
-reg309987 := False;
-reg309988 = reg309987
+reg18891 := False;
+reg18892 = reg18891
 }
-reg309990 = reg309988
+reg18894 = reg18892
 } else {
-reg309989 := False;
-reg309990 = reg309989
+reg18893 := False;
+reg18894 = reg18893
 }
-var reg309993 Obj
-if reg309990 == True {
-reg309991 := True;
-reg309993 = reg309991
+var reg18897 Obj
+if reg18894 == True {
+reg18895 := True;
+reg18897 = reg18895
 } else {
-reg309992 := False;
-reg309993 = reg309992
+reg18896 := False;
+reg18897 = reg18896
 }
-reg309995 = reg309993
+reg18899 = reg18897
 } else {
-reg309994 := False;
-reg309995 = reg309994
+reg18898 := False;
+reg18899 = reg18898
 }
-var reg309998 Obj
-if reg309995 == True {
-reg309996 := True;
-reg309998 = reg309996
+var reg18902 Obj
+if reg18899 == True {
+reg18900 := True;
+reg18902 = reg18900
 } else {
-reg309997 := False;
-reg309998 = reg309997
+reg18901 := False;
+reg18902 = reg18901
 }
-reg310000 = reg309998
+reg18904 = reg18902
 } else {
-reg309999 := False;
-reg310000 = reg309999
+reg18903 := False;
+reg18904 = reg18903
 }
-var reg310003 Obj
-if reg310000 == True {
-reg310001 := True;
-reg310003 = reg310001
+var reg18907 Obj
+if reg18904 == True {
+reg18905 := True;
+reg18907 = reg18905
 } else {
-reg310002 := False;
-reg310003 = reg310002
+reg18906 := False;
+reg18907 = reg18906
 }
-reg310005 = reg310003
+reg18909 = reg18907
 } else {
-reg310004 := False;
-reg310005 = reg310004
+reg18908 := False;
+reg18909 = reg18908
 }
-if reg310005 == True {
-reg310006 := MakeSymbol("get")
-reg310007 := PrimTail(V1776)
-reg310008 := PrimHead(reg310007)
-reg310009 := PrimTail(V1776)
-reg310010 := PrimTail(reg310009)
-reg310011 := PrimHead(reg310010)
-reg310012 := MakeSymbol("value")
-reg310013 := MakeSymbol("*property-vector*")
-reg310014 := Nil;
-reg310015 := PrimCons(reg310013, reg310014)
-reg310016 := PrimCons(reg310012, reg310015)
-reg310017 := Nil;
-reg310018 := PrimCons(reg310016, reg310017)
-reg310019 := PrimCons(reg310011, reg310018)
-reg310020 := PrimCons(reg310008, reg310019)
-reg310021 := PrimCons(reg310006, reg310020)
-__ctx.Return(reg310021)
+if reg18909 == True {
+reg18910 := MakeSymbol("get")
+reg18911 := PrimTail(V804)
+reg18912 := PrimHead(reg18911)
+reg18913 := PrimTail(V804)
+reg18914 := PrimTail(reg18913)
+reg18915 := PrimHead(reg18914)
+reg18916 := MakeSymbol("value")
+reg18917 := MakeSymbol("*property-vector*")
+reg18918 := Nil;
+reg18919 := PrimCons(reg18917, reg18918)
+reg18920 := PrimCons(reg18916, reg18919)
+reg18921 := Nil;
+reg18922 := PrimCons(reg18920, reg18921)
+reg18923 := PrimCons(reg18915, reg18922)
+reg18924 := PrimCons(reg18912, reg18923)
+reg18925 := PrimCons(reg18910, reg18924)
+__ctx.Return(reg18925)
 return
 } else {
-reg310022 := PrimIsPair(V1776)
-var reg310055 Obj
-if reg310022 == True {
-reg310023 := MakeSymbol("unput")
-reg310024 := PrimHead(V1776)
-reg310025 := PrimEqual(reg310023, reg310024)
-var reg310050 Obj
-if reg310025 == True {
-reg310026 := PrimTail(V1776)
-reg310027 := PrimIsPair(reg310026)
-var reg310045 Obj
-if reg310027 == True {
-reg310028 := PrimTail(V1776)
-reg310029 := PrimTail(reg310028)
-reg310030 := PrimIsPair(reg310029)
-var reg310040 Obj
-if reg310030 == True {
-reg310031 := Nil;
-reg310032 := PrimTail(V1776)
-reg310033 := PrimTail(reg310032)
-reg310034 := PrimTail(reg310033)
-reg310035 := PrimEqual(reg310031, reg310034)
-var reg310038 Obj
-if reg310035 == True {
-reg310036 := True;
-reg310038 = reg310036
+reg18926 := PrimIsPair(V804)
+var reg18959 Obj
+if reg18926 == True {
+reg18927 := MakeSymbol("unput")
+reg18928 := PrimHead(V804)
+reg18929 := PrimEqual(reg18927, reg18928)
+var reg18954 Obj
+if reg18929 == True {
+reg18930 := PrimTail(V804)
+reg18931 := PrimIsPair(reg18930)
+var reg18949 Obj
+if reg18931 == True {
+reg18932 := PrimTail(V804)
+reg18933 := PrimTail(reg18932)
+reg18934 := PrimIsPair(reg18933)
+var reg18944 Obj
+if reg18934 == True {
+reg18935 := Nil;
+reg18936 := PrimTail(V804)
+reg18937 := PrimTail(reg18936)
+reg18938 := PrimTail(reg18937)
+reg18939 := PrimEqual(reg18935, reg18938)
+var reg18942 Obj
+if reg18939 == True {
+reg18940 := True;
+reg18942 = reg18940
 } else {
-reg310037 := False;
-reg310038 = reg310037
+reg18941 := False;
+reg18942 = reg18941
 }
-reg310040 = reg310038
+reg18944 = reg18942
 } else {
-reg310039 := False;
-reg310040 = reg310039
+reg18943 := False;
+reg18944 = reg18943
 }
-var reg310043 Obj
-if reg310040 == True {
-reg310041 := True;
-reg310043 = reg310041
+var reg18947 Obj
+if reg18944 == True {
+reg18945 := True;
+reg18947 = reg18945
 } else {
-reg310042 := False;
-reg310043 = reg310042
+reg18946 := False;
+reg18947 = reg18946
 }
-reg310045 = reg310043
+reg18949 = reg18947
 } else {
-reg310044 := False;
-reg310045 = reg310044
+reg18948 := False;
+reg18949 = reg18948
 }
-var reg310048 Obj
-if reg310045 == True {
-reg310046 := True;
-reg310048 = reg310046
+var reg18952 Obj
+if reg18949 == True {
+reg18950 := True;
+reg18952 = reg18950
 } else {
-reg310047 := False;
-reg310048 = reg310047
+reg18951 := False;
+reg18952 = reg18951
 }
-reg310050 = reg310048
+reg18954 = reg18952
 } else {
-reg310049 := False;
-reg310050 = reg310049
+reg18953 := False;
+reg18954 = reg18953
 }
-var reg310053 Obj
-if reg310050 == True {
-reg310051 := True;
-reg310053 = reg310051
+var reg18957 Obj
+if reg18954 == True {
+reg18955 := True;
+reg18957 = reg18955
 } else {
-reg310052 := False;
-reg310053 = reg310052
+reg18956 := False;
+reg18957 = reg18956
 }
-reg310055 = reg310053
+reg18959 = reg18957
 } else {
-reg310054 := False;
-reg310055 = reg310054
+reg18958 := False;
+reg18959 = reg18958
 }
-if reg310055 == True {
-reg310056 := MakeSymbol("unput")
-reg310057 := PrimTail(V1776)
-reg310058 := PrimHead(reg310057)
-reg310059 := PrimTail(V1776)
-reg310060 := PrimTail(reg310059)
-reg310061 := PrimHead(reg310060)
-reg310062 := MakeSymbol("value")
-reg310063 := MakeSymbol("*property-vector*")
-reg310064 := Nil;
-reg310065 := PrimCons(reg310063, reg310064)
-reg310066 := PrimCons(reg310062, reg310065)
-reg310067 := Nil;
-reg310068 := PrimCons(reg310066, reg310067)
-reg310069 := PrimCons(reg310061, reg310068)
-reg310070 := PrimCons(reg310058, reg310069)
-reg310071 := PrimCons(reg310056, reg310070)
-__ctx.Return(reg310071)
+if reg18959 == True {
+reg18960 := MakeSymbol("unput")
+reg18961 := PrimTail(V804)
+reg18962 := PrimHead(reg18961)
+reg18963 := PrimTail(V804)
+reg18964 := PrimTail(reg18963)
+reg18965 := PrimHead(reg18964)
+reg18966 := MakeSymbol("value")
+reg18967 := MakeSymbol("*property-vector*")
+reg18968 := Nil;
+reg18969 := PrimCons(reg18967, reg18968)
+reg18970 := PrimCons(reg18966, reg18969)
+reg18971 := Nil;
+reg18972 := PrimCons(reg18970, reg18971)
+reg18973 := PrimCons(reg18965, reg18972)
+reg18974 := PrimCons(reg18962, reg18973)
+reg18975 := PrimCons(reg18960, reg18974)
+__ctx.Return(reg18975)
 return
 } else {
-__ctx.Return(V1776)
+__ctx.Return(V804)
 return
 }
 }
@@ -2720,105 +3197,105 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.put/get-macro", value: __defun__shen_4put_cget_1macro})
 
 __defun__shen_4function_1macro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1778 := __args[0]
-_ = V1778
-reg310072 := PrimIsPair(V1778)
-var reg310096 Obj
-if reg310072 == True {
-reg310073 := MakeSymbol("function")
-reg310074 := PrimHead(V1778)
-reg310075 := PrimEqual(reg310073, reg310074)
-var reg310091 Obj
-if reg310075 == True {
-reg310076 := PrimTail(V1778)
-reg310077 := PrimIsPair(reg310076)
-var reg310086 Obj
-if reg310077 == True {
-reg310078 := Nil;
-reg310079 := PrimTail(V1778)
-reg310080 := PrimTail(reg310079)
-reg310081 := PrimEqual(reg310078, reg310080)
-var reg310084 Obj
-if reg310081 == True {
-reg310082 := True;
-reg310084 = reg310082
+V806 := __args[0]
+_ = V806
+reg18976 := PrimIsPair(V806)
+var reg19000 Obj
+if reg18976 == True {
+reg18977 := MakeSymbol("function")
+reg18978 := PrimHead(V806)
+reg18979 := PrimEqual(reg18977, reg18978)
+var reg18995 Obj
+if reg18979 == True {
+reg18980 := PrimTail(V806)
+reg18981 := PrimIsPair(reg18980)
+var reg18990 Obj
+if reg18981 == True {
+reg18982 := Nil;
+reg18983 := PrimTail(V806)
+reg18984 := PrimTail(reg18983)
+reg18985 := PrimEqual(reg18982, reg18984)
+var reg18988 Obj
+if reg18985 == True {
+reg18986 := True;
+reg18988 = reg18986
 } else {
-reg310083 := False;
-reg310084 = reg310083
+reg18987 := False;
+reg18988 = reg18987
 }
-reg310086 = reg310084
+reg18990 = reg18988
 } else {
-reg310085 := False;
-reg310086 = reg310085
+reg18989 := False;
+reg18990 = reg18989
 }
-var reg310089 Obj
-if reg310086 == True {
-reg310087 := True;
-reg310089 = reg310087
+var reg18993 Obj
+if reg18990 == True {
+reg18991 := True;
+reg18993 = reg18991
 } else {
-reg310088 := False;
-reg310089 = reg310088
+reg18992 := False;
+reg18993 = reg18992
 }
-reg310091 = reg310089
+reg18995 = reg18993
 } else {
-reg310090 := False;
-reg310091 = reg310090
+reg18994 := False;
+reg18995 = reg18994
 }
-var reg310094 Obj
-if reg310091 == True {
-reg310092 := True;
-reg310094 = reg310092
+var reg18998 Obj
+if reg18995 == True {
+reg18996 := True;
+reg18998 = reg18996
 } else {
-reg310093 := False;
-reg310094 = reg310093
+reg18997 := False;
+reg18998 = reg18997
 }
-reg310096 = reg310094
+reg19000 = reg18998
 } else {
-reg310095 := False;
-reg310096 = reg310095
+reg18999 := False;
+reg19000 = reg18999
 }
-if reg310096 == True {
-reg310097 := PrimTail(V1778)
-reg310098 := PrimHead(reg310097)
-reg310099 := PrimTail(V1778)
-reg310100 := PrimHead(reg310099)
-reg310101 := __e.Call(__defun__arity, reg310100)
-__ctx.TailApply(__defun__shen_4function_1abstraction, reg310098, reg310101)
+if reg19000 == True {
+reg19001 := PrimTail(V806)
+reg19002 := PrimHead(reg19001)
+reg19003 := PrimTail(V806)
+reg19004 := PrimHead(reg19003)
+reg19005 := __e.Call(__defun__arity, reg19004)
+__ctx.TailApply(__defun__shen_4function_1abstraction, reg19002, reg19005)
 return
 } else {
-__ctx.Return(V1778)
+__ctx.Return(V806)
 return
 }
 }, 1)
 __initDefs = append(__initDefs, defType{name: "shen.function-macro", value: __defun__shen_4function_1macro})
 
 __defun__shen_4function_1abstraction = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1781 := __args[0]
-_ = V1781
-V1782 := __args[1]
-_ = V1782
-reg310103 := MakeNumber(0)
-reg310104 := PrimEqual(reg310103, V1782)
-if reg310104 == True {
-reg310105 := MakeString(" has no lambda form\n")
-reg310106 := MakeSymbol("shen.a")
-reg310107 := __e.Call(__defun__shen_4app, V1781, reg310105, reg310106)
-reg310108 := PrimSimpleError(reg310107)
-__ctx.Return(reg310108)
+V809 := __args[0]
+_ = V809
+V810 := __args[1]
+_ = V810
+reg19007 := MakeNumber(0)
+reg19008 := PrimEqual(reg19007, V810)
+if reg19008 == True {
+reg19009 := MakeString(" has no lambda form\n")
+reg19010 := MakeSymbol("shen.a")
+reg19011 := __e.Call(__defun__shen_4app, V809, reg19009, reg19010)
+reg19012 := PrimSimpleError(reg19011)
+__ctx.Return(reg19012)
 return
 } else {
-reg310109 := MakeNumber(-1)
-reg310110 := PrimEqual(reg310109, V1782)
-if reg310110 == True {
-reg310111 := MakeSymbol("function")
-reg310112 := Nil;
-reg310113 := PrimCons(V1781, reg310112)
-reg310114 := PrimCons(reg310111, reg310113)
-__ctx.Return(reg310114)
+reg19013 := MakeNumber(-1)
+reg19014 := PrimEqual(reg19013, V810)
+if reg19014 == True {
+reg19015 := MakeSymbol("function")
+reg19016 := Nil;
+reg19017 := PrimCons(V809, reg19016)
+reg19018 := PrimCons(reg19015, reg19017)
+__ctx.Return(reg19018)
 return
 } else {
-reg310115 := Nil;
-__ctx.TailApply(__defun__shen_4function_1abstraction_1help, V1781, V1782, reg310115)
+reg19019 := Nil;
+__ctx.TailApply(__defun__shen_4function_1abstraction_1help, V809, V810, reg19019)
 return
 }
 }
@@ -2826,116 +3303,116 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.function-abstraction", value: __defun__shen_4function_1abstraction})
 
 __defun__shen_4function_1abstraction_1help = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1786 := __args[0]
-_ = V1786
-V1787 := __args[1]
-_ = V1787
-V1788 := __args[2]
-_ = V1788
-reg310117 := MakeNumber(0)
-reg310118 := PrimEqual(reg310117, V1787)
-if reg310118 == True {
-reg310119 := PrimCons(V1786, V1788)
-__ctx.Return(reg310119)
+V814 := __args[0]
+_ = V814
+V815 := __args[1]
+_ = V815
+V816 := __args[2]
+_ = V816
+reg19021 := MakeNumber(0)
+reg19022 := PrimEqual(reg19021, V815)
+if reg19022 == True {
+reg19023 := PrimCons(V814, V816)
+__ctx.Return(reg19023)
 return
 } else {
-reg310120 := MakeSymbol("V")
-reg310121 := __e.Call(__defun__gensym, reg310120)
-X := reg310121
+reg19024 := MakeSymbol("V")
+reg19025 := __e.Call(__defun__gensym, reg19024)
+X := reg19025
 _ = X
-reg310122 := MakeSymbol("/.")
-reg310123 := MakeNumber(1)
-reg310124 := PrimNumberSubtract(V1787, reg310123)
-reg310125 := Nil;
-reg310126 := PrimCons(X, reg310125)
-reg310127 := __e.Call(__defun__append, V1788, reg310126)
-reg310128 := __e.Call(__defun__shen_4function_1abstraction_1help, V1786, reg310124, reg310127)
-reg310129 := Nil;
-reg310130 := PrimCons(reg310128, reg310129)
-reg310131 := PrimCons(X, reg310130)
-reg310132 := PrimCons(reg310122, reg310131)
-__ctx.Return(reg310132)
+reg19026 := MakeSymbol("/.")
+reg19027 := MakeNumber(1)
+reg19028 := PrimNumberSubtract(V815, reg19027)
+reg19029 := Nil;
+reg19030 := PrimCons(X, reg19029)
+reg19031 := __e.Call(__defun__append, V816, reg19030)
+reg19032 := __e.Call(__defun__shen_4function_1abstraction_1help, V814, reg19028, reg19031)
+reg19033 := Nil;
+reg19034 := PrimCons(reg19032, reg19033)
+reg19035 := PrimCons(X, reg19034)
+reg19036 := PrimCons(reg19026, reg19035)
+__ctx.Return(reg19036)
 return
 }
 }, 3)
 __initDefs = append(__initDefs, defType{name: "shen.function-abstraction-help", value: __defun__shen_4function_1abstraction_1help})
 
 __defun__undefmacro = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1790 := __args[0]
-_ = V1790
-reg310133 := MakeSymbol("shen.*macroreg*")
-reg310134 := PrimValue(reg310133)
-MacroReg := reg310134
+V818 := __args[0]
+_ = V818
+reg19037 := MakeSymbol("shen.*macroreg*")
+reg19038 := PrimValue(reg19037)
+MacroReg := reg19038
 _ = MacroReg
-reg310135 := __e.Call(__defun__shen_4findpos, V1790, MacroReg)
-Pos := reg310135
+reg19039 := __e.Call(__defun__shen_4findpos, V818, MacroReg)
+Pos := reg19039
 _ = Pos
-reg310136 := MakeSymbol("shen.*macroreg*")
-reg310137 := __e.Call(__defun__remove, V1790, MacroReg)
-reg310138 := PrimSet(reg310136, reg310137)
-Remove1 := reg310138
+reg19040 := MakeSymbol("shen.*macroreg*")
+reg19041 := __e.Call(__defun__remove, V818, MacroReg)
+reg19042 := PrimSet(reg19040, reg19041)
+Remove1 := reg19042
 _ = Remove1
-reg310139 := MakeSymbol("*macros*")
-reg310140 := MakeSymbol("*macros*")
-reg310141 := PrimValue(reg310140)
-reg310142 := __e.Call(__defun__shen_4remove_1nth, Pos, reg310141)
-reg310143 := PrimSet(reg310139, reg310142)
-Remove2 := reg310143
+reg19043 := MakeSymbol("*macros*")
+reg19044 := MakeSymbol("*macros*")
+reg19045 := PrimValue(reg19044)
+reg19046 := __e.Call(__defun__shen_4remove_1nth, Pos, reg19045)
+reg19047 := PrimSet(reg19043, reg19046)
+Remove2 := reg19047
 _ = Remove2
-__ctx.Return(V1790)
+__ctx.Return(V818)
 return
 }, 1)
 __initDefs = append(__initDefs, defType{name: "undefmacro", value: __defun__undefmacro})
 
 __defun__shen_4findpos = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1800 := __args[0]
-_ = V1800
-V1801 := __args[1]
-_ = V1801
-reg310144 := Nil;
-reg310145 := PrimEqual(reg310144, V1801)
-if reg310145 == True {
-reg310146 := MakeString(" is not a macro\n")
-reg310147 := MakeSymbol("shen.a")
-reg310148 := __e.Call(__defun__shen_4app, V1800, reg310146, reg310147)
-reg310149 := PrimSimpleError(reg310148)
-__ctx.Return(reg310149)
+V828 := __args[0]
+_ = V828
+V829 := __args[1]
+_ = V829
+reg19048 := Nil;
+reg19049 := PrimEqual(reg19048, V829)
+if reg19049 == True {
+reg19050 := MakeString(" is not a macro\n")
+reg19051 := MakeSymbol("shen.a")
+reg19052 := __e.Call(__defun__shen_4app, V828, reg19050, reg19051)
+reg19053 := PrimSimpleError(reg19052)
+__ctx.Return(reg19053)
 return
 } else {
-reg310150 := PrimIsPair(V1801)
-var reg310157 Obj
-if reg310150 == True {
-reg310151 := PrimHead(V1801)
-reg310152 := PrimEqual(reg310151, V1800)
-var reg310155 Obj
-if reg310152 == True {
-reg310153 := True;
-reg310155 = reg310153
+reg19054 := PrimIsPair(V829)
+var reg19061 Obj
+if reg19054 == True {
+reg19055 := PrimHead(V829)
+reg19056 := PrimEqual(reg19055, V828)
+var reg19059 Obj
+if reg19056 == True {
+reg19057 := True;
+reg19059 = reg19057
 } else {
-reg310154 := False;
-reg310155 = reg310154
+reg19058 := False;
+reg19059 = reg19058
 }
-reg310157 = reg310155
+reg19061 = reg19059
 } else {
-reg310156 := False;
-reg310157 = reg310156
+reg19060 := False;
+reg19061 = reg19060
 }
-if reg310157 == True {
-reg310158 := MakeNumber(1)
-__ctx.Return(reg310158)
+if reg19061 == True {
+reg19062 := MakeNumber(1)
+__ctx.Return(reg19062)
 return
 } else {
-reg310159 := PrimIsPair(V1801)
-if reg310159 == True {
-reg310160 := MakeNumber(1)
-reg310161 := PrimTail(V1801)
-reg310162 := __e.Call(__defun__shen_4findpos, V1800, reg310161)
-reg310163 := PrimNumberAdd(reg310160, reg310162)
-__ctx.Return(reg310163)
+reg19063 := PrimIsPair(V829)
+if reg19063 == True {
+reg19064 := MakeNumber(1)
+reg19065 := PrimTail(V829)
+reg19066 := __e.Call(__defun__shen_4findpos, V828, reg19065)
+reg19067 := PrimNumberAdd(reg19064, reg19066)
+__ctx.Return(reg19067)
 return
 } else {
-reg310164 := MakeSymbol("shen.findpos")
-__ctx.TailApply(__defun__shen_4f__error, reg310164)
+reg19068 := MakeSymbol("shen.findpos")
+__ctx.TailApply(__defun__shen_4f__error, reg19068)
 return
 }
 }
@@ -2944,46 +3421,46 @@ return
 __initDefs = append(__initDefs, defType{name: "shen.findpos", value: __defun__shen_4findpos})
 
 __defun__shen_4remove_1nth = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {
-V1806 := __args[0]
-_ = V1806
-V1807 := __args[1]
-_ = V1807
-reg310166 := MakeNumber(1)
-reg310167 := PrimEqual(reg310166, V1806)
-var reg310173 Obj
-if reg310167 == True {
-reg310168 := PrimIsPair(V1807)
-var reg310171 Obj
-if reg310168 == True {
-reg310169 := True;
-reg310171 = reg310169
+V834 := __args[0]
+_ = V834
+V835 := __args[1]
+_ = V835
+reg19070 := MakeNumber(1)
+reg19071 := PrimEqual(reg19070, V834)
+var reg19077 Obj
+if reg19071 == True {
+reg19072 := PrimIsPair(V835)
+var reg19075 Obj
+if reg19072 == True {
+reg19073 := True;
+reg19075 = reg19073
 } else {
-reg310170 := False;
-reg310171 = reg310170
+reg19074 := False;
+reg19075 = reg19074
 }
-reg310173 = reg310171
+reg19077 = reg19075
 } else {
-reg310172 := False;
-reg310173 = reg310172
+reg19076 := False;
+reg19077 = reg19076
 }
-if reg310173 == True {
-reg310174 := PrimTail(V1807)
-__ctx.Return(reg310174)
+if reg19077 == True {
+reg19078 := PrimTail(V835)
+__ctx.Return(reg19078)
 return
 } else {
-reg310175 := PrimIsPair(V1807)
-if reg310175 == True {
-reg310176 := PrimHead(V1807)
-reg310177 := MakeNumber(1)
-reg310178 := PrimNumberSubtract(V1806, reg310177)
-reg310179 := PrimTail(V1807)
-reg310180 := __e.Call(__defun__shen_4remove_1nth, reg310178, reg310179)
-reg310181 := PrimCons(reg310176, reg310180)
-__ctx.Return(reg310181)
+reg19079 := PrimIsPair(V835)
+if reg19079 == True {
+reg19080 := PrimHead(V835)
+reg19081 := MakeNumber(1)
+reg19082 := PrimNumberSubtract(V834, reg19081)
+reg19083 := PrimTail(V835)
+reg19084 := __e.Call(__defun__shen_4remove_1nth, reg19082, reg19083)
+reg19085 := PrimCons(reg19080, reg19084)
+__ctx.Return(reg19085)
 return
 } else {
-reg310182 := MakeSymbol("shen.remove-nth")
-__ctx.TailApply(__defun__shen_4f__error, reg310182)
+reg19086 := MakeSymbol("shen.remove-nth")
+__ctx.TailApply(__defun__shen_4f__error, reg19086)
 return
 }
 }

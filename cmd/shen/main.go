@@ -24,6 +24,7 @@ func main() {
 	e := kl.NewEvaluator()
 	Regist(e)
 
-	e.Eval(kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
+	e.Eval(kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
+	e.Eval(kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
 	return
 }

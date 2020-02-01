@@ -1,0 +1,90 @@
+"Copyright (c) 2010-2015, Mark Tarver
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software without
+specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"
+
+(defun pr (V4564 V4565) (trap-error (shen.prh V4564 V4565 0) (lambda E V4564)))
+
+(defun shen.prh (V4569 V4570 V4571) (shen.prh V4569 V4570 (shen.write-char-and-inc V4569 V4570 V4571)))
+
+(defun shen.write-char-and-inc (V4575 V4576 V4577) (do (write-byte (string->n (pos V4575 V4577)) V4576) (+ V4577 1)))
+
+(defun print (V4579) (let String (shen.insert V4579 "~S") (let Print (shen.prhush String (stoutput)) V4579)))
+
+(defun shen.prhush (V4582 V4583) (if (value *hush*) V4582 (pr V4582 V4583)))
+
+(defun shen.mkstr (V4586 V4587) (cond ((string? V4586) (shen.mkstr-l (shen.proc-nl V4586) V4587)) (true (shen.mkstr-r (cons shen.proc-nl (cons V4586 ())) V4587))))
+
+(defun shen.mkstr-l (V4590 V4591) (cond ((= () V4591) V4590) ((cons? V4591) (shen.mkstr-l (shen.insert-l (hd V4591) V4590) (tl V4591))) (true (shen.f_error shen.mkstr-l))))
+
+(defun shen.insert-l (V4596 V4597) (cond ((= "" V4597) "") ((and (shen.+string? V4597) (and (= "~" (pos V4597 0)) (and (shen.+string? (tlstr V4597)) (= "A" (pos (tlstr V4597) 0))))) (cons shen.app (cons V4596 (cons (tlstr (tlstr V4597)) (cons shen.a ()))))) ((and (shen.+string? V4597) (and (= "~" (pos V4597 0)) (and (shen.+string? (tlstr V4597)) (= "R" (pos (tlstr V4597) 0))))) (cons shen.app (cons V4596 (cons (tlstr (tlstr V4597)) (cons shen.r ()))))) ((and (shen.+string? V4597) (and (= "~" (pos V4597 0)) (and (shen.+string? (tlstr V4597)) (= "S" (pos (tlstr V4597) 0))))) (cons shen.app (cons V4596 (cons (tlstr (tlstr V4597)) (cons shen.s ()))))) ((shen.+string? V4597) (shen.factor-cn (cons cn (cons (pos V4597 0) (cons (shen.insert-l V4596 (tlstr V4597)) ()))))) ((and (cons? V4597) (and (= cn (hd V4597)) (and (cons? (tl V4597)) (and (cons? (tl (tl V4597))) (= () (tl (tl (tl V4597)))))))) (cons cn (cons (hd (tl V4597)) (cons (shen.insert-l V4596 (hd (tl (tl V4597)))) ())))) ((and (cons? V4597) (and (= shen.app (hd V4597)) (and (cons? (tl V4597)) (and (cons? (tl (tl V4597))) (and (cons? (tl (tl (tl V4597)))) (= () (tl (tl (tl (tl V4597)))))))))) (cons shen.app (cons (hd (tl V4597)) (cons (shen.insert-l V4596 (hd (tl (tl V4597)))) (tl (tl (tl V4597))))))) (true (shen.f_error shen.insert-l))))
+
+(defun shen.factor-cn (V4599) (cond ((and (cons? V4599) (and (= cn (hd V4599)) (and (cons? (tl V4599)) (and (cons? (tl (tl V4599))) (and (cons? (hd (tl (tl V4599)))) (and (= cn (hd (hd (tl (tl V4599))))) (and (cons? (tl (hd (tl (tl V4599))))) (and (cons? (tl (tl (hd (tl (tl V4599)))))) (and (= () (tl (tl (tl (hd (tl (tl V4599))))))) (and (= () (tl (tl (tl V4599)))) (and (string? (hd (tl V4599))) (string? (hd (tl (hd (tl (tl V4599))))))))))))))))) (cons cn (cons (cn (hd (tl V4599)) (hd (tl (hd (tl (tl V4599)))))) (tl (tl (hd (tl (tl V4599)))))))) (true V4599)))
+
+(defun shen.proc-nl (V4601) (cond ((= "" V4601) "") ((and (shen.+string? V4601) (and (= "~" (pos V4601 0)) (and (shen.+string? (tlstr V4601)) (= "%" (pos (tlstr V4601) 0))))) (cn (n->string 10) (shen.proc-nl (tlstr (tlstr V4601))))) ((shen.+string? V4601) (cn (pos V4601 0) (shen.proc-nl (tlstr V4601)))) (true (shen.f_error shen.proc-nl))))
+
+(defun shen.mkstr-r (V4604 V4605) (cond ((= () V4605) V4604) ((cons? V4605) (shen.mkstr-r (cons shen.insert (cons (hd V4605) (cons V4604 ()))) (tl V4605))) (true (shen.f_error shen.mkstr-r))))
+
+(defun shen.insert (V4608 V4609) (shen.insert-h V4608 V4609 ""))
+
+(defun shen.insert-h (V4615 V4616 V4617) (cond ((= "" V4616) V4617) ((and (shen.+string? V4616) (and (= "~" (pos V4616 0)) (and (shen.+string? (tlstr V4616)) (= "A" (pos (tlstr V4616) 0))))) (cn V4617 (shen.app V4615 (tlstr (tlstr V4616)) shen.a))) ((and (shen.+string? V4616) (and (= "~" (pos V4616 0)) (and (shen.+string? (tlstr V4616)) (= "R" (pos (tlstr V4616) 0))))) (cn V4617 (shen.app V4615 (tlstr (tlstr V4616)) shen.r))) ((and (shen.+string? V4616) (and (= "~" (pos V4616 0)) (and (shen.+string? (tlstr V4616)) (= "S" (pos (tlstr V4616) 0))))) (cn V4617 (shen.app V4615 (tlstr (tlstr V4616)) shen.s))) ((shen.+string? V4616) (shen.insert-h V4615 (tlstr V4616) (cn V4617 (pos V4616 0)))) (true (shen.f_error shen.insert-h))))
+
+(defun shen.app (V4621 V4622 V4623) (cn (shen.arg->str V4621 V4623) V4622))
+
+(defun shen.arg->str (V4631 V4632) (cond ((= V4631 (fail)) "...") ((shen.list? V4631) (shen.list->str V4631 V4632)) ((string? V4631) (shen.str->str V4631 V4632)) ((absvector? V4631) (shen.vector->str V4631 V4632)) (true (shen.atom->str V4631))))
+
+(defun shen.list->str (V4635 V4636) (cond ((= shen.r V4636) (@s "(" (@s (shen.iter-list V4635 shen.r (shen.maxseq)) ")"))) (true (@s "[" (@s (shen.iter-list V4635 V4636 (shen.maxseq)) "]")))))
+
+(defun shen.maxseq () (value *maximum-print-sequence-size*))
+
+(defun shen.iter-list (V4650 V4651 V4652) (cond ((= () V4650) "") ((= 0 V4652) "... etc") ((and (cons? V4650) (= () (tl V4650))) (shen.arg->str (hd V4650) V4651)) ((cons? V4650) (@s (shen.arg->str (hd V4650) V4651) (@s " " (shen.iter-list (tl V4650) V4651 (- V4652 1))))) (true (@s "|" (@s " " (shen.arg->str V4650 V4651))))))
+
+(defun shen.str->str (V4659 V4660) (cond ((= shen.a V4660) V4659) (true (@s (n->string 34) (@s V4659 (n->string 34))))))
+
+(defun shen.vector->str (V4663 V4664) (if (shen.print-vector? V4663) ((function (<-address V4663 0)) V4663) (if (vector? V4663) (@s "<" (@s (shen.iter-vector V4663 1 V4664 (shen.maxseq)) ">")) (@s "<" (@s "<" (@s (shen.iter-vector V4663 0 V4664 (shen.maxseq)) ">>"))))))
+
+(defun shen.empty-absvector? (V4666) (= V4666 (value shen.*empty-absvector*)))
+
+(defun shen.print-vector? (V4668) (and (not (shen.empty-absvector? V4668)) (let First (<-address V4668 0) (or (= First shen.tuple) (or (= First shen.pvar) (or (= First shen.dictionary) (and (not (number? First)) (shen.fbound? First))))))))
+
+(defun shen.fbound? (V4670) (trap-error (do (shen.lookup-func V4670) true) (lambda E false)))
+
+(defun shen.tuple (V4672) (cn "(@p " (shen.app (<-address V4672 1) (cn " " (shen.app (<-address V4672 2) ")" shen.s)) shen.s)))
+
+(defun shen.dictionary (V4674) "(dict ...)")
+
+(defun shen.iter-vector (V4685 V4686 V4687 V4688) (cond ((= 0 V4688) "... etc") (true (let Item (trap-error (<-address V4685 V4686) (lambda E shen.out-of-bounds)) (let Next (trap-error (<-address V4685 (+ V4686 1)) (lambda E shen.out-of-bounds)) (if (= Item shen.out-of-bounds) "" (if (= Next shen.out-of-bounds) (shen.arg->str Item V4687) (@s (shen.arg->str Item V4687) (@s " " (shen.iter-vector V4685 (+ V4686 1) V4687 (- V4688 1)))))))))))
+
+(defun shen.atom->str (V4690) (trap-error (str V4690) (lambda E (shen.funexstring))))
+
+(defun shen.funexstring () (@s "" (@s "f" (@s "u" (@s "n" (@s "e" (@s (shen.arg->str (gensym (intern "x")) shen.a) "")))))))
+
+(defun shen.list? (V4692) (or (empty? V4692) (cons? V4692)))
+
+
+
