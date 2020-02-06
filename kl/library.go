@@ -37,15 +37,22 @@ func reverse(o Obj) Obj {
 }
 
 func equal(x, y Obj) Obj {
+	if x == y {
+		return True
+	}
 	if *x != *y {
 		return False
 	}
 
 	switch *x {
 	case scmHeadNumber:
-		if mustNumber(x).val != mustNumber(y).val {
-			return False
+		if !isFixnum(x) && !isFixnum(y) {
+			if mustNumber(x) == mustNumber(y) {
+				return True
+			}
 		}
+		// x == y is checked already
+		return False
 	case scmHeadString:
 		if mustString(x) != mustString(y) {
 			return False
@@ -110,10 +117,6 @@ func ListToSlice(l Obj) []Obj {
 		l = cdr(l)
 	}
 	return ret
-}
-
-func GetInteger(o Obj) int {
-	return int(mustNumber(o).val)
 }
 
 func Cadr(o Obj) Obj {

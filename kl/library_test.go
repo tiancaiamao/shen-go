@@ -52,6 +52,9 @@ func TestEqual(t *testing.T) {
 		{MakeString("asd"), MakeString("abc"), False},
 		{MakeVector(1), MakeVector(2), False},
 		{MakeVector(0), MakeVector(0), True},
+		{MakeInteger(5), MakeInteger(fixnumCount + 3), False},
+		{MakeInteger(0), MakeInteger(5), False},
+		{MakeInteger(5), MakeInteger(5), True},
 	}
 
 	for _, test := range tests {

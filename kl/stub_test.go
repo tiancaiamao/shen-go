@@ -1,6 +1,7 @@
 package kl
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -23,6 +24,7 @@ func TestPartialApply(t *testing.T) {
 	fn := e.Call(__defun_fact0)
 	res := e.Call(fn, MakeInteger(5))
 	if mustInteger(res) != 120 {
+		fmt.Println(res, mustInteger(res))
 		t.Fail()
 	}
 
@@ -194,7 +196,7 @@ func TestTryCatch(t *testing.T) {
 	}
 
 	res = e.Call(__defun__trycatch)
-	if mustNumber(res).val != 3 {
+	if mustInteger(res) != 3 {
 		t.Fail()
 	}
 
@@ -207,7 +209,7 @@ func TestTryCatch(t *testing.T) {
 		ctx.Return(res)
 		return
 	}, 1))
-	if mustNumber(res).val != 42 {
+	if mustInteger(res) != 42 {
 		t.Fail()
 	}
 }

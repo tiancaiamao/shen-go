@@ -193,19 +193,31 @@ func mustString(o Obj) string {
 	return (*scmString)(unsafe.Pointer(o)).str
 }
 
+func fixnum(o Obj) int {
+	return int(uintptr(unsafe.Pointer(o)) - fixnumBaseAddr)
+}
+
 func mustInteger(o Obj) int {
 	if (*o) != scmHeadNumber {
 		panic(MakeError("mustNumber"))
 	}
+	if isFixnum(o) {
+		return fixnum(o)
+	}
+
 	f := (*scmNumber)(unsafe.Pointer(o)).val
 	return int(f)
 }
 
-func mustNumber(o Obj) *scmNumber {
+func mustNumber(o Obj) float64 {
 	if (*o) != scmHeadNumber {
 		panic(MakeError("mustNumber"))
 	}
-	return (*scmNumber)(unsafe.Pointer(o))
+	if isFixnum(o) {
+		return float64(fixnum(o))
+	}
+	x := (*scmNumber)(unsafe.Pointer(o))
+	return x.val
 }
 
 func mustSymbol(o Obj) *scmSymbol {
@@ -244,11 +256,15 @@ func isPair(o Obj) (bool, *scmPair) {
 	return false, nil
 }
 
-const intConstCount = 8192
-
 var True, False, Nil, undefined Obj
 var uptime time.Time
-var intConst [intConstCount]Obj
+
+var addrForFixnum [1 << 20]byte
+
+const fixnumCount = 8 << 20
+
+var fixnumBaseAddr = uintptr(unsafe.Pointer(&addrForFixnum[0]))
+var fixnumEndAddr = fixnumBaseAddr + fixnumCount
 
 type symbolArrayObj struct {
 	str      string // The string of this symbol
@@ -291,19 +307,23 @@ func init() {
 	var tmp4 int
 	undefined = MakeRaw(&tmp4)
 
-	for i := 0; i < intConstCount; i++ {
-		intConst[i] = makeInteger(i)
-	}
-
 	symbolArray = make([]symbolArrayObj, 0, 4096)
 	trieRoot = &trieNode{}
 }
 
 func MakeInteger(v int) Obj {
-	if v >= 0 && v < intConstCount {
-		return intConst[v]
+	if v >= 0 && v < fixnumCount {
+		return Obj(unsafe.Pointer(fixnumBaseAddr + uintptr(v)))
 	}
 	return makeInteger(v)
+}
+
+func isFixnum(o Obj) bool {
+	v := uintptr(unsafe.Pointer(o))
+	if v >= fixnumBaseAddr && v < fixnumEndAddr {
+		return true
+	}
+	return false
 }
 
 func makeInteger(v int) Obj {
@@ -313,9 +333,7 @@ func makeInteger(v int) Obj {
 
 func MakeNumber(f float64) Obj {
 	if isPreciseInteger(f) {
-		if f >= 0 && int(f) < intConstCount {
-			return intConst[int(f)]
-		}
+		return MakeInteger(int(f))
 	}
 
 	tmp := scmNumber{scmHeadNumber, f}
@@ -436,10 +454,10 @@ func (o *scmHead) GoString() string {
 	switch *o {
 	case scmHeadNumber:
 		f := mustNumber(o)
-		if !isPreciseInteger(f.val) {
-			return fmt.Sprintf("%f", f.val)
+		if !isPreciseInteger(f) {
+			return fmt.Sprintf("%f", f)
 		}
-		return fmt.Sprintf("%d", int(f.val))
+		return fmt.Sprintf("%d", int(f))
 	case scmHeadPair:
 		var buf bytes.Buffer
 		mustPair(o).fmt(&buf, true)

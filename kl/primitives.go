@@ -51,7 +51,6 @@ var AllPrimitives = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: PrimNot, CodeGen: "PrimNot"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: PrimIf, CodeGen: "PrimIf"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: PrimIsSymbol, CodeGen: "PrimIsSymbol"},
-	// &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "hash", Required: 2, Function: primHash},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: PrimReadFileAsByteList, CodeGen: "PrimReadFileAsByteList"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: PrimReadFileAsString, CodeGen: "PrimReadFileAsString"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "variable?", Required: 1, Function: PrimIsVariable, CodeGen: "PrimIsVariable"},
@@ -61,25 +60,25 @@ var AllPrimitives = []*ScmPrimitive{
 func PrimNumberAdd(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
-	return MakeNumber(x1.val + y1.val)
+	return MakeNumber(x1 + y1)
 }
 
 func PrimNumberSubtract(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
-	return MakeNumber(x1.val - y1.val)
+	return MakeNumber(x1 - y1)
 }
 
 func PrimNumberMultiply(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
-	return MakeNumber(x1.val * y1.val)
+	return MakeNumber(x1 * y1)
 }
 
 func PrimNumberDivide(args ...Obj) Obj {
 	x1 := mustNumber(args[0])
 	y1 := mustNumber(args[1])
-	return MakeNumber(x1.val / y1.val)
+	return MakeNumber(x1 / y1)
 }
 
 func PrimIntern(args ...Obj) Obj {
@@ -130,11 +129,14 @@ func PrimStr(args ...Obj) Obj {
 		str := GetSymbol(args[0])
 		return MakeString(str)
 	case scmHeadNumber:
-		f := mustNumber(args[0])
-		if !isPreciseInteger(f.val) {
-			return MakeString(fmt.Sprintf("%f", f.val))
+		if isFixnum(args[0]) {
+			return MakeString(fmt.Sprintf("%d", mustInteger(args[0])))
 		}
-		return MakeString(fmt.Sprintf("%d", int(f.val)))
+		f := mustNumber(args[0])
+		if !isPreciseInteger(f) {
+			return MakeString(fmt.Sprintf("%f", f))
+		}
+		return MakeString(fmt.Sprintf("%d", int(f)))
 	case scmHeadString:
 		return MakeString(fmt.Sprintf(`"%s"`, mustString(args[0])))
 	case scmHeadProcedure:
@@ -227,36 +229,36 @@ func PrimErrorToString(args ...Obj) Obj {
 }
 
 func PrimGreatThan(args ...Obj) Obj {
-	x := mustNumber(args[0])
-	y := mustNumber(args[1])
-	if x.val > y.val {
+	x := mustInteger(args[0])
+	y := mustInteger(args[1])
+	if x > y {
 		return True
 	}
 	return False
 }
 
 func PrimLessThan(args ...Obj) Obj {
-	x := mustNumber(args[0])
-	y := mustNumber(args[1])
-	if x.val < y.val {
+	x := mustInteger(args[0])
+	y := mustInteger(args[1])
+	if x < y {
 		return True
 	}
 	return False
 }
 
 func PrimLessEqual(args ...Obj) Obj {
-	x := mustNumber(args[0])
-	y := mustNumber(args[1])
-	if x.val <= y.val {
+	x := mustInteger(args[0])
+	y := mustInteger(args[1])
+	if x <= y {
 		return True
 	}
 	return False
 }
 
 func PrimGreatEqual(args ...Obj) Obj {
-	x := mustNumber(args[0])
-	y := mustNumber(args[1])
-	if x.val >= y.val {
+	x := mustInteger(args[0])
+	y := mustInteger(args[1])
+	if x >= y {
 		return True
 	}
 	return False
@@ -423,13 +425,6 @@ func PrimIsSymbol(args ...Obj) Obj {
 	return False
 }
 
-// A --> number --> number
-func primHash(args ...Obj) Obj {
-	mod := mustNumber(args[1]).val
-	ret := objHash(args[0]) % int(mod)
-	return MakeInteger(ret)
-}
-
 func objHash(x Obj) int {
 	// initialize value is its type, then mixed with value part.
 	sum := (int)(*x)
@@ -441,8 +436,8 @@ func objHash(x Obj) int {
 		} else {
 			sum = sum<<23 + 13
 		}
-	case scmHeadNumber:
-		sum = sum<<23 + *((*int)(unsafe.Pointer(&mustNumber(x).val)))
+	// case scmHeadNumber:
+	// 	sum = sum<<23 + *((*int)(unsafe.Pointer(&mustNumber(x).val)))
 	case scmHeadString:
 		str := mustString(x)
 		for _, s := range str {
@@ -522,7 +517,10 @@ func PrimIsInteger(args ...Obj) Obj {
 	if *args[0] != scmHeadNumber {
 		return False
 	}
-	f := mustNumber(args[0]).val
+	if isFixnum(args[0]) {
+		return True
+	}
+	f := mustNumber(args[0])
 	if isPreciseInteger(f) {
 		return True
 	}
