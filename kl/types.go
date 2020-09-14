@@ -71,7 +71,7 @@ type scmProcedure struct {
 	arg   []Obj
 	arity int
 	body  Obj
-	env   *Environment
+	env   Obj
 }
 
 type ScmPrimitive struct {
@@ -414,7 +414,7 @@ func MakeSymbol(s string) Obj {
 	return &tmp.scmHead
 }
 
-func makeProcedure(arg Obj, body Obj, env *Environment) Obj {
+func makeProcedure(arg Obj, body Obj, env Obj) Obj {
 	tmp := scmProcedure{
 		scmHead: scmHeadProcedure,
 		body:    body,

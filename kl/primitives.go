@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"time"
-	"unsafe"
 )
 
 var AllPrimitives = []*ScmPrimitive{
@@ -425,55 +424,6 @@ func PrimIsSymbol(args ...Obj) Obj {
 	return False
 }
 
-func objHash(x Obj) int {
-	// initialize value is its type, then mixed with value part.
-	sum := (int)(*x)
-	switch *x {
-	case scmHeadNull:
-	case scmHeadBoolean:
-		if x == True {
-			sum = sum<<23 + 17
-		} else {
-			sum = sum<<23 + 13
-		}
-	// case scmHeadNumber:
-	// 	sum = sum<<23 + *((*int)(unsafe.Pointer(&mustNumber(x).val)))
-	case scmHeadString:
-		str := mustString(x)
-		for _, s := range str {
-			sum = ((sum + 13) << 7) + int(s)
-		}
-	case scmHeadSymbol:
-		str := GetSymbol(x)
-		for _, s := range str {
-			sum = ((sum + 13) << 7) + int(s)
-		}
-	case scmHeadVector:
-		objs := mustVector(x)
-		for _, o := range objs {
-			sum = ((sum + 17) << 13) + objHash(o)
-		}
-	case scmHeadError:
-		str := mustError(x).err
-		for _, s := range str {
-			sum = ((sum + 123) << 7) + int(s)
-		}
-	case scmHeadPair:
-		sum = objHash(car(x)) ^ objHash(cdr(x))
-	case scmHeadProcedure:
-		sum = sum ^ *((*int)(unsafe.Pointer(mustProcedure(x))))
-	case scmHeadStream:
-		sum = sum ^ *((*int)(unsafe.Pointer(mustStream(x))))
-	case scmHeadPrimitive:
-		for _, s := range mustPrimitive(x).Name {
-			sum = ((sum + 17) << 7) + int(s)
-		}
-	case scmHeadRaw:
-		sum = sum ^ *((*int)(unsafe.Pointer(mustStream(x))))
-	}
-	return sum
-}
-
 func PrimReadFileAsByteList(args ...Obj) Obj {
 	fileName := mustString(args[0])
 	buf, err := ioutil.ReadFile(fileName)
@@ -529,5 +479,5 @@ func PrimIsInteger(args ...Obj) Obj {
 
 func PrimEvalKL(e *Evaluator, args ...Obj) Obj {
 	// fmt.Println("eval-kl:", ObjString(args[0]))
-	return e.trampoline(args[0], nil)
+	return e.trampoline(args[0], Nil)
 }

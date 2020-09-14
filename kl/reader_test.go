@@ -2,7 +2,6 @@ package kl
 
 import (
 	"io"
-	// "fmt"
 	"strings"
 	"testing"
 )

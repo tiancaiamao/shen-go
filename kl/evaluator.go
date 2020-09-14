@@ -117,7 +117,7 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 			res = Nil
 		}
 	}()
-	res = e.trampoline(exp, nil)
+	res = e.trampoline(exp, Nil)
 	return
 }
 

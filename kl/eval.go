@@ -5,35 +5,22 @@ import (
 	"runtime"
 )
 
-type Environment struct {
-	parent *Environment
-	bind   map[string]Obj
-}
-
-func (env *Environment) Get(sym string) (Obj, bool) {
-	for env != nil {
-		if v, ok := env.bind[sym]; ok {
-			return v, true
+func envGet(env Obj, sym Obj) (Obj, bool) {
+	for env != Nil {
+		pair := car(env)
+		if PrimEqual(car(pair), sym) == True {
+			return cdr(pair), true
 		}
-		env = env.parent
+		env = cdr(env)
 	}
-	return Nil, false
+	return nil, false
 }
 
-func (env *Environment) Extend(symbols, values []Obj) *Environment {
-	if len(symbols) == 0 {
-		return env
-	}
-
-	bind := make(map[string]Obj)
+func envExtend(env Obj, symbols, values []Obj) Obj {
 	for i := 0; i < len(symbols); i++ {
-		name := GetSymbol(symbols[i])
-		bind[name] = values[i]
+		env = cons(cons(symbols[i], values[i]), env)
 	}
-	return &Environment{
-		parent: env,
-		bind:   bind,
-	}
+	return env
 }
 
 type ControlFlowKind int
@@ -44,36 +31,55 @@ const (
 	ControlFlowApply
 )
 
-type ControlFlow struct {
-	kind ControlFlowKind
-	// arguments for apply
-	f    Obj
-	args []Obj
-	// return result
-	result Obj
+const ctlFlowCacheSize = 8
 
-	// arguments for eval
-	exp Obj
-	env *Environment
+type ControlFlow struct {
+	// controlFlowReturn: result = data[0]
+	// controlFlowApply: fn, args = data[0], data[1], data[2] ...
+	// controlFlowEval: exp, env = data[0], data[1]
+	kind  ControlFlowKind
+	cache [ctlFlowCacheSize]Obj
+	data  []Obj
+}
+
+func (ctl *ControlFlow) Get(n int) Obj {
+	return ctl.data[n]
+}
+
+func (ctl *ControlFlow) Set(idx int, val Obj) {
+	ctl.data[idx] = val
+}
+
+var (
+	ctlPool [10]ControlFlow
+	ctlIdx  int
+)
+
+func getCtl() *ControlFlow {
+	ctl := &ctlPool[ctlIdx]
+	ctlIdx = (ctlIdx + 1) % 10
+	return ctl
 }
 
 // trampoline is introduced for tail call optimization.
-func (e *Evaluator) trampoline(exp Obj, env *Environment) Obj {
-	var ctl = ControlFlow{
-		kind: ControlFlowEval,
-		exp:  exp,
-		env:  env,
-	}
-	return e.do(&ctl)
+func (e *Evaluator) trampoline(exp Obj, env Obj) Obj {
+	ctl := getCtl()
+	ctl.kind = ControlFlowEval
+	ctl.data = ctl.cache[:0]
+	ctl.data = append(ctl.data, exp)
+	ctl.data = append(ctl.data, env)
+	return e.do(ctl)
 }
 
 func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
-	var ctl = ControlFlow{
-		kind: ControlFlowApply,
-		f:    f,
-		args: args,
+	ctl := getCtl()
+	ctl.kind = ControlFlowApply
+	ctl.data = ctl.cache[:0]
+	ctl.data = append(ctl.data, f)
+	for _, arg := range args {
+		ctl.data = append(ctl.data, arg)
 	}
-	return e.do(&ctl)
+	return e.do(ctl)
 }
 
 func (e *Evaluator) do(ctl *ControlFlow) Obj {
@@ -85,29 +91,34 @@ func (e *Evaluator) do(ctl *ControlFlow) Obj {
 			e.apply(ctl)
 		}
 	}
-	return ctl.result
+	return ctl.data[0]
 }
 
-func (ctl *ControlFlow) TailEval(exp Obj, env *Environment) {
-	ctl.exp = exp
-	ctl.env = env
+func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
+	ctl.data = ctl.data[:0]
+	ctl.data = append(ctl.data, exp)
+	ctl.data = append(ctl.data, env)
 	ctl.kind = ControlFlowEval
 }
 
 func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
-	ctl.f = f
-	ctl.args = args
+	ctl.data = ctl.data[:0]
+	ctl.data = append(ctl.data, f)
+	ctl.data = append(ctl.data, args...)
 	ctl.kind = ControlFlowApply
 }
 
 func (ctl *ControlFlow) Return(result Obj) {
-	ctl.result = result
+	ctl.data = ctl.data[:1]
+	ctl.data[0] = result
 	ctl.kind = ControlFlowReturn
 }
 
 func (e *Evaluator) eval(ctl *ControlFlow) {
-	exp := ctl.exp
-	env := ctl.env
+	exp := ctl.Get(0)
+	env := ctl.Get(1)
+
+	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env))
 
 	switch *exp { // handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
@@ -116,7 +127,7 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 	}
 
 	if ok, _ := isSymbol(exp); ok {
-		if val, ok := env.Get(GetSymbol(exp)); ok {
+		if val, ok := envGet(env, exp); ok {
 			exp = val
 		}
 		ctl.Return(exp)
@@ -146,7 +157,7 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 			return
 		case "let": // (let x y z)
 			args := e.trampoline(cadr(exp), env)
-			newEnv := env.Extend([]Obj{car(exp)}, []Obj{args})
+			newEnv := envExtend(env, []Obj{car(exp)}, []Obj{args})
 			ctl.TailEval(caddr(exp), newEnv)
 			return
 		case "and":
@@ -179,7 +190,7 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 	return
 }
 
-func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
+func (e *Evaluator) evalFunction(fn Obj, env Obj) Obj {
 	if ok, _ := isSymbol(fn); ok {
 		str := GetSymbol(fn)
 		// Native function has higher priority to overload primitive.
@@ -187,7 +198,7 @@ func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
 			return native
 		}
 
-		if proc, ok := env.Get(str); ok {
+		if proc, ok := envGet(env, fn); ok {
 			return proc
 		}
 
@@ -205,7 +216,7 @@ func (e *Evaluator) evalFunction(fn Obj, env *Environment) Obj {
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }
 
-func (e *Evaluator) evalIf(a, b, c Obj, env *Environment, ctl *ControlFlow) {
+func (e *Evaluator) evalIf(a, b, c Obj, env Obj, ctl *ControlFlow) {
 	t := e.trampoline(a, env)
 	switch t {
 	case True:
@@ -218,7 +229,7 @@ func (e *Evaluator) evalIf(a, b, c Obj, env *Environment, ctl *ControlFlow) {
 	panic("second argument of if should be boolean")
 }
 
-func (e *Evaluator) evalAnd(a, b Obj, env *Environment, ctl *ControlFlow) {
+func (e *Evaluator) evalAnd(a, b Obj, env Obj, ctl *ControlFlow) {
 	if e.trampoline(a, env) == False {
 		ctl.Return(False)
 		return
@@ -226,7 +237,7 @@ func (e *Evaluator) evalAnd(a, b Obj, env *Environment, ctl *ControlFlow) {
 	ctl.TailEval(b, env)
 }
 
-func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *ControlFlow) {
+func (e *Evaluator) evalOr(a, b Obj, env Obj, ctl *ControlFlow) {
 	if e.trampoline(a, env) == True {
 		ctl.Return(True)
 		return
@@ -234,7 +245,7 @@ func (e *Evaluator) evalOr(a, b Obj, env *Environment, ctl *ControlFlow) {
 	ctl.TailEval(b, env)
 }
 
-func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *ControlFlow) {
+func (e *Evaluator) evalCond(l Obj, env Obj, ctl *ControlFlow) {
 	for *l == scmHeadPair {
 		curr := car(l)
 		if e.trampoline(car(curr), env) == True {
@@ -247,7 +258,7 @@ func (e *Evaluator) evalCond(l Obj, env *Environment, ctl *ControlFlow) {
 	return
 }
 
-func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *ControlFlow) {
+func (e *Evaluator) evalTrapError(exp Obj, env Obj, ctl *ControlFlow) {
 	defer func() {
 		if err := recover(); err != nil {
 			if val, ok := err.(Obj); ok {
@@ -271,8 +282,8 @@ func (e *Evaluator) evalTrapError(exp Obj, env *Environment, ctl *ControlFlow) {
 }
 
 func (e *Evaluator) apply(ctl *ControlFlow) {
-	f := ctl.f
-	args := ctl.args
+	f := ctl.Get(0)
+	args := ctl.data[1:]
 
 	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
@@ -291,11 +302,11 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 			ctl.Return(partialApply(proc.arity, args, proc.env, f))
 			return
 		case len(args) == proc.arity:
-			newEnv := proc.env.Extend(proc.arg, args)
+			newEnv := envExtend(proc.env, proc.arg, args)
 			ctl.TailEval(proc.body, newEnv)
 			return
 		case len(args) > proc.arity:
-			newEnv := proc.env.Extend(proc.arg, args[:proc.arity])
+			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
 			res := e.trampoline(proc.body, newEnv)
 			ctl.TailApply(res, args[proc.arity:]...)
 			return
@@ -336,11 +347,11 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 }
 
 // partialApply works when Required > providArgs
-func partialApply(required int, providArgs []Obj, env *Environment, proc Obj) Obj {
+func partialApply(required int, providArgs []Obj, env Obj, proc Obj) Obj {
 	// Partial apply...
 	// (f x y z) => (lambda (z) (f x y z)) with x y in env
 	symbols := makeTempSymbols(required)
-	env1 := env.Extend(symbols[:len(providArgs)], providArgs)
+	env1 := envExtend(env, symbols[:len(providArgs)], providArgs)
 
 	args := Nil
 	for i, count := len(symbols)-1, required-len(providArgs); count > 0; count-- {
@@ -357,7 +368,7 @@ func partialApply(required int, providArgs []Obj, env *Environment, proc Obj) Ob
 	return makeProcedure(args, body, env1)
 }
 
-func (e *Evaluator) evalArgumentList(args Obj, env *Environment) []Obj {
+func (e *Evaluator) evalArgumentList(args Obj, env Obj) []Obj {
 	var ret []Obj
 	for *args == scmHeadPair {
 		v := e.trampoline(car(args), env)
