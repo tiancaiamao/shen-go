@@ -9,6 +9,7 @@ import (
 )
 
 type Evaluator struct {
+	ControlFlow
 	functionTable map[string]Obj
 	Silence       bool
 

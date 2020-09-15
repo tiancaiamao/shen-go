@@ -38,48 +38,56 @@ type ControlFlow struct {
 	// controlFlowApply: fn, args = data[0], data[1], data[2] ...
 	// controlFlowEval: exp, env = data[0], data[1]
 	kind  ControlFlowKind
-	cache [ctlFlowCacheSize]Obj
-	data  []Obj
+
+	// len(data) is stack pointer.
+	// stack[bp : len(data)] is the arguments to current function.
+	stack  []Obj
+	bp int
 }
 
 func (ctl *ControlFlow) Get(n int) Obj {
-	return ctl.data[n]
-}
-
-func (ctl *ControlFlow) Set(idx int, val Obj) {
-	ctl.data[idx] = val
-}
-
-var (
-	ctlPool [10]ControlFlow
-	ctlIdx  int
-)
-
-func getCtl() *ControlFlow {
-	ctl := &ctlPool[ctlIdx]
-	ctlIdx = (ctlIdx + 1) % 10
-	return ctl
+	return ctl.stack[ctl.bp + n]
 }
 
 // trampoline is introduced for tail call optimization.
 func (e *Evaluator) trampoline(exp Obj, env Obj) Obj {
-	ctl := getCtl()
-	ctl.kind = ControlFlowEval
-	ctl.data = ctl.cache[:0]
-	ctl.data = append(ctl.data, exp)
-	ctl.data = append(ctl.data, env)
-	return e.do(ctl)
+	e.stack = e.stack[:e.bp]
+	e.kind = ControlFlowEval
+	e.stack = append(e.stack, exp)
+	e.stack = append(e.stack, env)
+	return e.do(&e.ControlFlow)
 }
 
 func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
-	ctl := getCtl()
+	// ctl.stack[bp : len(ctl.stack)] is current stack frame
+	// 
+	// ---------------------------
+	//  | bp            |
+	//  | arg1 arg2 ... |
+	// ---------------------------
+	//
+	// save old bp, update bp to len(ctl.stack)
+	// push arg1, arg2 ...
+	// -----------------------------------
+	//  | saveBP        | bp           |
+	//  | ...           | arg1 arg2 ...|
+	// -----------------------------------
+	// 
+	// Call()
+	// recover the old frame: stack <- stack[:bp], bp <-saveBP
+
+	ctl := &e.ControlFlow
+	saveBP := ctl.bp
+
+	ctl.bp = len(ctl.stack)
+	ctl.stack = append(ctl.stack, f)
+	ctl.stack = append(ctl.stack, args...)
 	ctl.kind = ControlFlowApply
-	ctl.data = ctl.cache[:0]
-	ctl.data = append(ctl.data, f)
-	for _, arg := range args {
-		ctl.data = append(ctl.data, arg)
-	}
-	return e.do(ctl)
+	ret := e.do(ctl)
+
+	ctl.stack = ctl.stack[:ctl.bp]
+	ctl.bp = saveBP
+	return ret
 }
 
 func (e *Evaluator) do(ctl *ControlFlow) Obj {
@@ -91,26 +99,28 @@ func (e *Evaluator) do(ctl *ControlFlow) Obj {
 			e.apply(ctl)
 		}
 	}
-	return ctl.data[0]
+	ret := ctl.stack[ctl.bp]
+	ctl.stack = ctl.stack[:ctl.bp]
+	return ret
 }
 
 func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
-	ctl.data = ctl.data[:0]
-	ctl.data = append(ctl.data, exp)
-	ctl.data = append(ctl.data, env)
+	ctl.stack = ctl.stack[:ctl.bp]
+	ctl.stack = append(ctl.stack, exp)
+	ctl.stack = append(ctl.stack, env)
 	ctl.kind = ControlFlowEval
 }
 
 func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
-	ctl.data = ctl.data[:0]
-	ctl.data = append(ctl.data, f)
-	ctl.data = append(ctl.data, args...)
+	ctl.stack = ctl.stack[:ctl.bp]
+	ctl.stack = append(ctl.stack, f)
+	ctl.stack = append(ctl.stack, args...)
 	ctl.kind = ControlFlowApply
 }
 
 func (ctl *ControlFlow) Return(result Obj) {
-	ctl.data = ctl.data[:1]
-	ctl.data[0] = result
+	ctl.stack = ctl.stack[:ctl.bp+1]
+	ctl.stack[ctl.bp] = result
 	ctl.kind = ControlFlowReturn
 }
 
@@ -118,7 +128,7 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 	exp := ctl.Get(0)
 	env := ctl.Get(1)
 
-	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env))
+	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.stack, e.bp)
 
 	switch *exp { // handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
@@ -283,7 +293,7 @@ func (e *Evaluator) evalTrapError(exp Obj, env Obj, ctl *ControlFlow) {
 
 func (e *Evaluator) apply(ctl *ControlFlow) {
 	f := ctl.Get(0)
-	args := ctl.data[1:]
+	args := ctl.stack[ctl.bp+1:]
 
 	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
@@ -292,7 +302,8 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 			ctl.Return(partialApply(prim.Required, args, nil, f))
 			return
 		case len(args) == prim.Required:
-			ctl.Return(prim.Function(args...))
+			ret := prim.Function(args...)
+			ctl.Return(ret)
 			return
 		}
 	} else if *f == scmHeadProcedure {
