@@ -36,7 +36,10 @@ type scmNumber struct {
 
 type scmSymbol struct {
 	scmHead
-	offset int
+	// The string of this symbol.
+	str      string
+	value    Obj
+	function Obj
 }
 
 type scmPair struct {
@@ -258,6 +261,8 @@ func isPair(o Obj) (bool, *scmPair) {
 
 var True, False, Nil, undefined Obj
 var uptime time.Time
+var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd Obj
+var symOr, symIf, symCond, symTrapError, symDo Obj
 
 var addrForFixnum [1 << 20]byte
 
@@ -266,17 +271,9 @@ const fixnumCount = 8 << 20
 var fixnumBaseAddr = uintptr(unsafe.Pointer(&addrForFixnum[0]))
 var fixnumEndAddr = fixnumBaseAddr + fixnumCount
 
-type symbolArrayObj struct {
-	str      string // The string of this symbol
-	value    Obj    // The value bind to this symbol
-	function Obj    // The function bind to this symbol
-}
-
-var symbolArray []symbolArrayObj
-
 type trieNode struct {
 	children [256]*trieNode
-	value    int
+	value    scmSymbol
 }
 
 var trieRoot *trieNode
@@ -286,7 +283,12 @@ func trieFindOrInsert(str string) *trieNode {
 	for i := 0; i < len(str); i++ {
 		v := str[i]
 		if p.children[v] == nil {
-			p.children[v] = &trieNode{value: -1}
+			p.children[v] = &trieNode{
+				value: scmSymbol{
+					scmHead: scmHeadSymbol,
+					str:     str[:i+1],
+				},
+			}
 		}
 		p = p.children[v]
 	}
@@ -307,8 +309,19 @@ func init() {
 	var tmp4 int
 	undefined = MakeRaw(&tmp4)
 
-	symbolArray = make([]symbolArrayObj, 0, 4096)
 	trieRoot = &trieNode{}
+
+	symQuote = MakeSymbol("quote")
+	symDefun = MakeSymbol("defun")
+	symLambda = MakeSymbol("lambda")
+	symFreeze = MakeSymbol("freeze")
+	symLet = MakeSymbol("let")
+	symAnd = MakeSymbol("and")
+	symOr = MakeSymbol("or")
+	symIf = MakeSymbol("if")
+	symCond = MakeSymbol("cond")
+	symTrapError = MakeSymbol("trap-error")
+	symDo = MakeSymbol("do")
 }
 
 func MakeInteger(v int) Obj {
@@ -353,17 +366,15 @@ func GetString(o Obj) string {
 }
 
 func GetSymbol(o Obj) string {
-	return symbolArray[mustSymbol(o).offset].str
+	return mustSymbol(o).str
 }
 
 func BindSymbolFunc(sym Obj, f Obj) {
-	o := &symbolArray[mustSymbol(sym).offset]
-	o.function = f
+	mustSymbol(sym).function = f
 }
 
 func GetSymbolFunc(sym Obj) Obj {
-	o := &symbolArray[mustSymbol(sym).offset]
-	return o.function
+	return mustSymbol(sym).function
 }
 
 func cons(x, y Obj) Obj {
@@ -397,21 +408,8 @@ func MakeString(s string) Obj {
 }
 
 func MakeSymbol(s string) Obj {
-	var idx int
 	p := trieFindOrInsert(s)
-	if p.value < 0 {
-		idx = len(symbolArray)
-		symbolArray = append(symbolArray, symbolArrayObj{str: s})
-		p.value = idx
-	} else {
-		idx = p.value
-	}
-
-	tmp := scmSymbol{
-		scmHeadSymbol,
-		idx,
-	}
-	return &tmp.scmHead
+	return &p.value.scmHead
 }
 
 func makeProcedure(arg Obj, body Obj, env Obj) Obj {

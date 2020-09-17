@@ -62,7 +62,7 @@ func equal(x, y Obj) Obj {
 			return False
 		}
 	case scmHeadSymbol:
-		if mustSymbol(x).offset != mustSymbol(y).offset {
+		if x != y {
 			return False
 		}
 	case scmHeadNull:

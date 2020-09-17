@@ -203,18 +203,16 @@ func or(args ...Obj) Obj {
 
 func PrimSet(key Obj, val Obj) Obj {
 	sym := mustSymbol(key)
-	symVal := &symbolArray[sym.offset]
-	symVal.value = val
+	sym.value = val
 	return val
 }
 
 func PrimValue(key Obj) Obj {
 	sym := mustSymbol(key)
-	symVal := &symbolArray[sym.offset]
-	if symVal.value != nil {
-		return symVal.value
+	if sym.value != nil {
+		return sym.value
 	}
-	panic(MakeError(fmt.Sprintf("variable %s not bound", symVal.str)))
+	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
 func PrimSimpleError(args ...Obj) Obj {
