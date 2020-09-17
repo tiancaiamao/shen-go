@@ -38,91 +38,62 @@ type ControlFlow struct {
 	// controlFlowApply: fn, args = data[0], data[1], data[2] ...
 	// controlFlowEval: exp, env = data[0], data[1]
 	kind  ControlFlowKind
-	cache [ctlFlowCacheSize]Obj
+
+	// data[pos : len(data)] is the arguments to current function.
 	data  []Obj
+	pos int
 }
 
-func (ctl *ControlFlow) Get(n int) Obj {
-	return ctl.data[n]
-}
-
-func (ctl *ControlFlow) Set(idx int, val Obj) {
-	ctl.data[idx] = val
-}
-
-var (
-	ctlPool [10]ControlFlow
-	ctlIdx  int
-)
-
-func getCtl() *ControlFlow {
-	ctl := &ctlPool[ctlIdx]
-	ctlIdx = (ctlIdx + 1) % 10
-	return ctl
+func (e *Evaluator) evalExp(exp Obj, env Obj) Obj {
+	e.TailEval(exp, env)
+	return e.trampoline()
 }
 
 // trampoline is introduced for tail call optimization.
-func (e *Evaluator) trampoline(exp Obj, env Obj) Obj {
-	ctl := getCtl()
-	ctl.kind = ControlFlowEval
-	ctl.data = ctl.cache[:0]
-	ctl.data = append(ctl.data, exp)
-	ctl.data = append(ctl.data, env)
-	return e.do(ctl)
-}
-
-func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
-	ctl := getCtl()
-	ctl.kind = ControlFlowApply
-	ctl.data = ctl.cache[:0]
-	ctl.data = append(ctl.data, f)
-	for _, arg := range args {
-		ctl.data = append(ctl.data, arg)
-	}
-	return e.do(ctl)
-}
-
-func (e *Evaluator) do(ctl *ControlFlow) Obj {
+func (e *Evaluator) trampoline() Obj {
+	ctl := &e.ControlFlow
 	for ctl.kind != ControlFlowReturn {
 		switch ctl.kind {
 		case ControlFlowEval:
-			e.eval(ctl)
+			e.eval()
 		case ControlFlowApply:
-			e.apply(ctl)
+			e.apply()
 		}
 	}
-	return ctl.data[0]
+	ret := ctl.data[ctl.pos]
+	ctl.data = ctl.data[:ctl.pos]
+	return ret
 }
 
 func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
-	ctl.data = ctl.data[:0]
+	ctl.data = ctl.data[:ctl.pos]
 	ctl.data = append(ctl.data, exp)
 	ctl.data = append(ctl.data, env)
 	ctl.kind = ControlFlowEval
 }
 
 func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
-	ctl.data = ctl.data[:0]
+	ctl.data = ctl.data[:ctl.pos]
 	ctl.data = append(ctl.data, f)
 	ctl.data = append(ctl.data, args...)
 	ctl.kind = ControlFlowApply
 }
 
 func (ctl *ControlFlow) Return(result Obj) {
-	ctl.data = ctl.data[:1]
-	ctl.data[0] = result
+	ctl.data = ctl.data[:ctl.pos]
+	ctl.data = append(ctl.data, result)
 	ctl.kind = ControlFlowReturn
 }
 
-func (e *Evaluator) eval(ctl *ControlFlow) {
-	exp := ctl.Get(0)
-	env := ctl.Get(1)
+func (e *Evaluator) eval() {
+	exp := e.data[e.pos]
+	env := e.data[e.pos + 1]
 
-	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env))
+	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.data, e.pos)
 
 	switch *exp { // handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
-		ctl.Return(exp)
+		e.Return(exp)
 		return
 	}
 
@@ -130,7 +101,7 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 		if val, ok := envGet(env, exp); ok {
 			exp = val
 		}
-		ctl.Return(exp)
+		e.Return(exp)
 		return
 	}
 
@@ -141,52 +112,69 @@ func (e *Evaluator) eval(ctl *ControlFlow) {
 		case "quote":
 			// Extension to make vm work.
 			// TODO: remove it later
-			ctl.Return(car(exp))
+			e.Return(car(exp))
 			return
 		case "defun": // (defun f (x y) z)
 			proc := makeProcedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
 			e.functionTable[GetSymbol(funName)] = proc
-			ctl.Return(funName)
+			e.Return(funName)
 			return
 		case "lambda": // (lambda x x)
-			ctl.Return(makeProcedure(car(exp), cadr(exp), env))
+			e.Return(makeProcedure(car(exp), cadr(exp), env))
 			return
 		case "freeze": // (freeze body)
-			ctl.Return(makeProcedure(Nil, car(exp), env))
+			e.Return(makeProcedure(Nil, car(exp), env))
 			return
 		case "let": // (let x y z)
-			args := e.trampoline(cadr(exp), env)
+			args := e.evalExp(cadr(exp), env)
 			newEnv := envExtend(env, []Obj{car(exp)}, []Obj{args})
-			ctl.TailEval(caddr(exp), newEnv)
+			e.TailEval(caddr(exp), newEnv)
 			return
 		case "and":
-			e.evalAnd(car(exp), cadr(exp), env, ctl)
+			e.evalAnd(car(exp), cadr(exp), env)
 			return
 		case "or":
-			e.evalOr(car(exp), cadr(exp), env, ctl)
+			e.evalOr(car(exp), cadr(exp), env)
 			return
 		case "if": // (if a b c)
 			if listLength(pair.cdr) == 3 {
-				e.evalIf(car(exp), cadr(exp), caddr(exp), env, ctl)
+				e.evalIf(car(exp), cadr(exp), caddr(exp), env)
 				return
 			} // if may also be a function for partial apply
 		case "cond": // (cond (false 1) (true 2))
-			e.evalCond(exp, env, ctl)
+			e.evalCond(exp, env)
 			return
 		case "trap-error": // (trap-error ~body ~handler)
-			e.evalTrapError(exp, env, ctl)
+			e.evalTrapError(exp, env)
 			return
 		case "do": // (do A A)
-			e.trampoline(car(exp), env)
-			ctl.TailEval(cadr(exp), env)
+			e.evalExp(car(exp), env)
+			e.TailEval(cadr(exp), env)
 			return
 		}
 	}
 
+	savePOS := e.pos
 	fn := e.evalFunction(pair.car, env)
-	args := e.evalArgumentList(pair.cdr, env)
-	ctl.TailApply(fn, args...)
+	e.data = e.data[:e.pos]
+	e.data = append(e.data, fn)
+	e.pos++
+
+	args := pair.cdr
+	for *args == scmHeadPair {
+		v := e.evalExp(car(args), env)
+		if *v == scmHeadError {
+			e.pos--
+			e.TailApply(fn, v)
+			return
+		}
+		e.data = append(e.data, v)
+		e.pos++
+		args = cdr(args)
+	}
+	e.pos = savePOS
+	e.kind = ControlFlowApply
 	return
 }
 
@@ -211,60 +199,60 @@ func (e *Evaluator) evalFunction(fn Obj, env Obj) Obj {
 	case scmHeadPrimitive, scmHeadProcedure, scmHeadNative:
 		return fn
 	case scmHeadPair:
-		return e.trampoline(fn, env)
+		return e.evalExp(fn, env)
 	}
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }
 
-func (e *Evaluator) evalIf(a, b, c Obj, env Obj, ctl *ControlFlow) {
-	t := e.trampoline(a, env)
+func (e *Evaluator) evalIf(a, b, c Obj, env Obj) {
+	t := e.evalExp(a, env)
 	switch t {
 	case True:
-		ctl.TailEval(b, env)
+		e.TailEval(b, env)
 		return
 	case False:
-		ctl.TailEval(c, env)
+		e.TailEval(c, env)
 		return
 	}
 	panic("second argument of if should be boolean")
 }
 
-func (e *Evaluator) evalAnd(a, b Obj, env Obj, ctl *ControlFlow) {
-	if e.trampoline(a, env) == False {
-		ctl.Return(False)
+func (e *Evaluator) evalAnd(a, b Obj, env Obj) {
+	if e.evalExp(a, env) == False {
+		e.Return(False)
 		return
 	}
-	ctl.TailEval(b, env)
+	e.TailEval(b, env)
 }
 
-func (e *Evaluator) evalOr(a, b Obj, env Obj, ctl *ControlFlow) {
-	if e.trampoline(a, env) == True {
-		ctl.Return(True)
+func (e *Evaluator) evalOr(a, b Obj, env Obj) {
+	if e.evalExp(a, env) == True {
+		e.Return(True)
 		return
 	}
-	ctl.TailEval(b, env)
+	e.TailEval(b, env)
 }
 
-func (e *Evaluator) evalCond(l Obj, env Obj, ctl *ControlFlow) {
+func (e *Evaluator) evalCond(l Obj, env Obj) {
 	for *l == scmHeadPair {
 		curr := car(l)
-		if e.trampoline(car(curr), env) == True {
-			ctl.TailEval(cadr(curr), env)
+		if e.evalExp(car(curr), env) == True {
+			e.TailEval(cadr(curr), env)
 			return
 		}
 		l = cdr(l)
 	}
-	ctl.Return(Nil)
+	e.Return(Nil)
 	return
 }
 
-func (e *Evaluator) evalTrapError(exp Obj, env Obj, ctl *ControlFlow) {
+func (e *Evaluator) evalTrapError(exp Obj, env Obj) {
 	defer func() {
 		if err := recover(); err != nil {
 			if val, ok := err.(Obj); ok {
 				if IsError(val) {
 					handle := e.evalFunction(cadr(exp), env)
-					ctl.TailApply(handle, val)
+					e.TailApply(handle, val)
 					return
 				}
 			}
@@ -276,39 +264,40 @@ func (e *Evaluator) evalTrapError(exp Obj, env Obj, ctl *ControlFlow) {
 			fmt.Println(string(buf[:n]))
 		}
 	}()
-	v := e.trampoline(car(exp), env)
-	ctl.Return(v)
+	v := e.evalExp(car(exp), env)
+	e.Return(v)
 	return
 }
 
-func (e *Evaluator) apply(ctl *ControlFlow) {
-	f := ctl.Get(0)
-	args := ctl.data[1:]
+func (e *Evaluator) apply() {
+	f := e.data[e.pos]
+	args := e.data[e.pos+1:]
 
 	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
 		switch {
 		case len(args) < prim.Required:
-			ctl.Return(partialApply(prim.Required, args, nil, f))
+			e.Return(partialApply(prim.Required, args, Nil, f))
 			return
 		case len(args) == prim.Required:
-			ctl.Return(prim.Function(args...))
+			ret := prim.Function(args...)
+			e.Return(ret)
 			return
 		}
 	} else if *f == scmHeadProcedure {
 		proc := mustProcedure(f)
 		switch {
 		case len(args) < proc.arity:
-			ctl.Return(partialApply(proc.arity, args, proc.env, f))
+			e.Return(partialApply(proc.arity, args, proc.env, f))
 			return
 		case len(args) == proc.arity:
 			newEnv := envExtend(proc.env, proc.arg, args)
-			ctl.TailEval(proc.body, newEnv)
+			e.TailEval(proc.body, newEnv)
 			return
 		case len(args) > proc.arity:
 			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
-			res := e.trampoline(proc.body, newEnv)
-			ctl.TailApply(res, args[proc.arity:]...)
+			res := e.evalExp(proc.body, newEnv)
+			e.TailApply(res, args[proc.arity:]...)
 			return
 		}
 	} else if *f == scmHeadNative {
@@ -324,7 +313,7 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 				tmp = append(tmp, fn.captured...)
 				tmp = append(tmp, args...)
 			}
-			fn.fn(e, ctl, tmp...)
+			fn.fn(e, &e.ControlFlow, tmp...)
 			return
 		}
 
@@ -332,7 +321,7 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 		tmp = append(tmp, fn.captured...)
 		if provided < required {
 			tmp = append(tmp, args...)
-			ctl.Return(MakeNative(fn.fn, fn.require, tmp...))
+			e.Return(MakeNative(fn.fn, fn.require, tmp...))
 			return
 		}
 
@@ -340,7 +329,7 @@ func (e *Evaluator) apply(ctl *ControlFlow) {
 		tmp = append(tmp, args[:taken]...)
 		f = e.Call(f, tmp...)
 		args = args[taken:]
-		ctl.TailApply(f, args...)
+		e.TailApply(f, args...)
 		return
 	}
 	panic("can't apply object")
@@ -366,19 +355,6 @@ func partialApply(required int, providArgs []Obj, env Obj, proc Obj) Obj {
 	body = cons(proc, body)
 
 	return makeProcedure(args, body, env1)
-}
-
-func (e *Evaluator) evalArgumentList(args Obj, env Obj) []Obj {
-	var ret []Obj
-	for *args == scmHeadPair {
-		v := e.trampoline(car(args), env)
-		if *v == scmHeadError {
-			return []Obj{v}
-		}
-		ret = append(ret, v)
-		args = cdr(args)
-	}
-	return ret
 }
 
 func makeTempSymbols(n int) []Obj {

@@ -9,6 +9,7 @@ import (
 )
 
 type Evaluator struct {
+	ControlFlow
 	functionTable map[string]Obj
 	Silence       bool
 
@@ -59,8 +60,8 @@ func (e *Evaluator) primValue(args ...Obj) Obj {
 }
 
 func (e *Evaluator) primEvalKL(args ...Obj) Obj {
-	// fmt.Println("eval-kl: ", ObjString(args[0]))
-	return e.trampoline(args[0], nil)
+	fmt.Println("eval-kl: ", ObjString(args[0]))
+	return e.evalExp(args[0], Nil)
 }
 
 func (e *Evaluator) primLoadFile(args ...Obj) Obj {
@@ -95,7 +96,7 @@ func (e *Evaluator) LoadFile(file string) Obj {
 			break
 		}
 
-		res := e.trampoline(exp, nil)
+		res := e.evalExp(exp, nil)
 		if *res == scmHeadError {
 			return res
 		}
@@ -117,8 +118,13 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 			res = Nil
 		}
 	}()
-	res = e.trampoline(exp, Nil)
+	res = e.evalExp(exp, Nil)
 	return
+}
+
+func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
+	e.TailApply(f, args...)
+	return e.trampoline()
 }
 
 func (e *Evaluator) RegistNativeCall(name string, f Obj) {

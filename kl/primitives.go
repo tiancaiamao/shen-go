@@ -479,5 +479,5 @@ func PrimIsInteger(args ...Obj) Obj {
 
 func PrimEvalKL(e *Evaluator, args ...Obj) Obj {
 	// fmt.Println("eval-kl:", ObjString(args[0]))
-	return e.trampoline(args[0], Nil)
+	return e.evalExp(args[0], Nil)
 }
