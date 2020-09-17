@@ -39,14 +39,9 @@ type ControlFlow struct {
 	// controlFlowEval: exp, env = data[0], data[1]
 	kind  ControlFlowKind
 
-	// len(stack) is stack pointer.
-	// stack[bp : len(data)] is the arguments to current function.
-	stack  []Obj
-	bp int
-}
-
-func (ctl *ControlFlow) Get(n int) Obj {
-	return ctl.stack[ctl.bp + n]
+	// data[pos : len(data)] is the arguments to current function.
+	data  []Obj
+	pos int
 }
 
 func (e *Evaluator) evalExp(exp Obj, env Obj) Obj {
@@ -65,36 +60,36 @@ func (e *Evaluator) trampoline() Obj {
 			e.apply()
 		}
 	}
-	ret := ctl.stack[ctl.bp]
-	ctl.stack = ctl.stack[:ctl.bp]
+	ret := ctl.data[ctl.pos]
+	ctl.data = ctl.data[:ctl.pos]
 	return ret
 }
 
 func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
-	ctl.stack = ctl.stack[:ctl.bp]
-	ctl.stack = append(ctl.stack, exp)
-	ctl.stack = append(ctl.stack, env)
+	ctl.data = ctl.data[:ctl.pos]
+	ctl.data = append(ctl.data, exp)
+	ctl.data = append(ctl.data, env)
 	ctl.kind = ControlFlowEval
 }
 
 func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
-	ctl.stack = ctl.stack[:ctl.bp]
-	ctl.stack = append(ctl.stack, f)
-	ctl.stack = append(ctl.stack, args...)
+	ctl.data = ctl.data[:ctl.pos]
+	ctl.data = append(ctl.data, f)
+	ctl.data = append(ctl.data, args...)
 	ctl.kind = ControlFlowApply
 }
 
 func (ctl *ControlFlow) Return(result Obj) {
-	ctl.stack = ctl.stack[:ctl.bp]
-	ctl.stack = append(ctl.stack, result)
+	ctl.data = ctl.data[:ctl.pos]
+	ctl.data = append(ctl.data, result)
 	ctl.kind = ControlFlowReturn
 }
 
 func (e *Evaluator) eval() {
-	exp := e.Get(0)
-	env := e.Get(1)
+	exp := e.data[e.pos]
+	env := e.data[e.pos + 1]
 
-	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.stack, e.bp)
+	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.data, e.pos)
 
 	switch *exp { // handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
@@ -160,25 +155,25 @@ func (e *Evaluator) eval() {
 		}
 	}
 
-	saveBP := e.bp
+	savePOS := e.pos
 	fn := e.evalFunction(pair.car, env)
-	e.stack = e.stack[:e.bp]
-	e.stack = append(e.stack, fn)
-	e.bp++
+	e.data = e.data[:e.pos]
+	e.data = append(e.data, fn)
+	e.pos++
 
 	args := pair.cdr
 	for *args == scmHeadPair {
 		v := e.evalExp(car(args), env)
 		if *v == scmHeadError {
-			e.bp--
+			e.pos--
 			e.TailApply(fn, v)
 			return
 		}
-		e.stack = append(e.stack, v)
-		e.bp++
+		e.data = append(e.data, v)
+		e.pos++
 		args = cdr(args)
 	}
-	e.bp = saveBP
+	e.pos = savePOS
 	e.kind = ControlFlowApply
 	return
 }
@@ -275,8 +270,8 @@ func (e *Evaluator) evalTrapError(exp Obj, env Obj) {
 }
 
 func (e *Evaluator) apply() {
-	f := e.Get(0)
-	args := e.stack[e.bp+1:]
+	f := e.data[e.pos]
+	args := e.data[e.pos+1:]
 
 	if *f == scmHeadPrimitive {
 		prim := mustPrimitive(f)
