@@ -60,7 +60,7 @@ func (e *Evaluator) primValue(args ...Obj) Obj {
 }
 
 func (e *Evaluator) primEvalKL(args ...Obj) Obj {
-	// fmt.Println("eval-kl: ", ObjString(args[0]))
+	fmt.Println("eval-kl: ", ObjString(args[0]))
 	return e.evalExp(args[0], Nil)
 }
 
@@ -123,35 +123,8 @@ func (e *Evaluator) Eval(exp Obj) (res Obj) {
 }
 
 func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
-	// ctl.stack[bp : len(ctl.stack)] is current stack frame
-	// 
-	// ---------------------------
-	//  | bp            |
-	//  | arg1 arg2 ... |
-	// ---------------------------
-	//
-	// save old bp, update bp to len(ctl.stack)
-	// push arg1, arg2 ...
-	// -----------------------------------
-	//  | saveBP        | bp           |
-	//  | ...           | arg1 arg2 ...|
-	// -----------------------------------
-	// 
-	// Call()
-	// recover the old frame: stack <- stack[:bp], bp <-saveBP
-
-	ctl := &e.ControlFlow
-	saveBP := ctl.bp
-
-	ctl.bp = len(ctl.stack)
-	ctl.stack = append(ctl.stack, f)
-	ctl.stack = append(ctl.stack, args...)
-	ctl.kind = ControlFlowApply
-	ret := e.trampoline()
-
-	ctl.stack = ctl.stack[:ctl.bp]
-	ctl.bp = saveBP
-	return ret
+	e.TailApply(f, args...)
+	return e.trampoline()
 }
 
 func (e *Evaluator) RegistNativeCall(name string, f Obj) {

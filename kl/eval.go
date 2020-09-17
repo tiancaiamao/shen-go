@@ -39,7 +39,7 @@ type ControlFlow struct {
 	// controlFlowEval: exp, env = data[0], data[1]
 	kind  ControlFlowKind
 
-	// len(data) is stack pointer.
+	// len(stack) is stack pointer.
 	// stack[bp : len(data)] is the arguments to current function.
 	stack  []Obj
 	bp int
@@ -50,10 +50,7 @@ func (ctl *ControlFlow) Get(n int) Obj {
 }
 
 func (e *Evaluator) evalExp(exp Obj, env Obj) Obj {
-	e.stack = e.stack[:e.bp]
-	e.stack = append(e.stack, exp)
-	e.stack = append(e.stack, env)
-	e.kind = ControlFlowEval
+	e.TailEval(exp, env)
 	return e.trampoline()
 }
 
@@ -88,8 +85,8 @@ func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
 }
 
 func (ctl *ControlFlow) Return(result Obj) {
-	ctl.stack = ctl.stack[:ctl.bp+1]
-	ctl.stack[ctl.bp] = result
+	ctl.stack = ctl.stack[:ctl.bp]
+	ctl.stack = append(ctl.stack, result)
 	ctl.kind = ControlFlowReturn
 }
 
@@ -163,9 +160,26 @@ func (e *Evaluator) eval() {
 		}
 	}
 
+	saveBP := e.bp
 	fn := e.evalFunction(pair.car, env)
-	args := e.evalArgumentList(pair.cdr, env)
-	e.TailApply(fn, args...)
+	e.stack = e.stack[:e.bp]
+	e.stack = append(e.stack, fn)
+	e.bp++
+
+	args := pair.cdr
+	for *args == scmHeadPair {
+		v := e.evalExp(car(args), env)
+		if *v == scmHeadError {
+			e.bp--
+			e.TailApply(fn, v)
+			return
+		}
+		e.stack = append(e.stack, v)
+		e.bp++
+		args = cdr(args)
+	}
+	e.bp = saveBP
+	e.kind = ControlFlowApply
 	return
 }
 
@@ -268,7 +282,7 @@ func (e *Evaluator) apply() {
 		prim := mustPrimitive(f)
 		switch {
 		case len(args) < prim.Required:
-			e.Return(partialApply(prim.Required, args, nil, f))
+			e.Return(partialApply(prim.Required, args, Nil, f))
 			return
 		case len(args) == prim.Required:
 			ret := prim.Function(args...)
@@ -346,19 +360,6 @@ func partialApply(required int, providArgs []Obj, env Obj, proc Obj) Obj {
 	body = cons(proc, body)
 
 	return makeProcedure(args, body, env1)
-}
-
-func (e *Evaluator) evalArgumentList(args Obj, env Obj) []Obj {
-	var ret []Obj
-	for *args == scmHeadPair {
-		v := e.evalExp(car(args), env)
-		if *v == scmHeadError {
-			return []Obj{v}
-		}
-		ret = append(ret, v)
-		args = cdr(args)
-	}
-	return ret
 }
 
 func makeTempSymbols(n int) []Obj {
