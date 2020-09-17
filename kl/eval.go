@@ -75,6 +75,8 @@ func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
 func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
 	ctl.data = ctl.data[:ctl.pos]
 	ctl.data = append(ctl.data, f)
+	// TODO: Change the function signature.
+	// Using args ... is not good for performance, there is a copy here.
 	ctl.data = append(ctl.data, args...)
 	ctl.kind = ControlFlowApply
 }
@@ -91,13 +93,12 @@ func (e *Evaluator) eval() {
 
 	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.data, e.pos)
 
-	switch *exp { // handle constant
+	switch *exp {
+	// handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
 		e.Return(exp)
 		return
-	}
-
-	if ok, _ := isSymbol(exp); ok {
+	case scmHeadSymbol:
 		if val, ok := envGet(env, exp); ok {
 			exp = val
 		}
@@ -117,7 +118,7 @@ func (e *Evaluator) eval() {
 		case symDefun: // (defun f (x y) z)
 			proc := makeProcedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
-			e.functionTable[GetSymbol(funName)] = proc
+			BindSymbolFunc(funName, proc)
 			e.Return(funName)
 			return
 		case symLambda: // (lambda x x)
@@ -179,19 +180,13 @@ func (e *Evaluator) eval() {
 }
 
 func (e *Evaluator) evalFunction(fn Obj, env Obj) Obj {
-	if ok, _ := isSymbol(fn); ok {
-		str := GetSymbol(fn)
-		// Native function has higher priority to overload primitive.
-		if native, ok := e.nativeFunc[str]; ok {
-			return native
+	if ok, sym := isSymbol(fn); ok {
+		if sym.function != nil {
+			return sym.function
 		}
 
 		if proc, ok := envGet(env, fn); ok {
 			return proc
-		}
-
-		if val, ok := e.functionTable[str]; ok {
-			return val
 		}
 	}
 

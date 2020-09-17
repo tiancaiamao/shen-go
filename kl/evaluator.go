@@ -10,30 +10,24 @@ import (
 
 type Evaluator struct {
 	ControlFlow
-	functionTable map[string]Obj
-	Silence       bool
-
-	nativeFunc map[string]Obj
+	Silence bool
 }
 
 func NewEvaluator() *Evaluator {
 	var e Evaluator
-
-	e.functionTable = make(map[string]Obj, len(AllPrimitives))
 	for _, prim := range AllPrimitives {
-		e.functionTable[prim.Name] = Obj(&prim.scmHead)
+		sym := MakeSymbol(prim.Name)
+		BindSymbolFunc(sym, Obj(&prim.scmHead))
 	}
 	// Overload for primitive set and value.
 	tmp := &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: e.primSet}
-	e.functionTable["set"] = Obj(&tmp.scmHead)
+	BindSymbolFunc(MakeSymbol("set"), Obj(&tmp.scmHead))
 	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: e.primValue}
-	e.functionTable["value"] = Obj(&tmp.scmHead)
+	BindSymbolFunc(MakeSymbol("value"), Obj(&tmp.scmHead))
 	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
-	e.functionTable["eval-kl"] = Obj(&tmp.scmHead)
+	BindSymbolFunc(MakeSymbol("eval-kl"), Obj(&tmp.scmHead))
 	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
-	e.functionTable["load-file"] = Obj(&tmp.scmHead)
-
-	e.nativeFunc = make(map[string]Obj)
+	BindSymbolFunc(MakeSymbol("load-file"), Obj(&tmp.scmHead))
 
 	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
 	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
@@ -129,7 +123,7 @@ func (e *Evaluator) Call(f Obj, args ...Obj) Obj {
 
 func (e *Evaluator) RegistNativeCall(name string, f Obj) {
 	_ = MustNative(f)
-	e.nativeFunc[name] = f
+	BindSymbolFunc(MakeSymbol(name), f)
 }
 
 func (e *Evaluator) BootstrapShen() {
@@ -152,5 +146,5 @@ func (e *Evaluator) BootstrapShen() {
 
 	// override
 	isSymbol := MakePrimitive("symbol?", 1, PrimIsSymbol)
-	e.functionTable["symbol?"] = Obj(&isSymbol.scmHead)
+	BindSymbolFunc(MakeSymbol("symbol?"), Obj(&isSymbol.scmHead))
 }
