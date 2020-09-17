@@ -8,7 +8,7 @@ import (
 func envGet(env Obj, sym Obj) (Obj, bool) {
 	for env != Nil {
 		pair := car(env)
-		if PrimEqual(car(pair), sym) == True {
+		if car(pair) == sym {
 			return cdr(pair), true
 		}
 		env = cdr(env)
@@ -37,11 +37,11 @@ type ControlFlow struct {
 	// controlFlowReturn: result = data[0]
 	// controlFlowApply: fn, args = data[0], data[1], data[2] ...
 	// controlFlowEval: exp, env = data[0], data[1]
-	kind  ControlFlowKind
+	kind ControlFlowKind
 
 	// data[pos : len(data)] is the arguments to current function.
-	data  []Obj
-	pos int
+	data []Obj
+	pos  int
 }
 
 func (e *Evaluator) evalExp(exp Obj, env Obj) Obj {
@@ -87,7 +87,7 @@ func (ctl *ControlFlow) Return(result Obj) {
 
 func (e *Evaluator) eval() {
 	exp := e.data[e.pos]
-	env := e.data[e.pos + 1]
+	env := e.data[e.pos+1]
 
 	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.data, e.pos)
 
@@ -106,49 +106,49 @@ func (e *Evaluator) eval() {
 	}
 
 	pair := mustPair(exp)
-	if ok, sym := isSymbol(pair.car); ok {
+	if IsSymbol(pair.car) {
 		exp = pair.cdr // handle special form
-		switch symbolArray[sym.offset].str {
-		case "quote":
+		switch pair.car {
+		case symQuote:
 			// Extension to make vm work.
 			// TODO: remove it later
 			e.Return(car(exp))
 			return
-		case "defun": // (defun f (x y) z)
+		case symDefun: // (defun f (x y) z)
 			proc := makeProcedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
 			e.functionTable[GetSymbol(funName)] = proc
 			e.Return(funName)
 			return
-		case "lambda": // (lambda x x)
+		case symLambda: // (lambda x x)
 			e.Return(makeProcedure(car(exp), cadr(exp), env))
 			return
-		case "freeze": // (freeze body)
+		case symFreeze: // (freeze body)
 			e.Return(makeProcedure(Nil, car(exp), env))
 			return
-		case "let": // (let x y z)
+		case symLet: // (let x y z)
 			args := e.evalExp(cadr(exp), env)
 			newEnv := envExtend(env, []Obj{car(exp)}, []Obj{args})
 			e.TailEval(caddr(exp), newEnv)
 			return
-		case "and":
+		case symAnd:
 			e.evalAnd(car(exp), cadr(exp), env)
 			return
-		case "or":
+		case symOr:
 			e.evalOr(car(exp), cadr(exp), env)
 			return
-		case "if": // (if a b c)
+		case symIf: // (if a b c)
 			if listLength(pair.cdr) == 3 {
 				e.evalIf(car(exp), cadr(exp), caddr(exp), env)
 				return
 			} // if may also be a function for partial apply
-		case "cond": // (cond (false 1) (true 2))
+		case symCond: // (cond (false 1) (true 2))
 			e.evalCond(exp, env)
 			return
-		case "trap-error": // (trap-error ~body ~handler)
+		case symTrapError: // (trap-error ~body ~handler)
 			e.evalTrapError(exp, env)
 			return
-		case "do": // (do A A)
+		case symDo: // (do A A)
 			e.evalExp(car(exp), env)
 			e.TailEval(cadr(exp), env)
 			return

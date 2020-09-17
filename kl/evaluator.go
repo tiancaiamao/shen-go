@@ -60,7 +60,7 @@ func (e *Evaluator) primValue(args ...Obj) Obj {
 }
 
 func (e *Evaluator) primEvalKL(args ...Obj) Obj {
-	fmt.Println("eval-kl: ", ObjString(args[0]))
+	// fmt.Println("eval-kl: ", ObjString(args[0]))
 	return e.evalExp(args[0], Nil)
 }
 
