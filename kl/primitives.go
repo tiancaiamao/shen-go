@@ -139,7 +139,7 @@ func PrimStr(args ...Obj) Obj {
 	case scmHeadString:
 		return MakeString(fmt.Sprintf(`"%s"`, mustString(args[0])))
 	case scmHeadProcedure:
-		return MakeString("#<procedure>")
+		return MakeString("#<procedure >")
 	case scmHeadPrimitive:
 		prim := mustPrimitive(args[0])
 		return MakeString(fmt.Sprintf("#<primitive %s>", prim.Name))
@@ -151,13 +151,13 @@ func PrimStr(args ...Obj) Obj {
 		}
 	case scmHeadError:
 		e := mustError(args[0])
-		return MakeString(e.err)
+		return MakeString("#<err " + e.err + ">")
 	case scmHeadStream:
-		return MakeString("<stream>")
+		return MakeString("#<stream >")
 	case scmHeadRaw:
-		return MakeString("#<raw>")
+		return MakeString("#<raw >")
 	case scmHeadNative:
-		return MakeString("#<native>")
+		return MakeString("#<native >")
 	default:
 		return MakeString("PrimStr unknown")
 	}

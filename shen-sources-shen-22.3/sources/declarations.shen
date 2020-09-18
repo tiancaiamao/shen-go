@@ -37,6 +37,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 (set *varcounter* (vector 10000))
 (set *prologvectors* (vector 10000))
 (set *demodulation-function* (/. X X))
+(set *custom-pattern-compiler* (/. Arg OnFail (thaw OnFail)))
+(set *custom-pattern-reducer* (/. Arg Arg))
 (set *macroreg* [timer-macro cases-macro abs-macro put/get-macro
                  compile-macro datatype-macro let-macro assoc-macro
                  make-string-macro output-macro input-macro error-macro
@@ -82,7 +84,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 (set *infs* 0)
 (set *hush* false)
 (set *optimise* false)
-(set *version* "Shen 22.2")
+(set *version* "Shen 22.3")
 
 (if (not (bound? *home-directory*))
     (set *home-directory* "")

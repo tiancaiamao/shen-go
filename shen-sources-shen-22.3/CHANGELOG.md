@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
 
+## [22.3] - 2020-02-23
+
+### Added
+- New experimental `programmable-pattern-matching` extension.
+- Extensible selector rules on `factorise-defun` extension.
+- Benchmarks.
+
+### Fixed
+- Fixed bug in typechecking function that made user-defined typechecking rules for lambdas to never run.
+- Fixed handling of prolog cuts in some corner cases.
+- The t* algorithm now respects user-defined rules for lambdas.
+
 ## [22.2] - 2019-10-11
 
 ### Fixed
@@ -343,7 +355,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - y-or-n? fixed
 - compiler warnings suppressed in CLisp
 
-[Unreleased]: https://github.com/Shen-Language/shen-sources/compare/shen-22.2...HEAD
+[Unreleased]: https://github.com/Shen-Language/shen-sources/compare/shen-22.3...HEAD
+[22.3]: https://github.com/Shen-Language/shen-sources/compare/shen-22.2...shen-22.3
 [22.2]: https://github.com/Shen-Language/shen-sources/compare/shen-22.1...shen-22.2
 [22.1]: https://github.com/Shen-Language/shen-sources/compare/shen-22.0...shen-22.1
 [22.0]: https://github.com/Shen-Language/shen-sources/compare/shen-21.2...shen-22.0
