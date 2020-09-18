@@ -91,8 +91,6 @@ func (e *Evaluator) eval() {
 	exp := e.data[e.pos]
 	env := e.data[e.pos+1]
 
-	// fmt.Println("eval ===", ObjString(exp), "env ==", ObjString(env), e.data, e.pos)
-
 	switch *exp {
 	// handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
@@ -166,7 +164,7 @@ func (e *Evaluator) eval() {
 	for *args == scmHeadPair {
 		v := e.evalExp(car(args), env)
 		if *v == scmHeadError {
-			e.pos--
+			e.pos = savePOS
 			e.TailApply(fn, v)
 			return
 		}
@@ -242,10 +240,13 @@ func (e *Evaluator) evalCond(l Obj, env Obj) {
 }
 
 func (e *Evaluator) evalTrapError(exp Obj, env Obj) {
+	savePOS := e.pos
 	defer func() {
 		if err := recover(); err != nil {
 			if val, ok := err.(Obj); ok {
 				if IsError(val) {
+					e.pos = savePOS
+					e.data = e.data[:e.pos]
 					handle := e.evalFunction(cadr(exp), env)
 					e.TailApply(handle, val)
 					return

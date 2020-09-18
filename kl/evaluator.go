@@ -90,7 +90,7 @@ func (e *Evaluator) LoadFile(file string) Obj {
 			break
 		}
 
-		res := e.evalExp(exp, nil)
+		res := e.evalExp(exp, Nil)
 		if *res == scmHeadError {
 			return res
 		}
