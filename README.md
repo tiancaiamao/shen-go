@@ -31,7 +31,7 @@ This binary has no dependency, you can move it to any where you want.
 ## Testing
 
 ```
-cd ShenOSKernel-22.2/tests
+cd shen-sources-shen-22.3/tests
 ../../shen
 (load "README.shen")
 (load "tests.shen")
