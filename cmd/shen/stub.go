@@ -12,7 +12,7 @@ type defType struct {
 var __initExprs []kl.Obj
 var __initDefs []defType
 
-func Regist(e *kl.Evaluator) {
+func Regist(e *kl.KLambda) {
 	for _, def := range __initDefs {
 		if def.name == "symbol?" {
 			continue

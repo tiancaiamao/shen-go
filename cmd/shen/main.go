@@ -1,6 +1,9 @@
 package main
 
 import (
+	// "fmt"
+	// "os"
+	// "io"
 	"flag"
 	"net/http"
 	_ "net/http/pprof"
@@ -21,10 +24,26 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	e := kl.NewEvaluator()
+	e := kl.NewKLambda()
 	Regist(e)
 
 	e.Eval(kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
 	e.Eval(kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
+
+	// r := kl.NewSexpReader(os.Stdin, false)
+	// for i := 0; ; i++ {
+	// 	fmt.Printf("%d #> ", i)
+	// 	sexp, err := r.Read()
+	// 	if err != nil {
+	// 		if err != io.EOF {
+	// 			fmt.Println("read error:", err)
+	// 		}
+	// 		break
+	// 	}
+
+	// 	res := e.Eval(sexp)
+	// 	fmt.Println(kl.ObjString(res))
+	// }
+
 	return
 }

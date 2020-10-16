@@ -9,10 +9,10 @@ import (
 )
 
 var AllPrimitives = []*ScmPrimitive{
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, CodeGen: "PrimLoadFile"},
+	// &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, CodeGen: "PrimLoadFile"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "type", Required: 2, Function: PrimTypeFunc, CodeGen: "PrimTypeFunc"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "get-time", Required: 1, Function: PrimGetTime, CodeGen: "PrimGetTime"},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, CodeGen: "PrimEvalKL"},
+	// &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, CodeGen: "PrimEvalKL"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "close", Required: 1, Function: PrimCloseStream, CodeGen: "PrimCloseStream"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "open", Required: 2, Function: PrimOpenStream, CodeGen: "PrimOpenStream"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-byte", Required: 1, Function: PrimReadByte, CodeGen: "PrimReadByte"},
@@ -45,8 +45,8 @@ var AllPrimitives = []*ScmPrimitive{
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "tl", Required: 1, Function: PrimTail, CodeGen: "PrimTail"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "cons", Required: 2, Function: PrimCons, CodeGen: "PrimCons"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "cons?", Required: 1, Function: PrimIsPair, CodeGen: "PrimIsPair"},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, CodeGen: "PrimValue"},
-	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, CodeGen: "PrimSet"},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: PrimValue, CodeGen: "PrimValue"},
+	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: PrimSet, CodeGen: "PrimSet"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: PrimNot, CodeGen: "PrimNot"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: PrimIf, CodeGen: "PrimIf"},
 	&ScmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: PrimIsSymbol, CodeGen: "PrimIsSymbol"},
@@ -201,16 +201,34 @@ func or(args ...Obj) Obj {
 	return True
 }
 
-func PrimSet(key Obj, val Obj) Obj {
+func PrimSet(args ...Obj) Obj {
+	key, val := args[0], args[1]
 	sym := mustSymbol(key)
 	sym.value = val
 	return val
 }
 
-func PrimValue(key Obj) Obj {
+func PrimValue(args ...Obj) Obj {
+	key := args[0]
 	sym := mustSymbol(key)
 	if sym.value != nil {
 		return sym.value
+	}
+	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
+}
+
+func CoraSet(args ...Obj) Obj {
+	key, val := args[0], args[1]
+	sym := mustSymbol(key)
+	sym.cora = val
+	return val
+}
+
+func CoraValue(args ...Obj) Obj {
+	key := args[0]
+	sym := mustSymbol(key)
+	if sym.cora != nil {
+		return sym.cora
 	}
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
@@ -475,7 +493,15 @@ func PrimIsInteger(args ...Obj) Obj {
 	return False
 }
 
-func PrimEvalKL(e *Evaluator, args ...Obj) Obj {
-	// fmt.Println("eval-kl:", ObjString(args[0]))
-	return e.evalExp(args[0], Nil)
+func PrimEvalKL(e Evaluator, args ...Obj) Obj {
+	return e.evalExp(e, args[0], Nil)
+}
+
+var genIdx uint64 = 0
+
+func PrimGenSym(args ...Obj) Obj {
+	sym := mustSymbol(args[0])
+	str := fmt.Sprintf("%s%d", sym.str, genIdx)
+	genIdx++
+	return MakeSymbol(str)
 }

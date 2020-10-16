@@ -29,7 +29,7 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	e := kl.NewEvaluator()
+	e := kl.NewKLambda()
 
 	if len(pluginFile) > 0 {
 		p, err := plugin.Open(pluginFile)
@@ -42,7 +42,7 @@ func main() {
 			fmt.Println("Regist function is not provided!")
 			return
 		}
-		regist, ok := f.(func(*kl.Evaluator))
+		regist, ok := f.(func(*kl.KLambda))
 		if !ok {
 			fmt.Println("Regist function format wrong!")
 			return
@@ -57,7 +57,7 @@ func main() {
 		return
 	}
 
-	r := kl.NewSexpReader(os.Stdin)
+	r := kl.NewSexpReader(os.Stdin, false)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()
