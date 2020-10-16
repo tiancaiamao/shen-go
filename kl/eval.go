@@ -2,8 +2,18 @@ package kl
 
 import (
 	"fmt"
+	"io"
+	"os"
+	"path"
 	"runtime"
 )
+
+type Evaluator interface {
+	eval(*ControlFlow)
+	evalExp(e Evaluator, exp Obj, env Obj) Obj
+	Call(Obj, ...Obj) Obj
+	Try(Obj) tryResult
+}
 
 func envGet(env Obj, sym Obj) (Obj, bool) {
 	for env != Nil {
@@ -31,8 +41,6 @@ const (
 	ControlFlowApply
 )
 
-const ctlFlowCacheSize = 8
-
 type ControlFlow struct {
 	// controlFlowReturn: result = data[0]
 	// controlFlowApply: fn, args = data[0], data[1], data[2] ...
@@ -44,20 +52,19 @@ type ControlFlow struct {
 	pos  int
 }
 
-func (e *Evaluator) evalExp(exp Obj, env Obj) Obj {
-	e.TailEval(exp, env)
-	return e.trampoline()
+func (ctl *ControlFlow) evalExp(e Evaluator, exp Obj, env Obj) Obj {
+	ctl.TailEval(exp, env)
+	return ctl.trampoline(e)
 }
 
 // trampoline is introduced for tail call optimization.
-func (e *Evaluator) trampoline() Obj {
-	ctl := &e.ControlFlow
+func (ctl *ControlFlow) trampoline(e Evaluator) Obj {
 	for ctl.kind != ControlFlowReturn {
 		switch ctl.kind {
 		case ControlFlowEval:
-			e.eval()
+			e.eval(ctl)
 		case ControlFlowApply:
-			e.apply()
+			apply(ctl, e)
 		}
 	}
 	ret := ctl.data[ctl.pos]
@@ -87,248 +94,33 @@ func (ctl *ControlFlow) Return(result Obj) {
 	ctl.kind = ControlFlowReturn
 }
 
-func (e *Evaluator) eval() {
-	exp := e.data[e.pos]
-	env := e.data[e.pos+1]
-
-	switch *exp {
-	// handle constant
-	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
-		e.Return(exp)
-		return
-	case scmHeadSymbol:
-		if val, ok := envGet(env, exp); ok {
-			exp = val
-		}
-		e.Return(exp)
-		return
-	}
-
-	pair := mustPair(exp)
-	if IsSymbol(pair.car) {
-		exp = pair.cdr // handle special form
-		switch pair.car {
-		case symQuote:
-			// Extension to make vm work.
-			// TODO: remove it later
-			e.Return(car(exp))
-			return
-		case symDefun: // (defun f (x y) z)
-			proc := makeProcedure(cadr(exp), caddr(exp), env)
-			funName := car(exp)
-			BindSymbolFunc(funName, proc)
-			e.Return(funName)
-			return
-		case symLambda: // (lambda x x)
-			e.Return(makeProcedure(car(exp), cadr(exp), env))
-			return
-		case symFreeze: // (freeze body)
-			e.Return(makeProcedure(Nil, car(exp), env))
-			return
-		case symLet: // (let x y z)
-			args := e.evalExp(cadr(exp), env)
-			newEnv := envExtend(env, []Obj{car(exp)}, []Obj{args})
-			e.TailEval(caddr(exp), newEnv)
-			return
-		case symAnd:
-			e.evalAnd(car(exp), cadr(exp), env)
-			return
-		case symOr:
-			e.evalOr(car(exp), cadr(exp), env)
-			return
-		case symIf: // (if a b c)
-			if listLength(pair.cdr) == 3 {
-				e.evalIf(car(exp), cadr(exp), caddr(exp), env)
-				return
-			} // if may also be a function for partial apply
-		case symCond: // (cond (false 1) (true 2))
-			e.evalCond(exp, env)
-			return
-		case symTrapError: // (trap-error ~body ~handler)
-			e.evalTrapError(exp, env)
-			return
-		case symDo: // (do A A)
-			e.evalExp(car(exp), env)
-			e.TailEval(cadr(exp), env)
-			return
-		}
-	}
-
-	savePOS := e.pos
-	fn := e.evalFunction(pair.car, env)
-	e.data = e.data[:e.pos]
-	e.data = append(e.data, fn)
-	e.pos++
-
-	args := pair.cdr
-	for *args == scmHeadPair {
-		v := e.evalExp(car(args), env)
-		if *v == scmHeadError {
-			e.pos = savePOS
-			e.TailApply(fn, v)
-			return
-		}
-		e.data = append(e.data, v)
-		e.pos++
-		args = cdr(args)
-	}
-	e.pos = savePOS
-	e.kind = ControlFlowApply
-	return
-}
-
-func (e *Evaluator) evalFunction(fn Obj, env Obj) Obj {
-	if ok, sym := isSymbol(fn); ok {
-		if sym.function != nil {
-			return sym.function
-		}
-
-		if proc, ok := envGet(env, fn); ok {
-			return proc
-		}
-	}
-
-	switch *fn {
-	case scmHeadPrimitive, scmHeadProcedure, scmHeadNative:
-		return fn
-	case scmHeadPair:
-		return e.evalExp(fn, env)
-	}
-	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
-}
-
-func (e *Evaluator) evalIf(a, b, c Obj, env Obj) {
-	t := e.evalExp(a, env)
+func (ctl *ControlFlow) evalIf(e Evaluator, a, b, c Obj, env Obj) {
+	t := ctl.evalExp(e, a, env)
 	switch t {
 	case True:
-		e.TailEval(b, env)
+		ctl.TailEval(b, env)
 		return
 	case False:
-		e.TailEval(c, env)
+		ctl.TailEval(c, env)
 		return
 	}
 	panic("second argument of if should be boolean")
 }
 
-func (e *Evaluator) evalAnd(a, b Obj, env Obj) {
-	if e.evalExp(a, env) == False {
-		e.Return(False)
+func (ctl *ControlFlow) evalAnd(e Evaluator, a, b Obj, env Obj) {
+	if ctl.evalExp(e, a, env) == False {
+		ctl.Return(False)
 		return
 	}
-	e.TailEval(b, env)
+	ctl.TailEval(b, env)
 }
 
-func (e *Evaluator) evalOr(a, b Obj, env Obj) {
-	if e.evalExp(a, env) == True {
-		e.Return(True)
+func (ctl *ControlFlow) evalOr(e Evaluator, a, b Obj, env Obj) {
+	if ctl.evalExp(e, a, env) == True {
+		ctl.Return(True)
 		return
 	}
-	e.TailEval(b, env)
-}
-
-func (e *Evaluator) evalCond(l Obj, env Obj) {
-	for *l == scmHeadPair {
-		curr := car(l)
-		if e.evalExp(car(curr), env) == True {
-			e.TailEval(cadr(curr), env)
-			return
-		}
-		l = cdr(l)
-	}
-	e.Return(Nil)
-	return
-}
-
-func (e *Evaluator) evalTrapError(exp Obj, env Obj) {
-	savePOS := e.pos
-	defer func() {
-		if err := recover(); err != nil {
-			if val, ok := err.(Obj); ok {
-				if IsError(val) {
-					e.pos = savePOS
-					e.data = e.data[:e.pos]
-					handle := e.evalFunction(cadr(exp), env)
-					e.TailApply(handle, val)
-					return
-				}
-			}
-			// Unexpected panic?
-			var buf [4096]byte
-			n := runtime.Stack(buf[:], false)
-			fmt.Println("Panic:", err)
-			fmt.Println("Recovered in trap-error:", ObjString(exp))
-			fmt.Println(string(buf[:n]))
-		}
-	}()
-	v := e.evalExp(car(exp), env)
-	e.Return(v)
-	return
-}
-
-func (e *Evaluator) apply() {
-	f := e.data[e.pos]
-	args := e.data[e.pos+1:]
-
-	if *f == scmHeadPrimitive {
-		prim := mustPrimitive(f)
-		switch {
-		case len(args) < prim.Required:
-			e.Return(partialApply(prim.Required, args, Nil, f))
-			return
-		case len(args) == prim.Required:
-			ret := prim.Function(args...)
-			e.Return(ret)
-			return
-		}
-	} else if *f == scmHeadProcedure {
-		proc := mustProcedure(f)
-		switch {
-		case len(args) < proc.arity:
-			e.Return(partialApply(proc.arity, args, proc.env, f))
-			return
-		case len(args) == proc.arity:
-			newEnv := envExtend(proc.env, proc.arg, args)
-			e.TailEval(proc.body, newEnv)
-			return
-		case len(args) > proc.arity:
-			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
-			res := e.evalExp(proc.body, newEnv)
-			e.TailApply(res, args[proc.arity:]...)
-			return
-		}
-	} else if *f == scmHeadNative {
-		fn := MustNative(f)
-		provided := len(fn.captured) + len(args)
-		required := fn.require
-		if provided == required {
-			var tmp []Obj
-			if len(fn.captured) == 0 {
-				tmp = args
-			} else {
-				tmp = make([]Obj, 0, required)
-				tmp = append(tmp, fn.captured...)
-				tmp = append(tmp, args...)
-			}
-			fn.fn(e, &e.ControlFlow, tmp...)
-			return
-		}
-
-		tmp := make([]Obj, 0, fn.require)
-		tmp = append(tmp, fn.captured...)
-		if provided < required {
-			tmp = append(tmp, args...)
-			e.Return(MakeNative(fn.fn, fn.require, tmp...))
-			return
-		}
-
-		taken := required - len(tmp)
-		tmp = append(tmp, args[:taken]...)
-		f = e.Call(f, tmp...)
-		args = args[taken:]
-		e.TailApply(f, args...)
-		return
-	}
-	panic("can't apply object")
+	ctl.TailEval(b, env)
 }
 
 // partialApply works when Required > providArgs
@@ -362,11 +154,11 @@ func makeTempSymbols(n int) []Obj {
 }
 
 type tryResult struct {
-	e    *Evaluator
+	e    Evaluator
 	data Obj
 }
 
-func (e *Evaluator) Try(f Obj) (res tryResult) {
+func (e *KLambda) Try(f Obj) (res tryResult) {
 	defer func() {
 		if err := recover(); err != nil {
 			if val, ok := err.(Obj); ok {
@@ -394,4 +186,113 @@ func (t tryResult) Catch(f Obj) Obj {
 		return t.e.Call(f, t.data)
 	}
 	return t.data
+}
+
+func loadFile(ctl *ControlFlow, e Evaluator, extended bool, file string) Obj {
+	var filePath string
+	if _, err := os.Stat(file); err == nil {
+		filePath = file
+	} else {
+		filePath = path.Join(PackagePath(), file)
+		if _, err := os.Stat(filePath); err != nil {
+			return MakeError(err.Error())
+		}
+	}
+
+	f, err := os.Open(filePath)
+	if err != nil {
+		return MakeError(err.Error())
+	}
+	defer f.Close()
+
+	r := NewSexpReader(f, extended)
+	for {
+		exp, err := r.Read()
+		if err != nil {
+			if err != io.EOF {
+				return MakeError(err.Error())
+			}
+			break
+		}
+
+		// Macro expand for cora.
+		if extended {
+			expand := CoraValue(symMacroExpand)
+			if expand != Nil {
+				exp = e.Call(expand, exp)
+			}
+		}
+
+		res := ctl.evalExp(e, exp, Nil)
+		if *res == scmHeadError {
+			return res
+		}
+	}
+	return MakeString(file)
+}
+
+func apply(ctl *ControlFlow, e Evaluator) {
+	f := ctl.data[ctl.pos]
+	args := ctl.data[ctl.pos+1:]
+
+	if *f == scmHeadPrimitive {
+		prim := mustPrimitive(f)
+		switch {
+		case len(args) < prim.Required:
+			ctl.Return(partialApply(prim.Required, args, Nil, f))
+			return
+		case len(args) == prim.Required:
+			ret := prim.Function(args...)
+			ctl.Return(ret)
+			return
+		}
+	} else if *f == scmHeadProcedure {
+		proc := mustProcedure(f)
+		switch {
+		case len(args) < proc.arity:
+			ctl.Return(partialApply(proc.arity, args, proc.env, f))
+			return
+		case len(args) == proc.arity:
+			newEnv := envExtend(proc.env, proc.arg, args)
+			ctl.TailEval(proc.body, newEnv)
+			return
+		case len(args) > proc.arity:
+			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
+			res := ctl.evalExp(e, proc.body, newEnv)
+			ctl.TailApply(res, args[proc.arity:]...)
+			return
+		}
+	} else if *f == scmHeadNative {
+		fn := MustNative(f)
+		provided := len(fn.captured) + len(args)
+		required := fn.require
+		if provided == required {
+			var tmp []Obj
+			if len(fn.captured) == 0 {
+				tmp = args
+			} else {
+				tmp = make([]Obj, 0, required)
+				tmp = append(tmp, fn.captured...)
+				tmp = append(tmp, args...)
+			}
+			fn.fn(e, ctl, tmp...)
+			return
+		}
+
+		tmp := make([]Obj, 0, fn.require)
+		tmp = append(tmp, fn.captured...)
+		if provided < required {
+			tmp = append(tmp, args...)
+			ctl.Return(MakeNative(fn.fn, fn.require, tmp...))
+			return
+		}
+
+		taken := required - len(tmp)
+		tmp = append(tmp, args[:taken]...)
+		f = e.Call(f, tmp...)
+		args = args[taken:]
+		ctl.TailApply(f, args...)
+		return
+	}
+	panic("can't apply object")
 }

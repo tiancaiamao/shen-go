@@ -40,6 +40,7 @@ type scmSymbol struct {
 	str      string
 	value    Obj
 	function Obj
+	cora     Obj
 }
 
 type scmPair struct {
@@ -87,12 +88,12 @@ type ScmPrimitive struct {
 
 type scmNative struct {
 	scmHead
-	fn       func(*Evaluator, *ControlFlow, ...Obj)
+	fn       func(Evaluator, *ControlFlow, ...Obj)
 	require  int
 	captured []Obj
 }
 
-func MakeNative(fn func(*Evaluator, *ControlFlow, ...Obj), require int, captured ...Obj) Obj {
+func MakeNative(fn func(Evaluator, *ControlFlow, ...Obj), require int, captured ...Obj) Obj {
 	tmp := scmNative{
 		scmHead:  scmHeadNative,
 		fn:       fn,
@@ -262,7 +263,7 @@ func isPair(o Obj) (bool, *scmPair) {
 var True, False, Nil, undefined Obj
 var uptime time.Time
 var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd Obj
-var symOr, symIf, symCond, symTrapError, symDo Obj
+var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 
 var addrForFixnum [1 << 20]byte
 
@@ -322,6 +323,7 @@ func init() {
 	symCond = MakeSymbol("cond")
 	symTrapError = MakeSymbol("trap-error")
 	symDo = MakeSymbol("do")
+	symMacroExpand = MakeSymbol("macroexpand")
 }
 
 func MakeInteger(v int) Obj {

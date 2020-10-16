@@ -10,11 +10,15 @@ import (
 type SexpReader struct {
 	reader *bufio.Reader
 	buf    []rune
+	// 'extended' reader is used by cora, which handles reader macro ' and [,
+	// and expect ; as comment
+	extended bool
 }
 
-func NewSexpReader(r io.Reader) *SexpReader {
+func NewSexpReader(r io.Reader, extended bool) *SexpReader {
 	return &SexpReader{
-		reader: bufio.NewReader(r),
+		reader:   bufio.NewReader(r),
+		extended: extended,
 	}
 }
 
@@ -24,9 +28,28 @@ func (r *SexpReader) Read() (Obj, error) {
 		return Nil, err
 	}
 
+	if r.extended {
+		switch b {
+		case rune(';'):
+			b, _, err = r.reader.ReadRune()
+			if err != nil {
+				return Nil, err
+			}
+			for b != '\n' {
+				b, _, err = r.reader.ReadRune()
+				if err != nil {
+					return Nil, err
+				}
+			}
+			return r.Read()
+		case rune('\''):
+			return r.readQuoteMacro()
+		case rune('['):
+			return r.readListMacro()
+		}
+	}
+
 	switch b {
-	case rune('^'):
-		return r.readerMacro()
 	case rune('('):
 		return r.readSexp()
 	case rune('"'):
@@ -37,7 +60,7 @@ func (r *SexpReader) Read() (Obj, error) {
 	r.appendBuf(b)
 	b, _, err = r.reader.ReadRune()
 	for err == nil {
-		if notSymbolChar(b) {
+		if r.notSymbolChar(b) {
 			r.reader.UnreadRune()
 			break
 		}
@@ -48,22 +71,32 @@ func (r *SexpReader) Read() (Obj, error) {
 	return tokenToObj(string(r.buf)), err
 }
 
-func (r *SexpReader) readerMacro() (Obj, error) {
-	rune, _, err := r.reader.ReadRune()
-	if err != nil {
-		return Nil, err
-	}
+func (r *SexpReader) readQuoteMacro() (Obj, error) {
 	obj, err := r.Read()
 	if err != nil {
 		return obj, err
 	}
+	return cons(symQuote, cons(obj, Nil)), nil
+}
 
-	switch rune {
-	case '\'': // quote macro
-		return quoteMacro(obj)
+func (r *SexpReader) readListMacro() (Obj, error) {
+	hd := MakeSymbol("list")
+	tmp := Nil
+	b, err := peekFirstRune(r.reader)
+	for err == nil && b != ']' {
+		if b == '.' {
+			hd = MakeSymbol("list-rest")
+		} else {
+			r.reader.UnreadRune()
+		}
+		var obj Obj
+		obj, err = r.Read()
+		if err == nil {
+			tmp = cons(obj, tmp)
+			b, err = peekFirstRune(r.reader)
+		}
 	}
-
-	return obj, nil
+	return cons(hd, reverse(tmp)), nil
 }
 
 func RconsForm(o Obj) Obj {
@@ -79,10 +112,6 @@ func rconsForm(o Obj) Obj {
 	return o
 }
 
-func quoteMacro(o Obj) (Obj, error) {
-	return rconsForm(o), nil
-}
-
 func (r *SexpReader) readString() (Obj, error) {
 	r.resetBuf()
 	b, _, err := r.reader.ReadRune()
@@ -96,7 +125,7 @@ func (r *SexpReader) readString() (Obj, error) {
 func (r *SexpReader) readSexp() (Obj, error) {
 	ret := Nil
 	b, err := peekFirstRune(r.reader)
-	for err == nil && b != rune(')') {
+	for err == nil && b != ')' {
 		var obj Obj
 		r.reader.UnreadRune()
 		obj, err = r.Read()
@@ -124,8 +153,17 @@ func peekFirstRune(r *bufio.Reader) (rune, error) {
 	return b, err
 }
 
-func notSymbolChar(c rune) bool {
-	return unicode.IsSpace(c) || c == '(' || c == '"' || c == ')'
+func (r *SexpReader) notSymbolChar(c rune) bool {
+	if unicode.IsSpace(c) {
+		return true
+	}
+	switch c {
+	case '(', '"', ')':
+		return true
+	case '[', ']':
+		return r.extended
+	}
+	return false
 }
 
 func tokenToObj(str string) Obj {

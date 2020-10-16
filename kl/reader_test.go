@@ -27,7 +27,7 @@ func TestSexpReader(t *testing.T) {
 de"`, MakeString("abc\nde")},
 	}
 	for _, test := range tests {
-		r := NewSexpReader(strings.NewReader(test.input))
+		r := NewSexpReader(strings.NewReader(test.input), false)
 		o, err := r.Read()
 		if err != nil && err != io.EOF {
 			t.Error("read error", err)
@@ -37,7 +37,7 @@ de"`, MakeString("abc\nde")},
 		}
 	}
 
-	r := NewSexpReader(strings.NewReader("(if true 1 false) 2"))
+	r := NewSexpReader(strings.NewReader("(if true 1 false) 2"), false)
 	o1, err := r.Read()
 	if err != nil && err != io.EOF {
 		t.Fatal("read error", err)
@@ -56,8 +56,26 @@ de"`, MakeString("abc\nde")},
 }
 
 func TestReaderMacro(t *testing.T) {
-	a, _ := NewSexpReader(strings.NewReader("^'(a b c)")).Read()
-	b, _ := NewSexpReader(strings.NewReader("(cons a (cons b (cons c ())))")).Read()
+	a, _ := NewSexpReader(strings.NewReader("'(a b c)"), true).Read()
+	b, _ := NewSexpReader(strings.NewReader("(quote (a b c))"), false).Read()
+	if equal(a, b) == False {
+		t.Error("fail:", ObjString(a), ObjString(b))
+	}
+
+	a, err1 := NewSexpReader(strings.NewReader("[a b c]"), true).Read()
+	b, err2 := NewSexpReader(strings.NewReader("(list a b c)"), true).Read()
+	if err1 != nil || err2 != nil {
+		t.Error("fail:", err1, err2)
+	}
+	if equal(a, b) == False {
+		t.Error("fail:", ObjString(a), ObjString(b))
+	}
+
+	a, err1 = NewSexpReader(strings.NewReader("[a b . c]"), true).Read()
+	b, err2 = NewSexpReader(strings.NewReader("(list-rest a b c)"), true).Read()
+	if err1 != nil || err2 != nil {
+		t.Error("fail:", err1, err2)
+	}
 	if equal(a, b) == False {
 		t.Error("fail:", ObjString(a), ObjString(b))
 	}
