@@ -21,6 +21,6 @@ func Regist(e *kl.KLambda) {
 	}
 
 	for _, expr := range __initExprs {
-		e.Call(expr)
+		kl.Call(e, expr)
 	}
 }

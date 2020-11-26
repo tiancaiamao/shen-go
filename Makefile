@@ -15,4 +15,4 @@ docker:
 	cp -a /tmp/shen ./shen
 
 test:
-	go test github.com/tiancaiamao/shen-go/kl
+	cd kl; go test

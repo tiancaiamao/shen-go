@@ -9,10 +9,14 @@ import (
 )
 
 type Evaluator interface {
-	eval(*ControlFlow)
-	evalExp(e Evaluator, exp Obj, env Obj) Obj
-	Call(Obj, ...Obj) Obj
-	Try(Obj) tryResult
+	base() *ControlFlow
+	eval()
+
+	// All the following methods are provided by ControlFlow
+	TailEval(exp Obj, env Obj)
+	TailApply(f Obj, args ...Obj)
+	Return(result Obj)
+	Get(n int) Obj
 }
 
 func envGet(env Obj, sym Obj) (Obj, bool) {
@@ -48,28 +52,15 @@ type ControlFlow struct {
 	kind ControlFlowKind
 
 	// data[pos : len(data)] is the arguments to current function.
+	// Why it needs to be a stack?
+	// Most of the time, an array is sufficient. But when eval expression like
+	// (f (g1 h) (g2 n) ...), the stack is used to store the temporary arguments
 	data []Obj
 	pos  int
 }
 
-func (ctl *ControlFlow) evalExp(e Evaluator, exp Obj, env Obj) Obj {
-	ctl.TailEval(exp, env)
-	return ctl.trampoline(e)
-}
-
-// trampoline is introduced for tail call optimization.
-func (ctl *ControlFlow) trampoline(e Evaluator) Obj {
-	for ctl.kind != ControlFlowReturn {
-		switch ctl.kind {
-		case ControlFlowEval:
-			e.eval(ctl)
-		case ControlFlowApply:
-			apply(ctl, e)
-		}
-	}
-	ret := ctl.data[ctl.pos]
-	ctl.data = ctl.data[:ctl.pos]
-	return ret
+func (ctl *ControlFlow) base() *ControlFlow {
+	return ctl
 }
 
 func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
@@ -94,33 +85,58 @@ func (ctl *ControlFlow) Return(result Obj) {
 	ctl.kind = ControlFlowReturn
 }
 
-func (ctl *ControlFlow) evalIf(e Evaluator, a, b, c Obj, env Obj) {
-	t := ctl.evalExp(e, a, env)
+func (ctl *ControlFlow) Get(n int) Obj {
+	return ctl.data[n]
+}
+
+// trampoline is introduced for tail call optimization.
+func trampoline(e Evaluator) Obj {
+	ctl := e.base()
+	for ctl.kind != ControlFlowReturn {
+		switch ctl.kind {
+		case ControlFlowEval:
+			e.eval()
+		case ControlFlowApply:
+			apply(e)
+		}
+	}
+	ret := ctl.data[ctl.pos]
+	ctl.data = ctl.data[:ctl.pos]
+	return ret
+}
+
+func evalExp(e Evaluator, exp Obj, env Obj) Obj {
+	e.TailEval(exp, env)
+	return trampoline(e)
+}
+
+func evalIf(e Evaluator, a, b, c Obj, env Obj) {
+	t := evalExp(e, a, env)
 	switch t {
 	case True:
-		ctl.TailEval(b, env)
+		e.TailEval(b, env)
 		return
 	case False:
-		ctl.TailEval(c, env)
+		e.TailEval(c, env)
 		return
 	}
 	panic("second argument of if should be boolean")
 }
 
-func (ctl *ControlFlow) evalAnd(e Evaluator, a, b Obj, env Obj) {
-	if ctl.evalExp(e, a, env) == False {
-		ctl.Return(False)
+func evalAnd(e Evaluator, a, b Obj, env Obj) {
+	if evalExp(e, a, env) == False {
+		e.Return(False)
 		return
 	}
-	ctl.TailEval(b, env)
+	e.TailEval(b, env)
 }
 
-func (ctl *ControlFlow) evalOr(e Evaluator, a, b Obj, env Obj) {
-	if ctl.evalExp(e, a, env) == True {
-		ctl.Return(True)
+func evalOr(e Evaluator, a, b Obj, env Obj) {
+	if evalExp(e, a, env) == True {
+		e.Return(True)
 		return
 	}
-	ctl.TailEval(b, env)
+	e.TailEval(b, env)
 }
 
 // partialApply works when Required > providArgs
@@ -153,12 +169,32 @@ func makeTempSymbols(n int) []Obj {
 	return ret
 }
 
+func Call(e Evaluator, f Obj, args ...Obj) Obj {
+	e.TailApply(f, args...)
+	return trampoline(e)
+}
+
+func Eval(e Evaluator, exp Obj) (res Obj) {
+	defer func() {
+		if r := recover(); r != nil {
+			var buf [4096]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Panic:", r)
+			fmt.Println("Recovered in Eval:", ObjString(exp))
+			fmt.Println(string(buf[:n]))
+			res = Nil
+		}
+	}()
+	res = evalExp(e, exp, Nil)
+	return
+}
+
 type tryResult struct {
 	e    Evaluator
 	data Obj
 }
 
-func (e *KLambda) Try(f Obj) (res tryResult) {
+func Try(e Evaluator, f Obj) (res tryResult) {
 	defer func() {
 		if err := recover(); err != nil {
 			if val, ok := err.(Obj); ok {
@@ -176,19 +212,19 @@ func (e *KLambda) Try(f Obj) (res tryResult) {
 		}
 	}()
 	MustNative(f)
-	val := e.Call(f)
+	val := Call(e, f)
 	res = tryResult{e: e, data: val}
 	return
 }
 
 func (t tryResult) Catch(f Obj) Obj {
 	if IsError(t.data) {
-		return t.e.Call(f, t.data)
+		return Call(t.e, f, t.data)
 	}
 	return t.data
 }
 
-func loadFile(ctl *ControlFlow, e Evaluator, extended bool, file string) Obj {
+func loadFile(e Evaluator, extended bool, file string) Obj {
 	var filePath string
 	if _, err := os.Stat(file); err == nil {
 		filePath = file
@@ -219,11 +255,11 @@ func loadFile(ctl *ControlFlow, e Evaluator, extended bool, file string) Obj {
 		if extended {
 			expand := CoraValue(symMacroExpand)
 			if expand != Nil {
-				exp = e.Call(expand, exp)
+				exp = Call(e, expand, exp)
 			}
 		}
 
-		res := ctl.evalExp(e, exp, Nil)
+		res := evalExp(e, exp, Nil)
 		if *res == scmHeadError {
 			return res
 		}
@@ -231,7 +267,8 @@ func loadFile(ctl *ControlFlow, e Evaluator, extended bool, file string) Obj {
 	return MakeString(file)
 }
 
-func apply(ctl *ControlFlow, e Evaluator) {
+func apply(e Evaluator) {
+	ctl := e.base()
 	f := ctl.data[ctl.pos]
 	args := ctl.data[ctl.pos+1:]
 
@@ -258,7 +295,7 @@ func apply(ctl *ControlFlow, e Evaluator) {
 			return
 		case len(args) > proc.arity:
 			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
-			res := ctl.evalExp(e, proc.body, newEnv)
+			res := evalExp(e, proc.body, newEnv)
 			ctl.TailApply(res, args[proc.arity:]...)
 			return
 		}
@@ -275,7 +312,7 @@ func apply(ctl *ControlFlow, e Evaluator) {
 				tmp = append(tmp, fn.captured...)
 				tmp = append(tmp, args...)
 			}
-			fn.fn(e, ctl, tmp...)
+			fn.fn(e, tmp...)
 			return
 		}
 
@@ -289,7 +326,7 @@ func apply(ctl *ControlFlow, e Evaluator) {
 
 		taken := required - len(tmp)
 		tmp = append(tmp, args[:taken]...)
-		f = e.Call(f, tmp...)
+		f = Call(e, f, tmp...)
 		args = args[taken:]
 		ctl.TailApply(f, args...)
 		return

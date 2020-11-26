@@ -27,8 +27,8 @@ func main() {
 	e := kl.NewKLambda()
 	Regist(e)
 
-	e.Eval(kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
-	e.Eval(kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
+	kl.Eval(e, kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
+	kl.Eval(e, kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
 
 	// r := kl.NewSexpReader(os.Stdin, false)
 	// for i := 0; ; i++ {

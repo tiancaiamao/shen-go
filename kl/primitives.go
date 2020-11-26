@@ -494,7 +494,7 @@ func PrimIsInteger(args ...Obj) Obj {
 }
 
 func PrimEvalKL(e Evaluator, args ...Obj) Obj {
-	return e.evalExp(e, args[0], Nil)
+	return evalExp(e, args[0], Nil)
 }
 
 var genIdx uint64 = 0
