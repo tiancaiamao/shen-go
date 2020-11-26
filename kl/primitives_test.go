@@ -2,7 +2,7 @@ package kl
 
 import (
 	"bytes"
-	"fmt"
+	// "fmt"
 	"testing"
 )
 
@@ -32,11 +32,11 @@ func TestIntern(t *testing.T) {
 	}
 }
 
-func TestListAllPrimName(t *testing.T) {
-	for _, prim := range AllPrimitives {
-		fmt.Printf(" %s", prim.Name)
-	}
-}
+// func TestListAllPrimName(t *testing.T) {
+// 	for _, prim := range AllPrimitives {
+// 		fmt.Printf(" %s", prim.Name)
+// 	}
+// }
 
 func TestStr(t *testing.T) {
 	// str primitive prints the viewable format of a object.

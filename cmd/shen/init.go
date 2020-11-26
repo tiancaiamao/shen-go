@@ -9,12 +9,12 @@ var __defun__shen_4initialise_1lambda_1forms Obj             // shen.initialise-
 var __defun__shen_4initialise Obj                            // shen.initialise
 
 func init() {
-	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg31663 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
-		__ctx.Return(reg31663)
+		__e.Return(reg31663)
 		return
 	}, 0))
-	__defun__shen_4initialise_1environment = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4initialise_1environment = MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg31664 := MakeSymbol("shen.*installing-kl*")
 		reg31665 := False
 		reg31666 := PrimSet(reg31664, reg31665)
@@ -29,7 +29,7 @@ func init() {
 		_ = reg31672
 		reg31673 := MakeSymbol("*property-vector*")
 		reg31674 := MakeNumber(20000)
-		reg31675 := __e.Call(__defun__shen_4dict, reg31674)
+		reg31675 := Call(__e, __defun__shen_4dict, reg31674)
 		reg31676 := PrimSet(reg31673, reg31675)
 		_ = reg31676
 		reg31677 := MakeSymbol("shen.*process-counter*")
@@ -38,19 +38,19 @@ func init() {
 		_ = reg31679
 		reg31680 := MakeSymbol("shen.*varcounter*")
 		reg31681 := MakeNumber(10000)
-		reg31682 := __e.Call(__defun__vector, reg31681)
+		reg31682 := Call(__e, __defun__vector, reg31681)
 		reg31683 := PrimSet(reg31680, reg31682)
 		_ = reg31683
 		reg31684 := MakeSymbol("shen.*prologvectors*")
 		reg31685 := MakeNumber(10000)
-		reg31686 := __e.Call(__defun__vector, reg31685)
+		reg31686 := Call(__e, __defun__vector, reg31685)
 		reg31687 := PrimSet(reg31684, reg31686)
 		_ = reg31687
 		reg31688 := MakeSymbol("shen.*demodulation-function*")
-		reg31689 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31689 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.Return(X)
+			__e.Return(X)
 			return
 		}, 1)
 		reg31690 := PrimSet(reg31688, reg31689)
@@ -96,112 +96,112 @@ func init() {
 		reg31729 := PrimSet(reg31691, reg31728)
 		_ = reg31729
 		reg31730 := MakeSymbol("*macros*")
-		reg31731 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31731 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4timer_1macro, X)
+			__e.TailApply(__defun__shen_4timer_1macro, X)
 			return
 		}, 1)
-		reg31733 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31733 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4cases_1macro, X)
+			__e.TailApply(__defun__shen_4cases_1macro, X)
 			return
 		}, 1)
-		reg31735 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31735 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4abs_1macro, X)
+			__e.TailApply(__defun__shen_4abs_1macro, X)
 			return
 		}, 1)
-		reg31737 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31737 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4put_cget_1macro, X)
+			__e.TailApply(__defun__shen_4put_cget_1macro, X)
 			return
 		}, 1)
-		reg31739 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31739 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4compile_1macro, X)
+			__e.TailApply(__defun__shen_4compile_1macro, X)
 			return
 		}, 1)
-		reg31741 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31741 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4datatype_1macro, X)
+			__e.TailApply(__defun__shen_4datatype_1macro, X)
 			return
 		}, 1)
-		reg31743 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31743 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4let_1macro, X)
+			__e.TailApply(__defun__shen_4let_1macro, X)
 			return
 		}, 1)
-		reg31745 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31745 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4assoc_1macro, X)
+			__e.TailApply(__defun__shen_4assoc_1macro, X)
 			return
 		}, 1)
-		reg31747 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31747 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4make_1string_1macro, X)
+			__e.TailApply(__defun__shen_4make_1string_1macro, X)
 			return
 		}, 1)
-		reg31749 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31749 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4output_1macro, X)
+			__e.TailApply(__defun__shen_4output_1macro, X)
 			return
 		}, 1)
-		reg31751 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31751 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4input_1macro, X)
+			__e.TailApply(__defun__shen_4input_1macro, X)
 			return
 		}, 1)
-		reg31753 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31753 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4error_1macro, X)
+			__e.TailApply(__defun__shen_4error_1macro, X)
 			return
 		}, 1)
-		reg31755 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31755 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4prolog_1macro, X)
+			__e.TailApply(__defun__shen_4prolog_1macro, X)
 			return
 		}, 1)
-		reg31757 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31757 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4synonyms_1macro, X)
+			__e.TailApply(__defun__shen_4synonyms_1macro, X)
 			return
 		}, 1)
-		reg31759 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31759 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4nl_1macro, X)
+			__e.TailApply(__defun__shen_4nl_1macro, X)
 			return
 		}, 1)
-		reg31761 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31761 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4_8s_1macro, X)
+			__e.TailApply(__defun__shen_4_8s_1macro, X)
 			return
 		}, 1)
-		reg31763 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31763 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4defprolog_1macro, X)
+			__e.TailApply(__defun__shen_4defprolog_1macro, X)
 			return
 		}, 1)
-		reg31765 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg31765 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4function_1macro, X)
+			__e.TailApply(__defun__shen_4function_1macro, X)
 			return
 		}, 1)
 		reg31767 := Nil
@@ -392,7 +392,7 @@ func init() {
 		reg31931 := PrimSet(reg31929, reg31930)
 		_ = reg31931
 		reg31932 := MakeSymbol("*home-directory*")
-		reg31933 := __e.Call(__defun__bound_2, reg31932)
+		reg31933 := Call(__e, __defun__bound_2, reg31932)
 		reg31934 := PrimNot(reg31933)
 		var reg31939 Obj
 		if reg31934 == True {
@@ -406,7 +406,7 @@ func init() {
 		}
 		_ = reg31939
 		reg31940 := MakeSymbol("*sterror*")
-		reg31941 := __e.Call(__defun__bound_2, reg31940)
+		reg31941 := Call(__e, __defun__bound_2, reg31940)
 		reg31942 := PrimNot(reg31941)
 		var reg31948 Obj
 		if reg31942 == True {
@@ -1113,7 +1113,7 @@ func init() {
 		reg32639 := PrimCons(reg31951, reg32638)
 		reg32640 := PrimCons(reg31950, reg32639)
 		reg32641 := PrimCons(reg31949, reg32640)
-		reg32642 := __e.Call(__defun__shen_4initialise__arity__table, reg32641)
+		reg32642 := Call(__e, __defun__shen_4initialise__arity__table, reg32641)
 		_ = reg32642
 		reg32643 := MakeString("shen")
 		reg32644 := PrimIntern(reg32643)
@@ -1611,7 +1611,7 @@ func init() {
 		reg33136 := PrimCons(reg32646, reg33135)
 		reg33137 := MakeSymbol("*property-vector*")
 		reg33138 := PrimValue(reg33137)
-		reg33139 := __e.Call(__defun__put, reg32644, reg32645, reg33136, reg33138)
+		reg33139 := Call(__e, __defun__put, reg32644, reg32645, reg33136, reg33138)
 		_ = reg33139
 		reg33140 := MakeSymbol("shen.*history*")
 		reg33141 := Nil
@@ -1625,12 +1625,12 @@ func init() {
 		reg33147 := MakeNumber(0)
 		reg33148 := PrimAbsvector(reg33147)
 		reg33149 := PrimSet(reg33146, reg33148)
-		__ctx.Return(reg33149)
+		__e.Return(reg33149)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "shen.initialise-environment", value: __defun__shen_4initialise_1environment})
 
-	__defun__shen_4initialise_1signedfuncs = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4initialise_1signedfuncs = MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg33150 := MakeSymbol("shen.*signedfuncs*")
 		reg33151 := Nil
 		reg33152 := PrimSet(reg33150, reg33151)
@@ -4316,5071 +4316,5071 @@ func init() {
 		reg35696 := PrimValue(reg35695)
 		reg35697 := PrimCons(reg35694, reg35696)
 		reg35698 := PrimSet(reg35679, reg35697)
-		__ctx.Return(reg35698)
+		__e.Return(reg35698)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "shen.initialise-signedfuncs", value: __defun__shen_4initialise_1signedfuncs})
 
-	__defun__shen_4initialise_1signedfunc_1lambda_1forms = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4initialise_1signedfunc_1lambda_1forms = MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg35699 := MakeSymbol("shen.type-signature-of-absvector?")
-		reg35700 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35700 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4559 := __args[0]
 			_ = V4559
-			reg35701 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35701 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4560 := __args[0]
 				_ = V4560
-				reg35702 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35702 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4561 := __args[0]
 					_ = V4561
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1absvector_2, V4559, V4560, V4561)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1absvector_2, V4559, V4560, V4561)
 					return
 				}, 1)
-				__ctx.Return(reg35702)
+				__e.Return(reg35702)
 				return
 			}, 1)
-			__ctx.Return(reg35701)
+			__e.Return(reg35701)
 			return
 		}, 1)
 		reg35704 := PrimCons(reg35699, reg35700)
-		reg35705 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35704)
+		reg35705 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35704)
 		_ = reg35705
 		reg35706 := MakeSymbol("shen.type-signature-of-adjoin")
-		reg35707 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35707 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4549 := __args[0]
 			_ = V4549
-			reg35708 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35708 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4550 := __args[0]
 				_ = V4550
-				reg35709 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35709 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4551 := __args[0]
 					_ = V4551
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1adjoin, V4549, V4550, V4551)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1adjoin, V4549, V4550, V4551)
 					return
 				}, 1)
-				__ctx.Return(reg35709)
+				__e.Return(reg35709)
 				return
 			}, 1)
-			__ctx.Return(reg35708)
+			__e.Return(reg35708)
 			return
 		}, 1)
 		reg35711 := PrimCons(reg35706, reg35707)
-		reg35712 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35711)
+		reg35712 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35711)
 		_ = reg35712
 		reg35713 := MakeSymbol("shen.type-signature-of-and")
-		reg35714 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35714 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4539 := __args[0]
 			_ = V4539
-			reg35715 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35715 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4540 := __args[0]
 				_ = V4540
-				reg35716 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35716 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4541 := __args[0]
 					_ = V4541
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1and, V4539, V4540, V4541)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1and, V4539, V4540, V4541)
 					return
 				}, 1)
-				__ctx.Return(reg35716)
+				__e.Return(reg35716)
 				return
 			}, 1)
-			__ctx.Return(reg35715)
+			__e.Return(reg35715)
 			return
 		}, 1)
 		reg35718 := PrimCons(reg35713, reg35714)
-		reg35719 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35718)
+		reg35719 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35718)
 		_ = reg35719
 		reg35720 := MakeSymbol("shen.type-signature-of-shen.app")
-		reg35721 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35721 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4529 := __args[0]
 			_ = V4529
-			reg35722 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35722 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4530 := __args[0]
 				_ = V4530
-				reg35723 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35723 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4531 := __args[0]
 					_ = V4531
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1shen_4app, V4529, V4530, V4531)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1shen_4app, V4529, V4530, V4531)
 					return
 				}, 1)
-				__ctx.Return(reg35723)
+				__e.Return(reg35723)
 				return
 			}, 1)
-			__ctx.Return(reg35722)
+			__e.Return(reg35722)
 			return
 		}, 1)
 		reg35725 := PrimCons(reg35720, reg35721)
-		reg35726 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35725)
+		reg35726 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35725)
 		_ = reg35726
 		reg35727 := MakeSymbol("shen.type-signature-of-append")
-		reg35728 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35728 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4519 := __args[0]
 			_ = V4519
-			reg35729 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35729 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4520 := __args[0]
 				_ = V4520
-				reg35730 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35730 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4521 := __args[0]
 					_ = V4521
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1append, V4519, V4520, V4521)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1append, V4519, V4520, V4521)
 					return
 				}, 1)
-				__ctx.Return(reg35730)
+				__e.Return(reg35730)
 				return
 			}, 1)
-			__ctx.Return(reg35729)
+			__e.Return(reg35729)
 			return
 		}, 1)
 		reg35732 := PrimCons(reg35727, reg35728)
-		reg35733 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35732)
+		reg35733 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35732)
 		_ = reg35733
 		reg35734 := MakeSymbol("shen.type-signature-of-arity")
-		reg35735 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35735 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4509 := __args[0]
 			_ = V4509
-			reg35736 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35736 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4510 := __args[0]
 				_ = V4510
-				reg35737 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35737 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4511 := __args[0]
 					_ = V4511
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1arity, V4509, V4510, V4511)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1arity, V4509, V4510, V4511)
 					return
 				}, 1)
-				__ctx.Return(reg35737)
+				__e.Return(reg35737)
 				return
 			}, 1)
-			__ctx.Return(reg35736)
+			__e.Return(reg35736)
 			return
 		}, 1)
 		reg35739 := PrimCons(reg35734, reg35735)
-		reg35740 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35739)
+		reg35740 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35739)
 		_ = reg35740
 		reg35741 := MakeSymbol("shen.type-signature-of-assoc")
-		reg35742 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35742 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4499 := __args[0]
 			_ = V4499
-			reg35743 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35743 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4500 := __args[0]
 				_ = V4500
-				reg35744 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35744 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4501 := __args[0]
 					_ = V4501
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1assoc, V4499, V4500, V4501)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1assoc, V4499, V4500, V4501)
 					return
 				}, 1)
-				__ctx.Return(reg35744)
+				__e.Return(reg35744)
 				return
 			}, 1)
-			__ctx.Return(reg35743)
+			__e.Return(reg35743)
 			return
 		}, 1)
 		reg35746 := PrimCons(reg35741, reg35742)
-		reg35747 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35746)
+		reg35747 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35746)
 		_ = reg35747
 		reg35748 := MakeSymbol("shen.type-signature-of-boolean?")
-		reg35749 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35749 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4489 := __args[0]
 			_ = V4489
-			reg35750 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35750 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4490 := __args[0]
 				_ = V4490
-				reg35751 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35751 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4491 := __args[0]
 					_ = V4491
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1boolean_2, V4489, V4490, V4491)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1boolean_2, V4489, V4490, V4491)
 					return
 				}, 1)
-				__ctx.Return(reg35751)
+				__e.Return(reg35751)
 				return
 			}, 1)
-			__ctx.Return(reg35750)
+			__e.Return(reg35750)
 			return
 		}, 1)
 		reg35753 := PrimCons(reg35748, reg35749)
-		reg35754 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35753)
+		reg35754 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35753)
 		_ = reg35754
 		reg35755 := MakeSymbol("shen.type-signature-of-bound?")
-		reg35756 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35756 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4479 := __args[0]
 			_ = V4479
-			reg35757 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35757 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4480 := __args[0]
 				_ = V4480
-				reg35758 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35758 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4481 := __args[0]
 					_ = V4481
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1bound_2, V4479, V4480, V4481)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1bound_2, V4479, V4480, V4481)
 					return
 				}, 1)
-				__ctx.Return(reg35758)
+				__e.Return(reg35758)
 				return
 			}, 1)
-			__ctx.Return(reg35757)
+			__e.Return(reg35757)
 			return
 		}, 1)
 		reg35760 := PrimCons(reg35755, reg35756)
-		reg35761 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35760)
+		reg35761 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35760)
 		_ = reg35761
 		reg35762 := MakeSymbol("shen.type-signature-of-cd")
-		reg35763 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35763 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4469 := __args[0]
 			_ = V4469
-			reg35764 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35764 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4470 := __args[0]
 				_ = V4470
-				reg35765 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35765 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4471 := __args[0]
 					_ = V4471
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1cd, V4469, V4470, V4471)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1cd, V4469, V4470, V4471)
 					return
 				}, 1)
-				__ctx.Return(reg35765)
+				__e.Return(reg35765)
 				return
 			}, 1)
-			__ctx.Return(reg35764)
+			__e.Return(reg35764)
 			return
 		}, 1)
 		reg35767 := PrimCons(reg35762, reg35763)
-		reg35768 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35767)
+		reg35768 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35767)
 		_ = reg35768
 		reg35769 := MakeSymbol("shen.type-signature-of-close")
-		reg35770 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35770 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4459 := __args[0]
 			_ = V4459
-			reg35771 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35771 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4460 := __args[0]
 				_ = V4460
-				reg35772 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35772 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4461 := __args[0]
 					_ = V4461
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1close, V4459, V4460, V4461)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1close, V4459, V4460, V4461)
 					return
 				}, 1)
-				__ctx.Return(reg35772)
+				__e.Return(reg35772)
 				return
 			}, 1)
-			__ctx.Return(reg35771)
+			__e.Return(reg35771)
 			return
 		}, 1)
 		reg35774 := PrimCons(reg35769, reg35770)
-		reg35775 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35774)
+		reg35775 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35774)
 		_ = reg35775
 		reg35776 := MakeSymbol("shen.type-signature-of-cn")
-		reg35777 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35777 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4449 := __args[0]
 			_ = V4449
-			reg35778 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35778 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4450 := __args[0]
 				_ = V4450
-				reg35779 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35779 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4451 := __args[0]
 					_ = V4451
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1cn, V4449, V4450, V4451)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1cn, V4449, V4450, V4451)
 					return
 				}, 1)
-				__ctx.Return(reg35779)
+				__e.Return(reg35779)
 				return
 			}, 1)
-			__ctx.Return(reg35778)
+			__e.Return(reg35778)
 			return
 		}, 1)
 		reg35781 := PrimCons(reg35776, reg35777)
-		reg35782 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35781)
+		reg35782 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35781)
 		_ = reg35782
 		reg35783 := MakeSymbol("shen.type-signature-of-compile")
-		reg35784 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35784 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4439 := __args[0]
 			_ = V4439
-			reg35785 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35785 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4440 := __args[0]
 				_ = V4440
-				reg35786 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35786 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4441 := __args[0]
 					_ = V4441
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1compile, V4439, V4440, V4441)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1compile, V4439, V4440, V4441)
 					return
 				}, 1)
-				__ctx.Return(reg35786)
+				__e.Return(reg35786)
 				return
 			}, 1)
-			__ctx.Return(reg35785)
+			__e.Return(reg35785)
 			return
 		}, 1)
 		reg35788 := PrimCons(reg35783, reg35784)
-		reg35789 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35788)
+		reg35789 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35788)
 		_ = reg35789
 		reg35790 := MakeSymbol("shen.type-signature-of-cons?")
-		reg35791 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35791 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4429 := __args[0]
 			_ = V4429
-			reg35792 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35792 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4430 := __args[0]
 				_ = V4430
-				reg35793 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35793 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4431 := __args[0]
 					_ = V4431
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1cons_2, V4429, V4430, V4431)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1cons_2, V4429, V4430, V4431)
 					return
 				}, 1)
-				__ctx.Return(reg35793)
+				__e.Return(reg35793)
 				return
 			}, 1)
-			__ctx.Return(reg35792)
+			__e.Return(reg35792)
 			return
 		}, 1)
 		reg35795 := PrimCons(reg35790, reg35791)
-		reg35796 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35795)
+		reg35796 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35795)
 		_ = reg35796
 		reg35797 := MakeSymbol("shen.type-signature-of-destroy")
-		reg35798 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35798 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4419 := __args[0]
 			_ = V4419
-			reg35799 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35799 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4420 := __args[0]
 				_ = V4420
-				reg35800 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35800 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4421 := __args[0]
 					_ = V4421
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1destroy, V4419, V4420, V4421)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1destroy, V4419, V4420, V4421)
 					return
 				}, 1)
-				__ctx.Return(reg35800)
+				__e.Return(reg35800)
 				return
 			}, 1)
-			__ctx.Return(reg35799)
+			__e.Return(reg35799)
 			return
 		}, 1)
 		reg35802 := PrimCons(reg35797, reg35798)
-		reg35803 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35802)
+		reg35803 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35802)
 		_ = reg35803
 		reg35804 := MakeSymbol("shen.type-signature-of-difference")
-		reg35805 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35805 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4409 := __args[0]
 			_ = V4409
-			reg35806 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35806 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4410 := __args[0]
 				_ = V4410
-				reg35807 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35807 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4411 := __args[0]
 					_ = V4411
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1difference, V4409, V4410, V4411)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1difference, V4409, V4410, V4411)
 					return
 				}, 1)
-				__ctx.Return(reg35807)
+				__e.Return(reg35807)
 				return
 			}, 1)
-			__ctx.Return(reg35806)
+			__e.Return(reg35806)
 			return
 		}, 1)
 		reg35809 := PrimCons(reg35804, reg35805)
-		reg35810 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35809)
+		reg35810 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35809)
 		_ = reg35810
 		reg35811 := MakeSymbol("shen.type-signature-of-do")
-		reg35812 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35812 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4399 := __args[0]
 			_ = V4399
-			reg35813 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35813 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4400 := __args[0]
 				_ = V4400
-				reg35814 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35814 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4401 := __args[0]
 					_ = V4401
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1do, V4399, V4400, V4401)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1do, V4399, V4400, V4401)
 					return
 				}, 1)
-				__ctx.Return(reg35814)
+				__e.Return(reg35814)
 				return
 			}, 1)
-			__ctx.Return(reg35813)
+			__e.Return(reg35813)
 			return
 		}, 1)
 		reg35816 := PrimCons(reg35811, reg35812)
-		reg35817 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35816)
+		reg35817 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35816)
 		_ = reg35817
 		reg35818 := MakeSymbol("shen.type-signature-of-<e>")
-		reg35819 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35819 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4389 := __args[0]
 			_ = V4389
-			reg35820 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35820 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4390 := __args[0]
 				_ = V4390
-				reg35821 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35821 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4391 := __args[0]
 					_ = V4391
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_5e_6, V4389, V4390, V4391)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_5e_6, V4389, V4390, V4391)
 					return
 				}, 1)
-				__ctx.Return(reg35821)
+				__e.Return(reg35821)
 				return
 			}, 1)
-			__ctx.Return(reg35820)
+			__e.Return(reg35820)
 			return
 		}, 1)
 		reg35823 := PrimCons(reg35818, reg35819)
-		reg35824 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35823)
+		reg35824 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35823)
 		_ = reg35824
 		reg35825 := MakeSymbol("shen.type-signature-of-<!>")
-		reg35826 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35826 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4379 := __args[0]
 			_ = V4379
-			reg35827 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35827 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4380 := __args[0]
 				_ = V4380
-				reg35828 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35828 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4381 := __args[0]
 					_ = V4381
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_5_b_6, V4379, V4380, V4381)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_5_b_6, V4379, V4380, V4381)
 					return
 				}, 1)
-				__ctx.Return(reg35828)
+				__e.Return(reg35828)
 				return
 			}, 1)
-			__ctx.Return(reg35827)
+			__e.Return(reg35827)
 			return
 		}, 1)
 		reg35830 := PrimCons(reg35825, reg35826)
-		reg35831 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35830)
+		reg35831 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35830)
 		_ = reg35831
 		reg35832 := MakeSymbol("shen.type-signature-of-element?")
-		reg35833 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35833 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4369 := __args[0]
 			_ = V4369
-			reg35834 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35834 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4370 := __args[0]
 				_ = V4370
-				reg35835 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35835 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4371 := __args[0]
 					_ = V4371
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1element_2, V4369, V4370, V4371)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1element_2, V4369, V4370, V4371)
 					return
 				}, 1)
-				__ctx.Return(reg35835)
+				__e.Return(reg35835)
 				return
 			}, 1)
-			__ctx.Return(reg35834)
+			__e.Return(reg35834)
 			return
 		}, 1)
 		reg35837 := PrimCons(reg35832, reg35833)
-		reg35838 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35837)
+		reg35838 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35837)
 		_ = reg35838
 		reg35839 := MakeSymbol("shen.type-signature-of-empty?")
-		reg35840 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35840 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4359 := __args[0]
 			_ = V4359
-			reg35841 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35841 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4360 := __args[0]
 				_ = V4360
-				reg35842 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35842 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4361 := __args[0]
 					_ = V4361
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1empty_2, V4359, V4360, V4361)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1empty_2, V4359, V4360, V4361)
 					return
 				}, 1)
-				__ctx.Return(reg35842)
+				__e.Return(reg35842)
 				return
 			}, 1)
-			__ctx.Return(reg35841)
+			__e.Return(reg35841)
 			return
 		}, 1)
 		reg35844 := PrimCons(reg35839, reg35840)
-		reg35845 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35844)
+		reg35845 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35844)
 		_ = reg35845
 		reg35846 := MakeSymbol("shen.type-signature-of-enable-type-theory")
-		reg35847 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35847 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4349 := __args[0]
 			_ = V4349
-			reg35848 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35848 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4350 := __args[0]
 				_ = V4350
-				reg35849 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35849 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4351 := __args[0]
 					_ = V4351
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1enable_1type_1theory, V4349, V4350, V4351)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1enable_1type_1theory, V4349, V4350, V4351)
 					return
 				}, 1)
-				__ctx.Return(reg35849)
+				__e.Return(reg35849)
 				return
 			}, 1)
-			__ctx.Return(reg35848)
+			__e.Return(reg35848)
 			return
 		}, 1)
 		reg35851 := PrimCons(reg35846, reg35847)
-		reg35852 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35851)
+		reg35852 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35851)
 		_ = reg35852
 		reg35853 := MakeSymbol("shen.type-signature-of-external")
-		reg35854 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35854 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4339 := __args[0]
 			_ = V4339
-			reg35855 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35855 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4340 := __args[0]
 				_ = V4340
-				reg35856 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35856 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4341 := __args[0]
 					_ = V4341
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1external, V4339, V4340, V4341)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1external, V4339, V4340, V4341)
 					return
 				}, 1)
-				__ctx.Return(reg35856)
+				__e.Return(reg35856)
 				return
 			}, 1)
-			__ctx.Return(reg35855)
+			__e.Return(reg35855)
 			return
 		}, 1)
 		reg35858 := PrimCons(reg35853, reg35854)
-		reg35859 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35858)
+		reg35859 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35858)
 		_ = reg35859
 		reg35860 := MakeSymbol("shen.type-signature-of-error-to-string")
-		reg35861 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35861 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4329 := __args[0]
 			_ = V4329
-			reg35862 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35862 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4330 := __args[0]
 				_ = V4330
-				reg35863 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35863 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4331 := __args[0]
 					_ = V4331
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1error_1to_1string, V4329, V4330, V4331)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1error_1to_1string, V4329, V4330, V4331)
 					return
 				}, 1)
-				__ctx.Return(reg35863)
+				__e.Return(reg35863)
 				return
 			}, 1)
-			__ctx.Return(reg35862)
+			__e.Return(reg35862)
 			return
 		}, 1)
 		reg35865 := PrimCons(reg35860, reg35861)
-		reg35866 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35865)
+		reg35866 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35865)
 		_ = reg35866
 		reg35867 := MakeSymbol("shen.type-signature-of-explode")
-		reg35868 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35868 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4319 := __args[0]
 			_ = V4319
-			reg35869 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35869 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4320 := __args[0]
 				_ = V4320
-				reg35870 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35870 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4321 := __args[0]
 					_ = V4321
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1explode, V4319, V4320, V4321)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1explode, V4319, V4320, V4321)
 					return
 				}, 1)
-				__ctx.Return(reg35870)
+				__e.Return(reg35870)
 				return
 			}, 1)
-			__ctx.Return(reg35869)
+			__e.Return(reg35869)
 			return
 		}, 1)
 		reg35872 := PrimCons(reg35867, reg35868)
-		reg35873 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35872)
+		reg35873 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35872)
 		_ = reg35873
 		reg35874 := MakeSymbol("shen.type-signature-of-fail")
-		reg35875 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35875 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4309 := __args[0]
 			_ = V4309
-			reg35876 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35876 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4310 := __args[0]
 				_ = V4310
-				reg35877 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35877 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4311 := __args[0]
 					_ = V4311
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1fail, V4309, V4310, V4311)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1fail, V4309, V4310, V4311)
 					return
 				}, 1)
-				__ctx.Return(reg35877)
+				__e.Return(reg35877)
 				return
 			}, 1)
-			__ctx.Return(reg35876)
+			__e.Return(reg35876)
 			return
 		}, 1)
 		reg35879 := PrimCons(reg35874, reg35875)
-		reg35880 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35879)
+		reg35880 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35879)
 		_ = reg35880
 		reg35881 := MakeSymbol("shen.type-signature-of-fail-if")
-		reg35882 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35882 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4299 := __args[0]
 			_ = V4299
-			reg35883 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35883 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4300 := __args[0]
 				_ = V4300
-				reg35884 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35884 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4301 := __args[0]
 					_ = V4301
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1fail_1if, V4299, V4300, V4301)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1fail_1if, V4299, V4300, V4301)
 					return
 				}, 1)
-				__ctx.Return(reg35884)
+				__e.Return(reg35884)
 				return
 			}, 1)
-			__ctx.Return(reg35883)
+			__e.Return(reg35883)
 			return
 		}, 1)
 		reg35886 := PrimCons(reg35881, reg35882)
-		reg35887 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35886)
+		reg35887 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35886)
 		_ = reg35887
 		reg35888 := MakeSymbol("shen.type-signature-of-fix")
-		reg35889 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35889 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4289 := __args[0]
 			_ = V4289
-			reg35890 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35890 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4290 := __args[0]
 				_ = V4290
-				reg35891 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35891 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4291 := __args[0]
 					_ = V4291
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1fix, V4289, V4290, V4291)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1fix, V4289, V4290, V4291)
 					return
 				}, 1)
-				__ctx.Return(reg35891)
+				__e.Return(reg35891)
 				return
 			}, 1)
-			__ctx.Return(reg35890)
+			__e.Return(reg35890)
 			return
 		}, 1)
 		reg35893 := PrimCons(reg35888, reg35889)
-		reg35894 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35893)
+		reg35894 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35893)
 		_ = reg35894
 		reg35895 := MakeSymbol("shen.type-signature-of-freeze")
-		reg35896 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35896 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4279 := __args[0]
 			_ = V4279
-			reg35897 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35897 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4280 := __args[0]
 				_ = V4280
-				reg35898 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35898 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4281 := __args[0]
 					_ = V4281
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1freeze, V4279, V4280, V4281)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1freeze, V4279, V4280, V4281)
 					return
 				}, 1)
-				__ctx.Return(reg35898)
+				__e.Return(reg35898)
 				return
 			}, 1)
-			__ctx.Return(reg35897)
+			__e.Return(reg35897)
 			return
 		}, 1)
 		reg35900 := PrimCons(reg35895, reg35896)
-		reg35901 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35900)
+		reg35901 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35900)
 		_ = reg35901
 		reg35902 := MakeSymbol("shen.type-signature-of-fst")
-		reg35903 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35903 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4269 := __args[0]
 			_ = V4269
-			reg35904 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35904 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4270 := __args[0]
 				_ = V4270
-				reg35905 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35905 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4271 := __args[0]
 					_ = V4271
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1fst, V4269, V4270, V4271)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1fst, V4269, V4270, V4271)
 					return
 				}, 1)
-				__ctx.Return(reg35905)
+				__e.Return(reg35905)
 				return
 			}, 1)
-			__ctx.Return(reg35904)
+			__e.Return(reg35904)
 			return
 		}, 1)
 		reg35907 := PrimCons(reg35902, reg35903)
-		reg35908 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35907)
+		reg35908 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35907)
 		_ = reg35908
 		reg35909 := MakeSymbol("shen.type-signature-of-function")
-		reg35910 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35910 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4259 := __args[0]
 			_ = V4259
-			reg35911 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35911 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4260 := __args[0]
 				_ = V4260
-				reg35912 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35912 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4261 := __args[0]
 					_ = V4261
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1function, V4259, V4260, V4261)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1function, V4259, V4260, V4261)
 					return
 				}, 1)
-				__ctx.Return(reg35912)
+				__e.Return(reg35912)
 				return
 			}, 1)
-			__ctx.Return(reg35911)
+			__e.Return(reg35911)
 			return
 		}, 1)
 		reg35914 := PrimCons(reg35909, reg35910)
-		reg35915 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35914)
+		reg35915 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35914)
 		_ = reg35915
 		reg35916 := MakeSymbol("shen.type-signature-of-gensym")
-		reg35917 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35917 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4249 := __args[0]
 			_ = V4249
-			reg35918 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35918 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4250 := __args[0]
 				_ = V4250
-				reg35919 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35919 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4251 := __args[0]
 					_ = V4251
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1gensym, V4249, V4250, V4251)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1gensym, V4249, V4250, V4251)
 					return
 				}, 1)
-				__ctx.Return(reg35919)
+				__e.Return(reg35919)
 				return
 			}, 1)
-			__ctx.Return(reg35918)
+			__e.Return(reg35918)
 			return
 		}, 1)
 		reg35921 := PrimCons(reg35916, reg35917)
-		reg35922 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35921)
+		reg35922 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35921)
 		_ = reg35922
 		reg35923 := MakeSymbol("shen.type-signature-of-<-vector")
-		reg35924 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35924 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4239 := __args[0]
 			_ = V4239
-			reg35925 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35925 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4240 := __args[0]
 				_ = V4240
-				reg35926 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35926 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4241 := __args[0]
 					_ = V4241
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_5_1vector, V4239, V4240, V4241)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_5_1vector, V4239, V4240, V4241)
 					return
 				}, 1)
-				__ctx.Return(reg35926)
+				__e.Return(reg35926)
 				return
 			}, 1)
-			__ctx.Return(reg35925)
+			__e.Return(reg35925)
 			return
 		}, 1)
 		reg35928 := PrimCons(reg35923, reg35924)
-		reg35929 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35928)
+		reg35929 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35928)
 		_ = reg35929
 		reg35930 := MakeSymbol("shen.type-signature-of-vector->")
-		reg35931 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35931 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4229 := __args[0]
 			_ = V4229
-			reg35932 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35932 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4230 := __args[0]
 				_ = V4230
-				reg35933 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35933 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4231 := __args[0]
 					_ = V4231
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1vector_1_6, V4229, V4230, V4231)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1vector_1_6, V4229, V4230, V4231)
 					return
 				}, 1)
-				__ctx.Return(reg35933)
+				__e.Return(reg35933)
 				return
 			}, 1)
-			__ctx.Return(reg35932)
+			__e.Return(reg35932)
 			return
 		}, 1)
 		reg35935 := PrimCons(reg35930, reg35931)
-		reg35936 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35935)
+		reg35936 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35935)
 		_ = reg35936
 		reg35937 := MakeSymbol("shen.type-signature-of-vector")
-		reg35938 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35938 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4219 := __args[0]
 			_ = V4219
-			reg35939 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35939 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4220 := __args[0]
 				_ = V4220
-				reg35940 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35940 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4221 := __args[0]
 					_ = V4221
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1vector, V4219, V4220, V4221)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1vector, V4219, V4220, V4221)
 					return
 				}, 1)
-				__ctx.Return(reg35940)
+				__e.Return(reg35940)
 				return
 			}, 1)
-			__ctx.Return(reg35939)
+			__e.Return(reg35939)
 			return
 		}, 1)
 		reg35942 := PrimCons(reg35937, reg35938)
-		reg35943 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35942)
+		reg35943 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35942)
 		_ = reg35943
 		reg35944 := MakeSymbol("shen.type-signature-of-get-time")
-		reg35945 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35945 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4209 := __args[0]
 			_ = V4209
-			reg35946 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35946 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4210 := __args[0]
 				_ = V4210
-				reg35947 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35947 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4211 := __args[0]
 					_ = V4211
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1get_1time, V4209, V4210, V4211)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1get_1time, V4209, V4210, V4211)
 					return
 				}, 1)
-				__ctx.Return(reg35947)
+				__e.Return(reg35947)
 				return
 			}, 1)
-			__ctx.Return(reg35946)
+			__e.Return(reg35946)
 			return
 		}, 1)
 		reg35949 := PrimCons(reg35944, reg35945)
-		reg35950 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35949)
+		reg35950 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35949)
 		_ = reg35950
 		reg35951 := MakeSymbol("shen.type-signature-of-hash")
-		reg35952 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35952 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4199 := __args[0]
 			_ = V4199
-			reg35953 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35953 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4200 := __args[0]
 				_ = V4200
-				reg35954 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35954 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4201 := __args[0]
 					_ = V4201
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1hash, V4199, V4200, V4201)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1hash, V4199, V4200, V4201)
 					return
 				}, 1)
-				__ctx.Return(reg35954)
+				__e.Return(reg35954)
 				return
 			}, 1)
-			__ctx.Return(reg35953)
+			__e.Return(reg35953)
 			return
 		}, 1)
 		reg35956 := PrimCons(reg35951, reg35952)
-		reg35957 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35956)
+		reg35957 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35956)
 		_ = reg35957
 		reg35958 := MakeSymbol("shen.type-signature-of-head")
-		reg35959 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35959 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4189 := __args[0]
 			_ = V4189
-			reg35960 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35960 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4190 := __args[0]
 				_ = V4190
-				reg35961 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35961 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4191 := __args[0]
 					_ = V4191
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1head, V4189, V4190, V4191)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1head, V4189, V4190, V4191)
 					return
 				}, 1)
-				__ctx.Return(reg35961)
+				__e.Return(reg35961)
 				return
 			}, 1)
-			__ctx.Return(reg35960)
+			__e.Return(reg35960)
 			return
 		}, 1)
 		reg35963 := PrimCons(reg35958, reg35959)
-		reg35964 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35963)
+		reg35964 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35963)
 		_ = reg35964
 		reg35965 := MakeSymbol("shen.type-signature-of-hdv")
-		reg35966 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35966 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4179 := __args[0]
 			_ = V4179
-			reg35967 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35967 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4180 := __args[0]
 				_ = V4180
-				reg35968 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35968 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4181 := __args[0]
 					_ = V4181
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1hdv, V4179, V4180, V4181)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1hdv, V4179, V4180, V4181)
 					return
 				}, 1)
-				__ctx.Return(reg35968)
+				__e.Return(reg35968)
 				return
 			}, 1)
-			__ctx.Return(reg35967)
+			__e.Return(reg35967)
 			return
 		}, 1)
 		reg35970 := PrimCons(reg35965, reg35966)
-		reg35971 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35970)
+		reg35971 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35970)
 		_ = reg35971
 		reg35972 := MakeSymbol("shen.type-signature-of-hdstr")
-		reg35973 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35973 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4169 := __args[0]
 			_ = V4169
-			reg35974 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35974 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4170 := __args[0]
 				_ = V4170
-				reg35975 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35975 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4171 := __args[0]
 					_ = V4171
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1hdstr, V4169, V4170, V4171)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1hdstr, V4169, V4170, V4171)
 					return
 				}, 1)
-				__ctx.Return(reg35975)
+				__e.Return(reg35975)
 				return
 			}, 1)
-			__ctx.Return(reg35974)
+			__e.Return(reg35974)
 			return
 		}, 1)
 		reg35977 := PrimCons(reg35972, reg35973)
-		reg35978 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35977)
+		reg35978 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35977)
 		_ = reg35978
 		reg35979 := MakeSymbol("shen.type-signature-of-if")
-		reg35980 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35980 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4159 := __args[0]
 			_ = V4159
-			reg35981 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35981 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4160 := __args[0]
 				_ = V4160
-				reg35982 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35982 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4161 := __args[0]
 					_ = V4161
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1if, V4159, V4160, V4161)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1if, V4159, V4160, V4161)
 					return
 				}, 1)
-				__ctx.Return(reg35982)
+				__e.Return(reg35982)
 				return
 			}, 1)
-			__ctx.Return(reg35981)
+			__e.Return(reg35981)
 			return
 		}, 1)
 		reg35984 := PrimCons(reg35979, reg35980)
-		reg35985 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35984)
+		reg35985 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35984)
 		_ = reg35985
 		reg35986 := MakeSymbol("shen.type-signature-of-it")
-		reg35987 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35987 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4149 := __args[0]
 			_ = V4149
-			reg35988 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35988 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4150 := __args[0]
 				_ = V4150
-				reg35989 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35989 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4151 := __args[0]
 					_ = V4151
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1it, V4149, V4150, V4151)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1it, V4149, V4150, V4151)
 					return
 				}, 1)
-				__ctx.Return(reg35989)
+				__e.Return(reg35989)
 				return
 			}, 1)
-			__ctx.Return(reg35988)
+			__e.Return(reg35988)
 			return
 		}, 1)
 		reg35991 := PrimCons(reg35986, reg35987)
-		reg35992 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35991)
+		reg35992 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35991)
 		_ = reg35992
 		reg35993 := MakeSymbol("shen.type-signature-of-implementation")
-		reg35994 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg35994 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4139 := __args[0]
 			_ = V4139
-			reg35995 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg35995 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4140 := __args[0]
 				_ = V4140
-				reg35996 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg35996 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4141 := __args[0]
 					_ = V4141
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1implementation, V4139, V4140, V4141)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1implementation, V4139, V4140, V4141)
 					return
 				}, 1)
-				__ctx.Return(reg35996)
+				__e.Return(reg35996)
 				return
 			}, 1)
-			__ctx.Return(reg35995)
+			__e.Return(reg35995)
 			return
 		}, 1)
 		reg35998 := PrimCons(reg35993, reg35994)
-		reg35999 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg35998)
+		reg35999 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg35998)
 		_ = reg35999
 		reg36000 := MakeSymbol("shen.type-signature-of-include")
-		reg36001 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36001 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4129 := __args[0]
 			_ = V4129
-			reg36002 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36002 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4130 := __args[0]
 				_ = V4130
-				reg36003 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36003 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4131 := __args[0]
 					_ = V4131
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1include, V4129, V4130, V4131)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1include, V4129, V4130, V4131)
 					return
 				}, 1)
-				__ctx.Return(reg36003)
+				__e.Return(reg36003)
 				return
 			}, 1)
-			__ctx.Return(reg36002)
+			__e.Return(reg36002)
 			return
 		}, 1)
 		reg36005 := PrimCons(reg36000, reg36001)
-		reg36006 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36005)
+		reg36006 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36005)
 		_ = reg36006
 		reg36007 := MakeSymbol("shen.type-signature-of-include-all-but")
-		reg36008 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36008 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4119 := __args[0]
 			_ = V4119
-			reg36009 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36009 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4120 := __args[0]
 				_ = V4120
-				reg36010 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36010 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4121 := __args[0]
 					_ = V4121
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1include_1all_1but, V4119, V4120, V4121)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1include_1all_1but, V4119, V4120, V4121)
 					return
 				}, 1)
-				__ctx.Return(reg36010)
+				__e.Return(reg36010)
 				return
 			}, 1)
-			__ctx.Return(reg36009)
+			__e.Return(reg36009)
 			return
 		}, 1)
 		reg36012 := PrimCons(reg36007, reg36008)
-		reg36013 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36012)
+		reg36013 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36012)
 		_ = reg36013
 		reg36014 := MakeSymbol("shen.type-signature-of-inferences")
-		reg36015 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36015 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4109 := __args[0]
 			_ = V4109
-			reg36016 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36016 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4110 := __args[0]
 				_ = V4110
-				reg36017 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36017 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4111 := __args[0]
 					_ = V4111
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1inferences, V4109, V4110, V4111)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1inferences, V4109, V4110, V4111)
 					return
 				}, 1)
-				__ctx.Return(reg36017)
+				__e.Return(reg36017)
 				return
 			}, 1)
-			__ctx.Return(reg36016)
+			__e.Return(reg36016)
 			return
 		}, 1)
 		reg36019 := PrimCons(reg36014, reg36015)
-		reg36020 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36019)
+		reg36020 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36019)
 		_ = reg36020
 		reg36021 := MakeSymbol("shen.type-signature-of-shen.insert")
-		reg36022 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36022 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4099 := __args[0]
 			_ = V4099
-			reg36023 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36023 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4100 := __args[0]
 				_ = V4100
-				reg36024 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36024 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4101 := __args[0]
 					_ = V4101
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1shen_4insert, V4099, V4100, V4101)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1shen_4insert, V4099, V4100, V4101)
 					return
 				}, 1)
-				__ctx.Return(reg36024)
+				__e.Return(reg36024)
 				return
 			}, 1)
-			__ctx.Return(reg36023)
+			__e.Return(reg36023)
 			return
 		}, 1)
 		reg36026 := PrimCons(reg36021, reg36022)
-		reg36027 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36026)
+		reg36027 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36026)
 		_ = reg36027
 		reg36028 := MakeSymbol("shen.type-signature-of-integer?")
-		reg36029 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36029 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4089 := __args[0]
 			_ = V4089
-			reg36030 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36030 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4090 := __args[0]
 				_ = V4090
-				reg36031 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36031 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4091 := __args[0]
 					_ = V4091
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1integer_2, V4089, V4090, V4091)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1integer_2, V4089, V4090, V4091)
 					return
 				}, 1)
-				__ctx.Return(reg36031)
+				__e.Return(reg36031)
 				return
 			}, 1)
-			__ctx.Return(reg36030)
+			__e.Return(reg36030)
 			return
 		}, 1)
 		reg36033 := PrimCons(reg36028, reg36029)
-		reg36034 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36033)
+		reg36034 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36033)
 		_ = reg36034
 		reg36035 := MakeSymbol("shen.type-signature-of-internal")
-		reg36036 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36036 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4079 := __args[0]
 			_ = V4079
-			reg36037 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36037 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4080 := __args[0]
 				_ = V4080
-				reg36038 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36038 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4081 := __args[0]
 					_ = V4081
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1internal, V4079, V4080, V4081)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1internal, V4079, V4080, V4081)
 					return
 				}, 1)
-				__ctx.Return(reg36038)
+				__e.Return(reg36038)
 				return
 			}, 1)
-			__ctx.Return(reg36037)
+			__e.Return(reg36037)
 			return
 		}, 1)
 		reg36040 := PrimCons(reg36035, reg36036)
-		reg36041 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36040)
+		reg36041 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36040)
 		_ = reg36041
 		reg36042 := MakeSymbol("shen.type-signature-of-intersection")
-		reg36043 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36043 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4069 := __args[0]
 			_ = V4069
-			reg36044 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36044 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4070 := __args[0]
 				_ = V4070
-				reg36045 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36045 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4071 := __args[0]
 					_ = V4071
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1intersection, V4069, V4070, V4071)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1intersection, V4069, V4070, V4071)
 					return
 				}, 1)
-				__ctx.Return(reg36045)
+				__e.Return(reg36045)
 				return
 			}, 1)
-			__ctx.Return(reg36044)
+			__e.Return(reg36044)
 			return
 		}, 1)
 		reg36047 := PrimCons(reg36042, reg36043)
-		reg36048 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36047)
+		reg36048 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36047)
 		_ = reg36048
 		reg36049 := MakeSymbol("shen.type-signature-of-kill")
-		reg36050 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36050 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4059 := __args[0]
 			_ = V4059
-			reg36051 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36051 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4060 := __args[0]
 				_ = V4060
-				reg36052 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36052 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4061 := __args[0]
 					_ = V4061
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1kill, V4059, V4060, V4061)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1kill, V4059, V4060, V4061)
 					return
 				}, 1)
-				__ctx.Return(reg36052)
+				__e.Return(reg36052)
 				return
 			}, 1)
-			__ctx.Return(reg36051)
+			__e.Return(reg36051)
 			return
 		}, 1)
 		reg36054 := PrimCons(reg36049, reg36050)
-		reg36055 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36054)
+		reg36055 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36054)
 		_ = reg36055
 		reg36056 := MakeSymbol("shen.type-signature-of-language")
-		reg36057 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36057 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4049 := __args[0]
 			_ = V4049
-			reg36058 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36058 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4050 := __args[0]
 				_ = V4050
-				reg36059 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36059 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4051 := __args[0]
 					_ = V4051
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1language, V4049, V4050, V4051)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1language, V4049, V4050, V4051)
 					return
 				}, 1)
-				__ctx.Return(reg36059)
+				__e.Return(reg36059)
 				return
 			}, 1)
-			__ctx.Return(reg36058)
+			__e.Return(reg36058)
 			return
 		}, 1)
 		reg36061 := PrimCons(reg36056, reg36057)
-		reg36062 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36061)
+		reg36062 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36061)
 		_ = reg36062
 		reg36063 := MakeSymbol("shen.type-signature-of-length")
-		reg36064 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36064 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4039 := __args[0]
 			_ = V4039
-			reg36065 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36065 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4040 := __args[0]
 				_ = V4040
-				reg36066 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36066 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4041 := __args[0]
 					_ = V4041
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1length, V4039, V4040, V4041)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1length, V4039, V4040, V4041)
 					return
 				}, 1)
-				__ctx.Return(reg36066)
+				__e.Return(reg36066)
 				return
 			}, 1)
-			__ctx.Return(reg36065)
+			__e.Return(reg36065)
 			return
 		}, 1)
 		reg36068 := PrimCons(reg36063, reg36064)
-		reg36069 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36068)
+		reg36069 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36068)
 		_ = reg36069
 		reg36070 := MakeSymbol("shen.type-signature-of-limit")
-		reg36071 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36071 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4029 := __args[0]
 			_ = V4029
-			reg36072 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36072 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4030 := __args[0]
 				_ = V4030
-				reg36073 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36073 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4031 := __args[0]
 					_ = V4031
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1limit, V4029, V4030, V4031)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1limit, V4029, V4030, V4031)
 					return
 				}, 1)
-				__ctx.Return(reg36073)
+				__e.Return(reg36073)
 				return
 			}, 1)
-			__ctx.Return(reg36072)
+			__e.Return(reg36072)
 			return
 		}, 1)
 		reg36075 := PrimCons(reg36070, reg36071)
-		reg36076 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36075)
+		reg36076 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36075)
 		_ = reg36076
 		reg36077 := MakeSymbol("shen.type-signature-of-load")
-		reg36078 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36078 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4019 := __args[0]
 			_ = V4019
-			reg36079 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36079 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4020 := __args[0]
 				_ = V4020
-				reg36080 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36080 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4021 := __args[0]
 					_ = V4021
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1load, V4019, V4020, V4021)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1load, V4019, V4020, V4021)
 					return
 				}, 1)
-				__ctx.Return(reg36080)
+				__e.Return(reg36080)
 				return
 			}, 1)
-			__ctx.Return(reg36079)
+			__e.Return(reg36079)
 			return
 		}, 1)
 		reg36082 := PrimCons(reg36077, reg36078)
-		reg36083 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36082)
+		reg36083 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36082)
 		_ = reg36083
 		reg36084 := MakeSymbol("shen.type-signature-of-map")
-		reg36085 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36085 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V4009 := __args[0]
 			_ = V4009
-			reg36086 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36086 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4010 := __args[0]
 				_ = V4010
-				reg36087 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36087 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4011 := __args[0]
 					_ = V4011
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1map, V4009, V4010, V4011)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1map, V4009, V4010, V4011)
 					return
 				}, 1)
-				__ctx.Return(reg36087)
+				__e.Return(reg36087)
 				return
 			}, 1)
-			__ctx.Return(reg36086)
+			__e.Return(reg36086)
 			return
 		}, 1)
 		reg36089 := PrimCons(reg36084, reg36085)
-		reg36090 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36089)
+		reg36090 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36089)
 		_ = reg36090
 		reg36091 := MakeSymbol("shen.type-signature-of-mapcan")
-		reg36092 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36092 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3999 := __args[0]
 			_ = V3999
-			reg36093 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36093 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V4000 := __args[0]
 				_ = V4000
-				reg36094 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36094 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V4001 := __args[0]
 					_ = V4001
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1mapcan, V3999, V4000, V4001)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1mapcan, V3999, V4000, V4001)
 					return
 				}, 1)
-				__ctx.Return(reg36094)
+				__e.Return(reg36094)
 				return
 			}, 1)
-			__ctx.Return(reg36093)
+			__e.Return(reg36093)
 			return
 		}, 1)
 		reg36096 := PrimCons(reg36091, reg36092)
-		reg36097 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36096)
+		reg36097 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36096)
 		_ = reg36097
 		reg36098 := MakeSymbol("shen.type-signature-of-maxinferences")
-		reg36099 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36099 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3989 := __args[0]
 			_ = V3989
-			reg36100 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36100 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3990 := __args[0]
 				_ = V3990
-				reg36101 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36101 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3991 := __args[0]
 					_ = V3991
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1maxinferences, V3989, V3990, V3991)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1maxinferences, V3989, V3990, V3991)
 					return
 				}, 1)
-				__ctx.Return(reg36101)
+				__e.Return(reg36101)
 				return
 			}, 1)
-			__ctx.Return(reg36100)
+			__e.Return(reg36100)
 			return
 		}, 1)
 		reg36103 := PrimCons(reg36098, reg36099)
-		reg36104 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36103)
+		reg36104 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36103)
 		_ = reg36104
 		reg36105 := MakeSymbol("shen.type-signature-of-n->string")
-		reg36106 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36106 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3979 := __args[0]
 			_ = V3979
-			reg36107 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36107 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3980 := __args[0]
 				_ = V3980
-				reg36108 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36108 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3981 := __args[0]
 					_ = V3981
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1n_1_6string, V3979, V3980, V3981)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1n_1_6string, V3979, V3980, V3981)
 					return
 				}, 1)
-				__ctx.Return(reg36108)
+				__e.Return(reg36108)
 				return
 			}, 1)
-			__ctx.Return(reg36107)
+			__e.Return(reg36107)
 			return
 		}, 1)
 		reg36110 := PrimCons(reg36105, reg36106)
-		reg36111 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36110)
+		reg36111 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36110)
 		_ = reg36111
 		reg36112 := MakeSymbol("shen.type-signature-of-nl")
-		reg36113 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36113 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3969 := __args[0]
 			_ = V3969
-			reg36114 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36114 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3970 := __args[0]
 				_ = V3970
-				reg36115 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36115 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3971 := __args[0]
 					_ = V3971
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1nl, V3969, V3970, V3971)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1nl, V3969, V3970, V3971)
 					return
 				}, 1)
-				__ctx.Return(reg36115)
+				__e.Return(reg36115)
 				return
 			}, 1)
-			__ctx.Return(reg36114)
+			__e.Return(reg36114)
 			return
 		}, 1)
 		reg36117 := PrimCons(reg36112, reg36113)
-		reg36118 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36117)
+		reg36118 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36117)
 		_ = reg36118
 		reg36119 := MakeSymbol("shen.type-signature-of-not")
-		reg36120 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36120 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3959 := __args[0]
 			_ = V3959
-			reg36121 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36121 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3960 := __args[0]
 				_ = V3960
-				reg36122 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36122 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3961 := __args[0]
 					_ = V3961
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1not, V3959, V3960, V3961)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1not, V3959, V3960, V3961)
 					return
 				}, 1)
-				__ctx.Return(reg36122)
+				__e.Return(reg36122)
 				return
 			}, 1)
-			__ctx.Return(reg36121)
+			__e.Return(reg36121)
 			return
 		}, 1)
 		reg36124 := PrimCons(reg36119, reg36120)
-		reg36125 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36124)
+		reg36125 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36124)
 		_ = reg36125
 		reg36126 := MakeSymbol("shen.type-signature-of-nth")
-		reg36127 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36127 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3949 := __args[0]
 			_ = V3949
-			reg36128 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36128 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3950 := __args[0]
 				_ = V3950
-				reg36129 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36129 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3951 := __args[0]
 					_ = V3951
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1nth, V3949, V3950, V3951)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1nth, V3949, V3950, V3951)
 					return
 				}, 1)
-				__ctx.Return(reg36129)
+				__e.Return(reg36129)
 				return
 			}, 1)
-			__ctx.Return(reg36128)
+			__e.Return(reg36128)
 			return
 		}, 1)
 		reg36131 := PrimCons(reg36126, reg36127)
-		reg36132 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36131)
+		reg36132 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36131)
 		_ = reg36132
 		reg36133 := MakeSymbol("shen.type-signature-of-number?")
-		reg36134 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36134 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3939 := __args[0]
 			_ = V3939
-			reg36135 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36135 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3940 := __args[0]
 				_ = V3940
-				reg36136 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36136 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3941 := __args[0]
 					_ = V3941
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1number_2, V3939, V3940, V3941)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1number_2, V3939, V3940, V3941)
 					return
 				}, 1)
-				__ctx.Return(reg36136)
+				__e.Return(reg36136)
 				return
 			}, 1)
-			__ctx.Return(reg36135)
+			__e.Return(reg36135)
 			return
 		}, 1)
 		reg36138 := PrimCons(reg36133, reg36134)
-		reg36139 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36138)
+		reg36139 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36138)
 		_ = reg36139
 		reg36140 := MakeSymbol("shen.type-signature-of-occurrences")
-		reg36141 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36141 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3929 := __args[0]
 			_ = V3929
-			reg36142 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36142 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3930 := __args[0]
 				_ = V3930
-				reg36143 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36143 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3931 := __args[0]
 					_ = V3931
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1occurrences, V3929, V3930, V3931)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1occurrences, V3929, V3930, V3931)
 					return
 				}, 1)
-				__ctx.Return(reg36143)
+				__e.Return(reg36143)
 				return
 			}, 1)
-			__ctx.Return(reg36142)
+			__e.Return(reg36142)
 			return
 		}, 1)
 		reg36145 := PrimCons(reg36140, reg36141)
-		reg36146 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36145)
+		reg36146 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36145)
 		_ = reg36146
 		reg36147 := MakeSymbol("shen.type-signature-of-occurs-check")
-		reg36148 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36148 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3919 := __args[0]
 			_ = V3919
-			reg36149 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36149 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3920 := __args[0]
 				_ = V3920
-				reg36150 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36150 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3921 := __args[0]
 					_ = V3921
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1occurs_1check, V3919, V3920, V3921)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1occurs_1check, V3919, V3920, V3921)
 					return
 				}, 1)
-				__ctx.Return(reg36150)
+				__e.Return(reg36150)
 				return
 			}, 1)
-			__ctx.Return(reg36149)
+			__e.Return(reg36149)
 			return
 		}, 1)
 		reg36152 := PrimCons(reg36147, reg36148)
-		reg36153 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36152)
+		reg36153 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36152)
 		_ = reg36153
 		reg36154 := MakeSymbol("shen.type-signature-of-optimise")
-		reg36155 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36155 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3909 := __args[0]
 			_ = V3909
-			reg36156 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36156 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3910 := __args[0]
 				_ = V3910
-				reg36157 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36157 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3911 := __args[0]
 					_ = V3911
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1optimise, V3909, V3910, V3911)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1optimise, V3909, V3910, V3911)
 					return
 				}, 1)
-				__ctx.Return(reg36157)
+				__e.Return(reg36157)
 				return
 			}, 1)
-			__ctx.Return(reg36156)
+			__e.Return(reg36156)
 			return
 		}, 1)
 		reg36159 := PrimCons(reg36154, reg36155)
-		reg36160 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36159)
+		reg36160 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36159)
 		_ = reg36160
 		reg36161 := MakeSymbol("shen.type-signature-of-or")
-		reg36162 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36162 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3899 := __args[0]
 			_ = V3899
-			reg36163 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36163 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3900 := __args[0]
 				_ = V3900
-				reg36164 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36164 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3901 := __args[0]
 					_ = V3901
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1or, V3899, V3900, V3901)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1or, V3899, V3900, V3901)
 					return
 				}, 1)
-				__ctx.Return(reg36164)
+				__e.Return(reg36164)
 				return
 			}, 1)
-			__ctx.Return(reg36163)
+			__e.Return(reg36163)
 			return
 		}, 1)
 		reg36166 := PrimCons(reg36161, reg36162)
-		reg36167 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36166)
+		reg36167 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36166)
 		_ = reg36167
 		reg36168 := MakeSymbol("shen.type-signature-of-os")
-		reg36169 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36169 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3889 := __args[0]
 			_ = V3889
-			reg36170 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36170 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3890 := __args[0]
 				_ = V3890
-				reg36171 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36171 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3891 := __args[0]
 					_ = V3891
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1os, V3889, V3890, V3891)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1os, V3889, V3890, V3891)
 					return
 				}, 1)
-				__ctx.Return(reg36171)
+				__e.Return(reg36171)
 				return
 			}, 1)
-			__ctx.Return(reg36170)
+			__e.Return(reg36170)
 			return
 		}, 1)
 		reg36173 := PrimCons(reg36168, reg36169)
-		reg36174 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36173)
+		reg36174 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36173)
 		_ = reg36174
 		reg36175 := MakeSymbol("shen.type-signature-of-package?")
-		reg36176 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36176 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3879 := __args[0]
 			_ = V3879
-			reg36177 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36177 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3880 := __args[0]
 				_ = V3880
-				reg36178 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36178 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3881 := __args[0]
 					_ = V3881
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1package_2, V3879, V3880, V3881)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1package_2, V3879, V3880, V3881)
 					return
 				}, 1)
-				__ctx.Return(reg36178)
+				__e.Return(reg36178)
 				return
 			}, 1)
-			__ctx.Return(reg36177)
+			__e.Return(reg36177)
 			return
 		}, 1)
 		reg36180 := PrimCons(reg36175, reg36176)
-		reg36181 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36180)
+		reg36181 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36180)
 		_ = reg36181
 		reg36182 := MakeSymbol("shen.type-signature-of-port")
-		reg36183 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36183 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3869 := __args[0]
 			_ = V3869
-			reg36184 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36184 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3870 := __args[0]
 				_ = V3870
-				reg36185 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36185 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3871 := __args[0]
 					_ = V3871
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1port, V3869, V3870, V3871)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1port, V3869, V3870, V3871)
 					return
 				}, 1)
-				__ctx.Return(reg36185)
+				__e.Return(reg36185)
 				return
 			}, 1)
-			__ctx.Return(reg36184)
+			__e.Return(reg36184)
 			return
 		}, 1)
 		reg36187 := PrimCons(reg36182, reg36183)
-		reg36188 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36187)
+		reg36188 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36187)
 		_ = reg36188
 		reg36189 := MakeSymbol("shen.type-signature-of-porters")
-		reg36190 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36190 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3859 := __args[0]
 			_ = V3859
-			reg36191 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36191 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3860 := __args[0]
 				_ = V3860
-				reg36192 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36192 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3861 := __args[0]
 					_ = V3861
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1porters, V3859, V3860, V3861)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1porters, V3859, V3860, V3861)
 					return
 				}, 1)
-				__ctx.Return(reg36192)
+				__e.Return(reg36192)
 				return
 			}, 1)
-			__ctx.Return(reg36191)
+			__e.Return(reg36191)
 			return
 		}, 1)
 		reg36194 := PrimCons(reg36189, reg36190)
-		reg36195 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36194)
+		reg36195 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36194)
 		_ = reg36195
 		reg36196 := MakeSymbol("shen.type-signature-of-pos")
-		reg36197 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36197 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3849 := __args[0]
 			_ = V3849
-			reg36198 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36198 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3850 := __args[0]
 				_ = V3850
-				reg36199 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36199 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3851 := __args[0]
 					_ = V3851
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1pos, V3849, V3850, V3851)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1pos, V3849, V3850, V3851)
 					return
 				}, 1)
-				__ctx.Return(reg36199)
+				__e.Return(reg36199)
 				return
 			}, 1)
-			__ctx.Return(reg36198)
+			__e.Return(reg36198)
 			return
 		}, 1)
 		reg36201 := PrimCons(reg36196, reg36197)
-		reg36202 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36201)
+		reg36202 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36201)
 		_ = reg36202
 		reg36203 := MakeSymbol("shen.type-signature-of-pr")
-		reg36204 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36204 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3839 := __args[0]
 			_ = V3839
-			reg36205 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36205 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3840 := __args[0]
 				_ = V3840
-				reg36206 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36206 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3841 := __args[0]
 					_ = V3841
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1pr, V3839, V3840, V3841)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1pr, V3839, V3840, V3841)
 					return
 				}, 1)
-				__ctx.Return(reg36206)
+				__e.Return(reg36206)
 				return
 			}, 1)
-			__ctx.Return(reg36205)
+			__e.Return(reg36205)
 			return
 		}, 1)
 		reg36208 := PrimCons(reg36203, reg36204)
-		reg36209 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36208)
+		reg36209 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36208)
 		_ = reg36209
 		reg36210 := MakeSymbol("shen.type-signature-of-print")
-		reg36211 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36211 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3829 := __args[0]
 			_ = V3829
-			reg36212 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36212 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3830 := __args[0]
 				_ = V3830
-				reg36213 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36213 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3831 := __args[0]
 					_ = V3831
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1print, V3829, V3830, V3831)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1print, V3829, V3830, V3831)
 					return
 				}, 1)
-				__ctx.Return(reg36213)
+				__e.Return(reg36213)
 				return
 			}, 1)
-			__ctx.Return(reg36212)
+			__e.Return(reg36212)
 			return
 		}, 1)
 		reg36215 := PrimCons(reg36210, reg36211)
-		reg36216 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36215)
+		reg36216 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36215)
 		_ = reg36216
 		reg36217 := MakeSymbol("shen.type-signature-of-profile")
-		reg36218 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36218 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3819 := __args[0]
 			_ = V3819
-			reg36219 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36219 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3820 := __args[0]
 				_ = V3820
-				reg36220 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36220 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3821 := __args[0]
 					_ = V3821
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1profile, V3819, V3820, V3821)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1profile, V3819, V3820, V3821)
 					return
 				}, 1)
-				__ctx.Return(reg36220)
+				__e.Return(reg36220)
 				return
 			}, 1)
-			__ctx.Return(reg36219)
+			__e.Return(reg36219)
 			return
 		}, 1)
 		reg36222 := PrimCons(reg36217, reg36218)
-		reg36223 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36222)
+		reg36223 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36222)
 		_ = reg36223
 		reg36224 := MakeSymbol("shen.type-signature-of-preclude")
-		reg36225 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36225 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3809 := __args[0]
 			_ = V3809
-			reg36226 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36226 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3810 := __args[0]
 				_ = V3810
-				reg36227 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36227 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3811 := __args[0]
 					_ = V3811
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1preclude, V3809, V3810, V3811)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1preclude, V3809, V3810, V3811)
 					return
 				}, 1)
-				__ctx.Return(reg36227)
+				__e.Return(reg36227)
 				return
 			}, 1)
-			__ctx.Return(reg36226)
+			__e.Return(reg36226)
 			return
 		}, 1)
 		reg36229 := PrimCons(reg36224, reg36225)
-		reg36230 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36229)
+		reg36230 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36229)
 		_ = reg36230
 		reg36231 := MakeSymbol("shen.type-signature-of-shen.proc-nl")
-		reg36232 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36232 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3799 := __args[0]
 			_ = V3799
-			reg36233 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36233 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3800 := __args[0]
 				_ = V3800
-				reg36234 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36234 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3801 := __args[0]
 					_ = V3801
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1shen_4proc_1nl, V3799, V3800, V3801)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1shen_4proc_1nl, V3799, V3800, V3801)
 					return
 				}, 1)
-				__ctx.Return(reg36234)
+				__e.Return(reg36234)
 				return
 			}, 1)
-			__ctx.Return(reg36233)
+			__e.Return(reg36233)
 			return
 		}, 1)
 		reg36236 := PrimCons(reg36231, reg36232)
-		reg36237 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36236)
+		reg36237 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36236)
 		_ = reg36237
 		reg36238 := MakeSymbol("shen.type-signature-of-profile-results")
-		reg36239 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36239 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3789 := __args[0]
 			_ = V3789
-			reg36240 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36240 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3790 := __args[0]
 				_ = V3790
-				reg36241 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36241 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3791 := __args[0]
 					_ = V3791
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1profile_1results, V3789, V3790, V3791)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1profile_1results, V3789, V3790, V3791)
 					return
 				}, 1)
-				__ctx.Return(reg36241)
+				__e.Return(reg36241)
 				return
 			}, 1)
-			__ctx.Return(reg36240)
+			__e.Return(reg36240)
 			return
 		}, 1)
 		reg36243 := PrimCons(reg36238, reg36239)
-		reg36244 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36243)
+		reg36244 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36243)
 		_ = reg36244
 		reg36245 := MakeSymbol("shen.type-signature-of-protect")
-		reg36246 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36246 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3779 := __args[0]
 			_ = V3779
-			reg36247 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36247 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3780 := __args[0]
 				_ = V3780
-				reg36248 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36248 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3781 := __args[0]
 					_ = V3781
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1protect, V3779, V3780, V3781)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1protect, V3779, V3780, V3781)
 					return
 				}, 1)
-				__ctx.Return(reg36248)
+				__e.Return(reg36248)
 				return
 			}, 1)
-			__ctx.Return(reg36247)
+			__e.Return(reg36247)
 			return
 		}, 1)
 		reg36250 := PrimCons(reg36245, reg36246)
-		reg36251 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36250)
+		reg36251 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36250)
 		_ = reg36251
 		reg36252 := MakeSymbol("shen.type-signature-of-preclude-all-but")
-		reg36253 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36253 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3769 := __args[0]
 			_ = V3769
-			reg36254 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36254 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3770 := __args[0]
 				_ = V3770
-				reg36255 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36255 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3771 := __args[0]
 					_ = V3771
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1preclude_1all_1but, V3769, V3770, V3771)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1preclude_1all_1but, V3769, V3770, V3771)
 					return
 				}, 1)
-				__ctx.Return(reg36255)
+				__e.Return(reg36255)
 				return
 			}, 1)
-			__ctx.Return(reg36254)
+			__e.Return(reg36254)
 			return
 		}, 1)
 		reg36257 := PrimCons(reg36252, reg36253)
-		reg36258 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36257)
+		reg36258 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36257)
 		_ = reg36258
 		reg36259 := MakeSymbol("shen.type-signature-of-shen.prhush")
-		reg36260 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36260 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3759 := __args[0]
 			_ = V3759
-			reg36261 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36261 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3760 := __args[0]
 				_ = V3760
-				reg36262 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36262 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3761 := __args[0]
 					_ = V3761
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1shen_4prhush, V3759, V3760, V3761)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1shen_4prhush, V3759, V3760, V3761)
 					return
 				}, 1)
-				__ctx.Return(reg36262)
+				__e.Return(reg36262)
 				return
 			}, 1)
-			__ctx.Return(reg36261)
+			__e.Return(reg36261)
 			return
 		}, 1)
 		reg36264 := PrimCons(reg36259, reg36260)
-		reg36265 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36264)
+		reg36265 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36264)
 		_ = reg36265
 		reg36266 := MakeSymbol("shen.type-signature-of-ps")
-		reg36267 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36267 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3749 := __args[0]
 			_ = V3749
-			reg36268 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36268 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3750 := __args[0]
 				_ = V3750
-				reg36269 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36269 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3751 := __args[0]
 					_ = V3751
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1ps, V3749, V3750, V3751)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1ps, V3749, V3750, V3751)
 					return
 				}, 1)
-				__ctx.Return(reg36269)
+				__e.Return(reg36269)
 				return
 			}, 1)
-			__ctx.Return(reg36268)
+			__e.Return(reg36268)
 			return
 		}, 1)
 		reg36271 := PrimCons(reg36266, reg36267)
-		reg36272 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36271)
+		reg36272 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36271)
 		_ = reg36272
 		reg36273 := MakeSymbol("shen.type-signature-of-read")
-		reg36274 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36274 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3739 := __args[0]
 			_ = V3739
-			reg36275 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36275 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3740 := __args[0]
 				_ = V3740
-				reg36276 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36276 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3741 := __args[0]
 					_ = V3741
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1read, V3739, V3740, V3741)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1read, V3739, V3740, V3741)
 					return
 				}, 1)
-				__ctx.Return(reg36276)
+				__e.Return(reg36276)
 				return
 			}, 1)
-			__ctx.Return(reg36275)
+			__e.Return(reg36275)
 			return
 		}, 1)
 		reg36278 := PrimCons(reg36273, reg36274)
-		reg36279 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36278)
+		reg36279 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36278)
 		_ = reg36279
 		reg36280 := MakeSymbol("shen.type-signature-of-read-byte")
-		reg36281 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36281 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3729 := __args[0]
 			_ = V3729
-			reg36282 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36282 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3730 := __args[0]
 				_ = V3730
-				reg36283 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36283 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3731 := __args[0]
 					_ = V3731
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1read_1byte, V3729, V3730, V3731)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1read_1byte, V3729, V3730, V3731)
 					return
 				}, 1)
-				__ctx.Return(reg36283)
+				__e.Return(reg36283)
 				return
 			}, 1)
-			__ctx.Return(reg36282)
+			__e.Return(reg36282)
 			return
 		}, 1)
 		reg36285 := PrimCons(reg36280, reg36281)
-		reg36286 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36285)
+		reg36286 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36285)
 		_ = reg36286
 		reg36287 := MakeSymbol("shen.type-signature-of-read-file-as-bytelist")
-		reg36288 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36288 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3719 := __args[0]
 			_ = V3719
-			reg36289 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36289 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3720 := __args[0]
 				_ = V3720
-				reg36290 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36290 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3721 := __args[0]
 					_ = V3721
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1read_1file_1as_1bytelist, V3719, V3720, V3721)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1read_1file_1as_1bytelist, V3719, V3720, V3721)
 					return
 				}, 1)
-				__ctx.Return(reg36290)
+				__e.Return(reg36290)
 				return
 			}, 1)
-			__ctx.Return(reg36289)
+			__e.Return(reg36289)
 			return
 		}, 1)
 		reg36292 := PrimCons(reg36287, reg36288)
-		reg36293 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36292)
+		reg36293 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36292)
 		_ = reg36293
 		reg36294 := MakeSymbol("shen.type-signature-of-read-file-as-string")
-		reg36295 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36295 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3709 := __args[0]
 			_ = V3709
-			reg36296 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36296 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3710 := __args[0]
 				_ = V3710
-				reg36297 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36297 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3711 := __args[0]
 					_ = V3711
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1read_1file_1as_1string, V3709, V3710, V3711)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1read_1file_1as_1string, V3709, V3710, V3711)
 					return
 				}, 1)
-				__ctx.Return(reg36297)
+				__e.Return(reg36297)
 				return
 			}, 1)
-			__ctx.Return(reg36296)
+			__e.Return(reg36296)
 			return
 		}, 1)
 		reg36299 := PrimCons(reg36294, reg36295)
-		reg36300 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36299)
+		reg36300 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36299)
 		_ = reg36300
 		reg36301 := MakeSymbol("shen.type-signature-of-read-file")
-		reg36302 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36302 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3699 := __args[0]
 			_ = V3699
-			reg36303 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36303 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3700 := __args[0]
 				_ = V3700
-				reg36304 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36304 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3701 := __args[0]
 					_ = V3701
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1read_1file, V3699, V3700, V3701)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1read_1file, V3699, V3700, V3701)
 					return
 				}, 1)
-				__ctx.Return(reg36304)
+				__e.Return(reg36304)
 				return
 			}, 1)
-			__ctx.Return(reg36303)
+			__e.Return(reg36303)
 			return
 		}, 1)
 		reg36306 := PrimCons(reg36301, reg36302)
-		reg36307 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36306)
+		reg36307 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36306)
 		_ = reg36307
 		reg36308 := MakeSymbol("shen.type-signature-of-read-from-string")
-		reg36309 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36309 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3689 := __args[0]
 			_ = V3689
-			reg36310 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36310 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3690 := __args[0]
 				_ = V3690
-				reg36311 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36311 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3691 := __args[0]
 					_ = V3691
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1read_1from_1string, V3689, V3690, V3691)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1read_1from_1string, V3689, V3690, V3691)
 					return
 				}, 1)
-				__ctx.Return(reg36311)
+				__e.Return(reg36311)
 				return
 			}, 1)
-			__ctx.Return(reg36310)
+			__e.Return(reg36310)
 			return
 		}, 1)
 		reg36313 := PrimCons(reg36308, reg36309)
-		reg36314 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36313)
+		reg36314 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36313)
 		_ = reg36314
 		reg36315 := MakeSymbol("shen.type-signature-of-release")
-		reg36316 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36316 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3679 := __args[0]
 			_ = V3679
-			reg36317 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36317 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3680 := __args[0]
 				_ = V3680
-				reg36318 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36318 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3681 := __args[0]
 					_ = V3681
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1release, V3679, V3680, V3681)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1release, V3679, V3680, V3681)
 					return
 				}, 1)
-				__ctx.Return(reg36318)
+				__e.Return(reg36318)
 				return
 			}, 1)
-			__ctx.Return(reg36317)
+			__e.Return(reg36317)
 			return
 		}, 1)
 		reg36320 := PrimCons(reg36315, reg36316)
-		reg36321 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36320)
+		reg36321 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36320)
 		_ = reg36321
 		reg36322 := MakeSymbol("shen.type-signature-of-remove")
-		reg36323 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36323 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3669 := __args[0]
 			_ = V3669
-			reg36324 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36324 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3670 := __args[0]
 				_ = V3670
-				reg36325 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36325 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3671 := __args[0]
 					_ = V3671
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1remove, V3669, V3670, V3671)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1remove, V3669, V3670, V3671)
 					return
 				}, 1)
-				__ctx.Return(reg36325)
+				__e.Return(reg36325)
 				return
 			}, 1)
-			__ctx.Return(reg36324)
+			__e.Return(reg36324)
 			return
 		}, 1)
 		reg36327 := PrimCons(reg36322, reg36323)
-		reg36328 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36327)
+		reg36328 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36327)
 		_ = reg36328
 		reg36329 := MakeSymbol("shen.type-signature-of-reverse")
-		reg36330 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36330 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3659 := __args[0]
 			_ = V3659
-			reg36331 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36331 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3660 := __args[0]
 				_ = V3660
-				reg36332 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36332 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3661 := __args[0]
 					_ = V3661
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1reverse, V3659, V3660, V3661)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1reverse, V3659, V3660, V3661)
 					return
 				}, 1)
-				__ctx.Return(reg36332)
+				__e.Return(reg36332)
 				return
 			}, 1)
-			__ctx.Return(reg36331)
+			__e.Return(reg36331)
 			return
 		}, 1)
 		reg36334 := PrimCons(reg36329, reg36330)
-		reg36335 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36334)
+		reg36335 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36334)
 		_ = reg36335
 		reg36336 := MakeSymbol("shen.type-signature-of-simple-error")
-		reg36337 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36337 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3649 := __args[0]
 			_ = V3649
-			reg36338 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36338 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3650 := __args[0]
 				_ = V3650
-				reg36339 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36339 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3651 := __args[0]
 					_ = V3651
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1simple_1error, V3649, V3650, V3651)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1simple_1error, V3649, V3650, V3651)
 					return
 				}, 1)
-				__ctx.Return(reg36339)
+				__e.Return(reg36339)
 				return
 			}, 1)
-			__ctx.Return(reg36338)
+			__e.Return(reg36338)
 			return
 		}, 1)
 		reg36341 := PrimCons(reg36336, reg36337)
-		reg36342 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36341)
+		reg36342 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36341)
 		_ = reg36342
 		reg36343 := MakeSymbol("shen.type-signature-of-snd")
-		reg36344 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36344 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3639 := __args[0]
 			_ = V3639
-			reg36345 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36345 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3640 := __args[0]
 				_ = V3640
-				reg36346 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36346 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3641 := __args[0]
 					_ = V3641
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1snd, V3639, V3640, V3641)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1snd, V3639, V3640, V3641)
 					return
 				}, 1)
-				__ctx.Return(reg36346)
+				__e.Return(reg36346)
 				return
 			}, 1)
-			__ctx.Return(reg36345)
+			__e.Return(reg36345)
 			return
 		}, 1)
 		reg36348 := PrimCons(reg36343, reg36344)
-		reg36349 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36348)
+		reg36349 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36348)
 		_ = reg36349
 		reg36350 := MakeSymbol("shen.type-signature-of-specialise")
-		reg36351 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36351 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3629 := __args[0]
 			_ = V3629
-			reg36352 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36352 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3630 := __args[0]
 				_ = V3630
-				reg36353 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36353 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3631 := __args[0]
 					_ = V3631
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1specialise, V3629, V3630, V3631)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1specialise, V3629, V3630, V3631)
 					return
 				}, 1)
-				__ctx.Return(reg36353)
+				__e.Return(reg36353)
 				return
 			}, 1)
-			__ctx.Return(reg36352)
+			__e.Return(reg36352)
 			return
 		}, 1)
 		reg36355 := PrimCons(reg36350, reg36351)
-		reg36356 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36355)
+		reg36356 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36355)
 		_ = reg36356
 		reg36357 := MakeSymbol("shen.type-signature-of-spy")
-		reg36358 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36358 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3619 := __args[0]
 			_ = V3619
-			reg36359 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36359 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3620 := __args[0]
 				_ = V3620
-				reg36360 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36360 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3621 := __args[0]
 					_ = V3621
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1spy, V3619, V3620, V3621)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1spy, V3619, V3620, V3621)
 					return
 				}, 1)
-				__ctx.Return(reg36360)
+				__e.Return(reg36360)
 				return
 			}, 1)
-			__ctx.Return(reg36359)
+			__e.Return(reg36359)
 			return
 		}, 1)
 		reg36362 := PrimCons(reg36357, reg36358)
-		reg36363 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36362)
+		reg36363 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36362)
 		_ = reg36363
 		reg36364 := MakeSymbol("shen.type-signature-of-step")
-		reg36365 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36365 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3609 := __args[0]
 			_ = V3609
-			reg36366 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36366 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3610 := __args[0]
 				_ = V3610
-				reg36367 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36367 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3611 := __args[0]
 					_ = V3611
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1step, V3609, V3610, V3611)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1step, V3609, V3610, V3611)
 					return
 				}, 1)
-				__ctx.Return(reg36367)
+				__e.Return(reg36367)
 				return
 			}, 1)
-			__ctx.Return(reg36366)
+			__e.Return(reg36366)
 			return
 		}, 1)
 		reg36369 := PrimCons(reg36364, reg36365)
-		reg36370 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36369)
+		reg36370 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36369)
 		_ = reg36370
 		reg36371 := MakeSymbol("shen.type-signature-of-stinput")
-		reg36372 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36372 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3599 := __args[0]
 			_ = V3599
-			reg36373 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36373 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3600 := __args[0]
 				_ = V3600
-				reg36374 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36374 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3601 := __args[0]
 					_ = V3601
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1stinput, V3599, V3600, V3601)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1stinput, V3599, V3600, V3601)
 					return
 				}, 1)
-				__ctx.Return(reg36374)
+				__e.Return(reg36374)
 				return
 			}, 1)
-			__ctx.Return(reg36373)
+			__e.Return(reg36373)
 			return
 		}, 1)
 		reg36376 := PrimCons(reg36371, reg36372)
-		reg36377 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36376)
+		reg36377 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36376)
 		_ = reg36377
 		reg36378 := MakeSymbol("shen.type-signature-of-sterror")
-		reg36379 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36379 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3589 := __args[0]
 			_ = V3589
-			reg36380 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36380 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3590 := __args[0]
 				_ = V3590
-				reg36381 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36381 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3591 := __args[0]
 					_ = V3591
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1sterror, V3589, V3590, V3591)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1sterror, V3589, V3590, V3591)
 					return
 				}, 1)
-				__ctx.Return(reg36381)
+				__e.Return(reg36381)
 				return
 			}, 1)
-			__ctx.Return(reg36380)
+			__e.Return(reg36380)
 			return
 		}, 1)
 		reg36383 := PrimCons(reg36378, reg36379)
-		reg36384 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36383)
+		reg36384 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36383)
 		_ = reg36384
 		reg36385 := MakeSymbol("shen.type-signature-of-stoutput")
-		reg36386 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36386 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3579 := __args[0]
 			_ = V3579
-			reg36387 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36387 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3580 := __args[0]
 				_ = V3580
-				reg36388 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36388 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3581 := __args[0]
 					_ = V3581
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1stoutput, V3579, V3580, V3581)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1stoutput, V3579, V3580, V3581)
 					return
 				}, 1)
-				__ctx.Return(reg36388)
+				__e.Return(reg36388)
 				return
 			}, 1)
-			__ctx.Return(reg36387)
+			__e.Return(reg36387)
 			return
 		}, 1)
 		reg36390 := PrimCons(reg36385, reg36386)
-		reg36391 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36390)
+		reg36391 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36390)
 		_ = reg36391
 		reg36392 := MakeSymbol("shen.type-signature-of-string?")
-		reg36393 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36393 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3569 := __args[0]
 			_ = V3569
-			reg36394 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36394 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3570 := __args[0]
 				_ = V3570
-				reg36395 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36395 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3571 := __args[0]
 					_ = V3571
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1string_2, V3569, V3570, V3571)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1string_2, V3569, V3570, V3571)
 					return
 				}, 1)
-				__ctx.Return(reg36395)
+				__e.Return(reg36395)
 				return
 			}, 1)
-			__ctx.Return(reg36394)
+			__e.Return(reg36394)
 			return
 		}, 1)
 		reg36397 := PrimCons(reg36392, reg36393)
-		reg36398 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36397)
+		reg36398 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36397)
 		_ = reg36398
 		reg36399 := MakeSymbol("shen.type-signature-of-str")
-		reg36400 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36400 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3559 := __args[0]
 			_ = V3559
-			reg36401 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36401 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3560 := __args[0]
 				_ = V3560
-				reg36402 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36402 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3561 := __args[0]
 					_ = V3561
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1str, V3559, V3560, V3561)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1str, V3559, V3560, V3561)
 					return
 				}, 1)
-				__ctx.Return(reg36402)
+				__e.Return(reg36402)
 				return
 			}, 1)
-			__ctx.Return(reg36401)
+			__e.Return(reg36401)
 			return
 		}, 1)
 		reg36404 := PrimCons(reg36399, reg36400)
-		reg36405 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36404)
+		reg36405 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36404)
 		_ = reg36405
 		reg36406 := MakeSymbol("shen.type-signature-of-string->n")
-		reg36407 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36407 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3549 := __args[0]
 			_ = V3549
-			reg36408 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36408 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3550 := __args[0]
 				_ = V3550
-				reg36409 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36409 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3551 := __args[0]
 					_ = V3551
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1string_1_6n, V3549, V3550, V3551)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1string_1_6n, V3549, V3550, V3551)
 					return
 				}, 1)
-				__ctx.Return(reg36409)
+				__e.Return(reg36409)
 				return
 			}, 1)
-			__ctx.Return(reg36408)
+			__e.Return(reg36408)
 			return
 		}, 1)
 		reg36411 := PrimCons(reg36406, reg36407)
-		reg36412 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36411)
+		reg36412 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36411)
 		_ = reg36412
 		reg36413 := MakeSymbol("shen.type-signature-of-string->symbol")
-		reg36414 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36414 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3539 := __args[0]
 			_ = V3539
-			reg36415 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36415 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3540 := __args[0]
 				_ = V3540
-				reg36416 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36416 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3541 := __args[0]
 					_ = V3541
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1string_1_6symbol, V3539, V3540, V3541)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1string_1_6symbol, V3539, V3540, V3541)
 					return
 				}, 1)
-				__ctx.Return(reg36416)
+				__e.Return(reg36416)
 				return
 			}, 1)
-			__ctx.Return(reg36415)
+			__e.Return(reg36415)
 			return
 		}, 1)
 		reg36418 := PrimCons(reg36413, reg36414)
-		reg36419 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36418)
+		reg36419 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36418)
 		_ = reg36419
 		reg36420 := MakeSymbol("shen.type-signature-of-sum")
-		reg36421 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36421 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3529 := __args[0]
 			_ = V3529
-			reg36422 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36422 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3530 := __args[0]
 				_ = V3530
-				reg36423 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36423 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3531 := __args[0]
 					_ = V3531
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1sum, V3529, V3530, V3531)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1sum, V3529, V3530, V3531)
 					return
 				}, 1)
-				__ctx.Return(reg36423)
+				__e.Return(reg36423)
 				return
 			}, 1)
-			__ctx.Return(reg36422)
+			__e.Return(reg36422)
 			return
 		}, 1)
 		reg36425 := PrimCons(reg36420, reg36421)
-		reg36426 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36425)
+		reg36426 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36425)
 		_ = reg36426
 		reg36427 := MakeSymbol("shen.type-signature-of-symbol?")
-		reg36428 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36428 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3519 := __args[0]
 			_ = V3519
-			reg36429 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36429 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3520 := __args[0]
 				_ = V3520
-				reg36430 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36430 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3521 := __args[0]
 					_ = V3521
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1symbol_2, V3519, V3520, V3521)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1symbol_2, V3519, V3520, V3521)
 					return
 				}, 1)
-				__ctx.Return(reg36430)
+				__e.Return(reg36430)
 				return
 			}, 1)
-			__ctx.Return(reg36429)
+			__e.Return(reg36429)
 			return
 		}, 1)
 		reg36432 := PrimCons(reg36427, reg36428)
-		reg36433 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36432)
+		reg36433 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36432)
 		_ = reg36433
 		reg36434 := MakeSymbol("shen.type-signature-of-systemf")
-		reg36435 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36435 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3509 := __args[0]
 			_ = V3509
-			reg36436 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36436 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3510 := __args[0]
 				_ = V3510
-				reg36437 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36437 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3511 := __args[0]
 					_ = V3511
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1systemf, V3509, V3510, V3511)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1systemf, V3509, V3510, V3511)
 					return
 				}, 1)
-				__ctx.Return(reg36437)
+				__e.Return(reg36437)
 				return
 			}, 1)
-			__ctx.Return(reg36436)
+			__e.Return(reg36436)
 			return
 		}, 1)
 		reg36439 := PrimCons(reg36434, reg36435)
-		reg36440 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36439)
+		reg36440 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36439)
 		_ = reg36440
 		reg36441 := MakeSymbol("shen.type-signature-of-tail")
-		reg36442 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36442 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3499 := __args[0]
 			_ = V3499
-			reg36443 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36443 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3500 := __args[0]
 				_ = V3500
-				reg36444 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36444 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3501 := __args[0]
 					_ = V3501
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1tail, V3499, V3500, V3501)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1tail, V3499, V3500, V3501)
 					return
 				}, 1)
-				__ctx.Return(reg36444)
+				__e.Return(reg36444)
 				return
 			}, 1)
-			__ctx.Return(reg36443)
+			__e.Return(reg36443)
 			return
 		}, 1)
 		reg36446 := PrimCons(reg36441, reg36442)
-		reg36447 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36446)
+		reg36447 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36446)
 		_ = reg36447
 		reg36448 := MakeSymbol("shen.type-signature-of-tlstr")
-		reg36449 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36449 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3489 := __args[0]
 			_ = V3489
-			reg36450 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36450 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3490 := __args[0]
 				_ = V3490
-				reg36451 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36451 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3491 := __args[0]
 					_ = V3491
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1tlstr, V3489, V3490, V3491)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1tlstr, V3489, V3490, V3491)
 					return
 				}, 1)
-				__ctx.Return(reg36451)
+				__e.Return(reg36451)
 				return
 			}, 1)
-			__ctx.Return(reg36450)
+			__e.Return(reg36450)
 			return
 		}, 1)
 		reg36453 := PrimCons(reg36448, reg36449)
-		reg36454 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36453)
+		reg36454 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36453)
 		_ = reg36454
 		reg36455 := MakeSymbol("shen.type-signature-of-tlv")
-		reg36456 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36456 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3479 := __args[0]
 			_ = V3479
-			reg36457 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36457 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3480 := __args[0]
 				_ = V3480
-				reg36458 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36458 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3481 := __args[0]
 					_ = V3481
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1tlv, V3479, V3480, V3481)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1tlv, V3479, V3480, V3481)
 					return
 				}, 1)
-				__ctx.Return(reg36458)
+				__e.Return(reg36458)
 				return
 			}, 1)
-			__ctx.Return(reg36457)
+			__e.Return(reg36457)
 			return
 		}, 1)
 		reg36460 := PrimCons(reg36455, reg36456)
-		reg36461 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36460)
+		reg36461 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36460)
 		_ = reg36461
 		reg36462 := MakeSymbol("shen.type-signature-of-tc")
-		reg36463 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36463 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3469 := __args[0]
 			_ = V3469
-			reg36464 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36464 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3470 := __args[0]
 				_ = V3470
-				reg36465 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36465 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3471 := __args[0]
 					_ = V3471
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1tc, V3469, V3470, V3471)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1tc, V3469, V3470, V3471)
 					return
 				}, 1)
-				__ctx.Return(reg36465)
+				__e.Return(reg36465)
 				return
 			}, 1)
-			__ctx.Return(reg36464)
+			__e.Return(reg36464)
 			return
 		}, 1)
 		reg36467 := PrimCons(reg36462, reg36463)
-		reg36468 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36467)
+		reg36468 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36467)
 		_ = reg36468
 		reg36469 := MakeSymbol("shen.type-signature-of-tc?")
-		reg36470 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36470 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3459 := __args[0]
 			_ = V3459
-			reg36471 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36471 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3460 := __args[0]
 				_ = V3460
-				reg36472 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36472 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3461 := __args[0]
 					_ = V3461
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1tc_2, V3459, V3460, V3461)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1tc_2, V3459, V3460, V3461)
 					return
 				}, 1)
-				__ctx.Return(reg36472)
+				__e.Return(reg36472)
 				return
 			}, 1)
-			__ctx.Return(reg36471)
+			__e.Return(reg36471)
 			return
 		}, 1)
 		reg36474 := PrimCons(reg36469, reg36470)
-		reg36475 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36474)
+		reg36475 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36474)
 		_ = reg36475
 		reg36476 := MakeSymbol("shen.type-signature-of-thaw")
-		reg36477 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36477 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3449 := __args[0]
 			_ = V3449
-			reg36478 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36478 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3450 := __args[0]
 				_ = V3450
-				reg36479 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36479 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3451 := __args[0]
 					_ = V3451
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1thaw, V3449, V3450, V3451)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1thaw, V3449, V3450, V3451)
 					return
 				}, 1)
-				__ctx.Return(reg36479)
+				__e.Return(reg36479)
 				return
 			}, 1)
-			__ctx.Return(reg36478)
+			__e.Return(reg36478)
 			return
 		}, 1)
 		reg36481 := PrimCons(reg36476, reg36477)
-		reg36482 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36481)
+		reg36482 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36481)
 		_ = reg36482
 		reg36483 := MakeSymbol("shen.type-signature-of-track")
-		reg36484 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36484 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3439 := __args[0]
 			_ = V3439
-			reg36485 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36485 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3440 := __args[0]
 				_ = V3440
-				reg36486 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36486 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3441 := __args[0]
 					_ = V3441
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1track, V3439, V3440, V3441)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1track, V3439, V3440, V3441)
 					return
 				}, 1)
-				__ctx.Return(reg36486)
+				__e.Return(reg36486)
 				return
 			}, 1)
-			__ctx.Return(reg36485)
+			__e.Return(reg36485)
 			return
 		}, 1)
 		reg36488 := PrimCons(reg36483, reg36484)
-		reg36489 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36488)
+		reg36489 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36488)
 		_ = reg36489
 		reg36490 := MakeSymbol("shen.type-signature-of-trap-error")
-		reg36491 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36491 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3429 := __args[0]
 			_ = V3429
-			reg36492 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36492 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3430 := __args[0]
 				_ = V3430
-				reg36493 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36493 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3431 := __args[0]
 					_ = V3431
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1trap_1error, V3429, V3430, V3431)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1trap_1error, V3429, V3430, V3431)
 					return
 				}, 1)
-				__ctx.Return(reg36493)
+				__e.Return(reg36493)
 				return
 			}, 1)
-			__ctx.Return(reg36492)
+			__e.Return(reg36492)
 			return
 		}, 1)
 		reg36495 := PrimCons(reg36490, reg36491)
-		reg36496 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36495)
+		reg36496 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36495)
 		_ = reg36496
 		reg36497 := MakeSymbol("shen.type-signature-of-tuple?")
-		reg36498 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36498 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3419 := __args[0]
 			_ = V3419
-			reg36499 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36499 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3420 := __args[0]
 				_ = V3420
-				reg36500 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36500 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3421 := __args[0]
 					_ = V3421
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1tuple_2, V3419, V3420, V3421)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1tuple_2, V3419, V3420, V3421)
 					return
 				}, 1)
-				__ctx.Return(reg36500)
+				__e.Return(reg36500)
 				return
 			}, 1)
-			__ctx.Return(reg36499)
+			__e.Return(reg36499)
 			return
 		}, 1)
 		reg36502 := PrimCons(reg36497, reg36498)
-		reg36503 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36502)
+		reg36503 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36502)
 		_ = reg36503
 		reg36504 := MakeSymbol("shen.type-signature-of-undefmacro")
-		reg36505 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36505 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3409 := __args[0]
 			_ = V3409
-			reg36506 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36506 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3410 := __args[0]
 				_ = V3410
-				reg36507 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36507 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3411 := __args[0]
 					_ = V3411
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1undefmacro, V3409, V3410, V3411)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1undefmacro, V3409, V3410, V3411)
 					return
 				}, 1)
-				__ctx.Return(reg36507)
+				__e.Return(reg36507)
 				return
 			}, 1)
-			__ctx.Return(reg36506)
+			__e.Return(reg36506)
 			return
 		}, 1)
 		reg36509 := PrimCons(reg36504, reg36505)
-		reg36510 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36509)
+		reg36510 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36509)
 		_ = reg36510
 		reg36511 := MakeSymbol("shen.type-signature-of-union")
-		reg36512 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36512 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3399 := __args[0]
 			_ = V3399
-			reg36513 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36513 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3400 := __args[0]
 				_ = V3400
-				reg36514 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36514 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3401 := __args[0]
 					_ = V3401
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1union, V3399, V3400, V3401)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1union, V3399, V3400, V3401)
 					return
 				}, 1)
-				__ctx.Return(reg36514)
+				__e.Return(reg36514)
 				return
 			}, 1)
-			__ctx.Return(reg36513)
+			__e.Return(reg36513)
 			return
 		}, 1)
 		reg36516 := PrimCons(reg36511, reg36512)
-		reg36517 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36516)
+		reg36517 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36516)
 		_ = reg36517
 		reg36518 := MakeSymbol("shen.type-signature-of-unprofile")
-		reg36519 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36519 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3389 := __args[0]
 			_ = V3389
-			reg36520 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36520 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3390 := __args[0]
 				_ = V3390
-				reg36521 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36521 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3391 := __args[0]
 					_ = V3391
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1unprofile, V3389, V3390, V3391)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1unprofile, V3389, V3390, V3391)
 					return
 				}, 1)
-				__ctx.Return(reg36521)
+				__e.Return(reg36521)
 				return
 			}, 1)
-			__ctx.Return(reg36520)
+			__e.Return(reg36520)
 			return
 		}, 1)
 		reg36523 := PrimCons(reg36518, reg36519)
-		reg36524 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36523)
+		reg36524 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36523)
 		_ = reg36524
 		reg36525 := MakeSymbol("shen.type-signature-of-untrack")
-		reg36526 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36526 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3379 := __args[0]
 			_ = V3379
-			reg36527 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36527 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3380 := __args[0]
 				_ = V3380
-				reg36528 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36528 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3381 := __args[0]
 					_ = V3381
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1untrack, V3379, V3380, V3381)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1untrack, V3379, V3380, V3381)
 					return
 				}, 1)
-				__ctx.Return(reg36528)
+				__e.Return(reg36528)
 				return
 			}, 1)
-			__ctx.Return(reg36527)
+			__e.Return(reg36527)
 			return
 		}, 1)
 		reg36530 := PrimCons(reg36525, reg36526)
-		reg36531 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36530)
+		reg36531 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36530)
 		_ = reg36531
 		reg36532 := MakeSymbol("shen.type-signature-of-unspecialise")
-		reg36533 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36533 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3369 := __args[0]
 			_ = V3369
-			reg36534 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36534 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3370 := __args[0]
 				_ = V3370
-				reg36535 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36535 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3371 := __args[0]
 					_ = V3371
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1unspecialise, V3369, V3370, V3371)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1unspecialise, V3369, V3370, V3371)
 					return
 				}, 1)
-				__ctx.Return(reg36535)
+				__e.Return(reg36535)
 				return
 			}, 1)
-			__ctx.Return(reg36534)
+			__e.Return(reg36534)
 			return
 		}, 1)
 		reg36537 := PrimCons(reg36532, reg36533)
-		reg36538 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36537)
+		reg36538 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36537)
 		_ = reg36538
 		reg36539 := MakeSymbol("shen.type-signature-of-variable?")
-		reg36540 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36540 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3359 := __args[0]
 			_ = V3359
-			reg36541 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36541 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3360 := __args[0]
 				_ = V3360
-				reg36542 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36542 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3361 := __args[0]
 					_ = V3361
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1variable_2, V3359, V3360, V3361)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1variable_2, V3359, V3360, V3361)
 					return
 				}, 1)
-				__ctx.Return(reg36542)
+				__e.Return(reg36542)
 				return
 			}, 1)
-			__ctx.Return(reg36541)
+			__e.Return(reg36541)
 			return
 		}, 1)
 		reg36544 := PrimCons(reg36539, reg36540)
-		reg36545 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36544)
+		reg36545 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36544)
 		_ = reg36545
 		reg36546 := MakeSymbol("shen.type-signature-of-vector?")
-		reg36547 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36547 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3349 := __args[0]
 			_ = V3349
-			reg36548 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36548 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3350 := __args[0]
 				_ = V3350
-				reg36549 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36549 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3351 := __args[0]
 					_ = V3351
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1vector_2, V3349, V3350, V3351)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1vector_2, V3349, V3350, V3351)
 					return
 				}, 1)
-				__ctx.Return(reg36549)
+				__e.Return(reg36549)
 				return
 			}, 1)
-			__ctx.Return(reg36548)
+			__e.Return(reg36548)
 			return
 		}, 1)
 		reg36551 := PrimCons(reg36546, reg36547)
-		reg36552 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36551)
+		reg36552 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36551)
 		_ = reg36552
 		reg36553 := MakeSymbol("shen.type-signature-of-version")
-		reg36554 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36554 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3339 := __args[0]
 			_ = V3339
-			reg36555 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36555 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3340 := __args[0]
 				_ = V3340
-				reg36556 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36556 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3341 := __args[0]
 					_ = V3341
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1version, V3339, V3340, V3341)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1version, V3339, V3340, V3341)
 					return
 				}, 1)
-				__ctx.Return(reg36556)
+				__e.Return(reg36556)
 				return
 			}, 1)
-			__ctx.Return(reg36555)
+			__e.Return(reg36555)
 			return
 		}, 1)
 		reg36558 := PrimCons(reg36553, reg36554)
-		reg36559 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36558)
+		reg36559 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36558)
 		_ = reg36559
 		reg36560 := MakeSymbol("shen.type-signature-of-write-to-file")
-		reg36561 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36561 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3329 := __args[0]
 			_ = V3329
-			reg36562 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36562 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3330 := __args[0]
 				_ = V3330
-				reg36563 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36563 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3331 := __args[0]
 					_ = V3331
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1write_1to_1file, V3329, V3330, V3331)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1write_1to_1file, V3329, V3330, V3331)
 					return
 				}, 1)
-				__ctx.Return(reg36563)
+				__e.Return(reg36563)
 				return
 			}, 1)
-			__ctx.Return(reg36562)
+			__e.Return(reg36562)
 			return
 		}, 1)
 		reg36565 := PrimCons(reg36560, reg36561)
-		reg36566 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36565)
+		reg36566 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36565)
 		_ = reg36566
 		reg36567 := MakeSymbol("shen.type-signature-of-write-byte")
-		reg36568 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36568 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3319 := __args[0]
 			_ = V3319
-			reg36569 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36569 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3320 := __args[0]
 				_ = V3320
-				reg36570 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36570 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3321 := __args[0]
 					_ = V3321
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1write_1byte, V3319, V3320, V3321)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1write_1byte, V3319, V3320, V3321)
 					return
 				}, 1)
-				__ctx.Return(reg36570)
+				__e.Return(reg36570)
 				return
 			}, 1)
-			__ctx.Return(reg36569)
+			__e.Return(reg36569)
 			return
 		}, 1)
 		reg36572 := PrimCons(reg36567, reg36568)
-		reg36573 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36572)
+		reg36573 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36572)
 		_ = reg36573
 		reg36574 := MakeSymbol("shen.type-signature-of-y-or-n?")
-		reg36575 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36575 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3309 := __args[0]
 			_ = V3309
-			reg36576 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36576 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3310 := __args[0]
 				_ = V3310
-				reg36577 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36577 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3311 := __args[0]
 					_ = V3311
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1y_1or_1n_2, V3309, V3310, V3311)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1y_1or_1n_2, V3309, V3310, V3311)
 					return
 				}, 1)
-				__ctx.Return(reg36577)
+				__e.Return(reg36577)
 				return
 			}, 1)
-			__ctx.Return(reg36576)
+			__e.Return(reg36576)
 			return
 		}, 1)
 		reg36579 := PrimCons(reg36574, reg36575)
-		reg36580 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36579)
+		reg36580 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36579)
 		_ = reg36580
 		reg36581 := MakeSymbol("shen.type-signature-of->")
-		reg36582 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36582 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3299 := __args[0]
 			_ = V3299
-			reg36583 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36583 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3300 := __args[0]
 				_ = V3300
-				reg36584 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36584 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3301 := __args[0]
 					_ = V3301
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_6, V3299, V3300, V3301)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_6, V3299, V3300, V3301)
 					return
 				}, 1)
-				__ctx.Return(reg36584)
+				__e.Return(reg36584)
 				return
 			}, 1)
-			__ctx.Return(reg36583)
+			__e.Return(reg36583)
 			return
 		}, 1)
 		reg36586 := PrimCons(reg36581, reg36582)
-		reg36587 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36586)
+		reg36587 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36586)
 		_ = reg36587
 		reg36588 := MakeSymbol("shen.type-signature-of-<")
-		reg36589 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36589 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3289 := __args[0]
 			_ = V3289
-			reg36590 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36590 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3290 := __args[0]
 				_ = V3290
-				reg36591 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36591 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3291 := __args[0]
 					_ = V3291
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_5, V3289, V3290, V3291)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_5, V3289, V3290, V3291)
 					return
 				}, 1)
-				__ctx.Return(reg36591)
+				__e.Return(reg36591)
 				return
 			}, 1)
-			__ctx.Return(reg36590)
+			__e.Return(reg36590)
 			return
 		}, 1)
 		reg36593 := PrimCons(reg36588, reg36589)
-		reg36594 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36593)
+		reg36594 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36593)
 		_ = reg36594
 		reg36595 := MakeSymbol("shen.type-signature-of->=")
-		reg36596 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36596 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3279 := __args[0]
 			_ = V3279
-			reg36597 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36597 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3280 := __args[0]
 				_ = V3280
-				reg36598 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36598 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3281 := __args[0]
 					_ = V3281
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_6_a, V3279, V3280, V3281)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_6_a, V3279, V3280, V3281)
 					return
 				}, 1)
-				__ctx.Return(reg36598)
+				__e.Return(reg36598)
 				return
 			}, 1)
-			__ctx.Return(reg36597)
+			__e.Return(reg36597)
 			return
 		}, 1)
 		reg36600 := PrimCons(reg36595, reg36596)
-		reg36601 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36600)
+		reg36601 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36600)
 		_ = reg36601
 		reg36602 := MakeSymbol("shen.type-signature-of-<=")
-		reg36603 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36603 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3269 := __args[0]
 			_ = V3269
-			reg36604 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36604 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3270 := __args[0]
 				_ = V3270
-				reg36605 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36605 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3271 := __args[0]
 					_ = V3271
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_5_a, V3269, V3270, V3271)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_5_a, V3269, V3270, V3271)
 					return
 				}, 1)
-				__ctx.Return(reg36605)
+				__e.Return(reg36605)
 				return
 			}, 1)
-			__ctx.Return(reg36604)
+			__e.Return(reg36604)
 			return
 		}, 1)
 		reg36607 := PrimCons(reg36602, reg36603)
-		reg36608 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36607)
+		reg36608 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36607)
 		_ = reg36608
 		reg36609 := MakeSymbol("shen.type-signature-of-=")
-		reg36610 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36610 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3259 := __args[0]
 			_ = V3259
-			reg36611 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36611 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3260 := __args[0]
 				_ = V3260
-				reg36612 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36612 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3261 := __args[0]
 					_ = V3261
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_a, V3259, V3260, V3261)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_a, V3259, V3260, V3261)
 					return
 				}, 1)
-				__ctx.Return(reg36612)
+				__e.Return(reg36612)
 				return
 			}, 1)
-			__ctx.Return(reg36611)
+			__e.Return(reg36611)
 			return
 		}, 1)
 		reg36614 := PrimCons(reg36609, reg36610)
-		reg36615 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36614)
+		reg36615 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36614)
 		_ = reg36615
 		reg36616 := MakeSymbol("shen.type-signature-of-+")
-		reg36617 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36617 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3249 := __args[0]
 			_ = V3249
-			reg36618 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36618 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3250 := __args[0]
 				_ = V3250
-				reg36619 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36619 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3251 := __args[0]
 					_ = V3251
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_7, V3249, V3250, V3251)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_7, V3249, V3250, V3251)
 					return
 				}, 1)
-				__ctx.Return(reg36619)
+				__e.Return(reg36619)
 				return
 			}, 1)
-			__ctx.Return(reg36618)
+			__e.Return(reg36618)
 			return
 		}, 1)
 		reg36621 := PrimCons(reg36616, reg36617)
-		reg36622 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36621)
+		reg36622 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36621)
 		_ = reg36622
 		reg36623 := MakeSymbol("shen.type-signature-of-/")
-		reg36624 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36624 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3239 := __args[0]
 			_ = V3239
-			reg36625 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36625 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3240 := __args[0]
 				_ = V3240
-				reg36626 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36626 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3241 := __args[0]
 					_ = V3241
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_c, V3239, V3240, V3241)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_c, V3239, V3240, V3241)
 					return
 				}, 1)
-				__ctx.Return(reg36626)
+				__e.Return(reg36626)
 				return
 			}, 1)
-			__ctx.Return(reg36625)
+			__e.Return(reg36625)
 			return
 		}, 1)
 		reg36628 := PrimCons(reg36623, reg36624)
-		reg36629 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36628)
+		reg36629 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36628)
 		_ = reg36629
 		reg36630 := MakeSymbol("shen.type-signature-of--")
-		reg36631 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36631 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3229 := __args[0]
 			_ = V3229
-			reg36632 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36632 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3230 := __args[0]
 				_ = V3230
-				reg36633 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36633 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3231 := __args[0]
 					_ = V3231
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_1, V3229, V3230, V3231)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_1, V3229, V3230, V3231)
 					return
 				}, 1)
-				__ctx.Return(reg36633)
+				__e.Return(reg36633)
 				return
 			}, 1)
-			__ctx.Return(reg36632)
+			__e.Return(reg36632)
 			return
 		}, 1)
 		reg36635 := PrimCons(reg36630, reg36631)
-		reg36636 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36635)
+		reg36636 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36635)
 		_ = reg36636
 		reg36637 := MakeSymbol("shen.type-signature-of-*")
-		reg36638 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36638 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3219 := __args[0]
 			_ = V3219
-			reg36639 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36639 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3220 := __args[0]
 				_ = V3220
-				reg36640 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36640 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3221 := __args[0]
 					_ = V3221
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_d, V3219, V3220, V3221)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_d, V3219, V3220, V3221)
 					return
 				}, 1)
-				__ctx.Return(reg36640)
+				__e.Return(reg36640)
 				return
 			}, 1)
-			__ctx.Return(reg36639)
+			__e.Return(reg36639)
 			return
 		}, 1)
 		reg36642 := PrimCons(reg36637, reg36638)
-		reg36643 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36642)
+		reg36643 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36642)
 		_ = reg36643
 		reg36644 := MakeSymbol("shen.type-signature-of-==")
-		reg36645 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36645 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V3209 := __args[0]
 			_ = V3209
-			reg36646 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36646 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V3210 := __args[0]
 				_ = V3210
-				reg36647 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36647 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V3211 := __args[0]
 					_ = V3211
-					__ctx.TailApply(__defun__shen_4type_1signature_1of_1_a_a, V3209, V3210, V3211)
+					__e.TailApply(__defun__shen_4type_1signature_1of_1_a_a, V3209, V3210, V3211)
 					return
 				}, 1)
-				__ctx.Return(reg36647)
+				__e.Return(reg36647)
 				return
 			}, 1)
-			__ctx.Return(reg36646)
+			__e.Return(reg36646)
 			return
 		}, 1)
 		reg36649 := PrimCons(reg36644, reg36645)
-		__ctx.TailApply(__defun__shen_4set_1lambda_1form_1entry, reg36649)
+		__e.TailApply(__defun__shen_4set_1lambda_1form_1entry, reg36649)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "shen.initialise-signedfunc-lambda-forms", value: __defun__shen_4initialise_1signedfunc_1lambda_1forms})
 
-	__defun__shen_4initialise_1lambda_1forms = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4initialise_1lambda_1forms = MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg36651 := MakeSymbol("shen.datatype-error")
-		reg36652 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36652 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4datatype_1error, X)
+			__e.TailApply(__defun__shen_4datatype_1error, X)
 			return
 		}, 1)
 		reg36654 := PrimCons(reg36651, reg36652)
-		reg36655 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36654)
+		reg36655 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36654)
 		_ = reg36655
 		reg36656 := MakeSymbol("shen.tuple")
-		reg36657 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36657 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4tuple, X)
+			__e.TailApply(__defun__shen_4tuple, X)
 			return
 		}, 1)
 		reg36659 := PrimCons(reg36656, reg36657)
-		reg36660 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36659)
+		reg36660 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36659)
 		_ = reg36660
 		reg36661 := MakeSymbol("shen.pvar")
-		reg36662 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36662 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4pvar, X)
+			__e.TailApply(__defun__shen_4pvar, X)
 			return
 		}, 1)
 		reg36664 := PrimCons(reg36661, reg36662)
-		reg36665 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36664)
+		reg36665 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36664)
 		_ = reg36665
 		reg36666 := MakeSymbol("shen.dictionary")
-		reg36667 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36667 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4dictionary, X)
+			__e.TailApply(__defun__shen_4dictionary, X)
 			return
 		}, 1)
 		reg36669 := PrimCons(reg36666, reg36667)
-		reg36670 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36669)
+		reg36670 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36669)
 		_ = reg36670
 		reg36671 := MakeSymbol("@v")
-		reg36672 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36672 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V668 := __args[0]
 			_ = V668
-			reg36673 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36673 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V669 := __args[0]
 				_ = V669
-				__ctx.TailApply(__defun___8v, V668, V669)
+				__e.TailApply(__defun___8v, V668, V669)
 				return
 			}, 1)
-			__ctx.Return(reg36673)
+			__e.Return(reg36673)
 			return
 		}, 1)
 		reg36675 := PrimCons(reg36671, reg36672)
-		reg36676 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36675)
+		reg36676 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36675)
 		_ = reg36676
 		reg36677 := MakeSymbol("@p")
-		reg36678 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36678 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V666 := __args[0]
 			_ = V666
-			reg36679 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36679 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V667 := __args[0]
 				_ = V667
-				__ctx.TailApply(__defun___8p, V666, V667)
+				__e.TailApply(__defun___8p, V666, V667)
 				return
 			}, 1)
-			__ctx.Return(reg36679)
+			__e.Return(reg36679)
 			return
 		}, 1)
 		reg36681 := PrimCons(reg36677, reg36678)
-		reg36682 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36681)
+		reg36682 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36681)
 		_ = reg36682
 		reg36683 := MakeSymbol("@s")
-		reg36684 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36684 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V664 := __args[0]
 			_ = V664
-			reg36685 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36685 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V665 := __args[0]
 				_ = V665
-				__ctx.TailApply(__defun___8s, V664, V665)
+				__e.TailApply(__defun___8s, V664, V665)
 				return
 			}, 1)
-			__ctx.Return(reg36685)
+			__e.Return(reg36685)
 			return
 		}, 1)
 		reg36687 := PrimCons(reg36683, reg36684)
-		reg36688 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36687)
+		reg36688 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36687)
 		_ = reg36688
 		reg36689 := MakeSymbol("<e>")
-		reg36690 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36690 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V663 := __args[0]
 			_ = V663
-			__ctx.TailApply(__defun___5e_6, V663)
+			__e.TailApply(__defun___5e_6, V663)
 			return
 		}, 1)
 		reg36692 := PrimCons(reg36689, reg36690)
-		reg36693 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36692)
+		reg36693 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36692)
 		_ = reg36693
 		reg36694 := MakeSymbol("<!>")
-		reg36695 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36695 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V662 := __args[0]
 			_ = V662
-			__ctx.TailApply(__defun___5_b_6, V662)
+			__e.TailApply(__defun___5_b_6, V662)
 			return
 		}, 1)
 		reg36697 := PrimCons(reg36694, reg36695)
-		reg36698 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36697)
+		reg36698 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36697)
 		_ = reg36698
 		reg36699 := MakeSymbol("==")
-		reg36700 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36700 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V660 := __args[0]
 			_ = V660
-			reg36701 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36701 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V661 := __args[0]
 				_ = V661
-				__ctx.TailApply(__defun___a_a, V660, V661)
+				__e.TailApply(__defun___a_a, V660, V661)
 				return
 			}, 1)
-			__ctx.Return(reg36701)
+			__e.Return(reg36701)
 			return
 		}, 1)
 		reg36703 := PrimCons(reg36699, reg36700)
-		reg36704 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36703)
+		reg36704 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36703)
 		_ = reg36704
 		reg36705 := MakeSymbol("=")
-		reg36706 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36706 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V658 := __args[0]
 			_ = V658
-			reg36707 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36707 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V659 := __args[0]
 				_ = V659
 				reg36708 := PrimEqual(V658, V659)
-				__ctx.Return(reg36708)
+				__e.Return(reg36708)
 				return
 			}, 1)
-			__ctx.Return(reg36707)
+			__e.Return(reg36707)
 			return
 		}, 1)
 		reg36709 := PrimCons(reg36705, reg36706)
-		reg36710 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36709)
+		reg36710 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36709)
 		_ = reg36710
 		reg36711 := MakeSymbol(">=")
-		reg36712 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36712 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V656 := __args[0]
 			_ = V656
-			reg36713 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36713 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V657 := __args[0]
 				_ = V657
 				reg36714 := PrimGreatEqual(V656, V657)
-				__ctx.Return(reg36714)
+				__e.Return(reg36714)
 				return
 			}, 1)
-			__ctx.Return(reg36713)
+			__e.Return(reg36713)
 			return
 		}, 1)
 		reg36715 := PrimCons(reg36711, reg36712)
-		reg36716 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36715)
+		reg36716 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36715)
 		_ = reg36716
 		reg36717 := MakeSymbol(">")
-		reg36718 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36718 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V654 := __args[0]
 			_ = V654
-			reg36719 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36719 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V655 := __args[0]
 				_ = V655
 				reg36720 := PrimGreatThan(V654, V655)
-				__ctx.Return(reg36720)
+				__e.Return(reg36720)
 				return
 			}, 1)
-			__ctx.Return(reg36719)
+			__e.Return(reg36719)
 			return
 		}, 1)
 		reg36721 := PrimCons(reg36717, reg36718)
-		reg36722 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36721)
+		reg36722 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36721)
 		_ = reg36722
 		reg36723 := MakeSymbol("-")
-		reg36724 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36724 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V652 := __args[0]
 			_ = V652
-			reg36725 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36725 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V653 := __args[0]
 				_ = V653
 				reg36726 := PrimNumberSubtract(V652, V653)
-				__ctx.Return(reg36726)
+				__e.Return(reg36726)
 				return
 			}, 1)
-			__ctx.Return(reg36725)
+			__e.Return(reg36725)
 			return
 		}, 1)
 		reg36727 := PrimCons(reg36723, reg36724)
-		reg36728 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36727)
+		reg36728 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36727)
 		_ = reg36728
 		reg36729 := MakeSymbol("/")
-		reg36730 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36730 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V650 := __args[0]
 			_ = V650
-			reg36731 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36731 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V651 := __args[0]
 				_ = V651
 				reg36732 := PrimNumberDivide(V650, V651)
-				__ctx.Return(reg36732)
+				__e.Return(reg36732)
 				return
 			}, 1)
-			__ctx.Return(reg36731)
+			__e.Return(reg36731)
 			return
 		}, 1)
 		reg36733 := PrimCons(reg36729, reg36730)
-		reg36734 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36733)
+		reg36734 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36733)
 		_ = reg36734
 		reg36735 := MakeSymbol("*")
-		reg36736 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36736 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V648 := __args[0]
 			_ = V648
-			reg36737 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36737 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V649 := __args[0]
 				_ = V649
 				reg36738 := PrimNumberMultiply(V648, V649)
-				__ctx.Return(reg36738)
+				__e.Return(reg36738)
 				return
 			}, 1)
-			__ctx.Return(reg36737)
+			__e.Return(reg36737)
 			return
 		}, 1)
 		reg36739 := PrimCons(reg36735, reg36736)
-		reg36740 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36739)
+		reg36740 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36739)
 		_ = reg36740
 		reg36741 := MakeSymbol("+")
-		reg36742 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36742 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V646 := __args[0]
 			_ = V646
-			reg36743 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36743 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V647 := __args[0]
 				_ = V647
 				reg36744 := PrimNumberAdd(V646, V647)
-				__ctx.Return(reg36744)
+				__e.Return(reg36744)
 				return
 			}, 1)
-			__ctx.Return(reg36743)
+			__e.Return(reg36743)
 			return
 		}, 1)
 		reg36745 := PrimCons(reg36741, reg36742)
-		reg36746 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36745)
+		reg36746 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36745)
 		_ = reg36746
 		reg36747 := MakeSymbol("<=")
-		reg36748 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36748 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V644 := __args[0]
 			_ = V644
-			reg36749 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36749 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V645 := __args[0]
 				_ = V645
 				reg36750 := PrimLessEqual(V644, V645)
-				__ctx.Return(reg36750)
+				__e.Return(reg36750)
 				return
 			}, 1)
-			__ctx.Return(reg36749)
+			__e.Return(reg36749)
 			return
 		}, 1)
 		reg36751 := PrimCons(reg36747, reg36748)
-		reg36752 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36751)
+		reg36752 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36751)
 		_ = reg36752
 		reg36753 := MakeSymbol("<")
-		reg36754 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36754 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V642 := __args[0]
 			_ = V642
-			reg36755 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36755 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V643 := __args[0]
 				_ = V643
 				reg36756 := PrimLessThan(V642, V643)
-				__ctx.Return(reg36756)
+				__e.Return(reg36756)
 				return
 			}, 1)
-			__ctx.Return(reg36755)
+			__e.Return(reg36755)
 			return
 		}, 1)
 		reg36757 := PrimCons(reg36753, reg36754)
-		reg36758 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36757)
+		reg36758 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36757)
 		_ = reg36758
 		reg36759 := MakeSymbol("y-or-n?")
-		reg36760 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36760 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V641 := __args[0]
 			_ = V641
-			__ctx.TailApply(__defun__y_1or_1n_2, V641)
+			__e.TailApply(__defun__y_1or_1n_2, V641)
 			return
 		}, 1)
 		reg36762 := PrimCons(reg36759, reg36760)
-		reg36763 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36762)
+		reg36763 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36762)
 		_ = reg36763
 		reg36764 := MakeSymbol("write-to-file")
-		reg36765 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36765 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V639 := __args[0]
 			_ = V639
-			reg36766 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36766 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V640 := __args[0]
 				_ = V640
-				__ctx.TailApply(__defun__write_1to_1file, V639, V640)
+				__e.TailApply(__defun__write_1to_1file, V639, V640)
 				return
 			}, 1)
-			__ctx.Return(reg36766)
+			__e.Return(reg36766)
 			return
 		}, 1)
 		reg36768 := PrimCons(reg36764, reg36765)
-		reg36769 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36768)
+		reg36769 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36768)
 		_ = reg36769
 		reg36770 := MakeSymbol("write-byte")
-		reg36771 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36771 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V637 := __args[0]
 			_ = V637
-			reg36772 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36772 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V638 := __args[0]
 				_ = V638
 				reg36773 := PrimWriteByte(V637, V638)
-				__ctx.Return(reg36773)
+				__e.Return(reg36773)
 				return
 			}, 1)
-			__ctx.Return(reg36772)
+			__e.Return(reg36772)
 			return
 		}, 1)
 		reg36774 := PrimCons(reg36770, reg36771)
-		reg36775 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36774)
+		reg36775 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36774)
 		_ = reg36775
 		reg36776 := MakeSymbol("variable?")
-		reg36777 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36777 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V636 := __args[0]
 			_ = V636
 			reg36778 := PrimIsVariable(V636)
-			__ctx.Return(reg36778)
+			__e.Return(reg36778)
 			return
 		}, 1)
 		reg36779 := PrimCons(reg36776, reg36777)
-		reg36780 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36779)
+		reg36780 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36779)
 		_ = reg36780
 		reg36781 := MakeSymbol("value")
-		reg36782 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36782 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V635 := __args[0]
 			_ = V635
 			reg36783 := PrimValue(V635)
-			__ctx.Return(reg36783)
+			__e.Return(reg36783)
 			return
 		}, 1)
 		reg36784 := PrimCons(reg36781, reg36782)
-		reg36785 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36784)
+		reg36785 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36784)
 		_ = reg36785
 		reg36786 := MakeSymbol("vector->")
-		reg36787 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36787 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V632 := __args[0]
 			_ = V632
-			reg36788 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36788 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V633 := __args[0]
 				_ = V633
-				reg36789 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36789 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V634 := __args[0]
 					_ = V634
-					__ctx.TailApply(__defun__vector_1_6, V632, V633, V634)
+					__e.TailApply(__defun__vector_1_6, V632, V633, V634)
 					return
 				}, 1)
-				__ctx.Return(reg36789)
+				__e.Return(reg36789)
 				return
 			}, 1)
-			__ctx.Return(reg36788)
+			__e.Return(reg36788)
 			return
 		}, 1)
 		reg36791 := PrimCons(reg36786, reg36787)
-		reg36792 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36791)
+		reg36792 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36791)
 		_ = reg36792
 		reg36793 := MakeSymbol("<-vector")
-		reg36794 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36794 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V630 := __args[0]
 			_ = V630
-			reg36795 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36795 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V631 := __args[0]
 				_ = V631
-				__ctx.TailApply(__defun___5_1vector, V630, V631)
+				__e.TailApply(__defun___5_1vector, V630, V631)
 				return
 			}, 1)
-			__ctx.Return(reg36795)
+			__e.Return(reg36795)
 			return
 		}, 1)
 		reg36797 := PrimCons(reg36793, reg36794)
-		reg36798 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36797)
+		reg36798 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36797)
 		_ = reg36798
 		reg36799 := MakeSymbol("vector")
-		reg36800 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36800 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V629 := __args[0]
 			_ = V629
-			__ctx.TailApply(__defun__vector, V629)
+			__e.TailApply(__defun__vector, V629)
 			return
 		}, 1)
 		reg36802 := PrimCons(reg36799, reg36800)
-		reg36803 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36802)
+		reg36803 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36802)
 		_ = reg36803
 		reg36804 := MakeSymbol("vector?")
-		reg36805 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36805 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V628 := __args[0]
 			_ = V628
-			__ctx.TailApply(__defun__vector_2, V628)
+			__e.TailApply(__defun__vector_2, V628)
 			return
 		}, 1)
 		reg36807 := PrimCons(reg36804, reg36805)
-		reg36808 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36807)
+		reg36808 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36807)
 		_ = reg36808
 		reg36809 := MakeSymbol("unspecialise")
-		reg36810 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36810 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V627 := __args[0]
 			_ = V627
-			__ctx.TailApply(__defun__unspecialise, V627)
+			__e.TailApply(__defun__unspecialise, V627)
 			return
 		}, 1)
 		reg36812 := PrimCons(reg36809, reg36810)
-		reg36813 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36812)
+		reg36813 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36812)
 		_ = reg36813
 		reg36814 := MakeSymbol("untrack")
-		reg36815 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36815 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V626 := __args[0]
 			_ = V626
-			__ctx.TailApply(__defun__untrack, V626)
+			__e.TailApply(__defun__untrack, V626)
 			return
 		}, 1)
 		reg36817 := PrimCons(reg36814, reg36815)
-		reg36818 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36817)
+		reg36818 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36817)
 		_ = reg36818
 		reg36819 := MakeSymbol("union")
-		reg36820 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36820 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V624 := __args[0]
 			_ = V624
-			reg36821 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36821 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V625 := __args[0]
 				_ = V625
-				__ctx.TailApply(__defun__union, V624, V625)
+				__e.TailApply(__defun__union, V624, V625)
 				return
 			}, 1)
-			__ctx.Return(reg36821)
+			__e.Return(reg36821)
 			return
 		}, 1)
 		reg36823 := PrimCons(reg36819, reg36820)
-		reg36824 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36823)
+		reg36824 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36823)
 		_ = reg36824
 		reg36825 := MakeSymbol("unify")
-		reg36826 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36826 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V620 := __args[0]
 			_ = V620
-			reg36827 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36827 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V621 := __args[0]
 				_ = V621
-				reg36828 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36828 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V622 := __args[0]
 					_ = V622
-					reg36829 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+					reg36829 := MakeNative(func(__e Evaluator, __args ...Obj) {
 						V623 := __args[0]
 						_ = V623
-						__ctx.TailApply(__defun__unify, V620, V621, V622, V623)
+						__e.TailApply(__defun__unify, V620, V621, V622, V623)
 						return
 					}, 1)
-					__ctx.Return(reg36829)
+					__e.Return(reg36829)
 					return
 				}, 1)
-				__ctx.Return(reg36828)
+				__e.Return(reg36828)
 				return
 			}, 1)
-			__ctx.Return(reg36827)
+			__e.Return(reg36827)
 			return
 		}, 1)
 		reg36831 := PrimCons(reg36825, reg36826)
-		reg36832 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36831)
+		reg36832 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36831)
 		_ = reg36832
 		reg36833 := MakeSymbol("unify!")
-		reg36834 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36834 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V616 := __args[0]
 			_ = V616
-			reg36835 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36835 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V617 := __args[0]
 				_ = V617
-				reg36836 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36836 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V618 := __args[0]
 					_ = V618
-					reg36837 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+					reg36837 := MakeNative(func(__e Evaluator, __args ...Obj) {
 						V619 := __args[0]
 						_ = V619
-						__ctx.TailApply(__defun__unify_b, V616, V617, V618, V619)
+						__e.TailApply(__defun__unify_b, V616, V617, V618, V619)
 						return
 					}, 1)
-					__ctx.Return(reg36837)
+					__e.Return(reg36837)
 					return
 				}, 1)
-				__ctx.Return(reg36836)
+				__e.Return(reg36836)
 				return
 			}, 1)
-			__ctx.Return(reg36835)
+			__e.Return(reg36835)
 			return
 		}, 1)
 		reg36839 := PrimCons(reg36833, reg36834)
-		reg36840 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36839)
+		reg36840 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36839)
 		_ = reg36840
 		reg36841 := MakeSymbol("unput")
-		reg36842 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36842 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V613 := __args[0]
 			_ = V613
-			reg36843 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36843 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V614 := __args[0]
 				_ = V614
-				reg36844 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36844 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V615 := __args[0]
 					_ = V615
-					__ctx.TailApply(__defun__unput, V613, V614, V615)
+					__e.TailApply(__defun__unput, V613, V614, V615)
 					return
 				}, 1)
-				__ctx.Return(reg36844)
+				__e.Return(reg36844)
 				return
 			}, 1)
-			__ctx.Return(reg36843)
+			__e.Return(reg36843)
 			return
 		}, 1)
 		reg36846 := PrimCons(reg36841, reg36842)
-		reg36847 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36846)
+		reg36847 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36846)
 		_ = reg36847
 		reg36848 := MakeSymbol("unprofile")
-		reg36849 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36849 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V612 := __args[0]
 			_ = V612
-			__ctx.TailApply(__defun__unprofile, V612)
+			__e.TailApply(__defun__unprofile, V612)
 			return
 		}, 1)
 		reg36851 := PrimCons(reg36848, reg36849)
-		reg36852 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36851)
+		reg36852 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36851)
 		_ = reg36852
 		reg36853 := MakeSymbol("undefmacro")
-		reg36854 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36854 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V611 := __args[0]
 			_ = V611
-			__ctx.TailApply(__defun__undefmacro, V611)
+			__e.TailApply(__defun__undefmacro, V611)
 			return
 		}, 1)
 		reg36856 := PrimCons(reg36853, reg36854)
-		reg36857 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36856)
+		reg36857 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36856)
 		_ = reg36857
 		reg36858 := MakeSymbol("return")
-		reg36859 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36859 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V608 := __args[0]
 			_ = V608
-			reg36860 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36860 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V609 := __args[0]
 				_ = V609
-				reg36861 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36861 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V610 := __args[0]
 					_ = V610
-					__ctx.TailApply(__defun__return, V608, V609, V610)
+					__e.TailApply(__defun__return, V608, V609, V610)
 					return
 				}, 1)
-				__ctx.Return(reg36861)
+				__e.Return(reg36861)
 				return
 			}, 1)
-			__ctx.Return(reg36860)
+			__e.Return(reg36860)
 			return
 		}, 1)
 		reg36863 := PrimCons(reg36858, reg36859)
-		reg36864 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36863)
+		reg36864 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36863)
 		_ = reg36864
 		reg36865 := MakeSymbol("type")
-		reg36866 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36866 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V606 := __args[0]
 			_ = V606
-			reg36867 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36867 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V607 := __args[0]
 				_ = V607
 				reg36868 := PrimTypeFunc(V606, V607)
-				__ctx.Return(reg36868)
+				__e.Return(reg36868)
 				return
 			}, 1)
-			__ctx.Return(reg36867)
+			__e.Return(reg36867)
 			return
 		}, 1)
 		reg36869 := PrimCons(reg36865, reg36866)
-		reg36870 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36869)
+		reg36870 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36869)
 		_ = reg36870
 		reg36871 := MakeSymbol("tuple?")
-		reg36872 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36872 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V605 := __args[0]
 			_ = V605
-			__ctx.TailApply(__defun__tuple_2, V605)
+			__e.TailApply(__defun__tuple_2, V605)
 			return
 		}, 1)
 		reg36874 := PrimCons(reg36871, reg36872)
-		reg36875 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36874)
+		reg36875 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36874)
 		_ = reg36875
 		reg36876 := MakeSymbol("trap-error")
-		reg36877 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36877 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V603 := __args[0]
 			_ = V603
-			reg36878 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36878 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V604 := __args[0]
 				_ = V604
-				reg36879 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
-					__ctx.Return(V603)
+				reg36879 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					__e.Return(V603)
 					return
 				}, 0)
-				reg36880 := __e.Try(reg36879).Catch(V604)
-				__ctx.Return(reg36880)
+				reg36880 := Try(__e, reg36879).Catch(V604)
+				__e.Return(reg36880)
 				return
 			}, 1)
-			__ctx.Return(reg36878)
+			__e.Return(reg36878)
 			return
 		}, 1)
 		reg36881 := PrimCons(reg36876, reg36877)
-		reg36882 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36881)
+		reg36882 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36881)
 		_ = reg36882
 		reg36883 := MakeSymbol("track")
-		reg36884 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36884 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V602 := __args[0]
 			_ = V602
-			__ctx.TailApply(__defun__track, V602)
+			__e.TailApply(__defun__track, V602)
 			return
 		}, 1)
 		reg36886 := PrimCons(reg36883, reg36884)
-		reg36887 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36886)
+		reg36887 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36886)
 		_ = reg36887
 		reg36888 := MakeSymbol("thaw")
-		reg36889 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36889 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V601 := __args[0]
 			_ = V601
-			__ctx.TailApply(__defun__thaw, V601)
+			__e.TailApply(__defun__thaw, V601)
 			return
 		}, 1)
 		reg36891 := PrimCons(reg36888, reg36889)
-		reg36892 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36891)
+		reg36892 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36891)
 		_ = reg36892
 		reg36893 := MakeSymbol("tc")
-		reg36894 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36894 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V600 := __args[0]
 			_ = V600
-			__ctx.TailApply(__defun__tc, V600)
+			__e.TailApply(__defun__tc, V600)
 			return
 		}, 1)
 		reg36896 := PrimCons(reg36893, reg36894)
-		reg36897 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36896)
+		reg36897 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36896)
 		_ = reg36897
 		reg36898 := MakeSymbol("tl")
-		reg36899 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36899 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V599 := __args[0]
 			_ = V599
 			reg36900 := PrimTail(V599)
-			__ctx.Return(reg36900)
+			__e.Return(reg36900)
 			return
 		}, 1)
 		reg36901 := PrimCons(reg36898, reg36899)
-		reg36902 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36901)
+		reg36902 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36901)
 		_ = reg36902
 		reg36903 := MakeSymbol("tlstr")
-		reg36904 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36904 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V598 := __args[0]
 			_ = V598
 			reg36905 := PrimTailString(V598)
-			__ctx.Return(reg36905)
+			__e.Return(reg36905)
 			return
 		}, 1)
 		reg36906 := PrimCons(reg36903, reg36904)
-		reg36907 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36906)
+		reg36907 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36906)
 		_ = reg36907
 		reg36908 := MakeSymbol("tail")
-		reg36909 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36909 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V597 := __args[0]
 			_ = V597
-			__ctx.TailApply(__defun__tail, V597)
+			__e.TailApply(__defun__tail, V597)
 			return
 		}, 1)
 		reg36911 := PrimCons(reg36908, reg36909)
-		reg36912 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36911)
+		reg36912 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36911)
 		_ = reg36912
 		reg36913 := MakeSymbol("systemf")
-		reg36914 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36914 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V596 := __args[0]
 			_ = V596
-			__ctx.TailApply(__defun__systemf, V596)
+			__e.TailApply(__defun__systemf, V596)
 			return
 		}, 1)
 		reg36916 := PrimCons(reg36913, reg36914)
-		reg36917 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36916)
+		reg36917 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36916)
 		_ = reg36917
 		reg36918 := MakeSymbol("symbol?")
-		reg36919 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36919 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V595 := __args[0]
 			_ = V595
 			reg36920 := PrimIsSymbol(V595)
-			__ctx.Return(reg36920)
+			__e.Return(reg36920)
 			return
 		}, 1)
 		reg36921 := PrimCons(reg36918, reg36919)
-		reg36922 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36921)
+		reg36922 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36921)
 		_ = reg36922
 		reg36923 := MakeSymbol("string->symbol")
-		reg36924 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36924 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V594 := __args[0]
 			_ = V594
-			__ctx.TailApply(__defun__string_1_6symbol, V594)
+			__e.TailApply(__defun__string_1_6symbol, V594)
 			return
 		}, 1)
 		reg36926 := PrimCons(reg36923, reg36924)
-		reg36927 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36926)
+		reg36927 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36926)
 		_ = reg36927
 		reg36928 := MakeSymbol("sum")
-		reg36929 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36929 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V593 := __args[0]
 			_ = V593
-			__ctx.TailApply(__defun__sum, V593)
+			__e.TailApply(__defun__sum, V593)
 			return
 		}, 1)
 		reg36931 := PrimCons(reg36928, reg36929)
-		reg36932 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36931)
+		reg36932 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36931)
 		_ = reg36932
 		reg36933 := MakeSymbol("subst")
-		reg36934 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36934 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V590 := __args[0]
 			_ = V590
-			reg36935 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36935 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V591 := __args[0]
 				_ = V591
-				reg36936 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg36936 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V592 := __args[0]
 					_ = V592
-					__ctx.TailApply(__defun__subst, V590, V591, V592)
+					__e.TailApply(__defun__subst, V590, V591, V592)
 					return
 				}, 1)
-				__ctx.Return(reg36936)
+				__e.Return(reg36936)
 				return
 			}, 1)
-			__ctx.Return(reg36935)
+			__e.Return(reg36935)
 			return
 		}, 1)
 		reg36938 := PrimCons(reg36933, reg36934)
-		reg36939 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36938)
+		reg36939 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36938)
 		_ = reg36939
 		reg36940 := MakeSymbol("string?")
-		reg36941 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36941 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V589 := __args[0]
 			_ = V589
 			reg36942 := PrimIsString(V589)
-			__ctx.Return(reg36942)
+			__e.Return(reg36942)
 			return
 		}, 1)
 		reg36943 := PrimCons(reg36940, reg36941)
-		reg36944 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36943)
+		reg36944 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36943)
 		_ = reg36944
 		reg36945 := MakeSymbol("string->n")
-		reg36946 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36946 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V588 := __args[0]
 			_ = V588
 			reg36947 := PrimStringToNumber(V588)
-			__ctx.Return(reg36947)
+			__e.Return(reg36947)
 			return
 		}, 1)
 		reg36948 := PrimCons(reg36945, reg36946)
-		reg36949 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36948)
+		reg36949 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36948)
 		_ = reg36949
 		reg36950 := MakeSymbol("step")
-		reg36951 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36951 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V587 := __args[0]
 			_ = V587
-			__ctx.TailApply(__defun__step, V587)
+			__e.TailApply(__defun__step, V587)
 			return
 		}, 1)
 		reg36953 := PrimCons(reg36950, reg36951)
-		reg36954 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36953)
+		reg36954 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36953)
 		_ = reg36954
 		reg36955 := MakeSymbol("spy")
-		reg36956 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36956 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V586 := __args[0]
 			_ = V586
-			__ctx.TailApply(__defun__spy, V586)
+			__e.TailApply(__defun__spy, V586)
 			return
 		}, 1)
 		reg36958 := PrimCons(reg36955, reg36956)
-		reg36959 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36958)
+		reg36959 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36958)
 		_ = reg36959
 		reg36960 := MakeSymbol("specialise")
-		reg36961 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36961 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V585 := __args[0]
 			_ = V585
-			__ctx.TailApply(__defun__specialise, V585)
+			__e.TailApply(__defun__specialise, V585)
 			return
 		}, 1)
 		reg36963 := PrimCons(reg36960, reg36961)
-		reg36964 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36963)
+		reg36964 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36963)
 		_ = reg36964
 		reg36965 := MakeSymbol("snd")
-		reg36966 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36966 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V584 := __args[0]
 			_ = V584
-			__ctx.TailApply(__defun__snd, V584)
+			__e.TailApply(__defun__snd, V584)
 			return
 		}, 1)
 		reg36968 := PrimCons(reg36965, reg36966)
-		reg36969 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36968)
+		reg36969 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36968)
 		_ = reg36969
 		reg36970 := MakeSymbol("simple-error")
-		reg36971 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36971 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V583 := __args[0]
 			_ = V583
 			reg36972 := PrimSimpleError(V583)
-			__ctx.Return(reg36972)
+			__e.Return(reg36972)
 			return
 		}, 1)
 		reg36973 := PrimCons(reg36970, reg36971)
-		reg36974 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36973)
+		reg36974 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36973)
 		_ = reg36974
 		reg36975 := MakeSymbol("set")
-		reg36976 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36976 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V581 := __args[0]
 			_ = V581
-			reg36977 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36977 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V582 := __args[0]
 				_ = V582
 				reg36978 := PrimSet(V581, V582)
-				__ctx.Return(reg36978)
+				__e.Return(reg36978)
 				return
 			}, 1)
-			__ctx.Return(reg36977)
+			__e.Return(reg36977)
 			return
 		}, 1)
 		reg36979 := PrimCons(reg36975, reg36976)
-		reg36980 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36979)
+		reg36980 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36979)
 		_ = reg36980
 		reg36981 := MakeSymbol("str")
-		reg36982 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36982 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V580 := __args[0]
 			_ = V580
 			reg36983 := PrimStr(V580)
-			__ctx.Return(reg36983)
+			__e.Return(reg36983)
 			return
 		}, 1)
 		reg36984 := PrimCons(reg36981, reg36982)
-		reg36985 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36984)
+		reg36985 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36984)
 		_ = reg36985
 		reg36986 := MakeSymbol("reverse")
-		reg36987 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36987 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V579 := __args[0]
 			_ = V579
-			__ctx.TailApply(__defun__reverse, V579)
+			__e.TailApply(__defun__reverse, V579)
 			return
 		}, 1)
 		reg36989 := PrimCons(reg36986, reg36987)
-		reg36990 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36989)
+		reg36990 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36989)
 		_ = reg36990
 		reg36991 := MakeSymbol("remove")
-		reg36992 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36992 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V577 := __args[0]
 			_ = V577
-			reg36993 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg36993 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V578 := __args[0]
 				_ = V578
-				__ctx.TailApply(__defun__remove, V577, V578)
+				__e.TailApply(__defun__remove, V577, V578)
 				return
 			}, 1)
-			__ctx.Return(reg36993)
+			__e.Return(reg36993)
 			return
 		}, 1)
 		reg36995 := PrimCons(reg36991, reg36992)
-		reg36996 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg36995)
+		reg36996 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg36995)
 		_ = reg36996
 		reg36997 := MakeSymbol("read")
-		reg36998 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg36998 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V576 := __args[0]
 			_ = V576
-			__ctx.TailApply(__defun__read, V576)
+			__e.TailApply(__defun__read, V576)
 			return
 		}, 1)
 		reg37000 := PrimCons(reg36997, reg36998)
-		reg37001 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37000)
+		reg37001 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37000)
 		_ = reg37001
 		reg37002 := MakeSymbol("read-file")
-		reg37003 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37003 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V575 := __args[0]
 			_ = V575
-			__ctx.TailApply(__defun__read_1file, V575)
+			__e.TailApply(__defun__read_1file, V575)
 			return
 		}, 1)
 		reg37005 := PrimCons(reg37002, reg37003)
-		reg37006 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37005)
+		reg37006 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37005)
 		_ = reg37006
 		reg37007 := MakeSymbol("read-file-as-bytelist")
-		reg37008 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37008 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V574 := __args[0]
 			_ = V574
 			reg37009 := PrimReadFileAsByteList(V574)
-			__ctx.Return(reg37009)
+			__e.Return(reg37009)
 			return
 		}, 1)
 		reg37010 := PrimCons(reg37007, reg37008)
-		reg37011 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37010)
+		reg37011 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37010)
 		_ = reg37011
 		reg37012 := MakeSymbol("read-file-as-string")
-		reg37013 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37013 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V573 := __args[0]
 			_ = V573
 			reg37014 := PrimReadFileAsString(V573)
-			__ctx.Return(reg37014)
+			__e.Return(reg37014)
 			return
 		}, 1)
 		reg37015 := PrimCons(reg37012, reg37013)
-		reg37016 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37015)
+		reg37016 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37015)
 		_ = reg37016
 		reg37017 := MakeSymbol("read-byte")
-		reg37018 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37018 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V572 := __args[0]
 			_ = V572
 			reg37019 := PrimReadByte(V572)
-			__ctx.Return(reg37019)
+			__e.Return(reg37019)
 			return
 		}, 1)
 		reg37020 := PrimCons(reg37017, reg37018)
-		reg37021 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37020)
+		reg37021 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37020)
 		_ = reg37021
 		reg37022 := MakeSymbol("read-from-string")
-		reg37023 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37023 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V571 := __args[0]
 			_ = V571
-			__ctx.TailApply(__defun__read_1from_1string, V571)
+			__e.TailApply(__defun__read_1from_1string, V571)
 			return
 		}, 1)
 		reg37025 := PrimCons(reg37022, reg37023)
-		reg37026 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37025)
+		reg37026 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37025)
 		_ = reg37026
 		reg37027 := MakeSymbol("package?")
-		reg37028 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37028 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V570 := __args[0]
 			_ = V570
-			__ctx.TailApply(__defun__package_2, V570)
+			__e.TailApply(__defun__package_2, V570)
 			return
 		}, 1)
 		reg37030 := PrimCons(reg37027, reg37028)
-		reg37031 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37030)
+		reg37031 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37030)
 		_ = reg37031
 		reg37032 := MakeSymbol("put")
-		reg37033 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37033 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V566 := __args[0]
 			_ = V566
-			reg37034 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37034 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V567 := __args[0]
 				_ = V567
-				reg37035 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37035 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V568 := __args[0]
 					_ = V568
-					reg37036 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+					reg37036 := MakeNative(func(__e Evaluator, __args ...Obj) {
 						V569 := __args[0]
 						_ = V569
-						__ctx.TailApply(__defun__put, V566, V567, V568, V569)
+						__e.TailApply(__defun__put, V566, V567, V568, V569)
 						return
 					}, 1)
-					__ctx.Return(reg37036)
+					__e.Return(reg37036)
 					return
 				}, 1)
-				__ctx.Return(reg37035)
+				__e.Return(reg37035)
 				return
 			}, 1)
-			__ctx.Return(reg37034)
+			__e.Return(reg37034)
 			return
 		}, 1)
 		reg37038 := PrimCons(reg37032, reg37033)
-		reg37039 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37038)
+		reg37039 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37038)
 		_ = reg37039
 		reg37040 := MakeSymbol("preclude")
-		reg37041 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37041 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V565 := __args[0]
 			_ = V565
-			__ctx.TailApply(__defun__preclude, V565)
+			__e.TailApply(__defun__preclude, V565)
 			return
 		}, 1)
 		reg37043 := PrimCons(reg37040, reg37041)
-		reg37044 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37043)
+		reg37044 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37043)
 		_ = reg37044
 		reg37045 := MakeSymbol("preclude-all-but")
-		reg37046 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37046 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V564 := __args[0]
 			_ = V564
-			__ctx.TailApply(__defun__preclude_1all_1but, V564)
+			__e.TailApply(__defun__preclude_1all_1but, V564)
 			return
 		}, 1)
 		reg37048 := PrimCons(reg37045, reg37046)
-		reg37049 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37048)
+		reg37049 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37048)
 		_ = reg37049
 		reg37050 := MakeSymbol("ps")
-		reg37051 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37051 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V563 := __args[0]
 			_ = V563
-			__ctx.TailApply(__defun__ps, V563)
+			__e.TailApply(__defun__ps, V563)
 			return
 		}, 1)
 		reg37053 := PrimCons(reg37050, reg37051)
-		reg37054 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37053)
+		reg37054 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37053)
 		_ = reg37054
 		reg37055 := MakeSymbol("protect")
-		reg37056 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37056 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V562 := __args[0]
 			_ = V562
-			__ctx.TailApply(__defun__protect, V562)
+			__e.TailApply(__defun__protect, V562)
 			return
 		}, 1)
 		reg37058 := PrimCons(reg37055, reg37056)
-		reg37059 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37058)
+		reg37059 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37058)
 		_ = reg37059
 		reg37060 := MakeSymbol("profile-results")
-		reg37061 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37061 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V561 := __args[0]
 			_ = V561
-			__ctx.TailApply(__defun__profile_1results, V561)
+			__e.TailApply(__defun__profile_1results, V561)
 			return
 		}, 1)
 		reg37063 := PrimCons(reg37060, reg37061)
-		reg37064 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37063)
+		reg37064 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37063)
 		_ = reg37064
 		reg37065 := MakeSymbol("profile")
-		reg37066 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37066 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V560 := __args[0]
 			_ = V560
-			__ctx.TailApply(__defun__profile, V560)
+			__e.TailApply(__defun__profile, V560)
 			return
 		}, 1)
 		reg37068 := PrimCons(reg37065, reg37066)
-		reg37069 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37068)
+		reg37069 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37068)
 		_ = reg37069
 		reg37070 := MakeSymbol("print")
-		reg37071 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37071 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V559 := __args[0]
 			_ = V559
-			__ctx.TailApply(__defun__print, V559)
+			__e.TailApply(__defun__print, V559)
 			return
 		}, 1)
 		reg37073 := PrimCons(reg37070, reg37071)
-		reg37074 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37073)
+		reg37074 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37073)
 		_ = reg37074
 		reg37075 := MakeSymbol("pr")
-		reg37076 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37076 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V557 := __args[0]
 			_ = V557
-			reg37077 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37077 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V558 := __args[0]
 				_ = V558
-				__ctx.TailApply(__defun__pr, V557, V558)
+				__e.TailApply(__defun__pr, V557, V558)
 				return
 			}, 1)
-			__ctx.Return(reg37077)
+			__e.Return(reg37077)
 			return
 		}, 1)
 		reg37079 := PrimCons(reg37075, reg37076)
-		reg37080 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37079)
+		reg37080 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37079)
 		_ = reg37080
 		reg37081 := MakeSymbol("pos")
-		reg37082 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37082 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V555 := __args[0]
 			_ = V555
-			reg37083 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37083 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V556 := __args[0]
 				_ = V556
 				reg37084 := PrimPos(V555, V556)
-				__ctx.Return(reg37084)
+				__e.Return(reg37084)
 				return
 			}, 1)
-			__ctx.Return(reg37083)
+			__e.Return(reg37083)
 			return
 		}, 1)
 		reg37085 := PrimCons(reg37081, reg37082)
-		reg37086 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37085)
+		reg37086 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37085)
 		_ = reg37086
 		reg37087 := MakeSymbol("or")
-		reg37088 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37088 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V553 := __args[0]
 			_ = V553
-			reg37089 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37089 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V554 := __args[0]
 				_ = V554
 				if V553 == True {
 					reg37090 := True
-					__ctx.Return(reg37090)
+					__e.Return(reg37090)
 					return
 				} else {
 					if V554 == True {
 						reg37091 := True
-						__ctx.Return(reg37091)
+						__e.Return(reg37091)
 						return
 					} else {
 						reg37092 := False
-						__ctx.Return(reg37092)
+						__e.Return(reg37092)
 						return
 					}
 				}
 			}, 1)
-			__ctx.Return(reg37089)
+			__e.Return(reg37089)
 			return
 		}, 1)
 		reg37093 := PrimCons(reg37087, reg37088)
-		reg37094 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37093)
+		reg37094 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37093)
 		_ = reg37094
 		reg37095 := MakeSymbol("optimise")
-		reg37096 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37096 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V552 := __args[0]
 			_ = V552
-			__ctx.TailApply(__defun__optimise, V552)
+			__e.TailApply(__defun__optimise, V552)
 			return
 		}, 1)
 		reg37098 := PrimCons(reg37095, reg37096)
-		reg37099 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37098)
+		reg37099 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37098)
 		_ = reg37099
 		reg37100 := MakeSymbol("open")
-		reg37101 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37101 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V550 := __args[0]
 			_ = V550
-			reg37102 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37102 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V551 := __args[0]
 				_ = V551
 				reg37103 := PrimOpenStream(V550, V551)
-				__ctx.Return(reg37103)
+				__e.Return(reg37103)
 				return
 			}, 1)
-			__ctx.Return(reg37102)
+			__e.Return(reg37102)
 			return
 		}, 1)
 		reg37104 := PrimCons(reg37100, reg37101)
-		reg37105 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37104)
+		reg37105 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37104)
 		_ = reg37105
 		reg37106 := MakeSymbol("occurrences")
-		reg37107 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37107 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V548 := __args[0]
 			_ = V548
-			reg37108 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37108 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V549 := __args[0]
 				_ = V549
-				__ctx.TailApply(__defun__occurrences, V548, V549)
+				__e.TailApply(__defun__occurrences, V548, V549)
 				return
 			}, 1)
-			__ctx.Return(reg37108)
+			__e.Return(reg37108)
 			return
 		}, 1)
 		reg37110 := PrimCons(reg37106, reg37107)
-		reg37111 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37110)
+		reg37111 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37110)
 		_ = reg37111
 		reg37112 := MakeSymbol("occurs-check")
-		reg37113 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37113 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V547 := __args[0]
 			_ = V547
-			__ctx.TailApply(__defun__occurs_1check, V547)
+			__e.TailApply(__defun__occurs_1check, V547)
 			return
 		}, 1)
 		reg37115 := PrimCons(reg37112, reg37113)
-		reg37116 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37115)
+		reg37116 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37115)
 		_ = reg37116
 		reg37117 := MakeSymbol("n->string")
-		reg37118 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37118 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V546 := __args[0]
 			_ = V546
 			reg37119 := PrimNumberToString(V546)
-			__ctx.Return(reg37119)
+			__e.Return(reg37119)
 			return
 		}, 1)
 		reg37120 := PrimCons(reg37117, reg37118)
-		reg37121 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37120)
+		reg37121 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37120)
 		_ = reg37121
 		reg37122 := MakeSymbol("number?")
-		reg37123 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37123 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V545 := __args[0]
 			_ = V545
 			reg37124 := PrimIsNumber(V545)
-			__ctx.Return(reg37124)
+			__e.Return(reg37124)
 			return
 		}, 1)
 		reg37125 := PrimCons(reg37122, reg37123)
-		reg37126 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37125)
+		reg37126 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37125)
 		_ = reg37126
 		reg37127 := MakeSymbol("nth")
-		reg37128 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37128 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V543 := __args[0]
 			_ = V543
-			reg37129 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37129 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V544 := __args[0]
 				_ = V544
-				__ctx.TailApply(__defun__nth, V543, V544)
+				__e.TailApply(__defun__nth, V543, V544)
 				return
 			}, 1)
-			__ctx.Return(reg37129)
+			__e.Return(reg37129)
 			return
 		}, 1)
 		reg37131 := PrimCons(reg37127, reg37128)
-		reg37132 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37131)
+		reg37132 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37131)
 		_ = reg37132
 		reg37133 := MakeSymbol("not")
-		reg37134 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37134 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V542 := __args[0]
 			_ = V542
 			reg37135 := PrimNot(V542)
-			__ctx.Return(reg37135)
+			__e.Return(reg37135)
 			return
 		}, 1)
 		reg37136 := PrimCons(reg37133, reg37134)
-		reg37137 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37136)
+		reg37137 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37136)
 		_ = reg37137
 		reg37138 := MakeSymbol("nl")
-		reg37139 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37139 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V541 := __args[0]
 			_ = V541
-			__ctx.TailApply(__defun__nl, V541)
+			__e.TailApply(__defun__nl, V541)
 			return
 		}, 1)
 		reg37141 := PrimCons(reg37138, reg37139)
-		reg37142 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37141)
+		reg37142 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37141)
 		_ = reg37142
 		reg37143 := MakeSymbol("macroexpand")
-		reg37144 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37144 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V540 := __args[0]
 			_ = V540
-			__ctx.TailApply(__defun__macroexpand, V540)
+			__e.TailApply(__defun__macroexpand, V540)
 			return
 		}, 1)
 		reg37146 := PrimCons(reg37143, reg37144)
-		reg37147 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37146)
+		reg37147 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37146)
 		_ = reg37147
 		reg37148 := MakeSymbol("maxinferences")
-		reg37149 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37149 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V539 := __args[0]
 			_ = V539
-			__ctx.TailApply(__defun__maxinferences, V539)
+			__e.TailApply(__defun__maxinferences, V539)
 			return
 		}, 1)
 		reg37151 := PrimCons(reg37148, reg37149)
-		reg37152 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37151)
+		reg37152 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37151)
 		_ = reg37152
 		reg37153 := MakeSymbol("mapcan")
-		reg37154 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37154 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V537 := __args[0]
 			_ = V537
-			reg37155 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37155 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V538 := __args[0]
 				_ = V538
-				__ctx.TailApply(__defun__mapcan, V537, V538)
+				__e.TailApply(__defun__mapcan, V537, V538)
 				return
 			}, 1)
-			__ctx.Return(reg37155)
+			__e.Return(reg37155)
 			return
 		}, 1)
 		reg37157 := PrimCons(reg37153, reg37154)
-		reg37158 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37157)
+		reg37158 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37157)
 		_ = reg37158
 		reg37159 := MakeSymbol("map")
-		reg37160 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37160 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V535 := __args[0]
 			_ = V535
-			reg37161 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37161 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V536 := __args[0]
 				_ = V536
-				__ctx.TailApply(__defun__map, V535, V536)
+				__e.TailApply(__defun__map, V535, V536)
 				return
 			}, 1)
-			__ctx.Return(reg37161)
+			__e.Return(reg37161)
 			return
 		}, 1)
 		reg37163 := PrimCons(reg37159, reg37160)
-		reg37164 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37163)
+		reg37164 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37163)
 		_ = reg37164
 		reg37165 := MakeSymbol("load")
-		reg37166 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37166 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V534 := __args[0]
 			_ = V534
-			__ctx.TailApply(__defun__load, V534)
+			__e.TailApply(__defun__load, V534)
 			return
 		}, 1)
 		reg37168 := PrimCons(reg37165, reg37166)
-		reg37169 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37168)
+		reg37169 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37168)
 		_ = reg37169
 		reg37170 := MakeSymbol("lineread")
-		reg37171 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37171 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V533 := __args[0]
 			_ = V533
-			__ctx.TailApply(__defun__lineread, V533)
+			__e.TailApply(__defun__lineread, V533)
 			return
 		}, 1)
 		reg37173 := PrimCons(reg37170, reg37171)
-		reg37174 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37173)
+		reg37174 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37173)
 		_ = reg37174
 		reg37175 := MakeSymbol("limit")
-		reg37176 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37176 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V532 := __args[0]
 			_ = V532
-			__ctx.TailApply(__defun__limit, V532)
+			__e.TailApply(__defun__limit, V532)
 			return
 		}, 1)
 		reg37178 := PrimCons(reg37175, reg37176)
-		reg37179 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37178)
+		reg37179 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37178)
 		_ = reg37179
 		reg37180 := MakeSymbol("length")
-		reg37181 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37181 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V531 := __args[0]
 			_ = V531
-			__ctx.TailApply(__defun__length, V531)
+			__e.TailApply(__defun__length, V531)
 			return
 		}, 1)
 		reg37183 := PrimCons(reg37180, reg37181)
-		reg37184 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37183)
+		reg37184 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37183)
 		_ = reg37184
 		reg37185 := MakeSymbol("intersection")
-		reg37186 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37186 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V529 := __args[0]
 			_ = V529
-			reg37187 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37187 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V530 := __args[0]
 				_ = V530
-				__ctx.TailApply(__defun__intersection, V529, V530)
+				__e.TailApply(__defun__intersection, V529, V530)
 				return
 			}, 1)
-			__ctx.Return(reg37187)
+			__e.Return(reg37187)
 			return
 		}, 1)
 		reg37189 := PrimCons(reg37185, reg37186)
-		reg37190 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37189)
+		reg37190 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37189)
 		_ = reg37190
 		reg37191 := MakeSymbol("intern")
-		reg37192 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37192 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V528 := __args[0]
 			_ = V528
 			reg37193 := PrimIntern(V528)
-			__ctx.Return(reg37193)
+			__e.Return(reg37193)
 			return
 		}, 1)
 		reg37194 := PrimCons(reg37191, reg37192)
-		reg37195 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37194)
+		reg37195 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37194)
 		_ = reg37195
 		reg37196 := MakeSymbol("integer?")
-		reg37197 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37197 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V527 := __args[0]
 			_ = V527
 			reg37198 := PrimIsInteger(V527)
-			__ctx.Return(reg37198)
+			__e.Return(reg37198)
 			return
 		}, 1)
 		reg37199 := PrimCons(reg37196, reg37197)
-		reg37200 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37199)
+		reg37200 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37199)
 		_ = reg37200
 		reg37201 := MakeSymbol("input")
-		reg37202 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37202 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V526 := __args[0]
 			_ = V526
-			__ctx.TailApply(__defun__input, V526)
+			__e.TailApply(__defun__input, V526)
 			return
 		}, 1)
 		reg37204 := PrimCons(reg37201, reg37202)
-		reg37205 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37204)
+		reg37205 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37204)
 		_ = reg37205
 		reg37206 := MakeSymbol("input+")
-		reg37207 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37207 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V524 := __args[0]
 			_ = V524
-			reg37208 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37208 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V525 := __args[0]
 				_ = V525
-				__ctx.TailApply(__defun__input_7, V524, V525)
+				__e.TailApply(__defun__input_7, V524, V525)
 				return
 			}, 1)
-			__ctx.Return(reg37208)
+			__e.Return(reg37208)
 			return
 		}, 1)
 		reg37210 := PrimCons(reg37206, reg37207)
-		reg37211 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37210)
+		reg37211 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37210)
 		_ = reg37211
 		reg37212 := MakeSymbol("include")
-		reg37213 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37213 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V523 := __args[0]
 			_ = V523
-			__ctx.TailApply(__defun__include, V523)
+			__e.TailApply(__defun__include, V523)
 			return
 		}, 1)
 		reg37215 := PrimCons(reg37212, reg37213)
-		reg37216 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37215)
+		reg37216 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37215)
 		_ = reg37216
 		reg37217 := MakeSymbol("include-all-but")
-		reg37218 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37218 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V522 := __args[0]
 			_ = V522
-			__ctx.TailApply(__defun__include_1all_1but, V522)
+			__e.TailApply(__defun__include_1all_1but, V522)
 			return
 		}, 1)
 		reg37220 := PrimCons(reg37217, reg37218)
-		reg37221 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37220)
+		reg37221 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37220)
 		_ = reg37221
 		reg37222 := MakeSymbol("internal")
-		reg37223 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37223 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V521 := __args[0]
 			_ = V521
-			__ctx.TailApply(__defun__internal, V521)
+			__e.TailApply(__defun__internal, V521)
 			return
 		}, 1)
 		reg37225 := PrimCons(reg37222, reg37223)
-		reg37226 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37225)
+		reg37226 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37225)
 		_ = reg37226
 		reg37227 := MakeSymbol("if")
-		reg37228 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37228 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V518 := __args[0]
 			_ = V518
-			reg37229 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37229 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V519 := __args[0]
 				_ = V519
-				reg37230 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37230 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V520 := __args[0]
 					_ = V520
 					if V518 == True {
-						__ctx.Return(V519)
+						__e.Return(V519)
 						return
 					} else {
-						__ctx.Return(V520)
+						__e.Return(V520)
 						return
 					}
 				}, 1)
-				__ctx.Return(reg37230)
+				__e.Return(reg37230)
 				return
 			}, 1)
-			__ctx.Return(reg37229)
+			__e.Return(reg37229)
 			return
 		}, 1)
 		reg37231 := PrimCons(reg37227, reg37228)
-		reg37232 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37231)
+		reg37232 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37231)
 		_ = reg37232
 		reg37233 := MakeSymbol("identical")
-		reg37234 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37234 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V514 := __args[0]
 			_ = V514
-			reg37235 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37235 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V515 := __args[0]
 				_ = V515
-				reg37236 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37236 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V516 := __args[0]
 					_ = V516
-					reg37237 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+					reg37237 := MakeNative(func(__e Evaluator, __args ...Obj) {
 						V517 := __args[0]
 						_ = V517
-						__ctx.TailApply(__defun__identical, V514, V515, V516, V517)
+						__e.TailApply(__defun__identical, V514, V515, V516, V517)
 						return
 					}, 1)
-					__ctx.Return(reg37237)
+					__e.Return(reg37237)
 					return
 				}, 1)
-				__ctx.Return(reg37236)
+				__e.Return(reg37236)
 				return
 			}, 1)
-			__ctx.Return(reg37235)
+			__e.Return(reg37235)
 			return
 		}, 1)
 		reg37239 := PrimCons(reg37233, reg37234)
-		reg37240 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37239)
+		reg37240 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37239)
 		_ = reg37240
 		reg37241 := MakeSymbol("head")
-		reg37242 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37242 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V513 := __args[0]
 			_ = V513
-			__ctx.TailApply(__defun__head, V513)
+			__e.TailApply(__defun__head, V513)
 			return
 		}, 1)
 		reg37244 := PrimCons(reg37241, reg37242)
-		reg37245 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37244)
+		reg37245 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37244)
 		_ = reg37245
 		reg37246 := MakeSymbol("hd")
-		reg37247 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37247 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V512 := __args[0]
 			_ = V512
 			reg37248 := PrimHead(V512)
-			__ctx.Return(reg37248)
+			__e.Return(reg37248)
 			return
 		}, 1)
 		reg37249 := PrimCons(reg37246, reg37247)
-		reg37250 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37249)
+		reg37250 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37249)
 		_ = reg37250
 		reg37251 := MakeSymbol("hdv")
-		reg37252 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37252 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V511 := __args[0]
 			_ = V511
-			__ctx.TailApply(__defun__hdv, V511)
+			__e.TailApply(__defun__hdv, V511)
 			return
 		}, 1)
 		reg37254 := PrimCons(reg37251, reg37252)
-		reg37255 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37254)
+		reg37255 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37254)
 		_ = reg37255
 		reg37256 := MakeSymbol("hdstr")
-		reg37257 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37257 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V510 := __args[0]
 			_ = V510
-			__ctx.TailApply(__defun__hdstr, V510)
+			__e.TailApply(__defun__hdstr, V510)
 			return
 		}, 1)
 		reg37259 := PrimCons(reg37256, reg37257)
-		reg37260 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37259)
+		reg37260 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37259)
 		_ = reg37260
 		reg37261 := MakeSymbol("hash")
-		reg37262 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37262 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V508 := __args[0]
 			_ = V508
-			reg37263 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37263 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V509 := __args[0]
 				_ = V509
-				__ctx.TailApply(__defun__hash, V508, V509)
+				__e.TailApply(__defun__hash, V508, V509)
 				return
 			}, 1)
-			__ctx.Return(reg37263)
+			__e.Return(reg37263)
 			return
 		}, 1)
 		reg37265 := PrimCons(reg37261, reg37262)
-		reg37266 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37265)
+		reg37266 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37265)
 		_ = reg37266
 		reg37267 := MakeSymbol("get")
-		reg37268 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37268 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V505 := __args[0]
 			_ = V505
-			reg37269 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37269 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V506 := __args[0]
 				_ = V506
-				reg37270 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37270 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V507 := __args[0]
 					_ = V507
-					__ctx.TailApply(__defun__get, V505, V506, V507)
+					__e.TailApply(__defun__get, V505, V506, V507)
 					return
 				}, 1)
-				__ctx.Return(reg37270)
+				__e.Return(reg37270)
 				return
 			}, 1)
-			__ctx.Return(reg37269)
+			__e.Return(reg37269)
 			return
 		}, 1)
 		reg37272 := PrimCons(reg37267, reg37268)
-		reg37273 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37272)
+		reg37273 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37272)
 		_ = reg37273
 		reg37274 := MakeSymbol("get-time")
-		reg37275 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37275 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V504 := __args[0]
 			_ = V504
 			reg37276 := PrimGetTime(V504)
-			__ctx.Return(reg37276)
+			__e.Return(reg37276)
 			return
 		}, 1)
 		reg37277 := PrimCons(reg37274, reg37275)
-		reg37278 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37277)
+		reg37278 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37277)
 		_ = reg37278
 		reg37279 := MakeSymbol("gensym")
-		reg37280 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37280 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V503 := __args[0]
 			_ = V503
-			__ctx.TailApply(__defun__gensym, V503)
+			__e.TailApply(__defun__gensym, V503)
 			return
 		}, 1)
 		reg37282 := PrimCons(reg37279, reg37280)
-		reg37283 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37282)
+		reg37283 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37282)
 		_ = reg37283
 		reg37284 := MakeSymbol("fst")
-		reg37285 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37285 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V502 := __args[0]
 			_ = V502
-			__ctx.TailApply(__defun__fst, V502)
+			__e.TailApply(__defun__fst, V502)
 			return
 		}, 1)
 		reg37287 := PrimCons(reg37284, reg37285)
-		reg37288 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37287)
+		reg37288 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37287)
 		_ = reg37288
 		reg37289 := MakeSymbol("freeze")
-		reg37290 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37290 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V501 := __args[0]
 			_ = V501
-			reg37291 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
-				__ctx.Return(V501)
+			reg37291 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				__e.Return(V501)
 				return
 			}, 0)
-			__ctx.Return(reg37291)
+			__e.Return(reg37291)
 			return
 		}, 1)
 		reg37292 := PrimCons(reg37289, reg37290)
-		reg37293 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37292)
+		reg37293 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37292)
 		_ = reg37293
 		reg37294 := MakeSymbol("fix")
-		reg37295 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37295 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V499 := __args[0]
 			_ = V499
-			reg37296 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37296 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V500 := __args[0]
 				_ = V500
-				__ctx.TailApply(__defun__fix, V499, V500)
+				__e.TailApply(__defun__fix, V499, V500)
 				return
 			}, 1)
-			__ctx.Return(reg37296)
+			__e.Return(reg37296)
 			return
 		}, 1)
 		reg37298 := PrimCons(reg37294, reg37295)
-		reg37299 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37298)
+		reg37299 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37298)
 		_ = reg37299
 		reg37300 := MakeSymbol("fail-if")
-		reg37301 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37301 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V497 := __args[0]
 			_ = V497
-			reg37302 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37302 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V498 := __args[0]
 				_ = V498
-				__ctx.TailApply(__defun__fail_1if, V497, V498)
+				__e.TailApply(__defun__fail_1if, V497, V498)
 				return
 			}, 1)
-			__ctx.Return(reg37302)
+			__e.Return(reg37302)
 			return
 		}, 1)
 		reg37304 := PrimCons(reg37300, reg37301)
-		reg37305 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37304)
+		reg37305 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37304)
 		_ = reg37305
 		reg37306 := MakeSymbol("findall")
-		reg37307 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37307 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V492 := __args[0]
 			_ = V492
-			reg37308 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37308 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V493 := __args[0]
 				_ = V493
-				reg37309 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37309 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V494 := __args[0]
 					_ = V494
-					reg37310 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+					reg37310 := MakeNative(func(__e Evaluator, __args ...Obj) {
 						V495 := __args[0]
 						_ = V495
-						reg37311 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+						reg37311 := MakeNative(func(__e Evaluator, __args ...Obj) {
 							V496 := __args[0]
 							_ = V496
-							__ctx.TailApply(__defun__findall, V492, V493, V494, V495, V496)
+							__e.TailApply(__defun__findall, V492, V493, V494, V495, V496)
 							return
 						}, 1)
-						__ctx.Return(reg37311)
+						__e.Return(reg37311)
 						return
 					}, 1)
-					__ctx.Return(reg37310)
+					__e.Return(reg37310)
 					return
 				}, 1)
-				__ctx.Return(reg37309)
+				__e.Return(reg37309)
 				return
 			}, 1)
-			__ctx.Return(reg37308)
+			__e.Return(reg37308)
 			return
 		}, 1)
 		reg37313 := PrimCons(reg37306, reg37307)
-		reg37314 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37313)
+		reg37314 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37313)
 		_ = reg37314
 		reg37315 := MakeSymbol("enable-type-theory")
-		reg37316 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37316 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V491 := __args[0]
 			_ = V491
-			__ctx.TailApply(__defun__enable_1type_1theory, V491)
+			__e.TailApply(__defun__enable_1type_1theory, V491)
 			return
 		}, 1)
 		reg37318 := PrimCons(reg37315, reg37316)
-		reg37319 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37318)
+		reg37319 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37318)
 		_ = reg37319
 		reg37320 := MakeSymbol("explode")
-		reg37321 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37321 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V490 := __args[0]
 			_ = V490
-			__ctx.TailApply(__defun__explode, V490)
+			__e.TailApply(__defun__explode, V490)
 			return
 		}, 1)
 		reg37323 := PrimCons(reg37320, reg37321)
-		reg37324 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37323)
+		reg37324 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37323)
 		_ = reg37324
 		reg37325 := MakeSymbol("external")
-		reg37326 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37326 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V489 := __args[0]
 			_ = V489
-			__ctx.TailApply(__defun__external, V489)
+			__e.TailApply(__defun__external, V489)
 			return
 		}, 1)
 		reg37328 := PrimCons(reg37325, reg37326)
-		reg37329 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37328)
+		reg37329 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37328)
 		_ = reg37329
 		reg37330 := MakeSymbol("eval-kl")
-		reg37331 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37331 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V488 := __args[0]
 			_ = V488
 			reg37332 := PrimEvalKL(__e, V488)
-			__ctx.Return(reg37332)
+			__e.Return(reg37332)
 			return
 		}, 1)
 		reg37333 := PrimCons(reg37330, reg37331)
-		reg37334 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37333)
+		reg37334 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37333)
 		_ = reg37334
 		reg37335 := MakeSymbol("eval")
-		reg37336 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37336 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V487 := __args[0]
 			_ = V487
-			__ctx.TailApply(__defun__eval, V487)
+			__e.TailApply(__defun__eval, V487)
 			return
 		}, 1)
 		reg37338 := PrimCons(reg37335, reg37336)
-		reg37339 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37338)
+		reg37339 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37338)
 		_ = reg37339
 		reg37340 := MakeSymbol("error-to-string")
-		reg37341 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37341 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V486 := __args[0]
 			_ = V486
 			reg37342 := PrimErrorToString(V486)
-			__ctx.Return(reg37342)
+			__e.Return(reg37342)
 			return
 		}, 1)
 		reg37343 := PrimCons(reg37340, reg37341)
-		reg37344 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37343)
+		reg37344 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37343)
 		_ = reg37344
 		reg37345 := MakeSymbol("empty?")
-		reg37346 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37346 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V485 := __args[0]
 			_ = V485
-			__ctx.TailApply(__defun__empty_2, V485)
+			__e.TailApply(__defun__empty_2, V485)
 			return
 		}, 1)
 		reg37348 := PrimCons(reg37345, reg37346)
-		reg37349 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37348)
+		reg37349 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37348)
 		_ = reg37349
 		reg37350 := MakeSymbol("element?")
-		reg37351 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37351 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V483 := __args[0]
 			_ = V483
-			reg37352 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37352 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V484 := __args[0]
 				_ = V484
-				__ctx.TailApply(__defun__element_2, V483, V484)
+				__e.TailApply(__defun__element_2, V483, V484)
 				return
 			}, 1)
-			__ctx.Return(reg37352)
+			__e.Return(reg37352)
 			return
 		}, 1)
 		reg37354 := PrimCons(reg37350, reg37351)
-		reg37355 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37354)
+		reg37355 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37354)
 		_ = reg37355
 		reg37356 := MakeSymbol("do")
-		reg37357 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37357 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V481 := __args[0]
 			_ = V481
-			reg37358 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37358 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V482 := __args[0]
 				_ = V482
 				_ = V481
-				__ctx.Return(V482)
+				__e.Return(V482)
 				return
 			}, 1)
-			__ctx.Return(reg37358)
+			__e.Return(reg37358)
 			return
 		}, 1)
 		reg37359 := PrimCons(reg37356, reg37357)
-		reg37360 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37359)
+		reg37360 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37359)
 		_ = reg37360
 		reg37361 := MakeSymbol("difference")
-		reg37362 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37362 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V479 := __args[0]
 			_ = V479
-			reg37363 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37363 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V480 := __args[0]
 				_ = V480
-				__ctx.TailApply(__defun__difference, V479, V480)
+				__e.TailApply(__defun__difference, V479, V480)
 				return
 			}, 1)
-			__ctx.Return(reg37363)
+			__e.Return(reg37363)
 			return
 		}, 1)
 		reg37365 := PrimCons(reg37361, reg37362)
-		reg37366 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37365)
+		reg37366 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37365)
 		_ = reg37366
 		reg37367 := MakeSymbol("destroy")
-		reg37368 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37368 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V478 := __args[0]
 			_ = V478
-			__ctx.TailApply(__defun__destroy, V478)
+			__e.TailApply(__defun__destroy, V478)
 			return
 		}, 1)
 		reg37370 := PrimCons(reg37367, reg37368)
-		reg37371 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37370)
+		reg37371 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37370)
 		_ = reg37371
 		reg37372 := MakeSymbol("declare")
-		reg37373 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37373 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V476 := __args[0]
 			_ = V476
-			reg37374 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37374 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V477 := __args[0]
 				_ = V477
-				__ctx.TailApply(__defun__declare, V476, V477)
+				__e.TailApply(__defun__declare, V476, V477)
 				return
 			}, 1)
-			__ctx.Return(reg37374)
+			__e.Return(reg37374)
 			return
 		}, 1)
 		reg37376 := PrimCons(reg37372, reg37373)
-		reg37377 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37376)
+		reg37377 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37376)
 		_ = reg37377
 		reg37378 := MakeSymbol("cn")
-		reg37379 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37379 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V474 := __args[0]
 			_ = V474
-			reg37380 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37380 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V475 := __args[0]
 				_ = V475
 				reg37381 := PrimStringConcat(V474, V475)
-				__ctx.Return(reg37381)
+				__e.Return(reg37381)
 				return
 			}, 1)
-			__ctx.Return(reg37380)
+			__e.Return(reg37380)
 			return
 		}, 1)
 		reg37382 := PrimCons(reg37378, reg37379)
-		reg37383 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37382)
+		reg37383 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37382)
 		_ = reg37383
 		reg37384 := MakeSymbol("cons?")
-		reg37385 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37385 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V473 := __args[0]
 			_ = V473
 			reg37386 := PrimIsPair(V473)
-			__ctx.Return(reg37386)
+			__e.Return(reg37386)
 			return
 		}, 1)
 		reg37387 := PrimCons(reg37384, reg37385)
-		reg37388 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37387)
+		reg37388 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37387)
 		_ = reg37388
 		reg37389 := MakeSymbol("cons")
-		reg37390 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37390 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V471 := __args[0]
 			_ = V471
-			reg37391 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37391 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V472 := __args[0]
 				_ = V472
 				reg37392 := PrimCons(V471, V472)
-				__ctx.Return(reg37392)
+				__e.Return(reg37392)
 				return
 			}, 1)
-			__ctx.Return(reg37391)
+			__e.Return(reg37391)
 			return
 		}, 1)
 		reg37393 := PrimCons(reg37389, reg37390)
-		reg37394 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37393)
+		reg37394 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37393)
 		_ = reg37394
 		reg37395 := MakeSymbol("concat")
-		reg37396 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37396 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V469 := __args[0]
 			_ = V469
-			reg37397 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37397 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V470 := __args[0]
 				_ = V470
-				__ctx.TailApply(__defun__concat, V469, V470)
+				__e.TailApply(__defun__concat, V469, V470)
 				return
 			}, 1)
-			__ctx.Return(reg37397)
+			__e.Return(reg37397)
 			return
 		}, 1)
 		reg37399 := PrimCons(reg37395, reg37396)
-		reg37400 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37399)
+		reg37400 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37399)
 		_ = reg37400
 		reg37401 := MakeSymbol("compile")
-		reg37402 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37402 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V466 := __args[0]
 			_ = V466
-			reg37403 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37403 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V467 := __args[0]
 				_ = V467
-				reg37404 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37404 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V468 := __args[0]
 					_ = V468
-					__ctx.TailApply(__defun__compile, V466, V467, V468)
+					__e.TailApply(__defun__compile, V466, V467, V468)
 					return
 				}, 1)
-				__ctx.Return(reg37404)
+				__e.Return(reg37404)
 				return
 			}, 1)
-			__ctx.Return(reg37403)
+			__e.Return(reg37403)
 			return
 		}, 1)
 		reg37406 := PrimCons(reg37401, reg37402)
-		reg37407 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37406)
+		reg37407 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37406)
 		_ = reg37407
 		reg37408 := MakeSymbol("cd")
-		reg37409 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37409 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V465 := __args[0]
 			_ = V465
-			__ctx.TailApply(__defun__cd, V465)
+			__e.TailApply(__defun__cd, V465)
 			return
 		}, 1)
 		reg37411 := PrimCons(reg37408, reg37409)
-		reg37412 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37411)
+		reg37412 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37411)
 		_ = reg37412
 		reg37413 := MakeSymbol("close")
-		reg37414 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37414 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V464 := __args[0]
 			_ = V464
 			reg37415 := PrimCloseStream(V464)
-			__ctx.Return(reg37415)
+			__e.Return(reg37415)
 			return
 		}, 1)
 		reg37416 := PrimCons(reg37413, reg37414)
-		reg37417 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37416)
+		reg37417 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37416)
 		_ = reg37417
 		reg37418 := MakeSymbol("bound?")
-		reg37419 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37419 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V463 := __args[0]
 			_ = V463
-			__ctx.TailApply(__defun__bound_2, V463)
+			__e.TailApply(__defun__bound_2, V463)
 			return
 		}, 1)
 		reg37421 := PrimCons(reg37418, reg37419)
-		reg37422 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37421)
+		reg37422 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37421)
 		_ = reg37422
 		reg37423 := MakeSymbol("boolean?")
-		reg37424 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37424 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V462 := __args[0]
 			_ = V462
-			__ctx.TailApply(__defun__boolean_2, V462)
+			__e.TailApply(__defun__boolean_2, V462)
 			return
 		}, 1)
 		reg37426 := PrimCons(reg37423, reg37424)
-		reg37427 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37426)
+		reg37427 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37426)
 		_ = reg37427
 		reg37428 := MakeSymbol("assoc")
-		reg37429 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37429 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V460 := __args[0]
 			_ = V460
-			reg37430 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37430 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V461 := __args[0]
 				_ = V461
-				__ctx.TailApply(__defun__assoc, V460, V461)
+				__e.TailApply(__defun__assoc, V460, V461)
 				return
 			}, 1)
-			__ctx.Return(reg37430)
+			__e.Return(reg37430)
 			return
 		}, 1)
 		reg37432 := PrimCons(reg37428, reg37429)
-		reg37433 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37432)
+		reg37433 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37432)
 		_ = reg37433
 		reg37434 := MakeSymbol("arity")
-		reg37435 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37435 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V459 := __args[0]
 			_ = V459
-			__ctx.TailApply(__defun__arity, V459)
+			__e.TailApply(__defun__arity, V459)
 			return
 		}, 1)
 		reg37437 := PrimCons(reg37434, reg37435)
-		reg37438 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37437)
+		reg37438 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37437)
 		_ = reg37438
 		reg37439 := MakeSymbol("append")
-		reg37440 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37440 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V457 := __args[0]
 			_ = V457
-			reg37441 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37441 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V458 := __args[0]
 				_ = V458
-				__ctx.TailApply(__defun__append, V457, V458)
+				__e.TailApply(__defun__append, V457, V458)
 				return
 			}, 1)
-			__ctx.Return(reg37441)
+			__e.Return(reg37441)
 			return
 		}, 1)
 		reg37443 := PrimCons(reg37439, reg37440)
-		reg37444 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37443)
+		reg37444 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37443)
 		_ = reg37444
 		reg37445 := MakeSymbol("and")
-		reg37446 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37446 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V455 := __args[0]
 			_ = V455
-			reg37447 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37447 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V456 := __args[0]
 				_ = V456
 				if V455 == True {
 					if V456 == True {
 						reg37448 := True
-						__ctx.Return(reg37448)
+						__e.Return(reg37448)
 						return
 					} else {
 						reg37449 := False
-						__ctx.Return(reg37449)
+						__e.Return(reg37449)
 						return
 					}
 				} else {
 					reg37450 := False
-					__ctx.Return(reg37450)
+					__e.Return(reg37450)
 					return
 				}
 			}, 1)
-			__ctx.Return(reg37447)
+			__e.Return(reg37447)
 			return
 		}, 1)
 		reg37451 := PrimCons(reg37445, reg37446)
-		reg37452 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37451)
+		reg37452 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37451)
 		_ = reg37452
 		reg37453 := MakeSymbol("adjoin")
-		reg37454 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37454 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V453 := __args[0]
 			_ = V453
-			reg37455 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37455 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V454 := __args[0]
 				_ = V454
-				__ctx.TailApply(__defun__adjoin, V453, V454)
+				__e.TailApply(__defun__adjoin, V453, V454)
 				return
 			}, 1)
-			__ctx.Return(reg37455)
+			__e.Return(reg37455)
 			return
 		}, 1)
 		reg37457 := PrimCons(reg37453, reg37454)
-		reg37458 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37457)
+		reg37458 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37457)
 		_ = reg37458
 		reg37459 := MakeSymbol("<-address")
-		reg37460 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37460 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V451 := __args[0]
 			_ = V451
-			reg37461 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37461 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V452 := __args[0]
 				_ = V452
 				reg37462 := PrimVectorGet(V451, V452)
-				__ctx.Return(reg37462)
+				__e.Return(reg37462)
 				return
 			}, 1)
-			__ctx.Return(reg37461)
+			__e.Return(reg37461)
 			return
 		}, 1)
 		reg37463 := PrimCons(reg37459, reg37460)
-		reg37464 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37463)
+		reg37464 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37463)
 		_ = reg37464
 		reg37465 := MakeSymbol("address->")
-		reg37466 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37466 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V448 := __args[0]
 			_ = V448
-			reg37467 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg37467 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				V449 := __args[0]
 				_ = V449
-				reg37468 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg37468 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					V450 := __args[0]
 					_ = V450
 					reg37469 := PrimVectorSet(V448, V449, V450)
-					__ctx.Return(reg37469)
+					__e.Return(reg37469)
 					return
 				}, 1)
-				__ctx.Return(reg37468)
+				__e.Return(reg37468)
 				return
 			}, 1)
-			__ctx.Return(reg37467)
+			__e.Return(reg37467)
 			return
 		}, 1)
 		reg37470 := PrimCons(reg37465, reg37466)
-		reg37471 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37470)
+		reg37471 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37470)
 		_ = reg37471
 		reg37472 := MakeSymbol("absvector?")
-		reg37473 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37473 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V447 := __args[0]
 			_ = V447
 			reg37474 := PrimIsVector(V447)
-			__ctx.Return(reg37474)
+			__e.Return(reg37474)
 			return
 		}, 1)
 		reg37475 := PrimCons(reg37472, reg37473)
-		reg37476 := __e.Call(__defun__shen_4set_1lambda_1form_1entry, reg37475)
+		reg37476 := Call(__e, __defun__shen_4set_1lambda_1form_1entry, reg37475)
 		_ = reg37476
 		reg37477 := MakeSymbol("absvector")
-		reg37478 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg37478 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			V446 := __args[0]
 			_ = V446
 			reg37479 := PrimAbsvector(V446)
-			__ctx.Return(reg37479)
+			__e.Return(reg37479)
 			return
 		}, 1)
 		reg37480 := PrimCons(reg37477, reg37478)
-		__ctx.TailApply(__defun__shen_4set_1lambda_1form_1entry, reg37480)
+		__e.TailApply(__defun__shen_4set_1lambda_1form_1entry, reg37480)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "shen.initialise-lambda-forms", value: __defun__shen_4initialise_1lambda_1forms})
 
-	__defun__shen_4initialise = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
-		reg37482 := __e.Call(__defun__shen_4initialise_1environment)
+	__defun__shen_4initialise = MakeNative(func(__e Evaluator, __args ...Obj) {
+		reg37482 := Call(__e, __defun__shen_4initialise_1environment)
 		_ = reg37482
-		reg37483 := __e.Call(__defun__shen_4initialise_1lambda_1forms)
+		reg37483 := Call(__e, __defun__shen_4initialise_1lambda_1forms)
 		_ = reg37483
-		reg37484 := __e.Call(__defun__shen_4initialise_1signedfunc_1lambda_1forms)
+		reg37484 := Call(__e, __defun__shen_4initialise_1signedfunc_1lambda_1forms)
 		_ = reg37484
-		__ctx.TailApply(__defun__shen_4initialise_1signedfuncs)
+		__e.TailApply(__defun__shen_4initialise_1signedfuncs)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "shen.initialise", value: __defun__shen_4initialise})

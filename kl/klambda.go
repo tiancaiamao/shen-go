@@ -40,41 +40,21 @@ func NewKLambda() *KLambda {
 }
 
 func (e *KLambda) primEvalKL(args ...Obj) Obj {
-	return e.evalExp(e, args[0], Nil)
+	return evalExp(e, args[0], Nil)
 }
 
 func (e *KLambda) primLoadFile(args ...Obj) Obj {
 	path := mustString(args[0])
-	return loadFile(&e.ControlFlow, e, false, path)
+	return loadFile(e, false, path)
 }
 
 func (e *KLambda) LoadFile(file string) Obj {
-	return loadFile(&e.ControlFlow, e, false, file)
+	return loadFile(e, false, file)
 }
 
-func (e *KLambda) Eval(exp Obj) (res Obj) {
-	defer func() {
-		if r := recover(); r != nil {
-			var buf [4096]byte
-			n := runtime.Stack(buf[:], false)
-			fmt.Println("Panic:", r)
-			fmt.Println("Recovered in Eval:", ObjString(exp))
-			fmt.Println(string(buf[:n]))
-			res = Nil
-		}
-	}()
-	res = e.evalExp(e, exp, Nil)
-	return
-}
-
-func (e *KLambda) Call(f Obj, args ...Obj) Obj {
-	e.TailApply(f, args...)
-	return e.trampoline(e)
-}
-
-func (e *KLambda) eval(ctl *ControlFlow) {
-	exp := ctl.data[e.pos]
-	env := ctl.data[e.pos+1]
+func (e *KLambda) eval() {
+	exp := e.data[e.pos]
+	env := e.data[e.pos+1]
 
 	// fmt.Println("eval exp = ", ObjString(exp))
 	// debug.PrintStack()
@@ -110,30 +90,30 @@ func (e *KLambda) eval(ctl *ControlFlow) {
 			e.Return(makeProcedure(Nil, car(exp), env))
 			return
 		case symLet: // (let x y z)
-			args := ctl.evalExp(e, cadr(exp), env)
+			args := evalExp(e, cadr(exp), env)
 			newEnv := envExtend(env, []Obj{car(exp)}, []Obj{args})
 			e.TailEval(caddr(exp), newEnv)
 			return
 		case symAnd:
-			ctl.evalAnd(e, car(exp), cadr(exp), env)
+			evalAnd(e, car(exp), cadr(exp), env)
 			return
 		case symOr:
-			ctl.evalOr(e, car(exp), cadr(exp), env)
+			evalOr(e, car(exp), cadr(exp), env)
 			return
 		case symIf: // (if a b c)
 			if listLength(pair.cdr) == 3 {
-				ctl.evalIf(e, car(exp), cadr(exp), caddr(exp), env)
+				evalIf(e, car(exp), cadr(exp), caddr(exp), env)
 				return
 			} // if may also be a function for partial apply
 		case symCond: // (cond (false 1) (true 2))
-			e.evalCond(ctl, exp, env)
+			e.evalCond(exp, env)
 			return
 		case symTrapError: // (trap-error ~body ~handler)
 			e.evalTrapError(exp, env)
 			return
 		case symDo: // (do A A)
-			ctl.evalExp(e, car(exp), env)
-			ctl.TailEval(cadr(exp), env)
+			evalExp(e, car(exp), env)
+			e.TailEval(cadr(exp), env)
 			return
 		}
 	}
@@ -146,7 +126,7 @@ func (e *KLambda) eval(ctl *ControlFlow) {
 
 	args := pair.cdr
 	for *args == scmHeadPair {
-		v := ctl.evalExp(e, car(args), env)
+		v := evalExp(e, car(args), env)
 		if *v == scmHeadError {
 			e.pos = savePOS
 			e.TailApply(fn, v)
@@ -161,16 +141,16 @@ func (e *KLambda) eval(ctl *ControlFlow) {
 	return
 }
 
-func (e *KLambda) evalCond(ctl *ControlFlow, l Obj, env Obj) {
+func (e *KLambda) evalCond(l Obj, env Obj) {
 	for *l == scmHeadPair {
 		curr := car(l)
-		if e.evalExp(e, car(curr), env) == True {
+		if evalExp(e, car(curr), env) == True {
 			e.TailEval(cadr(curr), env)
 			return
 		}
 		l = cdr(l)
 	}
-	ctl.Return(Nil)
+	e.Return(Nil)
 	return
 }
 
@@ -195,7 +175,7 @@ func (e *KLambda) evalTrapError(exp Obj, env Obj) {
 			fmt.Println(string(buf[:n]))
 		}
 	}()
-	v := e.evalExp(e, car(exp), env)
+	v := evalExp(e, car(exp), env)
 	e.Return(v)
 	return
 }
@@ -215,7 +195,7 @@ func (e *KLambda) evalFunction(fn Obj, env Obj) Obj {
 	case scmHeadPrimitive, scmHeadProcedure, scmHeadNative:
 		return fn
 	case scmHeadPair:
-		return e.evalExp(e, fn, env)
+		return evalExp(e, fn, env)
 	}
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }

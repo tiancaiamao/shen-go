@@ -88,12 +88,12 @@ type ScmPrimitive struct {
 
 type scmNative struct {
 	scmHead
-	fn       func(Evaluator, *ControlFlow, ...Obj)
+	fn       func(Evaluator, ...Obj)
 	require  int
 	captured []Obj
 }
 
-func MakeNative(fn func(Evaluator, *ControlFlow, ...Obj), require int, captured ...Obj) Obj {
+func MakeNative(fn func(Evaluator, ...Obj), require int, captured ...Obj) Obj {
 	tmp := scmNative{
 		scmHead:  scmHeadNative,
 		fn:       fn,
@@ -209,6 +209,14 @@ func mustInteger(o Obj) int {
 		return fixnum(o)
 	}
 
+	f := (*scmNumber)(unsafe.Pointer(o)).val
+	return int(f)
+}
+
+func GetInteger(o Obj) int {
+	if isFixnum(o) {
+		return fixnum(o)
+	}
 	f := (*scmNumber)(unsafe.Pointer(o)).val
 	return int(f)
 }

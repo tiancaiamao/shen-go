@@ -52,8 +52,8 @@ func main() {
 
 	if shen {
 		e.BootstrapShen()
-		e.Eval(kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
-		e.Eval(kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
+		kl.Eval(e, kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
+		kl.Eval(e, kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
 		return
 	}
 
@@ -68,7 +68,7 @@ func main() {
 			break
 		}
 
-		res := e.Eval(sexp)
+		res := kl.Eval(e, sexp)
 		fmt.Println(kl.ObjString(res))
 	}
 }

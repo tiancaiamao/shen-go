@@ -36,12 +36,12 @@ var __defun___5_b_6 Obj                              // <!>
 var __defun___5e_6 Obj                               // <e>
 
 func init() {
-	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg7394 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
-		__ctx.Return(reg7394)
+		__e.Return(reg7394)
 		return
 	}, 0))
-	__defun__shen_4yacc = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4yacc = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4694 := __args[0]
 		_ = V4694
 		reg7395 := PrimIsPair(V4694)
@@ -85,58 +85,58 @@ func init() {
 			reg7412 := PrimHead(reg7411)
 			reg7413 := PrimTail(V4694)
 			reg7414 := PrimTail(reg7413)
-			__ctx.TailApply(__defun__shen_4yacc_1_6shen, reg7412, reg7414)
+			__e.TailApply(__defun__shen_4yacc_1_6shen, reg7412, reg7414)
 			return
 		} else {
 			reg7416 := MakeSymbol("shen.yacc")
-			__ctx.TailApply(__defun__shen_4f__error, reg7416)
+			__e.TailApply(__defun__shen_4f__error, reg7416)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.yacc", value: __defun__shen_4yacc})
 
-	__defun__shen_4yacc_1_6shen = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4yacc_1_6shen = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4697 := __args[0]
 		_ = V4697
 		V4698 := __args[1]
 		_ = V4698
 		reg7418 := True
 		reg7419 := Nil
-		reg7420 := __e.Call(__defun__shen_4split__cc__rules, reg7418, V4698, reg7419)
+		reg7420 := Call(__e, __defun__shen_4split__cc__rules, reg7418, V4698, reg7419)
 		CCRules := reg7420
 		_ = CCRules
-		reg7421 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+		reg7421 := MakeNative(func(__e Evaluator, __args ...Obj) {
 			X := __args[0]
 			_ = X
-			__ctx.TailApply(__defun__shen_4cc__body, X)
+			__e.TailApply(__defun__shen_4cc__body, X)
 			return
 		}, 1)
-		reg7423 := __e.Call(__defun__map, reg7421, CCRules)
+		reg7423 := Call(__e, __defun__map, reg7421, CCRules)
 		CCBody := reg7423
 		_ = CCBody
-		reg7424 := __e.Call(__defun__shen_4yacc__cases, CCBody)
+		reg7424 := Call(__e, __defun__shen_4yacc__cases, CCBody)
 		YaccCases := reg7424
 		_ = YaccCases
 		reg7425 := MakeSymbol("define")
 		reg7426 := MakeSymbol("Stream")
 		reg7427 := MakeSymbol("->")
-		reg7428 := __e.Call(__defun__shen_4kill_1code, YaccCases)
+		reg7428 := Call(__e, __defun__shen_4kill_1code, YaccCases)
 		reg7429 := Nil
 		reg7430 := PrimCons(reg7428, reg7429)
 		reg7431 := PrimCons(reg7427, reg7430)
 		reg7432 := PrimCons(reg7426, reg7431)
 		reg7433 := PrimCons(V4697, reg7432)
 		reg7434 := PrimCons(reg7425, reg7433)
-		__ctx.Return(reg7434)
+		__e.Return(reg7434)
 		return
 	}, 2)
 	__initDefs = append(__initDefs, defType{name: "shen.yacc->shen", value: __defun__shen_4yacc_1_6shen})
 
-	__defun__shen_4kill_1code = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4kill_1code = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4700 := __args[0]
 		_ = V4700
 		reg7435 := MakeSymbol("kill")
-		reg7436 := __e.Call(__defun__occurrences, reg7435, V4700)
+		reg7436 := Call(__e, __defun__occurrences, reg7435, V4700)
 		reg7437 := MakeNumber(0)
 		reg7438 := PrimGreatThan(reg7436, reg7437)
 		if reg7438 == True {
@@ -156,24 +156,24 @@ func init() {
 			reg7452 := PrimCons(reg7450, reg7451)
 			reg7453 := PrimCons(V4700, reg7452)
 			reg7454 := PrimCons(reg7439, reg7453)
-			__ctx.Return(reg7454)
+			__e.Return(reg7454)
 			return
 		} else {
-			__ctx.Return(V4700)
+			__e.Return(V4700)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.kill-code", value: __defun__shen_4kill_1code})
 
-	__defun__kill = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__kill = MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg7455 := MakeString("yacc kill")
 		reg7456 := PrimSimpleError(reg7455)
-		__ctx.Return(reg7456)
+		__e.Return(reg7456)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "kill", value: __defun__kill})
 
-	__defun__shen_4analyse_1kill = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4analyse_1kill = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4702 := __args[0]
 		_ = V4702
 		reg7457 := PrimErrorToString(V4702)
@@ -182,16 +182,16 @@ func init() {
 		reg7458 := MakeString("yacc kill")
 		reg7459 := PrimEqual(String, reg7458)
 		if reg7459 == True {
-			__ctx.TailApply(__defun__fail)
+			__e.TailApply(__defun__fail)
 			return
 		} else {
-			__ctx.Return(V4702)
+			__e.Return(V4702)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.analyse-kill", value: __defun__shen_4analyse_1kill})
 
-	__defun__shen_4split__cc__rules = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4split__cc__rules = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4708 := __args[0]
 		_ = V4708
 		V4709 := __args[1]
@@ -219,18 +219,18 @@ func init() {
 		}
 		if reg7469 == True {
 			reg7470 := Nil
-			__ctx.Return(reg7470)
+			__e.Return(reg7470)
 			return
 		} else {
 			reg7471 := Nil
 			reg7472 := PrimEqual(reg7471, V4709)
 			if reg7472 == True {
-				reg7473 := __e.Call(__defun__reverse, V4710)
+				reg7473 := Call(__e, __defun__reverse, V4710)
 				reg7474 := Nil
-				reg7475 := __e.Call(__defun__shen_4split__cc__rule, V4708, reg7473, reg7474)
+				reg7475 := Call(__e, __defun__shen_4split__cc__rule, V4708, reg7473, reg7474)
 				reg7476 := Nil
 				reg7477 := PrimCons(reg7475, reg7476)
-				__ctx.Return(reg7477)
+				__e.Return(reg7477)
 				return
 			} else {
 				reg7478 := PrimIsPair(V4709)
@@ -253,14 +253,14 @@ func init() {
 					reg7486 = reg7485
 				}
 				if reg7486 == True {
-					reg7487 := __e.Call(__defun__reverse, V4710)
+					reg7487 := Call(__e, __defun__reverse, V4710)
 					reg7488 := Nil
-					reg7489 := __e.Call(__defun__shen_4split__cc__rule, V4708, reg7487, reg7488)
+					reg7489 := Call(__e, __defun__shen_4split__cc__rule, V4708, reg7487, reg7488)
 					reg7490 := PrimTail(V4709)
 					reg7491 := Nil
-					reg7492 := __e.Call(__defun__shen_4split__cc__rules, V4708, reg7490, reg7491)
+					reg7492 := Call(__e, __defun__shen_4split__cc__rules, V4708, reg7490, reg7491)
 					reg7493 := PrimCons(reg7489, reg7492)
-					__ctx.Return(reg7493)
+					__e.Return(reg7493)
 					return
 				} else {
 					reg7494 := PrimIsPair(V4709)
@@ -268,11 +268,11 @@ func init() {
 						reg7495 := PrimTail(V4709)
 						reg7496 := PrimHead(V4709)
 						reg7497 := PrimCons(reg7496, V4710)
-						__ctx.TailApply(__defun__shen_4split__cc__rules, V4708, reg7495, reg7497)
+						__e.TailApply(__defun__shen_4split__cc__rules, V4708, reg7495, reg7497)
 						return
 					} else {
 						reg7499 := MakeSymbol("shen.split_cc_rules")
-						__ctx.TailApply(__defun__shen_4f__error, reg7499)
+						__e.TailApply(__defun__shen_4f__error, reg7499)
 						return
 					}
 				}
@@ -281,7 +281,7 @@ func init() {
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.split_cc_rules", value: __defun__shen_4split__cc__rules})
 
-	__defun__shen_4split__cc__rule = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4split__cc__rule = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4718 := __args[0]
 		_ = V4718
 		V4719 := __args[1]
@@ -344,10 +344,10 @@ func init() {
 			reg7525 = reg7524
 		}
 		if reg7525 == True {
-			reg7526 := __e.Call(__defun__reverse, V4720)
+			reg7526 := Call(__e, __defun__reverse, V4720)
 			reg7527 := PrimTail(V4719)
 			reg7528 := PrimCons(reg7526, reg7527)
-			__ctx.Return(reg7528)
+			__e.Return(reg7528)
 			return
 		} else {
 			reg7529 := PrimIsPair(V4719)
@@ -465,7 +465,7 @@ func init() {
 				reg7582 = reg7581
 			}
 			if reg7582 == True {
-				reg7583 := __e.Call(__defun__reverse, V4720)
+				reg7583 := Call(__e, __defun__reverse, V4720)
 				reg7584 := MakeSymbol("where")
 				reg7585 := PrimTail(V4719)
 				reg7586 := PrimTail(reg7585)
@@ -480,21 +480,21 @@ func init() {
 				reg7595 := Nil
 				reg7596 := PrimCons(reg7594, reg7595)
 				reg7597 := PrimCons(reg7583, reg7596)
-				__ctx.Return(reg7597)
+				__e.Return(reg7597)
 				return
 			} else {
 				reg7598 := Nil
 				reg7599 := PrimEqual(reg7598, V4719)
 				if reg7599 == True {
-					reg7600 := __e.Call(__defun__shen_4semantic_1completion_1warning, V4718, V4720)
+					reg7600 := Call(__e, __defun__shen_4semantic_1completion_1warning, V4718, V4720)
 					_ = reg7600
 					reg7601 := MakeSymbol(":=")
-					reg7602 := __e.Call(__defun__reverse, V4720)
-					reg7603 := __e.Call(__defun__shen_4default__semantics, reg7602)
+					reg7602 := Call(__e, __defun__reverse, V4720)
+					reg7603 := Call(__e, __defun__shen_4default__semantics, reg7602)
 					reg7604 := Nil
 					reg7605 := PrimCons(reg7603, reg7604)
 					reg7606 := PrimCons(reg7601, reg7605)
-					__ctx.TailApply(__defun__shen_4split__cc__rule, V4718, reg7606, V4720)
+					__e.TailApply(__defun__shen_4split__cc__rule, V4718, reg7606, V4720)
 					return
 				} else {
 					reg7608 := PrimIsPair(V4719)
@@ -502,11 +502,11 @@ func init() {
 						reg7609 := PrimTail(V4719)
 						reg7610 := PrimHead(V4719)
 						reg7611 := PrimCons(reg7610, V4720)
-						__ctx.TailApply(__defun__shen_4split__cc__rule, V4718, reg7609, reg7611)
+						__e.TailApply(__defun__shen_4split__cc__rule, V4718, reg7609, reg7611)
 						return
 					} else {
 						reg7613 := MakeSymbol("shen.split_cc_rule")
-						__ctx.TailApply(__defun__shen_4f__error, reg7613)
+						__e.TailApply(__defun__shen_4f__error, reg7613)
 						return
 					}
 				}
@@ -515,7 +515,7 @@ func init() {
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.split_cc_rule", value: __defun__shen_4split__cc__rule})
 
-	__defun__shen_4semantic_1completion_1warning = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4semantic_1completion_1warning = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4731 := __args[0]
 		_ = V4731
 		V4732 := __args[1]
@@ -524,42 +524,42 @@ func init() {
 		reg7616 := PrimEqual(reg7615, V4731)
 		if reg7616 == True {
 			reg7617 := MakeString("warning: ")
-			reg7618 := __e.Call(__defun__stoutput)
-			reg7619 := __e.Call(__defun__shen_4prhush, reg7617, reg7618)
+			reg7618 := Call(__e, __defun__stoutput)
+			reg7619 := Call(__e, __defun__shen_4prhush, reg7617, reg7618)
 			_ = reg7619
-			reg7620 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+			reg7620 := MakeNative(func(__e Evaluator, __args ...Obj) {
 				X := __args[0]
 				_ = X
 				reg7621 := MakeString(" ")
 				reg7622 := MakeSymbol("shen.a")
-				reg7623 := __e.Call(__defun__shen_4app, X, reg7621, reg7622)
-				reg7624 := __e.Call(__defun__stoutput)
-				__ctx.TailApply(__defun__shen_4prhush, reg7623, reg7624)
+				reg7623 := Call(__e, __defun__shen_4app, X, reg7621, reg7622)
+				reg7624 := Call(__e, __defun__stoutput)
+				__e.TailApply(__defun__shen_4prhush, reg7623, reg7624)
 				return
 			}, 1)
-			reg7626 := __e.Call(__defun__reverse, V4732)
-			reg7627 := __e.Call(__defun__shen_4for_1each, reg7620, reg7626)
+			reg7626 := Call(__e, __defun__reverse, V4732)
+			reg7627 := Call(__e, __defun__shen_4for_1each, reg7620, reg7626)
 			_ = reg7627
 			reg7628 := MakeString("has no semantics.\n")
-			reg7629 := __e.Call(__defun__stoutput)
-			__ctx.TailApply(__defun__shen_4prhush, reg7628, reg7629)
+			reg7629 := Call(__e, __defun__stoutput)
+			__e.TailApply(__defun__shen_4prhush, reg7628, reg7629)
 			return
 		} else {
 			reg7631 := MakeSymbol("shen.skip")
-			__ctx.Return(reg7631)
+			__e.Return(reg7631)
 			return
 		}
 	}, 2)
 	__initDefs = append(__initDefs, defType{name: "shen.semantic-completion-warning", value: __defun__shen_4semantic_1completion_1warning})
 
-	__defun__shen_4default__semantics = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4default__semantics = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4734 := __args[0]
 		_ = V4734
 		reg7632 := Nil
 		reg7633 := PrimEqual(reg7632, V4734)
 		if reg7633 == True {
 			reg7634 := Nil
-			__ctx.Return(reg7634)
+			__e.Return(reg7634)
 			return
 		} else {
 			reg7635 := PrimIsPair(V4734)
@@ -571,7 +571,7 @@ func init() {
 				var reg7645 Obj
 				if reg7638 == True {
 					reg7639 := PrimHead(V4734)
-					reg7640 := __e.Call(__defun__shen_4grammar__symbol_2, reg7639)
+					reg7640 := Call(__e, __defun__shen_4grammar__symbol_2, reg7639)
 					var reg7643 Obj
 					if reg7640 == True {
 						reg7641 := True
@@ -600,14 +600,14 @@ func init() {
 			}
 			if reg7650 == True {
 				reg7651 := PrimHead(V4734)
-				__ctx.Return(reg7651)
+				__e.Return(reg7651)
 				return
 			} else {
 				reg7652 := PrimIsPair(V4734)
 				var reg7659 Obj
 				if reg7652 == True {
 					reg7653 := PrimHead(V4734)
-					reg7654 := __e.Call(__defun__shen_4grammar__symbol_2, reg7653)
+					reg7654 := Call(__e, __defun__shen_4grammar__symbol_2, reg7653)
 					var reg7657 Obj
 					if reg7654 == True {
 						reg7655 := True
@@ -625,12 +625,12 @@ func init() {
 					reg7660 := MakeSymbol("append")
 					reg7661 := PrimHead(V4734)
 					reg7662 := PrimTail(V4734)
-					reg7663 := __e.Call(__defun__shen_4default__semantics, reg7662)
+					reg7663 := Call(__e, __defun__shen_4default__semantics, reg7662)
 					reg7664 := Nil
 					reg7665 := PrimCons(reg7663, reg7664)
 					reg7666 := PrimCons(reg7661, reg7665)
 					reg7667 := PrimCons(reg7660, reg7666)
-					__ctx.Return(reg7667)
+					__e.Return(reg7667)
 					return
 				} else {
 					reg7668 := PrimIsPair(V4734)
@@ -638,16 +638,16 @@ func init() {
 						reg7669 := MakeSymbol("cons")
 						reg7670 := PrimHead(V4734)
 						reg7671 := PrimTail(V4734)
-						reg7672 := __e.Call(__defun__shen_4default__semantics, reg7671)
+						reg7672 := Call(__e, __defun__shen_4default__semantics, reg7671)
 						reg7673 := Nil
 						reg7674 := PrimCons(reg7672, reg7673)
 						reg7675 := PrimCons(reg7670, reg7674)
 						reg7676 := PrimCons(reg7669, reg7675)
-						__ctx.Return(reg7676)
+						__e.Return(reg7676)
 						return
 					} else {
 						reg7677 := MakeSymbol("shen.default_semantics")
-						__ctx.TailApply(__defun__shen_4f__error, reg7677)
+						__e.TailApply(__defun__shen_4f__error, reg7677)
 						return
 					}
 				}
@@ -656,13 +656,13 @@ func init() {
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.default_semantics", value: __defun__shen_4default__semantics})
 
-	__defun__shen_4grammar__symbol_2 = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4grammar__symbol_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4736 := __args[0]
 		_ = V4736
 		reg7679 := PrimIsSymbol(V4736)
 		if reg7679 == True {
-			reg7680 := __e.Call(__defun__explode, V4736)
-			reg7681 := __e.Call(__defun__shen_4strip_1pathname, reg7680)
+			reg7680 := Call(__e, __defun__explode, V4736)
+			reg7681 := Call(__e, __defun__shen_4strip_1pathname, reg7680)
 			Cs := reg7681
 			_ = Cs
 			reg7682 := PrimHead(Cs)
@@ -670,7 +670,7 @@ func init() {
 			reg7684 := PrimEqual(reg7682, reg7683)
 			var reg7693 Obj
 			if reg7684 == True {
-				reg7685 := __e.Call(__defun__reverse, Cs)
+				reg7685 := Call(__e, __defun__reverse, Cs)
 				reg7686 := PrimHead(reg7685)
 				reg7687 := MakeString(">")
 				reg7688 := PrimEqual(reg7686, reg7687)
@@ -689,22 +689,22 @@ func init() {
 			}
 			if reg7693 == True {
 				reg7694 := True
-				__ctx.Return(reg7694)
+				__e.Return(reg7694)
 				return
 			} else {
 				reg7695 := False
-				__ctx.Return(reg7695)
+				__e.Return(reg7695)
 				return
 			}
 		} else {
 			reg7696 := False
-			__ctx.Return(reg7696)
+			__e.Return(reg7696)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.grammar_symbol?", value: __defun__shen_4grammar__symbol_2})
 
-	__defun__shen_4yacc__cases = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4yacc__cases = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4738 := __args[0]
 		_ = V4738
 		reg7697 := PrimIsPair(V4738)
@@ -728,7 +728,7 @@ func init() {
 		}
 		if reg7705 == True {
 			reg7706 := PrimHead(V4738)
-			__ctx.Return(reg7706)
+			__e.Return(reg7706)
 			return
 		} else {
 			reg7707 := PrimIsPair(V4738)
@@ -748,7 +748,7 @@ func init() {
 				reg7718 := PrimCons(P, reg7717)
 				reg7719 := PrimCons(reg7712, reg7718)
 				reg7720 := PrimTail(V4738)
-				reg7721 := __e.Call(__defun__shen_4yacc__cases, reg7720)
+				reg7721 := Call(__e, __defun__shen_4yacc__cases, reg7720)
 				reg7722 := Nil
 				reg7723 := PrimCons(P, reg7722)
 				reg7724 := PrimCons(reg7721, reg7723)
@@ -759,18 +759,18 @@ func init() {
 				reg7729 := PrimCons(reg7710, reg7728)
 				reg7730 := PrimCons(P, reg7729)
 				reg7731 := PrimCons(reg7709, reg7730)
-				__ctx.Return(reg7731)
+				__e.Return(reg7731)
 				return
 			} else {
 				reg7732 := MakeSymbol("shen.yacc_cases")
-				__ctx.TailApply(__defun__shen_4f__error, reg7732)
+				__e.TailApply(__defun__shen_4f__error, reg7732)
 				return
 			}
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.yacc_cases", value: __defun__shen_4yacc__cases})
 
-	__defun__shen_4cc__body = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4cc__body = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4740 := __args[0]
 		_ = V4740
 		reg7734 := PrimIsPair(V4740)
@@ -815,17 +815,17 @@ func init() {
 			reg7752 := MakeSymbol("Stream")
 			reg7753 := PrimTail(V4740)
 			reg7754 := PrimHead(reg7753)
-			__ctx.TailApply(__defun__shen_4syntax, reg7751, reg7752, reg7754)
+			__e.TailApply(__defun__shen_4syntax, reg7751, reg7752, reg7754)
 			return
 		} else {
 			reg7756 := MakeSymbol("shen.cc_body")
-			__ctx.TailApply(__defun__shen_4f__error, reg7756)
+			__e.TailApply(__defun__shen_4f__error, reg7756)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.cc_body", value: __defun__shen_4cc__body})
 
-	__defun__shen_4syntax = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4syntax = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4744 := __args[0]
 		_ = V4744
 		V4745 := __args[1]
@@ -927,7 +927,7 @@ func init() {
 			reg7799 := MakeSymbol("if")
 			reg7800 := PrimTail(V4746)
 			reg7801 := PrimHead(reg7800)
-			reg7802 := __e.Call(__defun__shen_4semantics, reg7801)
+			reg7802 := Call(__e, __defun__shen_4semantics, reg7801)
 			reg7803 := MakeSymbol("shen.pair")
 			reg7804 := MakeSymbol("hd")
 			reg7805 := Nil
@@ -936,7 +936,7 @@ func init() {
 			reg7808 := PrimTail(V4746)
 			reg7809 := PrimTail(reg7808)
 			reg7810 := PrimHead(reg7809)
-			reg7811 := __e.Call(__defun__shen_4semantics, reg7810)
+			reg7811 := Call(__e, __defun__shen_4semantics, reg7810)
 			reg7812 := Nil
 			reg7813 := PrimCons(reg7811, reg7812)
 			reg7814 := PrimCons(reg7807, reg7813)
@@ -949,7 +949,7 @@ func init() {
 			reg7821 := PrimCons(reg7815, reg7820)
 			reg7822 := PrimCons(reg7802, reg7821)
 			reg7823 := PrimCons(reg7799, reg7822)
-			__ctx.Return(reg7823)
+			__e.Return(reg7823)
 			return
 		} else {
 			reg7824 := Nil
@@ -960,55 +960,55 @@ func init() {
 				reg7828 := Nil
 				reg7829 := PrimCons(V4745, reg7828)
 				reg7830 := PrimCons(reg7827, reg7829)
-				reg7831 := __e.Call(__defun__shen_4semantics, V4746)
+				reg7831 := Call(__e, __defun__shen_4semantics, V4746)
 				reg7832 := Nil
 				reg7833 := PrimCons(reg7831, reg7832)
 				reg7834 := PrimCons(reg7830, reg7833)
 				reg7835 := PrimCons(reg7826, reg7834)
-				__ctx.Return(reg7835)
+				__e.Return(reg7835)
 				return
 			} else {
 				reg7836 := PrimIsPair(V4744)
 				if reg7836 == True {
 					reg7837 := PrimHead(V4744)
-					reg7838 := __e.Call(__defun__shen_4grammar__symbol_2, reg7837)
+					reg7838 := Call(__e, __defun__shen_4grammar__symbol_2, reg7837)
 					if reg7838 == True {
-						__ctx.TailApply(__defun__shen_4recursive__descent, V4744, V4745, V4746)
+						__e.TailApply(__defun__shen_4recursive__descent, V4744, V4745, V4746)
 						return
 					} else {
 						reg7840 := PrimHead(V4744)
 						reg7841 := PrimIsVariable(reg7840)
 						if reg7841 == True {
-							__ctx.TailApply(__defun__shen_4variable_1match, V4744, V4745, V4746)
+							__e.TailApply(__defun__shen_4variable_1match, V4744, V4745, V4746)
 							return
 						} else {
 							reg7843 := PrimHead(V4744)
-							reg7844 := __e.Call(__defun__shen_4jump__stream_2, reg7843)
+							reg7844 := Call(__e, __defun__shen_4jump__stream_2, reg7843)
 							if reg7844 == True {
-								__ctx.TailApply(__defun__shen_4jump__stream, V4744, V4745, V4746)
+								__e.TailApply(__defun__shen_4jump__stream, V4744, V4745, V4746)
 								return
 							} else {
 								reg7846 := PrimHead(V4744)
-								reg7847 := __e.Call(__defun__shen_4terminal_2, reg7846)
+								reg7847 := Call(__e, __defun__shen_4terminal_2, reg7846)
 								if reg7847 == True {
-									__ctx.TailApply(__defun__shen_4check__stream, V4744, V4745, V4746)
+									__e.TailApply(__defun__shen_4check__stream, V4744, V4745, V4746)
 									return
 								} else {
 									reg7849 := PrimHead(V4744)
 									reg7850 := PrimIsPair(reg7849)
 									if reg7850 == True {
 										reg7851 := PrimHead(V4744)
-										reg7852 := __e.Call(__defun__shen_4decons, reg7851)
+										reg7852 := Call(__e, __defun__shen_4decons, reg7851)
 										reg7853 := PrimTail(V4744)
-										__ctx.TailApply(__defun__shen_4list_1stream, reg7852, reg7853, V4745, V4746)
+										__e.TailApply(__defun__shen_4list_1stream, reg7852, reg7853, V4745, V4746)
 										return
 									} else {
 										reg7855 := PrimHead(V4744)
 										reg7856 := MakeString(" is not legal syntax\n")
 										reg7857 := MakeSymbol("shen.a")
-										reg7858 := __e.Call(__defun__shen_4app, reg7855, reg7856, reg7857)
+										reg7858 := Call(__e, __defun__shen_4app, reg7855, reg7856, reg7857)
 										reg7859 := PrimSimpleError(reg7858)
-										__ctx.Return(reg7859)
+										__e.Return(reg7859)
 										return
 									}
 								}
@@ -1017,7 +1017,7 @@ func init() {
 					}
 				} else {
 					reg7860 := MakeSymbol("shen.syntax")
-					__ctx.TailApply(__defun__shen_4f__error, reg7860)
+					__e.TailApply(__defun__shen_4f__error, reg7860)
 					return
 				}
 			}
@@ -1025,7 +1025,7 @@ func init() {
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.syntax", value: __defun__shen_4syntax})
 
-	__defun__shen_4list_1stream = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4list_1stream = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4751 := __args[0]
 		_ = V4751
 		V4752 := __args[1]
@@ -1058,7 +1058,7 @@ func init() {
 		Test := reg7882
 		_ = Test
 		reg7883 := MakeSymbol("shen.place")
-		reg7884 := __e.Call(__defun__gensym, reg7883)
+		reg7884 := Call(__e, __defun__gensym, reg7883)
 		Placeholder := reg7884
 		_ = Placeholder
 		reg7885 := MakeSymbol("shen.pair")
@@ -1074,7 +1074,7 @@ func init() {
 		reg7895 := PrimCons(reg7893, reg7894)
 		reg7896 := PrimCons(reg7889, reg7895)
 		reg7897 := PrimCons(reg7885, reg7896)
-		reg7898 := __e.Call(__defun__shen_4syntax, V4752, reg7897, V4754)
+		reg7898 := Call(__e, __defun__shen_4syntax, V4752, reg7897, V4754)
 		RunOn := reg7898
 		_ = RunOn
 		reg7899 := MakeSymbol("shen.pair")
@@ -1090,8 +1090,8 @@ func init() {
 		reg7909 := PrimCons(reg7907, reg7908)
 		reg7910 := PrimCons(reg7903, reg7909)
 		reg7911 := PrimCons(reg7899, reg7910)
-		reg7912 := __e.Call(__defun__shen_4syntax, V4751, reg7911, Placeholder)
-		reg7913 := __e.Call(__defun__shen_4insert_1runon, RunOn, Placeholder, reg7912)
+		reg7912 := Call(__e, __defun__shen_4syntax, V4751, reg7911, Placeholder)
+		reg7913 := Call(__e, __defun__shen_4insert_1runon, RunOn, Placeholder, reg7912)
 		Action := reg7913
 		_ = Action
 		reg7914 := MakeSymbol("if")
@@ -1103,12 +1103,12 @@ func init() {
 		reg7920 := PrimCons(Action, reg7919)
 		reg7921 := PrimCons(Test, reg7920)
 		reg7922 := PrimCons(reg7914, reg7921)
-		__ctx.Return(reg7922)
+		__e.Return(reg7922)
 		return
 	}, 4)
 	__initDefs = append(__initDefs, defType{name: "shen.list-stream", value: __defun__shen_4list_1stream})
 
-	__defun__shen_4decons = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4decons = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4756 := __args[0]
 		_ = V4756
 		reg7923 := PrimIsPair(V4756)
@@ -1210,7 +1210,7 @@ func init() {
 			reg7968 := PrimHead(reg7967)
 			reg7969 := Nil
 			reg7970 := PrimCons(reg7968, reg7969)
-			__ctx.Return(reg7970)
+			__e.Return(reg7970)
 			return
 		} else {
 			reg7971 := PrimIsPair(V4756)
@@ -1293,19 +1293,19 @@ func init() {
 				reg8007 := PrimTail(V4756)
 				reg8008 := PrimTail(reg8007)
 				reg8009 := PrimHead(reg8008)
-				reg8010 := __e.Call(__defun__shen_4decons, reg8009)
+				reg8010 := Call(__e, __defun__shen_4decons, reg8009)
 				reg8011 := PrimCons(reg8006, reg8010)
-				__ctx.Return(reg8011)
+				__e.Return(reg8011)
 				return
 			} else {
-				__ctx.Return(V4756)
+				__e.Return(V4756)
 				return
 			}
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.decons", value: __defun__shen_4decons})
 
-	__defun__shen_4insert_1runon = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4insert_1runon = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4771 := __args[0]
 		_ = V4771
 		V4772 := __args[1]
@@ -1406,52 +1406,52 @@ func init() {
 			reg8054 = reg8053
 		}
 		if reg8054 == True {
-			__ctx.Return(V4771)
+			__e.Return(V4771)
 			return
 		} else {
 			reg8055 := PrimIsPair(V4773)
 			if reg8055 == True {
-				reg8056 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+				reg8056 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					Z := __args[0]
 					_ = Z
-					__ctx.TailApply(__defun__shen_4insert_1runon, V4771, V4772, Z)
+					__e.TailApply(__defun__shen_4insert_1runon, V4771, V4772, Z)
 					return
 				}, 1)
-				__ctx.TailApply(__defun__map, reg8056, V4773)
+				__e.TailApply(__defun__map, reg8056, V4773)
 				return
 			} else {
-				__ctx.Return(V4773)
+				__e.Return(V4773)
 				return
 			}
 		}
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.insert-runon", value: __defun__shen_4insert_1runon})
 
-	__defun__shen_4strip_1pathname = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4strip_1pathname = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4779 := __args[0]
 		_ = V4779
 		reg8059 := MakeString(".")
-		reg8060 := __e.Call(__defun__element_2, reg8059, V4779)
+		reg8060 := Call(__e, __defun__element_2, reg8059, V4779)
 		reg8061 := PrimNot(reg8060)
 		if reg8061 == True {
-			__ctx.Return(V4779)
+			__e.Return(V4779)
 			return
 		} else {
 			reg8062 := PrimIsPair(V4779)
 			if reg8062 == True {
 				reg8063 := PrimTail(V4779)
-				__ctx.TailApply(__defun__shen_4strip_1pathname, reg8063)
+				__e.TailApply(__defun__shen_4strip_1pathname, reg8063)
 				return
 			} else {
 				reg8065 := MakeSymbol("shen.strip-pathname")
-				__ctx.TailApply(__defun__shen_4f__error, reg8065)
+				__e.TailApply(__defun__shen_4f__error, reg8065)
 				return
 			}
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.strip-pathname", value: __defun__shen_4strip_1pathname})
 
-	__defun__shen_4recursive__descent = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4recursive__descent = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4783 := __args[0]
 		_ = V4783
 		V4784 := __args[1]
@@ -1469,8 +1469,8 @@ func init() {
 			reg8072 := PrimTail(V4783)
 			reg8073 := MakeSymbol("Parse_")
 			reg8074 := PrimHead(V4783)
-			reg8075 := __e.Call(__defun__concat, reg8073, reg8074)
-			reg8076 := __e.Call(__defun__shen_4syntax, reg8072, reg8075, V4785)
+			reg8075 := Call(__e, __defun__concat, reg8073, reg8074)
+			reg8076 := Call(__e, __defun__shen_4syntax, reg8072, reg8075, V4785)
 			Action := reg8076
 			_ = Action
 			reg8077 := MakeSymbol("fail")
@@ -1481,7 +1481,7 @@ func init() {
 			reg8080 := MakeSymbol("let")
 			reg8081 := MakeSymbol("Parse_")
 			reg8082 := PrimHead(V4783)
-			reg8083 := __e.Call(__defun__concat, reg8081, reg8082)
+			reg8083 := Call(__e, __defun__concat, reg8081, reg8082)
 			reg8084 := MakeSymbol("if")
 			reg8085 := MakeSymbol("not")
 			reg8086 := MakeSymbol("=")
@@ -1490,7 +1490,7 @@ func init() {
 			reg8089 := PrimCons(reg8087, reg8088)
 			reg8090 := MakeSymbol("Parse_")
 			reg8091 := PrimHead(V4783)
-			reg8092 := __e.Call(__defun__concat, reg8090, reg8091)
+			reg8092 := Call(__e, __defun__concat, reg8090, reg8091)
 			reg8093 := Nil
 			reg8094 := PrimCons(reg8092, reg8093)
 			reg8095 := PrimCons(reg8089, reg8094)
@@ -1508,17 +1508,17 @@ func init() {
 			reg8107 := PrimCons(Test, reg8106)
 			reg8108 := PrimCons(reg8083, reg8107)
 			reg8109 := PrimCons(reg8080, reg8108)
-			__ctx.Return(reg8109)
+			__e.Return(reg8109)
 			return
 		} else {
 			reg8110 := MakeSymbol("shen.recursive_descent")
-			__ctx.TailApply(__defun__shen_4f__error, reg8110)
+			__e.TailApply(__defun__shen_4f__error, reg8110)
 			return
 		}
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.recursive_descent", value: __defun__shen_4recursive__descent})
 
-	__defun__shen_4variable_1match = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4variable_1match = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4789 := __args[0]
 		_ = V4789
 		V4790 := __args[1]
@@ -1540,7 +1540,7 @@ func init() {
 			reg8121 := MakeSymbol("let")
 			reg8122 := MakeSymbol("Parse_")
 			reg8123 := PrimHead(V4789)
-			reg8124 := __e.Call(__defun__concat, reg8122, reg8123)
+			reg8124 := Call(__e, __defun__concat, reg8122, reg8123)
 			reg8125 := MakeSymbol("shen.hdhd")
 			reg8126 := Nil
 			reg8127 := PrimCons(V4790, reg8126)
@@ -1559,7 +1559,7 @@ func init() {
 			reg8140 := PrimCons(reg8138, reg8139)
 			reg8141 := PrimCons(reg8134, reg8140)
 			reg8142 := PrimCons(reg8130, reg8141)
-			reg8143 := __e.Call(__defun__shen_4syntax, reg8129, reg8142, V4791)
+			reg8143 := Call(__e, __defun__shen_4syntax, reg8129, reg8142, V4791)
 			reg8144 := Nil
 			reg8145 := PrimCons(reg8143, reg8144)
 			reg8146 := PrimCons(reg8128, reg8145)
@@ -1578,57 +1578,57 @@ func init() {
 			reg8155 := PrimCons(Action, reg8154)
 			reg8156 := PrimCons(Test, reg8155)
 			reg8157 := PrimCons(reg8152, reg8156)
-			__ctx.Return(reg8157)
+			__e.Return(reg8157)
 			return
 		} else {
 			reg8158 := MakeSymbol("shen.variable-match")
-			__ctx.TailApply(__defun__shen_4f__error, reg8158)
+			__e.TailApply(__defun__shen_4f__error, reg8158)
 			return
 		}
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.variable-match", value: __defun__shen_4variable_1match})
 
-	__defun__shen_4terminal_2 = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4terminal_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4801 := __args[0]
 		_ = V4801
 		reg8160 := PrimIsPair(V4801)
 		if reg8160 == True {
 			reg8161 := False
-			__ctx.Return(reg8161)
+			__e.Return(reg8161)
 			return
 		} else {
 			reg8162 := PrimIsVariable(V4801)
 			if reg8162 == True {
 				reg8163 := False
-				__ctx.Return(reg8163)
+				__e.Return(reg8163)
 				return
 			} else {
 				reg8164 := True
-				__ctx.Return(reg8164)
+				__e.Return(reg8164)
 				return
 			}
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.terminal?", value: __defun__shen_4terminal_2})
 
-	__defun__shen_4jump__stream_2 = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4jump__stream_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4807 := __args[0]
 		_ = V4807
 		reg8165 := MakeSymbol("_")
 		reg8166 := PrimEqual(V4807, reg8165)
 		if reg8166 == True {
 			reg8167 := True
-			__ctx.Return(reg8167)
+			__e.Return(reg8167)
 			return
 		} else {
 			reg8168 := False
-			__ctx.Return(reg8168)
+			__e.Return(reg8168)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.jump_stream?", value: __defun__shen_4jump__stream_2})
 
-	__defun__shen_4check__stream = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4check__stream = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4811 := __args[0]
 		_ = V4811
 		V4812 := __args[1]
@@ -1663,7 +1663,7 @@ func init() {
 			Test := reg8192
 			_ = Test
 			reg8193 := MakeSymbol("NewStream")
-			reg8194 := __e.Call(__defun__gensym, reg8193)
+			reg8194 := Call(__e, __defun__gensym, reg8193)
 			NewStr := reg8194
 			_ = NewStr
 			reg8195 := MakeSymbol("let")
@@ -1681,7 +1681,7 @@ func init() {
 			reg8207 := PrimCons(reg8200, reg8206)
 			reg8208 := PrimCons(reg8196, reg8207)
 			reg8209 := PrimTail(V4811)
-			reg8210 := __e.Call(__defun__shen_4syntax, reg8209, NewStr, V4813)
+			reg8210 := Call(__e, __defun__shen_4syntax, reg8209, NewStr, V4813)
 			reg8211 := Nil
 			reg8212 := PrimCons(reg8210, reg8211)
 			reg8213 := PrimCons(reg8208, reg8212)
@@ -1700,17 +1700,17 @@ func init() {
 			reg8222 := PrimCons(Action, reg8221)
 			reg8223 := PrimCons(Test, reg8222)
 			reg8224 := PrimCons(reg8219, reg8223)
-			__ctx.Return(reg8224)
+			__e.Return(reg8224)
 			return
 		} else {
 			reg8225 := MakeSymbol("shen.check_stream")
-			__ctx.TailApply(__defun__shen_4f__error, reg8225)
+			__e.TailApply(__defun__shen_4f__error, reg8225)
 			return
 		}
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.check_stream", value: __defun__shen_4check__stream})
 
-	__defun__shen_4jump__stream = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4jump__stream = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4817 := __args[0]
 		_ = V4817
 		V4818 := __args[1]
@@ -1743,7 +1743,7 @@ func init() {
 			reg8247 := PrimCons(reg8245, reg8246)
 			reg8248 := PrimCons(reg8241, reg8247)
 			reg8249 := PrimCons(reg8237, reg8248)
-			reg8250 := __e.Call(__defun__shen_4syntax, reg8236, reg8249, V4819)
+			reg8250 := Call(__e, __defun__shen_4syntax, reg8236, reg8249, V4819)
 			Action := reg8250
 			_ = Action
 			reg8251 := MakeSymbol("fail")
@@ -1757,55 +1757,55 @@ func init() {
 			reg8257 := PrimCons(Action, reg8256)
 			reg8258 := PrimCons(Test, reg8257)
 			reg8259 := PrimCons(reg8254, reg8258)
-			__ctx.Return(reg8259)
+			__e.Return(reg8259)
 			return
 		} else {
 			reg8260 := MakeSymbol("shen.jump_stream")
-			__ctx.TailApply(__defun__shen_4f__error, reg8260)
+			__e.TailApply(__defun__shen_4f__error, reg8260)
 			return
 		}
 	}, 3)
 	__initDefs = append(__initDefs, defType{name: "shen.jump_stream", value: __defun__shen_4jump__stream})
 
-	__defun__shen_4semantics = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4semantics = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4821 := __args[0]
 		_ = V4821
 		reg8262 := Nil
 		reg8263 := PrimEqual(reg8262, V4821)
 		if reg8263 == True {
 			reg8264 := Nil
-			__ctx.Return(reg8264)
+			__e.Return(reg8264)
 			return
 		} else {
-			reg8265 := __e.Call(__defun__shen_4grammar__symbol_2, V4821)
+			reg8265 := Call(__e, __defun__shen_4grammar__symbol_2, V4821)
 			if reg8265 == True {
 				reg8266 := MakeSymbol("shen.hdtl")
 				reg8267 := MakeSymbol("Parse_")
-				reg8268 := __e.Call(__defun__concat, reg8267, V4821)
+				reg8268 := Call(__e, __defun__concat, reg8267, V4821)
 				reg8269 := Nil
 				reg8270 := PrimCons(reg8268, reg8269)
 				reg8271 := PrimCons(reg8266, reg8270)
-				__ctx.Return(reg8271)
+				__e.Return(reg8271)
 				return
 			} else {
 				reg8272 := PrimIsVariable(V4821)
 				if reg8272 == True {
 					reg8273 := MakeSymbol("Parse_")
-					__ctx.TailApply(__defun__concat, reg8273, V4821)
+					__e.TailApply(__defun__concat, reg8273, V4821)
 					return
 				} else {
 					reg8275 := PrimIsPair(V4821)
 					if reg8275 == True {
-						reg8276 := MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+						reg8276 := MakeNative(func(__e Evaluator, __args ...Obj) {
 							Z := __args[0]
 							_ = Z
-							__ctx.TailApply(__defun__shen_4semantics, Z)
+							__e.TailApply(__defun__shen_4semantics, Z)
 							return
 						}, 1)
-						__ctx.TailApply(__defun__map, reg8276, V4821)
+						__e.TailApply(__defun__map, reg8276, V4821)
 						return
 					} else {
-						__ctx.Return(V4821)
+						__e.Return(V4821)
 						return
 					}
 				}
@@ -1814,7 +1814,7 @@ func init() {
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.semantics", value: __defun__shen_4semantics})
 
-	__defun__shen_4pair = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4pair = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4824 := __args[0]
 		_ = V4824
 		V4825 := __args[1]
@@ -1822,42 +1822,42 @@ func init() {
 		reg8279 := Nil
 		reg8280 := PrimCons(V4825, reg8279)
 		reg8281 := PrimCons(V4824, reg8280)
-		__ctx.Return(reg8281)
+		__e.Return(reg8281)
 		return
 	}, 2)
 	__initDefs = append(__initDefs, defType{name: "shen.pair", value: __defun__shen_4pair})
 
-	__defun__shen_4hdtl = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4hdtl = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4827 := __args[0]
 		_ = V4827
 		reg8282 := PrimTail(V4827)
 		reg8283 := PrimHead(reg8282)
-		__ctx.Return(reg8283)
+		__e.Return(reg8283)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.hdtl", value: __defun__shen_4hdtl})
 
-	__defun__shen_4hdhd = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4hdhd = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4829 := __args[0]
 		_ = V4829
 		reg8284 := PrimHead(V4829)
 		reg8285 := PrimHead(reg8284)
-		__ctx.Return(reg8285)
+		__e.Return(reg8285)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.hdhd", value: __defun__shen_4hdhd})
 
-	__defun__shen_4tlhd = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4tlhd = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4831 := __args[0]
 		_ = V4831
 		reg8286 := PrimHead(V4831)
 		reg8287 := PrimTail(reg8286)
-		__ctx.Return(reg8287)
+		__e.Return(reg8287)
 		return
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.tlhd", value: __defun__shen_4tlhd})
 
-	__defun__shen_4snd_1or_1fail = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__shen_4snd_1or_1fail = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4839 := __args[0]
 		_ = V4839
 		reg8288 := PrimIsPair(V4839)
@@ -1900,23 +1900,23 @@ func init() {
 		if reg8304 == True {
 			reg8305 := PrimTail(V4839)
 			reg8306 := PrimHead(reg8305)
-			__ctx.Return(reg8306)
+			__e.Return(reg8306)
 			return
 		} else {
-			__ctx.TailApply(__defun__fail)
+			__e.TailApply(__defun__fail)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "shen.snd-or-fail", value: __defun__shen_4snd_1or_1fail})
 
-	__defun__fail = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun__fail = MakeNative(func(__e Evaluator, __args ...Obj) {
 		reg8308 := MakeSymbol("...")
-		__ctx.Return(reg8308)
+		__e.Return(reg8308)
 		return
 	}, 0)
 	__initDefs = append(__initDefs, defType{name: "fail", value: __defun__fail})
 
-	__defun___5_b_6 = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun___5_b_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4847 := __args[0]
 		_ = V4847
 		reg8309 := PrimIsPair(V4847)
@@ -1962,16 +1962,16 @@ func init() {
 			reg8328 := Nil
 			reg8329 := PrimCons(reg8327, reg8328)
 			reg8330 := PrimCons(reg8326, reg8329)
-			__ctx.Return(reg8330)
+			__e.Return(reg8330)
 			return
 		} else {
-			__ctx.TailApply(__defun__fail)
+			__e.TailApply(__defun__fail)
 			return
 		}
 	}, 1)
 	__initDefs = append(__initDefs, defType{name: "<!>", value: __defun___5_b_6})
 
-	__defun___5e_6 = MakeNative(func(__e Evaluator, __ctx *ControlFlow, __args ...Obj) {
+	__defun___5e_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
 		V4853 := __args[0]
 		_ = V4853
 		reg8332 := PrimIsPair(V4853)
@@ -2017,11 +2017,11 @@ func init() {
 			reg8351 := Nil
 			reg8352 := PrimCons(reg8350, reg8351)
 			reg8353 := PrimCons(reg8349, reg8352)
-			__ctx.Return(reg8353)
+			__e.Return(reg8353)
 			return
 		} else {
 			reg8354 := MakeSymbol("<e>")
-			__ctx.TailApply(__defun__shen_4f__error, reg8354)
+			__e.TailApply(__defun__shen_4f__error, reg8354)
 			return
 		}
 	}, 1)
