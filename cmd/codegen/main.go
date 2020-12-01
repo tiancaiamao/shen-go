@@ -32,38 +32,44 @@ func main() {
 	}
 	defer out.Close()
 
-	var declare bytes.Buffer
+	declare := make(map[kl.Obj]struct{})
 	var init bytes.Buffer
 
 	fmt.Fprintf(out, "package main\n\n")
 	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
-	r := kl.NewSexpReader(f)
-	for {
-		bc, err := r.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Println("read bytecode error", err)
-			return
-		}
+	r := kl.NewSexpReader(f, false)
+	bc, err := r.Read()
+	if err != nil {
+		fmt.Println("read bytecode error", err)
+		return
+	}
 
-		if err := generateExpr(&declare, &init, bc); err != nil {
+	for bc != kl.Nil {
+		curr := kl.Car(bc)
+		bc = kl.Cdr(bc)
+		if err := generateExpr(declare, &init, curr, bc==kl.Nil); err != nil {
 			panic(err)
 			return
 		}
+		fmt.Fprintf(&init, "\n\n")
 	}
-	_, err = io.Copy(out, &declare)
-	if err != nil {
-		return
+
+	for sym, _ := range declare {
+		symStr := symbolString(sym)
+		symVar := "sym"+symbolAsVar(sym)
+		fmt.Fprintf(out, "var %s = MakeSymbol(\"%s\")\n", symVar, symStr)
 	}
-	fmt.Fprintf(out, "\nfunc init() {\n")
+	// _, err = io.Copy(out, &declare)
+	// if err != nil {
+	// 	return
+	// }
+	fmt.Fprintf(out, "\nfunc Main(__e Evaluator, __args ...Obj) {\n")
 
 	_, err = io.Copy(out, &init)
 	if err != nil {
 		return
 	}
-	fmt.Fprintf(out, "}\n")
+	fmt.Fprintf(out, "}")
 }
 
 func symbolString(sym kl.Obj) string {
@@ -107,6 +113,8 @@ func symbolAsVar(sym kl.Obj) string {
 			buf.WriteString("_f")
 		case '^':
 			buf.WriteString("_g")
+		case ':':
+			buf.WriteString("_h")
 		default:
 			buf.WriteByte(str[i])
 		}
@@ -114,199 +122,153 @@ func symbolAsVar(sym kl.Obj) string {
 	return buf.String()
 }
 
-func defunSymbolVar(sym kl.Obj) string {
-	return "__defun__" + symbolAsVar(sym)
-}
-
-func generateExprs(declare, init io.Writer, sexp kl.Obj) error {
-	instructs := kl.ListToSlice(sexp)
-	for _, inst := range instructs {
-		if err := generateExpr(declare, init, inst); err != nil {
-			return err
+func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bool) error {
+	// fmt.Printf("handle %s ..\n", kl.ObjString(sexp))
+	if kl.IsSymbol(sexp) {
+		if tail {
+			fmt.Fprintf(w, "__e.Return(%s)\nreturn\n", symbolAsVar(sexp))
+		} else {
+			fmt.Fprintf(w, "%s", symbolAsVar(sexp))
 		}
+		return nil
 	}
-	return nil
-}
-
-func generateExpr(declare, w io.Writer, sexp kl.Obj) error {
-	fmt.Printf("handle %s ...\n", kl.ObjString(sexp))
 	kind := kl.GetSymbol(kl.Car(sexp))
 	switch kind {
-	case "$expr":
-		fmt.Fprintf(w, "__initExprs = append(__initExprs, MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n")
-		if err := generateExprs(declare, w, kl.Cdr(sexp)); err != nil {
-			return err
+	case "block":
+		for cur := kl.Cdr(sexp); cur != kl.Nil; cur = kl.Cdr(cur) {
+			p := kl.Car(cur)
+			tail1 := false
+			if kl.Cdr(cur) == kl.Nil {
+				tail1 = tail
+			}
+			if err := generateExpr(declare, w, p, tail1); err != nil {
+				return err
+			}
 		}
-		fmt.Fprintf(w, "}, 0))\n")
-	case "$defun":
-		goName := defunSymbolVar(kl.Cadr(sexp))
-		shenName := symbolString(kl.Cadr(sexp))
-		fmt.Fprintf(declare, "var %s Obj // %s\n", goName, shenName)
-		fmt.Fprintf(w, "%s = MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", goName)
-		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		args1 := kl.ListToSlice(args)
-		for i, arg := range args1 {
+		fmt.Fprintln(w)
+	case "<-":
+		// (<- a b)
+		a := kl.Car(kl.Cdr(sexp))
+		b := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		fmt.Fprintf(w, "%s = ", symbolAsVar(a))
+		generateExpr(declare, w, b, false)
+		fmt.Fprintln(w)
+	case "<-:":
+		a := kl.Car(kl.Cdr(sexp))
+		b := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		fmt.Fprintf(w, "%s := ", symbolAsVar(a))
+		generateExpr(declare, w, b, false)
+		fmt.Fprintln(w)
+	case "$global":
+		sym := kl.Car(kl.Cdr(sexp))
+		declare[sym] = struct{}{}
+		fmt.Fprintf(w, "CoraValue(sym%s)", symbolAsVar(sym))
+	case "declare":
+		// (declare x)
+		x := kl.Car(kl.Cdr(sexp))
+		fmt.Fprintf(w, "var %s Obj\n", symbolAsVar(x))
+	case "lambda":
+		// (lambda (p1 p2 ...) ...)
+		tmp := kl.Car(kl.Cdr(sexp))
+		args := kl.ListToSlice(tmp)
+		fmt.Fprintf(w, "MakeNative(func(__e Evaluator, __args ...Obj) {\n")
+		for i, arg := range args {
 			fmt.Fprintf(w, "%s := __args[%d]\n", symbolAsVar(arg), i)
 			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
 		}
-		if err := generateExprs(declare, w, kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))); err != nil {
+		if err := generateExpr(declare, w, kl.Car(kl.Cdr(kl.Cdr(sexp))), true); err != nil {
 			return err
 		}
-		fmt.Fprintf(w, "}, %d)\n", len(args1))
-		fmt.Fprintf(w, "__initDefs = append(__initDefs, defType{name: %#v, value: %s})\n\n", shenName, goName)
-	case "$lambda":
-		dest := kl.Cadr(sexp)
-		tmp := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		args := kl.ListToSlice(tmp)
-		fmt.Fprintf(w, "%s := MakeNative(func(__e *Evaluator, __ctx *ControlFlow, __args ...Obj) {\n", symbolString(dest))
-		for _, arg := range args {
-			fmt.Fprintf(w, "%s := __args[0]\n", symbolAsVar(arg))
-			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
-		}
-		if err := generateExprs(declare, w, kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))); err != nil {
-			return err
-		}
-		fmt.Fprintf(w, "}, %d)\n", len(args))
-	case "mov":
-		// (mov SRC DST)
-		src := kl.Car(kl.Cdr(sexp))
-		dst := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		fmt.Fprintf(w, "%s = %s\n", symbolString(dst), symbolAsVar(src))
-	case "$declare-mov":
-		// (mov SRC DST)
-		src := kl.Car(kl.Cdr(sexp))
-		dst := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		fmt.Fprintf(w, "%s := %s\n", symbolAsVar(dst), symbolAsVar(src))
+		fmt.Fprintf(w, "}, %d)", len(args))
 	case "$const":
-		// (const Number DST)
-		// (const () DST)
-		// (const "xxx" DST)
-		dst := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		// (const Number)
+		// (const ())
+		// (const "xxx")
 		c := kl.Cadr(sexp)
-		switch {
-		case kl.IsNumber(c):
-			fmt.Fprintf(w, "%s := MakeNumber(%d)\n", symbolString(dst), kl.GetInteger(kl.Cadr(sexp)))
-		case kl.PrimIsString(c) == kl.True:
-			str := kl.GetString(c)
-			fmt.Fprintf(w, "%s := MakeString(%#v)\n", symbolString(dst), str)
-		case kl.IsSymbol(c):
-			str := kl.GetSymbol(c)
-			fmt.Fprintf(w, "%s := MakeSymbol(\"%s\")\n", symbolString(dst), str)
-		case c == kl.Nil:
-			fmt.Fprintf(w, "%s := Nil;\n", symbolString(dst))
-		case c == kl.True:
-			fmt.Fprintf(w, "%s := True;\n", symbolString(dst))
-		case c == kl.False:
-			fmt.Fprintf(w, "%s := False;\n", symbolString(dst))
-		default:
-			return errors.New("unknown $const instruct")
+		if tail {
+			fmt.Fprintf(w, "__e.Return(")
 		}
-	case "$declare":
-		// ($declare x)
-		tmp := kl.Cadr(sexp)
-		fmt.Fprintf(w, "var %s Obj\n", symbolString(tmp))
+		if err := generateConst(declare, w, c); err != nil {
+			return err
+		}
+		if tail {
+			fmt.Fprintf(w, ")\nreturn\n")
+		}
 	case "if":
 		// (if a b c)
 		a := kl.Cadr(sexp)
 		b := kl.Car(kl.Cdr(kl.Cdr(sexp)))
 		c := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		if err := generateIfExpr(declare, w, a, b, c); err != nil {
+		if err := generateIfExpr(declare, w, a, b, c, tail); err != nil {
 			return err
 		}
-	case "$builtin":
-		// (builtin OP (ARG1 ARG2 ...) DST)
-		op := kl.Cadr(sexp)
-		args := kl.Cadr(kl.Cdr(sexp))
-		dst := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		generateBuiltinCall(w, op, args, dst)
-	case "$tailcall-def":
-		fname := kl.Cadr(sexp)
-		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		fmt.Fprintf(w, "__ctx.TailApply(%s", defunSymbolVar(fname))
-		for _, arg := range kl.ListToSlice(args) {
-			fmt.Fprintf(w, ", ")
-			fmt.Fprintf(w, "%s", symbolAsVar(arg))
-		}
-		fmt.Fprintf(w, ")\nreturn\n")
-	case "$call-def":
-		fname := kl.Cadr(sexp)
-		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		fmt.Fprintf(w, "%s := __e.Call(%s", symbolAsVar(res), defunSymbolVar(fname))
-		for _, arg := range kl.ListToSlice(args) {
-			fmt.Fprintf(w, ", ")
-			fmt.Fprintf(w, "%s", symbolAsVar(arg))
-		}
-		fmt.Fprintf(w, ")\n")
-	case "$tailcall":
-		fname := kl.Cadr(sexp)
-		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		fmt.Fprintf(w, "__ctx.TailApply(%s", symbolAsVar(fname))
-		for _, arg := range kl.ListToSlice(args) {
-			fmt.Fprintf(w, ", ")
-			fmt.Fprintf(w, "%s", symbolAsVar(arg))
-		}
-		fmt.Fprintf(w, ")\nreturn\n")
 	case "$call":
-		fname := kl.Cadr(sexp)
-		args := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		fmt.Fprintf(w, "%s := __e.Call(%s", symbolAsVar(res), symbolAsVar(fname))
-		for _, arg := range kl.ListToSlice(args) {
-			fmt.Fprintf(w, ", ")
-			fmt.Fprintf(w, "%s", symbolAsVar(arg))
+		// ($call f a b c ...)
+		if tail {
+			fmt.Fprintf(w, "__e.TailApply(")
+		} else {
+			fmt.Fprintf(w, "Call(__e, ")
 		}
-		fmt.Fprintf(w, ")\n")
-	case "$try-catch":
-		// ($try-catch RegExp RegHandle Dst)
-		exp := kl.Cadr(sexp)
-		handle := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		res := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		fmt.Fprintf(w, "%s := __e.Try(%s).Catch(%s)\n", symbolAsVar(res), symbolAsVar(exp), symbolAsVar(handle))
-	case "$return":
-		fmt.Fprintf(w, "__ctx.Return(%s)\nreturn\n", symbolAsVar(kl.Cadr(sexp)))
+		args := kl.ListToSlice(kl.Cdr(sexp))
+		for i, arg := range args {
+			if i != 0 {
+				fmt.Fprintf(w, ", ")
+			}
+			if kl.IsSymbol(arg) {
+				fmt.Fprintf(w, "%s", symbolAsVar(arg))
+			} else {
+				if err := generateExpr(declare, w, arg, false); err != nil {
+					return err
+				}
+			}
+		}
+		fmt.Fprintf(w, ")")
+		if tail {
+			fmt.Fprintf(w, "\nreturn\n")
+		}
 	default:
 		return fmt.Errorf("unknown instruct: %s\n", kind)
 	}
 	return nil
 }
 
-func generateIfExpr(declare, w io.Writer, a, b, c kl.Obj) error {
-	fmt.Fprintf(w, "if %s == True {\n", symbolString(a))
-	if err := generateExprs(declare, w, b); err != nil {
+func generateConst(declare map[kl.Obj]struct{}, w io.Writer, c kl.Obj) error {
+	switch {
+	case kl.IsNumber(c):
+		fmt.Fprintf(w, "MakeNumber(%d)", kl.GetInteger(c))
+	case kl.PrimIsString(c) == kl.True:
+		str := kl.GetString(c)
+		fmt.Fprintf(w, "MakeString(%#v)", str)
+	case kl.IsSymbol(c):
+		str := kl.GetSymbol(c)
+		fmt.Fprintf(w, "MakeSymbol(\"%s\")", str)
+	case c == kl.Nil:
+		fmt.Fprintf(w, "Nil")
+	case c == kl.True:
+		fmt.Fprintf(w, "True")
+	case c == kl.False:
+		fmt.Fprintf(w, "False")
+	default:
+		return errors.New("unknown $const instruct")
+	}
+	return nil
+}
+
+func generateIfExpr(declare map[kl.Obj]struct{}, w io.Writer, a, b, c kl.Obj, tail bool) error {
+	fmt.Fprintf(w, "if True == ")
+	if err := generateExpr(declare, w, a, false); err != nil {
+		return err
+	}
+	fmt.Fprintf(w, " {\n")
+	if err := generateExpr(declare, w, b, tail); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, "} else {\n")
-	if err := generateExprs(declare, w, c); err != nil {
+	if err := generateExpr(declare, w, c, tail); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, "}\n")
 	return nil
-}
-
-func generateBuiltinCall(w io.Writer, op, args, dst kl.Obj) {
-	input := kl.ListToSlice(args)
-	name := kl.GetSymbol(op)
-	prim, ok := primMap[name]
-	if !ok {
-		fmt.Fprintf(w, "error, unknown builtin %s\n", name)
-		return
-	}
-
-	// Special handle for eval-kl.
-	if prim.CodeGen == "PrimEvalKL" {
-		fmt.Fprintf(w, "%s := PrimEvalKL(__e, ", symbolAsVar(dst))
-	} else {
-		fmt.Fprintf(w, "%s := %s(", symbolAsVar(dst), prim.CodeGen)
-	}
-
-	for i := 0; i < len(input); i++ {
-		if i != 0 {
-			fmt.Fprintf(w, ", ")
-		}
-		fmt.Fprintf(w, "%s", symbolAsVar(input[i]))
-	}
-	fmt.Fprintf(w, ")\n")
 }
 
 var primMap map[string]*kl.ScmPrimitive

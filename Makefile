@@ -1,9 +1,12 @@
 .PHONY: all kl shen docker test
 
-all: kl shen
+all: kl cora shen
 
 kl:
 	go install github.com/tiancaiamao/shen-go/cmd/kl
+
+cora:
+	go install github.com/tiancaiamao/shen-go/cmd/cora
 
 shen:
 	go build -o shen github.com/tiancaiamao/shen-go/cmd/shen
