@@ -181,8 +181,9 @@ func Eval(e Evaluator, exp Obj) (res Obj) {
 			n := runtime.Stack(buf[:], false)
 			fmt.Println("Panic:", r)
 			fmt.Println("Recovered in Eval:", ObjString(exp))
-			fmt.Println(string(buf[:n]))
-			res = Nil
+			str := string(buf[:n])
+			// fmt.Println(str)
+			res = MakeError(str)
 		}
 	}()
 	res = evalExp(e, exp, Nil)

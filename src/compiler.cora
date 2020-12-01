@@ -1,0 +1,70 @@
+(func parse
+      env x => (if (elem? x env) x ['$global x]) where (symbol? x)
+      env x => ['$const x] where (or (number? x) (string? x) (boolean? x) (null? x))
+      env ['quote x] => ['$const x]
+      env ['if x y z] => ['$if (parse env x) (parse env y) (parse env z)]
+      env ['do x y] => ['$do (parse env x) (parse env y)]
+      env ['lambda args body] => ['$lambda args (parse (append args env) body)]
+      env [f . args] => (map (parse env) [f . args]))
+
+(defun id (x) x)
+
+(func anf
+      x k => (k x) where (symbol? x)
+      ['$const x] k => (k ['$const x])
+      ['$global x] k => (k ['$global x])
+      ['$if x y z] k => (let y1 (anf y id)
+			     z1 (anf z id)
+			     (anf-a x (lambda (x1)
+					(k ['if x1 y1 z1]))))
+      ['$do x y] k => ['do (anf x id) (anf y k)]
+      ['$let x y z] k => (anf-a y (lambda (y1)
+				    (k ['let x y1 (anf z id)])))
+      ['$lambda args body] k => (k ['lambda args (anf body id)])
+      [f . args] k => (anf-a f (lambda (f1)
+				 (anf-a* args (lambda (args1)
+						(k ['$call f1 . args1]))))))
+
+(defun anf-a (exp k)
+  (anf exp (lambda (x)
+	     (anf-a-h x k))))
+
+(func anf-a-h
+      x k => (k x) where (symbol? x)
+      ['$const x] k => (k ['$const x])
+      ['$global x] k => (k ['$global x])
+      x k => (let t (gensym 'gen)
+		  ['let t x (k t)]))
+
+(func anf-a*
+      [] k => (k '())
+      [hd . tl] k => (anf-a hd (lambda (hd1)
+				 (anf-a* tl (lambda (tl1)
+					      (k [hd1 . tl1]))))))
+
+(func expr->stmt-item
+      [] x => x
+      dst x => ['<- dst x])
+
+(func expr->stmt
+      dst x => (expr->stmt-item dst x) where (symbol? x)
+      dst ['$const x] => (expr->stmt-item dst ['$const x])
+      dst ['$global x] => (expr->stmt-item dst ['$global x])
+      dst ['if x y z] => ['if (expr->stmt [] x) (expr->stmt dst y) (expr->stmt dst z)]
+      dst ['do x y] => ['block (expr->stmt [] x) (expr->stmt dst y)]
+      dst ['lambda args body] => (expr->stmt-item dst ['lambda args (expr->stmt [] body)])
+      dst ['$call f . args] => (expr->stmt-item dst ['$call f . args])
+      dst ['let x ['if . y] z] => ['block ['declare x] (expr->stmt x ['if . y]) (expr->stmt dst z)]
+      dst ['let x ['do . y] z] => ['block (expr->stmt () y) (expr->stmt dst z)]
+      dst ['let x y z] => ['block ['<-: x (expr->stmt () y)] (expr->stmt dst z)])
+
+(defun codegen (input)
+  (let ast (parse () input)
+       (let raw (anf ast id)
+	    (expr->stmt () raw))))
+
+(defun compile-file (fin fout)
+  (let exprs (read-file-as-sexp fin)
+       (let expands (map macroexpand exprs)
+	    (let bc (map codegen expands)
+		 (write-sexp-to-file fout bc)))))

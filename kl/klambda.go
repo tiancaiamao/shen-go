@@ -173,6 +173,8 @@ func (e *KLambda) evalTrapError(exp Obj, env Obj) {
 			fmt.Println("Panic:", err)
 			fmt.Println("Recovered in trap-error:", ObjString(exp))
 			fmt.Println(string(buf[:n]))
+			e.Return(MakeError("trap-error result is not Obj"))
+			return
 		}
 	}()
 	v := evalExp(e, car(exp), env)
