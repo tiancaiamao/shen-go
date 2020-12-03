@@ -36,6 +36,11 @@ func NewKLambda() *KLambda {
 
 	// Extended by shen-go implementation
 	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
+	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "cora.", Required: 1, Function: CoraValue}
+	BindSymbolFunc(MakeSymbol("cora."), Obj(&tmp.scmHead))
+
+	// TODO: This looks weird.
+	NewCora()
 	return &e
 }
 

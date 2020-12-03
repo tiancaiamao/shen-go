@@ -226,6 +226,17 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		if tail {
 			fmt.Fprintf(w, "\nreturn\n")
 		}
+	case "try-catch":
+		// (try-catch body handle)
+		body := kl.Car(kl.Cdr(sexp))
+		handle := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		if tail {
+			fmt.Fprintf(w, "__e.Return(")
+		}
+		fmt.Fprintf(w, "Try(__e, %s).Catch(%s)", symbolAsVar(body), symbolAsVar(handle))
+		if tail {
+			fmt.Fprintf(w, ")\nreturn\n")
+		}
 	default:
 		return fmt.Errorf("unknown instruct: %s\n", kind)
 	}
