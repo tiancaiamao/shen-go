@@ -2,1635 +2,1726 @@ package main
 
 import . "github.com/tiancaiamao/shen-go/kl"
 
-var __defun__shen_4repl Obj                                // shen.repl
-var __defun__shen_4loop Obj                                // shen.loop
-var __defun__shen_4toplevel_1display_1exception Obj        // shen.toplevel-display-exception
-var __defun__shen_4credits Obj                             // shen.credits
-var __defun__shen_4initialise__environment Obj             // shen.initialise_environment
-var __defun__shen_4multiple_1set Obj                       // shen.multiple-set
-var __defun__destroy Obj                                   // destroy
-var __defun__shen_4read_1evaluate_1print Obj               // shen.read-evaluate-print
-var __defun__shen_4retrieve_1from_1history_1if_1needed Obj // shen.retrieve-from-history-if-needed
-var __defun__shen_4percent Obj                             // shen.percent
-var __defun__shen_4exclamation Obj                         // shen.exclamation
-var __defun__shen_4prbytes Obj                             // shen.prbytes
-var __defun__shen_4update__history Obj                     // shen.update_history
-var __defun__shen_4toplineread Obj                         // shen.toplineread
-var __defun__shen_4toplineread__loop Obj                   // shen.toplineread_loop
-var __defun__shen_4hat Obj                                 // shen.hat
-var __defun__shen_4newline Obj                             // shen.newline
-var __defun__shen_4carriage_1return Obj                    // shen.carriage-return
-var __defun__tc Obj                                        // tc
-var __defun__shen_4prompt Obj                              // shen.prompt
-var __defun__shen_4toplevel Obj                            // shen.toplevel
-var __defun__shen_4find_1past_1inputs Obj                  // shen.find-past-inputs
-var __defun__shen_4make_1key Obj                           // shen.make-key
-var __defun__shen_4trim_1gubbins Obj                       // shen.trim-gubbins
-var __defun__shen_4space Obj                               // shen.space
-var __defun__shen_4tab Obj                                 // shen.tab
-var __defun__shen_4left_1round Obj                         // shen.left-round
-var __defun__shen_4find Obj                                // shen.find
-var __defun__shen_4prefix_2 Obj                            // shen.prefix?
-var __defun__shen_4print_1past_1inputs Obj                 // shen.print-past-inputs
-var __defun__shen_4toplevel__evaluate Obj                  // shen.toplevel_evaluate
-var __defun__shen_4typecheck_1and_1evaluate Obj            // shen.typecheck-and-evaluate
-var __defun__shen_4pretty_1type Obj                        // shen.pretty-type
-var __defun__shen_4extract_1pvars Obj                      // shen.extract-pvars
-var __defun__shen_4mult__subst Obj                         // shen.mult_subst
-
 func init() {
 	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg64 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
-		__e.Return(reg64)
-		return
-	}, 0))
-	__defun__shen_4repl = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg65 := Call(__e, __defun__shen_4credits)
-		_ = reg65
-		__e.TailApply(__defun__shen_4loop)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.repl", value: __defun__shen_4repl})
+		MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
 
-	__defun__shen_4loop = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg67 := Call(__e, __defun__shen_4initialise__environment)
-		_ = reg67
-		reg68 := Call(__e, __defun__shen_4prompt)
-		_ = reg68
-		reg69 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			__e.TailApply(__defun__shen_4read_1evaluate_1print)
+		gen15837 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			Call(__e, ShenFunc(symshen_4credits))
+			__e.TailApply(ShenFunc(symshen_4loop))
+
+			return
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.repl"), gen15837)
+
+		gen15840 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			Call(__e, ShenFunc(symshen_4initialise__environment))
+			Call(__e, ShenFunc(symshen_4prompt))
+			gen15838 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				E := __args[0]
+				_ = E
+				__e.TailApply(ShenFunc(symshen_4toplevel_1display_1exception), E)
+
+				return
+			}, 1)
+			gen15839 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				__e.TailApply(ShenFunc(symshen_4read_1evaluate_1print))
+
+				return
+			}, 0)
+			Try(__e, gen15839).Catch(gen15838)
+
+			__e.TailApply(ShenFunc(symshen_4loop))
+
+			return
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.loop"), gen15840)
+
+		gen15843 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3022 := __args[0]
+			_ = V3022
+			gen15841 := Call(__e, ShenFunc(symerror_1to_1string), V3022)
+
+			gen15842 := Call(__e, ShenFunc(symstoutput))
+
+			__e.TailApply(ShenFunc(sympr), gen15841, gen15842)
+
+			return
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.toplevel-display-exception"), gen15843)
+
+		gen15863 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			gen15844 := Call(__e, ShenFunc(symstoutput))
+
+			Call(__e, ShenFunc(symshen_4prhush), MakeString("\nShen, copyright (C) 2010-2015 Mark Tarver\n"), gen15844)
+
+			gen15845 := Call(__e, ShenFunc(symvalue), MakeSymbol("*version*"))
+
+			gen15846 := Call(__e, ShenFunc(symshen_4app), gen15845, MakeString("\n"), MakeSymbol("shen.a"))
+
+			gen15847 := Call(__e, ShenFunc(symcn), MakeString("www.shenlanguage.org, "), gen15846)
+
+			gen15848 := Call(__e, ShenFunc(symstoutput))
+
+			Call(__e, ShenFunc(symshen_4prhush), gen15847, gen15848)
+
+			gen15849 := Call(__e, ShenFunc(symvalue), MakeSymbol("*language*"))
+
+			gen15850 := Call(__e, ShenFunc(symvalue), MakeSymbol("*implementation*"))
+
+			gen15851 := Call(__e, ShenFunc(symshen_4app), gen15850, MakeString(""), MakeSymbol("shen.a"))
+
+			gen15852 := Call(__e, ShenFunc(symcn), MakeString(", implementation: "), gen15851)
+
+			gen15853 := Call(__e, ShenFunc(symshen_4app), gen15849, gen15852, MakeSymbol("shen.a"))
+
+			gen15854 := Call(__e, ShenFunc(symcn), MakeString("running under "), gen15853)
+
+			gen15855 := Call(__e, ShenFunc(symstoutput))
+
+			Call(__e, ShenFunc(symshen_4prhush), gen15854, gen15855)
+
+			gen15856 := Call(__e, ShenFunc(symvalue), MakeSymbol("*port*"))
+
+			gen15857 := Call(__e, ShenFunc(symvalue), MakeSymbol("*porters*"))
+
+			gen15858 := Call(__e, ShenFunc(symshen_4app), gen15857, MakeString("\n"), MakeSymbol("shen.a"))
+
+			gen15859 := Call(__e, ShenFunc(symcn), MakeString(" ported by "), gen15858)
+
+			gen15860 := Call(__e, ShenFunc(symshen_4app), gen15856, gen15859, MakeSymbol("shen.a"))
+
+			gen15861 := Call(__e, ShenFunc(symcn), MakeString("\nport "), gen15860)
+
+			gen15862 := Call(__e, ShenFunc(symstoutput))
+
+			__e.TailApply(ShenFunc(symshen_4prhush), gen15861, gen15862)
+
+			return
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.credits"), gen15863)
+
+		gen15872 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			gen15864 := Call(__e, ShenFunc(symcons), MakeNumber(0), Nil)
+
+			gen15865 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.*catch*"), gen15864)
+
+			gen15866 := Call(__e, ShenFunc(symcons), MakeNumber(0), gen15865)
+
+			gen15867 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.*process-counter*"), gen15866)
+
+			gen15868 := Call(__e, ShenFunc(symcons), MakeNumber(0), gen15867)
+
+			gen15869 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.*infs*"), gen15868)
+
+			gen15870 := Call(__e, ShenFunc(symcons), MakeNumber(0), gen15869)
+
+			gen15871 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.*call*"), gen15870)
+
+			__e.TailApply(ShenFunc(symshen_4multiple_1set), gen15871)
+
+			return
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.initialise_environment"), gen15872)
+
+		gen15883 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3024 := __args[0]
+			_ = V3024
+			gen15882 := Call(__e, ShenFunc(sym_a), Nil, V3024)
+
+			if True == gen15882 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen15880 := Call(__e, ShenFunc(symcons_2), V3024)
+
+				var gen15881 Obj
+				if True == gen15880 {
+					gen15878 := Call(__e, ShenFunc(symtl), V3024)
+
+					gen15879 := Call(__e, ShenFunc(symcons_2), gen15878)
+
+					if True == gen15879 {
+						gen15881 = True
+					} else {
+						gen15881 = False
+					}
+
+				} else {
+					gen15881 = False
+				}
+				if True == gen15881 {
+					gen15873 := Call(__e, ShenFunc(symhd), V3024)
+
+					gen15874 := Call(__e, ShenFunc(symtl), V3024)
+
+					gen15875 := Call(__e, ShenFunc(symhd), gen15874)
+
+					Call(__e, ShenFunc(symset), gen15873, gen15875)
+
+					gen15876 := Call(__e, ShenFunc(symtl), V3024)
+
+					gen15877 := Call(__e, ShenFunc(symtl), gen15876)
+
+					__e.TailApply(ShenFunc(symshen_4multiple_1set), gen15877)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.multiple-set"))
+
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.multiple-set"), gen15883)
+
+		gen15884 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3026 := __args[0]
+			_ = V3026
+			__e.TailApply(ShenFunc(symdeclare), V3026, MakeSymbol("symbol"))
+
+			return
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("destroy"), gen15884)
+
+		gen15890 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			gen15885 := Call(__e, ShenFunc(symshen_4toplineread))
+
+			Lineread := gen15885
+			gen15886 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*history*"))
+
+			History := gen15886
+			gen15887 := Call(__e, ShenFunc(symshen_4retrieve_1from_1history_1if_1needed), Lineread, History)
+
+			NewLineread := gen15887
+			gen15888 := Call(__e, ShenFunc(symshen_4update__history), NewLineread, History)
+
+			NewHistory := gen15888
+			_ = NewHistory
+			gen15889 := Call(__e, ShenFunc(symfst), NewLineread)
+
+			Parsed := gen15889
+			__e.TailApply(ShenFunc(symshen_4toplevel), Parsed)
+
+			return
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.read-evaluate-print"), gen15890)
+
+		gen15981 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3038 := __args[0]
+			_ = V3038
+			V3039 := __args[1]
+			_ = V3039
+			gen15979 := Call(__e, ShenFunc(symtuple_2), V3038)
+
+			var gen15980 Obj
+			if True == gen15979 {
+				gen15976 := Call(__e, ShenFunc(symsnd), V3038)
+
+				gen15977 := Call(__e, ShenFunc(symcons_2), gen15976)
+
+				var gen15978 Obj
+				if True == gen15977 {
+					gen15969 := Call(__e, ShenFunc(symsnd), V3038)
+
+					gen15970 := Call(__e, ShenFunc(symhd), gen15969)
+
+					gen15971 := Call(__e, ShenFunc(symshen_4space))
+
+					gen15972 := Call(__e, ShenFunc(symshen_4newline))
+
+					gen15973 := Call(__e, ShenFunc(symcons), gen15972, Nil)
+
+					gen15974 := Call(__e, ShenFunc(symcons), gen15971, gen15973)
+
+					gen15975 := Call(__e, ShenFunc(symelement_2), gen15970, gen15974)
+
+					if True == gen15975 {
+						gen15978 = True
+					} else {
+						gen15978 = False
+					}
+
+				} else {
+					gen15978 = False
+				}
+				if True == gen15978 {
+					gen15980 = True
+				} else {
+					gen15980 = False
+				}
+
+			} else {
+				gen15980 = False
+			}
+			if True == gen15980 {
+				gen15965 := Call(__e, ShenFunc(symfst), V3038)
+
+				gen15966 := Call(__e, ShenFunc(symsnd), V3038)
+
+				gen15967 := Call(__e, ShenFunc(symtl), gen15966)
+
+				gen15968 := Call(__e, ShenFunc(sym_8p), gen15965, gen15967)
+
+				__e.TailApply(ShenFunc(symshen_4retrieve_1from_1history_1if_1needed), gen15968, V3039)
+
+				return
+
+			} else {
+				gen15963 := Call(__e, ShenFunc(symtuple_2), V3038)
+
+				var gen15964 Obj
+				if True == gen15963 {
+					gen15960 := Call(__e, ShenFunc(symsnd), V3038)
+
+					gen15961 := Call(__e, ShenFunc(symcons_2), gen15960)
+
+					var gen15962 Obj
+					if True == gen15961 {
+						gen15956 := Call(__e, ShenFunc(symsnd), V3038)
+
+						gen15957 := Call(__e, ShenFunc(symtl), gen15956)
+
+						gen15958 := Call(__e, ShenFunc(symcons_2), gen15957)
+
+						var gen15959 Obj
+						if True == gen15958 {
+							gen15951 := Call(__e, ShenFunc(symsnd), V3038)
+
+							gen15952 := Call(__e, ShenFunc(symtl), gen15951)
+
+							gen15953 := Call(__e, ShenFunc(symtl), gen15952)
+
+							gen15954 := Call(__e, ShenFunc(sym_a), Nil, gen15953)
+
+							var gen15955 Obj
+							if True == gen15954 {
+								gen15949 := Call(__e, ShenFunc(symcons_2), V3039)
+
+								var gen15950 Obj
+								if True == gen15949 {
+									gen15944 := Call(__e, ShenFunc(symsnd), V3038)
+
+									gen15945 := Call(__e, ShenFunc(symhd), gen15944)
+
+									gen15946 := Call(__e, ShenFunc(symshen_4exclamation))
+
+									gen15947 := Call(__e, ShenFunc(sym_a), gen15945, gen15946)
+
+									var gen15948 Obj
+									if True == gen15947 {
+										gen15939 := Call(__e, ShenFunc(symsnd), V3038)
+
+										gen15940 := Call(__e, ShenFunc(symtl), gen15939)
+
+										gen15941 := Call(__e, ShenFunc(symhd), gen15940)
+
+										gen15942 := Call(__e, ShenFunc(symshen_4exclamation))
+
+										gen15943 := Call(__e, ShenFunc(sym_a), gen15941, gen15942)
+
+										if True == gen15943 {
+											gen15948 = True
+										} else {
+											gen15948 = False
+										}
+
+									} else {
+										gen15948 = False
+									}
+									if True == gen15948 {
+										gen15950 = True
+									} else {
+										gen15950 = False
+									}
+
+								} else {
+									gen15950 = False
+								}
+								if True == gen15950 {
+									gen15955 = True
+								} else {
+									gen15955 = False
+								}
+
+							} else {
+								gen15955 = False
+							}
+							if True == gen15955 {
+								gen15959 = True
+							} else {
+								gen15959 = False
+							}
+
+						} else {
+							gen15959 = False
+						}
+						if True == gen15959 {
+							gen15962 = True
+						} else {
+							gen15962 = False
+						}
+
+					} else {
+						gen15962 = False
+					}
+					if True == gen15962 {
+						gen15964 = True
+					} else {
+						gen15964 = False
+					}
+
+				} else {
+					gen15964 = False
+				}
+				if True == gen15964 {
+					gen15936 := Call(__e, ShenFunc(symhd), V3039)
+
+					gen15937 := Call(__e, ShenFunc(symsnd), gen15936)
+
+					gen15938 := Call(__e, ShenFunc(symshen_4prbytes), gen15937)
+
+					PastPrint := gen15938
+					_ = PastPrint
+					__e.TailApply(ShenFunc(symhd), V3039)
+
+					return
+
+				} else {
+					gen15934 := Call(__e, ShenFunc(symtuple_2), V3038)
+
+					var gen15935 Obj
+					if True == gen15934 {
+						gen15931 := Call(__e, ShenFunc(symsnd), V3038)
+
+						gen15932 := Call(__e, ShenFunc(symcons_2), gen15931)
+
+						var gen15933 Obj
+						if True == gen15932 {
+							gen15927 := Call(__e, ShenFunc(symsnd), V3038)
+
+							gen15928 := Call(__e, ShenFunc(symhd), gen15927)
+
+							gen15929 := Call(__e, ShenFunc(symshen_4exclamation))
+
+							gen15930 := Call(__e, ShenFunc(sym_a), gen15928, gen15929)
+
+							if True == gen15930 {
+								gen15933 = True
+							} else {
+								gen15933 = False
+							}
+
+						} else {
+							gen15933 = False
+						}
+						if True == gen15933 {
+							gen15935 = True
+						} else {
+							gen15935 = False
+						}
+
+					} else {
+						gen15935 = False
+					}
+					if True == gen15935 {
+						gen15920 := Call(__e, ShenFunc(symsnd), V3038)
+
+						gen15921 := Call(__e, ShenFunc(symtl), gen15920)
+
+						gen15922 := Call(__e, ShenFunc(symshen_4make_1key), gen15921, V3039)
+
+						Key_2 := gen15922
+						gen15923 := Call(__e, ShenFunc(symshen_4find_1past_1inputs), Key_2, V3039)
+
+						gen15924 := Call(__e, ShenFunc(symhead), gen15923)
+
+						Find := gen15924
+						gen15925 := Call(__e, ShenFunc(symsnd), Find)
+
+						gen15926 := Call(__e, ShenFunc(symshen_4prbytes), gen15925)
+
+						PastPrint := gen15926
+						_ = PastPrint
+						__e.Return(Find)
+						return
+
+					} else {
+						gen15918 := Call(__e, ShenFunc(symtuple_2), V3038)
+
+						var gen15919 Obj
+						if True == gen15918 {
+							gen15915 := Call(__e, ShenFunc(symsnd), V3038)
+
+							gen15916 := Call(__e, ShenFunc(symcons_2), gen15915)
+
+							var gen15917 Obj
+							if True == gen15916 {
+								gen15911 := Call(__e, ShenFunc(symsnd), V3038)
+
+								gen15912 := Call(__e, ShenFunc(symtl), gen15911)
+
+								gen15913 := Call(__e, ShenFunc(sym_a), Nil, gen15912)
+
+								var gen15914 Obj
+								if True == gen15913 {
+									gen15907 := Call(__e, ShenFunc(symsnd), V3038)
+
+									gen15908 := Call(__e, ShenFunc(symhd), gen15907)
+
+									gen15909 := Call(__e, ShenFunc(symshen_4percent))
+
+									gen15910 := Call(__e, ShenFunc(sym_a), gen15908, gen15909)
+
+									if True == gen15910 {
+										gen15914 = True
+									} else {
+										gen15914 = False
+									}
+
+								} else {
+									gen15914 = False
+								}
+								if True == gen15914 {
+									gen15917 = True
+								} else {
+									gen15917 = False
+								}
+
+							} else {
+								gen15917 = False
+							}
+							if True == gen15917 {
+								gen15919 = True
+							} else {
+								gen15919 = False
+							}
+
+						} else {
+							gen15919 = False
+						}
+						if True == gen15919 {
+							gen15905 := MakeNative(func(__e Evaluator, __args ...Obj) {
+								X := __args[0]
+								_ = X
+								__e.Return(True)
+								return
+							}, 1)
+							gen15906 := Call(__e, ShenFunc(symreverse), V3039)
+
+							Call(__e, ShenFunc(symshen_4print_1past_1inputs), gen15905, gen15906, MakeNumber(0))
+
+							__e.TailApply(ShenFunc(symabort))
+
+							return
+
+						} else {
+							gen15903 := Call(__e, ShenFunc(symtuple_2), V3038)
+
+							var gen15904 Obj
+							if True == gen15903 {
+								gen15900 := Call(__e, ShenFunc(symsnd), V3038)
+
+								gen15901 := Call(__e, ShenFunc(symcons_2), gen15900)
+
+								var gen15902 Obj
+								if True == gen15901 {
+									gen15896 := Call(__e, ShenFunc(symsnd), V3038)
+
+									gen15897 := Call(__e, ShenFunc(symhd), gen15896)
+
+									gen15898 := Call(__e, ShenFunc(symshen_4percent))
+
+									gen15899 := Call(__e, ShenFunc(sym_a), gen15897, gen15898)
+
+									if True == gen15899 {
+										gen15902 = True
+									} else {
+										gen15902 = False
+									}
+
+								} else {
+									gen15902 = False
+								}
+								if True == gen15902 {
+									gen15904 = True
+								} else {
+									gen15904 = False
+								}
+
+							} else {
+								gen15904 = False
+							}
+							if True == gen15904 {
+								gen15891 := Call(__e, ShenFunc(symsnd), V3038)
+
+								gen15892 := Call(__e, ShenFunc(symtl), gen15891)
+
+								gen15893 := Call(__e, ShenFunc(symshen_4make_1key), gen15892, V3039)
+
+								Key_2 := gen15893
+								gen15894 := Call(__e, ShenFunc(symreverse), V3039)
+
+								gen15895 := Call(__e, ShenFunc(symshen_4print_1past_1inputs), Key_2, gen15894, MakeNumber(0))
+
+								Pastprint := gen15895
+								_ = Pastprint
+								__e.TailApply(ShenFunc(symabort))
+
+								return
+
+							} else {
+								__e.Return(V3038)
+								return
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.retrieve-from-history-if-needed"), gen15981)
+
+		gen15982 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(37))
 			return
 		}, 0)
-		reg71 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			E := __args[0]
-			_ = E
-			__e.TailApply(__defun__shen_4toplevel_1display_1exception, E)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.percent"), gen15982)
+
+		gen15983 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(33))
 			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.exclamation"), gen15983)
+
+		gen15987 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3041 := __args[0]
+			_ = V3041
+			gen15986 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				Byte := __args[0]
+				_ = Byte
+				gen15984 := Call(__e, ShenFunc(symn_1_6string), Byte)
+
+				gen15985 := Call(__e, ShenFunc(symstoutput))
+
+				__e.TailApply(ShenFunc(sympr), gen15984, gen15985)
+
+				return
+
+			}, 1)
+			Call(__e, ShenFunc(symshen_4for_1each), gen15986, V3041)
+
+			__e.TailApply(ShenFunc(symnl), MakeNumber(1))
+
+			return
+
 		}, 1)
-		reg73 := Try(__e, reg69).Catch(reg71)
-		_ = reg73
-		__e.TailApply(__defun__shen_4loop)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.loop", value: __defun__shen_4loop})
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.prbytes"), gen15987)
 
-	__defun__shen_4toplevel_1display_1exception = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V2992 := __args[0]
-		_ = V2992
-		reg75 := PrimErrorToString(V2992)
-		reg76 := Call(__e, __defun__stoutput)
-		__e.TailApply(__defun__pr, reg75, reg76)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.toplevel-display-exception", value: __defun__shen_4toplevel_1display_1exception})
+		gen15989 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3044 := __args[0]
+			_ = V3044
+			V3045 := __args[1]
+			_ = V3045
+			gen15988 := Call(__e, ShenFunc(symcons), V3044, V3045)
 
-	__defun__shen_4credits = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg78 := MakeString("\nShen, copyright (C) 2010-2015 Mark Tarver\n")
-		reg79 := Call(__e, __defun__stoutput)
-		reg80 := Call(__e, __defun__shen_4prhush, reg78, reg79)
-		_ = reg80
-		reg81 := MakeString("www.shenlanguage.org, ")
-		reg82 := MakeSymbol("*version*")
-		reg83 := PrimValue(reg82)
-		reg84 := MakeString("\n")
-		reg85 := MakeSymbol("shen.a")
-		reg86 := Call(__e, __defun__shen_4app, reg83, reg84, reg85)
-		reg87 := PrimStringConcat(reg81, reg86)
-		reg88 := Call(__e, __defun__stoutput)
-		reg89 := Call(__e, __defun__shen_4prhush, reg87, reg88)
-		_ = reg89
-		reg90 := MakeString("running under ")
-		reg91 := MakeSymbol("*language*")
-		reg92 := PrimValue(reg91)
-		reg93 := MakeString(", implementation: ")
-		reg94 := MakeSymbol("*implementation*")
-		reg95 := PrimValue(reg94)
-		reg96 := MakeString("")
-		reg97 := MakeSymbol("shen.a")
-		reg98 := Call(__e, __defun__shen_4app, reg95, reg96, reg97)
-		reg99 := PrimStringConcat(reg93, reg98)
-		reg100 := MakeSymbol("shen.a")
-		reg101 := Call(__e, __defun__shen_4app, reg92, reg99, reg100)
-		reg102 := PrimStringConcat(reg90, reg101)
-		reg103 := Call(__e, __defun__stoutput)
-		reg104 := Call(__e, __defun__shen_4prhush, reg102, reg103)
-		_ = reg104
-		reg105 := MakeString("\nport ")
-		reg106 := MakeSymbol("*port*")
-		reg107 := PrimValue(reg106)
-		reg108 := MakeString(" ported by ")
-		reg109 := MakeSymbol("*porters*")
-		reg110 := PrimValue(reg109)
-		reg111 := MakeString("\n")
-		reg112 := MakeSymbol("shen.a")
-		reg113 := Call(__e, __defun__shen_4app, reg110, reg111, reg112)
-		reg114 := PrimStringConcat(reg108, reg113)
-		reg115 := MakeSymbol("shen.a")
-		reg116 := Call(__e, __defun__shen_4app, reg107, reg114, reg115)
-		reg117 := PrimStringConcat(reg105, reg116)
-		reg118 := Call(__e, __defun__stoutput)
-		__e.TailApply(__defun__shen_4prhush, reg117, reg118)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.credits", value: __defun__shen_4credits})
+			__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*history*"), gen15988)
 
-	__defun__shen_4initialise__environment = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg120 := MakeSymbol("shen.*call*")
-		reg121 := MakeNumber(0)
-		reg122 := MakeSymbol("shen.*infs*")
-		reg123 := MakeNumber(0)
-		reg124 := MakeSymbol("shen.*process-counter*")
-		reg125 := MakeNumber(0)
-		reg126 := MakeSymbol("shen.*catch*")
-		reg127 := MakeNumber(0)
-		reg128 := Nil
-		reg129 := PrimCons(reg127, reg128)
-		reg130 := PrimCons(reg126, reg129)
-		reg131 := PrimCons(reg125, reg130)
-		reg132 := PrimCons(reg124, reg131)
-		reg133 := PrimCons(reg123, reg132)
-		reg134 := PrimCons(reg122, reg133)
-		reg135 := PrimCons(reg121, reg134)
-		reg136 := PrimCons(reg120, reg135)
-		__e.TailApply(__defun__shen_4multiple_1set, reg136)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.initialise_environment", value: __defun__shen_4initialise__environment})
-
-	__defun__shen_4multiple_1set = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V2994 := __args[0]
-		_ = V2994
-		reg138 := Nil
-		reg139 := PrimEqual(reg138, V2994)
-		if reg139 == True {
-			reg140 := Nil
-			__e.Return(reg140)
 			return
-		} else {
-			reg141 := PrimIsPair(V2994)
-			var reg148 Obj
-			if reg141 == True {
-				reg142 := PrimTail(V2994)
-				reg143 := PrimIsPair(reg142)
-				var reg146 Obj
-				if reg143 == True {
-					reg144 := True
-					reg146 = reg144
-				} else {
-					reg145 := False
-					reg146 = reg145
-				}
-				reg148 = reg146
-			} else {
-				reg147 := False
-				reg148 = reg147
-			}
-			if reg148 == True {
-				reg149 := PrimHead(V2994)
-				reg150 := PrimTail(V2994)
-				reg151 := PrimHead(reg150)
-				reg152 := PrimSet(reg149, reg151)
-				_ = reg152
-				reg153 := PrimTail(V2994)
-				reg154 := PrimTail(reg153)
-				__e.TailApply(__defun__shen_4multiple_1set, reg154)
-				return
-			} else {
-				reg156 := MakeSymbol("shen.multiple-set")
-				__e.TailApply(__defun__shen_4f__error, reg156)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.multiple-set", value: __defun__shen_4multiple_1set})
 
-	__defun__destroy = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V2996 := __args[0]
-		_ = V2996
-		reg158 := MakeSymbol("symbol")
-		__e.TailApply(__defun__declare, V2996, reg158)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "destroy", value: __defun__destroy})
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.update_history"), gen15989)
 
-	__defun__shen_4read_1evaluate_1print = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg160 := Call(__e, __defun__shen_4toplineread)
-		Lineread := reg160
-		_ = Lineread
-		reg161 := MakeSymbol("shen.*history*")
-		reg162 := PrimValue(reg161)
-		History := reg162
-		_ = History
-		reg163 := Call(__e, __defun__shen_4retrieve_1from_1history_1if_1needed, Lineread, History)
-		NewLineread := reg163
-		_ = NewLineread
-		reg164 := Call(__e, __defun__shen_4update__history, NewLineread, History)
-		NewHistory := reg164
-		_ = NewHistory
-		reg165 := Call(__e, __defun__fst, NewLineread)
-		Parsed := reg165
-		_ = Parsed
-		__e.TailApply(__defun__shen_4toplevel, Parsed)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.read-evaluate-print", value: __defun__shen_4read_1evaluate_1print})
+		gen15992 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			gen15990 := Call(__e, ShenFunc(symstinput))
 
-	__defun__shen_4retrieve_1from_1history_1if_1needed = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3008 := __args[0]
-		_ = V3008
-		V3009 := __args[1]
-		_ = V3009
-		reg167 := Call(__e, __defun__tuple_2, V3008)
-		var reg187 Obj
-		if reg167 == True {
-			reg168 := Call(__e, __defun__snd, V3008)
-			reg169 := PrimIsPair(reg168)
-			var reg182 Obj
-			if reg169 == True {
-				reg170 := Call(__e, __defun__snd, V3008)
-				reg171 := PrimHead(reg170)
-				reg172 := Call(__e, __defun__shen_4space)
-				reg173 := Call(__e, __defun__shen_4newline)
-				reg174 := Nil
-				reg175 := PrimCons(reg173, reg174)
-				reg176 := PrimCons(reg172, reg175)
-				reg177 := Call(__e, __defun__element_2, reg171, reg176)
-				var reg180 Obj
-				if reg177 == True {
-					reg178 := True
-					reg180 = reg178
-				} else {
-					reg179 := False
-					reg180 = reg179
-				}
-				reg182 = reg180
-			} else {
-				reg181 := False
-				reg182 = reg181
-			}
-			var reg185 Obj
-			if reg182 == True {
-				reg183 := True
-				reg185 = reg183
-			} else {
-				reg184 := False
-				reg185 = reg184
-			}
-			reg187 = reg185
-		} else {
-			reg186 := False
-			reg187 = reg186
-		}
-		if reg187 == True {
-			reg188 := Call(__e, __defun__fst, V3008)
-			reg189 := Call(__e, __defun__snd, V3008)
-			reg190 := PrimTail(reg189)
-			reg191 := Call(__e, __defun___8p, reg188, reg190)
-			__e.TailApply(__defun__shen_4retrieve_1from_1history_1if_1needed, reg191, V3009)
+			gen15991 := Call(__e, ShenFunc(symshen_4read_1char_1code), gen15990)
+
+			__e.TailApply(ShenFunc(symshen_4toplineread__loop), gen15991, Nil)
+
 			return
-		} else {
-			reg193 := Call(__e, __defun__tuple_2, V3008)
-			var reg243 Obj
-			if reg193 == True {
-				reg194 := Call(__e, __defun__snd, V3008)
-				reg195 := PrimIsPair(reg194)
-				var reg238 Obj
-				if reg195 == True {
-					reg196 := Call(__e, __defun__snd, V3008)
-					reg197 := PrimTail(reg196)
-					reg198 := PrimIsPair(reg197)
-					var reg233 Obj
-					if reg198 == True {
-						reg199 := Nil
-						reg200 := Call(__e, __defun__snd, V3008)
-						reg201 := PrimTail(reg200)
-						reg202 := PrimTail(reg201)
-						reg203 := PrimEqual(reg199, reg202)
-						var reg228 Obj
-						if reg203 == True {
-							reg204 := PrimIsPair(V3009)
-							var reg223 Obj
-							if reg204 == True {
-								reg205 := Call(__e, __defun__snd, V3008)
-								reg206 := PrimHead(reg205)
-								reg207 := Call(__e, __defun__shen_4exclamation)
-								reg208 := PrimEqual(reg206, reg207)
-								var reg218 Obj
-								if reg208 == True {
-									reg209 := Call(__e, __defun__snd, V3008)
-									reg210 := PrimTail(reg209)
-									reg211 := PrimHead(reg210)
-									reg212 := Call(__e, __defun__shen_4exclamation)
-									reg213 := PrimEqual(reg211, reg212)
-									var reg216 Obj
-									if reg213 == True {
-										reg214 := True
-										reg216 = reg214
-									} else {
-										reg215 := False
-										reg216 = reg215
-									}
-									reg218 = reg216
-								} else {
-									reg217 := False
-									reg218 = reg217
-								}
-								var reg221 Obj
-								if reg218 == True {
-									reg219 := True
-									reg221 = reg219
-								} else {
-									reg220 := False
-									reg221 = reg220
-								}
-								reg223 = reg221
-							} else {
-								reg222 := False
-								reg223 = reg222
-							}
-							var reg226 Obj
-							if reg223 == True {
-								reg224 := True
-								reg226 = reg224
-							} else {
-								reg225 := False
-								reg226 = reg225
-							}
-							reg228 = reg226
-						} else {
-							reg227 := False
-							reg228 = reg227
-						}
-						var reg231 Obj
-						if reg228 == True {
-							reg229 := True
-							reg231 = reg229
-						} else {
-							reg230 := False
-							reg231 = reg230
-						}
-						reg233 = reg231
-					} else {
-						reg232 := False
-						reg233 = reg232
-					}
-					var reg236 Obj
-					if reg233 == True {
-						reg234 := True
-						reg236 = reg234
-					} else {
-						reg235 := False
-						reg236 = reg235
-					}
-					reg238 = reg236
-				} else {
-					reg237 := False
-					reg238 = reg237
-				}
-				var reg241 Obj
-				if reg238 == True {
-					reg239 := True
-					reg241 = reg239
-				} else {
-					reg240 := False
-					reg241 = reg240
-				}
-				reg243 = reg241
-			} else {
-				reg242 := False
-				reg243 = reg242
-			}
-			if reg243 == True {
-				reg244 := PrimHead(V3009)
-				reg245 := Call(__e, __defun__snd, reg244)
-				reg246 := Call(__e, __defun__shen_4prbytes, reg245)
-				PastPrint := reg246
-				_ = PastPrint
-				reg247 := PrimHead(V3009)
-				__e.Return(reg247)
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.toplineread"), gen15992)
+
+		gen16016 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3049 := __args[0]
+			_ = V3049
+			V3050 := __args[1]
+			_ = V3050
+			gen16014 := Call(__e, ShenFunc(symshen_4hat))
+
+			gen16015 := Call(__e, ShenFunc(sym_a), V3049, gen16014)
+
+			if True == gen16015 {
+				__e.TailApply(ShenFunc(symsimple_1error), MakeString("line read aborted"))
+
 				return
 			} else {
-				reg248 := Call(__e, __defun__tuple_2, V3008)
-				var reg264 Obj
-				if reg248 == True {
-					reg249 := Call(__e, __defun__snd, V3008)
-					reg250 := PrimIsPair(reg249)
-					var reg259 Obj
-					if reg250 == True {
-						reg251 := Call(__e, __defun__snd, V3008)
-						reg252 := PrimHead(reg251)
-						reg253 := Call(__e, __defun__shen_4exclamation)
-						reg254 := PrimEqual(reg252, reg253)
-						var reg257 Obj
-						if reg254 == True {
-							reg255 := True
-							reg257 = reg255
+				gen16009 := Call(__e, ShenFunc(symshen_4newline))
+
+				gen16010 := Call(__e, ShenFunc(symshen_4carriage_1return))
+
+				gen16011 := Call(__e, ShenFunc(symcons), gen16010, Nil)
+
+				gen16012 := Call(__e, ShenFunc(symcons), gen16009, gen16011)
+
+				gen16013 := Call(__e, ShenFunc(symelement_2), V3049, gen16012)
+
+				if True == gen16013 {
+					gen15998 := MakeNative(func(__e Evaluator, __args ...Obj) {
+						X := __args[0]
+						_ = X
+						__e.TailApply(ShenFunc(symshen_4_5st__input_6), X)
+
+						return
+					}, 1)
+					gen15999 := MakeNative(func(__e Evaluator, __args ...Obj) {
+						E := __args[0]
+						_ = E
+						__e.Return(MakeSymbol("shen.nextline"))
+						return
+					}, 1)
+					gen16000 := Call(__e, ShenFunc(symcompile), gen15998, V3050, gen15999)
+
+					Line := gen16000
+					gen16001 := Call(__e, ShenFunc(symshen_4record_1it), V3050)
+
+					It := gen16001
+					_ = It
+					gen16007 := Call(__e, ShenFunc(sym_a), Line, MakeSymbol("shen.nextline"))
+
+					var gen16008 Obj
+					if True == gen16007 {
+						gen16008 = True
+					} else {
+						gen16006 := Call(__e, ShenFunc(symempty_2), Line)
+
+						if True == gen16006 {
+							gen16008 = True
 						} else {
-							reg256 := False
-							reg257 = reg256
+							gen16008 = False
 						}
-						reg259 = reg257
-					} else {
-						reg258 := False
-						reg259 = reg258
+
 					}
-					var reg262 Obj
-					if reg259 == True {
-						reg260 := True
-						reg262 = reg260
+					if True == gen16008 {
+						gen16002 := Call(__e, ShenFunc(symstinput))
+
+						gen16003 := Call(__e, ShenFunc(symshen_4read_1char_1code), gen16002)
+
+						gen16004 := Call(__e, ShenFunc(symcons), V3049, Nil)
+
+						gen16005 := Call(__e, ShenFunc(symappend), V3050, gen16004)
+
+						__e.TailApply(ShenFunc(symshen_4toplineread__loop), gen16003, gen16005)
+
+						return
+
 					} else {
-						reg261 := False
-						reg262 = reg261
+						__e.TailApply(ShenFunc(sym_8p), Line, V3050)
+
+						return
 					}
-					reg264 = reg262
+
 				} else {
-					reg263 := False
-					reg264 = reg263
+					gen15993 := Call(__e, ShenFunc(symstinput))
+
+					gen15994 := Call(__e, ShenFunc(symshen_4read_1char_1code), gen15993)
+
+					gen15996 := Call(__e, ShenFunc(sym_a), V3049, MakeNumber(-1))
+
+					var gen15997 Obj
+					if True == gen15996 {
+						gen15997 = V3050
+					} else {
+						gen15995 := Call(__e, ShenFunc(symcons), V3049, Nil)
+
+						gen15997 = Call(__e, ShenFunc(symappend), V3050, gen15995)
+
+					}
+					__e.TailApply(ShenFunc(symshen_4toplineread__loop), gen15994, gen15997)
+
+					return
+
 				}
-				if reg264 == True {
-					reg265 := Call(__e, __defun__snd, V3008)
-					reg266 := PrimTail(reg265)
-					reg267 := Call(__e, __defun__shen_4make_1key, reg266, V3009)
-					Key_2 := reg267
-					_ = Key_2
-					reg268 := Call(__e, __defun__shen_4find_1past_1inputs, Key_2, V3009)
-					reg269 := Call(__e, __defun__head, reg268)
-					Find := reg269
-					_ = Find
-					reg270 := Call(__e, __defun__snd, Find)
-					reg271 := Call(__e, __defun__shen_4prbytes, reg270)
-					PastPrint := reg271
-					_ = PastPrint
-					__e.Return(Find)
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.toplineread_loop"), gen16016)
+
+		gen16017 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(94))
+			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.hat"), gen16017)
+
+		gen16018 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(10))
+			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.newline"), gen16018)
+
+		gen16019 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(13))
+			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.carriage-return"), gen16019)
+
+		gen16022 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3056 := __args[0]
+			_ = V3056
+			gen16021 := Call(__e, ShenFunc(sym_a), MakeSymbol("+"), V3056)
+
+			if True == gen16021 {
+				__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*tc*"), True)
+
+				return
+			} else {
+				gen16020 := Call(__e, ShenFunc(sym_a), MakeSymbol("-"), V3056)
+
+				if True == gen16020 {
+					__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*tc*"), False)
+
 					return
 				} else {
-					reg272 := Call(__e, __defun__tuple_2, V3008)
-					var reg297 Obj
-					if reg272 == True {
-						reg273 := Call(__e, __defun__snd, V3008)
-						reg274 := PrimIsPair(reg273)
-						var reg292 Obj
-						if reg274 == True {
-							reg275 := Nil
-							reg276 := Call(__e, __defun__snd, V3008)
-							reg277 := PrimTail(reg276)
-							reg278 := PrimEqual(reg275, reg277)
-							var reg287 Obj
-							if reg278 == True {
-								reg279 := Call(__e, __defun__snd, V3008)
-								reg280 := PrimHead(reg279)
-								reg281 := Call(__e, __defun__shen_4percent)
-								reg282 := PrimEqual(reg280, reg281)
-								var reg285 Obj
-								if reg282 == True {
-									reg283 := True
-									reg285 = reg283
-								} else {
-									reg284 := False
-									reg285 = reg284
-								}
-								reg287 = reg285
-							} else {
-								reg286 := False
-								reg287 = reg286
-							}
-							var reg290 Obj
-							if reg287 == True {
-								reg288 := True
-								reg290 = reg288
-							} else {
-								reg289 := False
-								reg290 = reg289
-							}
-							reg292 = reg290
-						} else {
-							reg291 := False
-							reg292 = reg291
-						}
-						var reg295 Obj
-						if reg292 == True {
-							reg293 := True
-							reg295 = reg293
-						} else {
-							reg294 := False
-							reg295 = reg294
-						}
-						reg297 = reg295
-					} else {
-						reg296 := False
-						reg297 = reg296
-					}
-					if reg297 == True {
-						reg298 := MakeNative(func(__e Evaluator, __args ...Obj) {
-							X := __args[0]
-							_ = X
-							reg299 := True
-							__e.Return(reg299)
-							return
-						}, 1)
-						reg300 := Call(__e, __defun__reverse, V3009)
-						reg301 := MakeNumber(0)
-						reg302 := Call(__e, __defun__shen_4print_1past_1inputs, reg298, reg300, reg301)
-						_ = reg302
-						__e.TailApply(__defun__abort)
-						return
-					} else {
-						reg304 := Call(__e, __defun__tuple_2, V3008)
-						var reg320 Obj
-						if reg304 == True {
-							reg305 := Call(__e, __defun__snd, V3008)
-							reg306 := PrimIsPair(reg305)
-							var reg315 Obj
-							if reg306 == True {
-								reg307 := Call(__e, __defun__snd, V3008)
-								reg308 := PrimHead(reg307)
-								reg309 := Call(__e, __defun__shen_4percent)
-								reg310 := PrimEqual(reg308, reg309)
-								var reg313 Obj
-								if reg310 == True {
-									reg311 := True
-									reg313 = reg311
-								} else {
-									reg312 := False
-									reg313 = reg312
-								}
-								reg315 = reg313
-							} else {
-								reg314 := False
-								reg315 = reg314
-							}
-							var reg318 Obj
-							if reg315 == True {
-								reg316 := True
-								reg318 = reg316
-							} else {
-								reg317 := False
-								reg318 = reg317
-							}
-							reg320 = reg318
-						} else {
-							reg319 := False
-							reg320 = reg319
-						}
-						if reg320 == True {
-							reg321 := Call(__e, __defun__snd, V3008)
-							reg322 := PrimTail(reg321)
-							reg323 := Call(__e, __defun__shen_4make_1key, reg322, V3009)
-							Key_2 := reg323
-							_ = Key_2
-							reg324 := Call(__e, __defun__reverse, V3009)
-							reg325 := MakeNumber(0)
-							reg326 := Call(__e, __defun__shen_4print_1past_1inputs, Key_2, reg324, reg325)
-							Pastprint := reg326
-							_ = Pastprint
-							__e.TailApply(__defun__abort)
-							return
-						} else {
-							__e.Return(V3008)
-							return
-						}
-					}
+					__e.TailApply(ShenFunc(symsimple_1error), MakeString("tc expects a + or -"))
+
+					return
 				}
+
 			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.retrieve-from-history-if-needed", value: __defun__shen_4retrieve_1from_1history_1if_1needed})
 
-	__defun__shen_4percent = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg328 := MakeNumber(37)
-		__e.Return(reg328)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.percent", value: __defun__shen_4percent})
-
-	__defun__shen_4exclamation = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg329 := MakeNumber(33)
-		__e.Return(reg329)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.exclamation", value: __defun__shen_4exclamation})
-
-	__defun__shen_4prbytes = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3011 := __args[0]
-		_ = V3011
-		reg330 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			Byte := __args[0]
-			_ = Byte
-			reg331 := PrimNumberToString(Byte)
-			reg332 := Call(__e, __defun__stoutput)
-			__e.TailApply(__defun__pr, reg331, reg332)
-			return
 		}, 1)
-		reg334 := Call(__e, __defun__shen_4for_1each, reg330, V3011)
-		_ = reg334
-		reg335 := MakeNumber(1)
-		__e.TailApply(__defun__nl, reg335)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.prbytes", value: __defun__shen_4prbytes})
+		Call(__e, ShenFunc(symdefun), MakeSymbol("tc"), gen16022)
 
-	__defun__shen_4update__history = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3014 := __args[0]
-		_ = V3014
-		V3015 := __args[1]
-		_ = V3015
-		reg337 := MakeSymbol("shen.*history*")
-		reg338 := PrimCons(V3014, V3015)
-		reg339 := PrimSet(reg337, reg338)
-		__e.Return(reg339)
-		return
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.update_history", value: __defun__shen_4update__history})
+		gen16034 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			gen16033 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
 
-	__defun__shen_4toplineread = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg340 := Call(__e, __defun__stinput)
-		reg341 := Call(__e, __defun__shen_4read_1char_1code, reg340)
-		reg342 := Nil
-		__e.TailApply(__defun__shen_4toplineread__loop, reg341, reg342)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.toplineread", value: __defun__shen_4toplineread})
+			if True == gen16033 {
+				gen16028 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*history*"))
 
-	__defun__shen_4toplineread__loop = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3019 := __args[0]
-		_ = V3019
-		V3020 := __args[1]
-		_ = V3020
-		reg344 := Call(__e, __defun__shen_4hat)
-		reg345 := PrimEqual(V3019, reg344)
-		if reg345 == True {
-			reg346 := MakeString("line read aborted")
-			reg347 := PrimSimpleError(reg346)
-			__e.Return(reg347)
+				gen16029 := Call(__e, ShenFunc(symlength), gen16028)
+
+				gen16030 := Call(__e, ShenFunc(symshen_4app), gen16029, MakeString("+) "), MakeSymbol("shen.a"))
+
+				gen16031 := Call(__e, ShenFunc(symcn), MakeString("\n\n("), gen16030)
+
+				gen16032 := Call(__e, ShenFunc(symstoutput))
+
+				__e.TailApply(ShenFunc(symshen_4prhush), gen16031, gen16032)
+
+				return
+
+			} else {
+				gen16023 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*history*"))
+
+				gen16024 := Call(__e, ShenFunc(symlength), gen16023)
+
+				gen16025 := Call(__e, ShenFunc(symshen_4app), gen16024, MakeString("-) "), MakeSymbol("shen.a"))
+
+				gen16026 := Call(__e, ShenFunc(symcn), MakeString("\n\n("), gen16025)
+
+				gen16027 := Call(__e, ShenFunc(symstoutput))
+
+				__e.TailApply(ShenFunc(symshen_4prhush), gen16026, gen16027)
+
+				return
+
+			}
+
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.prompt"), gen16034)
+
+		gen16036 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3058 := __args[0]
+			_ = V3058
+			gen16035 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
+
+			__e.TailApply(ShenFunc(symshen_4toplevel__evaluate), V3058, gen16035)
+
 			return
-		} else {
-			reg348 := Call(__e, __defun__shen_4newline)
-			reg349 := Call(__e, __defun__shen_4carriage_1return)
-			reg350 := Nil
-			reg351 := PrimCons(reg349, reg350)
-			reg352 := PrimCons(reg348, reg351)
-			reg353 := Call(__e, __defun__element_2, V3019, reg352)
-			if reg353 == True {
-				reg354 := MakeNative(func(__e Evaluator, __args ...Obj) {
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.toplevel"), gen16036)
+
+		gen16039 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3061 := __args[0]
+			_ = V3061
+			V3062 := __args[1]
+			_ = V3062
+			gen16037 := Call(__e, ShenFunc(symshen_4find), V3061, V3062)
+
+			F := gen16037
+			gen16038 := Call(__e, ShenFunc(symempty_2), F)
+
+			if True == gen16038 {
+				__e.TailApply(ShenFunc(symsimple_1error), MakeString("input not found\n"))
+
+				return
+			} else {
+				__e.Return(F)
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.find-past-inputs"), gen16039)
+
+		gen16053 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3065 := __args[0]
+			_ = V3065
+			V3066 := __args[1]
+			_ = V3066
+			gen16040 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				X := __args[0]
+				_ = X
+				__e.TailApply(ShenFunc(symshen_4_5st__input_6), X)
+
+				return
+			}, 1)
+			gen16044 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				E := __args[0]
+				_ = E
+				gen16043 := Call(__e, ShenFunc(symcons_2), E)
+
+				if True == gen16043 {
+					gen16041 := Call(__e, ShenFunc(symshen_4app), E, MakeString("\n"), MakeSymbol("shen.s"))
+
+					gen16042 := Call(__e, ShenFunc(symcn), MakeString("parse error here: "), gen16041)
+
+					__e.TailApply(ShenFunc(symsimple_1error), gen16042)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symsimple_1error), MakeString("parse error\n"))
+
+					return
+				}
+
+			}, 1)
+			gen16045 := Call(__e, ShenFunc(symcompile), gen16040, V3065, gen16044)
+
+			gen16046 := Call(__e, ShenFunc(symhd), gen16045)
+
+			Atom := gen16046
+			gen16052 := Call(__e, ShenFunc(syminteger_2), Atom)
+
+			if True == gen16052 {
+				__e.Return(MakeNative(func(__e Evaluator, __args ...Obj) {
 					X := __args[0]
 					_ = X
-					__e.TailApply(__defun__shen_4_5st__input_6, X)
+					gen16049 := Call(__e, ShenFunc(sym_7), Atom, MakeNumber(1))
+
+					gen16050 := Call(__e, ShenFunc(symreverse), V3066)
+
+					gen16051 := Call(__e, ShenFunc(symnth), gen16049, gen16050)
+
+					__e.TailApply(ShenFunc(sym_a), X, gen16051)
+
 					return
-				}, 1)
-				reg356 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					E := __args[0]
-					_ = E
-					reg357 := MakeSymbol("shen.nextline")
-					__e.Return(reg357)
+
+				}, 1))
+				return
+			} else {
+				__e.Return(MakeNative(func(__e Evaluator, __args ...Obj) {
+					X := __args[0]
+					_ = X
+					gen16047 := Call(__e, ShenFunc(symsnd), X)
+
+					gen16048 := Call(__e, ShenFunc(symshen_4trim_1gubbins), gen16047)
+
+					__e.TailApply(ShenFunc(symshen_4prefix_2), V3065, gen16048)
+
 					return
-				}, 1)
-				reg358 := Call(__e, __defun__compile, reg354, V3020, reg356)
-				Line := reg358
-				_ = Line
-				reg359 := Call(__e, __defun__shen_4record_1it, V3020)
-				It := reg359
-				_ = It
-				reg360 := MakeSymbol("shen.nextline")
-				reg361 := PrimEqual(Line, reg360)
-				var reg367 Obj
-				if reg361 == True {
-					reg362 := True
-					reg367 = reg362
+
+				}, 1))
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.make-key"), gen16053)
+
+		gen16084 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3068 := __args[0]
+			_ = V3068
+			gen16082 := Call(__e, ShenFunc(symcons_2), V3068)
+
+			var gen16083 Obj
+			if True == gen16082 {
+				gen16079 := Call(__e, ShenFunc(symhd), V3068)
+
+				gen16080 := Call(__e, ShenFunc(symshen_4space))
+
+				gen16081 := Call(__e, ShenFunc(sym_a), gen16079, gen16080)
+
+				if True == gen16081 {
+					gen16083 = True
 				} else {
-					reg363 := Call(__e, __defun__empty_2, Line)
-					var reg366 Obj
-					if reg363 == True {
-						reg364 := True
-						reg366 = reg364
+					gen16083 = False
+				}
+
+			} else {
+				gen16083 = False
+			}
+			if True == gen16083 {
+				gen16078 := Call(__e, ShenFunc(symtl), V3068)
+
+				__e.TailApply(ShenFunc(symshen_4trim_1gubbins), gen16078)
+
+				return
+
+			} else {
+				gen16076 := Call(__e, ShenFunc(symcons_2), V3068)
+
+				var gen16077 Obj
+				if True == gen16076 {
+					gen16073 := Call(__e, ShenFunc(symhd), V3068)
+
+					gen16074 := Call(__e, ShenFunc(symshen_4newline))
+
+					gen16075 := Call(__e, ShenFunc(sym_a), gen16073, gen16074)
+
+					if True == gen16075 {
+						gen16077 = True
 					} else {
-						reg365 := False
-						reg366 = reg365
+						gen16077 = False
 					}
-					reg367 = reg366
+
+				} else {
+					gen16077 = False
 				}
-				if reg367 == True {
-					reg368 := Call(__e, __defun__stinput)
-					reg369 := Call(__e, __defun__shen_4read_1char_1code, reg368)
-					reg370 := Nil
-					reg371 := PrimCons(V3019, reg370)
-					reg372 := Call(__e, __defun__append, V3020, reg371)
-					__e.TailApply(__defun__shen_4toplineread__loop, reg369, reg372)
+				if True == gen16077 {
+					gen16072 := Call(__e, ShenFunc(symtl), V3068)
+
+					__e.TailApply(ShenFunc(symshen_4trim_1gubbins), gen16072)
+
 					return
+
 				} else {
-					__e.TailApply(__defun___8p, Line, V3020)
-					return
-				}
-			} else {
-				reg375 := Call(__e, __defun__stinput)
-				reg376 := Call(__e, __defun__shen_4read_1char_1code, reg375)
-				reg377 := MakeNumber(-1)
-				reg378 := PrimEqual(V3019, reg377)
-				var reg382 Obj
-				if reg378 == True {
-					reg382 = V3020
-				} else {
-					reg379 := Nil
-					reg380 := PrimCons(V3019, reg379)
-					reg381 := Call(__e, __defun__append, V3020, reg380)
-					reg382 = reg381
-				}
-				__e.TailApply(__defun__shen_4toplineread__loop, reg376, reg382)
-				return
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.toplineread_loop", value: __defun__shen_4toplineread__loop})
+					gen16070 := Call(__e, ShenFunc(symcons_2), V3068)
 
-	__defun__shen_4hat = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg384 := MakeNumber(94)
-		__e.Return(reg384)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.hat", value: __defun__shen_4hat})
+					var gen16071 Obj
+					if True == gen16070 {
+						gen16067 := Call(__e, ShenFunc(symhd), V3068)
 
-	__defun__shen_4newline = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg385 := MakeNumber(10)
-		__e.Return(reg385)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.newline", value: __defun__shen_4newline})
+						gen16068 := Call(__e, ShenFunc(symshen_4carriage_1return))
 
-	__defun__shen_4carriage_1return = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg386 := MakeNumber(13)
-		__e.Return(reg386)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.carriage-return", value: __defun__shen_4carriage_1return})
+						gen16069 := Call(__e, ShenFunc(sym_a), gen16067, gen16068)
 
-	__defun__tc = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3026 := __args[0]
-		_ = V3026
-		reg387 := MakeSymbol("+")
-		reg388 := PrimEqual(reg387, V3026)
-		if reg388 == True {
-			reg389 := MakeSymbol("shen.*tc*")
-			reg390 := True
-			reg391 := PrimSet(reg389, reg390)
-			__e.Return(reg391)
-			return
-		} else {
-			reg392 := MakeSymbol("-")
-			reg393 := PrimEqual(reg392, V3026)
-			if reg393 == True {
-				reg394 := MakeSymbol("shen.*tc*")
-				reg395 := False
-				reg396 := PrimSet(reg394, reg395)
-				__e.Return(reg396)
-				return
-			} else {
-				reg397 := MakeString("tc expects a + or -")
-				reg398 := PrimSimpleError(reg397)
-				__e.Return(reg398)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "tc", value: __defun__tc})
-
-	__defun__shen_4prompt = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg399 := MakeSymbol("shen.*tc*")
-		reg400 := PrimValue(reg399)
-		if reg400 == True {
-			reg401 := MakeString("\n\n(")
-			reg402 := MakeSymbol("shen.*history*")
-			reg403 := PrimValue(reg402)
-			reg404 := Call(__e, __defun__length, reg403)
-			reg405 := MakeString("+) ")
-			reg406 := MakeSymbol("shen.a")
-			reg407 := Call(__e, __defun__shen_4app, reg404, reg405, reg406)
-			reg408 := PrimStringConcat(reg401, reg407)
-			reg409 := Call(__e, __defun__stoutput)
-			__e.TailApply(__defun__shen_4prhush, reg408, reg409)
-			return
-		} else {
-			reg411 := MakeString("\n\n(")
-			reg412 := MakeSymbol("shen.*history*")
-			reg413 := PrimValue(reg412)
-			reg414 := Call(__e, __defun__length, reg413)
-			reg415 := MakeString("-) ")
-			reg416 := MakeSymbol("shen.a")
-			reg417 := Call(__e, __defun__shen_4app, reg414, reg415, reg416)
-			reg418 := PrimStringConcat(reg411, reg417)
-			reg419 := Call(__e, __defun__stoutput)
-			__e.TailApply(__defun__shen_4prhush, reg418, reg419)
-			return
-		}
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.prompt", value: __defun__shen_4prompt})
-
-	__defun__shen_4toplevel = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3028 := __args[0]
-		_ = V3028
-		reg421 := MakeSymbol("shen.*tc*")
-		reg422 := PrimValue(reg421)
-		__e.TailApply(__defun__shen_4toplevel__evaluate, V3028, reg422)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.toplevel", value: __defun__shen_4toplevel})
-
-	__defun__shen_4find_1past_1inputs = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3031 := __args[0]
-		_ = V3031
-		V3032 := __args[1]
-		_ = V3032
-		reg424 := Call(__e, __defun__shen_4find, V3031, V3032)
-		F := reg424
-		_ = F
-		reg425 := Call(__e, __defun__empty_2, F)
-		if reg425 == True {
-			reg426 := MakeString("input not found\n")
-			reg427 := PrimSimpleError(reg426)
-			__e.Return(reg427)
-			return
-		} else {
-			__e.Return(F)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.find-past-inputs", value: __defun__shen_4find_1past_1inputs})
-
-	__defun__shen_4make_1key = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3035 := __args[0]
-		_ = V3035
-		V3036 := __args[1]
-		_ = V3036
-		reg428 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			X := __args[0]
-			_ = X
-			__e.TailApply(__defun__shen_4_5st__input_6, X)
-			return
-		}, 1)
-		reg430 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			E := __args[0]
-			_ = E
-			reg431 := PrimIsPair(E)
-			if reg431 == True {
-				reg432 := MakeString("parse error here: ")
-				reg433 := MakeString("\n")
-				reg434 := MakeSymbol("shen.s")
-				reg435 := Call(__e, __defun__shen_4app, E, reg433, reg434)
-				reg436 := PrimStringConcat(reg432, reg435)
-				reg437 := PrimSimpleError(reg436)
-				__e.Return(reg437)
-				return
-			} else {
-				reg438 := MakeString("parse error\n")
-				reg439 := PrimSimpleError(reg438)
-				__e.Return(reg439)
-				return
-			}
-		}, 1)
-		reg440 := Call(__e, __defun__compile, reg428, V3035, reg430)
-		reg441 := PrimHead(reg440)
-		Atom := reg441
-		_ = Atom
-		reg442 := PrimIsInteger(Atom)
-		if reg442 == True {
-			reg443 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				reg444 := MakeNumber(1)
-				reg445 := PrimNumberAdd(Atom, reg444)
-				reg446 := Call(__e, __defun__reverse, V3036)
-				reg447 := Call(__e, __defun__nth, reg445, reg446)
-				reg448 := PrimEqual(X, reg447)
-				__e.Return(reg448)
-				return
-			}, 1)
-			__e.Return(reg443)
-			return
-		} else {
-			reg449 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				reg450 := Call(__e, __defun__snd, X)
-				reg451 := Call(__e, __defun__shen_4trim_1gubbins, reg450)
-				__e.TailApply(__defun__shen_4prefix_2, V3035, reg451)
-				return
-			}, 1)
-			__e.Return(reg449)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.make-key", value: __defun__shen_4make_1key})
-
-	__defun__shen_4trim_1gubbins = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3038 := __args[0]
-		_ = V3038
-		reg453 := PrimIsPair(V3038)
-		var reg461 Obj
-		if reg453 == True {
-			reg454 := PrimHead(V3038)
-			reg455 := Call(__e, __defun__shen_4space)
-			reg456 := PrimEqual(reg454, reg455)
-			var reg459 Obj
-			if reg456 == True {
-				reg457 := True
-				reg459 = reg457
-			} else {
-				reg458 := False
-				reg459 = reg458
-			}
-			reg461 = reg459
-		} else {
-			reg460 := False
-			reg461 = reg460
-		}
-		if reg461 == True {
-			reg462 := PrimTail(V3038)
-			__e.TailApply(__defun__shen_4trim_1gubbins, reg462)
-			return
-		} else {
-			reg464 := PrimIsPair(V3038)
-			var reg472 Obj
-			if reg464 == True {
-				reg465 := PrimHead(V3038)
-				reg466 := Call(__e, __defun__shen_4newline)
-				reg467 := PrimEqual(reg465, reg466)
-				var reg470 Obj
-				if reg467 == True {
-					reg468 := True
-					reg470 = reg468
-				} else {
-					reg469 := False
-					reg470 = reg469
-				}
-				reg472 = reg470
-			} else {
-				reg471 := False
-				reg472 = reg471
-			}
-			if reg472 == True {
-				reg473 := PrimTail(V3038)
-				__e.TailApply(__defun__shen_4trim_1gubbins, reg473)
-				return
-			} else {
-				reg475 := PrimIsPair(V3038)
-				var reg483 Obj
-				if reg475 == True {
-					reg476 := PrimHead(V3038)
-					reg477 := Call(__e, __defun__shen_4carriage_1return)
-					reg478 := PrimEqual(reg476, reg477)
-					var reg481 Obj
-					if reg478 == True {
-						reg479 := True
-						reg481 = reg479
-					} else {
-						reg480 := False
-						reg481 = reg480
-					}
-					reg483 = reg481
-				} else {
-					reg482 := False
-					reg483 = reg482
-				}
-				if reg483 == True {
-					reg484 := PrimTail(V3038)
-					__e.TailApply(__defun__shen_4trim_1gubbins, reg484)
-					return
-				} else {
-					reg486 := PrimIsPair(V3038)
-					var reg494 Obj
-					if reg486 == True {
-						reg487 := PrimHead(V3038)
-						reg488 := Call(__e, __defun__shen_4tab)
-						reg489 := PrimEqual(reg487, reg488)
-						var reg492 Obj
-						if reg489 == True {
-							reg490 := True
-							reg492 = reg490
+						if True == gen16069 {
+							gen16071 = True
 						} else {
-							reg491 := False
-							reg492 = reg491
+							gen16071 = False
 						}
-						reg494 = reg492
+
 					} else {
-						reg493 := False
-						reg494 = reg493
+						gen16071 = False
 					}
-					if reg494 == True {
-						reg495 := PrimTail(V3038)
-						__e.TailApply(__defun__shen_4trim_1gubbins, reg495)
+					if True == gen16071 {
+						gen16066 := Call(__e, ShenFunc(symtl), V3068)
+
+						__e.TailApply(ShenFunc(symshen_4trim_1gubbins), gen16066)
+
 						return
+
 					} else {
-						reg497 := PrimIsPair(V3038)
-						var reg505 Obj
-						if reg497 == True {
-							reg498 := PrimHead(V3038)
-							reg499 := Call(__e, __defun__shen_4left_1round)
-							reg500 := PrimEqual(reg498, reg499)
-							var reg503 Obj
-							if reg500 == True {
-								reg501 := True
-								reg503 = reg501
+						gen16064 := Call(__e, ShenFunc(symcons_2), V3068)
+
+						var gen16065 Obj
+						if True == gen16064 {
+							gen16061 := Call(__e, ShenFunc(symhd), V3068)
+
+							gen16062 := Call(__e, ShenFunc(symshen_4tab))
+
+							gen16063 := Call(__e, ShenFunc(sym_a), gen16061, gen16062)
+
+							if True == gen16063 {
+								gen16065 = True
 							} else {
-								reg502 := False
-								reg503 = reg502
+								gen16065 = False
 							}
-							reg505 = reg503
+
 						} else {
-							reg504 := False
-							reg505 = reg504
+							gen16065 = False
 						}
-						if reg505 == True {
-							reg506 := PrimTail(V3038)
-							__e.TailApply(__defun__shen_4trim_1gubbins, reg506)
+						if True == gen16065 {
+							gen16060 := Call(__e, ShenFunc(symtl), V3068)
+
+							__e.TailApply(ShenFunc(symshen_4trim_1gubbins), gen16060)
+
 							return
+
 						} else {
-							__e.Return(V3038)
+							gen16058 := Call(__e, ShenFunc(symcons_2), V3068)
+
+							var gen16059 Obj
+							if True == gen16058 {
+								gen16055 := Call(__e, ShenFunc(symhd), V3068)
+
+								gen16056 := Call(__e, ShenFunc(symshen_4left_1round))
+
+								gen16057 := Call(__e, ShenFunc(sym_a), gen16055, gen16056)
+
+								if True == gen16057 {
+									gen16059 = True
+								} else {
+									gen16059 = False
+								}
+
+							} else {
+								gen16059 = False
+							}
+							if True == gen16059 {
+								gen16054 := Call(__e, ShenFunc(symtl), V3068)
+
+								__e.TailApply(ShenFunc(symshen_4trim_1gubbins), gen16054)
+
+								return
+
+							} else {
+								__e.Return(V3068)
+								return
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.trim-gubbins"), gen16084)
+
+		gen16085 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(32))
+			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.space"), gen16085)
+
+		gen16086 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(9))
+			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.tab"), gen16086)
+
+		gen16087 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			__e.Return(MakeNumber(40))
+			return
+		}, 0)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.left-round"), gen16087)
+
+		gen16098 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3077 := __args[0]
+			_ = V3077
+			V3078 := __args[1]
+			_ = V3078
+			gen16097 := Call(__e, ShenFunc(sym_a), Nil, V3078)
+
+			if True == gen16097 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen16095 := Call(__e, ShenFunc(symcons_2), V3078)
+
+				var gen16096 Obj
+				if True == gen16095 {
+					gen16093 := Call(__e, ShenFunc(symhd), V3078)
+
+					gen16094 := Call(__e, V3077, gen16093)
+
+					if True == gen16094 {
+						gen16096 = True
+					} else {
+						gen16096 = False
+					}
+
+				} else {
+					gen16096 = False
+				}
+				if True == gen16096 {
+					gen16090 := Call(__e, ShenFunc(symhd), V3078)
+
+					gen16091 := Call(__e, ShenFunc(symtl), V3078)
+
+					gen16092 := Call(__e, ShenFunc(symshen_4find), V3077, gen16091)
+
+					__e.TailApply(ShenFunc(symcons), gen16090, gen16092)
+
+					return
+
+				} else {
+					gen16089 := Call(__e, ShenFunc(symcons_2), V3078)
+
+					if True == gen16089 {
+						gen16088 := Call(__e, ShenFunc(symtl), V3078)
+
+						__e.TailApply(ShenFunc(symshen_4find), V3077, gen16088)
+
+						return
+
+					} else {
+						__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.find"))
+
+						return
+					}
+
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.find"), gen16098)
+
+		gen16109 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3092 := __args[0]
+			_ = V3092
+			V3093 := __args[1]
+			_ = V3093
+			gen16108 := Call(__e, ShenFunc(sym_a), Nil, V3092)
+
+			if True == gen16108 {
+				__e.Return(True)
+				return
+			} else {
+				gen16106 := Call(__e, ShenFunc(symcons_2), V3092)
+
+				var gen16107 Obj
+				if True == gen16106 {
+					gen16104 := Call(__e, ShenFunc(symcons_2), V3093)
+
+					var gen16105 Obj
+					if True == gen16104 {
+						gen16101 := Call(__e, ShenFunc(symhd), V3093)
+
+						gen16102 := Call(__e, ShenFunc(symhd), V3092)
+
+						gen16103 := Call(__e, ShenFunc(sym_a), gen16101, gen16102)
+
+						if True == gen16103 {
+							gen16105 = True
+						} else {
+							gen16105 = False
+						}
+
+					} else {
+						gen16105 = False
+					}
+					if True == gen16105 {
+						gen16107 = True
+					} else {
+						gen16107 = False
+					}
+
+				} else {
+					gen16107 = False
+				}
+				if True == gen16107 {
+					gen16099 := Call(__e, ShenFunc(symtl), V3092)
+
+					gen16100 := Call(__e, ShenFunc(symtl), V3093)
+
+					__e.TailApply(ShenFunc(symshen_4prefix_2), gen16099, gen16100)
+
+					return
+
+				} else {
+					__e.Return(False)
+					return
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.prefix?"), gen16109)
+
+		gen16128 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3105 := __args[0]
+			_ = V3105
+			V3106 := __args[1]
+			_ = V3106
+			V3107 := __args[2]
+			_ = V3107
+			gen16127 := Call(__e, ShenFunc(sym_a), Nil, V3106)
+
+			if True == gen16127 {
+				__e.Return(MakeSymbol("_"))
+				return
+			} else {
+				gen16125 := Call(__e, ShenFunc(symcons_2), V3106)
+
+				var gen16126 Obj
+				if True == gen16125 {
+					gen16122 := Call(__e, ShenFunc(symhd), V3106)
+
+					gen16123 := Call(__e, V3105, gen16122)
+
+					gen16124 := Call(__e, ShenFunc(symnot), gen16123)
+
+					if True == gen16124 {
+						gen16126 = True
+					} else {
+						gen16126 = False
+					}
+
+				} else {
+					gen16126 = False
+				}
+				if True == gen16126 {
+					gen16120 := Call(__e, ShenFunc(symtl), V3106)
+
+					gen16121 := Call(__e, ShenFunc(sym_7), V3107, MakeNumber(1))
+
+					__e.TailApply(ShenFunc(symshen_4print_1past_1inputs), V3105, gen16120, gen16121)
+
+					return
+
+				} else {
+					gen16118 := Call(__e, ShenFunc(symcons_2), V3106)
+
+					var gen16119 Obj
+					if True == gen16118 {
+						gen16116 := Call(__e, ShenFunc(symhd), V3106)
+
+						gen16117 := Call(__e, ShenFunc(symtuple_2), gen16116)
+
+						if True == gen16117 {
+							gen16119 = True
+						} else {
+							gen16119 = False
+						}
+
+					} else {
+						gen16119 = False
+					}
+					if True == gen16119 {
+						gen16110 := Call(__e, ShenFunc(symshen_4app), V3107, MakeString(". "), MakeSymbol("shen.a"))
+
+						gen16111 := Call(__e, ShenFunc(symstoutput))
+
+						Call(__e, ShenFunc(symshen_4prhush), gen16110, gen16111)
+
+						gen16112 := Call(__e, ShenFunc(symhd), V3106)
+
+						gen16113 := Call(__e, ShenFunc(symsnd), gen16112)
+
+						Call(__e, ShenFunc(symshen_4prbytes), gen16113)
+
+						gen16114 := Call(__e, ShenFunc(symtl), V3106)
+
+						gen16115 := Call(__e, ShenFunc(sym_7), V3107, MakeNumber(1))
+
+						__e.TailApply(ShenFunc(symshen_4print_1past_1inputs), V3105, gen16114, gen16115)
+
+						return
+
+					} else {
+						__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.print-past-inputs"))
+
+						return
+					}
+
+				}
+
+			}
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.print-past-inputs"), gen16128)
+
+		gen16175 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3110 := __args[0]
+			_ = V3110
+			V3111 := __args[1]
+			_ = V3111
+			gen16173 := Call(__e, ShenFunc(symcons_2), V3110)
+
+			var gen16174 Obj
+			if True == gen16173 {
+				gen16170 := Call(__e, ShenFunc(symtl), V3110)
+
+				gen16171 := Call(__e, ShenFunc(symcons_2), gen16170)
+
+				var gen16172 Obj
+				if True == gen16171 {
+					gen16166 := Call(__e, ShenFunc(symtl), V3110)
+
+					gen16167 := Call(__e, ShenFunc(symhd), gen16166)
+
+					gen16168 := Call(__e, ShenFunc(sym_a), MakeSymbol(":"), gen16167)
+
+					var gen16169 Obj
+					if True == gen16168 {
+						gen16162 := Call(__e, ShenFunc(symtl), V3110)
+
+						gen16163 := Call(__e, ShenFunc(symtl), gen16162)
+
+						gen16164 := Call(__e, ShenFunc(symcons_2), gen16163)
+
+						var gen16165 Obj
+						if True == gen16164 {
+							gen16157 := Call(__e, ShenFunc(symtl), V3110)
+
+							gen16158 := Call(__e, ShenFunc(symtl), gen16157)
+
+							gen16159 := Call(__e, ShenFunc(symtl), gen16158)
+
+							gen16160 := Call(__e, ShenFunc(sym_a), Nil, gen16159)
+
+							var gen16161 Obj
+							if True == gen16160 {
+								gen16156 := Call(__e, ShenFunc(sym_a), True, V3111)
+
+								if True == gen16156 {
+									gen16161 = True
+								} else {
+									gen16161 = False
+								}
+
+							} else {
+								gen16161 = False
+							}
+							if True == gen16161 {
+								gen16165 = True
+							} else {
+								gen16165 = False
+							}
+
+						} else {
+							gen16165 = False
+						}
+						if True == gen16165 {
+							gen16169 = True
+						} else {
+							gen16169 = False
+						}
+
+					} else {
+						gen16169 = False
+					}
+					if True == gen16169 {
+						gen16172 = True
+					} else {
+						gen16172 = False
+					}
+
+				} else {
+					gen16172 = False
+				}
+				if True == gen16172 {
+					gen16174 = True
+				} else {
+					gen16174 = False
+				}
+
+			} else {
+				gen16174 = False
+			}
+			if True == gen16174 {
+				gen16152 := Call(__e, ShenFunc(symhd), V3110)
+
+				gen16153 := Call(__e, ShenFunc(symtl), V3110)
+
+				gen16154 := Call(__e, ShenFunc(symtl), gen16153)
+
+				gen16155 := Call(__e, ShenFunc(symhd), gen16154)
+
+				__e.TailApply(ShenFunc(symshen_4typecheck_1and_1evaluate), gen16152, gen16155)
+
+				return
+
+			} else {
+				gen16150 := Call(__e, ShenFunc(symcons_2), V3110)
+
+				var gen16151 Obj
+				if True == gen16150 {
+					gen16148 := Call(__e, ShenFunc(symtl), V3110)
+
+					gen16149 := Call(__e, ShenFunc(symcons_2), gen16148)
+
+					if True == gen16149 {
+						gen16151 = True
+					} else {
+						gen16151 = False
+					}
+
+				} else {
+					gen16151 = False
+				}
+				if True == gen16151 {
+					gen16145 := Call(__e, ShenFunc(symhd), V3110)
+
+					gen16146 := Call(__e, ShenFunc(symcons), gen16145, Nil)
+
+					Call(__e, ShenFunc(symshen_4toplevel__evaluate), gen16146, V3111)
+
+					Call(__e, ShenFunc(symnl), MakeNumber(1))
+					gen16147 := Call(__e, ShenFunc(symtl), V3110)
+
+					__e.TailApply(ShenFunc(symshen_4toplevel__evaluate), gen16147, V3111)
+
+					return
+
+				} else {
+					gen16143 := Call(__e, ShenFunc(symcons_2), V3110)
+
+					var gen16144 Obj
+					if True == gen16143 {
+						gen16140 := Call(__e, ShenFunc(symtl), V3110)
+
+						gen16141 := Call(__e, ShenFunc(sym_a), Nil, gen16140)
+
+						var gen16142 Obj
+						if True == gen16141 {
+							gen16139 := Call(__e, ShenFunc(sym_a), True, V3111)
+
+							if True == gen16139 {
+								gen16142 = True
+							} else {
+								gen16142 = False
+							}
+
+						} else {
+							gen16142 = False
+						}
+						if True == gen16142 {
+							gen16144 = True
+						} else {
+							gen16144 = False
+						}
+
+					} else {
+						gen16144 = False
+					}
+					if True == gen16144 {
+						gen16137 := Call(__e, ShenFunc(symhd), V3110)
+
+						gen16138 := Call(__e, ShenFunc(symgensym), MakeSymbol("A"))
+
+						__e.TailApply(ShenFunc(symshen_4typecheck_1and_1evaluate), gen16137, gen16138)
+
+						return
+
+					} else {
+						gen16135 := Call(__e, ShenFunc(symcons_2), V3110)
+
+						var gen16136 Obj
+						if True == gen16135 {
+							gen16132 := Call(__e, ShenFunc(symtl), V3110)
+
+							gen16133 := Call(__e, ShenFunc(sym_a), Nil, gen16132)
+
+							var gen16134 Obj
+							if True == gen16133 {
+								gen16131 := Call(__e, ShenFunc(sym_a), False, V3111)
+
+								if True == gen16131 {
+									gen16134 = True
+								} else {
+									gen16134 = False
+								}
+
+							} else {
+								gen16134 = False
+							}
+							if True == gen16134 {
+								gen16136 = True
+							} else {
+								gen16136 = False
+							}
+
+						} else {
+							gen16136 = False
+						}
+						if True == gen16136 {
+							gen16129 := Call(__e, ShenFunc(symhd), V3110)
+
+							gen16130 := Call(__e, ShenFunc(symshen_4eval_1without_1macros), gen16129)
+
+							Eval := gen16130
+							__e.TailApply(ShenFunc(symprint), Eval)
+
+							return
+
+						} else {
+							__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.toplevel_evaluate"))
+
 							return
 						}
+
 					}
+
 				}
+
 			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.trim-gubbins", value: __defun__shen_4trim_1gubbins})
 
-	__defun__shen_4space = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg508 := MakeNumber(32)
-		__e.Return(reg508)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.space", value: __defun__shen_4space})
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.toplevel_evaluate"), gen16175)
 
-	__defun__shen_4tab = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg509 := MakeNumber(9)
-		__e.Return(reg509)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.tab", value: __defun__shen_4tab})
+		gen16184 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3114 := __args[0]
+			_ = V3114
+			V3115 := __args[1]
+			_ = V3115
+			gen16176 := Call(__e, ShenFunc(symshen_4typecheck), V3114, V3115)
 
-	__defun__shen_4left_1round = MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg510 := MakeNumber(40)
-		__e.Return(reg510)
-		return
-	}, 0)
-	__initDefs = append(__initDefs, defType{name: "shen.left-round", value: __defun__shen_4left_1round})
+			Typecheck := gen16176
+			gen16183 := Call(__e, ShenFunc(sym_a), Typecheck, False)
 
-	__defun__shen_4find = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3047 := __args[0]
-		_ = V3047
-		V3048 := __args[1]
-		_ = V3048
-		reg511 := Nil
-		reg512 := PrimEqual(reg511, V3048)
-		if reg512 == True {
-			reg513 := Nil
-			__e.Return(reg513)
+			if True == gen16183 {
+				__e.TailApply(ShenFunc(symsimple_1error), MakeString("type error\n"))
+
+				return
+			} else {
+				gen16177 := Call(__e, ShenFunc(symshen_4eval_1without_1macros), V3114)
+
+				Eval := gen16177
+				gen16178 := Call(__e, ShenFunc(symshen_4pretty_1type), Typecheck)
+
+				Type := gen16178
+				gen16179 := Call(__e, ShenFunc(symshen_4app), Type, MakeString(""), MakeSymbol("shen.r"))
+
+				gen16180 := Call(__e, ShenFunc(symcn), MakeString(" : "), gen16179)
+
+				gen16181 := Call(__e, ShenFunc(symshen_4app), Eval, gen16180, MakeSymbol("shen.s"))
+
+				gen16182 := Call(__e, ShenFunc(symstoutput))
+
+				__e.TailApply(ShenFunc(symshen_4prhush), gen16181, gen16182)
+
+				return
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typecheck-and-evaluate"), gen16184)
+
+		gen16187 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3117 := __args[0]
+			_ = V3117
+			gen16185 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*alphabet*"))
+
+			gen16186 := Call(__e, ShenFunc(symshen_4extract_1pvars), V3117)
+
+			__e.TailApply(ShenFunc(symshen_4mult__subst), gen16185, gen16186, V3117)
+
 			return
-		} else {
-			reg514 := PrimIsPair(V3048)
-			var reg521 Obj
-			if reg514 == True {
-				reg515 := PrimHead(V3048)
-				reg516 := Call(__e, V3047, reg515)
-				var reg519 Obj
-				if reg516 == True {
-					reg517 := True
-					reg519 = reg517
-				} else {
-					reg518 := False
-					reg519 = reg518
-				}
-				reg521 = reg519
-			} else {
-				reg520 := False
-				reg521 = reg520
-			}
-			if reg521 == True {
-				reg522 := PrimHead(V3048)
-				reg523 := PrimTail(V3048)
-				reg524 := Call(__e, __defun__shen_4find, V3047, reg523)
-				reg525 := PrimCons(reg522, reg524)
-				__e.Return(reg525)
-				return
-			} else {
-				reg526 := PrimIsPair(V3048)
-				if reg526 == True {
-					reg527 := PrimTail(V3048)
-					__e.TailApply(__defun__shen_4find, V3047, reg527)
-					return
-				} else {
-					reg529 := MakeSymbol("shen.find")
-					__e.TailApply(__defun__shen_4f__error, reg529)
-					return
-				}
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.find", value: __defun__shen_4find})
 
-	__defun__shen_4prefix_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3062 := __args[0]
-		_ = V3062
-		V3063 := __args[1]
-		_ = V3063
-		reg531 := Nil
-		reg532 := PrimEqual(reg531, V3062)
-		if reg532 == True {
-			reg533 := True
-			__e.Return(reg533)
-			return
-		} else {
-			reg534 := PrimIsPair(V3062)
-			var reg548 Obj
-			if reg534 == True {
-				reg535 := PrimIsPair(V3063)
-				var reg543 Obj
-				if reg535 == True {
-					reg536 := PrimHead(V3063)
-					reg537 := PrimHead(V3062)
-					reg538 := PrimEqual(reg536, reg537)
-					var reg541 Obj
-					if reg538 == True {
-						reg539 := True
-						reg541 = reg539
-					} else {
-						reg540 := False
-						reg541 = reg540
-					}
-					reg543 = reg541
-				} else {
-					reg542 := False
-					reg543 = reg542
-				}
-				var reg546 Obj
-				if reg543 == True {
-					reg544 := True
-					reg546 = reg544
-				} else {
-					reg545 := False
-					reg546 = reg545
-				}
-				reg548 = reg546
-			} else {
-				reg547 := False
-				reg548 = reg547
-			}
-			if reg548 == True {
-				reg549 := PrimTail(V3062)
-				reg550 := PrimTail(V3063)
-				__e.TailApply(__defun__shen_4prefix_2, reg549, reg550)
-				return
-			} else {
-				reg552 := False
-				__e.Return(reg552)
-				return
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.prefix?", value: __defun__shen_4prefix_2})
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.pretty-type"), gen16187)
 
-	__defun__shen_4print_1past_1inputs = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3075 := __args[0]
-		_ = V3075
-		V3076 := __args[1]
-		_ = V3076
-		V3077 := __args[2]
-		_ = V3077
-		reg553 := Nil
-		reg554 := PrimEqual(reg553, V3076)
-		if reg554 == True {
-			reg555 := MakeSymbol("_")
-			__e.Return(reg555)
-			return
-		} else {
-			reg556 := PrimIsPair(V3076)
-			var reg564 Obj
-			if reg556 == True {
-				reg557 := PrimHead(V3076)
-				reg558 := Call(__e, V3075, reg557)
-				reg559 := PrimNot(reg558)
-				var reg562 Obj
-				if reg559 == True {
-					reg560 := True
-					reg562 = reg560
-				} else {
-					reg561 := False
-					reg562 = reg561
-				}
-				reg564 = reg562
-			} else {
-				reg563 := False
-				reg564 = reg563
-			}
-			if reg564 == True {
-				reg565 := PrimTail(V3076)
-				reg566 := MakeNumber(1)
-				reg567 := PrimNumberAdd(V3077, reg566)
-				__e.TailApply(__defun__shen_4print_1past_1inputs, V3075, reg565, reg567)
+		gen16194 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3123 := __args[0]
+			_ = V3123
+			gen16193 := Call(__e, ShenFunc(symshen_4pvar_2), V3123)
+
+			if True == gen16193 {
+				__e.TailApply(ShenFunc(symcons), V3123, Nil)
+
 				return
 			} else {
-				reg569 := PrimIsPair(V3076)
-				var reg576 Obj
-				if reg569 == True {
-					reg570 := PrimHead(V3076)
-					reg571 := Call(__e, __defun__tuple_2, reg570)
-					var reg574 Obj
-					if reg571 == True {
-						reg572 := True
-						reg574 = reg572
-					} else {
-						reg573 := False
-						reg574 = reg573
-					}
-					reg576 = reg574
-				} else {
-					reg575 := False
-					reg576 = reg575
-				}
-				if reg576 == True {
-					reg577 := MakeString(". ")
-					reg578 := MakeSymbol("shen.a")
-					reg579 := Call(__e, __defun__shen_4app, V3077, reg577, reg578)
-					reg580 := Call(__e, __defun__stoutput)
-					reg581 := Call(__e, __defun__shen_4prhush, reg579, reg580)
-					_ = reg581
-					reg582 := PrimHead(V3076)
-					reg583 := Call(__e, __defun__snd, reg582)
-					reg584 := Call(__e, __defun__shen_4prbytes, reg583)
-					_ = reg584
-					reg585 := PrimTail(V3076)
-					reg586 := MakeNumber(1)
-					reg587 := PrimNumberAdd(V3077, reg586)
-					__e.TailApply(__defun__shen_4print_1past_1inputs, V3075, reg585, reg587)
+				gen16192 := Call(__e, ShenFunc(symcons_2), V3123)
+
+				if True == gen16192 {
+					gen16188 := Call(__e, ShenFunc(symhd), V3123)
+
+					gen16189 := Call(__e, ShenFunc(symshen_4extract_1pvars), gen16188)
+
+					gen16190 := Call(__e, ShenFunc(symtl), V3123)
+
+					gen16191 := Call(__e, ShenFunc(symshen_4extract_1pvars), gen16190)
+
+					__e.TailApply(ShenFunc(symunion), gen16189, gen16191)
+
 					return
+
 				} else {
-					reg589 := MakeSymbol("shen.print-past-inputs")
-					__e.TailApply(__defun__shen_4f__error, reg589)
+					__e.Return(Nil)
 					return
 				}
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.print-past-inputs", value: __defun__shen_4print_1past_1inputs})
 
-	__defun__shen_4toplevel__evaluate = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3080 := __args[0]
-		_ = V3080
-		V3081 := __args[1]
-		_ = V3081
+			}
 
-		reg591 := PrimIsPair(V3080)
-		var reg632 Obj
-		if reg591 == True {
-			reg592 := PrimTail(V3080)
-			reg593 := PrimIsPair(reg592)
-			var reg627 Obj
-			if reg593 == True {
-				reg594 := MakeSymbol(":")
-				reg595 := PrimTail(V3080)
-				reg596 := PrimHead(reg595)
-				reg597 := PrimEqual(reg594, reg596)
-				var reg622 Obj
-				if reg597 == True {
-					reg598 := PrimTail(V3080)
-					reg599 := PrimTail(reg598)
-					reg600 := PrimIsPair(reg599)
-					var reg617 Obj
-					if reg600 == True {
-						reg601 := Nil
-						reg602 := PrimTail(V3080)
-						reg603 := PrimTail(reg602)
-						reg604 := PrimTail(reg603)
-						reg605 := PrimEqual(reg601, reg604)
-						var reg612 Obj
-						if reg605 == True {
-							reg606 := True
-							reg607 := PrimEqual(reg606, V3081)
-							var reg610 Obj
-							if reg607 == True {
-								reg608 := True
-								reg610 = reg608
-							} else {
-								reg609 := False
-								reg610 = reg609
-							}
-							reg612 = reg610
-						} else {
-							reg611 := False
-							reg612 = reg611
-						}
-						var reg615 Obj
-						if reg612 == True {
-							reg613 := True
-							reg615 = reg613
-						} else {
-							reg614 := False
-							reg615 = reg614
-						}
-						reg617 = reg615
-					} else {
-						reg616 := False
-						reg617 = reg616
-					}
-					var reg620 Obj
-					if reg617 == True {
-						reg618 := True
-						reg620 = reg618
-					} else {
-						reg619 := False
-						reg620 = reg619
-					}
-					reg622 = reg620
-				} else {
-					reg621 := False
-					reg622 = reg621
-				}
-				var reg625 Obj
-				if reg622 == True {
-					reg623 := True
-					reg625 = reg623
-				} else {
-					reg624 := False
-					reg625 = reg624
-				}
-				reg627 = reg625
-			} else {
-				reg626 := False
-				reg627 = reg626
-			}
-			var reg630 Obj
-			if reg627 == True {
-				reg628 := True
-				reg630 = reg628
-			} else {
-				reg629 := False
-				reg630 = reg629
-			}
-			reg632 = reg630
-		} else {
-			reg631 := False
-			reg632 = reg631
-		}
-		if reg632 == True {
-			reg633 := PrimHead(V3080)
-			reg634 := PrimTail(V3080)
-			reg635 := PrimTail(reg634)
-			reg636 := PrimHead(reg635)
-			__e.TailApply(__defun__shen_4typecheck_1and_1evaluate, reg633, reg636)
-			return
-		} else {
-			reg638 := PrimIsPair(V3080)
-			var reg645 Obj
-			if reg638 == True {
-				reg639 := PrimTail(V3080)
-				reg640 := PrimIsPair(reg639)
-				var reg643 Obj
-				if reg640 == True {
-					reg641 := True
-					reg643 = reg641
-				} else {
-					reg642 := False
-					reg643 = reg642
-				}
-				reg645 = reg643
-			} else {
-				reg644 := False
-				reg645 = reg644
-			}
-			if reg645 == True {
-				reg646 := PrimHead(V3080)
-				reg647 := Nil
-				reg648 := PrimCons(reg646, reg647)
-				reg649 := Call(__e, __defun__shen_4toplevel__evaluate, reg648, V3081)
-				_ = reg649
-				reg650 := MakeNumber(1)
-				reg651 := Call(__e, __defun__nl, reg650)
-				_ = reg651
-				reg652 := PrimTail(V3080)
-				__e.TailApply(__defun__shen_4toplevel__evaluate, reg652, V3081)
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.extract-pvars"), gen16194)
+
+		gen16205 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V3131 := __args[0]
+			_ = V3131
+			V3132 := __args[1]
+			_ = V3132
+			V3133 := __args[2]
+			_ = V3133
+			gen16204 := Call(__e, ShenFunc(sym_a), Nil, V3131)
+
+			if True == gen16204 {
+				__e.Return(V3133)
 				return
 			} else {
-				reg654 := PrimIsPair(V3080)
-				var reg669 Obj
-				if reg654 == True {
-					reg655 := Nil
-					reg656 := PrimTail(V3080)
-					reg657 := PrimEqual(reg655, reg656)
-					var reg664 Obj
-					if reg657 == True {
-						reg658 := True
-						reg659 := PrimEqual(reg658, V3081)
-						var reg662 Obj
-						if reg659 == True {
-							reg660 := True
-							reg662 = reg660
-						} else {
-							reg661 := False
-							reg662 = reg661
-						}
-						reg664 = reg662
-					} else {
-						reg663 := False
-						reg664 = reg663
-					}
-					var reg667 Obj
-					if reg664 == True {
-						reg665 := True
-						reg667 = reg665
-					} else {
-						reg666 := False
-						reg667 = reg666
-					}
-					reg669 = reg667
-				} else {
-					reg668 := False
-					reg669 = reg668
-				}
-				if reg669 == True {
-					reg670 := PrimHead(V3080)
-					reg671 := MakeSymbol("A")
-					reg672 := Call(__e, __defun__gensym, reg671)
-					__e.TailApply(__defun__shen_4typecheck_1and_1evaluate, reg670, reg672)
+				gen16203 := Call(__e, ShenFunc(sym_a), Nil, V3132)
+
+				if True == gen16203 {
+					__e.Return(V3133)
 					return
 				} else {
-					reg674 := PrimIsPair(V3080)
-					var reg689 Obj
-					if reg674 == True {
-						reg675 := Nil
-						reg676 := PrimTail(V3080)
-						reg677 := PrimEqual(reg675, reg676)
-						var reg684 Obj
-						if reg677 == True {
-							reg678 := False
-							reg679 := PrimEqual(reg678, V3081)
-							var reg682 Obj
-							if reg679 == True {
-								reg680 := True
-								reg682 = reg680
-							} else {
-								reg681 := False
-								reg682 = reg681
-							}
-							reg684 = reg682
+					gen16201 := Call(__e, ShenFunc(symcons_2), V3131)
+
+					var gen16202 Obj
+					if True == gen16201 {
+						gen16200 := Call(__e, ShenFunc(symcons_2), V3132)
+
+						if True == gen16200 {
+							gen16202 = True
 						} else {
-							reg683 := False
-							reg684 = reg683
+							gen16202 = False
 						}
-						var reg687 Obj
-						if reg684 == True {
-							reg685 := True
-							reg687 = reg685
-						} else {
-							reg686 := False
-							reg687 = reg686
-						}
-						reg689 = reg687
+
 					} else {
-						reg688 := False
-						reg689 = reg688
+						gen16202 = False
 					}
-					if reg689 == True {
-						reg690 := PrimHead(V3080)
-						reg691 := Call(__e, __defun__shen_4eval_1without_1macros, reg690)
-						Eval := reg691
-						_ = Eval
-						__e.TailApply(__defun__print, Eval)
+					if True == gen16202 {
+						gen16195 := Call(__e, ShenFunc(symtl), V3131)
+
+						gen16196 := Call(__e, ShenFunc(symtl), V3132)
+
+						gen16197 := Call(__e, ShenFunc(symhd), V3131)
+
+						gen16198 := Call(__e, ShenFunc(symhd), V3132)
+
+						gen16199 := Call(__e, ShenFunc(symsubst), gen16197, gen16198, V3133)
+
+						__e.TailApply(ShenFunc(symshen_4mult__subst), gen16195, gen16196, gen16199)
+
 						return
+
 					} else {
-						reg693 := MakeSymbol("shen.toplevel_evaluate")
-						__e.TailApply(__defun__shen_4f__error, reg693)
+						__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.mult_subst"))
+
 						return
 					}
+
 				}
+
 			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.toplevel_evaluate", value: __defun__shen_4toplevel__evaluate})
 
-	__defun__shen_4typecheck_1and_1evaluate = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3084 := __args[0]
-		_ = V3084
-		V3085 := __args[1]
-		_ = V3085
-		reg695 := Call(__e, __defun__shen_4typecheck, V3084, V3085)
-		Typecheck := reg695
-		_ = Typecheck
-		reg696 := False
-		reg697 := PrimEqual(Typecheck, reg696)
-		if reg697 == True {
-			reg698 := MakeString("type error\n")
-			reg699 := PrimSimpleError(reg698)
-			__e.Return(reg699)
-			return
-		} else {
-			reg700 := Call(__e, __defun__shen_4eval_1without_1macros, V3084)
-			Eval := reg700
-			_ = Eval
-			reg701 := Call(__e, __defun__shen_4pretty_1type, Typecheck)
-			Type := reg701
-			_ = Type
-			reg702 := MakeString(" : ")
-			reg703 := MakeString("")
-			reg704 := MakeSymbol("shen.r")
-			reg705 := Call(__e, __defun__shen_4app, Type, reg703, reg704)
-			reg706 := PrimStringConcat(reg702, reg705)
-			reg707 := MakeSymbol("shen.s")
-			reg708 := Call(__e, __defun__shen_4app, Eval, reg706, reg707)
-			reg709 := Call(__e, __defun__stoutput)
-			__e.TailApply(__defun__shen_4prhush, reg708, reg709)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.typecheck-and-evaluate", value: __defun__shen_4typecheck_1and_1evaluate})
+		}, 3)
+		__e.TailApply(ShenFunc(symdefun), MakeSymbol("shen.mult_subst"), gen16205)
 
-	__defun__shen_4pretty_1type = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3087 := __args[0]
-		_ = V3087
-		reg711 := MakeSymbol("shen.*alphabet*")
-		reg712 := PrimValue(reg711)
-		reg713 := Call(__e, __defun__shen_4extract_1pvars, V3087)
-		__e.TailApply(__defun__shen_4mult__subst, reg712, reg713, V3087)
 		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.pretty-type", value: __defun__shen_4pretty_1type})
 
-	__defun__shen_4extract_1pvars = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3093 := __args[0]
-		_ = V3093
-		reg715 := Call(__e, __defun__shen_4pvar_2, V3093)
-		if reg715 == True {
-			reg716 := Nil
-			reg717 := PrimCons(V3093, reg716)
-			__e.Return(reg717)
-			return
-		} else {
-			reg718 := PrimIsPair(V3093)
-			if reg718 == True {
-				reg719 := PrimHead(V3093)
-				reg720 := Call(__e, __defun__shen_4extract_1pvars, reg719)
-				reg721 := PrimTail(V3093)
-				reg722 := Call(__e, __defun__shen_4extract_1pvars, reg721)
-				__e.TailApply(__defun__union, reg720, reg722)
-				return
-			} else {
-				reg724 := Nil
-				__e.Return(reg724)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.extract-pvars", value: __defun__shen_4extract_1pvars})
-
-	__defun__shen_4mult__subst = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V3101 := __args[0]
-		_ = V3101
-		V3102 := __args[1]
-		_ = V3102
-		V3103 := __args[2]
-		_ = V3103
-		reg725 := Nil
-		reg726 := PrimEqual(reg725, V3101)
-		if reg726 == True {
-			__e.Return(V3103)
-			return
-		} else {
-			reg727 := Nil
-			reg728 := PrimEqual(reg727, V3102)
-			if reg728 == True {
-				__e.Return(V3103)
-				return
-			} else {
-				reg729 := PrimIsPair(V3101)
-				var reg735 Obj
-				if reg729 == True {
-					reg730 := PrimIsPair(V3102)
-					var reg733 Obj
-					if reg730 == True {
-						reg731 := True
-						reg733 = reg731
-					} else {
-						reg732 := False
-						reg733 = reg732
-					}
-					reg735 = reg733
-				} else {
-					reg734 := False
-					reg735 = reg734
-				}
-				if reg735 == True {
-					reg736 := PrimTail(V3101)
-					reg737 := PrimTail(V3102)
-					reg738 := PrimHead(V3101)
-					reg739 := PrimHead(V3102)
-					reg740 := Call(__e, __defun__subst, reg738, reg739, V3103)
-					__e.TailApply(__defun__shen_4mult__subst, reg736, reg737, reg740)
-					return
-				} else {
-					reg742 := MakeSymbol("shen.mult_subst")
-					__e.TailApply(__defun__shen_4f__error, reg742)
-					return
-				}
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.mult_subst", value: __defun__shen_4mult__subst})
-
+	}, 0))
 }

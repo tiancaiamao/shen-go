@@ -10,66 +10,103 @@ import (
 	"github.com/tiancaiamao/shen-go/kl"
 )
 
-func main() {
-	if len(os.Args) != 3 {
-		fmt.Println("usage: xxx from.scm to.go")
+var mode string
+
+func main1() {
+	if len(os.Args) != 4 {
+		fmt.Println("usage: codegen mode from.scm to.go")
 		return
 	}
-	inputFile := os.Args[1]
-	outputFile := os.Args[2]
+	switch os.Args[1] {
+	case "shen", "cora":
+		mode = os.Args[1]
+	default:
+		fmt.Println("mode should be shen or cora")
+		return
+	}
 
+	declare := make(map[kl.Obj]struct{})
+	inputFile := os.Args[2]
+	outputFile := os.Args[3]
+	codeGen(declare, true, inputFile, outputFile)
+}
+
+func main() {
+	fileNames := []string{
+		"toplevel",
+		"dict",
+		"core",
+		"sys",
+		"sequent",
+		"yacc",
+		"reader",
+		"prolog",
+		"track",
+		"load",
+		"writer",
+		"macros",
+		"declarations",
+		"t-star",
+		"types",
+		"init",
+		"extension-features",
+		"extension-launcher",
+		"extension-factorise-defun",
+		// "extension-programmable-pattern-matching",
+	}
+
+	declare := make(map[kl.Obj]struct{})
+	mode = "shen"
+	for i, name := range fileNames {
+		if err := codeGen(declare, i == len(fileNames)-1, name+".bc", name+".go"); err != nil {
+			panic(err)
+		}
+	}
+}
+
+func codeGen(declare map[kl.Obj]struct{}, final bool, inputFile, outputFile string) error {
 	f, err := os.Open(inputFile)
 	if err != nil {
-		panic(err)
-		return
+		return err
 	}
 	defer f.Close()
 
 	out, err := os.Create(outputFile)
 	if err != nil {
-		panic(err)
-		return
+		return err
 	}
 	defer out.Close()
 
-	declare := make(map[kl.Obj]struct{})
-	var init bytes.Buffer
-
 	fmt.Fprintf(out, "package main\n\n")
 	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
+	fmt.Fprintf(out, `func init() {
+    __initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
+`)
 	r := kl.NewSexpReader(f, false)
 	bc, err := r.Read()
 	if err != nil {
 		fmt.Println("read bytecode error", err)
-		return
+		return err
 	}
-
 	for bc != kl.Nil {
 		curr := kl.Car(bc)
 		bc = kl.Cdr(bc)
-		if err := generateExpr(declare, &init, curr, bc==kl.Nil); err != nil {
-			panic(err)
-			return
+		if err := generateExpr(declare, out, curr, bc == kl.Nil); err != nil {
+			return err
 		}
-		fmt.Fprintf(&init, "\n\n")
+		fmt.Fprintf(out, "\n\n")
+	}
+	fmt.Fprintf(out, "}, 0))\n}\n")
+
+	if final {
+		for sym, _ := range declare {
+			symStr := symbolString(sym)
+			symVar := "sym" + symbolAsVar(sym)
+			fmt.Fprintf(out, "var %s = MakeSymbol(\"%s\")\n", symVar, symStr)
+		}
 	}
 
-	for sym, _ := range declare {
-		symStr := symbolString(sym)
-		symVar := "sym"+symbolAsVar(sym)
-		fmt.Fprintf(out, "var %s = MakeSymbol(\"%s\")\n", symVar, symStr)
-	}
-	// _, err = io.Copy(out, &declare)
-	// if err != nil {
-	// 	return
-	// }
-	fmt.Fprintf(out, "\nfunc Main(__e Evaluator, __args ...Obj) {\n")
-
-	_, err = io.Copy(out, &init)
-	if err != nil {
-		return
-	}
-	fmt.Fprintf(out, "}")
+	return nil
 }
 
 func symbolString(sym kl.Obj) string {
@@ -162,7 +199,11 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 	case "$global":
 		sym := kl.Car(kl.Cdr(sexp))
 		declare[sym] = struct{}{}
-		fmt.Fprintf(w, "CoraValue(sym%s)", symbolAsVar(sym))
+		if mode == "cora" {
+			fmt.Fprintf(w, "CoraValue(sym%s)", symbolAsVar(sym))
+		} else {
+			fmt.Fprintf(w, "ShenFunc(sym%s)", symbolAsVar(sym))
+		}
 	case "declare":
 		// (declare x)
 		x := kl.Car(kl.Cdr(sexp))
@@ -171,6 +212,9 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		// (lambda (p1 p2 ...) ...)
 		tmp := kl.Car(kl.Cdr(sexp))
 		args := kl.ListToSlice(tmp)
+		if tail {
+			fmt.Fprintf(w, "__e.Return(")
+		}
 		fmt.Fprintf(w, "MakeNative(func(__e Evaluator, __args ...Obj) {\n")
 		for i, arg := range args {
 			fmt.Fprintf(w, "%s := __args[%d]\n", symbolAsVar(arg), i)
@@ -180,6 +224,9 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 			return err
 		}
 		fmt.Fprintf(w, "}, %d)", len(args))
+		if tail {
+			fmt.Fprintf(w, ")\nreturn\n")
+		}
 	case "$const":
 		// (const Number)
 		// (const ())
@@ -222,7 +269,7 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 				}
 			}
 		}
-		fmt.Fprintf(w, ")")
+		fmt.Fprintf(w, ")\n")
 		if tail {
 			fmt.Fprintf(w, "\nreturn\n")
 		}
@@ -280,13 +327,4 @@ func generateIfExpr(declare map[kl.Obj]struct{}, w io.Writer, a, b, c kl.Obj, ta
 	}
 	fmt.Fprintf(w, "}\n")
 	return nil
-}
-
-var primMap map[string]*kl.ScmPrimitive
-
-func init() {
-	primMap = make(map[string]*kl.ScmPrimitive)
-	for _, v := range kl.AllPrimitives {
-		primMap[v.Name] = v
-	}
 }

@@ -38,7 +38,8 @@ func NewKLambda() *KLambda {
 	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
 	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "cora.", Required: 1, Function: CoraValue}
 	BindSymbolFunc(MakeSymbol("cora."), Obj(&tmp.scmHead))
-
+	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "defun", Required: 2, Function: primDefun}
+	BindSymbolFunc(MakeSymbol("defun"), Obj(&tmp.scmHead))
 	// TODO: This looks weird.
 	NewCora()
 	return &e
@@ -235,6 +236,10 @@ func (e *KLambda) BootstrapShen() {
 	e.LoadFile("shen-sources-shen-22.3/klambda/extension-programmable-pattern-matching.kl")
 
 	// override
+	e.Override()
+}
+
+func (e *KLambda) Override() {
 	isSymbol := MakePrimitive("symbol?", 1, PrimIsSymbol)
 	BindSymbolFunc(MakeSymbol("symbol?"), Obj(&isSymbol.scmHead))
 }

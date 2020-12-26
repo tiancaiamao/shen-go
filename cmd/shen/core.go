@@ -2,7722 +2,8621 @@ package main
 
 import . "github.com/tiancaiamao/shen-go/kl"
 
-var __defun__shen_4shen_1_6kl Obj                 // shen.shen->kl
-var __defun__shen_4shen_1syntax_1error Obj        // shen.shen-syntax-error
-var __defun__shen_4_5define_6 Obj                 // shen.<define>
-var __defun__shen_4_5name_6 Obj                   // shen.<name>
-var __defun__shen_4sysfunc_2 Obj                  // shen.sysfunc?
-var __defun__shen_4_5signature_6 Obj              // shen.<signature>
-var __defun__shen_4curry_1type Obj                // shen.curry-type
-var __defun__shen_4active_1cons Obj               // shen.active-cons
-var __defun__shen_4curry_1type_1h Obj             // shen.curry-type-h
-var __defun__shen_4_5signature_1help_6 Obj        // shen.<signature-help>
-var __defun__shen_4_5rules_6 Obj                  // shen.<rules>
-var __defun__shen_4_5rule_6 Obj                   // shen.<rule>
-var __defun__shen_4fail__if Obj                   // shen.fail_if
-var __defun__shen_4succeeds_2 Obj                 // shen.succeeds?
-var __defun__shen_4_5patterns_6 Obj               // shen.<patterns>
-var __defun__shen_4_5pattern_6 Obj                // shen.<pattern>
-var __defun__shen_4constructor_1error Obj         // shen.constructor-error
-var __defun__shen_4_5simple__pattern_6 Obj        // shen.<simple_pattern>
-var __defun__shen_4_5pattern1_6 Obj               // shen.<pattern1>
-var __defun__shen_4_5pattern2_6 Obj               // shen.<pattern2>
-var __defun__shen_4_5action_6 Obj                 // shen.<action>
-var __defun__shen_4_5guard_6 Obj                  // shen.<guard>
-var __defun__shen_4compile__to__machine__code Obj // shen.compile_to_machine_code
-var __defun__shen_4record_1source Obj             // shen.record-source
-var __defun__shen_4compile__to__lambda_7 Obj      // shen.compile_to_lambda+
-var __defun__shen_4update_1symbol_1table Obj      // shen.update-symbol-table
-var __defun__shen_4free__variable__check Obj      // shen.free_variable_check
-var __defun__shen_4extract__vars Obj              // shen.extract_vars
-var __defun__shen_4extract__free__vars Obj        // shen.extract_free_vars
-var __defun__shen_4free__variable__warnings Obj   // shen.free_variable_warnings
-var __defun__shen_4list__variables Obj            // shen.list_variables
-var __defun__shen_4strip_1protect Obj             // shen.strip-protect
-var __defun__shen_4linearise Obj                  // shen.linearise
-var __defun__shen_4flatten Obj                    // shen.flatten
-var __defun__shen_4linearise__help Obj            // shen.linearise_help
-var __defun__shen_4linearise__X Obj               // shen.linearise_X
-var __defun__shen_4aritycheck Obj                 // shen.aritycheck
-var __defun__shen_4aritycheck_1name Obj           // shen.aritycheck-name
-var __defun__shen_4aritycheck_1action Obj         // shen.aritycheck-action
-var __defun__shen_4aah Obj                        // shen.aah
-var __defun__shen_4abstract__rule Obj             // shen.abstract_rule
-var __defun__shen_4abstraction__build Obj         // shen.abstraction_build
-var __defun__shen_4parameters Obj                 // shen.parameters
-var __defun__shen_4application__build Obj         // shen.application_build
-var __defun__shen_4compile__to__kl Obj            // shen.compile_to_kl
-var __defun__shen_4get_1type Obj                  // shen.get-type
-var __defun__shen_4typextable Obj                 // shen.typextable
-var __defun__shen_4assign_1types Obj              // shen.assign-types
-var __defun__shen_4atom_1type Obj                 // shen.atom-type
-var __defun__shen_4store_1arity Obj               // shen.store-arity
-var __defun__shen_4reduce Obj                     // shen.reduce
-var __defun__shen_4reduce__help Obj               // shen.reduce_help
-var __defun__shen_4_7string_2 Obj                 // shen.+string?
-var __defun__shen_4_7vector_2 Obj                 // shen.+vector?
-var __defun__shen_4ebr Obj                        // shen.ebr
-var __defun__shen_4clash_2 Obj                    // shen.clash?
-var __defun__shen_4add__test Obj                  // shen.add_test
-var __defun__shen_4cond_1expression Obj           // shen.cond-expression
-var __defun__shen_4cond_1form Obj                 // shen.cond-form
-var __defun__shen_4encode_1choices Obj            // shen.encode-choices
-var __defun__shen_4case_1form Obj                 // shen.case-form
-var __defun__shen_4embed_1and Obj                 // shen.embed-and
-var __defun__shen_4err_1condition Obj             // shen.err-condition
-var __defun__shen_4sys_1error Obj                 // shen.sys-error
-
 func init() {
 	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg744 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
-		__e.Return(reg744)
-		return
-	}, 0))
-	__defun__shen_4shen_1_6kl = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V128 := __args[0]
-		_ = V128
-		V129 := __args[1]
-		_ = V129
-		reg745 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			X := __args[0]
-			_ = X
-			__e.TailApply(__defun__shen_4_5define_6, X)
-			return
-		}, 1)
-		reg747 := PrimCons(V128, V129)
-		reg748 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			X := __args[0]
-			_ = X
-			__e.TailApply(__defun__shen_4shen_1syntax_1error, V128, X)
-			return
-		}, 1)
-		__e.TailApply(__defun__compile, reg745, reg747, reg748)
-		return
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.shen->kl", value: __defun__shen_4shen_1_6kl})
+		MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
 
-	__defun__shen_4shen_1syntax_1error = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V136 := __args[0]
-		_ = V136
-		V137 := __args[1]
-		_ = V137
-		reg751 := PrimIsPair(V137)
-		if reg751 == True {
-			reg752 := MakeString("syntax error in ")
-			reg753 := MakeString(" here:\n\n ")
-			reg754 := MakeNumber(50)
-			reg755 := PrimHead(V137)
-			reg756 := Call(__e, __defun__shen_4next_150, reg754, reg755)
-			reg757 := MakeString("\n")
-			reg758 := MakeSymbol("shen.a")
-			reg759 := Call(__e, __defun__shen_4app, reg756, reg757, reg758)
-			reg760 := PrimStringConcat(reg753, reg759)
-			reg761 := MakeSymbol("shen.a")
-			reg762 := Call(__e, __defun__shen_4app, V136, reg760, reg761)
-			reg763 := PrimStringConcat(reg752, reg762)
-			reg764 := PrimSimpleError(reg763)
-			__e.Return(reg764)
-			return
-		} else {
-			reg765 := MakeString("syntax error in ")
-			reg766 := MakeString("\n")
-			reg767 := MakeSymbol("shen.a")
-			reg768 := Call(__e, __defun__shen_4app, V136, reg766, reg767)
-			reg769 := PrimStringConcat(reg765, reg768)
-			reg770 := PrimSimpleError(reg769)
-			__e.Return(reg770)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.shen-syntax-error", value: __defun__shen_4shen_1syntax_1error})
+		gen4 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V152 := __args[0]
+			_ = V152
+			V153 := __args[1]
+			_ = V153
+			gen1 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				X := __args[0]
+				_ = X
+				__e.TailApply(ShenFunc(symshen_4_5define_6), X)
 
-	__defun__shen_4_5define_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V139 := __args[0]
-		_ = V139
-		reg771 := Call(__e, __defun__shen_4_5name_6, V139)
-		Parse__shen_4_5name_6 := reg771
-		_ = Parse__shen_4_5name_6
-		reg772 := Call(__e, __defun__fail)
-		reg773 := PrimEqual(reg772, Parse__shen_4_5name_6)
-		reg774 := PrimNot(reg773)
-		var reg793 Obj
-		if reg774 == True {
-			reg775 := Call(__e, __defun__shen_4_5signature_6, Parse__shen_4_5name_6)
-			Parse__shen_4_5signature_6 := reg775
-			_ = Parse__shen_4_5signature_6
-			reg776 := Call(__e, __defun__fail)
-			reg777 := PrimEqual(reg776, Parse__shen_4_5signature_6)
-			reg778 := PrimNot(reg777)
-			var reg791 Obj
-			if reg778 == True {
-				reg779 := Call(__e, __defun__shen_4_5rules_6, Parse__shen_4_5signature_6)
-				Parse__shen_4_5rules_6 := reg779
-				_ = Parse__shen_4_5rules_6
-				reg780 := Call(__e, __defun__fail)
-				reg781 := PrimEqual(reg780, Parse__shen_4_5rules_6)
-				reg782 := PrimNot(reg781)
-				var reg789 Obj
-				if reg782 == True {
-					reg783 := PrimHead(Parse__shen_4_5rules_6)
-					reg784 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5name_6)
-					reg785 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5rules_6)
-					reg786 := Call(__e, __defun__shen_4compile__to__machine__code, reg784, reg785)
-					reg787 := Call(__e, __defun__shen_4pair, reg783, reg786)
-					reg789 = reg787
-				} else {
-					reg788 := Call(__e, __defun__fail)
-					reg789 = reg788
-				}
-				reg791 = reg789
-			} else {
-				reg790 := Call(__e, __defun__fail)
-				reg791 = reg790
-			}
-			reg793 = reg791
-		} else {
-			reg792 := Call(__e, __defun__fail)
-			reg793 = reg792
-		}
-		YaccParse := reg793
-		_ = YaccParse
-		reg794 := Call(__e, __defun__fail)
-		reg795 := PrimEqual(YaccParse, reg794)
-		if reg795 == True {
-			reg796 := Call(__e, __defun__shen_4_5name_6, V139)
-			Parse__shen_4_5name_6 := reg796
-			_ = Parse__shen_4_5name_6
-			reg797 := Call(__e, __defun__fail)
-			reg798 := PrimEqual(reg797, Parse__shen_4_5name_6)
-			reg799 := PrimNot(reg798)
-			if reg799 == True {
-				reg800 := Call(__e, __defun__shen_4_5rules_6, Parse__shen_4_5name_6)
-				Parse__shen_4_5rules_6 := reg800
-				_ = Parse__shen_4_5rules_6
-				reg801 := Call(__e, __defun__fail)
-				reg802 := PrimEqual(reg801, Parse__shen_4_5rules_6)
-				reg803 := PrimNot(reg802)
-				if reg803 == True {
-					reg804 := PrimHead(Parse__shen_4_5rules_6)
-					reg805 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5name_6)
-					reg806 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5rules_6)
-					reg807 := Call(__e, __defun__shen_4compile__to__machine__code, reg805, reg806)
-					__e.TailApply(__defun__shen_4pair, reg804, reg807)
-					return
-				} else {
-					__e.TailApply(__defun__fail)
-					return
-				}
-			} else {
-				__e.TailApply(__defun__fail)
 				return
-			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<define>", value: __defun__shen_4_5define_6})
+			}, 1)
+			gen2 := Call(__e, ShenFunc(symcons), V152, V153)
 
-	__defun__shen_4_5name_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V141 := __args[0]
-		_ = V141
-		reg811 := PrimHead(V141)
-		reg812 := PrimIsPair(reg811)
-		if reg812 == True {
-			reg813 := Call(__e, __defun__shen_4hdhd, V141)
-			Parse__X := reg813
-			_ = Parse__X
-			reg814 := Call(__e, __defun__shen_4tlhd, V141)
-			reg815 := Call(__e, __defun__shen_4hdtl, V141)
-			reg816 := Call(__e, __defun__shen_4pair, reg814, reg815)
-			reg817 := PrimHead(reg816)
-			reg818 := PrimIsSymbol(Parse__X)
-			var reg825 Obj
-			if reg818 == True {
-				reg819 := Call(__e, __defun__shen_4sysfunc_2, Parse__X)
-				reg820 := PrimNot(reg819)
-				var reg823 Obj
-				if reg820 == True {
-					reg821 := True
-					reg823 = reg821
-				} else {
-					reg822 := False
-					reg823 = reg822
-				}
-				reg825 = reg823
-			} else {
-				reg824 := False
-				reg825 = reg824
-			}
-			var reg830 Obj
-			if reg825 == True {
-				reg830 = Parse__X
-			} else {
-				reg826 := MakeString(" is not a legitimate function name.\n")
-				reg827 := MakeSymbol("shen.a")
-				reg828 := Call(__e, __defun__shen_4app, Parse__X, reg826, reg827)
-				reg829 := PrimSimpleError(reg828)
-				reg830 = reg829
-			}
-			__e.TailApply(__defun__shen_4pair, reg817, reg830)
-			return
-		} else {
-			__e.TailApply(__defun__fail)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<name>", value: __defun__shen_4_5name_6})
+			gen3 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				X := __args[0]
+				_ = X
+				__e.TailApply(ShenFunc(symshen_4shen_1syntax_1error), V152, X)
 
-	__defun__shen_4sysfunc_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V143 := __args[0]
-		_ = V143
-		reg833 := MakeString("shen")
-		reg834 := PrimIntern(reg833)
-		reg835 := MakeSymbol("shen.external-symbols")
-		reg836 := MakeSymbol("*property-vector*")
-		reg837 := PrimValue(reg836)
-		reg838 := Call(__e, __defun__get, reg834, reg835, reg837)
-		__e.TailApply(__defun__element_2, V143, reg838)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.sysfunc?", value: __defun__shen_4sysfunc_2})
-
-	__defun__shen_4_5signature_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V147 := __args[0]
-		_ = V147
-		reg840 := PrimHead(V147)
-		reg841 := PrimIsPair(reg840)
-		var reg849 Obj
-		if reg841 == True {
-			reg842 := MakeSymbol("{")
-			reg843 := Call(__e, __defun__shen_4hdhd, V147)
-			reg844 := PrimEqual(reg842, reg843)
-			var reg847 Obj
-			if reg844 == True {
-				reg845 := True
-				reg847 = reg845
-			} else {
-				reg846 := False
-				reg847 = reg846
-			}
-			reg849 = reg847
-		} else {
-			reg848 := False
-			reg849 = reg848
-		}
-		if reg849 == True {
-			reg850 := Call(__e, __defun__shen_4tlhd, V147)
-			reg851 := Call(__e, __defun__shen_4hdtl, V147)
-			reg852 := Call(__e, __defun__shen_4pair, reg850, reg851)
-			NewStream144 := reg852
-			_ = NewStream144
-			reg853 := Call(__e, __defun__shen_4_5signature_1help_6, NewStream144)
-			Parse__shen_4_5signature_1help_6 := reg853
-			_ = Parse__shen_4_5signature_1help_6
-			reg854 := Call(__e, __defun__fail)
-			reg855 := PrimEqual(reg854, Parse__shen_4_5signature_1help_6)
-			reg856 := PrimNot(reg855)
-			if reg856 == True {
-				reg857 := PrimHead(Parse__shen_4_5signature_1help_6)
-				reg858 := PrimIsPair(reg857)
-				var reg866 Obj
-				if reg858 == True {
-					reg859 := MakeSymbol("}")
-					reg860 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5signature_1help_6)
-					reg861 := PrimEqual(reg859, reg860)
-					var reg864 Obj
-					if reg861 == True {
-						reg862 := True
-						reg864 = reg862
-					} else {
-						reg863 := False
-						reg864 = reg863
-					}
-					reg866 = reg864
-				} else {
-					reg865 := False
-					reg866 = reg865
-				}
-				if reg866 == True {
-					reg867 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5signature_1help_6)
-					reg868 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5signature_1help_6)
-					reg869 := Call(__e, __defun__shen_4pair, reg867, reg868)
-					NewStream145 := reg869
-					_ = NewStream145
-					reg870 := PrimHead(NewStream145)
-					reg871 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5signature_1help_6)
-					reg872 := Call(__e, __defun__shen_4curry_1type, reg871)
-					reg873 := Call(__e, __defun__shen_4demodulate, reg872)
-					__e.TailApply(__defun__shen_4pair, reg870, reg873)
-					return
-				} else {
-					__e.TailApply(__defun__fail)
-					return
-				}
-			} else {
-				__e.TailApply(__defun__fail)
 				return
-			}
-		} else {
-			__e.TailApply(__defun__fail)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<signature>", value: __defun__shen_4_5signature_6})
+			}, 1)
+			__e.TailApply(ShenFunc(symcompile), gen1, gen2, gen3)
 
-	__defun__shen_4curry_1type = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V149 := __args[0]
-		_ = V149
-		reg878 := Call(__e, __defun__shen_4curry_1type_1h, V149)
-		__e.TailApply(__defun__shen_4active_1cons, reg878)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.curry-type", value: __defun__shen_4curry_1type})
-
-	__defun__shen_4active_1cons = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V151 := __args[0]
-		_ = V151
-		reg880 := PrimIsPair(V151)
-		var reg914 Obj
-		if reg880 == True {
-			reg881 := PrimTail(V151)
-			reg882 := PrimIsPair(reg881)
-			var reg909 Obj
-			if reg882 == True {
-				reg883 := PrimTail(V151)
-				reg884 := PrimTail(reg883)
-				reg885 := PrimIsPair(reg884)
-				var reg904 Obj
-				if reg885 == True {
-					reg886 := Nil
-					reg887 := PrimTail(V151)
-					reg888 := PrimTail(reg887)
-					reg889 := PrimTail(reg888)
-					reg890 := PrimEqual(reg886, reg889)
-					var reg899 Obj
-					if reg890 == True {
-						reg891 := PrimTail(V151)
-						reg892 := PrimHead(reg891)
-						reg893 := MakeSymbol("bar!")
-						reg894 := PrimEqual(reg892, reg893)
-						var reg897 Obj
-						if reg894 == True {
-							reg895 := True
-							reg897 = reg895
-						} else {
-							reg896 := False
-							reg897 = reg896
-						}
-						reg899 = reg897
-					} else {
-						reg898 := False
-						reg899 = reg898
-					}
-					var reg902 Obj
-					if reg899 == True {
-						reg900 := True
-						reg902 = reg900
-					} else {
-						reg901 := False
-						reg902 = reg901
-					}
-					reg904 = reg902
-				} else {
-					reg903 := False
-					reg904 = reg903
-				}
-				var reg907 Obj
-				if reg904 == True {
-					reg905 := True
-					reg907 = reg905
-				} else {
-					reg906 := False
-					reg907 = reg906
-				}
-				reg909 = reg907
-			} else {
-				reg908 := False
-				reg909 = reg908
-			}
-			var reg912 Obj
-			if reg909 == True {
-				reg910 := True
-				reg912 = reg910
-			} else {
-				reg911 := False
-				reg912 = reg911
-			}
-			reg914 = reg912
-		} else {
-			reg913 := False
-			reg914 = reg913
-		}
-		if reg914 == True {
-			reg915 := PrimHead(V151)
-			reg916 := Call(__e, __defun__shen_4active_1cons, reg915)
-			reg917 := PrimTail(V151)
-			reg918 := PrimTail(reg917)
-			reg919 := PrimHead(reg918)
-			reg920 := Call(__e, __defun__shen_4active_1cons, reg919)
-			reg921 := PrimCons(reg916, reg920)
-			__e.Return(reg921)
 			return
-		} else {
-			reg922 := PrimIsPair(V151)
-			if reg922 == True {
-				reg923 := PrimHead(V151)
-				reg924 := Call(__e, __defun__shen_4active_1cons, reg923)
-				reg925 := PrimTail(V151)
-				reg926 := Call(__e, __defun__shen_4active_1cons, reg925)
-				reg927 := PrimCons(reg924, reg926)
-				__e.Return(reg927)
-				return
-			} else {
-				__e.Return(V151)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.active-cons", value: __defun__shen_4active_1cons})
 
-	__defun__shen_4curry_1type_1h = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V153 := __args[0]
-		_ = V153
-		reg928 := PrimIsPair(V153)
-		var reg972 Obj
-		if reg928 == True {
-			reg929 := PrimTail(V153)
-			reg930 := PrimIsPair(reg929)
-			var reg967 Obj
-			if reg930 == True {
-				reg931 := MakeSymbol("-->")
-				reg932 := PrimTail(V153)
-				reg933 := PrimHead(reg932)
-				reg934 := PrimEqual(reg931, reg933)
-				var reg962 Obj
-				if reg934 == True {
-					reg935 := PrimTail(V153)
-					reg936 := PrimTail(reg935)
-					reg937 := PrimIsPair(reg936)
-					var reg957 Obj
-					if reg937 == True {
-						reg938 := PrimTail(V153)
-						reg939 := PrimTail(reg938)
-						reg940 := PrimTail(reg939)
-						reg941 := PrimIsPair(reg940)
-						var reg952 Obj
-						if reg941 == True {
-							reg942 := MakeSymbol("-->")
-							reg943 := PrimTail(V153)
-							reg944 := PrimTail(reg943)
-							reg945 := PrimTail(reg944)
-							reg946 := PrimHead(reg945)
-							reg947 := PrimEqual(reg942, reg946)
-							var reg950 Obj
-							if reg947 == True {
-								reg948 := True
-								reg950 = reg948
-							} else {
-								reg949 := False
-								reg950 = reg949
-							}
-							reg952 = reg950
-						} else {
-							reg951 := False
-							reg952 = reg951
-						}
-						var reg955 Obj
-						if reg952 == True {
-							reg953 := True
-							reg955 = reg953
-						} else {
-							reg954 := False
-							reg955 = reg954
-						}
-						reg957 = reg955
-					} else {
-						reg956 := False
-						reg957 = reg956
-					}
-					var reg960 Obj
-					if reg957 == True {
-						reg958 := True
-						reg960 = reg958
-					} else {
-						reg959 := False
-						reg960 = reg959
-					}
-					reg962 = reg960
-				} else {
-					reg961 := False
-					reg962 = reg961
-				}
-				var reg965 Obj
-				if reg962 == True {
-					reg963 := True
-					reg965 = reg963
-				} else {
-					reg964 := False
-					reg965 = reg964
-				}
-				reg967 = reg965
-			} else {
-				reg966 := False
-				reg967 = reg966
-			}
-			var reg970 Obj
-			if reg967 == True {
-				reg968 := True
-				reg970 = reg968
-			} else {
-				reg969 := False
-				reg970 = reg969
-			}
-			reg972 = reg970
-		} else {
-			reg971 := False
-			reg972 = reg971
-		}
-		if reg972 == True {
-			reg973 := PrimHead(V153)
-			reg974 := MakeSymbol("-->")
-			reg975 := PrimTail(V153)
-			reg976 := PrimTail(reg975)
-			reg977 := Nil
-			reg978 := PrimCons(reg976, reg977)
-			reg979 := PrimCons(reg974, reg978)
-			reg980 := PrimCons(reg973, reg979)
-			__e.TailApply(__defun__shen_4curry_1type_1h, reg980)
-			return
-		} else {
-			reg982 := PrimIsPair(V153)
-			var reg1026 Obj
-			if reg982 == True {
-				reg983 := PrimTail(V153)
-				reg984 := PrimIsPair(reg983)
-				var reg1021 Obj
-				if reg984 == True {
-					reg985 := MakeSymbol("*")
-					reg986 := PrimTail(V153)
-					reg987 := PrimHead(reg986)
-					reg988 := PrimEqual(reg985, reg987)
-					var reg1016 Obj
-					if reg988 == True {
-						reg989 := PrimTail(V153)
-						reg990 := PrimTail(reg989)
-						reg991 := PrimIsPair(reg990)
-						var reg1011 Obj
-						if reg991 == True {
-							reg992 := PrimTail(V153)
-							reg993 := PrimTail(reg992)
-							reg994 := PrimTail(reg993)
-							reg995 := PrimIsPair(reg994)
-							var reg1006 Obj
-							if reg995 == True {
-								reg996 := MakeSymbol("*")
-								reg997 := PrimTail(V153)
-								reg998 := PrimTail(reg997)
-								reg999 := PrimTail(reg998)
-								reg1000 := PrimHead(reg999)
-								reg1001 := PrimEqual(reg996, reg1000)
-								var reg1004 Obj
-								if reg1001 == True {
-									reg1002 := True
-									reg1004 = reg1002
-								} else {
-									reg1003 := False
-									reg1004 = reg1003
-								}
-								reg1006 = reg1004
-							} else {
-								reg1005 := False
-								reg1006 = reg1005
-							}
-							var reg1009 Obj
-							if reg1006 == True {
-								reg1007 := True
-								reg1009 = reg1007
-							} else {
-								reg1008 := False
-								reg1009 = reg1008
-							}
-							reg1011 = reg1009
-						} else {
-							reg1010 := False
-							reg1011 = reg1010
-						}
-						var reg1014 Obj
-						if reg1011 == True {
-							reg1012 := True
-							reg1014 = reg1012
-						} else {
-							reg1013 := False
-							reg1014 = reg1013
-						}
-						reg1016 = reg1014
-					} else {
-						reg1015 := False
-						reg1016 = reg1015
-					}
-					var reg1019 Obj
-					if reg1016 == True {
-						reg1017 := True
-						reg1019 = reg1017
-					} else {
-						reg1018 := False
-						reg1019 = reg1018
-					}
-					reg1021 = reg1019
-				} else {
-					reg1020 := False
-					reg1021 = reg1020
-				}
-				var reg1024 Obj
-				if reg1021 == True {
-					reg1022 := True
-					reg1024 = reg1022
-				} else {
-					reg1023 := False
-					reg1024 = reg1023
-				}
-				reg1026 = reg1024
-			} else {
-				reg1025 := False
-				reg1026 = reg1025
-			}
-			if reg1026 == True {
-				reg1027 := PrimHead(V153)
-				reg1028 := MakeSymbol("*")
-				reg1029 := PrimTail(V153)
-				reg1030 := PrimTail(reg1029)
-				reg1031 := Nil
-				reg1032 := PrimCons(reg1030, reg1031)
-				reg1033 := PrimCons(reg1028, reg1032)
-				reg1034 := PrimCons(reg1027, reg1033)
-				__e.TailApply(__defun__shen_4curry_1type_1h, reg1034)
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.shen->kl"), gen4)
+
+		gen14 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V160 := __args[0]
+			_ = V160
+			V161 := __args[1]
+			_ = V161
+			gen13 := Call(__e, ShenFunc(symcons_2), V161)
+
+			if True == gen13 {
+				gen7 := Call(__e, ShenFunc(symhd), V161)
+
+				gen8 := Call(__e, ShenFunc(symshen_4next_150), MakeNumber(50), gen7)
+
+				gen9 := Call(__e, ShenFunc(symshen_4app), gen8, MakeString("\n"), MakeSymbol("shen.a"))
+
+				gen10 := Call(__e, ShenFunc(symcn), MakeString(" here:\n\n "), gen9)
+
+				gen11 := Call(__e, ShenFunc(symshen_4app), V160, gen10, MakeSymbol("shen.a"))
+
+				gen12 := Call(__e, ShenFunc(symcn), MakeString("syntax error in "), gen11)
+
+				__e.TailApply(ShenFunc(symsimple_1error), gen12)
+
 				return
+
 			} else {
-				reg1036 := PrimIsPair(V153)
-				if reg1036 == True {
-					reg1037 := MakeNative(func(__e Evaluator, __args ...Obj) {
-						Z := __args[0]
-						_ = Z
-						__e.TailApply(__defun__shen_4curry_1type_1h, Z)
+				gen5 := Call(__e, ShenFunc(symshen_4app), V160, MakeString("\n"), MakeSymbol("shen.a"))
+
+				gen6 := Call(__e, ShenFunc(symcn), MakeString("syntax error in "), gen5)
+
+				__e.TailApply(ShenFunc(symsimple_1error), gen6)
+
+				return
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.shen-syntax-error"), gen14)
+
+		gen46 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V163 := __args[0]
+			_ = V163
+			gen15 := Call(__e, ShenFunc(symshen_4_5name_6), V163)
+
+			Parse__shen_4_5name_6 := gen15
+			gen28 := Call(__e, ShenFunc(symfail))
+
+			gen29 := Call(__e, ShenFunc(sym_a), gen28, Parse__shen_4_5name_6)
+
+			gen30 := Call(__e, ShenFunc(symnot), gen29)
+
+			var gen31 Obj
+			if True == gen30 {
+				gen16 := Call(__e, ShenFunc(symshen_4_5signature_6), Parse__shen_4_5name_6)
+
+				Parse__shen_4_5signature_6 := gen16
+				gen25 := Call(__e, ShenFunc(symfail))
+
+				gen26 := Call(__e, ShenFunc(sym_a), gen25, Parse__shen_4_5signature_6)
+
+				gen27 := Call(__e, ShenFunc(symnot), gen26)
+
+				if True == gen27 {
+					gen17 := Call(__e, ShenFunc(symshen_4_5rules_6), Parse__shen_4_5signature_6)
+
+					Parse__shen_4_5rules_6 := gen17
+					gen22 := Call(__e, ShenFunc(symfail))
+
+					gen23 := Call(__e, ShenFunc(sym_a), gen22, Parse__shen_4_5rules_6)
+
+					gen24 := Call(__e, ShenFunc(symnot), gen23)
+
+					if True == gen24 {
+						gen18 := Call(__e, ShenFunc(symhd), Parse__shen_4_5rules_6)
+
+						gen19 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5name_6)
+
+						gen20 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5rules_6)
+
+						gen21 := Call(__e, ShenFunc(symshen_4compile__to__machine__code), gen19, gen20)
+
+						gen31 = Call(__e, ShenFunc(symshen_4pair), gen18, gen21)
+
+					} else {
+						gen31 = Call(__e, ShenFunc(symfail))
+
+					}
+
+				} else {
+					gen31 = Call(__e, ShenFunc(symfail))
+
+				}
+
+			} else {
+				gen31 = Call(__e, ShenFunc(symfail))
+
+			}
+			YaccParse := gen31
+			gen44 := Call(__e, ShenFunc(symfail))
+
+			gen45 := Call(__e, ShenFunc(sym_a), YaccParse, gen44)
+
+			if True == gen45 {
+				gen32 := Call(__e, ShenFunc(symshen_4_5name_6), V163)
+
+				Parse__shen_4_5name_6 := gen32
+				gen41 := Call(__e, ShenFunc(symfail))
+
+				gen42 := Call(__e, ShenFunc(sym_a), gen41, Parse__shen_4_5name_6)
+
+				gen43 := Call(__e, ShenFunc(symnot), gen42)
+
+				if True == gen43 {
+					gen33 := Call(__e, ShenFunc(symshen_4_5rules_6), Parse__shen_4_5name_6)
+
+					Parse__shen_4_5rules_6 := gen33
+					gen38 := Call(__e, ShenFunc(symfail))
+
+					gen39 := Call(__e, ShenFunc(sym_a), gen38, Parse__shen_4_5rules_6)
+
+					gen40 := Call(__e, ShenFunc(symnot), gen39)
+
+					if True == gen40 {
+						gen34 := Call(__e, ShenFunc(symhd), Parse__shen_4_5rules_6)
+
+						gen35 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5name_6)
+
+						gen36 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5rules_6)
+
+						gen37 := Call(__e, ShenFunc(symshen_4compile__to__machine__code), gen35, gen36)
+
+						__e.TailApply(ShenFunc(symshen_4pair), gen34, gen37)
+
 						return
-					}, 1)
-					__e.TailApply(__defun__map, reg1037, V153)
-					return
-				} else {
-					__e.Return(V153)
-					return
-				}
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.curry-type-h", value: __defun__shen_4curry_1type_1h})
 
-	__defun__shen_4_5signature_1help_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V155 := __args[0]
-		_ = V155
-		reg1040 := PrimHead(V155)
-		reg1041 := PrimIsPair(reg1040)
-		var reg1066 Obj
-		if reg1041 == True {
-			reg1042 := Call(__e, __defun__shen_4hdhd, V155)
-			Parse__X := reg1042
-			_ = Parse__X
-			reg1043 := Call(__e, __defun__shen_4tlhd, V155)
-			reg1044 := Call(__e, __defun__shen_4hdtl, V155)
-			reg1045 := Call(__e, __defun__shen_4pair, reg1043, reg1044)
-			reg1046 := Call(__e, __defun__shen_4_5signature_1help_6, reg1045)
-			Parse__shen_4_5signature_1help_6 := reg1046
-			_ = Parse__shen_4_5signature_1help_6
-			reg1047 := Call(__e, __defun__fail)
-			reg1048 := PrimEqual(reg1047, Parse__shen_4_5signature_1help_6)
-			reg1049 := PrimNot(reg1048)
-			var reg1064 Obj
-			if reg1049 == True {
-				reg1050 := MakeSymbol("{")
-				reg1051 := MakeSymbol("}")
-				reg1052 := Nil
-				reg1053 := PrimCons(reg1051, reg1052)
-				reg1054 := PrimCons(reg1050, reg1053)
-				reg1055 := Call(__e, __defun__element_2, Parse__X, reg1054)
-				reg1056 := PrimNot(reg1055)
-				var reg1062 Obj
-				if reg1056 == True {
-					reg1057 := PrimHead(Parse__shen_4_5signature_1help_6)
-					reg1058 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5signature_1help_6)
-					reg1059 := PrimCons(Parse__X, reg1058)
-					reg1060 := Call(__e, __defun__shen_4pair, reg1057, reg1059)
-					reg1062 = reg1060
-				} else {
-					reg1061 := Call(__e, __defun__fail)
-					reg1062 = reg1061
-				}
-				reg1064 = reg1062
-			} else {
-				reg1063 := Call(__e, __defun__fail)
-				reg1064 = reg1063
-			}
-			reg1066 = reg1064
-		} else {
-			reg1065 := Call(__e, __defun__fail)
-			reg1066 = reg1065
-		}
-		YaccParse := reg1066
-		_ = YaccParse
-		reg1067 := Call(__e, __defun__fail)
-		reg1068 := PrimEqual(YaccParse, reg1067)
-		if reg1068 == True {
-			reg1069 := Call(__e, __defun___5e_6, V155)
-			Parse___5e_6 := reg1069
-			_ = Parse___5e_6
-			reg1070 := Call(__e, __defun__fail)
-			reg1071 := PrimEqual(reg1070, Parse___5e_6)
-			reg1072 := PrimNot(reg1071)
-			if reg1072 == True {
-				reg1073 := PrimHead(Parse___5e_6)
-				reg1074 := Nil
-				__e.TailApply(__defun__shen_4pair, reg1073, reg1074)
-				return
-			} else {
-				__e.TailApply(__defun__fail)
-				return
-			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<signature-help>", value: __defun__shen_4_5signature_1help_6})
+					} else {
+						__e.TailApply(ShenFunc(symfail))
 
-	__defun__shen_4_5rules_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V157 := __args[0]
-		_ = V157
-		reg1077 := Call(__e, __defun__shen_4_5rule_6, V157)
-		Parse__shen_4_5rule_6 := reg1077
-		_ = Parse__shen_4_5rule_6
-		reg1078 := Call(__e, __defun__fail)
-		reg1079 := PrimEqual(reg1078, Parse__shen_4_5rule_6)
-		reg1080 := PrimNot(reg1079)
-		var reg1094 Obj
-		if reg1080 == True {
-			reg1081 := Call(__e, __defun__shen_4_5rules_6, Parse__shen_4_5rule_6)
-			Parse__shen_4_5rules_6 := reg1081
-			_ = Parse__shen_4_5rules_6
-			reg1082 := Call(__e, __defun__fail)
-			reg1083 := PrimEqual(reg1082, Parse__shen_4_5rules_6)
-			reg1084 := PrimNot(reg1083)
-			var reg1092 Obj
-			if reg1084 == True {
-				reg1085 := PrimHead(Parse__shen_4_5rules_6)
-				reg1086 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5rule_6)
-				reg1087 := Call(__e, __defun__shen_4linearise, reg1086)
-				reg1088 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5rules_6)
-				reg1089 := PrimCons(reg1087, reg1088)
-				reg1090 := Call(__e, __defun__shen_4pair, reg1085, reg1089)
-				reg1092 = reg1090
-			} else {
-				reg1091 := Call(__e, __defun__fail)
-				reg1092 = reg1091
-			}
-			reg1094 = reg1092
-		} else {
-			reg1093 := Call(__e, __defun__fail)
-			reg1094 = reg1093
-		}
-		YaccParse := reg1094
-		_ = YaccParse
-		reg1095 := Call(__e, __defun__fail)
-		reg1096 := PrimEqual(YaccParse, reg1095)
-		if reg1096 == True {
-			reg1097 := Call(__e, __defun__shen_4_5rule_6, V157)
-			Parse__shen_4_5rule_6 := reg1097
-			_ = Parse__shen_4_5rule_6
-			reg1098 := Call(__e, __defun__fail)
-			reg1099 := PrimEqual(reg1098, Parse__shen_4_5rule_6)
-			reg1100 := PrimNot(reg1099)
-			if reg1100 == True {
-				reg1101 := PrimHead(Parse__shen_4_5rule_6)
-				reg1102 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5rule_6)
-				reg1103 := Call(__e, __defun__shen_4linearise, reg1102)
-				reg1104 := Nil
-				reg1105 := PrimCons(reg1103, reg1104)
-				__e.TailApply(__defun__shen_4pair, reg1101, reg1105)
-				return
-			} else {
-				__e.TailApply(__defun__fail)
-				return
-			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<rules>", value: __defun__shen_4_5rules_6})
-
-	__defun__shen_4_5rule_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V165 := __args[0]
-		_ = V165
-		reg1108 := Call(__e, __defun__shen_4_5patterns_6, V165)
-		Parse__shen_4_5patterns_6 := reg1108
-		_ = Parse__shen_4_5patterns_6
-		reg1109 := Call(__e, __defun__fail)
-		reg1110 := PrimEqual(reg1109, Parse__shen_4_5patterns_6)
-		reg1111 := PrimNot(reg1110)
-		var reg1168 Obj
-		if reg1111 == True {
-			reg1112 := PrimHead(Parse__shen_4_5patterns_6)
-			reg1113 := PrimIsPair(reg1112)
-			var reg1121 Obj
-			if reg1113 == True {
-				reg1114 := MakeSymbol("->")
-				reg1115 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5patterns_6)
-				reg1116 := PrimEqual(reg1114, reg1115)
-				var reg1119 Obj
-				if reg1116 == True {
-					reg1117 := True
-					reg1119 = reg1117
-				} else {
-					reg1118 := False
-					reg1119 = reg1118
-				}
-				reg1121 = reg1119
-			} else {
-				reg1120 := False
-				reg1121 = reg1120
-			}
-			var reg1166 Obj
-			if reg1121 == True {
-				reg1122 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5patterns_6)
-				reg1123 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-				reg1124 := Call(__e, __defun__shen_4pair, reg1122, reg1123)
-				NewStream158 := reg1124
-				_ = NewStream158
-				reg1125 := Call(__e, __defun__shen_4_5action_6, NewStream158)
-				Parse__shen_4_5action_6 := reg1125
-				_ = Parse__shen_4_5action_6
-				reg1126 := Call(__e, __defun__fail)
-				reg1127 := PrimEqual(reg1126, Parse__shen_4_5action_6)
-				reg1128 := PrimNot(reg1127)
-				var reg1164 Obj
-				if reg1128 == True {
-					reg1129 := PrimHead(Parse__shen_4_5action_6)
-					reg1130 := PrimIsPair(reg1129)
-					var reg1138 Obj
-					if reg1130 == True {
-						reg1131 := MakeSymbol("where")
-						reg1132 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5action_6)
-						reg1133 := PrimEqual(reg1131, reg1132)
-						var reg1136 Obj
-						if reg1133 == True {
-							reg1134 := True
-							reg1136 = reg1134
-						} else {
-							reg1135 := False
-							reg1136 = reg1135
-						}
-						reg1138 = reg1136
-					} else {
-						reg1137 := False
-						reg1138 = reg1137
-					}
-					var reg1162 Obj
-					if reg1138 == True {
-						reg1139 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5action_6)
-						reg1140 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5action_6)
-						reg1141 := Call(__e, __defun__shen_4pair, reg1139, reg1140)
-						NewStream159 := reg1141
-						_ = NewStream159
-						reg1142 := Call(__e, __defun__shen_4_5guard_6, NewStream159)
-						Parse__shen_4_5guard_6 := reg1142
-						_ = Parse__shen_4_5guard_6
-						reg1143 := Call(__e, __defun__fail)
-						reg1144 := PrimEqual(reg1143, Parse__shen_4_5guard_6)
-						reg1145 := PrimNot(reg1144)
-						var reg1160 Obj
-						if reg1145 == True {
-							reg1146 := PrimHead(Parse__shen_4_5guard_6)
-							reg1147 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-							reg1148 := MakeSymbol("where")
-							reg1149 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5guard_6)
-							reg1150 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5action_6)
-							reg1151 := Nil
-							reg1152 := PrimCons(reg1150, reg1151)
-							reg1153 := PrimCons(reg1149, reg1152)
-							reg1154 := PrimCons(reg1148, reg1153)
-							reg1155 := Nil
-							reg1156 := PrimCons(reg1154, reg1155)
-							reg1157 := PrimCons(reg1147, reg1156)
-							reg1158 := Call(__e, __defun__shen_4pair, reg1146, reg1157)
-							reg1160 = reg1158
-						} else {
-							reg1159 := Call(__e, __defun__fail)
-							reg1160 = reg1159
-						}
-						reg1162 = reg1160
-					} else {
-						reg1161 := Call(__e, __defun__fail)
-						reg1162 = reg1161
-					}
-					reg1164 = reg1162
-				} else {
-					reg1163 := Call(__e, __defun__fail)
-					reg1164 = reg1163
-				}
-				reg1166 = reg1164
-			} else {
-				reg1165 := Call(__e, __defun__fail)
-				reg1166 = reg1165
-			}
-			reg1168 = reg1166
-		} else {
-			reg1167 := Call(__e, __defun__fail)
-			reg1168 = reg1167
-		}
-		YaccParse := reg1168
-		_ = YaccParse
-		reg1169 := Call(__e, __defun__fail)
-		reg1170 := PrimEqual(YaccParse, reg1169)
-		if reg1170 == True {
-			reg1171 := Call(__e, __defun__shen_4_5patterns_6, V165)
-			Parse__shen_4_5patterns_6 := reg1171
-			_ = Parse__shen_4_5patterns_6
-			reg1172 := Call(__e, __defun__fail)
-			reg1173 := PrimEqual(reg1172, Parse__shen_4_5patterns_6)
-			reg1174 := PrimNot(reg1173)
-			var reg1204 Obj
-			if reg1174 == True {
-				reg1175 := PrimHead(Parse__shen_4_5patterns_6)
-				reg1176 := PrimIsPair(reg1175)
-				var reg1184 Obj
-				if reg1176 == True {
-					reg1177 := MakeSymbol("->")
-					reg1178 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5patterns_6)
-					reg1179 := PrimEqual(reg1177, reg1178)
-					var reg1182 Obj
-					if reg1179 == True {
-						reg1180 := True
-						reg1182 = reg1180
-					} else {
-						reg1181 := False
-						reg1182 = reg1181
-					}
-					reg1184 = reg1182
-				} else {
-					reg1183 := False
-					reg1184 = reg1183
-				}
-				var reg1202 Obj
-				if reg1184 == True {
-					reg1185 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5patterns_6)
-					reg1186 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-					reg1187 := Call(__e, __defun__shen_4pair, reg1185, reg1186)
-					NewStream160 := reg1187
-					_ = NewStream160
-					reg1188 := Call(__e, __defun__shen_4_5action_6, NewStream160)
-					Parse__shen_4_5action_6 := reg1188
-					_ = Parse__shen_4_5action_6
-					reg1189 := Call(__e, __defun__fail)
-					reg1190 := PrimEqual(reg1189, Parse__shen_4_5action_6)
-					reg1191 := PrimNot(reg1190)
-					var reg1200 Obj
-					if reg1191 == True {
-						reg1192 := PrimHead(Parse__shen_4_5action_6)
-						reg1193 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-						reg1194 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5action_6)
-						reg1195 := Nil
-						reg1196 := PrimCons(reg1194, reg1195)
-						reg1197 := PrimCons(reg1193, reg1196)
-						reg1198 := Call(__e, __defun__shen_4pair, reg1192, reg1197)
-						reg1200 = reg1198
-					} else {
-						reg1199 := Call(__e, __defun__fail)
-						reg1200 = reg1199
-					}
-					reg1202 = reg1200
-				} else {
-					reg1201 := Call(__e, __defun__fail)
-					reg1202 = reg1201
-				}
-				reg1204 = reg1202
-			} else {
-				reg1203 := Call(__e, __defun__fail)
-				reg1204 = reg1203
-			}
-			YaccParse := reg1204
-			_ = YaccParse
-			reg1205 := Call(__e, __defun__fail)
-			reg1206 := PrimEqual(YaccParse, reg1205)
-			if reg1206 == True {
-				reg1207 := Call(__e, __defun__shen_4_5patterns_6, V165)
-				Parse__shen_4_5patterns_6 := reg1207
-				_ = Parse__shen_4_5patterns_6
-				reg1208 := Call(__e, __defun__fail)
-				reg1209 := PrimEqual(reg1208, Parse__shen_4_5patterns_6)
-				reg1210 := PrimNot(reg1209)
-				var reg1271 Obj
-				if reg1210 == True {
-					reg1211 := PrimHead(Parse__shen_4_5patterns_6)
-					reg1212 := PrimIsPair(reg1211)
-					var reg1220 Obj
-					if reg1212 == True {
-						reg1213 := MakeSymbol("<-")
-						reg1214 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5patterns_6)
-						reg1215 := PrimEqual(reg1213, reg1214)
-						var reg1218 Obj
-						if reg1215 == True {
-							reg1216 := True
-							reg1218 = reg1216
-						} else {
-							reg1217 := False
-							reg1218 = reg1217
-						}
-						reg1220 = reg1218
-					} else {
-						reg1219 := False
-						reg1220 = reg1219
-					}
-					var reg1269 Obj
-					if reg1220 == True {
-						reg1221 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5patterns_6)
-						reg1222 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-						reg1223 := Call(__e, __defun__shen_4pair, reg1221, reg1222)
-						NewStream161 := reg1223
-						_ = NewStream161
-						reg1224 := Call(__e, __defun__shen_4_5action_6, NewStream161)
-						Parse__shen_4_5action_6 := reg1224
-						_ = Parse__shen_4_5action_6
-						reg1225 := Call(__e, __defun__fail)
-						reg1226 := PrimEqual(reg1225, Parse__shen_4_5action_6)
-						reg1227 := PrimNot(reg1226)
-						var reg1267 Obj
-						if reg1227 == True {
-							reg1228 := PrimHead(Parse__shen_4_5action_6)
-							reg1229 := PrimIsPair(reg1228)
-							var reg1237 Obj
-							if reg1229 == True {
-								reg1230 := MakeSymbol("where")
-								reg1231 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5action_6)
-								reg1232 := PrimEqual(reg1230, reg1231)
-								var reg1235 Obj
-								if reg1232 == True {
-									reg1233 := True
-									reg1235 = reg1233
-								} else {
-									reg1234 := False
-									reg1235 = reg1234
-								}
-								reg1237 = reg1235
-							} else {
-								reg1236 := False
-								reg1237 = reg1236
-							}
-							var reg1265 Obj
-							if reg1237 == True {
-								reg1238 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5action_6)
-								reg1239 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5action_6)
-								reg1240 := Call(__e, __defun__shen_4pair, reg1238, reg1239)
-								NewStream162 := reg1240
-								_ = NewStream162
-								reg1241 := Call(__e, __defun__shen_4_5guard_6, NewStream162)
-								Parse__shen_4_5guard_6 := reg1241
-								_ = Parse__shen_4_5guard_6
-								reg1242 := Call(__e, __defun__fail)
-								reg1243 := PrimEqual(reg1242, Parse__shen_4_5guard_6)
-								reg1244 := PrimNot(reg1243)
-								var reg1263 Obj
-								if reg1244 == True {
-									reg1245 := PrimHead(Parse__shen_4_5guard_6)
-									reg1246 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-									reg1247 := MakeSymbol("where")
-									reg1248 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5guard_6)
-									reg1249 := MakeSymbol("shen.choicepoint!")
-									reg1250 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5action_6)
-									reg1251 := Nil
-									reg1252 := PrimCons(reg1250, reg1251)
-									reg1253 := PrimCons(reg1249, reg1252)
-									reg1254 := Nil
-									reg1255 := PrimCons(reg1253, reg1254)
-									reg1256 := PrimCons(reg1248, reg1255)
-									reg1257 := PrimCons(reg1247, reg1256)
-									reg1258 := Nil
-									reg1259 := PrimCons(reg1257, reg1258)
-									reg1260 := PrimCons(reg1246, reg1259)
-									reg1261 := Call(__e, __defun__shen_4pair, reg1245, reg1260)
-									reg1263 = reg1261
-								} else {
-									reg1262 := Call(__e, __defun__fail)
-									reg1263 = reg1262
-								}
-								reg1265 = reg1263
-							} else {
-								reg1264 := Call(__e, __defun__fail)
-								reg1265 = reg1264
-							}
-							reg1267 = reg1265
-						} else {
-							reg1266 := Call(__e, __defun__fail)
-							reg1267 = reg1266
-						}
-						reg1269 = reg1267
-					} else {
-						reg1268 := Call(__e, __defun__fail)
-						reg1269 = reg1268
-					}
-					reg1271 = reg1269
-				} else {
-					reg1270 := Call(__e, __defun__fail)
-					reg1271 = reg1270
-				}
-				YaccParse := reg1271
-				_ = YaccParse
-				reg1272 := Call(__e, __defun__fail)
-				reg1273 := PrimEqual(YaccParse, reg1272)
-				if reg1273 == True {
-					reg1274 := Call(__e, __defun__shen_4_5patterns_6, V165)
-					Parse__shen_4_5patterns_6 := reg1274
-					_ = Parse__shen_4_5patterns_6
-					reg1275 := Call(__e, __defun__fail)
-					reg1276 := PrimEqual(reg1275, Parse__shen_4_5patterns_6)
-					reg1277 := PrimNot(reg1276)
-					if reg1277 == True {
-						reg1278 := PrimHead(Parse__shen_4_5patterns_6)
-						reg1279 := PrimIsPair(reg1278)
-						var reg1287 Obj
-						if reg1279 == True {
-							reg1280 := MakeSymbol("<-")
-							reg1281 := Call(__e, __defun__shen_4hdhd, Parse__shen_4_5patterns_6)
-							reg1282 := PrimEqual(reg1280, reg1281)
-							var reg1285 Obj
-							if reg1282 == True {
-								reg1283 := True
-								reg1285 = reg1283
-							} else {
-								reg1284 := False
-								reg1285 = reg1284
-							}
-							reg1287 = reg1285
-						} else {
-							reg1286 := False
-							reg1287 = reg1286
-						}
-						if reg1287 == True {
-							reg1288 := Call(__e, __defun__shen_4tlhd, Parse__shen_4_5patterns_6)
-							reg1289 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-							reg1290 := Call(__e, __defun__shen_4pair, reg1288, reg1289)
-							NewStream163 := reg1290
-							_ = NewStream163
-							reg1291 := Call(__e, __defun__shen_4_5action_6, NewStream163)
-							Parse__shen_4_5action_6 := reg1291
-							_ = Parse__shen_4_5action_6
-							reg1292 := Call(__e, __defun__fail)
-							reg1293 := PrimEqual(reg1292, Parse__shen_4_5action_6)
-							reg1294 := PrimNot(reg1293)
-							if reg1294 == True {
-								reg1295 := PrimHead(Parse__shen_4_5action_6)
-								reg1296 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-								reg1297 := MakeSymbol("shen.choicepoint!")
-								reg1298 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5action_6)
-								reg1299 := Nil
-								reg1300 := PrimCons(reg1298, reg1299)
-								reg1301 := PrimCons(reg1297, reg1300)
-								reg1302 := Nil
-								reg1303 := PrimCons(reg1301, reg1302)
-								reg1304 := PrimCons(reg1296, reg1303)
-								__e.TailApply(__defun__shen_4pair, reg1295, reg1304)
-								return
-							} else {
-								__e.TailApply(__defun__fail)
-								return
-							}
-						} else {
-							__e.TailApply(__defun__fail)
-							return
-						}
-					} else {
-						__e.TailApply(__defun__fail)
 						return
 					}
+
 				} else {
-					__e.Return(YaccParse)
+					__e.TailApply(ShenFunc(symfail))
+
 					return
 				}
+
 			} else {
 				__e.Return(YaccParse)
 				return
 			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<rule>", value: __defun__shen_4_5rule_6})
 
-	__defun__shen_4fail__if = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V168 := __args[0]
-		_ = V168
-		V169 := __args[1]
-		_ = V169
-		reg1309 := Call(__e, V168, V169)
-		if reg1309 == True {
-			__e.TailApply(__defun__fail)
-			return
-		} else {
-			__e.Return(V169)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.fail_if", value: __defun__shen_4fail__if})
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<define>"), gen46)
 
-	__defun__shen_4succeeds_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V175 := __args[0]
-		_ = V175
-		reg1311 := Call(__e, __defun__fail)
-		reg1312 := PrimEqual(V175, reg1311)
-		if reg1312 == True {
-			reg1313 := False
-			__e.Return(reg1313)
-			return
-		} else {
-			reg1314 := True
-			__e.Return(reg1314)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.succeeds?", value: __defun__shen_4succeeds_2})
+		gen60 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V165 := __args[0]
+			_ = V165
+			gen58 := Call(__e, ShenFunc(symhd), V165)
 
-	__defun__shen_4_5patterns_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V177 := __args[0]
-		_ = V177
-		reg1315 := Call(__e, __defun__shen_4_5pattern_6, V177)
-		Parse__shen_4_5pattern_6 := reg1315
-		_ = Parse__shen_4_5pattern_6
-		reg1316 := Call(__e, __defun__fail)
-		reg1317 := PrimEqual(reg1316, Parse__shen_4_5pattern_6)
-		reg1318 := PrimNot(reg1317)
-		var reg1331 Obj
-		if reg1318 == True {
-			reg1319 := Call(__e, __defun__shen_4_5patterns_6, Parse__shen_4_5pattern_6)
-			Parse__shen_4_5patterns_6 := reg1319
-			_ = Parse__shen_4_5patterns_6
-			reg1320 := Call(__e, __defun__fail)
-			reg1321 := PrimEqual(reg1320, Parse__shen_4_5patterns_6)
-			reg1322 := PrimNot(reg1321)
-			var reg1329 Obj
-			if reg1322 == True {
-				reg1323 := PrimHead(Parse__shen_4_5patterns_6)
-				reg1324 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern_6)
-				reg1325 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5patterns_6)
-				reg1326 := PrimCons(reg1324, reg1325)
-				reg1327 := Call(__e, __defun__shen_4pair, reg1323, reg1326)
-				reg1329 = reg1327
-			} else {
-				reg1328 := Call(__e, __defun__fail)
-				reg1329 = reg1328
-			}
-			reg1331 = reg1329
-		} else {
-			reg1330 := Call(__e, __defun__fail)
-			reg1331 = reg1330
-		}
-		YaccParse := reg1331
-		_ = YaccParse
-		reg1332 := Call(__e, __defun__fail)
-		reg1333 := PrimEqual(YaccParse, reg1332)
-		if reg1333 == True {
-			reg1334 := Call(__e, __defun___5e_6, V177)
-			Parse___5e_6 := reg1334
-			_ = Parse___5e_6
-			reg1335 := Call(__e, __defun__fail)
-			reg1336 := PrimEqual(reg1335, Parse___5e_6)
-			reg1337 := PrimNot(reg1336)
-			if reg1337 == True {
-				reg1338 := PrimHead(Parse___5e_6)
-				reg1339 := Nil
-				__e.TailApply(__defun__shen_4pair, reg1338, reg1339)
+			gen59 := Call(__e, ShenFunc(symcons_2), gen58)
+
+			if True == gen59 {
+				gen47 := Call(__e, ShenFunc(symshen_4hdhd), V165)
+
+				Parse__X := gen47
+				gen48 := Call(__e, ShenFunc(symshen_4tlhd), V165)
+
+				gen49 := Call(__e, ShenFunc(symshen_4hdtl), V165)
+
+				gen50 := Call(__e, ShenFunc(symshen_4pair), gen48, gen49)
+
+				gen51 := Call(__e, ShenFunc(symhd), gen50)
+
+				gen55 := Call(__e, ShenFunc(symsymbol_2), Parse__X)
+
+				var gen56 Obj
+				if True == gen55 {
+					gen53 := Call(__e, ShenFunc(symshen_4sysfunc_2), Parse__X)
+
+					gen54 := Call(__e, ShenFunc(symnot), gen53)
+
+					if True == gen54 {
+						gen56 = True
+					} else {
+						gen56 = False
+					}
+
+				} else {
+					gen56 = False
+				}
+				var gen57 Obj
+				if True == gen56 {
+					gen57 = Parse__X
+				} else {
+					gen52 := Call(__e, ShenFunc(symshen_4app), Parse__X, MakeString(" is not a legitimate function name.\n"), MakeSymbol("shen.a"))
+
+					gen57 = Call(__e, ShenFunc(symsimple_1error), gen52)
+
+				}
+				__e.TailApply(ShenFunc(symshen_4pair), gen51, gen57)
+
 				return
+
 			} else {
-				__e.TailApply(__defun__fail)
+				__e.TailApply(ShenFunc(symfail))
+
 				return
 			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<patterns>", value: __defun__shen_4_5patterns_6})
 
-	__defun__shen_4_5pattern_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V190 := __args[0]
-		_ = V190
-		reg1342 := PrimHead(V190)
-		reg1343 := PrimIsPair(reg1342)
-		var reg1350 Obj
-		if reg1343 == True {
-			reg1344 := Call(__e, __defun__shen_4hdhd, V190)
-			reg1345 := PrimIsPair(reg1344)
-			var reg1348 Obj
-			if reg1345 == True {
-				reg1346 := True
-				reg1348 = reg1346
-			} else {
-				reg1347 := False
-				reg1348 = reg1347
-			}
-			reg1350 = reg1348
-		} else {
-			reg1349 := False
-			reg1350 = reg1349
-		}
-		var reg1403 Obj
-		if reg1350 == True {
-			reg1351 := Call(__e, __defun__shen_4hdhd, V190)
-			reg1352 := Call(__e, __defun__shen_4hdtl, V190)
-			reg1353 := Call(__e, __defun__shen_4pair, reg1351, reg1352)
-			reg1354 := PrimHead(reg1353)
-			reg1355 := PrimIsPair(reg1354)
-			var reg1366 Obj
-			if reg1355 == True {
-				reg1356 := MakeSymbol("@p")
-				reg1357 := Call(__e, __defun__shen_4hdhd, V190)
-				reg1358 := Call(__e, __defun__shen_4hdtl, V190)
-				reg1359 := Call(__e, __defun__shen_4pair, reg1357, reg1358)
-				reg1360 := Call(__e, __defun__shen_4hdhd, reg1359)
-				reg1361 := PrimEqual(reg1356, reg1360)
-				var reg1364 Obj
-				if reg1361 == True {
-					reg1362 := True
-					reg1364 = reg1362
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<name>"), gen60)
+
+		gen64 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V167 := __args[0]
+			_ = V167
+			gen61 := Call(__e, ShenFunc(symintern), MakeString("shen"))
+
+			gen62 := Call(__e, ShenFunc(symvalue), MakeSymbol("*property-vector*"))
+
+			gen63 := Call(__e, ShenFunc(symget), gen61, MakeSymbol("shen.external-symbols"), gen62)
+
+			__e.TailApply(ShenFunc(symelement_2), V167, gen63)
+
+			return
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.sysfunc?"), gen64)
+
+		gen89 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V171 := __args[0]
+			_ = V171
+			gen86 := Call(__e, ShenFunc(symhd), V171)
+
+			gen87 := Call(__e, ShenFunc(symcons_2), gen86)
+
+			var gen88 Obj
+			if True == gen87 {
+				gen84 := Call(__e, ShenFunc(symshen_4hdhd), V171)
+
+				gen85 := Call(__e, ShenFunc(sym_a), MakeSymbol("{"), gen84)
+
+				if True == gen85 {
+					gen88 = True
 				} else {
-					reg1363 := False
-					reg1364 = reg1363
+					gen88 = False
 				}
-				reg1366 = reg1364
+
 			} else {
-				reg1365 := False
-				reg1366 = reg1365
+				gen88 = False
 			}
-			var reg1401 Obj
-			if reg1366 == True {
-				reg1367 := Call(__e, __defun__shen_4hdhd, V190)
-				reg1368 := Call(__e, __defun__shen_4hdtl, V190)
-				reg1369 := Call(__e, __defun__shen_4pair, reg1367, reg1368)
-				reg1370 := Call(__e, __defun__shen_4tlhd, reg1369)
-				reg1371 := Call(__e, __defun__shen_4hdhd, V190)
-				reg1372 := Call(__e, __defun__shen_4hdtl, V190)
-				reg1373 := Call(__e, __defun__shen_4pair, reg1371, reg1372)
-				reg1374 := Call(__e, __defun__shen_4hdtl, reg1373)
-				reg1375 := Call(__e, __defun__shen_4pair, reg1370, reg1374)
-				NewStream179 := reg1375
-				_ = NewStream179
-				reg1376 := Call(__e, __defun__shen_4_5pattern1_6, NewStream179)
-				Parse__shen_4_5pattern1_6 := reg1376
-				_ = Parse__shen_4_5pattern1_6
-				reg1377 := Call(__e, __defun__fail)
-				reg1378 := PrimEqual(reg1377, Parse__shen_4_5pattern1_6)
-				reg1379 := PrimNot(reg1378)
-				var reg1399 Obj
-				if reg1379 == True {
-					reg1380 := Call(__e, __defun__shen_4_5pattern2_6, Parse__shen_4_5pattern1_6)
-					Parse__shen_4_5pattern2_6 := reg1380
-					_ = Parse__shen_4_5pattern2_6
-					reg1381 := Call(__e, __defun__fail)
-					reg1382 := PrimEqual(reg1381, Parse__shen_4_5pattern2_6)
-					reg1383 := PrimNot(reg1382)
-					var reg1397 Obj
-					if reg1383 == True {
-						reg1384 := Call(__e, __defun__shen_4tlhd, V190)
-						reg1385 := Call(__e, __defun__shen_4hdtl, V190)
-						reg1386 := Call(__e, __defun__shen_4pair, reg1384, reg1385)
-						reg1387 := PrimHead(reg1386)
-						reg1388 := MakeSymbol("@p")
-						reg1389 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern1_6)
-						reg1390 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern2_6)
-						reg1391 := Nil
-						reg1392 := PrimCons(reg1390, reg1391)
-						reg1393 := PrimCons(reg1389, reg1392)
-						reg1394 := PrimCons(reg1388, reg1393)
-						reg1395 := Call(__e, __defun__shen_4pair, reg1387, reg1394)
-						reg1397 = reg1395
-					} else {
-						reg1396 := Call(__e, __defun__fail)
-						reg1397 = reg1396
-					}
-					reg1399 = reg1397
-				} else {
-					reg1398 := Call(__e, __defun__fail)
-					reg1399 = reg1398
-				}
-				reg1401 = reg1399
-			} else {
-				reg1400 := Call(__e, __defun__fail)
-				reg1401 = reg1400
-			}
-			reg1403 = reg1401
-		} else {
-			reg1402 := Call(__e, __defun__fail)
-			reg1403 = reg1402
-		}
-		YaccParse := reg1403
-		_ = YaccParse
-		reg1404 := Call(__e, __defun__fail)
-		reg1405 := PrimEqual(YaccParse, reg1404)
-		if reg1405 == True {
-			reg1406 := PrimHead(V190)
-			reg1407 := PrimIsPair(reg1406)
-			var reg1414 Obj
-			if reg1407 == True {
-				reg1408 := Call(__e, __defun__shen_4hdhd, V190)
-				reg1409 := PrimIsPair(reg1408)
-				var reg1412 Obj
-				if reg1409 == True {
-					reg1410 := True
-					reg1412 = reg1410
-				} else {
-					reg1411 := False
-					reg1412 = reg1411
-				}
-				reg1414 = reg1412
-			} else {
-				reg1413 := False
-				reg1414 = reg1413
-			}
-			var reg1467 Obj
-			if reg1414 == True {
-				reg1415 := Call(__e, __defun__shen_4hdhd, V190)
-				reg1416 := Call(__e, __defun__shen_4hdtl, V190)
-				reg1417 := Call(__e, __defun__shen_4pair, reg1415, reg1416)
-				reg1418 := PrimHead(reg1417)
-				reg1419 := PrimIsPair(reg1418)
-				var reg1430 Obj
-				if reg1419 == True {
-					reg1420 := MakeSymbol("cons")
-					reg1421 := Call(__e, __defun__shen_4hdhd, V190)
-					reg1422 := Call(__e, __defun__shen_4hdtl, V190)
-					reg1423 := Call(__e, __defun__shen_4pair, reg1421, reg1422)
-					reg1424 := Call(__e, __defun__shen_4hdhd, reg1423)
-					reg1425 := PrimEqual(reg1420, reg1424)
-					var reg1428 Obj
-					if reg1425 == True {
-						reg1426 := True
-						reg1428 = reg1426
-					} else {
-						reg1427 := False
-						reg1428 = reg1427
-					}
-					reg1430 = reg1428
-				} else {
-					reg1429 := False
-					reg1430 = reg1429
-				}
-				var reg1465 Obj
-				if reg1430 == True {
-					reg1431 := Call(__e, __defun__shen_4hdhd, V190)
-					reg1432 := Call(__e, __defun__shen_4hdtl, V190)
-					reg1433 := Call(__e, __defun__shen_4pair, reg1431, reg1432)
-					reg1434 := Call(__e, __defun__shen_4tlhd, reg1433)
-					reg1435 := Call(__e, __defun__shen_4hdhd, V190)
-					reg1436 := Call(__e, __defun__shen_4hdtl, V190)
-					reg1437 := Call(__e, __defun__shen_4pair, reg1435, reg1436)
-					reg1438 := Call(__e, __defun__shen_4hdtl, reg1437)
-					reg1439 := Call(__e, __defun__shen_4pair, reg1434, reg1438)
-					NewStream181 := reg1439
-					_ = NewStream181
-					reg1440 := Call(__e, __defun__shen_4_5pattern1_6, NewStream181)
-					Parse__shen_4_5pattern1_6 := reg1440
-					_ = Parse__shen_4_5pattern1_6
-					reg1441 := Call(__e, __defun__fail)
-					reg1442 := PrimEqual(reg1441, Parse__shen_4_5pattern1_6)
-					reg1443 := PrimNot(reg1442)
-					var reg1463 Obj
-					if reg1443 == True {
-						reg1444 := Call(__e, __defun__shen_4_5pattern2_6, Parse__shen_4_5pattern1_6)
-						Parse__shen_4_5pattern2_6 := reg1444
-						_ = Parse__shen_4_5pattern2_6
-						reg1445 := Call(__e, __defun__fail)
-						reg1446 := PrimEqual(reg1445, Parse__shen_4_5pattern2_6)
-						reg1447 := PrimNot(reg1446)
-						var reg1461 Obj
-						if reg1447 == True {
-							reg1448 := Call(__e, __defun__shen_4tlhd, V190)
-							reg1449 := Call(__e, __defun__shen_4hdtl, V190)
-							reg1450 := Call(__e, __defun__shen_4pair, reg1448, reg1449)
-							reg1451 := PrimHead(reg1450)
-							reg1452 := MakeSymbol("cons")
-							reg1453 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern1_6)
-							reg1454 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern2_6)
-							reg1455 := Nil
-							reg1456 := PrimCons(reg1454, reg1455)
-							reg1457 := PrimCons(reg1453, reg1456)
-							reg1458 := PrimCons(reg1452, reg1457)
-							reg1459 := Call(__e, __defun__shen_4pair, reg1451, reg1458)
-							reg1461 = reg1459
+			if True == gen88 {
+				gen65 := Call(__e, ShenFunc(symshen_4tlhd), V171)
+
+				gen66 := Call(__e, ShenFunc(symshen_4hdtl), V171)
+
+				gen67 := Call(__e, ShenFunc(symshen_4pair), gen65, gen66)
+
+				NewStream168 := gen67
+				gen68 := Call(__e, ShenFunc(symshen_4_5signature_1help_6), NewStream168)
+
+				Parse__shen_4_5signature_1help_6 := gen68
+				gen81 := Call(__e, ShenFunc(symfail))
+
+				gen82 := Call(__e, ShenFunc(sym_a), gen81, Parse__shen_4_5signature_1help_6)
+
+				gen83 := Call(__e, ShenFunc(symnot), gen82)
+
+				if True == gen83 {
+					gen78 := Call(__e, ShenFunc(symhd), Parse__shen_4_5signature_1help_6)
+
+					gen79 := Call(__e, ShenFunc(symcons_2), gen78)
+
+					var gen80 Obj
+					if True == gen79 {
+						gen76 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5signature_1help_6)
+
+						gen77 := Call(__e, ShenFunc(sym_a), MakeSymbol("}"), gen76)
+
+						if True == gen77 {
+							gen80 = True
 						} else {
-							reg1460 := Call(__e, __defun__fail)
-							reg1461 = reg1460
+							gen80 = False
 						}
-						reg1463 = reg1461
+
 					} else {
-						reg1462 := Call(__e, __defun__fail)
-						reg1463 = reg1462
+						gen80 = False
 					}
-					reg1465 = reg1463
+					if True == gen80 {
+						gen69 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5signature_1help_6)
+
+						gen70 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5signature_1help_6)
+
+						gen71 := Call(__e, ShenFunc(symshen_4pair), gen69, gen70)
+
+						NewStream169 := gen71
+						gen72 := Call(__e, ShenFunc(symhd), NewStream169)
+
+						gen73 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5signature_1help_6)
+
+						gen74 := Call(__e, ShenFunc(symshen_4curry_1type), gen73)
+
+						gen75 := Call(__e, ShenFunc(symshen_4demodulate), gen74)
+
+						__e.TailApply(ShenFunc(symshen_4pair), gen72, gen75)
+
+						return
+
+					} else {
+						__e.TailApply(ShenFunc(symfail))
+
+						return
+					}
+
 				} else {
-					reg1464 := Call(__e, __defun__fail)
-					reg1465 = reg1464
+					__e.TailApply(ShenFunc(symfail))
+
+					return
 				}
-				reg1467 = reg1465
+
 			} else {
-				reg1466 := Call(__e, __defun__fail)
-				reg1467 = reg1466
+				__e.TailApply(ShenFunc(symfail))
+
+				return
 			}
-			YaccParse := reg1467
-			_ = YaccParse
-			reg1468 := Call(__e, __defun__fail)
-			reg1469 := PrimEqual(YaccParse, reg1468)
-			if reg1469 == True {
-				reg1470 := PrimHead(V190)
-				reg1471 := PrimIsPair(reg1470)
-				var reg1478 Obj
-				if reg1471 == True {
-					reg1472 := Call(__e, __defun__shen_4hdhd, V190)
-					reg1473 := PrimIsPair(reg1472)
-					var reg1476 Obj
-					if reg1473 == True {
-						reg1474 := True
-						reg1476 = reg1474
-					} else {
-						reg1475 := False
-						reg1476 = reg1475
-					}
-					reg1478 = reg1476
-				} else {
-					reg1477 := False
-					reg1478 = reg1477
-				}
-				var reg1531 Obj
-				if reg1478 == True {
-					reg1479 := Call(__e, __defun__shen_4hdhd, V190)
-					reg1480 := Call(__e, __defun__shen_4hdtl, V190)
-					reg1481 := Call(__e, __defun__shen_4pair, reg1479, reg1480)
-					reg1482 := PrimHead(reg1481)
-					reg1483 := PrimIsPair(reg1482)
-					var reg1494 Obj
-					if reg1483 == True {
-						reg1484 := MakeSymbol("@v")
-						reg1485 := Call(__e, __defun__shen_4hdhd, V190)
-						reg1486 := Call(__e, __defun__shen_4hdtl, V190)
-						reg1487 := Call(__e, __defun__shen_4pair, reg1485, reg1486)
-						reg1488 := Call(__e, __defun__shen_4hdhd, reg1487)
-						reg1489 := PrimEqual(reg1484, reg1488)
-						var reg1492 Obj
-						if reg1489 == True {
-							reg1490 := True
-							reg1492 = reg1490
-						} else {
-							reg1491 := False
-							reg1492 = reg1491
-						}
-						reg1494 = reg1492
-					} else {
-						reg1493 := False
-						reg1494 = reg1493
-					}
-					var reg1529 Obj
-					if reg1494 == True {
-						reg1495 := Call(__e, __defun__shen_4hdhd, V190)
-						reg1496 := Call(__e, __defun__shen_4hdtl, V190)
-						reg1497 := Call(__e, __defun__shen_4pair, reg1495, reg1496)
-						reg1498 := Call(__e, __defun__shen_4tlhd, reg1497)
-						reg1499 := Call(__e, __defun__shen_4hdhd, V190)
-						reg1500 := Call(__e, __defun__shen_4hdtl, V190)
-						reg1501 := Call(__e, __defun__shen_4pair, reg1499, reg1500)
-						reg1502 := Call(__e, __defun__shen_4hdtl, reg1501)
-						reg1503 := Call(__e, __defun__shen_4pair, reg1498, reg1502)
-						NewStream183 := reg1503
-						_ = NewStream183
-						reg1504 := Call(__e, __defun__shen_4_5pattern1_6, NewStream183)
-						Parse__shen_4_5pattern1_6 := reg1504
-						_ = Parse__shen_4_5pattern1_6
-						reg1505 := Call(__e, __defun__fail)
-						reg1506 := PrimEqual(reg1505, Parse__shen_4_5pattern1_6)
-						reg1507 := PrimNot(reg1506)
-						var reg1527 Obj
-						if reg1507 == True {
-							reg1508 := Call(__e, __defun__shen_4_5pattern2_6, Parse__shen_4_5pattern1_6)
-							Parse__shen_4_5pattern2_6 := reg1508
-							_ = Parse__shen_4_5pattern2_6
-							reg1509 := Call(__e, __defun__fail)
-							reg1510 := PrimEqual(reg1509, Parse__shen_4_5pattern2_6)
-							reg1511 := PrimNot(reg1510)
-							var reg1525 Obj
-							if reg1511 == True {
-								reg1512 := Call(__e, __defun__shen_4tlhd, V190)
-								reg1513 := Call(__e, __defun__shen_4hdtl, V190)
-								reg1514 := Call(__e, __defun__shen_4pair, reg1512, reg1513)
-								reg1515 := PrimHead(reg1514)
-								reg1516 := MakeSymbol("@v")
-								reg1517 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern1_6)
-								reg1518 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern2_6)
-								reg1519 := Nil
-								reg1520 := PrimCons(reg1518, reg1519)
-								reg1521 := PrimCons(reg1517, reg1520)
-								reg1522 := PrimCons(reg1516, reg1521)
-								reg1523 := Call(__e, __defun__shen_4pair, reg1515, reg1522)
-								reg1525 = reg1523
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<signature>"), gen89)
+
+		gen91 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V173 := __args[0]
+			_ = V173
+			gen90 := Call(__e, ShenFunc(symshen_4curry_1type_1h), V173)
+
+			__e.TailApply(ShenFunc(symshen_4active_1cons), gen90)
+
+			return
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.curry-type"), gen91)
+
+		gen120 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V175 := __args[0]
+			_ = V175
+			gen118 := Call(__e, ShenFunc(symcons_2), V175)
+
+			var gen119 Obj
+			if True == gen118 {
+				gen115 := Call(__e, ShenFunc(symtl), V175)
+
+				gen116 := Call(__e, ShenFunc(symcons_2), gen115)
+
+				var gen117 Obj
+				if True == gen116 {
+					gen111 := Call(__e, ShenFunc(symtl), V175)
+
+					gen112 := Call(__e, ShenFunc(symtl), gen111)
+
+					gen113 := Call(__e, ShenFunc(symcons_2), gen112)
+
+					var gen114 Obj
+					if True == gen113 {
+						gen106 := Call(__e, ShenFunc(symtl), V175)
+
+						gen107 := Call(__e, ShenFunc(symtl), gen106)
+
+						gen108 := Call(__e, ShenFunc(symtl), gen107)
+
+						gen109 := Call(__e, ShenFunc(sym_a), Nil, gen108)
+
+						var gen110 Obj
+						if True == gen109 {
+							gen103 := Call(__e, ShenFunc(symtl), V175)
+
+							gen104 := Call(__e, ShenFunc(symhd), gen103)
+
+							gen105 := Call(__e, ShenFunc(sym_a), gen104, MakeSymbol("bar!"))
+
+							if True == gen105 {
+								gen110 = True
 							} else {
-								reg1524 := Call(__e, __defun__fail)
-								reg1525 = reg1524
+								gen110 = False
 							}
-							reg1527 = reg1525
+
 						} else {
-							reg1526 := Call(__e, __defun__fail)
-							reg1527 = reg1526
+							gen110 = False
 						}
-						reg1529 = reg1527
+						if True == gen110 {
+							gen114 = True
+						} else {
+							gen114 = False
+						}
+
 					} else {
-						reg1528 := Call(__e, __defun__fail)
-						reg1529 = reg1528
+						gen114 = False
 					}
-					reg1531 = reg1529
+					if True == gen114 {
+						gen117 = True
+					} else {
+						gen117 = False
+					}
+
 				} else {
-					reg1530 := Call(__e, __defun__fail)
-					reg1531 = reg1530
+					gen117 = False
 				}
-				YaccParse := reg1531
-				_ = YaccParse
-				reg1532 := Call(__e, __defun__fail)
-				reg1533 := PrimEqual(YaccParse, reg1532)
-				if reg1533 == True {
-					reg1534 := PrimHead(V190)
-					reg1535 := PrimIsPair(reg1534)
-					var reg1542 Obj
-					if reg1535 == True {
-						reg1536 := Call(__e, __defun__shen_4hdhd, V190)
-						reg1537 := PrimIsPair(reg1536)
-						var reg1540 Obj
-						if reg1537 == True {
-							reg1538 := True
-							reg1540 = reg1538
-						} else {
-							reg1539 := False
-							reg1540 = reg1539
-						}
-						reg1542 = reg1540
-					} else {
-						reg1541 := False
-						reg1542 = reg1541
-					}
-					var reg1595 Obj
-					if reg1542 == True {
-						reg1543 := Call(__e, __defun__shen_4hdhd, V190)
-						reg1544 := Call(__e, __defun__shen_4hdtl, V190)
-						reg1545 := Call(__e, __defun__shen_4pair, reg1543, reg1544)
-						reg1546 := PrimHead(reg1545)
-						reg1547 := PrimIsPair(reg1546)
-						var reg1558 Obj
-						if reg1547 == True {
-							reg1548 := MakeSymbol("@s")
-							reg1549 := Call(__e, __defun__shen_4hdhd, V190)
-							reg1550 := Call(__e, __defun__shen_4hdtl, V190)
-							reg1551 := Call(__e, __defun__shen_4pair, reg1549, reg1550)
-							reg1552 := Call(__e, __defun__shen_4hdhd, reg1551)
-							reg1553 := PrimEqual(reg1548, reg1552)
-							var reg1556 Obj
-							if reg1553 == True {
-								reg1554 := True
-								reg1556 = reg1554
-							} else {
-								reg1555 := False
-								reg1556 = reg1555
-							}
-							reg1558 = reg1556
-						} else {
-							reg1557 := False
-							reg1558 = reg1557
-						}
-						var reg1593 Obj
-						if reg1558 == True {
-							reg1559 := Call(__e, __defun__shen_4hdhd, V190)
-							reg1560 := Call(__e, __defun__shen_4hdtl, V190)
-							reg1561 := Call(__e, __defun__shen_4pair, reg1559, reg1560)
-							reg1562 := Call(__e, __defun__shen_4tlhd, reg1561)
-							reg1563 := Call(__e, __defun__shen_4hdhd, V190)
-							reg1564 := Call(__e, __defun__shen_4hdtl, V190)
-							reg1565 := Call(__e, __defun__shen_4pair, reg1563, reg1564)
-							reg1566 := Call(__e, __defun__shen_4hdtl, reg1565)
-							reg1567 := Call(__e, __defun__shen_4pair, reg1562, reg1566)
-							NewStream185 := reg1567
-							_ = NewStream185
-							reg1568 := Call(__e, __defun__shen_4_5pattern1_6, NewStream185)
-							Parse__shen_4_5pattern1_6 := reg1568
-							_ = Parse__shen_4_5pattern1_6
-							reg1569 := Call(__e, __defun__fail)
-							reg1570 := PrimEqual(reg1569, Parse__shen_4_5pattern1_6)
-							reg1571 := PrimNot(reg1570)
-							var reg1591 Obj
-							if reg1571 == True {
-								reg1572 := Call(__e, __defun__shen_4_5pattern2_6, Parse__shen_4_5pattern1_6)
-								Parse__shen_4_5pattern2_6 := reg1572
-								_ = Parse__shen_4_5pattern2_6
-								reg1573 := Call(__e, __defun__fail)
-								reg1574 := PrimEqual(reg1573, Parse__shen_4_5pattern2_6)
-								reg1575 := PrimNot(reg1574)
-								var reg1589 Obj
-								if reg1575 == True {
-									reg1576 := Call(__e, __defun__shen_4tlhd, V190)
-									reg1577 := Call(__e, __defun__shen_4hdtl, V190)
-									reg1578 := Call(__e, __defun__shen_4pair, reg1576, reg1577)
-									reg1579 := PrimHead(reg1578)
-									reg1580 := MakeSymbol("@s")
-									reg1581 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern1_6)
-									reg1582 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern2_6)
-									reg1583 := Nil
-									reg1584 := PrimCons(reg1582, reg1583)
-									reg1585 := PrimCons(reg1581, reg1584)
-									reg1586 := PrimCons(reg1580, reg1585)
-									reg1587 := Call(__e, __defun__shen_4pair, reg1579, reg1586)
-									reg1589 = reg1587
+				if True == gen117 {
+					gen119 = True
+				} else {
+					gen119 = False
+				}
+
+			} else {
+				gen119 = False
+			}
+			if True == gen119 {
+				gen97 := Call(__e, ShenFunc(symhd), V175)
+
+				gen98 := Call(__e, ShenFunc(symshen_4active_1cons), gen97)
+
+				gen99 := Call(__e, ShenFunc(symtl), V175)
+
+				gen100 := Call(__e, ShenFunc(symtl), gen99)
+
+				gen101 := Call(__e, ShenFunc(symhd), gen100)
+
+				gen102 := Call(__e, ShenFunc(symshen_4active_1cons), gen101)
+
+				__e.TailApply(ShenFunc(symcons), gen98, gen102)
+
+				return
+
+			} else {
+				gen96 := Call(__e, ShenFunc(symcons_2), V175)
+
+				if True == gen96 {
+					gen92 := Call(__e, ShenFunc(symhd), V175)
+
+					gen93 := Call(__e, ShenFunc(symshen_4active_1cons), gen92)
+
+					gen94 := Call(__e, ShenFunc(symtl), V175)
+
+					gen95 := Call(__e, ShenFunc(symshen_4active_1cons), gen94)
+
+					__e.TailApply(ShenFunc(symcons), gen93, gen95)
+
+					return
+
+				} else {
+					__e.Return(V175)
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.active-cons"), gen120)
+
+		gen181 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V177 := __args[0]
+			_ = V177
+			gen179 := Call(__e, ShenFunc(symcons_2), V177)
+
+			var gen180 Obj
+			if True == gen179 {
+				gen176 := Call(__e, ShenFunc(symtl), V177)
+
+				gen177 := Call(__e, ShenFunc(symcons_2), gen176)
+
+				var gen178 Obj
+				if True == gen177 {
+					gen172 := Call(__e, ShenFunc(symtl), V177)
+
+					gen173 := Call(__e, ShenFunc(symhd), gen172)
+
+					gen174 := Call(__e, ShenFunc(sym_a), MakeSymbol("-->"), gen173)
+
+					var gen175 Obj
+					if True == gen174 {
+						gen168 := Call(__e, ShenFunc(symtl), V177)
+
+						gen169 := Call(__e, ShenFunc(symtl), gen168)
+
+						gen170 := Call(__e, ShenFunc(symcons_2), gen169)
+
+						var gen171 Obj
+						if True == gen170 {
+							gen163 := Call(__e, ShenFunc(symtl), V177)
+
+							gen164 := Call(__e, ShenFunc(symtl), gen163)
+
+							gen165 := Call(__e, ShenFunc(symtl), gen164)
+
+							gen166 := Call(__e, ShenFunc(symcons_2), gen165)
+
+							var gen167 Obj
+							if True == gen166 {
+								gen158 := Call(__e, ShenFunc(symtl), V177)
+
+								gen159 := Call(__e, ShenFunc(symtl), gen158)
+
+								gen160 := Call(__e, ShenFunc(symtl), gen159)
+
+								gen161 := Call(__e, ShenFunc(symhd), gen160)
+
+								gen162 := Call(__e, ShenFunc(sym_a), MakeSymbol("-->"), gen161)
+
+								if True == gen162 {
+									gen167 = True
 								} else {
-									reg1588 := Call(__e, __defun__fail)
-									reg1589 = reg1588
+									gen167 = False
 								}
-								reg1591 = reg1589
+
 							} else {
-								reg1590 := Call(__e, __defun__fail)
-								reg1591 = reg1590
+								gen167 = False
 							}
-							reg1593 = reg1591
+							if True == gen167 {
+								gen171 = True
+							} else {
+								gen171 = False
+							}
+
 						} else {
-							reg1592 := Call(__e, __defun__fail)
-							reg1593 = reg1592
+							gen171 = False
 						}
-						reg1595 = reg1593
+						if True == gen171 {
+							gen175 = True
+						} else {
+							gen175 = False
+						}
+
 					} else {
-						reg1594 := Call(__e, __defun__fail)
-						reg1595 = reg1594
+						gen175 = False
 					}
-					YaccParse := reg1595
-					_ = YaccParse
-					reg1596 := Call(__e, __defun__fail)
-					reg1597 := PrimEqual(YaccParse, reg1596)
-					if reg1597 == True {
-						reg1598 := PrimHead(V190)
-						reg1599 := PrimIsPair(reg1598)
-						var reg1606 Obj
-						if reg1599 == True {
-							reg1600 := Call(__e, __defun__shen_4hdhd, V190)
-							reg1601 := PrimIsPair(reg1600)
-							var reg1604 Obj
-							if reg1601 == True {
-								reg1602 := True
-								reg1604 = reg1602
-							} else {
-								reg1603 := False
-								reg1604 = reg1603
-							}
-							reg1606 = reg1604
-						} else {
-							reg1605 := False
-							reg1606 = reg1605
-						}
-						var reg1660 Obj
-						if reg1606 == True {
-							reg1607 := Call(__e, __defun__shen_4hdhd, V190)
-							reg1608 := Call(__e, __defun__shen_4hdtl, V190)
-							reg1609 := Call(__e, __defun__shen_4pair, reg1607, reg1608)
-							reg1610 := PrimHead(reg1609)
-							reg1611 := PrimIsPair(reg1610)
-							var reg1622 Obj
-							if reg1611 == True {
-								reg1612 := MakeSymbol("vector")
-								reg1613 := Call(__e, __defun__shen_4hdhd, V190)
-								reg1614 := Call(__e, __defun__shen_4hdtl, V190)
-								reg1615 := Call(__e, __defun__shen_4pair, reg1613, reg1614)
-								reg1616 := Call(__e, __defun__shen_4hdhd, reg1615)
-								reg1617 := PrimEqual(reg1612, reg1616)
-								var reg1620 Obj
-								if reg1617 == True {
-									reg1618 := True
-									reg1620 = reg1618
-								} else {
-									reg1619 := False
-									reg1620 = reg1619
-								}
-								reg1622 = reg1620
-							} else {
-								reg1621 := False
-								reg1622 = reg1621
-							}
-							var reg1658 Obj
-							if reg1622 == True {
-								reg1623 := Call(__e, __defun__shen_4hdhd, V190)
-								reg1624 := Call(__e, __defun__shen_4hdtl, V190)
-								reg1625 := Call(__e, __defun__shen_4pair, reg1623, reg1624)
-								reg1626 := Call(__e, __defun__shen_4tlhd, reg1625)
-								reg1627 := Call(__e, __defun__shen_4hdhd, V190)
-								reg1628 := Call(__e, __defun__shen_4hdtl, V190)
-								reg1629 := Call(__e, __defun__shen_4pair, reg1627, reg1628)
-								reg1630 := Call(__e, __defun__shen_4hdtl, reg1629)
-								reg1631 := Call(__e, __defun__shen_4pair, reg1626, reg1630)
-								NewStream187 := reg1631
-								_ = NewStream187
-								reg1632 := PrimHead(NewStream187)
-								reg1633 := PrimIsPair(reg1632)
-								var reg1641 Obj
-								if reg1633 == True {
-									reg1634 := MakeNumber(0)
-									reg1635 := Call(__e, __defun__shen_4hdhd, NewStream187)
-									reg1636 := PrimEqual(reg1634, reg1635)
-									var reg1639 Obj
-									if reg1636 == True {
-										reg1637 := True
-										reg1639 = reg1637
+					if True == gen175 {
+						gen178 = True
+					} else {
+						gen178 = False
+					}
+
+				} else {
+					gen178 = False
+				}
+				if True == gen178 {
+					gen180 = True
+				} else {
+					gen180 = False
+				}
+
+			} else {
+				gen180 = False
+			}
+			if True == gen180 {
+				gen152 := Call(__e, ShenFunc(symhd), V177)
+
+				gen153 := Call(__e, ShenFunc(symtl), V177)
+
+				gen154 := Call(__e, ShenFunc(symtl), gen153)
+
+				gen155 := Call(__e, ShenFunc(symcons), gen154, Nil)
+
+				gen156 := Call(__e, ShenFunc(symcons), MakeSymbol("-->"), gen155)
+
+				gen157 := Call(__e, ShenFunc(symcons), gen152, gen156)
+
+				__e.TailApply(ShenFunc(symshen_4curry_1type_1h), gen157)
+
+				return
+
+			} else {
+				gen150 := Call(__e, ShenFunc(symcons_2), V177)
+
+				var gen151 Obj
+				if True == gen150 {
+					gen147 := Call(__e, ShenFunc(symtl), V177)
+
+					gen148 := Call(__e, ShenFunc(symcons_2), gen147)
+
+					var gen149 Obj
+					if True == gen148 {
+						gen143 := Call(__e, ShenFunc(symtl), V177)
+
+						gen144 := Call(__e, ShenFunc(symhd), gen143)
+
+						gen145 := Call(__e, ShenFunc(sym_a), MakeSymbol("*"), gen144)
+
+						var gen146 Obj
+						if True == gen145 {
+							gen139 := Call(__e, ShenFunc(symtl), V177)
+
+							gen140 := Call(__e, ShenFunc(symtl), gen139)
+
+							gen141 := Call(__e, ShenFunc(symcons_2), gen140)
+
+							var gen142 Obj
+							if True == gen141 {
+								gen134 := Call(__e, ShenFunc(symtl), V177)
+
+								gen135 := Call(__e, ShenFunc(symtl), gen134)
+
+								gen136 := Call(__e, ShenFunc(symtl), gen135)
+
+								gen137 := Call(__e, ShenFunc(symcons_2), gen136)
+
+								var gen138 Obj
+								if True == gen137 {
+									gen129 := Call(__e, ShenFunc(symtl), V177)
+
+									gen130 := Call(__e, ShenFunc(symtl), gen129)
+
+									gen131 := Call(__e, ShenFunc(symtl), gen130)
+
+									gen132 := Call(__e, ShenFunc(symhd), gen131)
+
+									gen133 := Call(__e, ShenFunc(sym_a), MakeSymbol("*"), gen132)
+
+									if True == gen133 {
+										gen138 = True
 									} else {
-										reg1638 := False
-										reg1639 = reg1638
+										gen138 = False
 									}
-									reg1641 = reg1639
+
 								} else {
-									reg1640 := False
-									reg1641 = reg1640
+									gen138 = False
 								}
-								var reg1656 Obj
-								if reg1641 == True {
-									reg1642 := Call(__e, __defun__shen_4tlhd, NewStream187)
-									reg1643 := Call(__e, __defun__shen_4hdtl, NewStream187)
-									reg1644 := Call(__e, __defun__shen_4pair, reg1642, reg1643)
-									NewStream188 := reg1644
-									_ = NewStream188
-									reg1645 := Call(__e, __defun__shen_4tlhd, V190)
-									reg1646 := Call(__e, __defun__shen_4hdtl, V190)
-									reg1647 := Call(__e, __defun__shen_4pair, reg1645, reg1646)
-									reg1648 := PrimHead(reg1647)
-									reg1649 := MakeSymbol("vector")
-									reg1650 := MakeNumber(0)
-									reg1651 := Nil
-									reg1652 := PrimCons(reg1650, reg1651)
-									reg1653 := PrimCons(reg1649, reg1652)
-									reg1654 := Call(__e, __defun__shen_4pair, reg1648, reg1653)
-									reg1656 = reg1654
+								if True == gen138 {
+									gen142 = True
 								} else {
-									reg1655 := Call(__e, __defun__fail)
-									reg1656 = reg1655
+									gen142 = False
 								}
-								reg1658 = reg1656
+
 							} else {
-								reg1657 := Call(__e, __defun__fail)
-								reg1658 = reg1657
+								gen142 = False
 							}
-							reg1660 = reg1658
+							if True == gen142 {
+								gen146 = True
+							} else {
+								gen146 = False
+							}
+
 						} else {
-							reg1659 := Call(__e, __defun__fail)
-							reg1660 = reg1659
+							gen146 = False
 						}
-						YaccParse := reg1660
-						_ = YaccParse
-						reg1661 := Call(__e, __defun__fail)
-						reg1662 := PrimEqual(YaccParse, reg1661)
-						if reg1662 == True {
-							reg1663 := PrimHead(V190)
-							reg1664 := PrimIsPair(reg1663)
-							var reg1676 Obj
-							if reg1664 == True {
-								reg1665 := Call(__e, __defun__shen_4hdhd, V190)
-								Parse__X := reg1665
-								_ = Parse__X
-								reg1666 := PrimIsPair(Parse__X)
-								var reg1674 Obj
-								if reg1666 == True {
-									reg1667 := Call(__e, __defun__shen_4tlhd, V190)
-									reg1668 := Call(__e, __defun__shen_4hdtl, V190)
-									reg1669 := Call(__e, __defun__shen_4pair, reg1667, reg1668)
-									reg1670 := PrimHead(reg1669)
-									reg1671 := Call(__e, __defun__shen_4constructor_1error, Parse__X)
-									reg1672 := Call(__e, __defun__shen_4pair, reg1670, reg1671)
-									reg1674 = reg1672
-								} else {
-									reg1673 := Call(__e, __defun__fail)
-									reg1674 = reg1673
-								}
-								reg1676 = reg1674
+						if True == gen146 {
+							gen149 = True
+						} else {
+							gen149 = False
+						}
+
+					} else {
+						gen149 = False
+					}
+					if True == gen149 {
+						gen151 = True
+					} else {
+						gen151 = False
+					}
+
+				} else {
+					gen151 = False
+				}
+				if True == gen151 {
+					gen123 := Call(__e, ShenFunc(symhd), V177)
+
+					gen124 := Call(__e, ShenFunc(symtl), V177)
+
+					gen125 := Call(__e, ShenFunc(symtl), gen124)
+
+					gen126 := Call(__e, ShenFunc(symcons), gen125, Nil)
+
+					gen127 := Call(__e, ShenFunc(symcons), MakeSymbol("*"), gen126)
+
+					gen128 := Call(__e, ShenFunc(symcons), gen123, gen127)
+
+					__e.TailApply(ShenFunc(symshen_4curry_1type_1h), gen128)
+
+					return
+
+				} else {
+					gen122 := Call(__e, ShenFunc(symcons_2), V177)
+
+					if True == gen122 {
+						gen121 := MakeNative(func(__e Evaluator, __args ...Obj) {
+							Z := __args[0]
+							_ = Z
+							__e.TailApply(ShenFunc(symshen_4curry_1type_1h), Z)
+
+							return
+						}, 1)
+						__e.TailApply(ShenFunc(symmap), gen121, V177)
+
+						return
+
+					} else {
+						__e.Return(V177)
+						return
+					}
+
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.curry-type-h"), gen181)
+
+		gen207 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V179 := __args[0]
+			_ = V179
+			gen197 := Call(__e, ShenFunc(symhd), V179)
+
+			gen198 := Call(__e, ShenFunc(symcons_2), gen197)
+
+			var gen199 Obj
+			if True == gen198 {
+				gen182 := Call(__e, ShenFunc(symshen_4hdhd), V179)
+
+				Parse__X := gen182
+				gen183 := Call(__e, ShenFunc(symshen_4tlhd), V179)
+
+				gen184 := Call(__e, ShenFunc(symshen_4hdtl), V179)
+
+				gen185 := Call(__e, ShenFunc(symshen_4pair), gen183, gen184)
+
+				gen186 := Call(__e, ShenFunc(symshen_4_5signature_1help_6), gen185)
+
+				Parse__shen_4_5signature_1help_6 := gen186
+				gen194 := Call(__e, ShenFunc(symfail))
+
+				gen195 := Call(__e, ShenFunc(sym_a), gen194, Parse__shen_4_5signature_1help_6)
+
+				gen196 := Call(__e, ShenFunc(symnot), gen195)
+
+				if True == gen196 {
+					gen190 := Call(__e, ShenFunc(symcons), MakeSymbol("}"), Nil)
+
+					gen191 := Call(__e, ShenFunc(symcons), MakeSymbol("{"), gen190)
+
+					gen192 := Call(__e, ShenFunc(symelement_2), Parse__X, gen191)
+
+					gen193 := Call(__e, ShenFunc(symnot), gen192)
+
+					if True == gen193 {
+						gen187 := Call(__e, ShenFunc(symhd), Parse__shen_4_5signature_1help_6)
+
+						gen188 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5signature_1help_6)
+
+						gen189 := Call(__e, ShenFunc(symcons), Parse__X, gen188)
+
+						gen199 = Call(__e, ShenFunc(symshen_4pair), gen187, gen189)
+
+					} else {
+						gen199 = Call(__e, ShenFunc(symfail))
+
+					}
+
+				} else {
+					gen199 = Call(__e, ShenFunc(symfail))
+
+				}
+
+			} else {
+				gen199 = Call(__e, ShenFunc(symfail))
+
+			}
+			YaccParse := gen199
+			gen205 := Call(__e, ShenFunc(symfail))
+
+			gen206 := Call(__e, ShenFunc(sym_a), YaccParse, gen205)
+
+			if True == gen206 {
+				gen200 := Call(__e, ShenFunc(sym_5e_6), V179)
+
+				Parse___5e_6 := gen200
+				gen202 := Call(__e, ShenFunc(symfail))
+
+				gen203 := Call(__e, ShenFunc(sym_a), gen202, Parse___5e_6)
+
+				gen204 := Call(__e, ShenFunc(symnot), gen203)
+
+				if True == gen204 {
+					gen201 := Call(__e, ShenFunc(symhd), Parse___5e_6)
+
+					__e.TailApply(ShenFunc(symshen_4pair), gen201, Nil)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symfail))
+
+					return
+				}
+
+			} else {
+				__e.Return(YaccParse)
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<signature-help>"), gen207)
+
+		gen232 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V181 := __args[0]
+			_ = V181
+			gen208 := Call(__e, ShenFunc(symshen_4_5rule_6), V181)
+
+			Parse__shen_4_5rule_6 := gen208
+			gen218 := Call(__e, ShenFunc(symfail))
+
+			gen219 := Call(__e, ShenFunc(sym_a), gen218, Parse__shen_4_5rule_6)
+
+			gen220 := Call(__e, ShenFunc(symnot), gen219)
+
+			var gen221 Obj
+			if True == gen220 {
+				gen209 := Call(__e, ShenFunc(symshen_4_5rules_6), Parse__shen_4_5rule_6)
+
+				Parse__shen_4_5rules_6 := gen209
+				gen215 := Call(__e, ShenFunc(symfail))
+
+				gen216 := Call(__e, ShenFunc(sym_a), gen215, Parse__shen_4_5rules_6)
+
+				gen217 := Call(__e, ShenFunc(symnot), gen216)
+
+				if True == gen217 {
+					gen210 := Call(__e, ShenFunc(symhd), Parse__shen_4_5rules_6)
+
+					gen211 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5rule_6)
+
+					gen212 := Call(__e, ShenFunc(symshen_4linearise), gen211)
+
+					gen213 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5rules_6)
+
+					gen214 := Call(__e, ShenFunc(symcons), gen212, gen213)
+
+					gen221 = Call(__e, ShenFunc(symshen_4pair), gen210, gen214)
+
+				} else {
+					gen221 = Call(__e, ShenFunc(symfail))
+
+				}
+
+			} else {
+				gen221 = Call(__e, ShenFunc(symfail))
+
+			}
+			YaccParse := gen221
+			gen230 := Call(__e, ShenFunc(symfail))
+
+			gen231 := Call(__e, ShenFunc(sym_a), YaccParse, gen230)
+
+			if True == gen231 {
+				gen222 := Call(__e, ShenFunc(symshen_4_5rule_6), V181)
+
+				Parse__shen_4_5rule_6 := gen222
+				gen227 := Call(__e, ShenFunc(symfail))
+
+				gen228 := Call(__e, ShenFunc(sym_a), gen227, Parse__shen_4_5rule_6)
+
+				gen229 := Call(__e, ShenFunc(symnot), gen228)
+
+				if True == gen229 {
+					gen223 := Call(__e, ShenFunc(symhd), Parse__shen_4_5rule_6)
+
+					gen224 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5rule_6)
+
+					gen225 := Call(__e, ShenFunc(symshen_4linearise), gen224)
+
+					gen226 := Call(__e, ShenFunc(symcons), gen225, Nil)
+
+					__e.TailApply(ShenFunc(symshen_4pair), gen223, gen226)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symfail))
+
+					return
+				}
+
+			} else {
+				__e.Return(YaccParse)
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<rules>"), gen232)
+
+		gen362 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V189 := __args[0]
+			_ = V189
+			gen233 := Call(__e, ShenFunc(symshen_4_5patterns_6), V189)
+
+			Parse__shen_4_5patterns_6 := gen233
+			gen267 := Call(__e, ShenFunc(symfail))
+
+			gen268 := Call(__e, ShenFunc(sym_a), gen267, Parse__shen_4_5patterns_6)
+
+			gen269 := Call(__e, ShenFunc(symnot), gen268)
+
+			var gen270 Obj
+			if True == gen269 {
+				gen264 := Call(__e, ShenFunc(symhd), Parse__shen_4_5patterns_6)
+
+				gen265 := Call(__e, ShenFunc(symcons_2), gen264)
+
+				var gen266 Obj
+				if True == gen265 {
+					gen262 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5patterns_6)
+
+					gen263 := Call(__e, ShenFunc(sym_a), MakeSymbol("->"), gen262)
+
+					if True == gen263 {
+						gen266 = True
+					} else {
+						gen266 = False
+					}
+
+				} else {
+					gen266 = False
+				}
+				if True == gen266 {
+					gen234 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5patterns_6)
+
+					gen235 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+					gen236 := Call(__e, ShenFunc(symshen_4pair), gen234, gen235)
+
+					NewStream182 := gen236
+					gen237 := Call(__e, ShenFunc(symshen_4_5action_6), NewStream182)
+
+					Parse__shen_4_5action_6 := gen237
+					gen259 := Call(__e, ShenFunc(symfail))
+
+					gen260 := Call(__e, ShenFunc(sym_a), gen259, Parse__shen_4_5action_6)
+
+					gen261 := Call(__e, ShenFunc(symnot), gen260)
+
+					if True == gen261 {
+						gen256 := Call(__e, ShenFunc(symhd), Parse__shen_4_5action_6)
+
+						gen257 := Call(__e, ShenFunc(symcons_2), gen256)
+
+						var gen258 Obj
+						if True == gen257 {
+							gen254 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5action_6)
+
+							gen255 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen254)
+
+							if True == gen255 {
+								gen258 = True
 							} else {
-								reg1675 := Call(__e, __defun__fail)
-								reg1676 = reg1675
+								gen258 = False
 							}
-							YaccParse := reg1676
-							_ = YaccParse
-							reg1677 := Call(__e, __defun__fail)
-							reg1678 := PrimEqual(YaccParse, reg1677)
-							if reg1678 == True {
-								reg1679 := Call(__e, __defun__shen_4_5simple__pattern_6, V190)
-								Parse__shen_4_5simple__pattern_6 := reg1679
-								_ = Parse__shen_4_5simple__pattern_6
-								reg1680 := Call(__e, __defun__fail)
-								reg1681 := PrimEqual(reg1680, Parse__shen_4_5simple__pattern_6)
-								reg1682 := PrimNot(reg1681)
-								if reg1682 == True {
-									reg1683 := PrimHead(Parse__shen_4_5simple__pattern_6)
-									reg1684 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5simple__pattern_6)
-									__e.TailApply(__defun__shen_4pair, reg1683, reg1684)
-									return
+
+						} else {
+							gen258 = False
+						}
+						if True == gen258 {
+							gen238 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5action_6)
+
+							gen239 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5action_6)
+
+							gen240 := Call(__e, ShenFunc(symshen_4pair), gen238, gen239)
+
+							NewStream183 := gen240
+							gen241 := Call(__e, ShenFunc(symshen_4_5guard_6), NewStream183)
+
+							Parse__shen_4_5guard_6 := gen241
+							gen251 := Call(__e, ShenFunc(symfail))
+
+							gen252 := Call(__e, ShenFunc(sym_a), gen251, Parse__shen_4_5guard_6)
+
+							gen253 := Call(__e, ShenFunc(symnot), gen252)
+
+							if True == gen253 {
+								gen242 := Call(__e, ShenFunc(symhd), Parse__shen_4_5guard_6)
+
+								gen243 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+								gen244 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5guard_6)
+
+								gen245 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5action_6)
+
+								gen246 := Call(__e, ShenFunc(symcons), gen245, Nil)
+
+								gen247 := Call(__e, ShenFunc(symcons), gen244, gen246)
+
+								gen248 := Call(__e, ShenFunc(symcons), MakeSymbol("where"), gen247)
+
+								gen249 := Call(__e, ShenFunc(symcons), gen248, Nil)
+
+								gen250 := Call(__e, ShenFunc(symcons), gen243, gen249)
+
+								gen270 = Call(__e, ShenFunc(symshen_4pair), gen242, gen250)
+
+							} else {
+								gen270 = Call(__e, ShenFunc(symfail))
+
+							}
+
+						} else {
+							gen270 = Call(__e, ShenFunc(symfail))
+
+						}
+
+					} else {
+						gen270 = Call(__e, ShenFunc(symfail))
+
+					}
+
+				} else {
+					gen270 = Call(__e, ShenFunc(symfail))
+
+				}
+
+			} else {
+				gen270 = Call(__e, ShenFunc(symfail))
+
+			}
+			YaccParse := gen270
+			gen360 := Call(__e, ShenFunc(symfail))
+
+			gen361 := Call(__e, ShenFunc(sym_a), YaccParse, gen360)
+
+			if True == gen361 {
+				gen271 := Call(__e, ShenFunc(symshen_4_5patterns_6), V189)
+
+				Parse__shen_4_5patterns_6 := gen271
+				gen289 := Call(__e, ShenFunc(symfail))
+
+				gen290 := Call(__e, ShenFunc(sym_a), gen289, Parse__shen_4_5patterns_6)
+
+				gen291 := Call(__e, ShenFunc(symnot), gen290)
+
+				var gen292 Obj
+				if True == gen291 {
+					gen286 := Call(__e, ShenFunc(symhd), Parse__shen_4_5patterns_6)
+
+					gen287 := Call(__e, ShenFunc(symcons_2), gen286)
+
+					var gen288 Obj
+					if True == gen287 {
+						gen284 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5patterns_6)
+
+						gen285 := Call(__e, ShenFunc(sym_a), MakeSymbol("->"), gen284)
+
+						if True == gen285 {
+							gen288 = True
+						} else {
+							gen288 = False
+						}
+
+					} else {
+						gen288 = False
+					}
+					if True == gen288 {
+						gen272 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5patterns_6)
+
+						gen273 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+						gen274 := Call(__e, ShenFunc(symshen_4pair), gen272, gen273)
+
+						NewStream184 := gen274
+						gen275 := Call(__e, ShenFunc(symshen_4_5action_6), NewStream184)
+
+						Parse__shen_4_5action_6 := gen275
+						gen281 := Call(__e, ShenFunc(symfail))
+
+						gen282 := Call(__e, ShenFunc(sym_a), gen281, Parse__shen_4_5action_6)
+
+						gen283 := Call(__e, ShenFunc(symnot), gen282)
+
+						if True == gen283 {
+							gen276 := Call(__e, ShenFunc(symhd), Parse__shen_4_5action_6)
+
+							gen277 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+							gen278 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5action_6)
+
+							gen279 := Call(__e, ShenFunc(symcons), gen278, Nil)
+
+							gen280 := Call(__e, ShenFunc(symcons), gen277, gen279)
+
+							gen292 = Call(__e, ShenFunc(symshen_4pair), gen276, gen280)
+
+						} else {
+							gen292 = Call(__e, ShenFunc(symfail))
+
+						}
+
+					} else {
+						gen292 = Call(__e, ShenFunc(symfail))
+
+					}
+
+				} else {
+					gen292 = Call(__e, ShenFunc(symfail))
+
+				}
+				YaccParse := gen292
+				gen358 := Call(__e, ShenFunc(symfail))
+
+				gen359 := Call(__e, ShenFunc(sym_a), YaccParse, gen358)
+
+				if True == gen359 {
+					gen293 := Call(__e, ShenFunc(symshen_4_5patterns_6), V189)
+
+					Parse__shen_4_5patterns_6 := gen293
+					gen329 := Call(__e, ShenFunc(symfail))
+
+					gen330 := Call(__e, ShenFunc(sym_a), gen329, Parse__shen_4_5patterns_6)
+
+					gen331 := Call(__e, ShenFunc(symnot), gen330)
+
+					var gen332 Obj
+					if True == gen331 {
+						gen326 := Call(__e, ShenFunc(symhd), Parse__shen_4_5patterns_6)
+
+						gen327 := Call(__e, ShenFunc(symcons_2), gen326)
+
+						var gen328 Obj
+						if True == gen327 {
+							gen324 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5patterns_6)
+
+							gen325 := Call(__e, ShenFunc(sym_a), MakeSymbol("<-"), gen324)
+
+							if True == gen325 {
+								gen328 = True
+							} else {
+								gen328 = False
+							}
+
+						} else {
+							gen328 = False
+						}
+						if True == gen328 {
+							gen294 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5patterns_6)
+
+							gen295 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+							gen296 := Call(__e, ShenFunc(symshen_4pair), gen294, gen295)
+
+							NewStream185 := gen296
+							gen297 := Call(__e, ShenFunc(symshen_4_5action_6), NewStream185)
+
+							Parse__shen_4_5action_6 := gen297
+							gen321 := Call(__e, ShenFunc(symfail))
+
+							gen322 := Call(__e, ShenFunc(sym_a), gen321, Parse__shen_4_5action_6)
+
+							gen323 := Call(__e, ShenFunc(symnot), gen322)
+
+							if True == gen323 {
+								gen318 := Call(__e, ShenFunc(symhd), Parse__shen_4_5action_6)
+
+								gen319 := Call(__e, ShenFunc(symcons_2), gen318)
+
+								var gen320 Obj
+								if True == gen319 {
+									gen316 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5action_6)
+
+									gen317 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen316)
+
+									if True == gen317 {
+										gen320 = True
+									} else {
+										gen320 = False
+									}
+
 								} else {
-									__e.TailApply(__defun__fail)
+									gen320 = False
+								}
+								if True == gen320 {
+									gen298 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5action_6)
+
+									gen299 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5action_6)
+
+									gen300 := Call(__e, ShenFunc(symshen_4pair), gen298, gen299)
+
+									NewStream186 := gen300
+									gen301 := Call(__e, ShenFunc(symshen_4_5guard_6), NewStream186)
+
+									Parse__shen_4_5guard_6 := gen301
+									gen313 := Call(__e, ShenFunc(symfail))
+
+									gen314 := Call(__e, ShenFunc(sym_a), gen313, Parse__shen_4_5guard_6)
+
+									gen315 := Call(__e, ShenFunc(symnot), gen314)
+
+									if True == gen315 {
+										gen302 := Call(__e, ShenFunc(symhd), Parse__shen_4_5guard_6)
+
+										gen303 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+										gen304 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5guard_6)
+
+										gen305 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5action_6)
+
+										gen306 := Call(__e, ShenFunc(symcons), gen305, Nil)
+
+										gen307 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.choicepoint!"), gen306)
+
+										gen308 := Call(__e, ShenFunc(symcons), gen307, Nil)
+
+										gen309 := Call(__e, ShenFunc(symcons), gen304, gen308)
+
+										gen310 := Call(__e, ShenFunc(symcons), MakeSymbol("where"), gen309)
+
+										gen311 := Call(__e, ShenFunc(symcons), gen310, Nil)
+
+										gen312 := Call(__e, ShenFunc(symcons), gen303, gen311)
+
+										gen332 = Call(__e, ShenFunc(symshen_4pair), gen302, gen312)
+
+									} else {
+										gen332 = Call(__e, ShenFunc(symfail))
+
+									}
+
+								} else {
+									gen332 = Call(__e, ShenFunc(symfail))
+
+								}
+
+							} else {
+								gen332 = Call(__e, ShenFunc(symfail))
+
+							}
+
+						} else {
+							gen332 = Call(__e, ShenFunc(symfail))
+
+						}
+
+					} else {
+						gen332 = Call(__e, ShenFunc(symfail))
+
+					}
+					YaccParse := gen332
+					gen356 := Call(__e, ShenFunc(symfail))
+
+					gen357 := Call(__e, ShenFunc(sym_a), YaccParse, gen356)
+
+					if True == gen357 {
+						gen333 := Call(__e, ShenFunc(symshen_4_5patterns_6), V189)
+
+						Parse__shen_4_5patterns_6 := gen333
+						gen353 := Call(__e, ShenFunc(symfail))
+
+						gen354 := Call(__e, ShenFunc(sym_a), gen353, Parse__shen_4_5patterns_6)
+
+						gen355 := Call(__e, ShenFunc(symnot), gen354)
+
+						if True == gen355 {
+							gen350 := Call(__e, ShenFunc(symhd), Parse__shen_4_5patterns_6)
+
+							gen351 := Call(__e, ShenFunc(symcons_2), gen350)
+
+							var gen352 Obj
+							if True == gen351 {
+								gen348 := Call(__e, ShenFunc(symshen_4hdhd), Parse__shen_4_5patterns_6)
+
+								gen349 := Call(__e, ShenFunc(sym_a), MakeSymbol("<-"), gen348)
+
+								if True == gen349 {
+									gen352 = True
+								} else {
+									gen352 = False
+								}
+
+							} else {
+								gen352 = False
+							}
+							if True == gen352 {
+								gen334 := Call(__e, ShenFunc(symshen_4tlhd), Parse__shen_4_5patterns_6)
+
+								gen335 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+								gen336 := Call(__e, ShenFunc(symshen_4pair), gen334, gen335)
+
+								NewStream187 := gen336
+								gen337 := Call(__e, ShenFunc(symshen_4_5action_6), NewStream187)
+
+								Parse__shen_4_5action_6 := gen337
+								gen345 := Call(__e, ShenFunc(symfail))
+
+								gen346 := Call(__e, ShenFunc(sym_a), gen345, Parse__shen_4_5action_6)
+
+								gen347 := Call(__e, ShenFunc(symnot), gen346)
+
+								if True == gen347 {
+									gen338 := Call(__e, ShenFunc(symhd), Parse__shen_4_5action_6)
+
+									gen339 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+									gen340 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5action_6)
+
+									gen341 := Call(__e, ShenFunc(symcons), gen340, Nil)
+
+									gen342 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.choicepoint!"), gen341)
+
+									gen343 := Call(__e, ShenFunc(symcons), gen342, Nil)
+
+									gen344 := Call(__e, ShenFunc(symcons), gen339, gen343)
+
+									__e.TailApply(ShenFunc(symshen_4pair), gen338, gen344)
+
+									return
+
+								} else {
+									__e.TailApply(ShenFunc(symfail))
+
 									return
 								}
+
 							} else {
-								__e.Return(YaccParse)
+								__e.TailApply(ShenFunc(symfail))
+
 								return
 							}
+
 						} else {
-							__e.Return(YaccParse)
+							__e.TailApply(ShenFunc(symfail))
+
 							return
 						}
+
 					} else {
 						__e.Return(YaccParse)
 						return
 					}
+
 				} else {
 					__e.Return(YaccParse)
 					return
 				}
+
 			} else {
 				__e.Return(YaccParse)
 				return
 			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<pattern>", value: __defun__shen_4_5pattern_6})
 
-	__defun__shen_4constructor_1error = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V192 := __args[0]
-		_ = V192
-		reg1687 := MakeString(" is not a legitimate constructor\n")
-		reg1688 := MakeSymbol("shen.a")
-		reg1689 := Call(__e, __defun__shen_4app, V192, reg1687, reg1688)
-		reg1690 := PrimSimpleError(reg1689)
-		__e.Return(reg1690)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.constructor-error", value: __defun__shen_4constructor_1error})
-
-	__defun__shen_4_5simple__pattern_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V194 := __args[0]
-		_ = V194
-		reg1691 := PrimHead(V194)
-		reg1692 := PrimIsPair(reg1691)
-		var reg1706 Obj
-		if reg1692 == True {
-			reg1693 := Call(__e, __defun__shen_4hdhd, V194)
-			Parse__X := reg1693
-			_ = Parse__X
-			reg1694 := MakeSymbol("_")
-			reg1695 := PrimEqual(Parse__X, reg1694)
-			var reg1704 Obj
-			if reg1695 == True {
-				reg1696 := Call(__e, __defun__shen_4tlhd, V194)
-				reg1697 := Call(__e, __defun__shen_4hdtl, V194)
-				reg1698 := Call(__e, __defun__shen_4pair, reg1696, reg1697)
-				reg1699 := PrimHead(reg1698)
-				reg1700 := MakeSymbol("Parse_Y")
-				reg1701 := Call(__e, __defun__gensym, reg1700)
-				reg1702 := Call(__e, __defun__shen_4pair, reg1699, reg1701)
-				reg1704 = reg1702
-			} else {
-				reg1703 := Call(__e, __defun__fail)
-				reg1704 = reg1703
-			}
-			reg1706 = reg1704
-		} else {
-			reg1705 := Call(__e, __defun__fail)
-			reg1706 = reg1705
-		}
-		YaccParse := reg1706
-		_ = YaccParse
-		reg1707 := Call(__e, __defun__fail)
-		reg1708 := PrimEqual(YaccParse, reg1707)
-		if reg1708 == True {
-			reg1709 := PrimHead(V194)
-			reg1710 := PrimIsPair(reg1709)
-			if reg1710 == True {
-				reg1711 := Call(__e, __defun__shen_4hdhd, V194)
-				Parse__X := reg1711
-				_ = Parse__X
-				reg1712 := MakeSymbol("->")
-				reg1713 := MakeSymbol("<-")
-				reg1714 := Nil
-				reg1715 := PrimCons(reg1713, reg1714)
-				reg1716 := PrimCons(reg1712, reg1715)
-				reg1717 := Call(__e, __defun__element_2, Parse__X, reg1716)
-				reg1718 := PrimNot(reg1717)
-				if reg1718 == True {
-					reg1719 := Call(__e, __defun__shen_4tlhd, V194)
-					reg1720 := Call(__e, __defun__shen_4hdtl, V194)
-					reg1721 := Call(__e, __defun__shen_4pair, reg1719, reg1720)
-					reg1722 := PrimHead(reg1721)
-					__e.TailApply(__defun__shen_4pair, reg1722, Parse__X)
-					return
-				} else {
-					__e.TailApply(__defun__fail)
-					return
-				}
-			} else {
-				__e.TailApply(__defun__fail)
-				return
-			}
-		} else {
-			__e.Return(YaccParse)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<simple_pattern>", value: __defun__shen_4_5simple__pattern_6})
-
-	__defun__shen_4_5pattern1_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V196 := __args[0]
-		_ = V196
-		reg1726 := Call(__e, __defun__shen_4_5pattern_6, V196)
-		Parse__shen_4_5pattern_6 := reg1726
-		_ = Parse__shen_4_5pattern_6
-		reg1727 := Call(__e, __defun__fail)
-		reg1728 := PrimEqual(reg1727, Parse__shen_4_5pattern_6)
-		reg1729 := PrimNot(reg1728)
-		if reg1729 == True {
-			reg1730 := PrimHead(Parse__shen_4_5pattern_6)
-			reg1731 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern_6)
-			__e.TailApply(__defun__shen_4pair, reg1730, reg1731)
-			return
-		} else {
-			__e.TailApply(__defun__fail)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<pattern1>", value: __defun__shen_4_5pattern1_6})
-
-	__defun__shen_4_5pattern2_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V198 := __args[0]
-		_ = V198
-		reg1734 := Call(__e, __defun__shen_4_5pattern_6, V198)
-		Parse__shen_4_5pattern_6 := reg1734
-		_ = Parse__shen_4_5pattern_6
-		reg1735 := Call(__e, __defun__fail)
-		reg1736 := PrimEqual(reg1735, Parse__shen_4_5pattern_6)
-		reg1737 := PrimNot(reg1736)
-		if reg1737 == True {
-			reg1738 := PrimHead(Parse__shen_4_5pattern_6)
-			reg1739 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5pattern_6)
-			__e.TailApply(__defun__shen_4pair, reg1738, reg1739)
-			return
-		} else {
-			__e.TailApply(__defun__fail)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<pattern2>", value: __defun__shen_4_5pattern2_6})
-
-	__defun__shen_4_5action_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V200 := __args[0]
-		_ = V200
-		reg1742 := PrimHead(V200)
-		reg1743 := PrimIsPair(reg1742)
-		if reg1743 == True {
-			reg1744 := Call(__e, __defun__shen_4hdhd, V200)
-			Parse__X := reg1744
-			_ = Parse__X
-			reg1745 := Call(__e, __defun__shen_4tlhd, V200)
-			reg1746 := Call(__e, __defun__shen_4hdtl, V200)
-			reg1747 := Call(__e, __defun__shen_4pair, reg1745, reg1746)
-			reg1748 := PrimHead(reg1747)
-			__e.TailApply(__defun__shen_4pair, reg1748, Parse__X)
-			return
-		} else {
-			__e.TailApply(__defun__fail)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<action>", value: __defun__shen_4_5action_6})
-
-	__defun__shen_4_5guard_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V202 := __args[0]
-		_ = V202
-		reg1751 := PrimHead(V202)
-		reg1752 := PrimIsPair(reg1751)
-		if reg1752 == True {
-			reg1753 := Call(__e, __defun__shen_4hdhd, V202)
-			Parse__X := reg1753
-			_ = Parse__X
-			reg1754 := Call(__e, __defun__shen_4tlhd, V202)
-			reg1755 := Call(__e, __defun__shen_4hdtl, V202)
-			reg1756 := Call(__e, __defun__shen_4pair, reg1754, reg1755)
-			reg1757 := PrimHead(reg1756)
-			__e.TailApply(__defun__shen_4pair, reg1757, Parse__X)
-			return
-		} else {
-			__e.TailApply(__defun__fail)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<guard>", value: __defun__shen_4_5guard_6})
-
-	__defun__shen_4compile__to__machine__code = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V205 := __args[0]
-		_ = V205
-		V206 := __args[1]
-		_ = V206
-		reg1760 := Call(__e, __defun__shen_4compile__to__lambda_7, V205, V206)
-		Lambda_7 := reg1760
-		_ = Lambda_7
-		reg1761 := Call(__e, __defun__shen_4compile__to__kl, V205, Lambda_7)
-		KL := reg1761
-		_ = KL
-		reg1762 := Call(__e, __defun__shen_4record_1source, V205, KL)
-		Record := reg1762
-		_ = Record
-		__e.Return(KL)
-		return
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.compile_to_machine_code", value: __defun__shen_4compile__to__machine__code})
-
-	__defun__shen_4record_1source = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V211 := __args[0]
-		_ = V211
-		V212 := __args[1]
-		_ = V212
-		reg1763 := MakeSymbol("shen.*installing-kl*")
-		reg1764 := PrimValue(reg1763)
-		if reg1764 == True {
-			reg1765 := MakeSymbol("shen.skip")
-			__e.Return(reg1765)
-			return
-		} else {
-			reg1766 := MakeSymbol("shen.source")
-			reg1767 := MakeSymbol("*property-vector*")
-			reg1768 := PrimValue(reg1767)
-			__e.TailApply(__defun__put, V211, reg1766, V212, reg1768)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.record-source", value: __defun__shen_4record_1source})
-
-	__defun__shen_4compile__to__lambda_7 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V215 := __args[0]
-		_ = V215
-		V216 := __args[1]
-		_ = V216
-		reg1770 := Call(__e, __defun__shen_4aritycheck, V215, V216)
-		Arity := reg1770
-		_ = Arity
-		reg1771 := Call(__e, __defun__shen_4update_1symbol_1table, V215, Arity)
-		UpDateSymbolTable := reg1771
-		_ = UpDateSymbolTable
-		reg1772 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			Rule := __args[0]
-			_ = Rule
-			__e.TailApply(__defun__shen_4free__variable__check, V215, Rule)
-			return
 		}, 1)
-		reg1774 := Call(__e, __defun__shen_4for_1each, reg1772, V216)
-		Free := reg1774
-		_ = Free
-		reg1775 := Call(__e, __defun__shen_4parameters, Arity)
-		Variables := reg1775
-		_ = Variables
-		reg1776 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			X := __args[0]
-			_ = X
-			__e.TailApply(__defun__shen_4strip_1protect, X)
-			return
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<rule>"), gen362)
+
+		gen364 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V192 := __args[0]
+			_ = V192
+			V193 := __args[1]
+			_ = V193
+			gen363 := Call(__e, V192, V193)
+
+			if True == gen363 {
+				__e.TailApply(ShenFunc(symfail))
+
+				return
+			} else {
+				__e.Return(V193)
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.fail_if"), gen364)
+
+		gen367 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V199 := __args[0]
+			_ = V199
+			gen365 := Call(__e, ShenFunc(symfail))
+
+			gen366 := Call(__e, ShenFunc(sym_a), V199, gen365)
+
+			if True == gen366 {
+				__e.Return(False)
+				return
+			} else {
+				__e.Return(True)
+				return
+			}
+
 		}, 1)
-		reg1778 := Call(__e, __defun__map, reg1776, V216)
-		Strip := reg1778
-		_ = Strip
-		reg1779 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			X := __args[0]
-			_ = X
-			__e.TailApply(__defun__shen_4abstract__rule, X)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.succeeds?"), gen367)
+
+		gen369 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V202 := __args[0]
+			_ = V202
+			V203 := __args[1]
+			_ = V203
+			gen368 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*custom-pattern-compiler*"))
+
+			f28 := gen368
+			__e.TailApply(f28, V202, V203)
+
 			return
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.custom-pattern-compiler"), gen369)
+
+		gen371 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V205 := __args[0]
+			_ = V205
+			gen370 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*custom-pattern-reducer*"))
+
+			f29 := gen370
+			__e.TailApply(f29, V205)
+
+			return
+
 		}, 1)
-		reg1781 := Call(__e, __defun__map, reg1779, Strip)
-		Abstractions := reg1781
-		_ = Abstractions
-		reg1782 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			X := __args[0]
-			_ = X
-			__e.TailApply(__defun__shen_4application__build, Variables, X)
-			return
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.custom-pattern-reducer"), gen371)
+
+		gen392 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V207 := __args[0]
+			_ = V207
+			gen372 := Call(__e, ShenFunc(symshen_4_5pattern_6), V207)
+
+			Parse__shen_4_5pattern_6 := gen372
+			gen381 := Call(__e, ShenFunc(symfail))
+
+			gen382 := Call(__e, ShenFunc(sym_a), gen381, Parse__shen_4_5pattern_6)
+
+			gen383 := Call(__e, ShenFunc(symnot), gen382)
+
+			var gen384 Obj
+			if True == gen383 {
+				gen373 := Call(__e, ShenFunc(symshen_4_5patterns_6), Parse__shen_4_5pattern_6)
+
+				Parse__shen_4_5patterns_6 := gen373
+				gen378 := Call(__e, ShenFunc(symfail))
+
+				gen379 := Call(__e, ShenFunc(sym_a), gen378, Parse__shen_4_5patterns_6)
+
+				gen380 := Call(__e, ShenFunc(symnot), gen379)
+
+				if True == gen380 {
+					gen374 := Call(__e, ShenFunc(symhd), Parse__shen_4_5patterns_6)
+
+					gen375 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern_6)
+
+					gen376 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5patterns_6)
+
+					gen377 := Call(__e, ShenFunc(symcons), gen375, gen376)
+
+					gen384 = Call(__e, ShenFunc(symshen_4pair), gen374, gen377)
+
+				} else {
+					gen384 = Call(__e, ShenFunc(symfail))
+
+				}
+
+			} else {
+				gen384 = Call(__e, ShenFunc(symfail))
+
+			}
+			YaccParse := gen384
+			gen390 := Call(__e, ShenFunc(symfail))
+
+			gen391 := Call(__e, ShenFunc(sym_a), YaccParse, gen390)
+
+			if True == gen391 {
+				gen385 := Call(__e, ShenFunc(sym_5e_6), V207)
+
+				Parse___5e_6 := gen385
+				gen387 := Call(__e, ShenFunc(symfail))
+
+				gen388 := Call(__e, ShenFunc(sym_a), gen387, Parse___5e_6)
+
+				gen389 := Call(__e, ShenFunc(symnot), gen388)
+
+				if True == gen389 {
+					gen386 := Call(__e, ShenFunc(symhd), Parse___5e_6)
+
+					__e.TailApply(ShenFunc(symshen_4pair), gen386, Nil)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symfail))
+
+					return
+				}
+
+			} else {
+				__e.Return(YaccParse)
+				return
+			}
+
 		}, 1)
-		reg1784 := Call(__e, __defun__map, reg1782, Abstractions)
-		Applications := reg1784
-		_ = Applications
-		reg1785 := Nil
-		reg1786 := PrimCons(Applications, reg1785)
-		reg1787 := PrimCons(Variables, reg1786)
-		__e.Return(reg1787)
-		return
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.compile_to_lambda+", value: __defun__shen_4compile__to__lambda_7})
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<patterns>"), gen392)
 
-	__defun__shen_4update_1symbol_1table = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V219 := __args[0]
-		_ = V219
-		V220 := __args[1]
-		_ = V220
-		reg1788 := MakeNumber(0)
-		reg1789 := PrimEqual(reg1788, V220)
-		if reg1789 == True {
-			reg1790 := MakeSymbol("shen.skip")
-			__e.Return(reg1790)
-			return
-		} else {
-			reg1791 := MakeSymbol("shen.lambda-form")
-			reg1792 := Call(__e, __defun__shen_4lambda_1form, V219, V220)
-			reg1793 := PrimEvalKL(__e, reg1792)
-			reg1794 := MakeSymbol("*property-vector*")
-			reg1795 := PrimValue(reg1794)
-			__e.TailApply(__defun__put, V219, reg1791, reg1793, reg1795)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.update-symbol-table", value: __defun__shen_4update_1symbol_1table})
+		gen634 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V220 := __args[0]
+			_ = V220
+			gen432 := Call(__e, ShenFunc(symhd), V220)
 
-	__defun__shen_4free__variable__check = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V223 := __args[0]
-		_ = V223
-		V224 := __args[1]
-		_ = V224
-		reg1797 := PrimIsPair(V224)
-		var reg1813 Obj
-		if reg1797 == True {
-			reg1798 := PrimTail(V224)
-			reg1799 := PrimIsPair(reg1798)
-			var reg1808 Obj
-			if reg1799 == True {
-				reg1800 := Nil
-				reg1801 := PrimTail(V224)
-				reg1802 := PrimTail(reg1801)
-				reg1803 := PrimEqual(reg1800, reg1802)
-				var reg1806 Obj
-				if reg1803 == True {
-					reg1804 := True
-					reg1806 = reg1804
+			gen433 := Call(__e, ShenFunc(symcons_2), gen432)
+
+			var gen434 Obj
+			if True == gen433 {
+				gen430 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+				gen431 := Call(__e, ShenFunc(symcons_2), gen430)
+
+				if True == gen431 {
+					gen434 = True
 				} else {
-					reg1805 := False
-					reg1806 = reg1805
+					gen434 = False
 				}
-				reg1808 = reg1806
-			} else {
-				reg1807 := False
-				reg1808 = reg1807
-			}
-			var reg1811 Obj
-			if reg1808 == True {
-				reg1809 := True
-				reg1811 = reg1809
-			} else {
-				reg1810 := False
-				reg1811 = reg1810
-			}
-			reg1813 = reg1811
-		} else {
-			reg1812 := False
-			reg1813 = reg1812
-		}
-		if reg1813 == True {
-			reg1814 := PrimHead(V224)
-			reg1815 := Call(__e, __defun__shen_4extract__vars, reg1814)
-			Bound := reg1815
-			_ = Bound
-			reg1816 := PrimTail(V224)
-			reg1817 := PrimHead(reg1816)
-			reg1818 := Call(__e, __defun__shen_4extract__free__vars, Bound, reg1817)
-			Free := reg1818
-			_ = Free
-			__e.TailApply(__defun__shen_4free__variable__warnings, V223, Free)
-			return
-		} else {
-			reg1820 := MakeSymbol("shen.free_variable_check")
-			__e.TailApply(__defun__shen_4f__error, reg1820)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.free_variable_check", value: __defun__shen_4free__variable__check})
 
-	__defun__shen_4extract__vars = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V226 := __args[0]
-		_ = V226
-		reg1822 := PrimIsVariable(V226)
-		if reg1822 == True {
-			reg1823 := Nil
-			reg1824 := PrimCons(V226, reg1823)
-			__e.Return(reg1824)
-			return
-		} else {
-			reg1825 := PrimIsPair(V226)
-			if reg1825 == True {
-				reg1826 := PrimHead(V226)
-				reg1827 := Call(__e, __defun__shen_4extract__vars, reg1826)
-				reg1828 := PrimTail(V226)
-				reg1829 := Call(__e, __defun__shen_4extract__vars, reg1828)
-				__e.TailApply(__defun__union, reg1827, reg1829)
-				return
 			} else {
-				reg1831 := Nil
-				__e.Return(reg1831)
-				return
+				gen434 = False
 			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.extract_vars", value: __defun__shen_4extract__vars})
+			var gen435 Obj
+			if True == gen434 {
+				gen424 := Call(__e, ShenFunc(symshen_4hdhd), V220)
 
-	__defun__shen_4extract__free__vars = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V238 := __args[0]
-		_ = V238
-		V239 := __args[1]
-		_ = V239
-		reg1832 := PrimIsPair(V239)
-		var reg1856 Obj
-		if reg1832 == True {
-			reg1833 := PrimTail(V239)
-			reg1834 := PrimIsPair(reg1833)
-			var reg1851 Obj
-			if reg1834 == True {
-				reg1835 := Nil
-				reg1836 := PrimTail(V239)
-				reg1837 := PrimTail(reg1836)
-				reg1838 := PrimEqual(reg1835, reg1837)
-				var reg1846 Obj
-				if reg1838 == True {
-					reg1839 := PrimHead(V239)
-					reg1840 := MakeSymbol("protect")
-					reg1841 := PrimEqual(reg1839, reg1840)
-					var reg1844 Obj
-					if reg1841 == True {
-						reg1842 := True
-						reg1844 = reg1842
+				gen425 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+				gen426 := Call(__e, ShenFunc(symshen_4pair), gen424, gen425)
+
+				gen427 := Call(__e, ShenFunc(symhd), gen426)
+
+				gen428 := Call(__e, ShenFunc(symcons_2), gen427)
+
+				var gen429 Obj
+				if True == gen428 {
+					gen419 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+					gen420 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+					gen421 := Call(__e, ShenFunc(symshen_4pair), gen419, gen420)
+
+					gen422 := Call(__e, ShenFunc(symshen_4hdhd), gen421)
+
+					gen423 := Call(__e, ShenFunc(sym_a), MakeSymbol("@p"), gen422)
+
+					if True == gen423 {
+						gen429 = True
 					} else {
-						reg1843 := False
-						reg1844 = reg1843
+						gen429 = False
 					}
-					reg1846 = reg1844
+
 				} else {
-					reg1845 := False
-					reg1846 = reg1845
+					gen429 = False
 				}
-				var reg1849 Obj
-				if reg1846 == True {
-					reg1847 := True
-					reg1849 = reg1847
+				if True == gen429 {
+					gen393 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+					gen394 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+					gen395 := Call(__e, ShenFunc(symshen_4pair), gen393, gen394)
+
+					gen396 := Call(__e, ShenFunc(symshen_4tlhd), gen395)
+
+					gen397 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+					gen398 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+					gen399 := Call(__e, ShenFunc(symshen_4pair), gen397, gen398)
+
+					gen400 := Call(__e, ShenFunc(symshen_4hdtl), gen399)
+
+					gen401 := Call(__e, ShenFunc(symshen_4pair), gen396, gen400)
+
+					NewStream209 := gen401
+					gen402 := Call(__e, ShenFunc(symshen_4_5pattern1_6), NewStream209)
+
+					Parse__shen_4_5pattern1_6 := gen402
+					gen416 := Call(__e, ShenFunc(symfail))
+
+					gen417 := Call(__e, ShenFunc(sym_a), gen416, Parse__shen_4_5pattern1_6)
+
+					gen418 := Call(__e, ShenFunc(symnot), gen417)
+
+					if True == gen418 {
+						gen403 := Call(__e, ShenFunc(symshen_4_5pattern2_6), Parse__shen_4_5pattern1_6)
+
+						Parse__shen_4_5pattern2_6 := gen403
+						gen413 := Call(__e, ShenFunc(symfail))
+
+						gen414 := Call(__e, ShenFunc(sym_a), gen413, Parse__shen_4_5pattern2_6)
+
+						gen415 := Call(__e, ShenFunc(symnot), gen414)
+
+						if True == gen415 {
+							gen404 := Call(__e, ShenFunc(symshen_4tlhd), V220)
+
+							gen405 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+							gen406 := Call(__e, ShenFunc(symshen_4pair), gen404, gen405)
+
+							gen407 := Call(__e, ShenFunc(symhd), gen406)
+
+							gen408 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern1_6)
+
+							gen409 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern2_6)
+
+							gen410 := Call(__e, ShenFunc(symcons), gen409, Nil)
+
+							gen411 := Call(__e, ShenFunc(symcons), gen408, gen410)
+
+							gen412 := Call(__e, ShenFunc(symcons), MakeSymbol("@p"), gen411)
+
+							gen435 = Call(__e, ShenFunc(symshen_4pair), gen407, gen412)
+
+						} else {
+							gen435 = Call(__e, ShenFunc(symfail))
+
+						}
+
+					} else {
+						gen435 = Call(__e, ShenFunc(symfail))
+
+					}
+
 				} else {
-					reg1848 := False
-					reg1849 = reg1848
+					gen435 = Call(__e, ShenFunc(symfail))
+
 				}
-				reg1851 = reg1849
+
 			} else {
-				reg1850 := False
-				reg1851 = reg1850
+				gen435 = Call(__e, ShenFunc(symfail))
+
 			}
-			var reg1854 Obj
-			if reg1851 == True {
-				reg1852 := True
-				reg1854 = reg1852
-			} else {
-				reg1853 := False
-				reg1854 = reg1853
-			}
-			reg1856 = reg1854
-		} else {
-			reg1855 := False
-			reg1856 = reg1855
-		}
-		if reg1856 == True {
-			reg1857 := Nil
-			__e.Return(reg1857)
-			return
-		} else {
-			reg1858 := PrimIsVariable(V239)
-			var reg1865 Obj
-			if reg1858 == True {
-				reg1859 := Call(__e, __defun__element_2, V239, V238)
-				reg1860 := PrimNot(reg1859)
-				var reg1863 Obj
-				if reg1860 == True {
-					reg1861 := True
-					reg1863 = reg1861
+			YaccParse := gen435
+			gen632 := Call(__e, ShenFunc(symfail))
+
+			gen633 := Call(__e, ShenFunc(sym_a), YaccParse, gen632)
+
+			if True == gen633 {
+				gen475 := Call(__e, ShenFunc(symhd), V220)
+
+				gen476 := Call(__e, ShenFunc(symcons_2), gen475)
+
+				var gen477 Obj
+				if True == gen476 {
+					gen473 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+					gen474 := Call(__e, ShenFunc(symcons_2), gen473)
+
+					if True == gen474 {
+						gen477 = True
+					} else {
+						gen477 = False
+					}
+
 				} else {
-					reg1862 := False
-					reg1863 = reg1862
+					gen477 = False
 				}
-				reg1865 = reg1863
-			} else {
-				reg1864 := False
-				reg1865 = reg1864
-			}
-			if reg1865 == True {
-				reg1866 := Nil
-				reg1867 := PrimCons(V239, reg1866)
-				__e.Return(reg1867)
-				return
-			} else {
-				reg1868 := PrimIsPair(V239)
-				var reg1901 Obj
-				if reg1868 == True {
-					reg1869 := MakeSymbol("lambda")
-					reg1870 := PrimHead(V239)
-					reg1871 := PrimEqual(reg1869, reg1870)
-					var reg1896 Obj
-					if reg1871 == True {
-						reg1872 := PrimTail(V239)
-						reg1873 := PrimIsPair(reg1872)
-						var reg1891 Obj
-						if reg1873 == True {
-							reg1874 := PrimTail(V239)
-							reg1875 := PrimTail(reg1874)
-							reg1876 := PrimIsPair(reg1875)
-							var reg1886 Obj
-							if reg1876 == True {
-								reg1877 := Nil
-								reg1878 := PrimTail(V239)
-								reg1879 := PrimTail(reg1878)
-								reg1880 := PrimTail(reg1879)
-								reg1881 := PrimEqual(reg1877, reg1880)
-								var reg1884 Obj
-								if reg1881 == True {
-									reg1882 := True
-									reg1884 = reg1882
+				var gen478 Obj
+				if True == gen477 {
+					gen467 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+					gen468 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+					gen469 := Call(__e, ShenFunc(symshen_4pair), gen467, gen468)
+
+					gen470 := Call(__e, ShenFunc(symhd), gen469)
+
+					gen471 := Call(__e, ShenFunc(symcons_2), gen470)
+
+					var gen472 Obj
+					if True == gen471 {
+						gen462 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+						gen463 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+						gen464 := Call(__e, ShenFunc(symshen_4pair), gen462, gen463)
+
+						gen465 := Call(__e, ShenFunc(symshen_4hdhd), gen464)
+
+						gen466 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons"), gen465)
+
+						if True == gen466 {
+							gen472 = True
+						} else {
+							gen472 = False
+						}
+
+					} else {
+						gen472 = False
+					}
+					if True == gen472 {
+						gen436 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+						gen437 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+						gen438 := Call(__e, ShenFunc(symshen_4pair), gen436, gen437)
+
+						gen439 := Call(__e, ShenFunc(symshen_4tlhd), gen438)
+
+						gen440 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+						gen441 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+						gen442 := Call(__e, ShenFunc(symshen_4pair), gen440, gen441)
+
+						gen443 := Call(__e, ShenFunc(symshen_4hdtl), gen442)
+
+						gen444 := Call(__e, ShenFunc(symshen_4pair), gen439, gen443)
+
+						NewStream211 := gen444
+						gen445 := Call(__e, ShenFunc(symshen_4_5pattern1_6), NewStream211)
+
+						Parse__shen_4_5pattern1_6 := gen445
+						gen459 := Call(__e, ShenFunc(symfail))
+
+						gen460 := Call(__e, ShenFunc(sym_a), gen459, Parse__shen_4_5pattern1_6)
+
+						gen461 := Call(__e, ShenFunc(symnot), gen460)
+
+						if True == gen461 {
+							gen446 := Call(__e, ShenFunc(symshen_4_5pattern2_6), Parse__shen_4_5pattern1_6)
+
+							Parse__shen_4_5pattern2_6 := gen446
+							gen456 := Call(__e, ShenFunc(symfail))
+
+							gen457 := Call(__e, ShenFunc(sym_a), gen456, Parse__shen_4_5pattern2_6)
+
+							gen458 := Call(__e, ShenFunc(symnot), gen457)
+
+							if True == gen458 {
+								gen447 := Call(__e, ShenFunc(symshen_4tlhd), V220)
+
+								gen448 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+								gen449 := Call(__e, ShenFunc(symshen_4pair), gen447, gen448)
+
+								gen450 := Call(__e, ShenFunc(symhd), gen449)
+
+								gen451 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern1_6)
+
+								gen452 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern2_6)
+
+								gen453 := Call(__e, ShenFunc(symcons), gen452, Nil)
+
+								gen454 := Call(__e, ShenFunc(symcons), gen451, gen453)
+
+								gen455 := Call(__e, ShenFunc(symcons), MakeSymbol("cons"), gen454)
+
+								gen478 = Call(__e, ShenFunc(symshen_4pair), gen450, gen455)
+
+							} else {
+								gen478 = Call(__e, ShenFunc(symfail))
+
+							}
+
+						} else {
+							gen478 = Call(__e, ShenFunc(symfail))
+
+						}
+
+					} else {
+						gen478 = Call(__e, ShenFunc(symfail))
+
+					}
+
+				} else {
+					gen478 = Call(__e, ShenFunc(symfail))
+
+				}
+				YaccParse := gen478
+				gen630 := Call(__e, ShenFunc(symfail))
+
+				gen631 := Call(__e, ShenFunc(sym_a), YaccParse, gen630)
+
+				if True == gen631 {
+					gen518 := Call(__e, ShenFunc(symhd), V220)
+
+					gen519 := Call(__e, ShenFunc(symcons_2), gen518)
+
+					var gen520 Obj
+					if True == gen519 {
+						gen516 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+						gen517 := Call(__e, ShenFunc(symcons_2), gen516)
+
+						if True == gen517 {
+							gen520 = True
+						} else {
+							gen520 = False
+						}
+
+					} else {
+						gen520 = False
+					}
+					var gen521 Obj
+					if True == gen520 {
+						gen510 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+						gen511 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+						gen512 := Call(__e, ShenFunc(symshen_4pair), gen510, gen511)
+
+						gen513 := Call(__e, ShenFunc(symhd), gen512)
+
+						gen514 := Call(__e, ShenFunc(symcons_2), gen513)
+
+						var gen515 Obj
+						if True == gen514 {
+							gen505 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+							gen506 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+							gen507 := Call(__e, ShenFunc(symshen_4pair), gen505, gen506)
+
+							gen508 := Call(__e, ShenFunc(symshen_4hdhd), gen507)
+
+							gen509 := Call(__e, ShenFunc(sym_a), MakeSymbol("@v"), gen508)
+
+							if True == gen509 {
+								gen515 = True
+							} else {
+								gen515 = False
+							}
+
+						} else {
+							gen515 = False
+						}
+						if True == gen515 {
+							gen479 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+							gen480 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+							gen481 := Call(__e, ShenFunc(symshen_4pair), gen479, gen480)
+
+							gen482 := Call(__e, ShenFunc(symshen_4tlhd), gen481)
+
+							gen483 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+							gen484 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+							gen485 := Call(__e, ShenFunc(symshen_4pair), gen483, gen484)
+
+							gen486 := Call(__e, ShenFunc(symshen_4hdtl), gen485)
+
+							gen487 := Call(__e, ShenFunc(symshen_4pair), gen482, gen486)
+
+							NewStream213 := gen487
+							gen488 := Call(__e, ShenFunc(symshen_4_5pattern1_6), NewStream213)
+
+							Parse__shen_4_5pattern1_6 := gen488
+							gen502 := Call(__e, ShenFunc(symfail))
+
+							gen503 := Call(__e, ShenFunc(sym_a), gen502, Parse__shen_4_5pattern1_6)
+
+							gen504 := Call(__e, ShenFunc(symnot), gen503)
+
+							if True == gen504 {
+								gen489 := Call(__e, ShenFunc(symshen_4_5pattern2_6), Parse__shen_4_5pattern1_6)
+
+								Parse__shen_4_5pattern2_6 := gen489
+								gen499 := Call(__e, ShenFunc(symfail))
+
+								gen500 := Call(__e, ShenFunc(sym_a), gen499, Parse__shen_4_5pattern2_6)
+
+								gen501 := Call(__e, ShenFunc(symnot), gen500)
+
+								if True == gen501 {
+									gen490 := Call(__e, ShenFunc(symshen_4tlhd), V220)
+
+									gen491 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+									gen492 := Call(__e, ShenFunc(symshen_4pair), gen490, gen491)
+
+									gen493 := Call(__e, ShenFunc(symhd), gen492)
+
+									gen494 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern1_6)
+
+									gen495 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern2_6)
+
+									gen496 := Call(__e, ShenFunc(symcons), gen495, Nil)
+
+									gen497 := Call(__e, ShenFunc(symcons), gen494, gen496)
+
+									gen498 := Call(__e, ShenFunc(symcons), MakeSymbol("@v"), gen497)
+
+									gen521 = Call(__e, ShenFunc(symshen_4pair), gen493, gen498)
+
 								} else {
-									reg1883 := False
-									reg1884 = reg1883
+									gen521 = Call(__e, ShenFunc(symfail))
+
 								}
-								reg1886 = reg1884
+
 							} else {
-								reg1885 := False
-								reg1886 = reg1885
+								gen521 = Call(__e, ShenFunc(symfail))
+
 							}
-							var reg1889 Obj
-							if reg1886 == True {
-								reg1887 := True
-								reg1889 = reg1887
+
+						} else {
+							gen521 = Call(__e, ShenFunc(symfail))
+
+						}
+
+					} else {
+						gen521 = Call(__e, ShenFunc(symfail))
+
+					}
+					YaccParse := gen521
+					gen628 := Call(__e, ShenFunc(symfail))
+
+					gen629 := Call(__e, ShenFunc(sym_a), YaccParse, gen628)
+
+					if True == gen629 {
+						gen561 := Call(__e, ShenFunc(symhd), V220)
+
+						gen562 := Call(__e, ShenFunc(symcons_2), gen561)
+
+						var gen563 Obj
+						if True == gen562 {
+							gen559 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+							gen560 := Call(__e, ShenFunc(symcons_2), gen559)
+
+							if True == gen560 {
+								gen563 = True
 							} else {
-								reg1888 := False
-								reg1889 = reg1888
+								gen563 = False
 							}
-							reg1891 = reg1889
+
 						} else {
-							reg1890 := False
-							reg1891 = reg1890
+							gen563 = False
 						}
-						var reg1894 Obj
-						if reg1891 == True {
-							reg1892 := True
-							reg1894 = reg1892
-						} else {
-							reg1893 := False
-							reg1894 = reg1893
-						}
-						reg1896 = reg1894
-					} else {
-						reg1895 := False
-						reg1896 = reg1895
-					}
-					var reg1899 Obj
-					if reg1896 == True {
-						reg1897 := True
-						reg1899 = reg1897
-					} else {
-						reg1898 := False
-						reg1899 = reg1898
-					}
-					reg1901 = reg1899
-				} else {
-					reg1900 := False
-					reg1901 = reg1900
-				}
-				if reg1901 == True {
-					reg1902 := PrimTail(V239)
-					reg1903 := PrimHead(reg1902)
-					reg1904 := PrimCons(reg1903, V238)
-					reg1905 := PrimTail(V239)
-					reg1906 := PrimTail(reg1905)
-					reg1907 := PrimHead(reg1906)
-					__e.TailApply(__defun__shen_4extract__free__vars, reg1904, reg1907)
-					return
-				} else {
-					reg1909 := PrimIsPair(V239)
-					var reg1952 Obj
-					if reg1909 == True {
-						reg1910 := MakeSymbol("let")
-						reg1911 := PrimHead(V239)
-						reg1912 := PrimEqual(reg1910, reg1911)
-						var reg1947 Obj
-						if reg1912 == True {
-							reg1913 := PrimTail(V239)
-							reg1914 := PrimIsPair(reg1913)
-							var reg1942 Obj
-							if reg1914 == True {
-								reg1915 := PrimTail(V239)
-								reg1916 := PrimTail(reg1915)
-								reg1917 := PrimIsPair(reg1916)
-								var reg1937 Obj
-								if reg1917 == True {
-									reg1918 := PrimTail(V239)
-									reg1919 := PrimTail(reg1918)
-									reg1920 := PrimTail(reg1919)
-									reg1921 := PrimIsPair(reg1920)
-									var reg1932 Obj
-									if reg1921 == True {
-										reg1922 := Nil
-										reg1923 := PrimTail(V239)
-										reg1924 := PrimTail(reg1923)
-										reg1925 := PrimTail(reg1924)
-										reg1926 := PrimTail(reg1925)
-										reg1927 := PrimEqual(reg1922, reg1926)
-										var reg1930 Obj
-										if reg1927 == True {
-											reg1928 := True
-											reg1930 = reg1928
-										} else {
-											reg1929 := False
-											reg1930 = reg1929
-										}
-										reg1932 = reg1930
-									} else {
-										reg1931 := False
-										reg1932 = reg1931
-									}
-									var reg1935 Obj
-									if reg1932 == True {
-										reg1933 := True
-										reg1935 = reg1933
-									} else {
-										reg1934 := False
-										reg1935 = reg1934
-									}
-									reg1937 = reg1935
+						var gen564 Obj
+						if True == gen563 {
+							gen553 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+							gen554 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+							gen555 := Call(__e, ShenFunc(symshen_4pair), gen553, gen554)
+
+							gen556 := Call(__e, ShenFunc(symhd), gen555)
+
+							gen557 := Call(__e, ShenFunc(symcons_2), gen556)
+
+							var gen558 Obj
+							if True == gen557 {
+								gen548 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+								gen549 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+								gen550 := Call(__e, ShenFunc(symshen_4pair), gen548, gen549)
+
+								gen551 := Call(__e, ShenFunc(symshen_4hdhd), gen550)
+
+								gen552 := Call(__e, ShenFunc(sym_a), MakeSymbol("@s"), gen551)
+
+								if True == gen552 {
+									gen558 = True
 								} else {
-									reg1936 := False
-									reg1937 = reg1936
+									gen558 = False
 								}
-								var reg1940 Obj
-								if reg1937 == True {
-									reg1938 := True
-									reg1940 = reg1938
+
+							} else {
+								gen558 = False
+							}
+							if True == gen558 {
+								gen522 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+								gen523 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+								gen524 := Call(__e, ShenFunc(symshen_4pair), gen522, gen523)
+
+								gen525 := Call(__e, ShenFunc(symshen_4tlhd), gen524)
+
+								gen526 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+								gen527 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+								gen528 := Call(__e, ShenFunc(symshen_4pair), gen526, gen527)
+
+								gen529 := Call(__e, ShenFunc(symshen_4hdtl), gen528)
+
+								gen530 := Call(__e, ShenFunc(symshen_4pair), gen525, gen529)
+
+								NewStream215 := gen530
+								gen531 := Call(__e, ShenFunc(symshen_4_5pattern1_6), NewStream215)
+
+								Parse__shen_4_5pattern1_6 := gen531
+								gen545 := Call(__e, ShenFunc(symfail))
+
+								gen546 := Call(__e, ShenFunc(sym_a), gen545, Parse__shen_4_5pattern1_6)
+
+								gen547 := Call(__e, ShenFunc(symnot), gen546)
+
+								if True == gen547 {
+									gen532 := Call(__e, ShenFunc(symshen_4_5pattern2_6), Parse__shen_4_5pattern1_6)
+
+									Parse__shen_4_5pattern2_6 := gen532
+									gen542 := Call(__e, ShenFunc(symfail))
+
+									gen543 := Call(__e, ShenFunc(sym_a), gen542, Parse__shen_4_5pattern2_6)
+
+									gen544 := Call(__e, ShenFunc(symnot), gen543)
+
+									if True == gen544 {
+										gen533 := Call(__e, ShenFunc(symshen_4tlhd), V220)
+
+										gen534 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+										gen535 := Call(__e, ShenFunc(symshen_4pair), gen533, gen534)
+
+										gen536 := Call(__e, ShenFunc(symhd), gen535)
+
+										gen537 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern1_6)
+
+										gen538 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern2_6)
+
+										gen539 := Call(__e, ShenFunc(symcons), gen538, Nil)
+
+										gen540 := Call(__e, ShenFunc(symcons), gen537, gen539)
+
+										gen541 := Call(__e, ShenFunc(symcons), MakeSymbol("@s"), gen540)
+
+										gen564 = Call(__e, ShenFunc(symshen_4pair), gen536, gen541)
+
+									} else {
+										gen564 = Call(__e, ShenFunc(symfail))
+
+									}
+
 								} else {
-									reg1939 := False
-									reg1940 = reg1939
+									gen564 = Call(__e, ShenFunc(symfail))
+
 								}
-								reg1942 = reg1940
+
 							} else {
-								reg1941 := False
-								reg1942 = reg1941
+								gen564 = Call(__e, ShenFunc(symfail))
+
 							}
-							var reg1945 Obj
-							if reg1942 == True {
-								reg1943 := True
-								reg1945 = reg1943
-							} else {
-								reg1944 := False
-								reg1945 = reg1944
-							}
-							reg1947 = reg1945
+
 						} else {
-							reg1946 := False
-							reg1947 = reg1946
+							gen564 = Call(__e, ShenFunc(symfail))
+
 						}
-						var reg1950 Obj
-						if reg1947 == True {
-							reg1948 := True
-							reg1950 = reg1948
-						} else {
-							reg1949 := False
-							reg1950 = reg1949
-						}
-						reg1952 = reg1950
-					} else {
-						reg1951 := False
-						reg1952 = reg1951
-					}
-					if reg1952 == True {
-						reg1953 := PrimTail(V239)
-						reg1954 := PrimTail(reg1953)
-						reg1955 := PrimHead(reg1954)
-						reg1956 := Call(__e, __defun__shen_4extract__free__vars, V238, reg1955)
-						reg1957 := PrimTail(V239)
-						reg1958 := PrimHead(reg1957)
-						reg1959 := PrimCons(reg1958, V238)
-						reg1960 := PrimTail(V239)
-						reg1961 := PrimTail(reg1960)
-						reg1962 := PrimTail(reg1961)
-						reg1963 := PrimHead(reg1962)
-						reg1964 := Call(__e, __defun__shen_4extract__free__vars, reg1959, reg1963)
-						__e.TailApply(__defun__union, reg1956, reg1964)
-						return
-					} else {
-						reg1966 := PrimIsPair(V239)
-						if reg1966 == True {
-							reg1967 := PrimHead(V239)
-							reg1968 := Call(__e, __defun__shen_4extract__free__vars, V238, reg1967)
-							reg1969 := PrimTail(V239)
-							reg1970 := Call(__e, __defun__shen_4extract__free__vars, V238, reg1969)
-							__e.TailApply(__defun__union, reg1968, reg1970)
-							return
-						} else {
-							reg1972 := Nil
-							__e.Return(reg1972)
-							return
-						}
-					}
-				}
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.extract_free_vars", value: __defun__shen_4extract__free__vars})
+						YaccParse := gen564
+						gen626 := Call(__e, ShenFunc(symfail))
 
-	__defun__shen_4free__variable__warnings = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V244 := __args[0]
-		_ = V244
-		V245 := __args[1]
-		_ = V245
-		reg1973 := Nil
-		reg1974 := PrimEqual(reg1973, V245)
-		if reg1974 == True {
-			reg1975 := MakeSymbol("_")
-			__e.Return(reg1975)
-			return
-		} else {
-			reg1976 := MakeString("error: the following variables are free in ")
-			reg1977 := MakeString(": ")
-			reg1978 := Call(__e, __defun__shen_4list__variables, V245)
-			reg1979 := MakeString("")
-			reg1980 := MakeSymbol("shen.a")
-			reg1981 := Call(__e, __defun__shen_4app, reg1978, reg1979, reg1980)
-			reg1982 := PrimStringConcat(reg1977, reg1981)
-			reg1983 := MakeSymbol("shen.a")
-			reg1984 := Call(__e, __defun__shen_4app, V244, reg1982, reg1983)
-			reg1985 := PrimStringConcat(reg1976, reg1984)
-			reg1986 := PrimSimpleError(reg1985)
-			__e.Return(reg1986)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.free_variable_warnings", value: __defun__shen_4free__variable__warnings})
+						gen627 := Call(__e, ShenFunc(sym_a), YaccParse, gen626)
 
-	__defun__shen_4list__variables = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V247 := __args[0]
-		_ = V247
-		reg1987 := PrimIsPair(V247)
-		var reg1995 Obj
-		if reg1987 == True {
-			reg1988 := Nil
-			reg1989 := PrimTail(V247)
-			reg1990 := PrimEqual(reg1988, reg1989)
-			var reg1993 Obj
-			if reg1990 == True {
-				reg1991 := True
-				reg1993 = reg1991
-			} else {
-				reg1992 := False
-				reg1993 = reg1992
-			}
-			reg1995 = reg1993
-		} else {
-			reg1994 := False
-			reg1995 = reg1994
-		}
-		if reg1995 == True {
-			reg1996 := PrimHead(V247)
-			reg1997 := PrimStr(reg1996)
-			reg1998 := MakeString(".")
-			reg1999 := PrimStringConcat(reg1997, reg1998)
-			__e.Return(reg1999)
-			return
-		} else {
-			reg2000 := PrimIsPair(V247)
-			if reg2000 == True {
-				reg2001 := PrimHead(V247)
-				reg2002 := PrimStr(reg2001)
-				reg2003 := MakeString(", ")
-				reg2004 := PrimTail(V247)
-				reg2005 := Call(__e, __defun__shen_4list__variables, reg2004)
-				reg2006 := PrimStringConcat(reg2003, reg2005)
-				reg2007 := PrimStringConcat(reg2002, reg2006)
-				__e.Return(reg2007)
-				return
-			} else {
-				reg2008 := MakeSymbol("shen.list_variables")
-				__e.TailApply(__defun__shen_4f__error, reg2008)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.list_variables", value: __defun__shen_4list__variables})
+						if True == gen627 {
+							gen601 := Call(__e, ShenFunc(symhd), V220)
 
-	__defun__shen_4strip_1protect = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V249 := __args[0]
-		_ = V249
-		reg2010 := PrimIsPair(V249)
-		var reg2034 Obj
-		if reg2010 == True {
-			reg2011 := PrimTail(V249)
-			reg2012 := PrimIsPair(reg2011)
-			var reg2029 Obj
-			if reg2012 == True {
-				reg2013 := Nil
-				reg2014 := PrimTail(V249)
-				reg2015 := PrimTail(reg2014)
-				reg2016 := PrimEqual(reg2013, reg2015)
-				var reg2024 Obj
-				if reg2016 == True {
-					reg2017 := PrimHead(V249)
-					reg2018 := MakeSymbol("protect")
-					reg2019 := PrimEqual(reg2017, reg2018)
-					var reg2022 Obj
-					if reg2019 == True {
-						reg2020 := True
-						reg2022 = reg2020
-					} else {
-						reg2021 := False
-						reg2022 = reg2021
-					}
-					reg2024 = reg2022
-				} else {
-					reg2023 := False
-					reg2024 = reg2023
-				}
-				var reg2027 Obj
-				if reg2024 == True {
-					reg2025 := True
-					reg2027 = reg2025
-				} else {
-					reg2026 := False
-					reg2027 = reg2026
-				}
-				reg2029 = reg2027
-			} else {
-				reg2028 := False
-				reg2029 = reg2028
-			}
-			var reg2032 Obj
-			if reg2029 == True {
-				reg2030 := True
-				reg2032 = reg2030
-			} else {
-				reg2031 := False
-				reg2032 = reg2031
-			}
-			reg2034 = reg2032
-		} else {
-			reg2033 := False
-			reg2034 = reg2033
-		}
-		if reg2034 == True {
-			reg2035 := PrimTail(V249)
-			reg2036 := PrimHead(reg2035)
-			__e.TailApply(__defun__shen_4strip_1protect, reg2036)
-			return
-		} else {
-			reg2038 := PrimIsPair(V249)
-			if reg2038 == True {
-				reg2039 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					Z := __args[0]
-					_ = Z
-					__e.TailApply(__defun__shen_4strip_1protect, Z)
-					return
-				}, 1)
-				__e.TailApply(__defun__map, reg2039, V249)
-				return
-			} else {
-				__e.Return(V249)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.strip-protect", value: __defun__shen_4strip_1protect})
+							gen602 := Call(__e, ShenFunc(symcons_2), gen601)
 
-	__defun__shen_4linearise = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V251 := __args[0]
-		_ = V251
-		reg2042 := PrimIsPair(V251)
-		var reg2058 Obj
-		if reg2042 == True {
-			reg2043 := PrimTail(V251)
-			reg2044 := PrimIsPair(reg2043)
-			var reg2053 Obj
-			if reg2044 == True {
-				reg2045 := Nil
-				reg2046 := PrimTail(V251)
-				reg2047 := PrimTail(reg2046)
-				reg2048 := PrimEqual(reg2045, reg2047)
-				var reg2051 Obj
-				if reg2048 == True {
-					reg2049 := True
-					reg2051 = reg2049
-				} else {
-					reg2050 := False
-					reg2051 = reg2050
-				}
-				reg2053 = reg2051
-			} else {
-				reg2052 := False
-				reg2053 = reg2052
-			}
-			var reg2056 Obj
-			if reg2053 == True {
-				reg2054 := True
-				reg2056 = reg2054
-			} else {
-				reg2055 := False
-				reg2056 = reg2055
-			}
-			reg2058 = reg2056
-		} else {
-			reg2057 := False
-			reg2058 = reg2057
-		}
-		if reg2058 == True {
-			reg2059 := PrimHead(V251)
-			reg2060 := Call(__e, __defun__shen_4flatten, reg2059)
-			reg2061 := PrimHead(V251)
-			reg2062 := PrimTail(V251)
-			reg2063 := PrimHead(reg2062)
-			__e.TailApply(__defun__shen_4linearise__help, reg2060, reg2061, reg2063)
-			return
-		} else {
-			reg2065 := MakeSymbol("shen.linearise")
-			__e.TailApply(__defun__shen_4f__error, reg2065)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.linearise", value: __defun__shen_4linearise})
+							var gen603 Obj
+							if True == gen602 {
+								gen599 := Call(__e, ShenFunc(symshen_4hdhd), V220)
 
-	__defun__shen_4flatten = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V253 := __args[0]
-		_ = V253
-		reg2067 := Nil
-		reg2068 := PrimEqual(reg2067, V253)
-		if reg2068 == True {
-			reg2069 := Nil
-			__e.Return(reg2069)
-			return
-		} else {
-			reg2070 := PrimIsPair(V253)
-			if reg2070 == True {
-				reg2071 := PrimHead(V253)
-				reg2072 := Call(__e, __defun__shen_4flatten, reg2071)
-				reg2073 := PrimTail(V253)
-				reg2074 := Call(__e, __defun__shen_4flatten, reg2073)
-				__e.TailApply(__defun__append, reg2072, reg2074)
-				return
-			} else {
-				reg2076 := Nil
-				reg2077 := PrimCons(V253, reg2076)
-				__e.Return(reg2077)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.flatten", value: __defun__shen_4flatten})
+								gen600 := Call(__e, ShenFunc(symcons_2), gen599)
 
-	__defun__shen_4linearise__help = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V257 := __args[0]
-		_ = V257
-		V258 := __args[1]
-		_ = V258
-		V259 := __args[2]
-		_ = V259
-		reg2078 := Nil
-		reg2079 := PrimEqual(reg2078, V257)
-		if reg2079 == True {
-			reg2080 := Nil
-			reg2081 := PrimCons(V259, reg2080)
-			reg2082 := PrimCons(V258, reg2081)
-			__e.Return(reg2082)
-			return
-		} else {
-			reg2083 := PrimIsPair(V257)
-			if reg2083 == True {
-				reg2084 := PrimHead(V257)
-				reg2085 := PrimIsVariable(reg2084)
-				var reg2093 Obj
-				if reg2085 == True {
-					reg2086 := PrimHead(V257)
-					reg2087 := PrimTail(V257)
-					reg2088 := Call(__e, __defun__element_2, reg2086, reg2087)
-					var reg2091 Obj
-					if reg2088 == True {
-						reg2089 := True
-						reg2091 = reg2089
-					} else {
-						reg2090 := False
-						reg2091 = reg2090
-					}
-					reg2093 = reg2091
-				} else {
-					reg2092 := False
-					reg2093 = reg2092
-				}
-				if reg2093 == True {
-					reg2094 := PrimHead(V257)
-					reg2095 := Call(__e, __defun__gensym, reg2094)
-					Var := reg2095
-					_ = Var
-					reg2096 := MakeSymbol("where")
-					reg2097 := MakeSymbol("=")
-					reg2098 := PrimHead(V257)
-					reg2099 := Nil
-					reg2100 := PrimCons(Var, reg2099)
-					reg2101 := PrimCons(reg2098, reg2100)
-					reg2102 := PrimCons(reg2097, reg2101)
-					reg2103 := Nil
-					reg2104 := PrimCons(V259, reg2103)
-					reg2105 := PrimCons(reg2102, reg2104)
-					reg2106 := PrimCons(reg2096, reg2105)
-					NewAction := reg2106
-					_ = NewAction
-					reg2107 := PrimHead(V257)
-					reg2108 := Call(__e, __defun__shen_4linearise__X, reg2107, Var, V258)
-					NewPatts := reg2108
-					_ = NewPatts
-					reg2109 := PrimTail(V257)
-					__e.TailApply(__defun__shen_4linearise__help, reg2109, NewPatts, NewAction)
-					return
-				} else {
-					reg2111 := PrimTail(V257)
-					__e.TailApply(__defun__shen_4linearise__help, reg2111, V258, V259)
-					return
-				}
-			} else {
-				reg2113 := MakeSymbol("shen.linearise_help")
-				__e.TailApply(__defun__shen_4f__error, reg2113)
-				return
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.linearise_help", value: __defun__shen_4linearise__help})
-
-	__defun__shen_4linearise__X = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V272 := __args[0]
-		_ = V272
-		V273 := __args[1]
-		_ = V273
-		V274 := __args[2]
-		_ = V274
-		reg2115 := PrimEqual(V274, V272)
-		if reg2115 == True {
-			__e.Return(V273)
-			return
-		} else {
-			reg2116 := PrimIsPair(V274)
-			if reg2116 == True {
-				reg2117 := PrimHead(V274)
-				reg2118 := Call(__e, __defun__shen_4linearise__X, V272, V273, reg2117)
-				L := reg2118
-				_ = L
-				reg2119 := PrimHead(V274)
-				reg2120 := PrimEqual(L, reg2119)
-				if reg2120 == True {
-					reg2121 := PrimHead(V274)
-					reg2122 := PrimTail(V274)
-					reg2123 := Call(__e, __defun__shen_4linearise__X, V272, V273, reg2122)
-					reg2124 := PrimCons(reg2121, reg2123)
-					__e.Return(reg2124)
-					return
-				} else {
-					reg2125 := PrimTail(V274)
-					reg2126 := PrimCons(L, reg2125)
-					__e.Return(reg2126)
-					return
-				}
-			} else {
-				__e.Return(V274)
-				return
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.linearise_X", value: __defun__shen_4linearise__X})
-
-	__defun__shen_4aritycheck = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V277 := __args[0]
-		_ = V277
-		V278 := __args[1]
-		_ = V278
-		reg2127 := PrimIsPair(V278)
-		var reg2160 Obj
-		if reg2127 == True {
-			reg2128 := PrimHead(V278)
-			reg2129 := PrimIsPair(reg2128)
-			var reg2155 Obj
-			if reg2129 == True {
-				reg2130 := PrimHead(V278)
-				reg2131 := PrimTail(reg2130)
-				reg2132 := PrimIsPair(reg2131)
-				var reg2150 Obj
-				if reg2132 == True {
-					reg2133 := Nil
-					reg2134 := PrimHead(V278)
-					reg2135 := PrimTail(reg2134)
-					reg2136 := PrimTail(reg2135)
-					reg2137 := PrimEqual(reg2133, reg2136)
-					var reg2145 Obj
-					if reg2137 == True {
-						reg2138 := Nil
-						reg2139 := PrimTail(V278)
-						reg2140 := PrimEqual(reg2138, reg2139)
-						var reg2143 Obj
-						if reg2140 == True {
-							reg2141 := True
-							reg2143 = reg2141
-						} else {
-							reg2142 := False
-							reg2143 = reg2142
-						}
-						reg2145 = reg2143
-					} else {
-						reg2144 := False
-						reg2145 = reg2144
-					}
-					var reg2148 Obj
-					if reg2145 == True {
-						reg2146 := True
-						reg2148 = reg2146
-					} else {
-						reg2147 := False
-						reg2148 = reg2147
-					}
-					reg2150 = reg2148
-				} else {
-					reg2149 := False
-					reg2150 = reg2149
-				}
-				var reg2153 Obj
-				if reg2150 == True {
-					reg2151 := True
-					reg2153 = reg2151
-				} else {
-					reg2152 := False
-					reg2153 = reg2152
-				}
-				reg2155 = reg2153
-			} else {
-				reg2154 := False
-				reg2155 = reg2154
-			}
-			var reg2158 Obj
-			if reg2155 == True {
-				reg2156 := True
-				reg2158 = reg2156
-			} else {
-				reg2157 := False
-				reg2158 = reg2157
-			}
-			reg2160 = reg2158
-		} else {
-			reg2159 := False
-			reg2160 = reg2159
-		}
-		if reg2160 == True {
-			reg2161 := PrimHead(V278)
-			reg2162 := PrimTail(reg2161)
-			reg2163 := PrimHead(reg2162)
-			reg2164 := Call(__e, __defun__shen_4aritycheck_1action, reg2163)
-			_ = reg2164
-			reg2165 := Call(__e, __defun__arity, V277)
-			reg2166 := PrimHead(V278)
-			reg2167 := PrimHead(reg2166)
-			reg2168 := Call(__e, __defun__length, reg2167)
-			__e.TailApply(__defun__shen_4aritycheck_1name, V277, reg2165, reg2168)
-			return
-		} else {
-			reg2170 := PrimIsPair(V278)
-			var reg2230 Obj
-			if reg2170 == True {
-				reg2171 := PrimHead(V278)
-				reg2172 := PrimIsPair(reg2171)
-				var reg2225 Obj
-				if reg2172 == True {
-					reg2173 := PrimHead(V278)
-					reg2174 := PrimTail(reg2173)
-					reg2175 := PrimIsPair(reg2174)
-					var reg2220 Obj
-					if reg2175 == True {
-						reg2176 := Nil
-						reg2177 := PrimHead(V278)
-						reg2178 := PrimTail(reg2177)
-						reg2179 := PrimTail(reg2178)
-						reg2180 := PrimEqual(reg2176, reg2179)
-						var reg2215 Obj
-						if reg2180 == True {
-							reg2181 := PrimTail(V278)
-							reg2182 := PrimIsPair(reg2181)
-							var reg2210 Obj
-							if reg2182 == True {
-								reg2183 := PrimTail(V278)
-								reg2184 := PrimHead(reg2183)
-								reg2185 := PrimIsPair(reg2184)
-								var reg2205 Obj
-								if reg2185 == True {
-									reg2186 := PrimTail(V278)
-									reg2187 := PrimHead(reg2186)
-									reg2188 := PrimTail(reg2187)
-									reg2189 := PrimIsPair(reg2188)
-									var reg2200 Obj
-									if reg2189 == True {
-										reg2190 := Nil
-										reg2191 := PrimTail(V278)
-										reg2192 := PrimHead(reg2191)
-										reg2193 := PrimTail(reg2192)
-										reg2194 := PrimTail(reg2193)
-										reg2195 := PrimEqual(reg2190, reg2194)
-										var reg2198 Obj
-										if reg2195 == True {
-											reg2196 := True
-											reg2198 = reg2196
-										} else {
-											reg2197 := False
-											reg2198 = reg2197
-										}
-										reg2200 = reg2198
-									} else {
-										reg2199 := False
-										reg2200 = reg2199
-									}
-									var reg2203 Obj
-									if reg2200 == True {
-										reg2201 := True
-										reg2203 = reg2201
-									} else {
-										reg2202 := False
-										reg2203 = reg2202
-									}
-									reg2205 = reg2203
+								if True == gen600 {
+									gen603 = True
 								} else {
-									reg2204 := False
-									reg2205 = reg2204
+									gen603 = False
 								}
-								var reg2208 Obj
-								if reg2205 == True {
-									reg2206 := True
-									reg2208 = reg2206
+
+							} else {
+								gen603 = False
+							}
+							var gen604 Obj
+							if True == gen603 {
+								gen593 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+								gen594 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+								gen595 := Call(__e, ShenFunc(symshen_4pair), gen593, gen594)
+
+								gen596 := Call(__e, ShenFunc(symhd), gen595)
+
+								gen597 := Call(__e, ShenFunc(symcons_2), gen596)
+
+								var gen598 Obj
+								if True == gen597 {
+									gen588 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+									gen589 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+									gen590 := Call(__e, ShenFunc(symshen_4pair), gen588, gen589)
+
+									gen591 := Call(__e, ShenFunc(symshen_4hdhd), gen590)
+
+									gen592 := Call(__e, ShenFunc(sym_a), MakeSymbol("vector"), gen591)
+
+									if True == gen592 {
+										gen598 = True
+									} else {
+										gen598 = False
+									}
+
 								} else {
-									reg2207 := False
-									reg2208 = reg2207
+									gen598 = False
 								}
-								reg2210 = reg2208
-							} else {
-								reg2209 := False
-								reg2210 = reg2209
-							}
-							var reg2213 Obj
-							if reg2210 == True {
-								reg2211 := True
-								reg2213 = reg2211
-							} else {
-								reg2212 := False
-								reg2213 = reg2212
-							}
-							reg2215 = reg2213
-						} else {
-							reg2214 := False
-							reg2215 = reg2214
-						}
-						var reg2218 Obj
-						if reg2215 == True {
-							reg2216 := True
-							reg2218 = reg2216
-						} else {
-							reg2217 := False
-							reg2218 = reg2217
-						}
-						reg2220 = reg2218
-					} else {
-						reg2219 := False
-						reg2220 = reg2219
-					}
-					var reg2223 Obj
-					if reg2220 == True {
-						reg2221 := True
-						reg2223 = reg2221
-					} else {
-						reg2222 := False
-						reg2223 = reg2222
-					}
-					reg2225 = reg2223
-				} else {
-					reg2224 := False
-					reg2225 = reg2224
-				}
-				var reg2228 Obj
-				if reg2225 == True {
-					reg2226 := True
-					reg2228 = reg2226
-				} else {
-					reg2227 := False
-					reg2228 = reg2227
-				}
-				reg2230 = reg2228
-			} else {
-				reg2229 := False
-				reg2230 = reg2229
-			}
-			if reg2230 == True {
-				reg2231 := PrimHead(V278)
-				reg2232 := PrimHead(reg2231)
-				reg2233 := Call(__e, __defun__length, reg2232)
-				reg2234 := PrimTail(V278)
-				reg2235 := PrimHead(reg2234)
-				reg2236 := PrimHead(reg2235)
-				reg2237 := Call(__e, __defun__length, reg2236)
-				reg2238 := PrimEqual(reg2233, reg2237)
-				if reg2238 == True {
-					reg2239 := PrimHead(V278)
-					reg2240 := PrimTail(reg2239)
-					reg2241 := PrimHead(reg2240)
-					reg2242 := Call(__e, __defun__shen_4aritycheck_1action, reg2241)
-					_ = reg2242
-					reg2243 := PrimTail(V278)
-					__e.TailApply(__defun__shen_4aritycheck, V277, reg2243)
-					return
-				} else {
-					reg2245 := MakeString("arity error in ")
-					reg2246 := MakeString("\n")
-					reg2247 := MakeSymbol("shen.a")
-					reg2248 := Call(__e, __defun__shen_4app, V277, reg2246, reg2247)
-					reg2249 := PrimStringConcat(reg2245, reg2248)
-					reg2250 := PrimSimpleError(reg2249)
-					__e.Return(reg2250)
-					return
-				}
-			} else {
-				reg2251 := MakeSymbol("shen.aritycheck")
-				__e.TailApply(__defun__shen_4f__error, reg2251)
-				return
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.aritycheck", value: __defun__shen_4aritycheck})
+								if True == gen598 {
+									gen565 := Call(__e, ShenFunc(symshen_4hdhd), V220)
 
-	__defun__shen_4aritycheck_1name = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V291 := __args[0]
-		_ = V291
-		V292 := __args[1]
-		_ = V292
-		V293 := __args[2]
-		_ = V293
-		reg2253 := MakeNumber(-1)
-		reg2254 := PrimEqual(reg2253, V292)
-		if reg2254 == True {
-			__e.Return(V293)
-			return
-		} else {
-			reg2255 := PrimEqual(V293, V292)
-			if reg2255 == True {
-				__e.Return(V293)
-				return
-			} else {
-				reg2256 := MakeString("\nwarning: changing the arity of ")
-				reg2257 := MakeString(" can cause errors.\n")
-				reg2258 := MakeSymbol("shen.a")
-				reg2259 := Call(__e, __defun__shen_4app, V291, reg2257, reg2258)
-				reg2260 := PrimStringConcat(reg2256, reg2259)
-				reg2261 := Call(__e, __defun__stoutput)
-				reg2262 := Call(__e, __defun__shen_4prhush, reg2260, reg2261)
-				_ = reg2262
-				__e.Return(V293)
-				return
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.aritycheck-name", value: __defun__shen_4aritycheck_1name})
+									gen566 := Call(__e, ShenFunc(symshen_4hdtl), V220)
 
-	__defun__shen_4aritycheck_1action = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V299 := __args[0]
-		_ = V299
-		reg2263 := PrimIsPair(V299)
-		if reg2263 == True {
-			reg2264 := PrimHead(V299)
-			reg2265 := PrimTail(V299)
-			reg2266 := Call(__e, __defun__shen_4aah, reg2264, reg2265)
-			_ = reg2266
-			reg2267 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				Y := __args[0]
-				_ = Y
-				__e.TailApply(__defun__shen_4aritycheck_1action, Y)
-				return
-			}, 1)
-			__e.TailApply(__defun__shen_4for_1each, reg2267, V299)
-			return
-		} else {
-			reg2270 := MakeSymbol("shen.skip")
-			__e.Return(reg2270)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.aritycheck-action", value: __defun__shen_4aritycheck_1action})
+									gen567 := Call(__e, ShenFunc(symshen_4pair), gen565, gen566)
 
-	__defun__shen_4aah = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V302 := __args[0]
-		_ = V302
-		V303 := __args[1]
-		_ = V303
-		reg2271 := Call(__e, __defun__arity, V302)
-		Arity := reg2271
-		_ = Arity
-		reg2272 := Call(__e, __defun__length, V303)
-		Len := reg2272
-		_ = Len
-		reg2273 := MakeNumber(-1)
-		reg2274 := PrimGreatThan(Arity, reg2273)
-		var reg2280 Obj
-		if reg2274 == True {
-			reg2275 := PrimGreatThan(Len, Arity)
-			var reg2278 Obj
-			if reg2275 == True {
-				reg2276 := True
-				reg2278 = reg2276
-			} else {
-				reg2277 := False
-				reg2278 = reg2277
-			}
-			reg2280 = reg2278
-		} else {
-			reg2279 := False
-			reg2280 = reg2279
-		}
-		if reg2280 == True {
-			reg2281 := MakeString("warning: ")
-			reg2282 := MakeString(" might not like ")
-			reg2283 := MakeString(" argument")
-			reg2284 := MakeNumber(1)
-			reg2285 := PrimGreatThan(Len, reg2284)
-			var reg2288 Obj
-			if reg2285 == True {
-				reg2286 := MakeString("s")
-				reg2288 = reg2286
-			} else {
-				reg2287 := MakeString("")
-				reg2288 = reg2287
-			}
-			reg2289 := MakeString(".\n")
-			reg2290 := MakeSymbol("shen.a")
-			reg2291 := Call(__e, __defun__shen_4app, reg2288, reg2289, reg2290)
-			reg2292 := PrimStringConcat(reg2283, reg2291)
-			reg2293 := MakeSymbol("shen.a")
-			reg2294 := Call(__e, __defun__shen_4app, Len, reg2292, reg2293)
-			reg2295 := PrimStringConcat(reg2282, reg2294)
-			reg2296 := MakeSymbol("shen.a")
-			reg2297 := Call(__e, __defun__shen_4app, V302, reg2295, reg2296)
-			reg2298 := PrimStringConcat(reg2281, reg2297)
-			reg2299 := Call(__e, __defun__stoutput)
-			__e.TailApply(__defun__shen_4prhush, reg2298, reg2299)
-			return
-		} else {
-			reg2301 := MakeSymbol("shen.skip")
-			__e.Return(reg2301)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.aah", value: __defun__shen_4aah})
+									gen568 := Call(__e, ShenFunc(symshen_4tlhd), gen567)
 
-	__defun__shen_4abstract__rule = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V305 := __args[0]
-		_ = V305
-		reg2302 := PrimIsPair(V305)
-		var reg2318 Obj
-		if reg2302 == True {
-			reg2303 := PrimTail(V305)
-			reg2304 := PrimIsPair(reg2303)
-			var reg2313 Obj
-			if reg2304 == True {
-				reg2305 := Nil
-				reg2306 := PrimTail(V305)
-				reg2307 := PrimTail(reg2306)
-				reg2308 := PrimEqual(reg2305, reg2307)
-				var reg2311 Obj
-				if reg2308 == True {
-					reg2309 := True
-					reg2311 = reg2309
-				} else {
-					reg2310 := False
-					reg2311 = reg2310
-				}
-				reg2313 = reg2311
-			} else {
-				reg2312 := False
-				reg2313 = reg2312
-			}
-			var reg2316 Obj
-			if reg2313 == True {
-				reg2314 := True
-				reg2316 = reg2314
-			} else {
-				reg2315 := False
-				reg2316 = reg2315
-			}
-			reg2318 = reg2316
-		} else {
-			reg2317 := False
-			reg2318 = reg2317
-		}
-		if reg2318 == True {
-			reg2319 := PrimHead(V305)
-			reg2320 := PrimTail(V305)
-			reg2321 := PrimHead(reg2320)
-			__e.TailApply(__defun__shen_4abstraction__build, reg2319, reg2321)
-			return
-		} else {
-			reg2323 := MakeSymbol("shen.abstract_rule")
-			__e.TailApply(__defun__shen_4f__error, reg2323)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.abstract_rule", value: __defun__shen_4abstract__rule})
+									gen569 := Call(__e, ShenFunc(symshen_4hdhd), V220)
 
-	__defun__shen_4abstraction__build = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V308 := __args[0]
-		_ = V308
-		V309 := __args[1]
-		_ = V309
-		reg2325 := Nil
-		reg2326 := PrimEqual(reg2325, V308)
-		if reg2326 == True {
-			__e.Return(V309)
-			return
-		} else {
-			reg2327 := PrimIsPair(V308)
-			if reg2327 == True {
-				reg2328 := MakeSymbol("/.")
-				reg2329 := PrimHead(V308)
-				reg2330 := PrimTail(V308)
-				reg2331 := Call(__e, __defun__shen_4abstraction__build, reg2330, V309)
-				reg2332 := Nil
-				reg2333 := PrimCons(reg2331, reg2332)
-				reg2334 := PrimCons(reg2329, reg2333)
-				reg2335 := PrimCons(reg2328, reg2334)
-				__e.Return(reg2335)
-				return
-			} else {
-				reg2336 := MakeSymbol("shen.abstraction_build")
-				__e.TailApply(__defun__shen_4f__error, reg2336)
-				return
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.abstraction_build", value: __defun__shen_4abstraction__build})
+									gen570 := Call(__e, ShenFunc(symshen_4hdtl), V220)
 
-	__defun__shen_4parameters = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V311 := __args[0]
-		_ = V311
-		reg2338 := MakeNumber(0)
-		reg2339 := PrimEqual(reg2338, V311)
-		if reg2339 == True {
-			reg2340 := Nil
-			__e.Return(reg2340)
-			return
-		} else {
-			reg2341 := MakeSymbol("V")
-			reg2342 := Call(__e, __defun__gensym, reg2341)
-			reg2343 := MakeNumber(1)
-			reg2344 := PrimNumberSubtract(V311, reg2343)
-			reg2345 := Call(__e, __defun__shen_4parameters, reg2344)
-			reg2346 := PrimCons(reg2342, reg2345)
-			__e.Return(reg2346)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.parameters", value: __defun__shen_4parameters})
+									gen571 := Call(__e, ShenFunc(symshen_4pair), gen569, gen570)
 
-	__defun__shen_4application__build = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V314 := __args[0]
-		_ = V314
-		V315 := __args[1]
-		_ = V315
-		reg2347 := Nil
-		reg2348 := PrimEqual(reg2347, V314)
-		if reg2348 == True {
-			__e.Return(V315)
-			return
-		} else {
-			reg2349 := PrimIsPair(V314)
-			if reg2349 == True {
-				reg2350 := PrimTail(V314)
-				reg2351 := PrimHead(V314)
-				reg2352 := Nil
-				reg2353 := PrimCons(reg2351, reg2352)
-				reg2354 := PrimCons(V315, reg2353)
-				__e.TailApply(__defun__shen_4application__build, reg2350, reg2354)
-				return
-			} else {
-				reg2356 := MakeSymbol("shen.application_build")
-				__e.TailApply(__defun__shen_4f__error, reg2356)
-				return
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.application_build", value: __defun__shen_4application__build})
+									gen572 := Call(__e, ShenFunc(symshen_4hdtl), gen571)
 
-	__defun__shen_4compile__to__kl = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V318 := __args[0]
-		_ = V318
-		V319 := __args[1]
-		_ = V319
-		reg2358 := PrimIsPair(V319)
-		var reg2374 Obj
-		if reg2358 == True {
-			reg2359 := PrimTail(V319)
-			reg2360 := PrimIsPair(reg2359)
-			var reg2369 Obj
-			if reg2360 == True {
-				reg2361 := Nil
-				reg2362 := PrimTail(V319)
-				reg2363 := PrimTail(reg2362)
-				reg2364 := PrimEqual(reg2361, reg2363)
-				var reg2367 Obj
-				if reg2364 == True {
-					reg2365 := True
-					reg2367 = reg2365
-				} else {
-					reg2366 := False
-					reg2367 = reg2366
-				}
-				reg2369 = reg2367
-			} else {
-				reg2368 := False
-				reg2369 = reg2368
-			}
-			var reg2372 Obj
-			if reg2369 == True {
-				reg2370 := True
-				reg2372 = reg2370
-			} else {
-				reg2371 := False
-				reg2372 = reg2371
-			}
-			reg2374 = reg2372
-		} else {
-			reg2373 := False
-			reg2374 = reg2373
-		}
-		if reg2374 == True {
-			reg2375 := PrimHead(V319)
-			reg2376 := Call(__e, __defun__length, reg2375)
-			reg2377 := Call(__e, __defun__shen_4store_1arity, V318, reg2376)
-			Arity := reg2377
-			_ = Arity
-			reg2378 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				__e.TailApply(__defun__shen_4reduce, X)
-				return
-			}, 1)
-			reg2380 := PrimTail(V319)
-			reg2381 := PrimHead(reg2380)
-			reg2382 := Call(__e, __defun__map, reg2378, reg2381)
-			Reduce := reg2382
-			_ = Reduce
-			reg2383 := PrimHead(V319)
-			reg2384 := Call(__e, __defun__shen_4cond_1expression, V318, reg2383, Reduce)
-			CondExpression := reg2384
-			_ = CondExpression
-			reg2385 := MakeSymbol("shen.*optimise*")
-			reg2386 := PrimValue(reg2385)
-			var reg2391 Obj
-			if reg2386 == True {
-				reg2387 := Call(__e, __defun__shen_4get_1type, V318)
-				reg2388 := PrimHead(V319)
-				reg2389 := Call(__e, __defun__shen_4typextable, reg2387, reg2388)
-				reg2391 = reg2389
-			} else {
-				reg2390 := MakeSymbol("shen.skip")
-				reg2391 = reg2390
-			}
-			TypeTable := reg2391
-			_ = TypeTable
-			reg2392 := MakeSymbol("shen.*optimise*")
-			reg2393 := PrimValue(reg2392)
-			var reg2396 Obj
-			if reg2393 == True {
-				reg2394 := PrimHead(V319)
-				reg2395 := Call(__e, __defun__shen_4assign_1types, reg2394, TypeTable, CondExpression)
-				reg2396 = reg2395
-			} else {
-				reg2396 = CondExpression
-			}
-			TypedCondExpression := reg2396
-			_ = TypedCondExpression
-			reg2397 := MakeSymbol("defun")
-			reg2398 := PrimHead(V319)
-			reg2399 := Nil
-			reg2400 := PrimCons(TypedCondExpression, reg2399)
-			reg2401 := PrimCons(reg2398, reg2400)
-			reg2402 := PrimCons(V318, reg2401)
-			reg2403 := PrimCons(reg2397, reg2402)
-			__e.Return(reg2403)
-			return
-		} else {
-			reg2404 := MakeSymbol("shen.compile_to_kl")
-			__e.TailApply(__defun__shen_4f__error, reg2404)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.compile_to_kl", value: __defun__shen_4compile__to__kl})
+									gen573 := Call(__e, ShenFunc(symshen_4pair), gen568, gen572)
 
-	__defun__shen_4get_1type = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V325 := __args[0]
-		_ = V325
-		reg2406 := PrimIsPair(V325)
-		if reg2406 == True {
-			reg2407 := MakeSymbol("shen.skip")
-			__e.Return(reg2407)
-			return
-		} else {
-			reg2408 := MakeSymbol("shen.*signedfuncs*")
-			reg2409 := PrimValue(reg2408)
-			reg2410 := Call(__e, __defun__assoc, V325, reg2409)
-			FType := reg2410
-			_ = FType
-			reg2411 := Call(__e, __defun__empty_2, FType)
-			if reg2411 == True {
-				reg2412 := MakeSymbol("shen.skip")
-				__e.Return(reg2412)
-				return
-			} else {
-				reg2413 := PrimTail(FType)
-				__e.Return(reg2413)
-				return
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.get-type", value: __defun__shen_4get_1type})
+									NewStream217 := gen573
+									gen585 := Call(__e, ShenFunc(symhd), NewStream217)
 
-	__defun__shen_4typextable = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V336 := __args[0]
-		_ = V336
-		V337 := __args[1]
-		_ = V337
-		reg2414 := PrimIsPair(V336)
-		var reg2454 Obj
-		if reg2414 == True {
-			reg2415 := PrimTail(V336)
-			reg2416 := PrimIsPair(reg2415)
-			var reg2449 Obj
-			if reg2416 == True {
-				reg2417 := MakeSymbol("-->")
-				reg2418 := PrimTail(V336)
-				reg2419 := PrimHead(reg2418)
-				reg2420 := PrimEqual(reg2417, reg2419)
-				var reg2444 Obj
-				if reg2420 == True {
-					reg2421 := PrimTail(V336)
-					reg2422 := PrimTail(reg2421)
-					reg2423 := PrimIsPair(reg2422)
-					var reg2439 Obj
-					if reg2423 == True {
-						reg2424 := Nil
-						reg2425 := PrimTail(V336)
-						reg2426 := PrimTail(reg2425)
-						reg2427 := PrimTail(reg2426)
-						reg2428 := PrimEqual(reg2424, reg2427)
-						var reg2434 Obj
-						if reg2428 == True {
-							reg2429 := PrimIsPair(V337)
-							var reg2432 Obj
-							if reg2429 == True {
-								reg2430 := True
-								reg2432 = reg2430
-							} else {
-								reg2431 := False
-								reg2432 = reg2431
-							}
-							reg2434 = reg2432
-						} else {
-							reg2433 := False
-							reg2434 = reg2433
-						}
-						var reg2437 Obj
-						if reg2434 == True {
-							reg2435 := True
-							reg2437 = reg2435
-						} else {
-							reg2436 := False
-							reg2437 = reg2436
-						}
-						reg2439 = reg2437
-					} else {
-						reg2438 := False
-						reg2439 = reg2438
-					}
-					var reg2442 Obj
-					if reg2439 == True {
-						reg2440 := True
-						reg2442 = reg2440
-					} else {
-						reg2441 := False
-						reg2442 = reg2441
-					}
-					reg2444 = reg2442
-				} else {
-					reg2443 := False
-					reg2444 = reg2443
-				}
-				var reg2447 Obj
-				if reg2444 == True {
-					reg2445 := True
-					reg2447 = reg2445
-				} else {
-					reg2446 := False
-					reg2447 = reg2446
-				}
-				reg2449 = reg2447
-			} else {
-				reg2448 := False
-				reg2449 = reg2448
-			}
-			var reg2452 Obj
-			if reg2449 == True {
-				reg2450 := True
-				reg2452 = reg2450
-			} else {
-				reg2451 := False
-				reg2452 = reg2451
-			}
-			reg2454 = reg2452
-		} else {
-			reg2453 := False
-			reg2454 = reg2453
-		}
-		if reg2454 == True {
-			reg2455 := PrimHead(V336)
-			reg2456 := PrimIsVariable(reg2455)
-			if reg2456 == True {
-				reg2457 := PrimTail(V336)
-				reg2458 := PrimTail(reg2457)
-				reg2459 := PrimHead(reg2458)
-				reg2460 := PrimTail(V337)
-				__e.TailApply(__defun__shen_4typextable, reg2459, reg2460)
-				return
-			} else {
-				reg2462 := PrimHead(V337)
-				reg2463 := PrimHead(V336)
-				reg2464 := PrimCons(reg2462, reg2463)
-				reg2465 := PrimTail(V336)
-				reg2466 := PrimTail(reg2465)
-				reg2467 := PrimHead(reg2466)
-				reg2468 := PrimTail(V337)
-				reg2469 := Call(__e, __defun__shen_4typextable, reg2467, reg2468)
-				reg2470 := PrimCons(reg2464, reg2469)
-				__e.Return(reg2470)
-				return
-			}
-		} else {
-			reg2471 := Nil
-			__e.Return(reg2471)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.typextable", value: __defun__shen_4typextable})
+									gen586 := Call(__e, ShenFunc(symcons_2), gen585)
 
-	__defun__shen_4assign_1types = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V341 := __args[0]
-		_ = V341
-		V342 := __args[1]
-		_ = V342
-		V343 := __args[2]
-		_ = V343
-		reg2472 := PrimIsPair(V343)
-		var reg2515 Obj
-		if reg2472 == True {
-			reg2473 := MakeSymbol("let")
-			reg2474 := PrimHead(V343)
-			reg2475 := PrimEqual(reg2473, reg2474)
-			var reg2510 Obj
-			if reg2475 == True {
-				reg2476 := PrimTail(V343)
-				reg2477 := PrimIsPair(reg2476)
-				var reg2505 Obj
-				if reg2477 == True {
-					reg2478 := PrimTail(V343)
-					reg2479 := PrimTail(reg2478)
-					reg2480 := PrimIsPair(reg2479)
-					var reg2500 Obj
-					if reg2480 == True {
-						reg2481 := PrimTail(V343)
-						reg2482 := PrimTail(reg2481)
-						reg2483 := PrimTail(reg2482)
-						reg2484 := PrimIsPair(reg2483)
-						var reg2495 Obj
-						if reg2484 == True {
-							reg2485 := Nil
-							reg2486 := PrimTail(V343)
-							reg2487 := PrimTail(reg2486)
-							reg2488 := PrimTail(reg2487)
-							reg2489 := PrimTail(reg2488)
-							reg2490 := PrimEqual(reg2485, reg2489)
-							var reg2493 Obj
-							if reg2490 == True {
-								reg2491 := True
-								reg2493 = reg2491
-							} else {
-								reg2492 := False
-								reg2493 = reg2492
-							}
-							reg2495 = reg2493
-						} else {
-							reg2494 := False
-							reg2495 = reg2494
-						}
-						var reg2498 Obj
-						if reg2495 == True {
-							reg2496 := True
-							reg2498 = reg2496
-						} else {
-							reg2497 := False
-							reg2498 = reg2497
-						}
-						reg2500 = reg2498
-					} else {
-						reg2499 := False
-						reg2500 = reg2499
-					}
-					var reg2503 Obj
-					if reg2500 == True {
-						reg2501 := True
-						reg2503 = reg2501
-					} else {
-						reg2502 := False
-						reg2503 = reg2502
-					}
-					reg2505 = reg2503
-				} else {
-					reg2504 := False
-					reg2505 = reg2504
-				}
-				var reg2508 Obj
-				if reg2505 == True {
-					reg2506 := True
-					reg2508 = reg2506
-				} else {
-					reg2507 := False
-					reg2508 = reg2507
-				}
-				reg2510 = reg2508
-			} else {
-				reg2509 := False
-				reg2510 = reg2509
-			}
-			var reg2513 Obj
-			if reg2510 == True {
-				reg2511 := True
-				reg2513 = reg2511
-			} else {
-				reg2512 := False
-				reg2513 = reg2512
-			}
-			reg2515 = reg2513
-		} else {
-			reg2514 := False
-			reg2515 = reg2514
-		}
-		if reg2515 == True {
-			reg2516 := MakeSymbol("let")
-			reg2517 := PrimTail(V343)
-			reg2518 := PrimHead(reg2517)
-			reg2519 := PrimTail(V343)
-			reg2520 := PrimTail(reg2519)
-			reg2521 := PrimHead(reg2520)
-			reg2522 := Call(__e, __defun__shen_4assign_1types, V341, V342, reg2521)
-			reg2523 := PrimTail(V343)
-			reg2524 := PrimHead(reg2523)
-			reg2525 := PrimCons(reg2524, V341)
-			reg2526 := PrimTail(V343)
-			reg2527 := PrimTail(reg2526)
-			reg2528 := PrimTail(reg2527)
-			reg2529 := PrimHead(reg2528)
-			reg2530 := Call(__e, __defun__shen_4assign_1types, reg2525, V342, reg2529)
-			reg2531 := Nil
-			reg2532 := PrimCons(reg2530, reg2531)
-			reg2533 := PrimCons(reg2522, reg2532)
-			reg2534 := PrimCons(reg2518, reg2533)
-			reg2535 := PrimCons(reg2516, reg2534)
-			__e.Return(reg2535)
-			return
-		} else {
-			reg2536 := PrimIsPair(V343)
-			var reg2569 Obj
-			if reg2536 == True {
-				reg2537 := MakeSymbol("lambda")
-				reg2538 := PrimHead(V343)
-				reg2539 := PrimEqual(reg2537, reg2538)
-				var reg2564 Obj
-				if reg2539 == True {
-					reg2540 := PrimTail(V343)
-					reg2541 := PrimIsPair(reg2540)
-					var reg2559 Obj
-					if reg2541 == True {
-						reg2542 := PrimTail(V343)
-						reg2543 := PrimTail(reg2542)
-						reg2544 := PrimIsPair(reg2543)
-						var reg2554 Obj
-						if reg2544 == True {
-							reg2545 := Nil
-							reg2546 := PrimTail(V343)
-							reg2547 := PrimTail(reg2546)
-							reg2548 := PrimTail(reg2547)
-							reg2549 := PrimEqual(reg2545, reg2548)
-							var reg2552 Obj
-							if reg2549 == True {
-								reg2550 := True
-								reg2552 = reg2550
-							} else {
-								reg2551 := False
-								reg2552 = reg2551
-							}
-							reg2554 = reg2552
-						} else {
-							reg2553 := False
-							reg2554 = reg2553
-						}
-						var reg2557 Obj
-						if reg2554 == True {
-							reg2555 := True
-							reg2557 = reg2555
-						} else {
-							reg2556 := False
-							reg2557 = reg2556
-						}
-						reg2559 = reg2557
-					} else {
-						reg2558 := False
-						reg2559 = reg2558
-					}
-					var reg2562 Obj
-					if reg2559 == True {
-						reg2560 := True
-						reg2562 = reg2560
-					} else {
-						reg2561 := False
-						reg2562 = reg2561
-					}
-					reg2564 = reg2562
-				} else {
-					reg2563 := False
-					reg2564 = reg2563
-				}
-				var reg2567 Obj
-				if reg2564 == True {
-					reg2565 := True
-					reg2567 = reg2565
-				} else {
-					reg2566 := False
-					reg2567 = reg2566
-				}
-				reg2569 = reg2567
-			} else {
-				reg2568 := False
-				reg2569 = reg2568
-			}
-			if reg2569 == True {
-				reg2570 := MakeSymbol("lambda")
-				reg2571 := PrimTail(V343)
-				reg2572 := PrimHead(reg2571)
-				reg2573 := PrimTail(V343)
-				reg2574 := PrimHead(reg2573)
-				reg2575 := PrimCons(reg2574, V341)
-				reg2576 := PrimTail(V343)
-				reg2577 := PrimTail(reg2576)
-				reg2578 := PrimHead(reg2577)
-				reg2579 := Call(__e, __defun__shen_4assign_1types, reg2575, V342, reg2578)
-				reg2580 := Nil
-				reg2581 := PrimCons(reg2579, reg2580)
-				reg2582 := PrimCons(reg2572, reg2581)
-				reg2583 := PrimCons(reg2570, reg2582)
-				__e.Return(reg2583)
-				return
-			} else {
-				reg2584 := PrimIsPair(V343)
-				var reg2592 Obj
-				if reg2584 == True {
-					reg2585 := MakeSymbol("cond")
-					reg2586 := PrimHead(V343)
-					reg2587 := PrimEqual(reg2585, reg2586)
-					var reg2590 Obj
-					if reg2587 == True {
-						reg2588 := True
-						reg2590 = reg2588
-					} else {
-						reg2589 := False
-						reg2590 = reg2589
-					}
-					reg2592 = reg2590
-				} else {
-					reg2591 := False
-					reg2592 = reg2591
-				}
-				if reg2592 == True {
-					reg2593 := MakeSymbol("cond")
-					reg2594 := MakeNative(func(__e Evaluator, __args ...Obj) {
-						Y := __args[0]
-						_ = Y
-						reg2595 := PrimHead(Y)
-						reg2596 := Call(__e, __defun__shen_4assign_1types, V341, V342, reg2595)
-						reg2597 := PrimTail(Y)
-						reg2598 := PrimHead(reg2597)
-						reg2599 := Call(__e, __defun__shen_4assign_1types, V341, V342, reg2598)
-						reg2600 := Nil
-						reg2601 := PrimCons(reg2599, reg2600)
-						reg2602 := PrimCons(reg2596, reg2601)
-						__e.Return(reg2602)
-						return
-					}, 1)
-					reg2603 := PrimTail(V343)
-					reg2604 := Call(__e, __defun__map, reg2594, reg2603)
-					reg2605 := PrimCons(reg2593, reg2604)
-					__e.Return(reg2605)
-					return
-				} else {
-					reg2606 := PrimIsPair(V343)
-					if reg2606 == True {
-						reg2607 := PrimHead(V343)
-						reg2608 := Call(__e, __defun__shen_4get_1type, reg2607)
-						reg2609 := PrimTail(V343)
-						reg2610 := Call(__e, __defun__shen_4typextable, reg2608, reg2609)
-						NewTable := reg2610
-						_ = NewTable
-						reg2611 := PrimHead(V343)
-						reg2612 := MakeNative(func(__e Evaluator, __args ...Obj) {
-							Y := __args[0]
-							_ = Y
-							reg2613 := Call(__e, __defun__append, V342, NewTable)
-							__e.TailApply(__defun__shen_4assign_1types, V341, reg2613, Y)
-							return
-						}, 1)
-						reg2615 := PrimTail(V343)
-						reg2616 := Call(__e, __defun__map, reg2612, reg2615)
-						reg2617 := PrimCons(reg2611, reg2616)
-						__e.Return(reg2617)
-						return
-					} else {
-						reg2618 := Call(__e, __defun__assoc, V343, V342)
-						AtomType := reg2618
-						_ = AtomType
-						reg2619 := PrimIsPair(AtomType)
-						if reg2619 == True {
-							reg2620 := MakeSymbol("type")
-							reg2621 := PrimTail(AtomType)
-							reg2622 := Nil
-							reg2623 := PrimCons(reg2621, reg2622)
-							reg2624 := PrimCons(V343, reg2623)
-							reg2625 := PrimCons(reg2620, reg2624)
-							__e.Return(reg2625)
-							return
-						} else {
-							reg2626 := Call(__e, __defun__element_2, V343, V341)
-							if reg2626 == True {
-								__e.Return(V343)
-								return
-							} else {
-								__e.TailApply(__defun__shen_4atom_1type, V343)
-								return
-							}
-						}
-					}
-				}
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.assign-types", value: __defun__shen_4assign_1types})
+									var gen587 Obj
+									if True == gen586 {
+										gen583 := Call(__e, ShenFunc(symshen_4hdhd), NewStream217)
 
-	__defun__shen_4atom_1type = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V345 := __args[0]
-		_ = V345
-		reg2628 := PrimIsString(V345)
-		if reg2628 == True {
-			reg2629 := MakeSymbol("type")
-			reg2630 := MakeSymbol("string")
-			reg2631 := Nil
-			reg2632 := PrimCons(reg2630, reg2631)
-			reg2633 := PrimCons(V345, reg2632)
-			reg2634 := PrimCons(reg2629, reg2633)
-			__e.Return(reg2634)
-			return
-		} else {
-			reg2635 := PrimIsNumber(V345)
-			if reg2635 == True {
-				reg2636 := MakeSymbol("type")
-				reg2637 := MakeSymbol("number")
-				reg2638 := Nil
-				reg2639 := PrimCons(reg2637, reg2638)
-				reg2640 := PrimCons(V345, reg2639)
-				reg2641 := PrimCons(reg2636, reg2640)
-				__e.Return(reg2641)
-				return
-			} else {
-				reg2642 := Call(__e, __defun__boolean_2, V345)
-				if reg2642 == True {
-					reg2643 := MakeSymbol("type")
-					reg2644 := MakeSymbol("boolean")
-					reg2645 := Nil
-					reg2646 := PrimCons(reg2644, reg2645)
-					reg2647 := PrimCons(V345, reg2646)
-					reg2648 := PrimCons(reg2643, reg2647)
-					__e.Return(reg2648)
-					return
-				} else {
-					reg2649 := PrimIsSymbol(V345)
-					if reg2649 == True {
-						reg2650 := MakeSymbol("type")
-						reg2651 := MakeSymbol("symbol")
-						reg2652 := Nil
-						reg2653 := PrimCons(reg2651, reg2652)
-						reg2654 := PrimCons(V345, reg2653)
-						reg2655 := PrimCons(reg2650, reg2654)
-						__e.Return(reg2655)
-						return
-					} else {
-						__e.Return(V345)
-						return
-					}
-				}
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.atom-type", value: __defun__shen_4atom_1type})
+										gen584 := Call(__e, ShenFunc(sym_a), MakeNumber(0), gen583)
 
-	__defun__shen_4store_1arity = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V350 := __args[0]
-		_ = V350
-		V351 := __args[1]
-		_ = V351
-		reg2656 := MakeSymbol("shen.*installing-kl*")
-		reg2657 := PrimValue(reg2656)
-		if reg2657 == True {
-			reg2658 := MakeSymbol("shen.skip")
-			__e.Return(reg2658)
-			return
-		} else {
-			reg2659 := MakeSymbol("arity")
-			reg2660 := MakeSymbol("*property-vector*")
-			reg2661 := PrimValue(reg2660)
-			__e.TailApply(__defun__put, V350, reg2659, V351, reg2661)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.store-arity", value: __defun__shen_4store_1arity})
-
-	__defun__shen_4reduce = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V353 := __args[0]
-		_ = V353
-		reg2663 := MakeSymbol("shen.*teststack*")
-		reg2664 := Nil
-		reg2665 := PrimSet(reg2663, reg2664)
-		_ = reg2665
-		reg2666 := Call(__e, __defun__shen_4reduce__help, V353)
-		Result := reg2666
-		_ = Result
-		reg2667 := MakeSymbol(":")
-		reg2668 := MakeSymbol("shen.tests")
-		reg2669 := MakeSymbol("shen.*teststack*")
-		reg2670 := PrimValue(reg2669)
-		reg2671 := Call(__e, __defun__reverse, reg2670)
-		reg2672 := PrimCons(reg2668, reg2671)
-		reg2673 := PrimCons(reg2667, reg2672)
-		reg2674 := Nil
-		reg2675 := PrimCons(Result, reg2674)
-		reg2676 := PrimCons(reg2673, reg2675)
-		__e.Return(reg2676)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.reduce", value: __defun__shen_4reduce})
-
-	__defun__shen_4reduce__help = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V355 := __args[0]
-		_ = V355
-		reg2677 := PrimIsPair(V355)
-		var reg2791 Obj
-		if reg2677 == True {
-			reg2678 := PrimHead(V355)
-			reg2679 := PrimIsPair(reg2678)
-			var reg2786 Obj
-			if reg2679 == True {
-				reg2680 := MakeSymbol("/.")
-				reg2681 := PrimHead(V355)
-				reg2682 := PrimHead(reg2681)
-				reg2683 := PrimEqual(reg2680, reg2682)
-				var reg2781 Obj
-				if reg2683 == True {
-					reg2684 := PrimHead(V355)
-					reg2685 := PrimTail(reg2684)
-					reg2686 := PrimIsPair(reg2685)
-					var reg2776 Obj
-					if reg2686 == True {
-						reg2687 := PrimHead(V355)
-						reg2688 := PrimTail(reg2687)
-						reg2689 := PrimHead(reg2688)
-						reg2690 := PrimIsPair(reg2689)
-						var reg2771 Obj
-						if reg2690 == True {
-							reg2691 := MakeSymbol("cons")
-							reg2692 := PrimHead(V355)
-							reg2693 := PrimTail(reg2692)
-							reg2694 := PrimHead(reg2693)
-							reg2695 := PrimHead(reg2694)
-							reg2696 := PrimEqual(reg2691, reg2695)
-							var reg2766 Obj
-							if reg2696 == True {
-								reg2697 := PrimHead(V355)
-								reg2698 := PrimTail(reg2697)
-								reg2699 := PrimHead(reg2698)
-								reg2700 := PrimTail(reg2699)
-								reg2701 := PrimIsPair(reg2700)
-								var reg2761 Obj
-								if reg2701 == True {
-									reg2702 := PrimHead(V355)
-									reg2703 := PrimTail(reg2702)
-									reg2704 := PrimHead(reg2703)
-									reg2705 := PrimTail(reg2704)
-									reg2706 := PrimTail(reg2705)
-									reg2707 := PrimIsPair(reg2706)
-									var reg2756 Obj
-									if reg2707 == True {
-										reg2708 := Nil
-										reg2709 := PrimHead(V355)
-										reg2710 := PrimTail(reg2709)
-										reg2711 := PrimHead(reg2710)
-										reg2712 := PrimTail(reg2711)
-										reg2713 := PrimTail(reg2712)
-										reg2714 := PrimTail(reg2713)
-										reg2715 := PrimEqual(reg2708, reg2714)
-										var reg2751 Obj
-										if reg2715 == True {
-											reg2716 := PrimHead(V355)
-											reg2717 := PrimTail(reg2716)
-											reg2718 := PrimTail(reg2717)
-											reg2719 := PrimIsPair(reg2718)
-											var reg2746 Obj
-											if reg2719 == True {
-												reg2720 := Nil
-												reg2721 := PrimHead(V355)
-												reg2722 := PrimTail(reg2721)
-												reg2723 := PrimTail(reg2722)
-												reg2724 := PrimTail(reg2723)
-												reg2725 := PrimEqual(reg2720, reg2724)
-												var reg2741 Obj
-												if reg2725 == True {
-													reg2726 := PrimTail(V355)
-													reg2727 := PrimIsPair(reg2726)
-													var reg2736 Obj
-													if reg2727 == True {
-														reg2728 := Nil
-														reg2729 := PrimTail(V355)
-														reg2730 := PrimTail(reg2729)
-														reg2731 := PrimEqual(reg2728, reg2730)
-														var reg2734 Obj
-														if reg2731 == True {
-															reg2732 := True
-															reg2734 = reg2732
-														} else {
-															reg2733 := False
-															reg2734 = reg2733
-														}
-														reg2736 = reg2734
-													} else {
-														reg2735 := False
-														reg2736 = reg2735
-													}
-													var reg2739 Obj
-													if reg2736 == True {
-														reg2737 := True
-														reg2739 = reg2737
-													} else {
-														reg2738 := False
-														reg2739 = reg2738
-													}
-													reg2741 = reg2739
-												} else {
-													reg2740 := False
-													reg2741 = reg2740
-												}
-												var reg2744 Obj
-												if reg2741 == True {
-													reg2742 := True
-													reg2744 = reg2742
-												} else {
-													reg2743 := False
-													reg2744 = reg2743
-												}
-												reg2746 = reg2744
-											} else {
-												reg2745 := False
-												reg2746 = reg2745
-											}
-											var reg2749 Obj
-											if reg2746 == True {
-												reg2747 := True
-												reg2749 = reg2747
-											} else {
-												reg2748 := False
-												reg2749 = reg2748
-											}
-											reg2751 = reg2749
+										if True == gen584 {
+											gen587 = True
 										} else {
-											reg2750 := False
-											reg2751 = reg2750
+											gen587 = False
 										}
-										var reg2754 Obj
-										if reg2751 == True {
-											reg2752 := True
-											reg2754 = reg2752
-										} else {
-											reg2753 := False
-											reg2754 = reg2753
-										}
-										reg2756 = reg2754
+
 									} else {
-										reg2755 := False
-										reg2756 = reg2755
+										gen587 = False
 									}
-									var reg2759 Obj
-									if reg2756 == True {
-										reg2757 := True
-										reg2759 = reg2757
+									if True == gen587 {
+										gen574 := Call(__e, ShenFunc(symshen_4tlhd), NewStream217)
+
+										gen575 := Call(__e, ShenFunc(symshen_4hdtl), NewStream217)
+
+										gen576 := Call(__e, ShenFunc(symshen_4pair), gen574, gen575)
+
+										NewStream218 := gen576
+										_ = NewStream218
+										gen577 := Call(__e, ShenFunc(symshen_4tlhd), V220)
+
+										gen578 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+										gen579 := Call(__e, ShenFunc(symshen_4pair), gen577, gen578)
+
+										gen580 := Call(__e, ShenFunc(symhd), gen579)
+
+										gen581 := Call(__e, ShenFunc(symcons), MakeNumber(0), Nil)
+
+										gen582 := Call(__e, ShenFunc(symcons), MakeSymbol("vector"), gen581)
+
+										gen604 = Call(__e, ShenFunc(symshen_4pair), gen580, gen582)
+
 									} else {
-										reg2758 := False
-										reg2759 = reg2758
+										gen604 = Call(__e, ShenFunc(symfail))
+
 									}
-									reg2761 = reg2759
+
 								} else {
-									reg2760 := False
-									reg2761 = reg2760
+									gen604 = Call(__e, ShenFunc(symfail))
+
 								}
-								var reg2764 Obj
-								if reg2761 == True {
-									reg2762 := True
-									reg2764 = reg2762
-								} else {
-									reg2763 := False
-									reg2764 = reg2763
-								}
-								reg2766 = reg2764
+
 							} else {
-								reg2765 := False
-								reg2766 = reg2765
+								gen604 = Call(__e, ShenFunc(symfail))
+
 							}
-							var reg2769 Obj
-							if reg2766 == True {
-								reg2767 := True
-								reg2769 = reg2767
-							} else {
-								reg2768 := False
-								reg2769 = reg2768
-							}
-							reg2771 = reg2769
-						} else {
-							reg2770 := False
-							reg2771 = reg2770
-						}
-						var reg2774 Obj
-						if reg2771 == True {
-							reg2772 := True
-							reg2774 = reg2772
-						} else {
-							reg2773 := False
-							reg2774 = reg2773
-						}
-						reg2776 = reg2774
-					} else {
-						reg2775 := False
-						reg2776 = reg2775
-					}
-					var reg2779 Obj
-					if reg2776 == True {
-						reg2777 := True
-						reg2779 = reg2777
-					} else {
-						reg2778 := False
-						reg2779 = reg2778
-					}
-					reg2781 = reg2779
-				} else {
-					reg2780 := False
-					reg2781 = reg2780
-				}
-				var reg2784 Obj
-				if reg2781 == True {
-					reg2782 := True
-					reg2784 = reg2782
-				} else {
-					reg2783 := False
-					reg2784 = reg2783
-				}
-				reg2786 = reg2784
-			} else {
-				reg2785 := False
-				reg2786 = reg2785
-			}
-			var reg2789 Obj
-			if reg2786 == True {
-				reg2787 := True
-				reg2789 = reg2787
-			} else {
-				reg2788 := False
-				reg2789 = reg2788
-			}
-			reg2791 = reg2789
-		} else {
-			reg2790 := False
-			reg2791 = reg2790
-		}
-		if reg2791 == True {
-			reg2792 := MakeSymbol("cons?")
-			reg2793 := PrimTail(V355)
-			reg2794 := PrimCons(reg2792, reg2793)
-			reg2795 := Call(__e, __defun__shen_4add__test, reg2794)
-			_ = reg2795
-			reg2796 := MakeSymbol("/.")
-			reg2797 := PrimHead(V355)
-			reg2798 := PrimTail(reg2797)
-			reg2799 := PrimHead(reg2798)
-			reg2800 := PrimTail(reg2799)
-			reg2801 := PrimHead(reg2800)
-			reg2802 := MakeSymbol("/.")
-			reg2803 := PrimHead(V355)
-			reg2804 := PrimTail(reg2803)
-			reg2805 := PrimHead(reg2804)
-			reg2806 := PrimTail(reg2805)
-			reg2807 := PrimTail(reg2806)
-			reg2808 := PrimHead(reg2807)
-			reg2809 := PrimTail(V355)
-			reg2810 := PrimHead(reg2809)
-			reg2811 := PrimHead(V355)
-			reg2812 := PrimTail(reg2811)
-			reg2813 := PrimHead(reg2812)
-			reg2814 := PrimHead(V355)
-			reg2815 := PrimTail(reg2814)
-			reg2816 := PrimTail(reg2815)
-			reg2817 := PrimHead(reg2816)
-			reg2818 := Call(__e, __defun__shen_4ebr, reg2810, reg2813, reg2817)
-			reg2819 := Nil
-			reg2820 := PrimCons(reg2818, reg2819)
-			reg2821 := PrimCons(reg2808, reg2820)
-			reg2822 := PrimCons(reg2802, reg2821)
-			reg2823 := Nil
-			reg2824 := PrimCons(reg2822, reg2823)
-			reg2825 := PrimCons(reg2801, reg2824)
-			reg2826 := PrimCons(reg2796, reg2825)
-			Abstraction := reg2826
-			_ = Abstraction
-			reg2827 := MakeSymbol("hd")
-			reg2828 := PrimTail(V355)
-			reg2829 := PrimCons(reg2827, reg2828)
-			reg2830 := Nil
-			reg2831 := PrimCons(reg2829, reg2830)
-			reg2832 := PrimCons(Abstraction, reg2831)
-			reg2833 := MakeSymbol("tl")
-			reg2834 := PrimTail(V355)
-			reg2835 := PrimCons(reg2833, reg2834)
-			reg2836 := Nil
-			reg2837 := PrimCons(reg2835, reg2836)
-			reg2838 := PrimCons(reg2832, reg2837)
-			Application := reg2838
-			_ = Application
-			__e.TailApply(__defun__shen_4reduce__help, Application)
-			return
-		} else {
-			reg2840 := PrimIsPair(V355)
-			var reg2954 Obj
-			if reg2840 == True {
-				reg2841 := PrimHead(V355)
-				reg2842 := PrimIsPair(reg2841)
-				var reg2949 Obj
-				if reg2842 == True {
-					reg2843 := MakeSymbol("/.")
-					reg2844 := PrimHead(V355)
-					reg2845 := PrimHead(reg2844)
-					reg2846 := PrimEqual(reg2843, reg2845)
-					var reg2944 Obj
-					if reg2846 == True {
-						reg2847 := PrimHead(V355)
-						reg2848 := PrimTail(reg2847)
-						reg2849 := PrimIsPair(reg2848)
-						var reg2939 Obj
-						if reg2849 == True {
-							reg2850 := PrimHead(V355)
-							reg2851 := PrimTail(reg2850)
-							reg2852 := PrimHead(reg2851)
-							reg2853 := PrimIsPair(reg2852)
-							var reg2934 Obj
-							if reg2853 == True {
-								reg2854 := MakeSymbol("@p")
-								reg2855 := PrimHead(V355)
-								reg2856 := PrimTail(reg2855)
-								reg2857 := PrimHead(reg2856)
-								reg2858 := PrimHead(reg2857)
-								reg2859 := PrimEqual(reg2854, reg2858)
-								var reg2929 Obj
-								if reg2859 == True {
-									reg2860 := PrimHead(V355)
-									reg2861 := PrimTail(reg2860)
-									reg2862 := PrimHead(reg2861)
-									reg2863 := PrimTail(reg2862)
-									reg2864 := PrimIsPair(reg2863)
-									var reg2924 Obj
-									if reg2864 == True {
-										reg2865 := PrimHead(V355)
-										reg2866 := PrimTail(reg2865)
-										reg2867 := PrimHead(reg2866)
-										reg2868 := PrimTail(reg2867)
-										reg2869 := PrimTail(reg2868)
-										reg2870 := PrimIsPair(reg2869)
-										var reg2919 Obj
-										if reg2870 == True {
-											reg2871 := Nil
-											reg2872 := PrimHead(V355)
-											reg2873 := PrimTail(reg2872)
-											reg2874 := PrimHead(reg2873)
-											reg2875 := PrimTail(reg2874)
-											reg2876 := PrimTail(reg2875)
-											reg2877 := PrimTail(reg2876)
-											reg2878 := PrimEqual(reg2871, reg2877)
-											var reg2914 Obj
-											if reg2878 == True {
-												reg2879 := PrimHead(V355)
-												reg2880 := PrimTail(reg2879)
-												reg2881 := PrimTail(reg2880)
-												reg2882 := PrimIsPair(reg2881)
-												var reg2909 Obj
-												if reg2882 == True {
-													reg2883 := Nil
-													reg2884 := PrimHead(V355)
-													reg2885 := PrimTail(reg2884)
-													reg2886 := PrimTail(reg2885)
-													reg2887 := PrimTail(reg2886)
-													reg2888 := PrimEqual(reg2883, reg2887)
-													var reg2904 Obj
-													if reg2888 == True {
-														reg2889 := PrimTail(V355)
-														reg2890 := PrimIsPair(reg2889)
-														var reg2899 Obj
-														if reg2890 == True {
-															reg2891 := Nil
-															reg2892 := PrimTail(V355)
-															reg2893 := PrimTail(reg2892)
-															reg2894 := PrimEqual(reg2891, reg2893)
-															var reg2897 Obj
-															if reg2894 == True {
-																reg2895 := True
-																reg2897 = reg2895
-															} else {
-																reg2896 := False
-																reg2897 = reg2896
-															}
-															reg2899 = reg2897
-														} else {
-															reg2898 := False
-															reg2899 = reg2898
-														}
-														var reg2902 Obj
-														if reg2899 == True {
-															reg2900 := True
-															reg2902 = reg2900
-														} else {
-															reg2901 := False
-															reg2902 = reg2901
-														}
-														reg2904 = reg2902
-													} else {
-														reg2903 := False
-														reg2904 = reg2903
-													}
-													var reg2907 Obj
-													if reg2904 == True {
-														reg2905 := True
-														reg2907 = reg2905
-													} else {
-														reg2906 := False
-														reg2907 = reg2906
-													}
-													reg2909 = reg2907
-												} else {
-													reg2908 := False
-													reg2909 = reg2908
-												}
-												var reg2912 Obj
-												if reg2909 == True {
-													reg2910 := True
-													reg2912 = reg2910
-												} else {
-													reg2911 := False
-													reg2912 = reg2911
-												}
-												reg2914 = reg2912
-											} else {
-												reg2913 := False
-												reg2914 = reg2913
-											}
-											var reg2917 Obj
-											if reg2914 == True {
-												reg2915 := True
-												reg2917 = reg2915
-											} else {
-												reg2916 := False
-												reg2917 = reg2916
-											}
-											reg2919 = reg2917
-										} else {
-											reg2918 := False
-											reg2919 = reg2918
-										}
-										var reg2922 Obj
-										if reg2919 == True {
-											reg2920 := True
-											reg2922 = reg2920
-										} else {
-											reg2921 := False
-											reg2922 = reg2921
-										}
-										reg2924 = reg2922
-									} else {
-										reg2923 := False
-										reg2924 = reg2923
-									}
-									var reg2927 Obj
-									if reg2924 == True {
-										reg2925 := True
-										reg2927 = reg2925
-									} else {
-										reg2926 := False
-										reg2927 = reg2926
-									}
-									reg2929 = reg2927
-								} else {
-									reg2928 := False
-									reg2929 = reg2928
-								}
-								var reg2932 Obj
-								if reg2929 == True {
-									reg2930 := True
-									reg2932 = reg2930
-								} else {
-									reg2931 := False
-									reg2932 = reg2931
-								}
-								reg2934 = reg2932
-							} else {
-								reg2933 := False
-								reg2934 = reg2933
-							}
-							var reg2937 Obj
-							if reg2934 == True {
-								reg2935 := True
-								reg2937 = reg2935
-							} else {
-								reg2936 := False
-								reg2937 = reg2936
-							}
-							reg2939 = reg2937
-						} else {
-							reg2938 := False
-							reg2939 = reg2938
-						}
-						var reg2942 Obj
-						if reg2939 == True {
-							reg2940 := True
-							reg2942 = reg2940
-						} else {
-							reg2941 := False
-							reg2942 = reg2941
-						}
-						reg2944 = reg2942
-					} else {
-						reg2943 := False
-						reg2944 = reg2943
-					}
-					var reg2947 Obj
-					if reg2944 == True {
-						reg2945 := True
-						reg2947 = reg2945
-					} else {
-						reg2946 := False
-						reg2947 = reg2946
-					}
-					reg2949 = reg2947
-				} else {
-					reg2948 := False
-					reg2949 = reg2948
-				}
-				var reg2952 Obj
-				if reg2949 == True {
-					reg2950 := True
-					reg2952 = reg2950
-				} else {
-					reg2951 := False
-					reg2952 = reg2951
-				}
-				reg2954 = reg2952
-			} else {
-				reg2953 := False
-				reg2954 = reg2953
-			}
-			if reg2954 == True {
-				reg2955 := MakeSymbol("tuple?")
-				reg2956 := PrimTail(V355)
-				reg2957 := PrimCons(reg2955, reg2956)
-				reg2958 := Call(__e, __defun__shen_4add__test, reg2957)
-				_ = reg2958
-				reg2959 := MakeSymbol("/.")
-				reg2960 := PrimHead(V355)
-				reg2961 := PrimTail(reg2960)
-				reg2962 := PrimHead(reg2961)
-				reg2963 := PrimTail(reg2962)
-				reg2964 := PrimHead(reg2963)
-				reg2965 := MakeSymbol("/.")
-				reg2966 := PrimHead(V355)
-				reg2967 := PrimTail(reg2966)
-				reg2968 := PrimHead(reg2967)
-				reg2969 := PrimTail(reg2968)
-				reg2970 := PrimTail(reg2969)
-				reg2971 := PrimHead(reg2970)
-				reg2972 := PrimTail(V355)
-				reg2973 := PrimHead(reg2972)
-				reg2974 := PrimHead(V355)
-				reg2975 := PrimTail(reg2974)
-				reg2976 := PrimHead(reg2975)
-				reg2977 := PrimHead(V355)
-				reg2978 := PrimTail(reg2977)
-				reg2979 := PrimTail(reg2978)
-				reg2980 := PrimHead(reg2979)
-				reg2981 := Call(__e, __defun__shen_4ebr, reg2973, reg2976, reg2980)
-				reg2982 := Nil
-				reg2983 := PrimCons(reg2981, reg2982)
-				reg2984 := PrimCons(reg2971, reg2983)
-				reg2985 := PrimCons(reg2965, reg2984)
-				reg2986 := Nil
-				reg2987 := PrimCons(reg2985, reg2986)
-				reg2988 := PrimCons(reg2964, reg2987)
-				reg2989 := PrimCons(reg2959, reg2988)
-				Abstraction := reg2989
-				_ = Abstraction
-				reg2990 := MakeSymbol("fst")
-				reg2991 := PrimTail(V355)
-				reg2992 := PrimCons(reg2990, reg2991)
-				reg2993 := Nil
-				reg2994 := PrimCons(reg2992, reg2993)
-				reg2995 := PrimCons(Abstraction, reg2994)
-				reg2996 := MakeSymbol("snd")
-				reg2997 := PrimTail(V355)
-				reg2998 := PrimCons(reg2996, reg2997)
-				reg2999 := Nil
-				reg3000 := PrimCons(reg2998, reg2999)
-				reg3001 := PrimCons(reg2995, reg3000)
-				Application := reg3001
-				_ = Application
-				__e.TailApply(__defun__shen_4reduce__help, Application)
-				return
-			} else {
-				reg3003 := PrimIsPair(V355)
-				var reg3117 Obj
-				if reg3003 == True {
-					reg3004 := PrimHead(V355)
-					reg3005 := PrimIsPair(reg3004)
-					var reg3112 Obj
-					if reg3005 == True {
-						reg3006 := MakeSymbol("/.")
-						reg3007 := PrimHead(V355)
-						reg3008 := PrimHead(reg3007)
-						reg3009 := PrimEqual(reg3006, reg3008)
-						var reg3107 Obj
-						if reg3009 == True {
-							reg3010 := PrimHead(V355)
-							reg3011 := PrimTail(reg3010)
-							reg3012 := PrimIsPair(reg3011)
-							var reg3102 Obj
-							if reg3012 == True {
-								reg3013 := PrimHead(V355)
-								reg3014 := PrimTail(reg3013)
-								reg3015 := PrimHead(reg3014)
-								reg3016 := PrimIsPair(reg3015)
-								var reg3097 Obj
-								if reg3016 == True {
-									reg3017 := MakeSymbol("@v")
-									reg3018 := PrimHead(V355)
-									reg3019 := PrimTail(reg3018)
-									reg3020 := PrimHead(reg3019)
-									reg3021 := PrimHead(reg3020)
-									reg3022 := PrimEqual(reg3017, reg3021)
-									var reg3092 Obj
-									if reg3022 == True {
-										reg3023 := PrimHead(V355)
-										reg3024 := PrimTail(reg3023)
-										reg3025 := PrimHead(reg3024)
-										reg3026 := PrimTail(reg3025)
-										reg3027 := PrimIsPair(reg3026)
-										var reg3087 Obj
-										if reg3027 == True {
-											reg3028 := PrimHead(V355)
-											reg3029 := PrimTail(reg3028)
-											reg3030 := PrimHead(reg3029)
-											reg3031 := PrimTail(reg3030)
-											reg3032 := PrimTail(reg3031)
-											reg3033 := PrimIsPair(reg3032)
-											var reg3082 Obj
-											if reg3033 == True {
-												reg3034 := Nil
-												reg3035 := PrimHead(V355)
-												reg3036 := PrimTail(reg3035)
-												reg3037 := PrimHead(reg3036)
-												reg3038 := PrimTail(reg3037)
-												reg3039 := PrimTail(reg3038)
-												reg3040 := PrimTail(reg3039)
-												reg3041 := PrimEqual(reg3034, reg3040)
-												var reg3077 Obj
-												if reg3041 == True {
-													reg3042 := PrimHead(V355)
-													reg3043 := PrimTail(reg3042)
-													reg3044 := PrimTail(reg3043)
-													reg3045 := PrimIsPair(reg3044)
-													var reg3072 Obj
-													if reg3045 == True {
-														reg3046 := Nil
-														reg3047 := PrimHead(V355)
-														reg3048 := PrimTail(reg3047)
-														reg3049 := PrimTail(reg3048)
-														reg3050 := PrimTail(reg3049)
-														reg3051 := PrimEqual(reg3046, reg3050)
-														var reg3067 Obj
-														if reg3051 == True {
-															reg3052 := PrimTail(V355)
-															reg3053 := PrimIsPair(reg3052)
-															var reg3062 Obj
-															if reg3053 == True {
-																reg3054 := Nil
-																reg3055 := PrimTail(V355)
-																reg3056 := PrimTail(reg3055)
-																reg3057 := PrimEqual(reg3054, reg3056)
-																var reg3060 Obj
-																if reg3057 == True {
-																	reg3058 := True
-																	reg3060 = reg3058
-																} else {
-																	reg3059 := False
-																	reg3060 = reg3059
-																}
-																reg3062 = reg3060
-															} else {
-																reg3061 := False
-																reg3062 = reg3061
-															}
-															var reg3065 Obj
-															if reg3062 == True {
-																reg3063 := True
-																reg3065 = reg3063
-															} else {
-																reg3064 := False
-																reg3065 = reg3064
-															}
-															reg3067 = reg3065
-														} else {
-															reg3066 := False
-															reg3067 = reg3066
-														}
-														var reg3070 Obj
-														if reg3067 == True {
-															reg3068 := True
-															reg3070 = reg3068
-														} else {
-															reg3069 := False
-															reg3070 = reg3069
-														}
-														reg3072 = reg3070
-													} else {
-														reg3071 := False
-														reg3072 = reg3071
-													}
-													var reg3075 Obj
-													if reg3072 == True {
-														reg3073 := True
-														reg3075 = reg3073
-													} else {
-														reg3074 := False
-														reg3075 = reg3074
-													}
-													reg3077 = reg3075
-												} else {
-													reg3076 := False
-													reg3077 = reg3076
-												}
-												var reg3080 Obj
-												if reg3077 == True {
-													reg3078 := True
-													reg3080 = reg3078
-												} else {
-													reg3079 := False
-													reg3080 = reg3079
-												}
-												reg3082 = reg3080
-											} else {
-												reg3081 := False
-												reg3082 = reg3081
-											}
-											var reg3085 Obj
-											if reg3082 == True {
-												reg3083 := True
-												reg3085 = reg3083
-											} else {
-												reg3084 := False
-												reg3085 = reg3084
-											}
-											reg3087 = reg3085
-										} else {
-											reg3086 := False
-											reg3087 = reg3086
-										}
-										var reg3090 Obj
-										if reg3087 == True {
-											reg3088 := True
-											reg3090 = reg3088
-										} else {
-											reg3089 := False
-											reg3090 = reg3089
-										}
-										reg3092 = reg3090
-									} else {
-										reg3091 := False
-										reg3092 = reg3091
-									}
-									var reg3095 Obj
-									if reg3092 == True {
-										reg3093 := True
-										reg3095 = reg3093
-									} else {
-										reg3094 := False
-										reg3095 = reg3094
-									}
-									reg3097 = reg3095
-								} else {
-									reg3096 := False
-									reg3097 = reg3096
-								}
-								var reg3100 Obj
-								if reg3097 == True {
-									reg3098 := True
-									reg3100 = reg3098
-								} else {
-									reg3099 := False
-									reg3100 = reg3099
-								}
-								reg3102 = reg3100
-							} else {
-								reg3101 := False
-								reg3102 = reg3101
-							}
-							var reg3105 Obj
-							if reg3102 == True {
-								reg3103 := True
-								reg3105 = reg3103
-							} else {
-								reg3104 := False
-								reg3105 = reg3104
-							}
-							reg3107 = reg3105
-						} else {
-							reg3106 := False
-							reg3107 = reg3106
-						}
-						var reg3110 Obj
-						if reg3107 == True {
-							reg3108 := True
-							reg3110 = reg3108
-						} else {
-							reg3109 := False
-							reg3110 = reg3109
-						}
-						reg3112 = reg3110
-					} else {
-						reg3111 := False
-						reg3112 = reg3111
-					}
-					var reg3115 Obj
-					if reg3112 == True {
-						reg3113 := True
-						reg3115 = reg3113
-					} else {
-						reg3114 := False
-						reg3115 = reg3114
-					}
-					reg3117 = reg3115
-				} else {
-					reg3116 := False
-					reg3117 = reg3116
-				}
-				if reg3117 == True {
-					reg3118 := MakeSymbol("shen.+vector?")
-					reg3119 := PrimTail(V355)
-					reg3120 := PrimCons(reg3118, reg3119)
-					reg3121 := Call(__e, __defun__shen_4add__test, reg3120)
-					_ = reg3121
-					reg3122 := MakeSymbol("/.")
-					reg3123 := PrimHead(V355)
-					reg3124 := PrimTail(reg3123)
-					reg3125 := PrimHead(reg3124)
-					reg3126 := PrimTail(reg3125)
-					reg3127 := PrimHead(reg3126)
-					reg3128 := MakeSymbol("/.")
-					reg3129 := PrimHead(V355)
-					reg3130 := PrimTail(reg3129)
-					reg3131 := PrimHead(reg3130)
-					reg3132 := PrimTail(reg3131)
-					reg3133 := PrimTail(reg3132)
-					reg3134 := PrimHead(reg3133)
-					reg3135 := PrimTail(V355)
-					reg3136 := PrimHead(reg3135)
-					reg3137 := PrimHead(V355)
-					reg3138 := PrimTail(reg3137)
-					reg3139 := PrimHead(reg3138)
-					reg3140 := PrimHead(V355)
-					reg3141 := PrimTail(reg3140)
-					reg3142 := PrimTail(reg3141)
-					reg3143 := PrimHead(reg3142)
-					reg3144 := Call(__e, __defun__shen_4ebr, reg3136, reg3139, reg3143)
-					reg3145 := Nil
-					reg3146 := PrimCons(reg3144, reg3145)
-					reg3147 := PrimCons(reg3134, reg3146)
-					reg3148 := PrimCons(reg3128, reg3147)
-					reg3149 := Nil
-					reg3150 := PrimCons(reg3148, reg3149)
-					reg3151 := PrimCons(reg3127, reg3150)
-					reg3152 := PrimCons(reg3122, reg3151)
-					Abstraction := reg3152
-					_ = Abstraction
-					reg3153 := MakeSymbol("hdv")
-					reg3154 := PrimTail(V355)
-					reg3155 := PrimCons(reg3153, reg3154)
-					reg3156 := Nil
-					reg3157 := PrimCons(reg3155, reg3156)
-					reg3158 := PrimCons(Abstraction, reg3157)
-					reg3159 := MakeSymbol("tlv")
-					reg3160 := PrimTail(V355)
-					reg3161 := PrimCons(reg3159, reg3160)
-					reg3162 := Nil
-					reg3163 := PrimCons(reg3161, reg3162)
-					reg3164 := PrimCons(reg3158, reg3163)
-					Application := reg3164
-					_ = Application
-					__e.TailApply(__defun__shen_4reduce__help, Application)
-					return
-				} else {
-					reg3166 := PrimIsPair(V355)
-					var reg3280 Obj
-					if reg3166 == True {
-						reg3167 := PrimHead(V355)
-						reg3168 := PrimIsPair(reg3167)
-						var reg3275 Obj
-						if reg3168 == True {
-							reg3169 := MakeSymbol("/.")
-							reg3170 := PrimHead(V355)
-							reg3171 := PrimHead(reg3170)
-							reg3172 := PrimEqual(reg3169, reg3171)
-							var reg3270 Obj
-							if reg3172 == True {
-								reg3173 := PrimHead(V355)
-								reg3174 := PrimTail(reg3173)
-								reg3175 := PrimIsPair(reg3174)
-								var reg3265 Obj
-								if reg3175 == True {
-									reg3176 := PrimHead(V355)
-									reg3177 := PrimTail(reg3176)
-									reg3178 := PrimHead(reg3177)
-									reg3179 := PrimIsPair(reg3178)
-									var reg3260 Obj
-									if reg3179 == True {
-										reg3180 := MakeSymbol("@s")
-										reg3181 := PrimHead(V355)
-										reg3182 := PrimTail(reg3181)
-										reg3183 := PrimHead(reg3182)
-										reg3184 := PrimHead(reg3183)
-										reg3185 := PrimEqual(reg3180, reg3184)
-										var reg3255 Obj
-										if reg3185 == True {
-											reg3186 := PrimHead(V355)
-											reg3187 := PrimTail(reg3186)
-											reg3188 := PrimHead(reg3187)
-											reg3189 := PrimTail(reg3188)
-											reg3190 := PrimIsPair(reg3189)
-											var reg3250 Obj
-											if reg3190 == True {
-												reg3191 := PrimHead(V355)
-												reg3192 := PrimTail(reg3191)
-												reg3193 := PrimHead(reg3192)
-												reg3194 := PrimTail(reg3193)
-												reg3195 := PrimTail(reg3194)
-												reg3196 := PrimIsPair(reg3195)
-												var reg3245 Obj
-												if reg3196 == True {
-													reg3197 := Nil
-													reg3198 := PrimHead(V355)
-													reg3199 := PrimTail(reg3198)
-													reg3200 := PrimHead(reg3199)
-													reg3201 := PrimTail(reg3200)
-													reg3202 := PrimTail(reg3201)
-													reg3203 := PrimTail(reg3202)
-													reg3204 := PrimEqual(reg3197, reg3203)
-													var reg3240 Obj
-													if reg3204 == True {
-														reg3205 := PrimHead(V355)
-														reg3206 := PrimTail(reg3205)
-														reg3207 := PrimTail(reg3206)
-														reg3208 := PrimIsPair(reg3207)
-														var reg3235 Obj
-														if reg3208 == True {
-															reg3209 := Nil
-															reg3210 := PrimHead(V355)
-															reg3211 := PrimTail(reg3210)
-															reg3212 := PrimTail(reg3211)
-															reg3213 := PrimTail(reg3212)
-															reg3214 := PrimEqual(reg3209, reg3213)
-															var reg3230 Obj
-															if reg3214 == True {
-																reg3215 := PrimTail(V355)
-																reg3216 := PrimIsPair(reg3215)
-																var reg3225 Obj
-																if reg3216 == True {
-																	reg3217 := Nil
-																	reg3218 := PrimTail(V355)
-																	reg3219 := PrimTail(reg3218)
-																	reg3220 := PrimEqual(reg3217, reg3219)
-																	var reg3223 Obj
-																	if reg3220 == True {
-																		reg3221 := True
-																		reg3223 = reg3221
-																	} else {
-																		reg3222 := False
-																		reg3223 = reg3222
-																	}
-																	reg3225 = reg3223
-																} else {
-																	reg3224 := False
-																	reg3225 = reg3224
-																}
-																var reg3228 Obj
-																if reg3225 == True {
-																	reg3226 := True
-																	reg3228 = reg3226
-																} else {
-																	reg3227 := False
-																	reg3228 = reg3227
-																}
-																reg3230 = reg3228
-															} else {
-																reg3229 := False
-																reg3230 = reg3229
-															}
-															var reg3233 Obj
-															if reg3230 == True {
-																reg3231 := True
-																reg3233 = reg3231
-															} else {
-																reg3232 := False
-																reg3233 = reg3232
-															}
-															reg3235 = reg3233
-														} else {
-															reg3234 := False
-															reg3235 = reg3234
-														}
-														var reg3238 Obj
-														if reg3235 == True {
-															reg3236 := True
-															reg3238 = reg3236
-														} else {
-															reg3237 := False
-															reg3238 = reg3237
-														}
-														reg3240 = reg3238
-													} else {
-														reg3239 := False
-														reg3240 = reg3239
-													}
-													var reg3243 Obj
-													if reg3240 == True {
-														reg3241 := True
-														reg3243 = reg3241
-													} else {
-														reg3242 := False
-														reg3243 = reg3242
-													}
-													reg3245 = reg3243
-												} else {
-													reg3244 := False
-													reg3245 = reg3244
-												}
-												var reg3248 Obj
-												if reg3245 == True {
-													reg3246 := True
-													reg3248 = reg3246
-												} else {
-													reg3247 := False
-													reg3248 = reg3247
-												}
-												reg3250 = reg3248
-											} else {
-												reg3249 := False
-												reg3250 = reg3249
-											}
-											var reg3253 Obj
-											if reg3250 == True {
-												reg3251 := True
-												reg3253 = reg3251
-											} else {
-												reg3252 := False
-												reg3253 = reg3252
-											}
-											reg3255 = reg3253
-										} else {
-											reg3254 := False
-											reg3255 = reg3254
-										}
-										var reg3258 Obj
-										if reg3255 == True {
-											reg3256 := True
-											reg3258 = reg3256
-										} else {
-											reg3257 := False
-											reg3258 = reg3257
-										}
-										reg3260 = reg3258
-									} else {
-										reg3259 := False
-										reg3260 = reg3259
-									}
-									var reg3263 Obj
-									if reg3260 == True {
-										reg3261 := True
-										reg3263 = reg3261
-									} else {
-										reg3262 := False
-										reg3263 = reg3262
-									}
-									reg3265 = reg3263
-								} else {
-									reg3264 := False
-									reg3265 = reg3264
-								}
-								var reg3268 Obj
-								if reg3265 == True {
-									reg3266 := True
-									reg3268 = reg3266
-								} else {
-									reg3267 := False
-									reg3268 = reg3267
-								}
-								reg3270 = reg3268
-							} else {
-								reg3269 := False
-								reg3270 = reg3269
-							}
-							var reg3273 Obj
-							if reg3270 == True {
-								reg3271 := True
-								reg3273 = reg3271
-							} else {
-								reg3272 := False
-								reg3273 = reg3272
-							}
-							reg3275 = reg3273
-						} else {
-							reg3274 := False
-							reg3275 = reg3274
-						}
-						var reg3278 Obj
-						if reg3275 == True {
-							reg3276 := True
-							reg3278 = reg3276
-						} else {
-							reg3277 := False
-							reg3278 = reg3277
-						}
-						reg3280 = reg3278
-					} else {
-						reg3279 := False
-						reg3280 = reg3279
-					}
-					if reg3280 == True {
-						reg3281 := MakeSymbol("shen.+string?")
-						reg3282 := PrimTail(V355)
-						reg3283 := PrimCons(reg3281, reg3282)
-						reg3284 := Call(__e, __defun__shen_4add__test, reg3283)
-						_ = reg3284
-						reg3285 := MakeSymbol("/.")
-						reg3286 := PrimHead(V355)
-						reg3287 := PrimTail(reg3286)
-						reg3288 := PrimHead(reg3287)
-						reg3289 := PrimTail(reg3288)
-						reg3290 := PrimHead(reg3289)
-						reg3291 := MakeSymbol("/.")
-						reg3292 := PrimHead(V355)
-						reg3293 := PrimTail(reg3292)
-						reg3294 := PrimHead(reg3293)
-						reg3295 := PrimTail(reg3294)
-						reg3296 := PrimTail(reg3295)
-						reg3297 := PrimHead(reg3296)
-						reg3298 := PrimTail(V355)
-						reg3299 := PrimHead(reg3298)
-						reg3300 := PrimHead(V355)
-						reg3301 := PrimTail(reg3300)
-						reg3302 := PrimHead(reg3301)
-						reg3303 := PrimHead(V355)
-						reg3304 := PrimTail(reg3303)
-						reg3305 := PrimTail(reg3304)
-						reg3306 := PrimHead(reg3305)
-						reg3307 := Call(__e, __defun__shen_4ebr, reg3299, reg3302, reg3306)
-						reg3308 := Nil
-						reg3309 := PrimCons(reg3307, reg3308)
-						reg3310 := PrimCons(reg3297, reg3309)
-						reg3311 := PrimCons(reg3291, reg3310)
-						reg3312 := Nil
-						reg3313 := PrimCons(reg3311, reg3312)
-						reg3314 := PrimCons(reg3290, reg3313)
-						reg3315 := PrimCons(reg3285, reg3314)
-						Abstraction := reg3315
-						_ = Abstraction
-						reg3316 := MakeSymbol("pos")
-						reg3317 := PrimTail(V355)
-						reg3318 := PrimHead(reg3317)
-						reg3319 := MakeNumber(0)
-						reg3320 := Nil
-						reg3321 := PrimCons(reg3319, reg3320)
-						reg3322 := PrimCons(reg3318, reg3321)
-						reg3323 := PrimCons(reg3316, reg3322)
-						reg3324 := Nil
-						reg3325 := PrimCons(reg3323, reg3324)
-						reg3326 := PrimCons(Abstraction, reg3325)
-						reg3327 := MakeSymbol("tlstr")
-						reg3328 := PrimTail(V355)
-						reg3329 := PrimCons(reg3327, reg3328)
-						reg3330 := Nil
-						reg3331 := PrimCons(reg3329, reg3330)
-						reg3332 := PrimCons(reg3326, reg3331)
-						Application := reg3332
-						_ = Application
-						__e.TailApply(__defun__shen_4reduce__help, Application)
-						return
-					} else {
-						reg3334 := PrimIsPair(V355)
-						var reg3404 Obj
-						if reg3334 == True {
-							reg3335 := PrimHead(V355)
-							reg3336 := PrimIsPair(reg3335)
-							var reg3399 Obj
-							if reg3336 == True {
-								reg3337 := MakeSymbol("/.")
-								reg3338 := PrimHead(V355)
-								reg3339 := PrimHead(reg3338)
-								reg3340 := PrimEqual(reg3337, reg3339)
-								var reg3394 Obj
-								if reg3340 == True {
-									reg3341 := PrimHead(V355)
-									reg3342 := PrimTail(reg3341)
-									reg3343 := PrimIsPair(reg3342)
-									var reg3389 Obj
-									if reg3343 == True {
-										reg3344 := PrimHead(V355)
-										reg3345 := PrimTail(reg3344)
-										reg3346 := PrimTail(reg3345)
-										reg3347 := PrimIsPair(reg3346)
-										var reg3384 Obj
-										if reg3347 == True {
-											reg3348 := Nil
-											reg3349 := PrimHead(V355)
-											reg3350 := PrimTail(reg3349)
-											reg3351 := PrimTail(reg3350)
-											reg3352 := PrimTail(reg3351)
-											reg3353 := PrimEqual(reg3348, reg3352)
-											var reg3379 Obj
-											if reg3353 == True {
-												reg3354 := PrimTail(V355)
-												reg3355 := PrimIsPair(reg3354)
-												var reg3374 Obj
-												if reg3355 == True {
-													reg3356 := Nil
-													reg3357 := PrimTail(V355)
-													reg3358 := PrimTail(reg3357)
-													reg3359 := PrimEqual(reg3356, reg3358)
-													var reg3369 Obj
-													if reg3359 == True {
-														reg3360 := PrimHead(V355)
-														reg3361 := PrimTail(reg3360)
-														reg3362 := PrimHead(reg3361)
-														reg3363 := PrimIsVariable(reg3362)
-														reg3364 := PrimNot(reg3363)
-														var reg3367 Obj
-														if reg3364 == True {
-															reg3365 := True
-															reg3367 = reg3365
-														} else {
-															reg3366 := False
-															reg3367 = reg3366
-														}
-														reg3369 = reg3367
-													} else {
-														reg3368 := False
-														reg3369 = reg3368
-													}
-													var reg3372 Obj
-													if reg3369 == True {
-														reg3370 := True
-														reg3372 = reg3370
-													} else {
-														reg3371 := False
-														reg3372 = reg3371
-													}
-													reg3374 = reg3372
-												} else {
-													reg3373 := False
-													reg3374 = reg3373
-												}
-												var reg3377 Obj
-												if reg3374 == True {
-													reg3375 := True
-													reg3377 = reg3375
-												} else {
-													reg3376 := False
-													reg3377 = reg3376
-												}
-												reg3379 = reg3377
-											} else {
-												reg3378 := False
-												reg3379 = reg3378
-											}
-											var reg3382 Obj
-											if reg3379 == True {
-												reg3380 := True
-												reg3382 = reg3380
-											} else {
-												reg3381 := False
-												reg3382 = reg3381
-											}
-											reg3384 = reg3382
-										} else {
-											reg3383 := False
-											reg3384 = reg3383
-										}
-										var reg3387 Obj
-										if reg3384 == True {
-											reg3385 := True
-											reg3387 = reg3385
-										} else {
-											reg3386 := False
-											reg3387 = reg3386
-										}
-										reg3389 = reg3387
-									} else {
-										reg3388 := False
-										reg3389 = reg3388
-									}
-									var reg3392 Obj
-									if reg3389 == True {
-										reg3390 := True
-										reg3392 = reg3390
-									} else {
-										reg3391 := False
-										reg3392 = reg3391
-									}
-									reg3394 = reg3392
-								} else {
-									reg3393 := False
-									reg3394 = reg3393
-								}
-								var reg3397 Obj
-								if reg3394 == True {
-									reg3395 := True
-									reg3397 = reg3395
-								} else {
-									reg3396 := False
-									reg3397 = reg3396
-								}
-								reg3399 = reg3397
-							} else {
-								reg3398 := False
-								reg3399 = reg3398
-							}
-							var reg3402 Obj
-							if reg3399 == True {
-								reg3400 := True
-								reg3402 = reg3400
-							} else {
-								reg3401 := False
-								reg3402 = reg3401
-							}
-							reg3404 = reg3402
-						} else {
-							reg3403 := False
-							reg3404 = reg3403
-						}
-						if reg3404 == True {
-							reg3405 := MakeSymbol("=")
-							reg3406 := PrimHead(V355)
-							reg3407 := PrimTail(reg3406)
-							reg3408 := PrimHead(reg3407)
-							reg3409 := PrimTail(V355)
-							reg3410 := PrimCons(reg3408, reg3409)
-							reg3411 := PrimCons(reg3405, reg3410)
-							reg3412 := Call(__e, __defun__shen_4add__test, reg3411)
-							_ = reg3412
-							reg3413 := PrimHead(V355)
-							reg3414 := PrimTail(reg3413)
-							reg3415 := PrimTail(reg3414)
-							reg3416 := PrimHead(reg3415)
-							__e.TailApply(__defun__shen_4reduce__help, reg3416)
-							return
-						} else {
-							reg3418 := PrimIsPair(V355)
-							var reg3478 Obj
-							if reg3418 == True {
-								reg3419 := PrimHead(V355)
-								reg3420 := PrimIsPair(reg3419)
-								var reg3473 Obj
-								if reg3420 == True {
-									reg3421 := MakeSymbol("/.")
-									reg3422 := PrimHead(V355)
-									reg3423 := PrimHead(reg3422)
-									reg3424 := PrimEqual(reg3421, reg3423)
-									var reg3468 Obj
-									if reg3424 == True {
-										reg3425 := PrimHead(V355)
-										reg3426 := PrimTail(reg3425)
-										reg3427 := PrimIsPair(reg3426)
-										var reg3463 Obj
-										if reg3427 == True {
-											reg3428 := PrimHead(V355)
-											reg3429 := PrimTail(reg3428)
-											reg3430 := PrimTail(reg3429)
-											reg3431 := PrimIsPair(reg3430)
-											var reg3458 Obj
-											if reg3431 == True {
-												reg3432 := Nil
-												reg3433 := PrimHead(V355)
-												reg3434 := PrimTail(reg3433)
-												reg3435 := PrimTail(reg3434)
-												reg3436 := PrimTail(reg3435)
-												reg3437 := PrimEqual(reg3432, reg3436)
-												var reg3453 Obj
-												if reg3437 == True {
-													reg3438 := PrimTail(V355)
-													reg3439 := PrimIsPair(reg3438)
-													var reg3448 Obj
-													if reg3439 == True {
-														reg3440 := Nil
-														reg3441 := PrimTail(V355)
-														reg3442 := PrimTail(reg3441)
-														reg3443 := PrimEqual(reg3440, reg3442)
-														var reg3446 Obj
-														if reg3443 == True {
-															reg3444 := True
-															reg3446 = reg3444
-														} else {
-															reg3445 := False
-															reg3446 = reg3445
-														}
-														reg3448 = reg3446
-													} else {
-														reg3447 := False
-														reg3448 = reg3447
-													}
-													var reg3451 Obj
-													if reg3448 == True {
-														reg3449 := True
-														reg3451 = reg3449
-													} else {
-														reg3450 := False
-														reg3451 = reg3450
-													}
-													reg3453 = reg3451
-												} else {
-													reg3452 := False
-													reg3453 = reg3452
-												}
-												var reg3456 Obj
-												if reg3453 == True {
-													reg3454 := True
-													reg3456 = reg3454
-												} else {
-													reg3455 := False
-													reg3456 = reg3455
-												}
-												reg3458 = reg3456
-											} else {
-												reg3457 := False
-												reg3458 = reg3457
-											}
-											var reg3461 Obj
-											if reg3458 == True {
-												reg3459 := True
-												reg3461 = reg3459
-											} else {
-												reg3460 := False
-												reg3461 = reg3460
-											}
-											reg3463 = reg3461
-										} else {
-											reg3462 := False
-											reg3463 = reg3462
-										}
-										var reg3466 Obj
-										if reg3463 == True {
-											reg3464 := True
-											reg3466 = reg3464
-										} else {
-											reg3465 := False
-											reg3466 = reg3465
-										}
-										reg3468 = reg3466
-									} else {
-										reg3467 := False
-										reg3468 = reg3467
-									}
-									var reg3471 Obj
-									if reg3468 == True {
-										reg3469 := True
-										reg3471 = reg3469
-									} else {
-										reg3470 := False
-										reg3471 = reg3470
-									}
-									reg3473 = reg3471
-								} else {
-									reg3472 := False
-									reg3473 = reg3472
-								}
-								var reg3476 Obj
-								if reg3473 == True {
-									reg3474 := True
-									reg3476 = reg3474
-								} else {
-									reg3475 := False
-									reg3476 = reg3475
-								}
-								reg3478 = reg3476
-							} else {
-								reg3477 := False
-								reg3478 = reg3477
-							}
-							if reg3478 == True {
-								reg3479 := PrimTail(V355)
-								reg3480 := PrimHead(reg3479)
-								reg3481 := PrimHead(V355)
-								reg3482 := PrimTail(reg3481)
-								reg3483 := PrimHead(reg3482)
-								reg3484 := PrimHead(V355)
-								reg3485 := PrimTail(reg3484)
-								reg3486 := PrimTail(reg3485)
-								reg3487 := PrimHead(reg3486)
-								reg3488 := Call(__e, __defun__shen_4ebr, reg3480, reg3483, reg3487)
-								__e.TailApply(__defun__shen_4reduce__help, reg3488)
-								return
-							} else {
-								reg3490 := PrimIsPair(V355)
-								var reg3523 Obj
-								if reg3490 == True {
-									reg3491 := MakeSymbol("where")
-									reg3492 := PrimHead(V355)
-									reg3493 := PrimEqual(reg3491, reg3492)
-									var reg3518 Obj
-									if reg3493 == True {
-										reg3494 := PrimTail(V355)
-										reg3495 := PrimIsPair(reg3494)
-										var reg3513 Obj
-										if reg3495 == True {
-											reg3496 := PrimTail(V355)
-											reg3497 := PrimTail(reg3496)
-											reg3498 := PrimIsPair(reg3497)
-											var reg3508 Obj
-											if reg3498 == True {
-												reg3499 := Nil
-												reg3500 := PrimTail(V355)
-												reg3501 := PrimTail(reg3500)
-												reg3502 := PrimTail(reg3501)
-												reg3503 := PrimEqual(reg3499, reg3502)
-												var reg3506 Obj
-												if reg3503 == True {
-													reg3504 := True
-													reg3506 = reg3504
-												} else {
-													reg3505 := False
-													reg3506 = reg3505
-												}
-												reg3508 = reg3506
-											} else {
-												reg3507 := False
-												reg3508 = reg3507
-											}
-											var reg3511 Obj
-											if reg3508 == True {
-												reg3509 := True
-												reg3511 = reg3509
-											} else {
-												reg3510 := False
-												reg3511 = reg3510
-											}
-											reg3513 = reg3511
-										} else {
-											reg3512 := False
-											reg3513 = reg3512
-										}
-										var reg3516 Obj
-										if reg3513 == True {
-											reg3514 := True
-											reg3516 = reg3514
-										} else {
-											reg3515 := False
-											reg3516 = reg3515
-										}
-										reg3518 = reg3516
-									} else {
-										reg3517 := False
-										reg3518 = reg3517
-									}
-									var reg3521 Obj
-									if reg3518 == True {
-										reg3519 := True
-										reg3521 = reg3519
-									} else {
-										reg3520 := False
-										reg3521 = reg3520
-									}
-									reg3523 = reg3521
-								} else {
-									reg3522 := False
-									reg3523 = reg3522
-								}
-								if reg3523 == True {
-									reg3524 := PrimTail(V355)
-									reg3525 := PrimHead(reg3524)
-									reg3526 := Call(__e, __defun__shen_4add__test, reg3525)
-									_ = reg3526
-									reg3527 := PrimTail(V355)
-									reg3528 := PrimTail(reg3527)
-									reg3529 := PrimHead(reg3528)
-									__e.TailApply(__defun__shen_4reduce__help, reg3529)
-									return
-								} else {
-									reg3531 := PrimIsPair(V355)
-									var reg3547 Obj
-									if reg3531 == True {
-										reg3532 := PrimTail(V355)
-										reg3533 := PrimIsPair(reg3532)
-										var reg3542 Obj
-										if reg3533 == True {
-											reg3534 := Nil
-											reg3535 := PrimTail(V355)
-											reg3536 := PrimTail(reg3535)
-											reg3537 := PrimEqual(reg3534, reg3536)
-											var reg3540 Obj
-											if reg3537 == True {
-												reg3538 := True
-												reg3540 = reg3538
-											} else {
-												reg3539 := False
-												reg3540 = reg3539
-											}
-											reg3542 = reg3540
-										} else {
-											reg3541 := False
-											reg3542 = reg3541
-										}
-										var reg3545 Obj
-										if reg3542 == True {
-											reg3543 := True
-											reg3545 = reg3543
-										} else {
-											reg3544 := False
-											reg3545 = reg3544
-										}
-										reg3547 = reg3545
-									} else {
-										reg3546 := False
-										reg3547 = reg3546
-									}
-									if reg3547 == True {
-										reg3548 := PrimHead(V355)
-										reg3549 := Call(__e, __defun__shen_4reduce__help, reg3548)
-										Z := reg3549
-										_ = Z
-										reg3550 := PrimHead(V355)
-										reg3551 := PrimEqual(reg3550, Z)
-										if reg3551 == True {
-											__e.Return(V355)
+							YaccParse := gen604
+							gen624 := Call(__e, ShenFunc(symfail))
+
+							gen625 := Call(__e, ShenFunc(sym_a), YaccParse, gen624)
+
+							if True == gen625 {
+								gen613 := Call(__e, ShenFunc(symhd), V220)
+
+								gen614 := Call(__e, ShenFunc(symcons_2), gen613)
+
+								var gen615 Obj
+								if True == gen614 {
+									gen605 := Call(__e, ShenFunc(symshen_4hdhd), V220)
+
+									Parse__X := gen605
+									gen612 := Call(__e, ShenFunc(symcons_2), Parse__X)
+
+									if True == gen612 {
+										gen606 := Call(__e, ShenFunc(symshen_4tlhd), V220)
+
+										gen607 := Call(__e, ShenFunc(symshen_4hdtl), V220)
+
+										gen608 := Call(__e, ShenFunc(symshen_4pair), gen606, gen607)
+
+										gen609 := Call(__e, ShenFunc(symhd), gen608)
+
+										gen610 := MakeNative(func(__e Evaluator, __args ...Obj) {
+											__e.TailApply(ShenFunc(symshen_4constructor_1error), Parse__X)
+
 											return
-										} else {
-											reg3552 := PrimTail(V355)
-											reg3553 := PrimCons(Z, reg3552)
-											__e.TailApply(__defun__shen_4reduce__help, reg3553)
-											return
-										}
+										}, 0)
+										gen611 := Call(__e, ShenFunc(symshen_4custom_1pattern_1compiler), Parse__X, gen610)
+
+										gen615 = Call(__e, ShenFunc(symshen_4pair), gen609, gen611)
+
 									} else {
-										__e.Return(V355)
+										gen615 = Call(__e, ShenFunc(symfail))
+
+									}
+
+								} else {
+									gen615 = Call(__e, ShenFunc(symfail))
+
+								}
+								YaccParse := gen615
+								gen622 := Call(__e, ShenFunc(symfail))
+
+								gen623 := Call(__e, ShenFunc(sym_a), YaccParse, gen622)
+
+								if True == gen623 {
+									gen616 := Call(__e, ShenFunc(symshen_4_5simple__pattern_6), V220)
+
+									Parse__shen_4_5simple__pattern_6 := gen616
+									gen619 := Call(__e, ShenFunc(symfail))
+
+									gen620 := Call(__e, ShenFunc(sym_a), gen619, Parse__shen_4_5simple__pattern_6)
+
+									gen621 := Call(__e, ShenFunc(symnot), gen620)
+
+									if True == gen621 {
+										gen617 := Call(__e, ShenFunc(symhd), Parse__shen_4_5simple__pattern_6)
+
+										gen618 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5simple__pattern_6)
+
+										__e.TailApply(ShenFunc(symshen_4pair), gen617, gen618)
+
+										return
+
+									} else {
+										__e.TailApply(ShenFunc(symfail))
+
 										return
 									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.reduce_help", value: __defun__shen_4reduce__help})
 
-	__defun__shen_4_7string_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V357 := __args[0]
-		_ = V357
-		reg3555 := MakeString("")
-		reg3556 := PrimEqual(reg3555, V357)
-		if reg3556 == True {
-			reg3557 := False
-			__e.Return(reg3557)
-			return
-		} else {
-			reg3558 := PrimIsString(V357)
-			__e.Return(reg3558)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.+string?", value: __defun__shen_4_7string_2})
+								} else {
+									__e.Return(YaccParse)
+									return
+								}
 
-	__defun__shen_4_7vector_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V359 := __args[0]
-		_ = V359
-		reg3559 := PrimIsVector(V359)
-		if reg3559 == True {
-			reg3560 := MakeNumber(0)
-			reg3561 := PrimVectorGet(V359, reg3560)
-			reg3562 := MakeNumber(0)
-			reg3563 := PrimGreatThan(reg3561, reg3562)
-			if reg3563 == True {
-				reg3564 := True
-				__e.Return(reg3564)
-				return
-			} else {
-				reg3565 := False
-				__e.Return(reg3565)
-				return
-			}
-		} else {
-			reg3566 := False
-			__e.Return(reg3566)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.+vector?", value: __defun__shen_4_7vector_2})
+							} else {
+								__e.Return(YaccParse)
+								return
+							}
 
-	__defun__shen_4ebr = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V372 := __args[0]
-		_ = V372
-		V373 := __args[1]
-		_ = V373
-		V374 := __args[2]
-		_ = V374
-		reg3567 := PrimEqual(V374, V373)
-		if reg3567 == True {
-			__e.Return(V372)
-			return
-		} else {
-			reg3568 := PrimIsPair(V374)
-			var reg3609 Obj
-			if reg3568 == True {
-				reg3569 := MakeSymbol("lambda")
-				reg3570 := PrimHead(V374)
-				reg3571 := PrimEqual(reg3569, reg3570)
-				var reg3604 Obj
-				if reg3571 == True {
-					reg3572 := PrimTail(V374)
-					reg3573 := PrimIsPair(reg3572)
-					var reg3599 Obj
-					if reg3573 == True {
-						reg3574 := PrimTail(V374)
-						reg3575 := PrimTail(reg3574)
-						reg3576 := PrimIsPair(reg3575)
-						var reg3594 Obj
-						if reg3576 == True {
-							reg3577 := Nil
-							reg3578 := PrimTail(V374)
-							reg3579 := PrimTail(reg3578)
-							reg3580 := PrimTail(reg3579)
-							reg3581 := PrimEqual(reg3577, reg3580)
-							var reg3589 Obj
-							if reg3581 == True {
-								reg3582 := PrimTail(V374)
-								reg3583 := PrimHead(reg3582)
-								reg3584 := Call(__e, __defun__shen_4clash_2, reg3583, V373)
-								var reg3587 Obj
-								if reg3584 == True {
-									reg3585 := True
-									reg3587 = reg3585
-								} else {
-									reg3586 := False
-									reg3587 = reg3586
-								}
-								reg3589 = reg3587
-							} else {
-								reg3588 := False
-								reg3589 = reg3588
-							}
-							var reg3592 Obj
-							if reg3589 == True {
-								reg3590 := True
-								reg3592 = reg3590
-							} else {
-								reg3591 := False
-								reg3592 = reg3591
-							}
-							reg3594 = reg3592
 						} else {
-							reg3593 := False
-							reg3594 = reg3593
-						}
-						var reg3597 Obj
-						if reg3594 == True {
-							reg3595 := True
-							reg3597 = reg3595
-						} else {
-							reg3596 := False
-							reg3597 = reg3596
-						}
-						reg3599 = reg3597
-					} else {
-						reg3598 := False
-						reg3599 = reg3598
-					}
-					var reg3602 Obj
-					if reg3599 == True {
-						reg3600 := True
-						reg3602 = reg3600
-					} else {
-						reg3601 := False
-						reg3602 = reg3601
-					}
-					reg3604 = reg3602
-				} else {
-					reg3603 := False
-					reg3604 = reg3603
-				}
-				var reg3607 Obj
-				if reg3604 == True {
-					reg3605 := True
-					reg3607 = reg3605
-				} else {
-					reg3606 := False
-					reg3607 = reg3606
-				}
-				reg3609 = reg3607
-			} else {
-				reg3608 := False
-				reg3609 = reg3608
-			}
-			if reg3609 == True {
-				__e.Return(V374)
-				return
-			} else {
-				reg3610 := PrimIsPair(V374)
-				var reg3661 Obj
-				if reg3610 == True {
-					reg3611 := MakeSymbol("let")
-					reg3612 := PrimHead(V374)
-					reg3613 := PrimEqual(reg3611, reg3612)
-					var reg3656 Obj
-					if reg3613 == True {
-						reg3614 := PrimTail(V374)
-						reg3615 := PrimIsPair(reg3614)
-						var reg3651 Obj
-						if reg3615 == True {
-							reg3616 := PrimTail(V374)
-							reg3617 := PrimTail(reg3616)
-							reg3618 := PrimIsPair(reg3617)
-							var reg3646 Obj
-							if reg3618 == True {
-								reg3619 := PrimTail(V374)
-								reg3620 := PrimTail(reg3619)
-								reg3621 := PrimTail(reg3620)
-								reg3622 := PrimIsPair(reg3621)
-								var reg3641 Obj
-								if reg3622 == True {
-									reg3623 := Nil
-									reg3624 := PrimTail(V374)
-									reg3625 := PrimTail(reg3624)
-									reg3626 := PrimTail(reg3625)
-									reg3627 := PrimTail(reg3626)
-									reg3628 := PrimEqual(reg3623, reg3627)
-									var reg3636 Obj
-									if reg3628 == True {
-										reg3629 := PrimTail(V374)
-										reg3630 := PrimHead(reg3629)
-										reg3631 := Call(__e, __defun__shen_4clash_2, reg3630, V373)
-										var reg3634 Obj
-										if reg3631 == True {
-											reg3632 := True
-											reg3634 = reg3632
-										} else {
-											reg3633 := False
-											reg3634 = reg3633
-										}
-										reg3636 = reg3634
-									} else {
-										reg3635 := False
-										reg3636 = reg3635
-									}
-									var reg3639 Obj
-									if reg3636 == True {
-										reg3637 := True
-										reg3639 = reg3637
-									} else {
-										reg3638 := False
-										reg3639 = reg3638
-									}
-									reg3641 = reg3639
-								} else {
-									reg3640 := False
-									reg3641 = reg3640
-								}
-								var reg3644 Obj
-								if reg3641 == True {
-									reg3642 := True
-									reg3644 = reg3642
-								} else {
-									reg3643 := False
-									reg3644 = reg3643
-								}
-								reg3646 = reg3644
-							} else {
-								reg3645 := False
-								reg3646 = reg3645
-							}
-							var reg3649 Obj
-							if reg3646 == True {
-								reg3647 := True
-								reg3649 = reg3647
-							} else {
-								reg3648 := False
-								reg3649 = reg3648
-							}
-							reg3651 = reg3649
-						} else {
-							reg3650 := False
-							reg3651 = reg3650
-						}
-						var reg3654 Obj
-						if reg3651 == True {
-							reg3652 := True
-							reg3654 = reg3652
-						} else {
-							reg3653 := False
-							reg3654 = reg3653
-						}
-						reg3656 = reg3654
-					} else {
-						reg3655 := False
-						reg3656 = reg3655
-					}
-					var reg3659 Obj
-					if reg3656 == True {
-						reg3657 := True
-						reg3659 = reg3657
-					} else {
-						reg3658 := False
-						reg3659 = reg3658
-					}
-					reg3661 = reg3659
-				} else {
-					reg3660 := False
-					reg3661 = reg3660
-				}
-				if reg3661 == True {
-					reg3662 := MakeSymbol("let")
-					reg3663 := PrimTail(V374)
-					reg3664 := PrimHead(reg3663)
-					reg3665 := PrimTail(V374)
-					reg3666 := PrimTail(reg3665)
-					reg3667 := PrimHead(reg3666)
-					reg3668 := Call(__e, __defun__shen_4ebr, V372, V373, reg3667)
-					reg3669 := PrimTail(V374)
-					reg3670 := PrimTail(reg3669)
-					reg3671 := PrimTail(reg3670)
-					reg3672 := PrimCons(reg3668, reg3671)
-					reg3673 := PrimCons(reg3664, reg3672)
-					reg3674 := PrimCons(reg3662, reg3673)
-					__e.Return(reg3674)
-					return
-				} else {
-					reg3675 := PrimIsPair(V374)
-					if reg3675 == True {
-						reg3676 := PrimHead(V374)
-						reg3677 := Call(__e, __defun__shen_4ebr, V372, V373, reg3676)
-						reg3678 := PrimTail(V374)
-						reg3679 := Call(__e, __defun__shen_4ebr, V372, V373, reg3678)
-						reg3680 := PrimCons(reg3677, reg3679)
-						__e.Return(reg3680)
-						return
-					} else {
-						__e.Return(V374)
-						return
-					}
-				}
-			}
-		}
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.ebr", value: __defun__shen_4ebr})
-
-	__defun__shen_4clash_2 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V386 := __args[0]
-		_ = V386
-		V387 := __args[1]
-		_ = V387
-		reg3681 := PrimEqual(V387, V386)
-		if reg3681 == True {
-			reg3682 := True
-			__e.Return(reg3682)
-			return
-		} else {
-			reg3683 := PrimIsPair(V387)
-			if reg3683 == True {
-				reg3684 := PrimHead(V387)
-				reg3685 := Call(__e, __defun__shen_4clash_2, V386, reg3684)
-				if reg3685 == True {
-					reg3686 := True
-					__e.Return(reg3686)
-					return
-				} else {
-					reg3687 := PrimTail(V387)
-					reg3688 := Call(__e, __defun__shen_4clash_2, V386, reg3687)
-					if reg3688 == True {
-						reg3689 := True
-						__e.Return(reg3689)
-						return
-					} else {
-						reg3690 := False
-						__e.Return(reg3690)
-						return
-					}
-				}
-			} else {
-				reg3691 := False
-				__e.Return(reg3691)
-				return
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.clash?", value: __defun__shen_4clash_2})
-
-	__defun__shen_4add__test = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V389 := __args[0]
-		_ = V389
-		reg3692 := MakeSymbol("shen.*teststack*")
-		reg3693 := MakeSymbol("shen.*teststack*")
-		reg3694 := PrimValue(reg3693)
-		reg3695 := PrimCons(V389, reg3694)
-		reg3696 := PrimSet(reg3692, reg3695)
-		__e.Return(reg3696)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.add_test", value: __defun__shen_4add__test})
-
-	__defun__shen_4cond_1expression = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V393 := __args[0]
-		_ = V393
-		V394 := __args[1]
-		_ = V394
-		V395 := __args[2]
-		_ = V395
-		reg3697 := Call(__e, __defun__shen_4err_1condition, V393)
-		Err := reg3697
-		_ = Err
-		reg3698 := Call(__e, __defun__shen_4case_1form, V395, Err)
-		Cases := reg3698
-		_ = Cases
-		reg3699 := Call(__e, __defun__shen_4encode_1choices, Cases, V393)
-		EncodeChoices := reg3699
-		_ = EncodeChoices
-		__e.TailApply(__defun__shen_4cond_1form, EncodeChoices)
-		return
-	}, 3)
-	__initDefs = append(__initDefs, defType{name: "shen.cond-expression", value: __defun__shen_4cond_1expression})
-
-	__defun__shen_4cond_1form = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V399 := __args[0]
-		_ = V399
-		reg3701 := PrimIsPair(V399)
-		var reg3735 Obj
-		if reg3701 == True {
-			reg3702 := PrimHead(V399)
-			reg3703 := PrimIsPair(reg3702)
-			var reg3730 Obj
-			if reg3703 == True {
-				reg3704 := True
-				reg3705 := PrimHead(V399)
-				reg3706 := PrimHead(reg3705)
-				reg3707 := PrimEqual(reg3704, reg3706)
-				var reg3725 Obj
-				if reg3707 == True {
-					reg3708 := PrimHead(V399)
-					reg3709 := PrimTail(reg3708)
-					reg3710 := PrimIsPair(reg3709)
-					var reg3720 Obj
-					if reg3710 == True {
-						reg3711 := Nil
-						reg3712 := PrimHead(V399)
-						reg3713 := PrimTail(reg3712)
-						reg3714 := PrimTail(reg3713)
-						reg3715 := PrimEqual(reg3711, reg3714)
-						var reg3718 Obj
-						if reg3715 == True {
-							reg3716 := True
-							reg3718 = reg3716
-						} else {
-							reg3717 := False
-							reg3718 = reg3717
-						}
-						reg3720 = reg3718
-					} else {
-						reg3719 := False
-						reg3720 = reg3719
-					}
-					var reg3723 Obj
-					if reg3720 == True {
-						reg3721 := True
-						reg3723 = reg3721
-					} else {
-						reg3722 := False
-						reg3723 = reg3722
-					}
-					reg3725 = reg3723
-				} else {
-					reg3724 := False
-					reg3725 = reg3724
-				}
-				var reg3728 Obj
-				if reg3725 == True {
-					reg3726 := True
-					reg3728 = reg3726
-				} else {
-					reg3727 := False
-					reg3728 = reg3727
-				}
-				reg3730 = reg3728
-			} else {
-				reg3729 := False
-				reg3730 = reg3729
-			}
-			var reg3733 Obj
-			if reg3730 == True {
-				reg3731 := True
-				reg3733 = reg3731
-			} else {
-				reg3732 := False
-				reg3733 = reg3732
-			}
-			reg3735 = reg3733
-		} else {
-			reg3734 := False
-			reg3735 = reg3734
-		}
-		if reg3735 == True {
-			reg3736 := PrimHead(V399)
-			reg3737 := PrimTail(reg3736)
-			reg3738 := PrimHead(reg3737)
-			__e.Return(reg3738)
-			return
-		} else {
-			reg3739 := MakeSymbol("cond")
-			reg3740 := PrimCons(reg3739, V399)
-			__e.Return(reg3740)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.cond-form", value: __defun__shen_4cond_1form})
-
-	__defun__shen_4encode_1choices = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V404 := __args[0]
-		_ = V404
-		V405 := __args[1]
-		_ = V405
-		reg3741 := Nil
-		reg3742 := PrimEqual(reg3741, V404)
-		if reg3742 == True {
-			reg3743 := Nil
-			__e.Return(reg3743)
-			return
-		} else {
-			reg3744 := PrimIsPair(V404)
-			var reg3828 Obj
-			if reg3744 == True {
-				reg3745 := PrimHead(V404)
-				reg3746 := PrimIsPair(reg3745)
-				var reg3823 Obj
-				if reg3746 == True {
-					reg3747 := True
-					reg3748 := PrimHead(V404)
-					reg3749 := PrimHead(reg3748)
-					reg3750 := PrimEqual(reg3747, reg3749)
-					var reg3818 Obj
-					if reg3750 == True {
-						reg3751 := PrimHead(V404)
-						reg3752 := PrimTail(reg3751)
-						reg3753 := PrimIsPair(reg3752)
-						var reg3813 Obj
-						if reg3753 == True {
-							reg3754 := PrimHead(V404)
-							reg3755 := PrimTail(reg3754)
-							reg3756 := PrimHead(reg3755)
-							reg3757 := PrimIsPair(reg3756)
-							var reg3808 Obj
-							if reg3757 == True {
-								reg3758 := MakeSymbol("shen.choicepoint!")
-								reg3759 := PrimHead(V404)
-								reg3760 := PrimTail(reg3759)
-								reg3761 := PrimHead(reg3760)
-								reg3762 := PrimHead(reg3761)
-								reg3763 := PrimEqual(reg3758, reg3762)
-								var reg3803 Obj
-								if reg3763 == True {
-									reg3764 := PrimHead(V404)
-									reg3765 := PrimTail(reg3764)
-									reg3766 := PrimHead(reg3765)
-									reg3767 := PrimTail(reg3766)
-									reg3768 := PrimIsPair(reg3767)
-									var reg3798 Obj
-									if reg3768 == True {
-										reg3769 := Nil
-										reg3770 := PrimHead(V404)
-										reg3771 := PrimTail(reg3770)
-										reg3772 := PrimHead(reg3771)
-										reg3773 := PrimTail(reg3772)
-										reg3774 := PrimTail(reg3773)
-										reg3775 := PrimEqual(reg3769, reg3774)
-										var reg3793 Obj
-										if reg3775 == True {
-											reg3776 := Nil
-											reg3777 := PrimHead(V404)
-											reg3778 := PrimTail(reg3777)
-											reg3779 := PrimTail(reg3778)
-											reg3780 := PrimEqual(reg3776, reg3779)
-											var reg3788 Obj
-											if reg3780 == True {
-												reg3781 := Nil
-												reg3782 := PrimTail(V404)
-												reg3783 := PrimEqual(reg3781, reg3782)
-												var reg3786 Obj
-												if reg3783 == True {
-													reg3784 := True
-													reg3786 = reg3784
-												} else {
-													reg3785 := False
-													reg3786 = reg3785
-												}
-												reg3788 = reg3786
-											} else {
-												reg3787 := False
-												reg3788 = reg3787
-											}
-											var reg3791 Obj
-											if reg3788 == True {
-												reg3789 := True
-												reg3791 = reg3789
-											} else {
-												reg3790 := False
-												reg3791 = reg3790
-											}
-											reg3793 = reg3791
-										} else {
-											reg3792 := False
-											reg3793 = reg3792
-										}
-										var reg3796 Obj
-										if reg3793 == True {
-											reg3794 := True
-											reg3796 = reg3794
-										} else {
-											reg3795 := False
-											reg3796 = reg3795
-										}
-										reg3798 = reg3796
-									} else {
-										reg3797 := False
-										reg3798 = reg3797
-									}
-									var reg3801 Obj
-									if reg3798 == True {
-										reg3799 := True
-										reg3801 = reg3799
-									} else {
-										reg3800 := False
-										reg3801 = reg3800
-									}
-									reg3803 = reg3801
-								} else {
-									reg3802 := False
-									reg3803 = reg3802
-								}
-								var reg3806 Obj
-								if reg3803 == True {
-									reg3804 := True
-									reg3806 = reg3804
-								} else {
-									reg3805 := False
-									reg3806 = reg3805
-								}
-								reg3808 = reg3806
-							} else {
-								reg3807 := False
-								reg3808 = reg3807
-							}
-							var reg3811 Obj
-							if reg3808 == True {
-								reg3809 := True
-								reg3811 = reg3809
-							} else {
-								reg3810 := False
-								reg3811 = reg3810
-							}
-							reg3813 = reg3811
-						} else {
-							reg3812 := False
-							reg3813 = reg3812
-						}
-						var reg3816 Obj
-						if reg3813 == True {
-							reg3814 := True
-							reg3816 = reg3814
-						} else {
-							reg3815 := False
-							reg3816 = reg3815
-						}
-						reg3818 = reg3816
-					} else {
-						reg3817 := False
-						reg3818 = reg3817
-					}
-					var reg3821 Obj
-					if reg3818 == True {
-						reg3819 := True
-						reg3821 = reg3819
-					} else {
-						reg3820 := False
-						reg3821 = reg3820
-					}
-					reg3823 = reg3821
-				} else {
-					reg3822 := False
-					reg3823 = reg3822
-				}
-				var reg3826 Obj
-				if reg3823 == True {
-					reg3824 := True
-					reg3826 = reg3824
-				} else {
-					reg3825 := False
-					reg3826 = reg3825
-				}
-				reg3828 = reg3826
-			} else {
-				reg3827 := False
-				reg3828 = reg3827
-			}
-			if reg3828 == True {
-				reg3829 := True
-				reg3830 := MakeSymbol("let")
-				reg3831 := MakeSymbol("Result")
-				reg3832 := PrimHead(V404)
-				reg3833 := PrimTail(reg3832)
-				reg3834 := PrimHead(reg3833)
-				reg3835 := PrimTail(reg3834)
-				reg3836 := PrimHead(reg3835)
-				reg3837 := MakeSymbol("if")
-				reg3838 := MakeSymbol("=")
-				reg3839 := MakeSymbol("Result")
-				reg3840 := MakeSymbol("fail")
-				reg3841 := Nil
-				reg3842 := PrimCons(reg3840, reg3841)
-				reg3843 := Nil
-				reg3844 := PrimCons(reg3842, reg3843)
-				reg3845 := PrimCons(reg3839, reg3844)
-				reg3846 := PrimCons(reg3838, reg3845)
-				reg3847 := MakeSymbol("shen.*installing-kl*")
-				reg3848 := PrimValue(reg3847)
-				var reg3857 Obj
-				if reg3848 == True {
-					reg3849 := MakeSymbol("shen.sys-error")
-					reg3850 := Nil
-					reg3851 := PrimCons(V405, reg3850)
-					reg3852 := PrimCons(reg3849, reg3851)
-					reg3857 = reg3852
-				} else {
-					reg3853 := MakeSymbol("shen.f_error")
-					reg3854 := Nil
-					reg3855 := PrimCons(V405, reg3854)
-					reg3856 := PrimCons(reg3853, reg3855)
-					reg3857 = reg3856
-				}
-				reg3858 := MakeSymbol("Result")
-				reg3859 := Nil
-				reg3860 := PrimCons(reg3858, reg3859)
-				reg3861 := PrimCons(reg3857, reg3860)
-				reg3862 := PrimCons(reg3846, reg3861)
-				reg3863 := PrimCons(reg3837, reg3862)
-				reg3864 := Nil
-				reg3865 := PrimCons(reg3863, reg3864)
-				reg3866 := PrimCons(reg3836, reg3865)
-				reg3867 := PrimCons(reg3831, reg3866)
-				reg3868 := PrimCons(reg3830, reg3867)
-				reg3869 := Nil
-				reg3870 := PrimCons(reg3868, reg3869)
-				reg3871 := PrimCons(reg3829, reg3870)
-				reg3872 := Nil
-				reg3873 := PrimCons(reg3871, reg3872)
-				__e.Return(reg3873)
-				return
-			} else {
-				reg3874 := PrimIsPair(V404)
-				var reg3950 Obj
-				if reg3874 == True {
-					reg3875 := PrimHead(V404)
-					reg3876 := PrimIsPair(reg3875)
-					var reg3945 Obj
-					if reg3876 == True {
-						reg3877 := True
-						reg3878 := PrimHead(V404)
-						reg3879 := PrimHead(reg3878)
-						reg3880 := PrimEqual(reg3877, reg3879)
-						var reg3940 Obj
-						if reg3880 == True {
-							reg3881 := PrimHead(V404)
-							reg3882 := PrimTail(reg3881)
-							reg3883 := PrimIsPair(reg3882)
-							var reg3935 Obj
-							if reg3883 == True {
-								reg3884 := PrimHead(V404)
-								reg3885 := PrimTail(reg3884)
-								reg3886 := PrimHead(reg3885)
-								reg3887 := PrimIsPair(reg3886)
-								var reg3930 Obj
-								if reg3887 == True {
-									reg3888 := MakeSymbol("shen.choicepoint!")
-									reg3889 := PrimHead(V404)
-									reg3890 := PrimTail(reg3889)
-									reg3891 := PrimHead(reg3890)
-									reg3892 := PrimHead(reg3891)
-									reg3893 := PrimEqual(reg3888, reg3892)
-									var reg3925 Obj
-									if reg3893 == True {
-										reg3894 := PrimHead(V404)
-										reg3895 := PrimTail(reg3894)
-										reg3896 := PrimHead(reg3895)
-										reg3897 := PrimTail(reg3896)
-										reg3898 := PrimIsPair(reg3897)
-										var reg3920 Obj
-										if reg3898 == True {
-											reg3899 := Nil
-											reg3900 := PrimHead(V404)
-											reg3901 := PrimTail(reg3900)
-											reg3902 := PrimHead(reg3901)
-											reg3903 := PrimTail(reg3902)
-											reg3904 := PrimTail(reg3903)
-											reg3905 := PrimEqual(reg3899, reg3904)
-											var reg3915 Obj
-											if reg3905 == True {
-												reg3906 := Nil
-												reg3907 := PrimHead(V404)
-												reg3908 := PrimTail(reg3907)
-												reg3909 := PrimTail(reg3908)
-												reg3910 := PrimEqual(reg3906, reg3909)
-												var reg3913 Obj
-												if reg3910 == True {
-													reg3911 := True
-													reg3913 = reg3911
-												} else {
-													reg3912 := False
-													reg3913 = reg3912
-												}
-												reg3915 = reg3913
-											} else {
-												reg3914 := False
-												reg3915 = reg3914
-											}
-											var reg3918 Obj
-											if reg3915 == True {
-												reg3916 := True
-												reg3918 = reg3916
-											} else {
-												reg3917 := False
-												reg3918 = reg3917
-											}
-											reg3920 = reg3918
-										} else {
-											reg3919 := False
-											reg3920 = reg3919
-										}
-										var reg3923 Obj
-										if reg3920 == True {
-											reg3921 := True
-											reg3923 = reg3921
-										} else {
-											reg3922 := False
-											reg3923 = reg3922
-										}
-										reg3925 = reg3923
-									} else {
-										reg3924 := False
-										reg3925 = reg3924
-									}
-									var reg3928 Obj
-									if reg3925 == True {
-										reg3926 := True
-										reg3928 = reg3926
-									} else {
-										reg3927 := False
-										reg3928 = reg3927
-									}
-									reg3930 = reg3928
-								} else {
-									reg3929 := False
-									reg3930 = reg3929
-								}
-								var reg3933 Obj
-								if reg3930 == True {
-									reg3931 := True
-									reg3933 = reg3931
-								} else {
-									reg3932 := False
-									reg3933 = reg3932
-								}
-								reg3935 = reg3933
-							} else {
-								reg3934 := False
-								reg3935 = reg3934
-							}
-							var reg3938 Obj
-							if reg3935 == True {
-								reg3936 := True
-								reg3938 = reg3936
-							} else {
-								reg3937 := False
-								reg3938 = reg3937
-							}
-							reg3940 = reg3938
-						} else {
-							reg3939 := False
-							reg3940 = reg3939
-						}
-						var reg3943 Obj
-						if reg3940 == True {
-							reg3941 := True
-							reg3943 = reg3941
-						} else {
-							reg3942 := False
-							reg3943 = reg3942
-						}
-						reg3945 = reg3943
-					} else {
-						reg3944 := False
-						reg3945 = reg3944
-					}
-					var reg3948 Obj
-					if reg3945 == True {
-						reg3946 := True
-						reg3948 = reg3946
-					} else {
-						reg3947 := False
-						reg3948 = reg3947
-					}
-					reg3950 = reg3948
-				} else {
-					reg3949 := False
-					reg3950 = reg3949
-				}
-				if reg3950 == True {
-					reg3951 := True
-					reg3952 := MakeSymbol("let")
-					reg3953 := MakeSymbol("Result")
-					reg3954 := PrimHead(V404)
-					reg3955 := PrimTail(reg3954)
-					reg3956 := PrimHead(reg3955)
-					reg3957 := PrimTail(reg3956)
-					reg3958 := PrimHead(reg3957)
-					reg3959 := MakeSymbol("if")
-					reg3960 := MakeSymbol("=")
-					reg3961 := MakeSymbol("Result")
-					reg3962 := MakeSymbol("fail")
-					reg3963 := Nil
-					reg3964 := PrimCons(reg3962, reg3963)
-					reg3965 := Nil
-					reg3966 := PrimCons(reg3964, reg3965)
-					reg3967 := PrimCons(reg3961, reg3966)
-					reg3968 := PrimCons(reg3960, reg3967)
-					reg3969 := PrimTail(V404)
-					reg3970 := Call(__e, __defun__shen_4encode_1choices, reg3969, V405)
-					reg3971 := Call(__e, __defun__shen_4cond_1form, reg3970)
-					reg3972 := MakeSymbol("Result")
-					reg3973 := Nil
-					reg3974 := PrimCons(reg3972, reg3973)
-					reg3975 := PrimCons(reg3971, reg3974)
-					reg3976 := PrimCons(reg3968, reg3975)
-					reg3977 := PrimCons(reg3959, reg3976)
-					reg3978 := Nil
-					reg3979 := PrimCons(reg3977, reg3978)
-					reg3980 := PrimCons(reg3958, reg3979)
-					reg3981 := PrimCons(reg3953, reg3980)
-					reg3982 := PrimCons(reg3952, reg3981)
-					reg3983 := Nil
-					reg3984 := PrimCons(reg3982, reg3983)
-					reg3985 := PrimCons(reg3951, reg3984)
-					reg3986 := Nil
-					reg3987 := PrimCons(reg3985, reg3986)
-					__e.Return(reg3987)
-					return
-				} else {
-					reg3988 := PrimIsPair(V404)
-					var reg4055 Obj
-					if reg3988 == True {
-						reg3989 := PrimHead(V404)
-						reg3990 := PrimIsPair(reg3989)
-						var reg4050 Obj
-						if reg3990 == True {
-							reg3991 := PrimHead(V404)
-							reg3992 := PrimTail(reg3991)
-							reg3993 := PrimIsPair(reg3992)
-							var reg4045 Obj
-							if reg3993 == True {
-								reg3994 := PrimHead(V404)
-								reg3995 := PrimTail(reg3994)
-								reg3996 := PrimHead(reg3995)
-								reg3997 := PrimIsPair(reg3996)
-								var reg4040 Obj
-								if reg3997 == True {
-									reg3998 := MakeSymbol("shen.choicepoint!")
-									reg3999 := PrimHead(V404)
-									reg4000 := PrimTail(reg3999)
-									reg4001 := PrimHead(reg4000)
-									reg4002 := PrimHead(reg4001)
-									reg4003 := PrimEqual(reg3998, reg4002)
-									var reg4035 Obj
-									if reg4003 == True {
-										reg4004 := PrimHead(V404)
-										reg4005 := PrimTail(reg4004)
-										reg4006 := PrimHead(reg4005)
-										reg4007 := PrimTail(reg4006)
-										reg4008 := PrimIsPair(reg4007)
-										var reg4030 Obj
-										if reg4008 == True {
-											reg4009 := Nil
-											reg4010 := PrimHead(V404)
-											reg4011 := PrimTail(reg4010)
-											reg4012 := PrimHead(reg4011)
-											reg4013 := PrimTail(reg4012)
-											reg4014 := PrimTail(reg4013)
-											reg4015 := PrimEqual(reg4009, reg4014)
-											var reg4025 Obj
-											if reg4015 == True {
-												reg4016 := Nil
-												reg4017 := PrimHead(V404)
-												reg4018 := PrimTail(reg4017)
-												reg4019 := PrimTail(reg4018)
-												reg4020 := PrimEqual(reg4016, reg4019)
-												var reg4023 Obj
-												if reg4020 == True {
-													reg4021 := True
-													reg4023 = reg4021
-												} else {
-													reg4022 := False
-													reg4023 = reg4022
-												}
-												reg4025 = reg4023
-											} else {
-												reg4024 := False
-												reg4025 = reg4024
-											}
-											var reg4028 Obj
-											if reg4025 == True {
-												reg4026 := True
-												reg4028 = reg4026
-											} else {
-												reg4027 := False
-												reg4028 = reg4027
-											}
-											reg4030 = reg4028
-										} else {
-											reg4029 := False
-											reg4030 = reg4029
-										}
-										var reg4033 Obj
-										if reg4030 == True {
-											reg4031 := True
-											reg4033 = reg4031
-										} else {
-											reg4032 := False
-											reg4033 = reg4032
-										}
-										reg4035 = reg4033
-									} else {
-										reg4034 := False
-										reg4035 = reg4034
-									}
-									var reg4038 Obj
-									if reg4035 == True {
-										reg4036 := True
-										reg4038 = reg4036
-									} else {
-										reg4037 := False
-										reg4038 = reg4037
-									}
-									reg4040 = reg4038
-								} else {
-									reg4039 := False
-									reg4040 = reg4039
-								}
-								var reg4043 Obj
-								if reg4040 == True {
-									reg4041 := True
-									reg4043 = reg4041
-								} else {
-									reg4042 := False
-									reg4043 = reg4042
-								}
-								reg4045 = reg4043
-							} else {
-								reg4044 := False
-								reg4045 = reg4044
-							}
-							var reg4048 Obj
-							if reg4045 == True {
-								reg4046 := True
-								reg4048 = reg4046
-							} else {
-								reg4047 := False
-								reg4048 = reg4047
-							}
-							reg4050 = reg4048
-						} else {
-							reg4049 := False
-							reg4050 = reg4049
-						}
-						var reg4053 Obj
-						if reg4050 == True {
-							reg4051 := True
-							reg4053 = reg4051
-						} else {
-							reg4052 := False
-							reg4053 = reg4052
-						}
-						reg4055 = reg4053
-					} else {
-						reg4054 := False
-						reg4055 = reg4054
-					}
-					if reg4055 == True {
-						reg4056 := True
-						reg4057 := MakeSymbol("let")
-						reg4058 := MakeSymbol("Freeze")
-						reg4059 := MakeSymbol("freeze")
-						reg4060 := PrimTail(V404)
-						reg4061 := Call(__e, __defun__shen_4encode_1choices, reg4060, V405)
-						reg4062 := Call(__e, __defun__shen_4cond_1form, reg4061)
-						reg4063 := Nil
-						reg4064 := PrimCons(reg4062, reg4063)
-						reg4065 := PrimCons(reg4059, reg4064)
-						reg4066 := MakeSymbol("if")
-						reg4067 := PrimHead(V404)
-						reg4068 := PrimHead(reg4067)
-						reg4069 := MakeSymbol("let")
-						reg4070 := MakeSymbol("Result")
-						reg4071 := PrimHead(V404)
-						reg4072 := PrimTail(reg4071)
-						reg4073 := PrimHead(reg4072)
-						reg4074 := PrimTail(reg4073)
-						reg4075 := PrimHead(reg4074)
-						reg4076 := MakeSymbol("if")
-						reg4077 := MakeSymbol("=")
-						reg4078 := MakeSymbol("Result")
-						reg4079 := MakeSymbol("fail")
-						reg4080 := Nil
-						reg4081 := PrimCons(reg4079, reg4080)
-						reg4082 := Nil
-						reg4083 := PrimCons(reg4081, reg4082)
-						reg4084 := PrimCons(reg4078, reg4083)
-						reg4085 := PrimCons(reg4077, reg4084)
-						reg4086 := MakeSymbol("thaw")
-						reg4087 := MakeSymbol("Freeze")
-						reg4088 := Nil
-						reg4089 := PrimCons(reg4087, reg4088)
-						reg4090 := PrimCons(reg4086, reg4089)
-						reg4091 := MakeSymbol("Result")
-						reg4092 := Nil
-						reg4093 := PrimCons(reg4091, reg4092)
-						reg4094 := PrimCons(reg4090, reg4093)
-						reg4095 := PrimCons(reg4085, reg4094)
-						reg4096 := PrimCons(reg4076, reg4095)
-						reg4097 := Nil
-						reg4098 := PrimCons(reg4096, reg4097)
-						reg4099 := PrimCons(reg4075, reg4098)
-						reg4100 := PrimCons(reg4070, reg4099)
-						reg4101 := PrimCons(reg4069, reg4100)
-						reg4102 := MakeSymbol("thaw")
-						reg4103 := MakeSymbol("Freeze")
-						reg4104 := Nil
-						reg4105 := PrimCons(reg4103, reg4104)
-						reg4106 := PrimCons(reg4102, reg4105)
-						reg4107 := Nil
-						reg4108 := PrimCons(reg4106, reg4107)
-						reg4109 := PrimCons(reg4101, reg4108)
-						reg4110 := PrimCons(reg4068, reg4109)
-						reg4111 := PrimCons(reg4066, reg4110)
-						reg4112 := Nil
-						reg4113 := PrimCons(reg4111, reg4112)
-						reg4114 := PrimCons(reg4065, reg4113)
-						reg4115 := PrimCons(reg4058, reg4114)
-						reg4116 := PrimCons(reg4057, reg4115)
-						reg4117 := Nil
-						reg4118 := PrimCons(reg4116, reg4117)
-						reg4119 := PrimCons(reg4056, reg4118)
-						reg4120 := Nil
-						reg4121 := PrimCons(reg4119, reg4120)
-						__e.Return(reg4121)
-						return
-					} else {
-						reg4122 := PrimIsPair(V404)
-						var reg4147 Obj
-						if reg4122 == True {
-							reg4123 := PrimHead(V404)
-							reg4124 := PrimIsPair(reg4123)
-							var reg4142 Obj
-							if reg4124 == True {
-								reg4125 := PrimHead(V404)
-								reg4126 := PrimTail(reg4125)
-								reg4127 := PrimIsPair(reg4126)
-								var reg4137 Obj
-								if reg4127 == True {
-									reg4128 := Nil
-									reg4129 := PrimHead(V404)
-									reg4130 := PrimTail(reg4129)
-									reg4131 := PrimTail(reg4130)
-									reg4132 := PrimEqual(reg4128, reg4131)
-									var reg4135 Obj
-									if reg4132 == True {
-										reg4133 := True
-										reg4135 = reg4133
-									} else {
-										reg4134 := False
-										reg4135 = reg4134
-									}
-									reg4137 = reg4135
-								} else {
-									reg4136 := False
-									reg4137 = reg4136
-								}
-								var reg4140 Obj
-								if reg4137 == True {
-									reg4138 := True
-									reg4140 = reg4138
-								} else {
-									reg4139 := False
-									reg4140 = reg4139
-								}
-								reg4142 = reg4140
-							} else {
-								reg4141 := False
-								reg4142 = reg4141
-							}
-							var reg4145 Obj
-							if reg4142 == True {
-								reg4143 := True
-								reg4145 = reg4143
-							} else {
-								reg4144 := False
-								reg4145 = reg4144
-							}
-							reg4147 = reg4145
-						} else {
-							reg4146 := False
-							reg4147 = reg4146
-						}
-						if reg4147 == True {
-							reg4148 := PrimHead(V404)
-							reg4149 := PrimTail(V404)
-							reg4150 := Call(__e, __defun__shen_4encode_1choices, reg4149, V405)
-							reg4151 := PrimCons(reg4148, reg4150)
-							__e.Return(reg4151)
-							return
-						} else {
-							reg4152 := MakeSymbol("shen.encode-choices")
-							__e.TailApply(__defun__shen_4f__error, reg4152)
+							__e.Return(YaccParse)
 							return
 						}
-					}
-				}
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.encode-choices", value: __defun__shen_4encode_1choices})
 
-	__defun__shen_4case_1form = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V412 := __args[0]
-		_ = V412
-		V413 := __args[1]
-		_ = V413
-		reg4154 := Nil
-		reg4155 := PrimEqual(reg4154, V412)
-		if reg4155 == True {
-			reg4156 := Nil
-			reg4157 := PrimCons(V413, reg4156)
-			__e.Return(reg4157)
+					} else {
+						__e.Return(YaccParse)
+						return
+					}
+
+				} else {
+					__e.Return(YaccParse)
+					return
+				}
+
+			} else {
+				__e.Return(YaccParse)
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<pattern>"), gen634)
+
+		gen636 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V222 := __args[0]
+			_ = V222
+			gen635 := Call(__e, ShenFunc(symshen_4app), V222, MakeString(" is not a legitimate constructor\n"), MakeSymbol("shen.a"))
+
+			__e.TailApply(ShenFunc(symsimple_1error), gen635)
+
 			return
-		} else {
-			reg4158 := PrimIsPair(V412)
-			var reg4274 Obj
-			if reg4158 == True {
-				reg4159 := PrimHead(V412)
-				reg4160 := PrimIsPair(reg4159)
-				var reg4269 Obj
-				if reg4160 == True {
-					reg4161 := PrimHead(V412)
-					reg4162 := PrimHead(reg4161)
-					reg4163 := PrimIsPair(reg4162)
-					var reg4264 Obj
-					if reg4163 == True {
-						reg4164 := MakeSymbol(":")
-						reg4165 := PrimHead(V412)
-						reg4166 := PrimHead(reg4165)
-						reg4167 := PrimHead(reg4166)
-						reg4168 := PrimEqual(reg4164, reg4167)
-						var reg4259 Obj
-						if reg4168 == True {
-							reg4169 := PrimHead(V412)
-							reg4170 := PrimHead(reg4169)
-							reg4171 := PrimTail(reg4170)
-							reg4172 := PrimIsPair(reg4171)
-							var reg4254 Obj
-							if reg4172 == True {
-								reg4173 := MakeSymbol("shen.tests")
-								reg4174 := PrimHead(V412)
-								reg4175 := PrimHead(reg4174)
-								reg4176 := PrimTail(reg4175)
-								reg4177 := PrimHead(reg4176)
-								reg4178 := PrimEqual(reg4173, reg4177)
-								var reg4249 Obj
-								if reg4178 == True {
-									reg4179 := Nil
-									reg4180 := PrimHead(V412)
-									reg4181 := PrimHead(reg4180)
-									reg4182 := PrimTail(reg4181)
-									reg4183 := PrimTail(reg4182)
-									reg4184 := PrimEqual(reg4179, reg4183)
-									var reg4244 Obj
-									if reg4184 == True {
-										reg4185 := PrimHead(V412)
-										reg4186 := PrimTail(reg4185)
-										reg4187 := PrimIsPair(reg4186)
-										var reg4239 Obj
-										if reg4187 == True {
-											reg4188 := PrimHead(V412)
-											reg4189 := PrimTail(reg4188)
-											reg4190 := PrimHead(reg4189)
-											reg4191 := PrimIsPair(reg4190)
-											var reg4234 Obj
-											if reg4191 == True {
-												reg4192 := MakeSymbol("shen.choicepoint!")
-												reg4193 := PrimHead(V412)
-												reg4194 := PrimTail(reg4193)
-												reg4195 := PrimHead(reg4194)
-												reg4196 := PrimHead(reg4195)
-												reg4197 := PrimEqual(reg4192, reg4196)
-												var reg4229 Obj
-												if reg4197 == True {
-													reg4198 := PrimHead(V412)
-													reg4199 := PrimTail(reg4198)
-													reg4200 := PrimHead(reg4199)
-													reg4201 := PrimTail(reg4200)
-													reg4202 := PrimIsPair(reg4201)
-													var reg4224 Obj
-													if reg4202 == True {
-														reg4203 := Nil
-														reg4204 := PrimHead(V412)
-														reg4205 := PrimTail(reg4204)
-														reg4206 := PrimHead(reg4205)
-														reg4207 := PrimTail(reg4206)
-														reg4208 := PrimTail(reg4207)
-														reg4209 := PrimEqual(reg4203, reg4208)
-														var reg4219 Obj
-														if reg4209 == True {
-															reg4210 := Nil
-															reg4211 := PrimHead(V412)
-															reg4212 := PrimTail(reg4211)
-															reg4213 := PrimTail(reg4212)
-															reg4214 := PrimEqual(reg4210, reg4213)
-															var reg4217 Obj
-															if reg4214 == True {
-																reg4215 := True
-																reg4217 = reg4215
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.constructor-error"), gen636)
+
+		gen660 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V224 := __args[0]
+			_ = V224
+			gen644 := Call(__e, ShenFunc(symhd), V224)
+
+			gen645 := Call(__e, ShenFunc(symcons_2), gen644)
+
+			var gen646 Obj
+			if True == gen645 {
+				gen637 := Call(__e, ShenFunc(symshen_4hdhd), V224)
+
+				Parse__X := gen637
+				gen643 := Call(__e, ShenFunc(sym_a), Parse__X, MakeSymbol("_"))
+
+				if True == gen643 {
+					gen638 := Call(__e, ShenFunc(symshen_4tlhd), V224)
+
+					gen639 := Call(__e, ShenFunc(symshen_4hdtl), V224)
+
+					gen640 := Call(__e, ShenFunc(symshen_4pair), gen638, gen639)
+
+					gen641 := Call(__e, ShenFunc(symhd), gen640)
+
+					gen642 := Call(__e, ShenFunc(symgensym), MakeSymbol("Parse_Y"))
+
+					gen646 = Call(__e, ShenFunc(symshen_4pair), gen641, gen642)
+
+				} else {
+					gen646 = Call(__e, ShenFunc(symfail))
+
+				}
+
+			} else {
+				gen646 = Call(__e, ShenFunc(symfail))
+
+			}
+			YaccParse := gen646
+			gen658 := Call(__e, ShenFunc(symfail))
+
+			gen659 := Call(__e, ShenFunc(sym_a), YaccParse, gen658)
+
+			if True == gen659 {
+				gen656 := Call(__e, ShenFunc(symhd), V224)
+
+				gen657 := Call(__e, ShenFunc(symcons_2), gen656)
+
+				if True == gen657 {
+					gen647 := Call(__e, ShenFunc(symshen_4hdhd), V224)
+
+					Parse__X := gen647
+					gen652 := Call(__e, ShenFunc(symcons), MakeSymbol("<-"), Nil)
+
+					gen653 := Call(__e, ShenFunc(symcons), MakeSymbol("->"), gen652)
+
+					gen654 := Call(__e, ShenFunc(symelement_2), Parse__X, gen653)
+
+					gen655 := Call(__e, ShenFunc(symnot), gen654)
+
+					if True == gen655 {
+						gen648 := Call(__e, ShenFunc(symshen_4tlhd), V224)
+
+						gen649 := Call(__e, ShenFunc(symshen_4hdtl), V224)
+
+						gen650 := Call(__e, ShenFunc(symshen_4pair), gen648, gen649)
+
+						gen651 := Call(__e, ShenFunc(symhd), gen650)
+
+						__e.TailApply(ShenFunc(symshen_4pair), gen651, Parse__X)
+
+						return
+
+					} else {
+						__e.TailApply(ShenFunc(symfail))
+
+						return
+					}
+
+				} else {
+					__e.TailApply(ShenFunc(symfail))
+
+					return
+				}
+
+			} else {
+				__e.Return(YaccParse)
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<simple_pattern>"), gen660)
+
+		gen667 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V226 := __args[0]
+			_ = V226
+			gen661 := Call(__e, ShenFunc(symshen_4_5pattern_6), V226)
+
+			Parse__shen_4_5pattern_6 := gen661
+			gen664 := Call(__e, ShenFunc(symfail))
+
+			gen665 := Call(__e, ShenFunc(sym_a), gen664, Parse__shen_4_5pattern_6)
+
+			gen666 := Call(__e, ShenFunc(symnot), gen665)
+
+			if True == gen666 {
+				gen662 := Call(__e, ShenFunc(symhd), Parse__shen_4_5pattern_6)
+
+				gen663 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern_6)
+
+				__e.TailApply(ShenFunc(symshen_4pair), gen662, gen663)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symfail))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<pattern1>"), gen667)
+
+		gen674 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V228 := __args[0]
+			_ = V228
+			gen668 := Call(__e, ShenFunc(symshen_4_5pattern_6), V228)
+
+			Parse__shen_4_5pattern_6 := gen668
+			gen671 := Call(__e, ShenFunc(symfail))
+
+			gen672 := Call(__e, ShenFunc(sym_a), gen671, Parse__shen_4_5pattern_6)
+
+			gen673 := Call(__e, ShenFunc(symnot), gen672)
+
+			if True == gen673 {
+				gen669 := Call(__e, ShenFunc(symhd), Parse__shen_4_5pattern_6)
+
+				gen670 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5pattern_6)
+
+				__e.TailApply(ShenFunc(symshen_4pair), gen669, gen670)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symfail))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<pattern2>"), gen674)
+
+		gen682 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V230 := __args[0]
+			_ = V230
+			gen680 := Call(__e, ShenFunc(symhd), V230)
+
+			gen681 := Call(__e, ShenFunc(symcons_2), gen680)
+
+			if True == gen681 {
+				gen675 := Call(__e, ShenFunc(symshen_4hdhd), V230)
+
+				Parse__X := gen675
+				gen676 := Call(__e, ShenFunc(symshen_4tlhd), V230)
+
+				gen677 := Call(__e, ShenFunc(symshen_4hdtl), V230)
+
+				gen678 := Call(__e, ShenFunc(symshen_4pair), gen676, gen677)
+
+				gen679 := Call(__e, ShenFunc(symhd), gen678)
+
+				__e.TailApply(ShenFunc(symshen_4pair), gen679, Parse__X)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symfail))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<action>"), gen682)
+
+		gen690 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V232 := __args[0]
+			_ = V232
+			gen688 := Call(__e, ShenFunc(symhd), V232)
+
+			gen689 := Call(__e, ShenFunc(symcons_2), gen688)
+
+			if True == gen689 {
+				gen683 := Call(__e, ShenFunc(symshen_4hdhd), V232)
+
+				Parse__X := gen683
+				gen684 := Call(__e, ShenFunc(symshen_4tlhd), V232)
+
+				gen685 := Call(__e, ShenFunc(symshen_4hdtl), V232)
+
+				gen686 := Call(__e, ShenFunc(symshen_4pair), gen684, gen685)
+
+				gen687 := Call(__e, ShenFunc(symhd), gen686)
+
+				__e.TailApply(ShenFunc(symshen_4pair), gen687, Parse__X)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symfail))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<guard>"), gen690)
+
+		gen694 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V235 := __args[0]
+			_ = V235
+			V236 := __args[1]
+			_ = V236
+			gen691 := Call(__e, ShenFunc(symshen_4compile__to__lambda_7), V235, V236)
+
+			Lambda_7 := gen691
+			gen692 := Call(__e, ShenFunc(symshen_4compile__to__kl), V235, Lambda_7)
+
+			KL := gen692
+			gen693 := Call(__e, ShenFunc(symshen_4record_1source), V235, KL)
+
+			Record := gen693
+			_ = Record
+			__e.Return(KL)
+			return
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.compile_to_machine_code"), gen694)
+
+		gen697 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V241 := __args[0]
+			_ = V241
+			V242 := __args[1]
+			_ = V242
+			gen696 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*installing-kl*"))
+
+			if True == gen696 {
+				__e.Return(MakeSymbol("shen.skip"))
+				return
+			} else {
+				gen695 := Call(__e, ShenFunc(symvalue), MakeSymbol("*property-vector*"))
+
+				__e.TailApply(ShenFunc(symput), V241, MakeSymbol("shen.source"), V242, gen695)
+
+				return
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.record-source"), gen697)
+
+		gen710 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V245 := __args[0]
+			_ = V245
+			V246 := __args[1]
+			_ = V246
+			gen698 := Call(__e, ShenFunc(symshen_4aritycheck), V245, V246)
+
+			Arity := gen698
+			_ = Arity
+			gen699 := Call(__e, ShenFunc(symshen_4update_1symbol_1table), V245, Arity)
+
+			UpDateSymbolTable := gen699
+			_ = UpDateSymbolTable
+			gen700 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				Rule := __args[0]
+				_ = Rule
+				__e.TailApply(ShenFunc(symshen_4free__variable__check), V245, Rule)
+
+				return
+			}, 1)
+			gen701 := Call(__e, ShenFunc(symshen_4for_1each), gen700, V246)
+
+			Free := gen701
+			_ = Free
+			gen702 := Call(__e, ShenFunc(symshen_4parameters), Arity)
+
+			Variables := gen702
+			gen703 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				X := __args[0]
+				_ = X
+				__e.TailApply(ShenFunc(symshen_4strip_1protect), X)
+
+				return
+			}, 1)
+			gen704 := Call(__e, ShenFunc(symmap), gen703, V246)
+
+			Strip := gen704
+			gen705 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				X := __args[0]
+				_ = X
+				__e.TailApply(ShenFunc(symshen_4abstract__rule), X)
+
+				return
+			}, 1)
+			gen706 := Call(__e, ShenFunc(symmap), gen705, Strip)
+
+			Abstractions := gen706
+			gen707 := MakeNative(func(__e Evaluator, __args ...Obj) {
+				X := __args[0]
+				_ = X
+				__e.TailApply(ShenFunc(symshen_4application__build), Variables, X)
+
+				return
+			}, 1)
+			gen708 := Call(__e, ShenFunc(symmap), gen707, Abstractions)
+
+			Applications := gen708
+			gen709 := Call(__e, ShenFunc(symcons), Applications, Nil)
+
+			__e.TailApply(ShenFunc(symcons), Variables, gen709)
+
+			return
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.compile_to_lambda+"), gen710)
+
+		gen715 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V249 := __args[0]
+			_ = V249
+			V250 := __args[1]
+			_ = V250
+			gen714 := Call(__e, ShenFunc(sym_a), MakeNumber(0), V250)
+
+			if True == gen714 {
+				__e.Return(MakeSymbol("shen.skip"))
+				return
+			} else {
+				gen711 := Call(__e, ShenFunc(symshen_4lambda_1form), V249, V250)
+
+				gen712 := Call(__e, ShenFunc(symeval_1kl), gen711)
+
+				gen713 := Call(__e, ShenFunc(symvalue), MakeSymbol("*property-vector*"))
+
+				__e.TailApply(ShenFunc(symput), V249, MakeSymbol("shen.lambda-form"), gen712, gen713)
+
+				return
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.update-symbol-table"), gen715)
+
+		gen729 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V253 := __args[0]
+			_ = V253
+			V254 := __args[1]
+			_ = V254
+			gen727 := Call(__e, ShenFunc(symcons_2), V254)
+
+			var gen728 Obj
+			if True == gen727 {
+				gen724 := Call(__e, ShenFunc(symtl), V254)
+
+				gen725 := Call(__e, ShenFunc(symcons_2), gen724)
+
+				var gen726 Obj
+				if True == gen725 {
+					gen721 := Call(__e, ShenFunc(symtl), V254)
+
+					gen722 := Call(__e, ShenFunc(symtl), gen721)
+
+					gen723 := Call(__e, ShenFunc(sym_a), Nil, gen722)
+
+					if True == gen723 {
+						gen726 = True
+					} else {
+						gen726 = False
+					}
+
+				} else {
+					gen726 = False
+				}
+				if True == gen726 {
+					gen728 = True
+				} else {
+					gen728 = False
+				}
+
+			} else {
+				gen728 = False
+			}
+			if True == gen728 {
+				gen716 := Call(__e, ShenFunc(symhd), V254)
+
+				gen717 := Call(__e, ShenFunc(symshen_4extract__vars), gen716)
+
+				Bound := gen717
+				gen718 := Call(__e, ShenFunc(symtl), V254)
+
+				gen719 := Call(__e, ShenFunc(symhd), gen718)
+
+				gen720 := Call(__e, ShenFunc(symshen_4extract__free__vars), Bound, gen719)
+
+				Free := gen720
+				__e.TailApply(ShenFunc(symshen_4free__variable__warnings), V253, Free)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.free_variable_check"))
+
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.free_variable_check"), gen729)
+
+		gen736 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V256 := __args[0]
+			_ = V256
+			gen735 := Call(__e, ShenFunc(symvariable_2), V256)
+
+			if True == gen735 {
+				__e.TailApply(ShenFunc(symcons), V256, Nil)
+
+				return
+			} else {
+				gen734 := Call(__e, ShenFunc(symcons_2), V256)
+
+				if True == gen734 {
+					gen730 := Call(__e, ShenFunc(symhd), V256)
+
+					gen731 := Call(__e, ShenFunc(symshen_4extract__vars), gen730)
+
+					gen732 := Call(__e, ShenFunc(symtl), V256)
+
+					gen733 := Call(__e, ShenFunc(symshen_4extract__vars), gen732)
+
+					__e.TailApply(ShenFunc(symunion), gen731, gen733)
+
+					return
+
+				} else {
+					__e.Return(Nil)
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.extract_vars"), gen736)
+
+		gen813 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V268 := __args[0]
+			_ = V268
+			V269 := __args[1]
+			_ = V269
+			gen811 := Call(__e, ShenFunc(symcons_2), V269)
+
+			var gen812 Obj
+			if True == gen811 {
+				gen808 := Call(__e, ShenFunc(symtl), V269)
+
+				gen809 := Call(__e, ShenFunc(symcons_2), gen808)
+
+				var gen810 Obj
+				if True == gen809 {
+					gen804 := Call(__e, ShenFunc(symtl), V269)
+
+					gen805 := Call(__e, ShenFunc(symtl), gen804)
+
+					gen806 := Call(__e, ShenFunc(sym_a), Nil, gen805)
+
+					var gen807 Obj
+					if True == gen806 {
+						gen802 := Call(__e, ShenFunc(symhd), V269)
+
+						gen803 := Call(__e, ShenFunc(sym_a), gen802, MakeSymbol("protect"))
+
+						if True == gen803 {
+							gen807 = True
+						} else {
+							gen807 = False
+						}
+
+					} else {
+						gen807 = False
+					}
+					if True == gen807 {
+						gen810 = True
+					} else {
+						gen810 = False
+					}
+
+				} else {
+					gen810 = False
+				}
+				if True == gen810 {
+					gen812 = True
+				} else {
+					gen812 = False
+				}
+
+			} else {
+				gen812 = False
+			}
+			if True == gen812 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen800 := Call(__e, ShenFunc(symvariable_2), V269)
+
+				var gen801 Obj
+				if True == gen800 {
+					gen798 := Call(__e, ShenFunc(symelement_2), V269, V268)
+
+					gen799 := Call(__e, ShenFunc(symnot), gen798)
+
+					if True == gen799 {
+						gen801 = True
+					} else {
+						gen801 = False
+					}
+
+				} else {
+					gen801 = False
+				}
+				if True == gen801 {
+					__e.TailApply(ShenFunc(symcons), V269, Nil)
+
+					return
+				} else {
+					gen796 := Call(__e, ShenFunc(symcons_2), V269)
+
+					var gen797 Obj
+					if True == gen796 {
+						gen793 := Call(__e, ShenFunc(symhd), V269)
+
+						gen794 := Call(__e, ShenFunc(sym_a), MakeSymbol("lambda"), gen793)
+
+						var gen795 Obj
+						if True == gen794 {
+							gen790 := Call(__e, ShenFunc(symtl), V269)
+
+							gen791 := Call(__e, ShenFunc(symcons_2), gen790)
+
+							var gen792 Obj
+							if True == gen791 {
+								gen786 := Call(__e, ShenFunc(symtl), V269)
+
+								gen787 := Call(__e, ShenFunc(symtl), gen786)
+
+								gen788 := Call(__e, ShenFunc(symcons_2), gen787)
+
+								var gen789 Obj
+								if True == gen788 {
+									gen782 := Call(__e, ShenFunc(symtl), V269)
+
+									gen783 := Call(__e, ShenFunc(symtl), gen782)
+
+									gen784 := Call(__e, ShenFunc(symtl), gen783)
+
+									gen785 := Call(__e, ShenFunc(sym_a), Nil, gen784)
+
+									if True == gen785 {
+										gen789 = True
+									} else {
+										gen789 = False
+									}
+
+								} else {
+									gen789 = False
+								}
+								if True == gen789 {
+									gen792 = True
+								} else {
+									gen792 = False
+								}
+
+							} else {
+								gen792 = False
+							}
+							if True == gen792 {
+								gen795 = True
+							} else {
+								gen795 = False
+							}
+
+						} else {
+							gen795 = False
+						}
+						if True == gen795 {
+							gen797 = True
+						} else {
+							gen797 = False
+						}
+
+					} else {
+						gen797 = False
+					}
+					if True == gen797 {
+						gen776 := Call(__e, ShenFunc(symtl), V269)
+
+						gen777 := Call(__e, ShenFunc(symhd), gen776)
+
+						gen778 := Call(__e, ShenFunc(symcons), gen777, V268)
+
+						gen779 := Call(__e, ShenFunc(symtl), V269)
+
+						gen780 := Call(__e, ShenFunc(symtl), gen779)
+
+						gen781 := Call(__e, ShenFunc(symhd), gen780)
+
+						__e.TailApply(ShenFunc(symshen_4extract__free__vars), gen778, gen781)
+
+						return
+
+					} else {
+						gen774 := Call(__e, ShenFunc(symcons_2), V269)
+
+						var gen775 Obj
+						if True == gen774 {
+							gen771 := Call(__e, ShenFunc(symhd), V269)
+
+							gen772 := Call(__e, ShenFunc(sym_a), MakeSymbol("let"), gen771)
+
+							var gen773 Obj
+							if True == gen772 {
+								gen768 := Call(__e, ShenFunc(symtl), V269)
+
+								gen769 := Call(__e, ShenFunc(symcons_2), gen768)
+
+								var gen770 Obj
+								if True == gen769 {
+									gen764 := Call(__e, ShenFunc(symtl), V269)
+
+									gen765 := Call(__e, ShenFunc(symtl), gen764)
+
+									gen766 := Call(__e, ShenFunc(symcons_2), gen765)
+
+									var gen767 Obj
+									if True == gen766 {
+										gen759 := Call(__e, ShenFunc(symtl), V269)
+
+										gen760 := Call(__e, ShenFunc(symtl), gen759)
+
+										gen761 := Call(__e, ShenFunc(symtl), gen760)
+
+										gen762 := Call(__e, ShenFunc(symcons_2), gen761)
+
+										var gen763 Obj
+										if True == gen762 {
+											gen754 := Call(__e, ShenFunc(symtl), V269)
+
+											gen755 := Call(__e, ShenFunc(symtl), gen754)
+
+											gen756 := Call(__e, ShenFunc(symtl), gen755)
+
+											gen757 := Call(__e, ShenFunc(symtl), gen756)
+
+											gen758 := Call(__e, ShenFunc(sym_a), Nil, gen757)
+
+											if True == gen758 {
+												gen763 = True
+											} else {
+												gen763 = False
+											}
+
+										} else {
+											gen763 = False
+										}
+										if True == gen763 {
+											gen767 = True
+										} else {
+											gen767 = False
+										}
+
+									} else {
+										gen767 = False
+									}
+									if True == gen767 {
+										gen770 = True
+									} else {
+										gen770 = False
+									}
+
+								} else {
+									gen770 = False
+								}
+								if True == gen770 {
+									gen773 = True
+								} else {
+									gen773 = False
+								}
+
+							} else {
+								gen773 = False
+							}
+							if True == gen773 {
+								gen775 = True
+							} else {
+								gen775 = False
+							}
+
+						} else {
+							gen775 = False
+						}
+						if True == gen775 {
+							gen742 := Call(__e, ShenFunc(symtl), V269)
+
+							gen743 := Call(__e, ShenFunc(symtl), gen742)
+
+							gen744 := Call(__e, ShenFunc(symhd), gen743)
+
+							gen745 := Call(__e, ShenFunc(symshen_4extract__free__vars), V268, gen744)
+
+							gen746 := Call(__e, ShenFunc(symtl), V269)
+
+							gen747 := Call(__e, ShenFunc(symhd), gen746)
+
+							gen748 := Call(__e, ShenFunc(symcons), gen747, V268)
+
+							gen749 := Call(__e, ShenFunc(symtl), V269)
+
+							gen750 := Call(__e, ShenFunc(symtl), gen749)
+
+							gen751 := Call(__e, ShenFunc(symtl), gen750)
+
+							gen752 := Call(__e, ShenFunc(symhd), gen751)
+
+							gen753 := Call(__e, ShenFunc(symshen_4extract__free__vars), gen748, gen752)
+
+							__e.TailApply(ShenFunc(symunion), gen745, gen753)
+
+							return
+
+						} else {
+							gen741 := Call(__e, ShenFunc(symcons_2), V269)
+
+							if True == gen741 {
+								gen737 := Call(__e, ShenFunc(symhd), V269)
+
+								gen738 := Call(__e, ShenFunc(symshen_4extract__free__vars), V268, gen737)
+
+								gen739 := Call(__e, ShenFunc(symtl), V269)
+
+								gen740 := Call(__e, ShenFunc(symshen_4extract__free__vars), V268, gen739)
+
+								__e.TailApply(ShenFunc(symunion), gen738, gen740)
+
+								return
+
+							} else {
+								__e.Return(Nil)
+								return
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.extract_free_vars"), gen813)
+
+		gen820 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V274 := __args[0]
+			_ = V274
+			V275 := __args[1]
+			_ = V275
+			gen819 := Call(__e, ShenFunc(sym_a), Nil, V275)
+
+			if True == gen819 {
+				__e.Return(MakeSymbol("_"))
+				return
+			} else {
+				gen814 := Call(__e, ShenFunc(symshen_4list__variables), V275)
+
+				gen815 := Call(__e, ShenFunc(symshen_4app), gen814, MakeString(""), MakeSymbol("shen.a"))
+
+				gen816 := Call(__e, ShenFunc(symcn), MakeString(": "), gen815)
+
+				gen817 := Call(__e, ShenFunc(symshen_4app), V274, gen816, MakeSymbol("shen.a"))
+
+				gen818 := Call(__e, ShenFunc(symcn), MakeString("error: the following variables are free in "), gen817)
+
+				__e.TailApply(ShenFunc(symsimple_1error), gen818)
+
+				return
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.free_variable_warnings"), gen820)
+
+		gen833 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V277 := __args[0]
+			_ = V277
+			gen831 := Call(__e, ShenFunc(symcons_2), V277)
+
+			var gen832 Obj
+			if True == gen831 {
+				gen829 := Call(__e, ShenFunc(symtl), V277)
+
+				gen830 := Call(__e, ShenFunc(sym_a), Nil, gen829)
+
+				if True == gen830 {
+					gen832 = True
+				} else {
+					gen832 = False
+				}
+
+			} else {
+				gen832 = False
+			}
+			if True == gen832 {
+				gen827 := Call(__e, ShenFunc(symhd), V277)
+
+				gen828 := Call(__e, ShenFunc(symstr), gen827)
+
+				__e.TailApply(ShenFunc(symcn), gen828, MakeString("."))
+
+				return
+
+			} else {
+				gen826 := Call(__e, ShenFunc(symcons_2), V277)
+
+				if True == gen826 {
+					gen821 := Call(__e, ShenFunc(symhd), V277)
+
+					gen822 := Call(__e, ShenFunc(symstr), gen821)
+
+					gen823 := Call(__e, ShenFunc(symtl), V277)
+
+					gen824 := Call(__e, ShenFunc(symshen_4list__variables), gen823)
+
+					gen825 := Call(__e, ShenFunc(symcn), MakeString(", "), gen824)
+
+					__e.TailApply(ShenFunc(symcn), gen822, gen825)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.list_variables"))
+
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.list_variables"), gen833)
+
+		gen849 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V279 := __args[0]
+			_ = V279
+			gen847 := Call(__e, ShenFunc(symcons_2), V279)
+
+			var gen848 Obj
+			if True == gen847 {
+				gen844 := Call(__e, ShenFunc(symtl), V279)
+
+				gen845 := Call(__e, ShenFunc(symcons_2), gen844)
+
+				var gen846 Obj
+				if True == gen845 {
+					gen840 := Call(__e, ShenFunc(symtl), V279)
+
+					gen841 := Call(__e, ShenFunc(symtl), gen840)
+
+					gen842 := Call(__e, ShenFunc(sym_a), Nil, gen841)
+
+					var gen843 Obj
+					if True == gen842 {
+						gen838 := Call(__e, ShenFunc(symhd), V279)
+
+						gen839 := Call(__e, ShenFunc(sym_a), gen838, MakeSymbol("protect"))
+
+						if True == gen839 {
+							gen843 = True
+						} else {
+							gen843 = False
+						}
+
+					} else {
+						gen843 = False
+					}
+					if True == gen843 {
+						gen846 = True
+					} else {
+						gen846 = False
+					}
+
+				} else {
+					gen846 = False
+				}
+				if True == gen846 {
+					gen848 = True
+				} else {
+					gen848 = False
+				}
+
+			} else {
+				gen848 = False
+			}
+			if True == gen848 {
+				gen836 := Call(__e, ShenFunc(symtl), V279)
+
+				gen837 := Call(__e, ShenFunc(symhd), gen836)
+
+				__e.TailApply(ShenFunc(symshen_4strip_1protect), gen837)
+
+				return
+
+			} else {
+				gen835 := Call(__e, ShenFunc(symcons_2), V279)
+
+				if True == gen835 {
+					gen834 := MakeNative(func(__e Evaluator, __args ...Obj) {
+						Z := __args[0]
+						_ = Z
+						__e.TailApply(ShenFunc(symshen_4strip_1protect), Z)
+
+						return
+					}, 1)
+					__e.TailApply(ShenFunc(symmap), gen834, V279)
+
+					return
+
+				} else {
+					__e.Return(V279)
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.strip-protect"), gen849)
+
+		gen863 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V281 := __args[0]
+			_ = V281
+			gen861 := Call(__e, ShenFunc(symcons_2), V281)
+
+			var gen862 Obj
+			if True == gen861 {
+				gen858 := Call(__e, ShenFunc(symtl), V281)
+
+				gen859 := Call(__e, ShenFunc(symcons_2), gen858)
+
+				var gen860 Obj
+				if True == gen859 {
+					gen855 := Call(__e, ShenFunc(symtl), V281)
+
+					gen856 := Call(__e, ShenFunc(symtl), gen855)
+
+					gen857 := Call(__e, ShenFunc(sym_a), Nil, gen856)
+
+					if True == gen857 {
+						gen860 = True
+					} else {
+						gen860 = False
+					}
+
+				} else {
+					gen860 = False
+				}
+				if True == gen860 {
+					gen862 = True
+				} else {
+					gen862 = False
+				}
+
+			} else {
+				gen862 = False
+			}
+			if True == gen862 {
+				gen850 := Call(__e, ShenFunc(symhd), V281)
+
+				gen851 := Call(__e, ShenFunc(symshen_4flatten), gen850)
+
+				gen852 := Call(__e, ShenFunc(symhd), V281)
+
+				gen853 := Call(__e, ShenFunc(symtl), V281)
+
+				gen854 := Call(__e, ShenFunc(symhd), gen853)
+
+				__e.TailApply(ShenFunc(symshen_4linearise__help), gen851, gen852, gen854)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.linearise"))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.linearise"), gen863)
+
+		gen870 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V283 := __args[0]
+			_ = V283
+			gen869 := Call(__e, ShenFunc(sym_a), Nil, V283)
+
+			if True == gen869 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen868 := Call(__e, ShenFunc(symcons_2), V283)
+
+				if True == gen868 {
+					gen864 := Call(__e, ShenFunc(symhd), V283)
+
+					gen865 := Call(__e, ShenFunc(symshen_4flatten), gen864)
+
+					gen866 := Call(__e, ShenFunc(symtl), V283)
+
+					gen867 := Call(__e, ShenFunc(symshen_4flatten), gen866)
+
+					__e.TailApply(ShenFunc(symappend), gen865, gen867)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symcons), V283, Nil)
+
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.flatten"), gen870)
+
+		gen893 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V287 := __args[0]
+			_ = V287
+			V288 := __args[1]
+			_ = V288
+			V289 := __args[2]
+			_ = V289
+			gen892 := Call(__e, ShenFunc(sym_a), Nil, V287)
+
+			if True == gen892 {
+				gen891 := Call(__e, ShenFunc(symcons), V289, Nil)
+
+				__e.TailApply(ShenFunc(symcons), V288, gen891)
+
+				return
+
+			} else {
+				gen890 := Call(__e, ShenFunc(symcons_2), V287)
+
+				if True == gen890 {
+					gen887 := Call(__e, ShenFunc(symhd), V287)
+
+					gen888 := Call(__e, ShenFunc(symvariable_2), gen887)
+
+					var gen889 Obj
+					if True == gen888 {
+						gen884 := Call(__e, ShenFunc(symhd), V287)
+
+						gen885 := Call(__e, ShenFunc(symtl), V287)
+
+						gen886 := Call(__e, ShenFunc(symelement_2), gen884, gen885)
+
+						if True == gen886 {
+							gen889 = True
+						} else {
+							gen889 = False
+						}
+
+					} else {
+						gen889 = False
+					}
+					if True == gen889 {
+						gen872 := Call(__e, ShenFunc(symhd), V287)
+
+						gen873 := Call(__e, ShenFunc(symgensym), gen872)
+
+						Var := gen873
+						gen874 := Call(__e, ShenFunc(symhd), V287)
+
+						gen875 := Call(__e, ShenFunc(symcons), Var, Nil)
+
+						gen876 := Call(__e, ShenFunc(symcons), gen874, gen875)
+
+						gen877 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen876)
+
+						gen878 := Call(__e, ShenFunc(symcons), V289, Nil)
+
+						gen879 := Call(__e, ShenFunc(symcons), gen877, gen878)
+
+						gen880 := Call(__e, ShenFunc(symcons), MakeSymbol("where"), gen879)
+
+						NewAction := gen880
+						gen881 := Call(__e, ShenFunc(symhd), V287)
+
+						gen882 := Call(__e, ShenFunc(symshen_4linearise__X), gen881, Var, V288)
+
+						NewPatts := gen882
+						gen883 := Call(__e, ShenFunc(symtl), V287)
+
+						__e.TailApply(ShenFunc(symshen_4linearise__help), gen883, NewPatts, NewAction)
+
+						return
+
+					} else {
+						gen871 := Call(__e, ShenFunc(symtl), V287)
+
+						__e.TailApply(ShenFunc(symshen_4linearise__help), gen871, V288, V289)
+
+						return
+
+					}
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.linearise_help"))
+
+					return
+				}
+
+			}
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.linearise_help"), gen893)
+
+		gen904 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V302 := __args[0]
+			_ = V302
+			V303 := __args[1]
+			_ = V303
+			V304 := __args[2]
+			_ = V304
+			gen903 := Call(__e, ShenFunc(sym_a), V304, V302)
+
+			if True == gen903 {
+				__e.Return(V303)
+				return
+			} else {
+				gen902 := Call(__e, ShenFunc(symcons_2), V304)
+
+				if True == gen902 {
+					gen894 := Call(__e, ShenFunc(symhd), V304)
+
+					gen895 := Call(__e, ShenFunc(symshen_4linearise__X), V302, V303, gen894)
+
+					L := gen895
+					gen900 := Call(__e, ShenFunc(symhd), V304)
+
+					gen901 := Call(__e, ShenFunc(sym_a), L, gen900)
+
+					if True == gen901 {
+						gen897 := Call(__e, ShenFunc(symhd), V304)
+
+						gen898 := Call(__e, ShenFunc(symtl), V304)
+
+						gen899 := Call(__e, ShenFunc(symshen_4linearise__X), V302, V303, gen898)
+
+						__e.TailApply(ShenFunc(symcons), gen897, gen899)
+
+						return
+
+					} else {
+						gen896 := Call(__e, ShenFunc(symtl), V304)
+
+						__e.TailApply(ShenFunc(symcons), L, gen896)
+
+						return
+
+					}
+
+				} else {
+					__e.Return(V304)
+					return
+				}
+
+			}
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.linearise_X"), gen904)
+
+		gen973 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V307 := __args[0]
+			_ = V307
+			V308 := __args[1]
+			_ = V308
+			gen971 := Call(__e, ShenFunc(symcons_2), V308)
+
+			var gen972 Obj
+			if True == gen971 {
+				gen968 := Call(__e, ShenFunc(symhd), V308)
+
+				gen969 := Call(__e, ShenFunc(symcons_2), gen968)
+
+				var gen970 Obj
+				if True == gen969 {
+					gen964 := Call(__e, ShenFunc(symhd), V308)
+
+					gen965 := Call(__e, ShenFunc(symtl), gen964)
+
+					gen966 := Call(__e, ShenFunc(symcons_2), gen965)
+
+					var gen967 Obj
+					if True == gen966 {
+						gen959 := Call(__e, ShenFunc(symhd), V308)
+
+						gen960 := Call(__e, ShenFunc(symtl), gen959)
+
+						gen961 := Call(__e, ShenFunc(symtl), gen960)
+
+						gen962 := Call(__e, ShenFunc(sym_a), Nil, gen961)
+
+						var gen963 Obj
+						if True == gen962 {
+							gen957 := Call(__e, ShenFunc(symtl), V308)
+
+							gen958 := Call(__e, ShenFunc(sym_a), Nil, gen957)
+
+							if True == gen958 {
+								gen963 = True
+							} else {
+								gen963 = False
+							}
+
+						} else {
+							gen963 = False
+						}
+						if True == gen963 {
+							gen967 = True
+						} else {
+							gen967 = False
+						}
+
+					} else {
+						gen967 = False
+					}
+					if True == gen967 {
+						gen970 = True
+					} else {
+						gen970 = False
+					}
+
+				} else {
+					gen970 = False
+				}
+				if True == gen970 {
+					gen972 = True
+				} else {
+					gen972 = False
+				}
+
+			} else {
+				gen972 = False
+			}
+			if True == gen972 {
+				gen950 := Call(__e, ShenFunc(symhd), V308)
+
+				gen951 := Call(__e, ShenFunc(symtl), gen950)
+
+				gen952 := Call(__e, ShenFunc(symhd), gen951)
+
+				Call(__e, ShenFunc(symshen_4aritycheck_1action), gen952)
+
+				gen953 := Call(__e, ShenFunc(symarity), V307)
+
+				gen954 := Call(__e, ShenFunc(symhd), V308)
+
+				gen955 := Call(__e, ShenFunc(symhd), gen954)
+
+				gen956 := Call(__e, ShenFunc(symlength), gen955)
+
+				__e.TailApply(ShenFunc(symshen_4aritycheck_1name), V307, gen953, gen956)
+
+				return
+
+			} else {
+				gen948 := Call(__e, ShenFunc(symcons_2), V308)
+
+				var gen949 Obj
+				if True == gen948 {
+					gen945 := Call(__e, ShenFunc(symhd), V308)
+
+					gen946 := Call(__e, ShenFunc(symcons_2), gen945)
+
+					var gen947 Obj
+					if True == gen946 {
+						gen941 := Call(__e, ShenFunc(symhd), V308)
+
+						gen942 := Call(__e, ShenFunc(symtl), gen941)
+
+						gen943 := Call(__e, ShenFunc(symcons_2), gen942)
+
+						var gen944 Obj
+						if True == gen943 {
+							gen936 := Call(__e, ShenFunc(symhd), V308)
+
+							gen937 := Call(__e, ShenFunc(symtl), gen936)
+
+							gen938 := Call(__e, ShenFunc(symtl), gen937)
+
+							gen939 := Call(__e, ShenFunc(sym_a), Nil, gen938)
+
+							var gen940 Obj
+							if True == gen939 {
+								gen933 := Call(__e, ShenFunc(symtl), V308)
+
+								gen934 := Call(__e, ShenFunc(symcons_2), gen933)
+
+								var gen935 Obj
+								if True == gen934 {
+									gen929 := Call(__e, ShenFunc(symtl), V308)
+
+									gen930 := Call(__e, ShenFunc(symhd), gen929)
+
+									gen931 := Call(__e, ShenFunc(symcons_2), gen930)
+
+									var gen932 Obj
+									if True == gen931 {
+										gen924 := Call(__e, ShenFunc(symtl), V308)
+
+										gen925 := Call(__e, ShenFunc(symhd), gen924)
+
+										gen926 := Call(__e, ShenFunc(symtl), gen925)
+
+										gen927 := Call(__e, ShenFunc(symcons_2), gen926)
+
+										var gen928 Obj
+										if True == gen927 {
+											gen919 := Call(__e, ShenFunc(symtl), V308)
+
+											gen920 := Call(__e, ShenFunc(symhd), gen919)
+
+											gen921 := Call(__e, ShenFunc(symtl), gen920)
+
+											gen922 := Call(__e, ShenFunc(symtl), gen921)
+
+											gen923 := Call(__e, ShenFunc(sym_a), Nil, gen922)
+
+											if True == gen923 {
+												gen928 = True
+											} else {
+												gen928 = False
+											}
+
+										} else {
+											gen928 = False
+										}
+										if True == gen928 {
+											gen932 = True
+										} else {
+											gen932 = False
+										}
+
+									} else {
+										gen932 = False
+									}
+									if True == gen932 {
+										gen935 = True
+									} else {
+										gen935 = False
+									}
+
+								} else {
+									gen935 = False
+								}
+								if True == gen935 {
+									gen940 = True
+								} else {
+									gen940 = False
+								}
+
+							} else {
+								gen940 = False
+							}
+							if True == gen940 {
+								gen944 = True
+							} else {
+								gen944 = False
+							}
+
+						} else {
+							gen944 = False
+						}
+						if True == gen944 {
+							gen947 = True
+						} else {
+							gen947 = False
+						}
+
+					} else {
+						gen947 = False
+					}
+					if True == gen947 {
+						gen949 = True
+					} else {
+						gen949 = False
+					}
+
+				} else {
+					gen949 = False
+				}
+				if True == gen949 {
+					gen911 := Call(__e, ShenFunc(symhd), V308)
+
+					gen912 := Call(__e, ShenFunc(symhd), gen911)
+
+					gen913 := Call(__e, ShenFunc(symlength), gen912)
+
+					gen914 := Call(__e, ShenFunc(symtl), V308)
+
+					gen915 := Call(__e, ShenFunc(symhd), gen914)
+
+					gen916 := Call(__e, ShenFunc(symhd), gen915)
+
+					gen917 := Call(__e, ShenFunc(symlength), gen916)
+
+					gen918 := Call(__e, ShenFunc(sym_a), gen913, gen917)
+
+					if True == gen918 {
+						gen907 := Call(__e, ShenFunc(symhd), V308)
+
+						gen908 := Call(__e, ShenFunc(symtl), gen907)
+
+						gen909 := Call(__e, ShenFunc(symhd), gen908)
+
+						Call(__e, ShenFunc(symshen_4aritycheck_1action), gen909)
+
+						gen910 := Call(__e, ShenFunc(symtl), V308)
+
+						__e.TailApply(ShenFunc(symshen_4aritycheck), V307, gen910)
+
+						return
+
+					} else {
+						gen905 := Call(__e, ShenFunc(symshen_4app), V307, MakeString("\n"), MakeSymbol("shen.a"))
+
+						gen906 := Call(__e, ShenFunc(symcn), MakeString("arity error in "), gen905)
+
+						__e.TailApply(ShenFunc(symsimple_1error), gen906)
+
+						return
+
+					}
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.aritycheck"))
+
+					return
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.aritycheck"), gen973)
+
+		gen979 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V321 := __args[0]
+			_ = V321
+			V322 := __args[1]
+			_ = V322
+			V323 := __args[2]
+			_ = V323
+			gen978 := Call(__e, ShenFunc(sym_a), MakeNumber(-1), V322)
+
+			if True == gen978 {
+				__e.Return(V323)
+				return
+			} else {
+				gen977 := Call(__e, ShenFunc(sym_a), V323, V322)
+
+				if True == gen977 {
+					__e.Return(V323)
+					return
+				} else {
+					gen974 := Call(__e, ShenFunc(symshen_4app), V321, MakeString(" can cause errors.\n"), MakeSymbol("shen.a"))
+
+					gen975 := Call(__e, ShenFunc(symcn), MakeString("\nwarning: changing the arity of "), gen974)
+
+					gen976 := Call(__e, ShenFunc(symstoutput))
+
+					Call(__e, ShenFunc(symshen_4prhush), gen975, gen976)
+
+					__e.Return(V323)
+					return
+
+				}
+
+			}
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.aritycheck-name"), gen979)
+
+		gen984 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V329 := __args[0]
+			_ = V329
+			gen983 := Call(__e, ShenFunc(symcons_2), V329)
+
+			if True == gen983 {
+				gen980 := Call(__e, ShenFunc(symhd), V329)
+
+				gen981 := Call(__e, ShenFunc(symtl), V329)
+
+				Call(__e, ShenFunc(symshen_4aah), gen980, gen981)
+
+				gen982 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					Y := __args[0]
+					_ = Y
+					__e.TailApply(ShenFunc(symshen_4aritycheck_1action), Y)
+
+					return
+				}, 1)
+				__e.TailApply(ShenFunc(symshen_4for_1each), gen982, V329)
+
+				return
+
+			} else {
+				__e.Return(MakeSymbol("shen.skip"))
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.aritycheck-action"), gen984)
+
+		gen999 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V332 := __args[0]
+			_ = V332
+			V333 := __args[1]
+			_ = V333
+			gen985 := Call(__e, ShenFunc(symarity), V332)
+
+			Arity := gen985
+			gen986 := Call(__e, ShenFunc(symlength), V333)
+
+			Len := gen986
+			gen997 := Call(__e, ShenFunc(sym_6), Arity, MakeNumber(-1))
+
+			var gen998 Obj
+			if True == gen997 {
+				gen996 := Call(__e, ShenFunc(sym_6), Len, Arity)
+
+				if True == gen996 {
+					gen998 = True
+				} else {
+					gen998 = False
+				}
+
+			} else {
+				gen998 = False
+			}
+			if True == gen998 {
+				gen987 := Call(__e, ShenFunc(sym_6), Len, MakeNumber(1))
+
+				var gen988 Obj
+				if True == gen987 {
+					gen988 = MakeString("s")
+				} else {
+					gen988 = MakeString("")
+				}
+				gen989 := Call(__e, ShenFunc(symshen_4app), gen988, MakeString(".\n"), MakeSymbol("shen.a"))
+
+				gen990 := Call(__e, ShenFunc(symcn), MakeString(" argument"), gen989)
+
+				gen991 := Call(__e, ShenFunc(symshen_4app), Len, gen990, MakeSymbol("shen.a"))
+
+				gen992 := Call(__e, ShenFunc(symcn), MakeString(" might not like "), gen991)
+
+				gen993 := Call(__e, ShenFunc(symshen_4app), V332, gen992, MakeSymbol("shen.a"))
+
+				gen994 := Call(__e, ShenFunc(symcn), MakeString("warning: "), gen993)
+
+				gen995 := Call(__e, ShenFunc(symstoutput))
+
+				__e.TailApply(ShenFunc(symshen_4prhush), gen994, gen995)
+
+				return
+
+			} else {
+				__e.Return(MakeSymbol("shen.skip"))
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.aah"), gen999)
+
+		gen1011 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V335 := __args[0]
+			_ = V335
+			gen1009 := Call(__e, ShenFunc(symcons_2), V335)
+
+			var gen1010 Obj
+			if True == gen1009 {
+				gen1006 := Call(__e, ShenFunc(symtl), V335)
+
+				gen1007 := Call(__e, ShenFunc(symcons_2), gen1006)
+
+				var gen1008 Obj
+				if True == gen1007 {
+					gen1003 := Call(__e, ShenFunc(symtl), V335)
+
+					gen1004 := Call(__e, ShenFunc(symtl), gen1003)
+
+					gen1005 := Call(__e, ShenFunc(sym_a), Nil, gen1004)
+
+					if True == gen1005 {
+						gen1008 = True
+					} else {
+						gen1008 = False
+					}
+
+				} else {
+					gen1008 = False
+				}
+				if True == gen1008 {
+					gen1010 = True
+				} else {
+					gen1010 = False
+				}
+
+			} else {
+				gen1010 = False
+			}
+			if True == gen1010 {
+				gen1000 := Call(__e, ShenFunc(symhd), V335)
+
+				gen1001 := Call(__e, ShenFunc(symtl), V335)
+
+				gen1002 := Call(__e, ShenFunc(symhd), gen1001)
+
+				__e.TailApply(ShenFunc(symshen_4abstraction__build), gen1000, gen1002)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.abstract_rule"))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.abstract_rule"), gen1011)
+
+		gen1019 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V338 := __args[0]
+			_ = V338
+			V339 := __args[1]
+			_ = V339
+			gen1018 := Call(__e, ShenFunc(sym_a), Nil, V338)
+
+			if True == gen1018 {
+				__e.Return(V339)
+				return
+			} else {
+				gen1017 := Call(__e, ShenFunc(symcons_2), V338)
+
+				if True == gen1017 {
+					gen1012 := Call(__e, ShenFunc(symhd), V338)
+
+					gen1013 := Call(__e, ShenFunc(symtl), V338)
+
+					gen1014 := Call(__e, ShenFunc(symshen_4abstraction__build), gen1013, V339)
+
+					gen1015 := Call(__e, ShenFunc(symcons), gen1014, Nil)
+
+					gen1016 := Call(__e, ShenFunc(symcons), gen1012, gen1015)
+
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("/."), gen1016)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.abstraction_build"))
+
+					return
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.abstraction_build"), gen1019)
+
+		gen1024 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V341 := __args[0]
+			_ = V341
+			gen1023 := Call(__e, ShenFunc(sym_a), MakeNumber(0), V341)
+
+			if True == gen1023 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen1020 := Call(__e, ShenFunc(symgensym), MakeSymbol("V"))
+
+				gen1021 := Call(__e, ShenFunc(sym_1), V341, MakeNumber(1))
+
+				gen1022 := Call(__e, ShenFunc(symshen_4parameters), gen1021)
+
+				__e.TailApply(ShenFunc(symcons), gen1020, gen1022)
+
+				return
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.parameters"), gen1024)
+
+		gen1031 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V344 := __args[0]
+			_ = V344
+			V345 := __args[1]
+			_ = V345
+			gen1030 := Call(__e, ShenFunc(sym_a), Nil, V344)
+
+			if True == gen1030 {
+				__e.Return(V345)
+				return
+			} else {
+				gen1029 := Call(__e, ShenFunc(symcons_2), V344)
+
+				if True == gen1029 {
+					gen1025 := Call(__e, ShenFunc(symtl), V344)
+
+					gen1026 := Call(__e, ShenFunc(symhd), V344)
+
+					gen1027 := Call(__e, ShenFunc(symcons), gen1026, Nil)
+
+					gen1028 := Call(__e, ShenFunc(symcons), V345, gen1027)
+
+					__e.TailApply(ShenFunc(symshen_4application__build), gen1025, gen1028)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.application_build"))
+
+					return
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.application_build"), gen1031)
+
+		gen1060 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V348 := __args[0]
+			_ = V348
+			V349 := __args[1]
+			_ = V349
+			gen1058 := Call(__e, ShenFunc(symcons_2), V349)
+
+			var gen1059 Obj
+			if True == gen1058 {
+				gen1055 := Call(__e, ShenFunc(symtl), V349)
+
+				gen1056 := Call(__e, ShenFunc(symcons_2), gen1055)
+
+				var gen1057 Obj
+				if True == gen1056 {
+					gen1052 := Call(__e, ShenFunc(symtl), V349)
+
+					gen1053 := Call(__e, ShenFunc(symtl), gen1052)
+
+					gen1054 := Call(__e, ShenFunc(sym_a), Nil, gen1053)
+
+					if True == gen1054 {
+						gen1057 = True
+					} else {
+						gen1057 = False
+					}
+
+				} else {
+					gen1057 = False
+				}
+				if True == gen1057 {
+					gen1059 = True
+				} else {
+					gen1059 = False
+				}
+
+			} else {
+				gen1059 = False
+			}
+			if True == gen1059 {
+				gen1032 := Call(__e, ShenFunc(symhd), V349)
+
+				gen1033 := Call(__e, ShenFunc(symlength), gen1032)
+
+				gen1034 := Call(__e, ShenFunc(symshen_4store_1arity), V348, gen1033)
+
+				Arity := gen1034
+				_ = Arity
+				gen1035 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					X := __args[0]
+					_ = X
+					__e.TailApply(ShenFunc(symshen_4reduce), X)
+
+					return
+				}, 1)
+				gen1036 := Call(__e, ShenFunc(symtl), V349)
+
+				gen1037 := Call(__e, ShenFunc(symhd), gen1036)
+
+				gen1038 := Call(__e, ShenFunc(symmap), gen1035, gen1037)
+
+				Reduce := gen1038
+				gen1039 := Call(__e, ShenFunc(symhd), V349)
+
+				gen1040 := Call(__e, ShenFunc(symshen_4cond_1expression), V348, gen1039, Reduce)
+
+				CondExpression := gen1040
+				gen1043 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*optimise*"))
+
+				var gen1044 Obj
+				if True == gen1043 {
+					gen1041 := Call(__e, ShenFunc(symshen_4get_1type), V348)
+
+					gen1042 := Call(__e, ShenFunc(symhd), V349)
+
+					gen1044 = Call(__e, ShenFunc(symshen_4typextable), gen1041, gen1042)
+
+				} else {
+					gen1044 = MakeSymbol("shen.skip")
+				}
+				TypeTable := gen1044
+				gen1046 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*optimise*"))
+
+				var gen1047 Obj
+				if True == gen1046 {
+					gen1045 := Call(__e, ShenFunc(symhd), V349)
+
+					gen1047 = Call(__e, ShenFunc(symshen_4assign_1types), gen1045, TypeTable, CondExpression)
+
+				} else {
+					gen1047 = CondExpression
+				}
+				TypedCondExpression := gen1047
+				gen1048 := Call(__e, ShenFunc(symhd), V349)
+
+				gen1049 := Call(__e, ShenFunc(symcons), TypedCondExpression, Nil)
+
+				gen1050 := Call(__e, ShenFunc(symcons), gen1048, gen1049)
+
+				gen1051 := Call(__e, ShenFunc(symcons), V348, gen1050)
+
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("defun"), gen1051)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.compile_to_kl"))
+
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.compile_to_kl"), gen1060)
+
+		gen1065 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V355 := __args[0]
+			_ = V355
+			gen1064 := Call(__e, ShenFunc(symcons_2), V355)
+
+			if True == gen1064 {
+				__e.Return(MakeSymbol("shen.skip"))
+				return
+			} else {
+				gen1061 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*signedfuncs*"))
+
+				gen1062 := Call(__e, ShenFunc(symassoc), V355, gen1061)
+
+				FType := gen1062
+				gen1063 := Call(__e, ShenFunc(symempty_2), FType)
+
+				if True == gen1063 {
+					__e.Return(MakeSymbol("shen.skip"))
+					return
+				} else {
+					__e.TailApply(ShenFunc(symtl), FType)
+
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.get-type"), gen1065)
+
+		gen1099 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V366 := __args[0]
+			_ = V366
+			V367 := __args[1]
+			_ = V367
+			gen1097 := Call(__e, ShenFunc(symcons_2), V366)
+
+			var gen1098 Obj
+			if True == gen1097 {
+				gen1094 := Call(__e, ShenFunc(symtl), V366)
+
+				gen1095 := Call(__e, ShenFunc(symcons_2), gen1094)
+
+				var gen1096 Obj
+				if True == gen1095 {
+					gen1090 := Call(__e, ShenFunc(symtl), V366)
+
+					gen1091 := Call(__e, ShenFunc(symhd), gen1090)
+
+					gen1092 := Call(__e, ShenFunc(sym_a), MakeSymbol("-->"), gen1091)
+
+					var gen1093 Obj
+					if True == gen1092 {
+						gen1086 := Call(__e, ShenFunc(symtl), V366)
+
+						gen1087 := Call(__e, ShenFunc(symtl), gen1086)
+
+						gen1088 := Call(__e, ShenFunc(symcons_2), gen1087)
+
+						var gen1089 Obj
+						if True == gen1088 {
+							gen1081 := Call(__e, ShenFunc(symtl), V366)
+
+							gen1082 := Call(__e, ShenFunc(symtl), gen1081)
+
+							gen1083 := Call(__e, ShenFunc(symtl), gen1082)
+
+							gen1084 := Call(__e, ShenFunc(sym_a), Nil, gen1083)
+
+							var gen1085 Obj
+							if True == gen1084 {
+								gen1080 := Call(__e, ShenFunc(symcons_2), V367)
+
+								if True == gen1080 {
+									gen1085 = True
+								} else {
+									gen1085 = False
+								}
+
+							} else {
+								gen1085 = False
+							}
+							if True == gen1085 {
+								gen1089 = True
+							} else {
+								gen1089 = False
+							}
+
+						} else {
+							gen1089 = False
+						}
+						if True == gen1089 {
+							gen1093 = True
+						} else {
+							gen1093 = False
+						}
+
+					} else {
+						gen1093 = False
+					}
+					if True == gen1093 {
+						gen1096 = True
+					} else {
+						gen1096 = False
+					}
+
+				} else {
+					gen1096 = False
+				}
+				if True == gen1096 {
+					gen1098 = True
+				} else {
+					gen1098 = False
+				}
+
+			} else {
+				gen1098 = False
+			}
+			if True == gen1098 {
+				gen1078 := Call(__e, ShenFunc(symhd), V366)
+
+				gen1079 := Call(__e, ShenFunc(symvariable_2), gen1078)
+
+				if True == gen1079 {
+					gen1074 := Call(__e, ShenFunc(symtl), V366)
+
+					gen1075 := Call(__e, ShenFunc(symtl), gen1074)
+
+					gen1076 := Call(__e, ShenFunc(symhd), gen1075)
+
+					gen1077 := Call(__e, ShenFunc(symtl), V367)
+
+					__e.TailApply(ShenFunc(symshen_4typextable), gen1076, gen1077)
+
+					return
+
+				} else {
+					gen1066 := Call(__e, ShenFunc(symhd), V367)
+
+					gen1067 := Call(__e, ShenFunc(symhd), V366)
+
+					gen1068 := Call(__e, ShenFunc(symcons), gen1066, gen1067)
+
+					gen1069 := Call(__e, ShenFunc(symtl), V366)
+
+					gen1070 := Call(__e, ShenFunc(symtl), gen1069)
+
+					gen1071 := Call(__e, ShenFunc(symhd), gen1070)
+
+					gen1072 := Call(__e, ShenFunc(symtl), V367)
+
+					gen1073 := Call(__e, ShenFunc(symshen_4typextable), gen1071, gen1072)
+
+					__e.TailApply(ShenFunc(symcons), gen1068, gen1073)
+
+					return
+
+				}
+
+			} else {
+				__e.Return(Nil)
+				return
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typextable"), gen1099)
+
+		gen1195 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V371 := __args[0]
+			_ = V371
+			V372 := __args[1]
+			_ = V372
+			V373 := __args[2]
+			_ = V373
+			gen1193 := Call(__e, ShenFunc(symcons_2), V373)
+
+			var gen1194 Obj
+			if True == gen1193 {
+				gen1190 := Call(__e, ShenFunc(symhd), V373)
+
+				gen1191 := Call(__e, ShenFunc(sym_a), MakeSymbol("let"), gen1190)
+
+				var gen1192 Obj
+				if True == gen1191 {
+					gen1187 := Call(__e, ShenFunc(symtl), V373)
+
+					gen1188 := Call(__e, ShenFunc(symcons_2), gen1187)
+
+					var gen1189 Obj
+					if True == gen1188 {
+						gen1183 := Call(__e, ShenFunc(symtl), V373)
+
+						gen1184 := Call(__e, ShenFunc(symtl), gen1183)
+
+						gen1185 := Call(__e, ShenFunc(symcons_2), gen1184)
+
+						var gen1186 Obj
+						if True == gen1185 {
+							gen1178 := Call(__e, ShenFunc(symtl), V373)
+
+							gen1179 := Call(__e, ShenFunc(symtl), gen1178)
+
+							gen1180 := Call(__e, ShenFunc(symtl), gen1179)
+
+							gen1181 := Call(__e, ShenFunc(symcons_2), gen1180)
+
+							var gen1182 Obj
+							if True == gen1181 {
+								gen1173 := Call(__e, ShenFunc(symtl), V373)
+
+								gen1174 := Call(__e, ShenFunc(symtl), gen1173)
+
+								gen1175 := Call(__e, ShenFunc(symtl), gen1174)
+
+								gen1176 := Call(__e, ShenFunc(symtl), gen1175)
+
+								gen1177 := Call(__e, ShenFunc(sym_a), Nil, gen1176)
+
+								if True == gen1177 {
+									gen1182 = True
+								} else {
+									gen1182 = False
+								}
+
+							} else {
+								gen1182 = False
+							}
+							if True == gen1182 {
+								gen1186 = True
+							} else {
+								gen1186 = False
+							}
+
+						} else {
+							gen1186 = False
+						}
+						if True == gen1186 {
+							gen1189 = True
+						} else {
+							gen1189 = False
+						}
+
+					} else {
+						gen1189 = False
+					}
+					if True == gen1189 {
+						gen1192 = True
+					} else {
+						gen1192 = False
+					}
+
+				} else {
+					gen1192 = False
+				}
+				if True == gen1192 {
+					gen1194 = True
+				} else {
+					gen1194 = False
+				}
+
+			} else {
+				gen1194 = False
+			}
+			if True == gen1194 {
+				gen1156 := Call(__e, ShenFunc(symtl), V373)
+
+				gen1157 := Call(__e, ShenFunc(symhd), gen1156)
+
+				gen1158 := Call(__e, ShenFunc(symtl), V373)
+
+				gen1159 := Call(__e, ShenFunc(symtl), gen1158)
+
+				gen1160 := Call(__e, ShenFunc(symhd), gen1159)
+
+				gen1161 := Call(__e, ShenFunc(symshen_4assign_1types), V371, V372, gen1160)
+
+				gen1162 := Call(__e, ShenFunc(symtl), V373)
+
+				gen1163 := Call(__e, ShenFunc(symhd), gen1162)
+
+				gen1164 := Call(__e, ShenFunc(symcons), gen1163, V371)
+
+				gen1165 := Call(__e, ShenFunc(symtl), V373)
+
+				gen1166 := Call(__e, ShenFunc(symtl), gen1165)
+
+				gen1167 := Call(__e, ShenFunc(symtl), gen1166)
+
+				gen1168 := Call(__e, ShenFunc(symhd), gen1167)
+
+				gen1169 := Call(__e, ShenFunc(symshen_4assign_1types), gen1164, V372, gen1168)
+
+				gen1170 := Call(__e, ShenFunc(symcons), gen1169, Nil)
+
+				gen1171 := Call(__e, ShenFunc(symcons), gen1161, gen1170)
+
+				gen1172 := Call(__e, ShenFunc(symcons), gen1157, gen1171)
+
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen1172)
+
+				return
+
+			} else {
+				gen1154 := Call(__e, ShenFunc(symcons_2), V373)
+
+				var gen1155 Obj
+				if True == gen1154 {
+					gen1151 := Call(__e, ShenFunc(symhd), V373)
+
+					gen1152 := Call(__e, ShenFunc(sym_a), MakeSymbol("lambda"), gen1151)
+
+					var gen1153 Obj
+					if True == gen1152 {
+						gen1148 := Call(__e, ShenFunc(symtl), V373)
+
+						gen1149 := Call(__e, ShenFunc(symcons_2), gen1148)
+
+						var gen1150 Obj
+						if True == gen1149 {
+							gen1144 := Call(__e, ShenFunc(symtl), V373)
+
+							gen1145 := Call(__e, ShenFunc(symtl), gen1144)
+
+							gen1146 := Call(__e, ShenFunc(symcons_2), gen1145)
+
+							var gen1147 Obj
+							if True == gen1146 {
+								gen1140 := Call(__e, ShenFunc(symtl), V373)
+
+								gen1141 := Call(__e, ShenFunc(symtl), gen1140)
+
+								gen1142 := Call(__e, ShenFunc(symtl), gen1141)
+
+								gen1143 := Call(__e, ShenFunc(sym_a), Nil, gen1142)
+
+								if True == gen1143 {
+									gen1147 = True
+								} else {
+									gen1147 = False
+								}
+
+							} else {
+								gen1147 = False
+							}
+							if True == gen1147 {
+								gen1150 = True
+							} else {
+								gen1150 = False
+							}
+
+						} else {
+							gen1150 = False
+						}
+						if True == gen1150 {
+							gen1153 = True
+						} else {
+							gen1153 = False
+						}
+
+					} else {
+						gen1153 = False
+					}
+					if True == gen1153 {
+						gen1155 = True
+					} else {
+						gen1155 = False
+					}
+
+				} else {
+					gen1155 = False
+				}
+				if True == gen1155 {
+					gen1129 := Call(__e, ShenFunc(symtl), V373)
+
+					gen1130 := Call(__e, ShenFunc(symhd), gen1129)
+
+					gen1131 := Call(__e, ShenFunc(symtl), V373)
+
+					gen1132 := Call(__e, ShenFunc(symhd), gen1131)
+
+					gen1133 := Call(__e, ShenFunc(symcons), gen1132, V371)
+
+					gen1134 := Call(__e, ShenFunc(symtl), V373)
+
+					gen1135 := Call(__e, ShenFunc(symtl), gen1134)
+
+					gen1136 := Call(__e, ShenFunc(symhd), gen1135)
+
+					gen1137 := Call(__e, ShenFunc(symshen_4assign_1types), gen1133, V372, gen1136)
+
+					gen1138 := Call(__e, ShenFunc(symcons), gen1137, Nil)
+
+					gen1139 := Call(__e, ShenFunc(symcons), gen1130, gen1138)
+
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("lambda"), gen1139)
+
+					return
+
+				} else {
+					gen1127 := Call(__e, ShenFunc(symcons_2), V373)
+
+					var gen1128 Obj
+					if True == gen1127 {
+						gen1125 := Call(__e, ShenFunc(symhd), V373)
+
+						gen1126 := Call(__e, ShenFunc(sym_a), MakeSymbol("cond"), gen1125)
+
+						if True == gen1126 {
+							gen1128 = True
+						} else {
+							gen1128 = False
+						}
+
+					} else {
+						gen1128 = False
+					}
+					if True == gen1128 {
+						gen1122 := MakeNative(func(__e Evaluator, __args ...Obj) {
+							Y := __args[0]
+							_ = Y
+							gen1116 := Call(__e, ShenFunc(symhd), Y)
+
+							gen1117 := Call(__e, ShenFunc(symshen_4assign_1types), V371, V372, gen1116)
+
+							gen1118 := Call(__e, ShenFunc(symtl), Y)
+
+							gen1119 := Call(__e, ShenFunc(symhd), gen1118)
+
+							gen1120 := Call(__e, ShenFunc(symshen_4assign_1types), V371, V372, gen1119)
+
+							gen1121 := Call(__e, ShenFunc(symcons), gen1120, Nil)
+
+							__e.TailApply(ShenFunc(symcons), gen1117, gen1121)
+
+							return
+
+						}, 1)
+						gen1123 := Call(__e, ShenFunc(symtl), V373)
+
+						gen1124 := Call(__e, ShenFunc(symmap), gen1122, gen1123)
+
+						__e.TailApply(ShenFunc(symcons), MakeSymbol("cond"), gen1124)
+
+						return
+
+					} else {
+						gen1115 := Call(__e, ShenFunc(symcons_2), V373)
+
+						if True == gen1115 {
+							gen1106 := Call(__e, ShenFunc(symhd), V373)
+
+							gen1107 := Call(__e, ShenFunc(symshen_4get_1type), gen1106)
+
+							gen1108 := Call(__e, ShenFunc(symtl), V373)
+
+							gen1109 := Call(__e, ShenFunc(symshen_4typextable), gen1107, gen1108)
+
+							NewTable := gen1109
+							gen1110 := Call(__e, ShenFunc(symhd), V373)
+
+							gen1112 := MakeNative(func(__e Evaluator, __args ...Obj) {
+								Y := __args[0]
+								_ = Y
+								gen1111 := Call(__e, ShenFunc(symappend), V372, NewTable)
+
+								__e.TailApply(ShenFunc(symshen_4assign_1types), V371, gen1111, Y)
+
+								return
+
+							}, 1)
+							gen1113 := Call(__e, ShenFunc(symtl), V373)
+
+							gen1114 := Call(__e, ShenFunc(symmap), gen1112, gen1113)
+
+							__e.TailApply(ShenFunc(symcons), gen1110, gen1114)
+
+							return
+
+						} else {
+							gen1100 := Call(__e, ShenFunc(symassoc), V373, V372)
+
+							AtomType := gen1100
+							gen1105 := Call(__e, ShenFunc(symcons_2), AtomType)
+
+							if True == gen1105 {
+								gen1102 := Call(__e, ShenFunc(symtl), AtomType)
+
+								gen1103 := Call(__e, ShenFunc(symcons), gen1102, Nil)
+
+								gen1104 := Call(__e, ShenFunc(symcons), V373, gen1103)
+
+								__e.TailApply(ShenFunc(symcons), MakeSymbol("type"), gen1104)
+
+								return
+
+							} else {
+								gen1101 := Call(__e, ShenFunc(symelement_2), V373, V371)
+
+								if True == gen1101 {
+									__e.Return(V373)
+									return
+								} else {
+									__e.TailApply(ShenFunc(symshen_4atom_1type), V373)
+
+									return
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.assign-types"), gen1195)
+
+		gen1208 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V375 := __args[0]
+			_ = V375
+			gen1207 := Call(__e, ShenFunc(symstring_2), V375)
+
+			if True == gen1207 {
+				gen1205 := Call(__e, ShenFunc(symcons), MakeSymbol("string"), Nil)
+
+				gen1206 := Call(__e, ShenFunc(symcons), V375, gen1205)
+
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("type"), gen1206)
+
+				return
+
+			} else {
+				gen1204 := Call(__e, ShenFunc(symnumber_2), V375)
+
+				if True == gen1204 {
+					gen1202 := Call(__e, ShenFunc(symcons), MakeSymbol("number"), Nil)
+
+					gen1203 := Call(__e, ShenFunc(symcons), V375, gen1202)
+
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("type"), gen1203)
+
+					return
+
+				} else {
+					gen1201 := Call(__e, ShenFunc(symboolean_2), V375)
+
+					if True == gen1201 {
+						gen1199 := Call(__e, ShenFunc(symcons), MakeSymbol("boolean"), Nil)
+
+						gen1200 := Call(__e, ShenFunc(symcons), V375, gen1199)
+
+						__e.TailApply(ShenFunc(symcons), MakeSymbol("type"), gen1200)
+
+						return
+
+					} else {
+						gen1198 := Call(__e, ShenFunc(symsymbol_2), V375)
+
+						if True == gen1198 {
+							gen1196 := Call(__e, ShenFunc(symcons), MakeSymbol("symbol"), Nil)
+
+							gen1197 := Call(__e, ShenFunc(symcons), V375, gen1196)
+
+							__e.TailApply(ShenFunc(symcons), MakeSymbol("type"), gen1197)
+
+							return
+
+						} else {
+							__e.Return(V375)
+							return
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.atom-type"), gen1208)
+
+		gen1211 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V380 := __args[0]
+			_ = V380
+			V381 := __args[1]
+			_ = V381
+			gen1210 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*installing-kl*"))
+
+			if True == gen1210 {
+				__e.Return(MakeSymbol("shen.skip"))
+				return
+			} else {
+				gen1209 := Call(__e, ShenFunc(symvalue), MakeSymbol("*property-vector*"))
+
+				__e.TailApply(ShenFunc(symput), V380, MakeSymbol("arity"), V381, gen1209)
+
+				return
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.store-arity"), gen1211)
+
+		gen1218 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V383 := __args[0]
+			_ = V383
+			Call(__e, ShenFunc(symset), MakeSymbol("shen.*teststack*"), Nil)
+			gen1212 := Call(__e, ShenFunc(symshen_4reduce__help), V383)
+
+			Result := gen1212
+			gen1213 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*teststack*"))
+
+			gen1214 := Call(__e, ShenFunc(symreverse), gen1213)
+
+			gen1215 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tests"), gen1214)
+
+			gen1216 := Call(__e, ShenFunc(symcons), MakeSymbol(":"), gen1215)
+
+			gen1217 := Call(__e, ShenFunc(symcons), Result, Nil)
+
+			__e.TailApply(ShenFunc(symcons), gen1216, gen1217)
+
+			return
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.reduce"), gen1218)
+
+		gen1774 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V385 := __args[0]
+			_ = V385
+			gen1772 := Call(__e, ShenFunc(symcons_2), V385)
+
+			var gen1773 Obj
+			if True == gen1772 {
+				gen1769 := Call(__e, ShenFunc(symhd), V385)
+
+				gen1770 := Call(__e, ShenFunc(symcons_2), gen1769)
+
+				var gen1771 Obj
+				if True == gen1770 {
+					gen1765 := Call(__e, ShenFunc(symhd), V385)
+
+					gen1766 := Call(__e, ShenFunc(symhd), gen1765)
+
+					gen1767 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1766)
+
+					var gen1768 Obj
+					if True == gen1767 {
+						gen1761 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1762 := Call(__e, ShenFunc(symtl), gen1761)
+
+						gen1763 := Call(__e, ShenFunc(symcons_2), gen1762)
+
+						var gen1764 Obj
+						if True == gen1763 {
+							gen1756 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1757 := Call(__e, ShenFunc(symtl), gen1756)
+
+							gen1758 := Call(__e, ShenFunc(symhd), gen1757)
+
+							gen1759 := Call(__e, ShenFunc(symcons_2), gen1758)
+
+							var gen1760 Obj
+							if True == gen1759 {
+								gen1750 := Call(__e, ShenFunc(symhd), V385)
+
+								gen1751 := Call(__e, ShenFunc(symtl), gen1750)
+
+								gen1752 := Call(__e, ShenFunc(symhd), gen1751)
+
+								gen1753 := Call(__e, ShenFunc(symhd), gen1752)
+
+								gen1754 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons"), gen1753)
+
+								var gen1755 Obj
+								if True == gen1754 {
+									gen1744 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1745 := Call(__e, ShenFunc(symtl), gen1744)
+
+									gen1746 := Call(__e, ShenFunc(symhd), gen1745)
+
+									gen1747 := Call(__e, ShenFunc(symtl), gen1746)
+
+									gen1748 := Call(__e, ShenFunc(symcons_2), gen1747)
+
+									var gen1749 Obj
+									if True == gen1748 {
+										gen1737 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1738 := Call(__e, ShenFunc(symtl), gen1737)
+
+										gen1739 := Call(__e, ShenFunc(symhd), gen1738)
+
+										gen1740 := Call(__e, ShenFunc(symtl), gen1739)
+
+										gen1741 := Call(__e, ShenFunc(symtl), gen1740)
+
+										gen1742 := Call(__e, ShenFunc(symcons_2), gen1741)
+
+										var gen1743 Obj
+										if True == gen1742 {
+											gen1729 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1730 := Call(__e, ShenFunc(symtl), gen1729)
+
+											gen1731 := Call(__e, ShenFunc(symhd), gen1730)
+
+											gen1732 := Call(__e, ShenFunc(symtl), gen1731)
+
+											gen1733 := Call(__e, ShenFunc(symtl), gen1732)
+
+											gen1734 := Call(__e, ShenFunc(symtl), gen1733)
+
+											gen1735 := Call(__e, ShenFunc(sym_a), Nil, gen1734)
+
+											var gen1736 Obj
+											if True == gen1735 {
+												gen1724 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1725 := Call(__e, ShenFunc(symtl), gen1724)
+
+												gen1726 := Call(__e, ShenFunc(symtl), gen1725)
+
+												gen1727 := Call(__e, ShenFunc(symcons_2), gen1726)
+
+												var gen1728 Obj
+												if True == gen1727 {
+													gen1718 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1719 := Call(__e, ShenFunc(symtl), gen1718)
+
+													gen1720 := Call(__e, ShenFunc(symtl), gen1719)
+
+													gen1721 := Call(__e, ShenFunc(symtl), gen1720)
+
+													gen1722 := Call(__e, ShenFunc(sym_a), Nil, gen1721)
+
+													var gen1723 Obj
+													if True == gen1722 {
+														gen1715 := Call(__e, ShenFunc(symtl), V385)
+
+														gen1716 := Call(__e, ShenFunc(symcons_2), gen1715)
+
+														var gen1717 Obj
+														if True == gen1716 {
+															gen1712 := Call(__e, ShenFunc(symtl), V385)
+
+															gen1713 := Call(__e, ShenFunc(symtl), gen1712)
+
+															gen1714 := Call(__e, ShenFunc(sym_a), Nil, gen1713)
+
+															if True == gen1714 {
+																gen1717 = True
 															} else {
-																reg4216 := False
-																reg4217 = reg4216
+																gen1717 = False
 															}
-															reg4219 = reg4217
+
 														} else {
-															reg4218 := False
-															reg4219 = reg4218
+															gen1717 = False
 														}
-														var reg4222 Obj
-														if reg4219 == True {
-															reg4220 := True
-															reg4222 = reg4220
+														if True == gen1717 {
+															gen1723 = True
 														} else {
-															reg4221 := False
-															reg4222 = reg4221
+															gen1723 = False
 														}
-														reg4224 = reg4222
+
 													} else {
-														reg4223 := False
-														reg4224 = reg4223
+														gen1723 = False
 													}
-													var reg4227 Obj
-													if reg4224 == True {
-														reg4225 := True
-														reg4227 = reg4225
+													if True == gen1723 {
+														gen1728 = True
 													} else {
-														reg4226 := False
-														reg4227 = reg4226
+														gen1728 = False
 													}
-													reg4229 = reg4227
+
 												} else {
-													reg4228 := False
-													reg4229 = reg4228
+													gen1728 = False
 												}
-												var reg4232 Obj
-												if reg4229 == True {
-													reg4230 := True
-													reg4232 = reg4230
+												if True == gen1728 {
+													gen1736 = True
 												} else {
-													reg4231 := False
-													reg4232 = reg4231
+													gen1736 = False
 												}
-												reg4234 = reg4232
+
 											} else {
-												reg4233 := False
-												reg4234 = reg4233
+												gen1736 = False
 											}
-											var reg4237 Obj
-											if reg4234 == True {
-												reg4235 := True
-												reg4237 = reg4235
+											if True == gen1736 {
+												gen1743 = True
 											} else {
-												reg4236 := False
-												reg4237 = reg4236
+												gen1743 = False
 											}
-											reg4239 = reg4237
+
 										} else {
-											reg4238 := False
-											reg4239 = reg4238
+											gen1743 = False
 										}
-										var reg4242 Obj
-										if reg4239 == True {
-											reg4240 := True
-											reg4242 = reg4240
+										if True == gen1743 {
+											gen1749 = True
 										} else {
-											reg4241 := False
-											reg4242 = reg4241
+											gen1749 = False
 										}
-										reg4244 = reg4242
+
 									} else {
-										reg4243 := False
-										reg4244 = reg4243
+										gen1749 = False
 									}
-									var reg4247 Obj
-									if reg4244 == True {
-										reg4245 := True
-										reg4247 = reg4245
+									if True == gen1749 {
+										gen1755 = True
 									} else {
-										reg4246 := False
-										reg4247 = reg4246
+										gen1755 = False
 									}
-									reg4249 = reg4247
+
 								} else {
-									reg4248 := False
-									reg4249 = reg4248
+									gen1755 = False
 								}
-								var reg4252 Obj
-								if reg4249 == True {
-									reg4250 := True
-									reg4252 = reg4250
+								if True == gen1755 {
+									gen1760 = True
 								} else {
-									reg4251 := False
-									reg4252 = reg4251
+									gen1760 = False
 								}
-								reg4254 = reg4252
+
 							} else {
-								reg4253 := False
-								reg4254 = reg4253
+								gen1760 = False
 							}
-							var reg4257 Obj
-							if reg4254 == True {
-								reg4255 := True
-								reg4257 = reg4255
+							if True == gen1760 {
+								gen1764 = True
 							} else {
-								reg4256 := False
-								reg4257 = reg4256
+								gen1764 = False
 							}
-							reg4259 = reg4257
+
 						} else {
-							reg4258 := False
-							reg4259 = reg4258
+							gen1764 = False
 						}
-						var reg4262 Obj
-						if reg4259 == True {
-							reg4260 := True
-							reg4262 = reg4260
+						if True == gen1764 {
+							gen1768 = True
 						} else {
-							reg4261 := False
-							reg4262 = reg4261
+							gen1768 = False
 						}
-						reg4264 = reg4262
+
 					} else {
-						reg4263 := False
-						reg4264 = reg4263
+						gen1768 = False
 					}
-					var reg4267 Obj
-					if reg4264 == True {
-						reg4265 := True
-						reg4267 = reg4265
+					if True == gen1768 {
+						gen1771 = True
 					} else {
-						reg4266 := False
-						reg4267 = reg4266
+						gen1771 = False
 					}
-					reg4269 = reg4267
+
 				} else {
-					reg4268 := False
-					reg4269 = reg4268
+					gen1771 = False
 				}
-				var reg4272 Obj
-				if reg4269 == True {
-					reg4270 := True
-					reg4272 = reg4270
+				if True == gen1771 {
+					gen1773 = True
 				} else {
-					reg4271 := False
-					reg4272 = reg4271
+					gen1773 = False
 				}
-				reg4274 = reg4272
+
 			} else {
-				reg4273 := False
-				reg4274 = reg4273
+				gen1773 = False
 			}
-			if reg4274 == True {
-				reg4275 := True
-				reg4276 := PrimHead(V412)
-				reg4277 := PrimTail(reg4276)
-				reg4278 := PrimCons(reg4275, reg4277)
-				reg4279 := PrimTail(V412)
-				reg4280 := Call(__e, __defun__shen_4case_1form, reg4279, V413)
-				reg4281 := PrimCons(reg4278, reg4280)
-				__e.Return(reg4281)
+			if True == gen1773 {
+				gen1675 := Call(__e, ShenFunc(symtl), V385)
+
+				gen1676 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen1675)
+
+				Call(__e, ShenFunc(symshen_4add__test), gen1676)
+
+				gen1677 := Call(__e, ShenFunc(symhd), V385)
+
+				gen1678 := Call(__e, ShenFunc(symtl), gen1677)
+
+				gen1679 := Call(__e, ShenFunc(symhd), gen1678)
+
+				gen1680 := Call(__e, ShenFunc(symtl), gen1679)
+
+				gen1681 := Call(__e, ShenFunc(symhd), gen1680)
+
+				gen1682 := Call(__e, ShenFunc(symhd), V385)
+
+				gen1683 := Call(__e, ShenFunc(symtl), gen1682)
+
+				gen1684 := Call(__e, ShenFunc(symhd), gen1683)
+
+				gen1685 := Call(__e, ShenFunc(symtl), gen1684)
+
+				gen1686 := Call(__e, ShenFunc(symtl), gen1685)
+
+				gen1687 := Call(__e, ShenFunc(symhd), gen1686)
+
+				gen1688 := Call(__e, ShenFunc(symtl), V385)
+
+				gen1689 := Call(__e, ShenFunc(symhd), gen1688)
+
+				gen1690 := Call(__e, ShenFunc(symhd), V385)
+
+				gen1691 := Call(__e, ShenFunc(symtl), gen1690)
+
+				gen1692 := Call(__e, ShenFunc(symhd), gen1691)
+
+				gen1693 := Call(__e, ShenFunc(symhd), V385)
+
+				gen1694 := Call(__e, ShenFunc(symtl), gen1693)
+
+				gen1695 := Call(__e, ShenFunc(symtl), gen1694)
+
+				gen1696 := Call(__e, ShenFunc(symhd), gen1695)
+
+				gen1697 := Call(__e, ShenFunc(symshen_4ebr), gen1689, gen1692, gen1696)
+
+				gen1698 := Call(__e, ShenFunc(symcons), gen1697, Nil)
+
+				gen1699 := Call(__e, ShenFunc(symcons), gen1687, gen1698)
+
+				gen1700 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1699)
+
+				gen1701 := Call(__e, ShenFunc(symcons), gen1700, Nil)
+
+				gen1702 := Call(__e, ShenFunc(symcons), gen1681, gen1701)
+
+				gen1703 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1702)
+
+				Abstraction := gen1703
+				gen1704 := Call(__e, ShenFunc(symtl), V385)
+
+				gen1705 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen1704)
+
+				gen1706 := Call(__e, ShenFunc(symcons), gen1705, Nil)
+
+				gen1707 := Call(__e, ShenFunc(symcons), Abstraction, gen1706)
+
+				gen1708 := Call(__e, ShenFunc(symtl), V385)
+
+				gen1709 := Call(__e, ShenFunc(symcons), MakeSymbol("tl"), gen1708)
+
+				gen1710 := Call(__e, ShenFunc(symcons), gen1709, Nil)
+
+				gen1711 := Call(__e, ShenFunc(symcons), gen1707, gen1710)
+
+				Application := gen1711
+				__e.TailApply(ShenFunc(symshen_4reduce__help), Application)
+
+				return
+
+			} else {
+				gen1673 := Call(__e, ShenFunc(symcons_2), V385)
+
+				var gen1674 Obj
+				if True == gen1673 {
+					gen1670 := Call(__e, ShenFunc(symhd), V385)
+
+					gen1671 := Call(__e, ShenFunc(symcons_2), gen1670)
+
+					var gen1672 Obj
+					if True == gen1671 {
+						gen1666 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1667 := Call(__e, ShenFunc(symhd), gen1666)
+
+						gen1668 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1667)
+
+						var gen1669 Obj
+						if True == gen1668 {
+							gen1662 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1663 := Call(__e, ShenFunc(symtl), gen1662)
+
+							gen1664 := Call(__e, ShenFunc(symcons_2), gen1663)
+
+							var gen1665 Obj
+							if True == gen1664 {
+								gen1657 := Call(__e, ShenFunc(symhd), V385)
+
+								gen1658 := Call(__e, ShenFunc(symtl), gen1657)
+
+								gen1659 := Call(__e, ShenFunc(symhd), gen1658)
+
+								gen1660 := Call(__e, ShenFunc(symcons_2), gen1659)
+
+								var gen1661 Obj
+								if True == gen1660 {
+									gen1651 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1652 := Call(__e, ShenFunc(symtl), gen1651)
+
+									gen1653 := Call(__e, ShenFunc(symhd), gen1652)
+
+									gen1654 := Call(__e, ShenFunc(symhd), gen1653)
+
+									gen1655 := Call(__e, ShenFunc(sym_a), MakeSymbol("@p"), gen1654)
+
+									var gen1656 Obj
+									if True == gen1655 {
+										gen1645 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1646 := Call(__e, ShenFunc(symtl), gen1645)
+
+										gen1647 := Call(__e, ShenFunc(symhd), gen1646)
+
+										gen1648 := Call(__e, ShenFunc(symtl), gen1647)
+
+										gen1649 := Call(__e, ShenFunc(symcons_2), gen1648)
+
+										var gen1650 Obj
+										if True == gen1649 {
+											gen1638 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1639 := Call(__e, ShenFunc(symtl), gen1638)
+
+											gen1640 := Call(__e, ShenFunc(symhd), gen1639)
+
+											gen1641 := Call(__e, ShenFunc(symtl), gen1640)
+
+											gen1642 := Call(__e, ShenFunc(symtl), gen1641)
+
+											gen1643 := Call(__e, ShenFunc(symcons_2), gen1642)
+
+											var gen1644 Obj
+											if True == gen1643 {
+												gen1630 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1631 := Call(__e, ShenFunc(symtl), gen1630)
+
+												gen1632 := Call(__e, ShenFunc(symhd), gen1631)
+
+												gen1633 := Call(__e, ShenFunc(symtl), gen1632)
+
+												gen1634 := Call(__e, ShenFunc(symtl), gen1633)
+
+												gen1635 := Call(__e, ShenFunc(symtl), gen1634)
+
+												gen1636 := Call(__e, ShenFunc(sym_a), Nil, gen1635)
+
+												var gen1637 Obj
+												if True == gen1636 {
+													gen1625 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1626 := Call(__e, ShenFunc(symtl), gen1625)
+
+													gen1627 := Call(__e, ShenFunc(symtl), gen1626)
+
+													gen1628 := Call(__e, ShenFunc(symcons_2), gen1627)
+
+													var gen1629 Obj
+													if True == gen1628 {
+														gen1619 := Call(__e, ShenFunc(symhd), V385)
+
+														gen1620 := Call(__e, ShenFunc(symtl), gen1619)
+
+														gen1621 := Call(__e, ShenFunc(symtl), gen1620)
+
+														gen1622 := Call(__e, ShenFunc(symtl), gen1621)
+
+														gen1623 := Call(__e, ShenFunc(sym_a), Nil, gen1622)
+
+														var gen1624 Obj
+														if True == gen1623 {
+															gen1616 := Call(__e, ShenFunc(symtl), V385)
+
+															gen1617 := Call(__e, ShenFunc(symcons_2), gen1616)
+
+															var gen1618 Obj
+															if True == gen1617 {
+																gen1613 := Call(__e, ShenFunc(symtl), V385)
+
+																gen1614 := Call(__e, ShenFunc(symtl), gen1613)
+
+																gen1615 := Call(__e, ShenFunc(sym_a), Nil, gen1614)
+
+																if True == gen1615 {
+																	gen1618 = True
+																} else {
+																	gen1618 = False
+																}
+
+															} else {
+																gen1618 = False
+															}
+															if True == gen1618 {
+																gen1624 = True
+															} else {
+																gen1624 = False
+															}
+
+														} else {
+															gen1624 = False
+														}
+														if True == gen1624 {
+															gen1629 = True
+														} else {
+															gen1629 = False
+														}
+
+													} else {
+														gen1629 = False
+													}
+													if True == gen1629 {
+														gen1637 = True
+													} else {
+														gen1637 = False
+													}
+
+												} else {
+													gen1637 = False
+												}
+												if True == gen1637 {
+													gen1644 = True
+												} else {
+													gen1644 = False
+												}
+
+											} else {
+												gen1644 = False
+											}
+											if True == gen1644 {
+												gen1650 = True
+											} else {
+												gen1650 = False
+											}
+
+										} else {
+											gen1650 = False
+										}
+										if True == gen1650 {
+											gen1656 = True
+										} else {
+											gen1656 = False
+										}
+
+									} else {
+										gen1656 = False
+									}
+									if True == gen1656 {
+										gen1661 = True
+									} else {
+										gen1661 = False
+									}
+
+								} else {
+									gen1661 = False
+								}
+								if True == gen1661 {
+									gen1665 = True
+								} else {
+									gen1665 = False
+								}
+
+							} else {
+								gen1665 = False
+							}
+							if True == gen1665 {
+								gen1669 = True
+							} else {
+								gen1669 = False
+							}
+
+						} else {
+							gen1669 = False
+						}
+						if True == gen1669 {
+							gen1672 = True
+						} else {
+							gen1672 = False
+						}
+
+					} else {
+						gen1672 = False
+					}
+					if True == gen1672 {
+						gen1674 = True
+					} else {
+						gen1674 = False
+					}
+
+				} else {
+					gen1674 = False
+				}
+				if True == gen1674 {
+					gen1576 := Call(__e, ShenFunc(symtl), V385)
+
+					gen1577 := Call(__e, ShenFunc(symcons), MakeSymbol("tuple?"), gen1576)
+
+					Call(__e, ShenFunc(symshen_4add__test), gen1577)
+
+					gen1578 := Call(__e, ShenFunc(symhd), V385)
+
+					gen1579 := Call(__e, ShenFunc(symtl), gen1578)
+
+					gen1580 := Call(__e, ShenFunc(symhd), gen1579)
+
+					gen1581 := Call(__e, ShenFunc(symtl), gen1580)
+
+					gen1582 := Call(__e, ShenFunc(symhd), gen1581)
+
+					gen1583 := Call(__e, ShenFunc(symhd), V385)
+
+					gen1584 := Call(__e, ShenFunc(symtl), gen1583)
+
+					gen1585 := Call(__e, ShenFunc(symhd), gen1584)
+
+					gen1586 := Call(__e, ShenFunc(symtl), gen1585)
+
+					gen1587 := Call(__e, ShenFunc(symtl), gen1586)
+
+					gen1588 := Call(__e, ShenFunc(symhd), gen1587)
+
+					gen1589 := Call(__e, ShenFunc(symtl), V385)
+
+					gen1590 := Call(__e, ShenFunc(symhd), gen1589)
+
+					gen1591 := Call(__e, ShenFunc(symhd), V385)
+
+					gen1592 := Call(__e, ShenFunc(symtl), gen1591)
+
+					gen1593 := Call(__e, ShenFunc(symhd), gen1592)
+
+					gen1594 := Call(__e, ShenFunc(symhd), V385)
+
+					gen1595 := Call(__e, ShenFunc(symtl), gen1594)
+
+					gen1596 := Call(__e, ShenFunc(symtl), gen1595)
+
+					gen1597 := Call(__e, ShenFunc(symhd), gen1596)
+
+					gen1598 := Call(__e, ShenFunc(symshen_4ebr), gen1590, gen1593, gen1597)
+
+					gen1599 := Call(__e, ShenFunc(symcons), gen1598, Nil)
+
+					gen1600 := Call(__e, ShenFunc(symcons), gen1588, gen1599)
+
+					gen1601 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1600)
+
+					gen1602 := Call(__e, ShenFunc(symcons), gen1601, Nil)
+
+					gen1603 := Call(__e, ShenFunc(symcons), gen1582, gen1602)
+
+					gen1604 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1603)
+
+					Abstraction := gen1604
+					gen1605 := Call(__e, ShenFunc(symtl), V385)
+
+					gen1606 := Call(__e, ShenFunc(symcons), MakeSymbol("fst"), gen1605)
+
+					gen1607 := Call(__e, ShenFunc(symcons), gen1606, Nil)
+
+					gen1608 := Call(__e, ShenFunc(symcons), Abstraction, gen1607)
+
+					gen1609 := Call(__e, ShenFunc(symtl), V385)
+
+					gen1610 := Call(__e, ShenFunc(symcons), MakeSymbol("snd"), gen1609)
+
+					gen1611 := Call(__e, ShenFunc(symcons), gen1610, Nil)
+
+					gen1612 := Call(__e, ShenFunc(symcons), gen1608, gen1611)
+
+					Application := gen1612
+					__e.TailApply(ShenFunc(symshen_4reduce__help), Application)
+
+					return
+
+				} else {
+					gen1574 := Call(__e, ShenFunc(symcons_2), V385)
+
+					var gen1575 Obj
+					if True == gen1574 {
+						gen1571 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1572 := Call(__e, ShenFunc(symcons_2), gen1571)
+
+						var gen1573 Obj
+						if True == gen1572 {
+							gen1567 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1568 := Call(__e, ShenFunc(symhd), gen1567)
+
+							gen1569 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1568)
+
+							var gen1570 Obj
+							if True == gen1569 {
+								gen1563 := Call(__e, ShenFunc(symhd), V385)
+
+								gen1564 := Call(__e, ShenFunc(symtl), gen1563)
+
+								gen1565 := Call(__e, ShenFunc(symcons_2), gen1564)
+
+								var gen1566 Obj
+								if True == gen1565 {
+									gen1558 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1559 := Call(__e, ShenFunc(symtl), gen1558)
+
+									gen1560 := Call(__e, ShenFunc(symhd), gen1559)
+
+									gen1561 := Call(__e, ShenFunc(symcons_2), gen1560)
+
+									var gen1562 Obj
+									if True == gen1561 {
+										gen1552 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1553 := Call(__e, ShenFunc(symtl), gen1552)
+
+										gen1554 := Call(__e, ShenFunc(symhd), gen1553)
+
+										gen1555 := Call(__e, ShenFunc(symhd), gen1554)
+
+										gen1556 := Call(__e, ShenFunc(sym_a), MakeSymbol("@v"), gen1555)
+
+										var gen1557 Obj
+										if True == gen1556 {
+											gen1546 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1547 := Call(__e, ShenFunc(symtl), gen1546)
+
+											gen1548 := Call(__e, ShenFunc(symhd), gen1547)
+
+											gen1549 := Call(__e, ShenFunc(symtl), gen1548)
+
+											gen1550 := Call(__e, ShenFunc(symcons_2), gen1549)
+
+											var gen1551 Obj
+											if True == gen1550 {
+												gen1539 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1540 := Call(__e, ShenFunc(symtl), gen1539)
+
+												gen1541 := Call(__e, ShenFunc(symhd), gen1540)
+
+												gen1542 := Call(__e, ShenFunc(symtl), gen1541)
+
+												gen1543 := Call(__e, ShenFunc(symtl), gen1542)
+
+												gen1544 := Call(__e, ShenFunc(symcons_2), gen1543)
+
+												var gen1545 Obj
+												if True == gen1544 {
+													gen1531 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1532 := Call(__e, ShenFunc(symtl), gen1531)
+
+													gen1533 := Call(__e, ShenFunc(symhd), gen1532)
+
+													gen1534 := Call(__e, ShenFunc(symtl), gen1533)
+
+													gen1535 := Call(__e, ShenFunc(symtl), gen1534)
+
+													gen1536 := Call(__e, ShenFunc(symtl), gen1535)
+
+													gen1537 := Call(__e, ShenFunc(sym_a), Nil, gen1536)
+
+													var gen1538 Obj
+													if True == gen1537 {
+														gen1526 := Call(__e, ShenFunc(symhd), V385)
+
+														gen1527 := Call(__e, ShenFunc(symtl), gen1526)
+
+														gen1528 := Call(__e, ShenFunc(symtl), gen1527)
+
+														gen1529 := Call(__e, ShenFunc(symcons_2), gen1528)
+
+														var gen1530 Obj
+														if True == gen1529 {
+															gen1520 := Call(__e, ShenFunc(symhd), V385)
+
+															gen1521 := Call(__e, ShenFunc(symtl), gen1520)
+
+															gen1522 := Call(__e, ShenFunc(symtl), gen1521)
+
+															gen1523 := Call(__e, ShenFunc(symtl), gen1522)
+
+															gen1524 := Call(__e, ShenFunc(sym_a), Nil, gen1523)
+
+															var gen1525 Obj
+															if True == gen1524 {
+																gen1517 := Call(__e, ShenFunc(symtl), V385)
+
+																gen1518 := Call(__e, ShenFunc(symcons_2), gen1517)
+
+																var gen1519 Obj
+																if True == gen1518 {
+																	gen1514 := Call(__e, ShenFunc(symtl), V385)
+
+																	gen1515 := Call(__e, ShenFunc(symtl), gen1514)
+
+																	gen1516 := Call(__e, ShenFunc(sym_a), Nil, gen1515)
+
+																	if True == gen1516 {
+																		gen1519 = True
+																	} else {
+																		gen1519 = False
+																	}
+
+																} else {
+																	gen1519 = False
+																}
+																if True == gen1519 {
+																	gen1525 = True
+																} else {
+																	gen1525 = False
+																}
+
+															} else {
+																gen1525 = False
+															}
+															if True == gen1525 {
+																gen1530 = True
+															} else {
+																gen1530 = False
+															}
+
+														} else {
+															gen1530 = False
+														}
+														if True == gen1530 {
+															gen1538 = True
+														} else {
+															gen1538 = False
+														}
+
+													} else {
+														gen1538 = False
+													}
+													if True == gen1538 {
+														gen1545 = True
+													} else {
+														gen1545 = False
+													}
+
+												} else {
+													gen1545 = False
+												}
+												if True == gen1545 {
+													gen1551 = True
+												} else {
+													gen1551 = False
+												}
+
+											} else {
+												gen1551 = False
+											}
+											if True == gen1551 {
+												gen1557 = True
+											} else {
+												gen1557 = False
+											}
+
+										} else {
+											gen1557 = False
+										}
+										if True == gen1557 {
+											gen1562 = True
+										} else {
+											gen1562 = False
+										}
+
+									} else {
+										gen1562 = False
+									}
+									if True == gen1562 {
+										gen1566 = True
+									} else {
+										gen1566 = False
+									}
+
+								} else {
+									gen1566 = False
+								}
+								if True == gen1566 {
+									gen1570 = True
+								} else {
+									gen1570 = False
+								}
+
+							} else {
+								gen1570 = False
+							}
+							if True == gen1570 {
+								gen1573 = True
+							} else {
+								gen1573 = False
+							}
+
+						} else {
+							gen1573 = False
+						}
+						if True == gen1573 {
+							gen1575 = True
+						} else {
+							gen1575 = False
+						}
+
+					} else {
+						gen1575 = False
+					}
+					if True == gen1575 {
+						gen1477 := Call(__e, ShenFunc(symtl), V385)
+
+						gen1478 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.+vector?"), gen1477)
+
+						Call(__e, ShenFunc(symshen_4add__test), gen1478)
+
+						gen1479 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1480 := Call(__e, ShenFunc(symtl), gen1479)
+
+						gen1481 := Call(__e, ShenFunc(symhd), gen1480)
+
+						gen1482 := Call(__e, ShenFunc(symtl), gen1481)
+
+						gen1483 := Call(__e, ShenFunc(symhd), gen1482)
+
+						gen1484 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1485 := Call(__e, ShenFunc(symtl), gen1484)
+
+						gen1486 := Call(__e, ShenFunc(symhd), gen1485)
+
+						gen1487 := Call(__e, ShenFunc(symtl), gen1486)
+
+						gen1488 := Call(__e, ShenFunc(symtl), gen1487)
+
+						gen1489 := Call(__e, ShenFunc(symhd), gen1488)
+
+						gen1490 := Call(__e, ShenFunc(symtl), V385)
+
+						gen1491 := Call(__e, ShenFunc(symhd), gen1490)
+
+						gen1492 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1493 := Call(__e, ShenFunc(symtl), gen1492)
+
+						gen1494 := Call(__e, ShenFunc(symhd), gen1493)
+
+						gen1495 := Call(__e, ShenFunc(symhd), V385)
+
+						gen1496 := Call(__e, ShenFunc(symtl), gen1495)
+
+						gen1497 := Call(__e, ShenFunc(symtl), gen1496)
+
+						gen1498 := Call(__e, ShenFunc(symhd), gen1497)
+
+						gen1499 := Call(__e, ShenFunc(symshen_4ebr), gen1491, gen1494, gen1498)
+
+						gen1500 := Call(__e, ShenFunc(symcons), gen1499, Nil)
+
+						gen1501 := Call(__e, ShenFunc(symcons), gen1489, gen1500)
+
+						gen1502 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1501)
+
+						gen1503 := Call(__e, ShenFunc(symcons), gen1502, Nil)
+
+						gen1504 := Call(__e, ShenFunc(symcons), gen1483, gen1503)
+
+						gen1505 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1504)
+
+						Abstraction := gen1505
+						gen1506 := Call(__e, ShenFunc(symtl), V385)
+
+						gen1507 := Call(__e, ShenFunc(symcons), MakeSymbol("hdv"), gen1506)
+
+						gen1508 := Call(__e, ShenFunc(symcons), gen1507, Nil)
+
+						gen1509 := Call(__e, ShenFunc(symcons), Abstraction, gen1508)
+
+						gen1510 := Call(__e, ShenFunc(symtl), V385)
+
+						gen1511 := Call(__e, ShenFunc(symcons), MakeSymbol("tlv"), gen1510)
+
+						gen1512 := Call(__e, ShenFunc(symcons), gen1511, Nil)
+
+						gen1513 := Call(__e, ShenFunc(symcons), gen1509, gen1512)
+
+						Application := gen1513
+						__e.TailApply(ShenFunc(symshen_4reduce__help), Application)
+
+						return
+
+					} else {
+						gen1475 := Call(__e, ShenFunc(symcons_2), V385)
+
+						var gen1476 Obj
+						if True == gen1475 {
+							gen1472 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1473 := Call(__e, ShenFunc(symcons_2), gen1472)
+
+							var gen1474 Obj
+							if True == gen1473 {
+								gen1468 := Call(__e, ShenFunc(symhd), V385)
+
+								gen1469 := Call(__e, ShenFunc(symhd), gen1468)
+
+								gen1470 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1469)
+
+								var gen1471 Obj
+								if True == gen1470 {
+									gen1464 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1465 := Call(__e, ShenFunc(symtl), gen1464)
+
+									gen1466 := Call(__e, ShenFunc(symcons_2), gen1465)
+
+									var gen1467 Obj
+									if True == gen1466 {
+										gen1459 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1460 := Call(__e, ShenFunc(symtl), gen1459)
+
+										gen1461 := Call(__e, ShenFunc(symhd), gen1460)
+
+										gen1462 := Call(__e, ShenFunc(symcons_2), gen1461)
+
+										var gen1463 Obj
+										if True == gen1462 {
+											gen1453 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1454 := Call(__e, ShenFunc(symtl), gen1453)
+
+											gen1455 := Call(__e, ShenFunc(symhd), gen1454)
+
+											gen1456 := Call(__e, ShenFunc(symhd), gen1455)
+
+											gen1457 := Call(__e, ShenFunc(sym_a), MakeSymbol("@s"), gen1456)
+
+											var gen1458 Obj
+											if True == gen1457 {
+												gen1447 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1448 := Call(__e, ShenFunc(symtl), gen1447)
+
+												gen1449 := Call(__e, ShenFunc(symhd), gen1448)
+
+												gen1450 := Call(__e, ShenFunc(symtl), gen1449)
+
+												gen1451 := Call(__e, ShenFunc(symcons_2), gen1450)
+
+												var gen1452 Obj
+												if True == gen1451 {
+													gen1440 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1441 := Call(__e, ShenFunc(symtl), gen1440)
+
+													gen1442 := Call(__e, ShenFunc(symhd), gen1441)
+
+													gen1443 := Call(__e, ShenFunc(symtl), gen1442)
+
+													gen1444 := Call(__e, ShenFunc(symtl), gen1443)
+
+													gen1445 := Call(__e, ShenFunc(symcons_2), gen1444)
+
+													var gen1446 Obj
+													if True == gen1445 {
+														gen1432 := Call(__e, ShenFunc(symhd), V385)
+
+														gen1433 := Call(__e, ShenFunc(symtl), gen1432)
+
+														gen1434 := Call(__e, ShenFunc(symhd), gen1433)
+
+														gen1435 := Call(__e, ShenFunc(symtl), gen1434)
+
+														gen1436 := Call(__e, ShenFunc(symtl), gen1435)
+
+														gen1437 := Call(__e, ShenFunc(symtl), gen1436)
+
+														gen1438 := Call(__e, ShenFunc(sym_a), Nil, gen1437)
+
+														var gen1439 Obj
+														if True == gen1438 {
+															gen1427 := Call(__e, ShenFunc(symhd), V385)
+
+															gen1428 := Call(__e, ShenFunc(symtl), gen1427)
+
+															gen1429 := Call(__e, ShenFunc(symtl), gen1428)
+
+															gen1430 := Call(__e, ShenFunc(symcons_2), gen1429)
+
+															var gen1431 Obj
+															if True == gen1430 {
+																gen1421 := Call(__e, ShenFunc(symhd), V385)
+
+																gen1422 := Call(__e, ShenFunc(symtl), gen1421)
+
+																gen1423 := Call(__e, ShenFunc(symtl), gen1422)
+
+																gen1424 := Call(__e, ShenFunc(symtl), gen1423)
+
+																gen1425 := Call(__e, ShenFunc(sym_a), Nil, gen1424)
+
+																var gen1426 Obj
+																if True == gen1425 {
+																	gen1418 := Call(__e, ShenFunc(symtl), V385)
+
+																	gen1419 := Call(__e, ShenFunc(symcons_2), gen1418)
+
+																	var gen1420 Obj
+																	if True == gen1419 {
+																		gen1415 := Call(__e, ShenFunc(symtl), V385)
+
+																		gen1416 := Call(__e, ShenFunc(symtl), gen1415)
+
+																		gen1417 := Call(__e, ShenFunc(sym_a), Nil, gen1416)
+
+																		if True == gen1417 {
+																			gen1420 = True
+																		} else {
+																			gen1420 = False
+																		}
+
+																	} else {
+																		gen1420 = False
+																	}
+																	if True == gen1420 {
+																		gen1426 = True
+																	} else {
+																		gen1426 = False
+																	}
+
+																} else {
+																	gen1426 = False
+																}
+																if True == gen1426 {
+																	gen1431 = True
+																} else {
+																	gen1431 = False
+																}
+
+															} else {
+																gen1431 = False
+															}
+															if True == gen1431 {
+																gen1439 = True
+															} else {
+																gen1439 = False
+															}
+
+														} else {
+															gen1439 = False
+														}
+														if True == gen1439 {
+															gen1446 = True
+														} else {
+															gen1446 = False
+														}
+
+													} else {
+														gen1446 = False
+													}
+													if True == gen1446 {
+														gen1452 = True
+													} else {
+														gen1452 = False
+													}
+
+												} else {
+													gen1452 = False
+												}
+												if True == gen1452 {
+													gen1458 = True
+												} else {
+													gen1458 = False
+												}
+
+											} else {
+												gen1458 = False
+											}
+											if True == gen1458 {
+												gen1463 = True
+											} else {
+												gen1463 = False
+											}
+
+										} else {
+											gen1463 = False
+										}
+										if True == gen1463 {
+											gen1467 = True
+										} else {
+											gen1467 = False
+										}
+
+									} else {
+										gen1467 = False
+									}
+									if True == gen1467 {
+										gen1471 = True
+									} else {
+										gen1471 = False
+									}
+
+								} else {
+									gen1471 = False
+								}
+								if True == gen1471 {
+									gen1474 = True
+								} else {
+									gen1474 = False
+								}
+
+							} else {
+								gen1474 = False
+							}
+							if True == gen1474 {
+								gen1476 = True
+							} else {
+								gen1476 = False
+							}
+
+						} else {
+							gen1476 = False
+						}
+						if True == gen1476 {
+							gen1375 := Call(__e, ShenFunc(symtl), V385)
+
+							gen1376 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.+string?"), gen1375)
+
+							Call(__e, ShenFunc(symshen_4add__test), gen1376)
+
+							gen1377 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1378 := Call(__e, ShenFunc(symtl), gen1377)
+
+							gen1379 := Call(__e, ShenFunc(symhd), gen1378)
+
+							gen1380 := Call(__e, ShenFunc(symtl), gen1379)
+
+							gen1381 := Call(__e, ShenFunc(symhd), gen1380)
+
+							gen1382 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1383 := Call(__e, ShenFunc(symtl), gen1382)
+
+							gen1384 := Call(__e, ShenFunc(symhd), gen1383)
+
+							gen1385 := Call(__e, ShenFunc(symtl), gen1384)
+
+							gen1386 := Call(__e, ShenFunc(symtl), gen1385)
+
+							gen1387 := Call(__e, ShenFunc(symhd), gen1386)
+
+							gen1388 := Call(__e, ShenFunc(symtl), V385)
+
+							gen1389 := Call(__e, ShenFunc(symhd), gen1388)
+
+							gen1390 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1391 := Call(__e, ShenFunc(symtl), gen1390)
+
+							gen1392 := Call(__e, ShenFunc(symhd), gen1391)
+
+							gen1393 := Call(__e, ShenFunc(symhd), V385)
+
+							gen1394 := Call(__e, ShenFunc(symtl), gen1393)
+
+							gen1395 := Call(__e, ShenFunc(symtl), gen1394)
+
+							gen1396 := Call(__e, ShenFunc(symhd), gen1395)
+
+							gen1397 := Call(__e, ShenFunc(symshen_4ebr), gen1389, gen1392, gen1396)
+
+							gen1398 := Call(__e, ShenFunc(symcons), gen1397, Nil)
+
+							gen1399 := Call(__e, ShenFunc(symcons), gen1387, gen1398)
+
+							gen1400 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1399)
+
+							gen1401 := Call(__e, ShenFunc(symcons), gen1400, Nil)
+
+							gen1402 := Call(__e, ShenFunc(symcons), gen1381, gen1401)
+
+							gen1403 := Call(__e, ShenFunc(symcons), MakeSymbol("/."), gen1402)
+
+							Abstraction := gen1403
+							gen1404 := Call(__e, ShenFunc(symtl), V385)
+
+							gen1405 := Call(__e, ShenFunc(symhd), gen1404)
+
+							gen1406 := Call(__e, ShenFunc(symcons), MakeNumber(0), Nil)
+
+							gen1407 := Call(__e, ShenFunc(symcons), gen1405, gen1406)
+
+							gen1408 := Call(__e, ShenFunc(symcons), MakeSymbol("pos"), gen1407)
+
+							gen1409 := Call(__e, ShenFunc(symcons), gen1408, Nil)
+
+							gen1410 := Call(__e, ShenFunc(symcons), Abstraction, gen1409)
+
+							gen1411 := Call(__e, ShenFunc(symtl), V385)
+
+							gen1412 := Call(__e, ShenFunc(symcons), MakeSymbol("tlstr"), gen1411)
+
+							gen1413 := Call(__e, ShenFunc(symcons), gen1412, Nil)
+
+							gen1414 := Call(__e, ShenFunc(symcons), gen1410, gen1413)
+
+							Application := gen1414
+							__e.TailApply(ShenFunc(symshen_4reduce__help), Application)
+
+							return
+
+						} else {
+							gen1373 := Call(__e, ShenFunc(symcons_2), V385)
+
+							var gen1374 Obj
+							if True == gen1373 {
+								gen1370 := Call(__e, ShenFunc(symhd), V385)
+
+								gen1371 := Call(__e, ShenFunc(symcons_2), gen1370)
+
+								var gen1372 Obj
+								if True == gen1371 {
+									gen1366 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1367 := Call(__e, ShenFunc(symhd), gen1366)
+
+									gen1368 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1367)
+
+									var gen1369 Obj
+									if True == gen1368 {
+										gen1362 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1363 := Call(__e, ShenFunc(symtl), gen1362)
+
+										gen1364 := Call(__e, ShenFunc(symcons_2), gen1363)
+
+										var gen1365 Obj
+										if True == gen1364 {
+											gen1357 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1358 := Call(__e, ShenFunc(symtl), gen1357)
+
+											gen1359 := Call(__e, ShenFunc(symhd), gen1358)
+
+											gen1360 := Call(__e, ShenFunc(symcons_2), gen1359)
+
+											var gen1361 Obj
+											if True == gen1360 {
+												gen1352 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1353 := Call(__e, ShenFunc(symtl), gen1352)
+
+												gen1354 := Call(__e, ShenFunc(symtl), gen1353)
+
+												gen1355 := Call(__e, ShenFunc(symcons_2), gen1354)
+
+												var gen1356 Obj
+												if True == gen1355 {
+													gen1346 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1347 := Call(__e, ShenFunc(symtl), gen1346)
+
+													gen1348 := Call(__e, ShenFunc(symtl), gen1347)
+
+													gen1349 := Call(__e, ShenFunc(symtl), gen1348)
+
+													gen1350 := Call(__e, ShenFunc(sym_a), Nil, gen1349)
+
+													var gen1351 Obj
+													if True == gen1350 {
+														gen1343 := Call(__e, ShenFunc(symtl), V385)
+
+														gen1344 := Call(__e, ShenFunc(symcons_2), gen1343)
+
+														var gen1345 Obj
+														if True == gen1344 {
+															gen1340 := Call(__e, ShenFunc(symtl), V385)
+
+															gen1341 := Call(__e, ShenFunc(symtl), gen1340)
+
+															gen1342 := Call(__e, ShenFunc(sym_a), Nil, gen1341)
+
+															if True == gen1342 {
+																gen1345 = True
+															} else {
+																gen1345 = False
+															}
+
+														} else {
+															gen1345 = False
+														}
+														if True == gen1345 {
+															gen1351 = True
+														} else {
+															gen1351 = False
+														}
+
+													} else {
+														gen1351 = False
+													}
+													if True == gen1351 {
+														gen1356 = True
+													} else {
+														gen1356 = False
+													}
+
+												} else {
+													gen1356 = False
+												}
+												if True == gen1356 {
+													gen1361 = True
+												} else {
+													gen1361 = False
+												}
+
+											} else {
+												gen1361 = False
+											}
+											if True == gen1361 {
+												gen1365 = True
+											} else {
+												gen1365 = False
+											}
+
+										} else {
+											gen1365 = False
+										}
+										if True == gen1365 {
+											gen1369 = True
+										} else {
+											gen1369 = False
+										}
+
+									} else {
+										gen1369 = False
+									}
+									if True == gen1369 {
+										gen1372 = True
+									} else {
+										gen1372 = False
+									}
+
+								} else {
+									gen1372 = False
+								}
+								if True == gen1372 {
+									gen1374 = True
+								} else {
+									gen1374 = False
+								}
+
+							} else {
+								gen1374 = False
+							}
+							if True == gen1374 {
+								__e.TailApply(ShenFunc(symshen_4custom_1pattern_1reducer), V385)
+
+								return
+							} else {
+								gen1338 := Call(__e, ShenFunc(symcons_2), V385)
+
+								var gen1339 Obj
+								if True == gen1338 {
+									gen1335 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1336 := Call(__e, ShenFunc(symcons_2), gen1335)
+
+									var gen1337 Obj
+									if True == gen1336 {
+										gen1331 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1332 := Call(__e, ShenFunc(symhd), gen1331)
+
+										gen1333 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1332)
+
+										var gen1334 Obj
+										if True == gen1333 {
+											gen1327 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1328 := Call(__e, ShenFunc(symtl), gen1327)
+
+											gen1329 := Call(__e, ShenFunc(symcons_2), gen1328)
+
+											var gen1330 Obj
+											if True == gen1329 {
+												gen1322 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1323 := Call(__e, ShenFunc(symtl), gen1322)
+
+												gen1324 := Call(__e, ShenFunc(symtl), gen1323)
+
+												gen1325 := Call(__e, ShenFunc(symcons_2), gen1324)
+
+												var gen1326 Obj
+												if True == gen1325 {
+													gen1316 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1317 := Call(__e, ShenFunc(symtl), gen1316)
+
+													gen1318 := Call(__e, ShenFunc(symtl), gen1317)
+
+													gen1319 := Call(__e, ShenFunc(symtl), gen1318)
+
+													gen1320 := Call(__e, ShenFunc(sym_a), Nil, gen1319)
+
+													var gen1321 Obj
+													if True == gen1320 {
+														gen1313 := Call(__e, ShenFunc(symtl), V385)
+
+														gen1314 := Call(__e, ShenFunc(symcons_2), gen1313)
+
+														var gen1315 Obj
+														if True == gen1314 {
+															gen1309 := Call(__e, ShenFunc(symtl), V385)
+
+															gen1310 := Call(__e, ShenFunc(symtl), gen1309)
+
+															gen1311 := Call(__e, ShenFunc(sym_a), Nil, gen1310)
+
+															var gen1312 Obj
+															if True == gen1311 {
+																gen1304 := Call(__e, ShenFunc(symhd), V385)
+
+																gen1305 := Call(__e, ShenFunc(symtl), gen1304)
+
+																gen1306 := Call(__e, ShenFunc(symhd), gen1305)
+
+																gen1307 := Call(__e, ShenFunc(symvariable_2), gen1306)
+
+																gen1308 := Call(__e, ShenFunc(symnot), gen1307)
+
+																if True == gen1308 {
+																	gen1312 = True
+																} else {
+																	gen1312 = False
+																}
+
+															} else {
+																gen1312 = False
+															}
+															if True == gen1312 {
+																gen1315 = True
+															} else {
+																gen1315 = False
+															}
+
+														} else {
+															gen1315 = False
+														}
+														if True == gen1315 {
+															gen1321 = True
+														} else {
+															gen1321 = False
+														}
+
+													} else {
+														gen1321 = False
+													}
+													if True == gen1321 {
+														gen1326 = True
+													} else {
+														gen1326 = False
+													}
+
+												} else {
+													gen1326 = False
+												}
+												if True == gen1326 {
+													gen1330 = True
+												} else {
+													gen1330 = False
+												}
+
+											} else {
+												gen1330 = False
+											}
+											if True == gen1330 {
+												gen1334 = True
+											} else {
+												gen1334 = False
+											}
+
+										} else {
+											gen1334 = False
+										}
+										if True == gen1334 {
+											gen1337 = True
+										} else {
+											gen1337 = False
+										}
+
+									} else {
+										gen1337 = False
+									}
+									if True == gen1337 {
+										gen1339 = True
+									} else {
+										gen1339 = False
+									}
+
+								} else {
+									gen1339 = False
+								}
+								if True == gen1339 {
+									gen1294 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1295 := Call(__e, ShenFunc(symtl), gen1294)
+
+									gen1296 := Call(__e, ShenFunc(symhd), gen1295)
+
+									gen1297 := Call(__e, ShenFunc(symtl), V385)
+
+									gen1298 := Call(__e, ShenFunc(symcons), gen1296, gen1297)
+
+									gen1299 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen1298)
+
+									Call(__e, ShenFunc(symshen_4add__test), gen1299)
+
+									gen1300 := Call(__e, ShenFunc(symhd), V385)
+
+									gen1301 := Call(__e, ShenFunc(symtl), gen1300)
+
+									gen1302 := Call(__e, ShenFunc(symtl), gen1301)
+
+									gen1303 := Call(__e, ShenFunc(symhd), gen1302)
+
+									__e.TailApply(ShenFunc(symshen_4reduce__help), gen1303)
+
+									return
+
+								} else {
+									gen1292 := Call(__e, ShenFunc(symcons_2), V385)
+
+									var gen1293 Obj
+									if True == gen1292 {
+										gen1289 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1290 := Call(__e, ShenFunc(symcons_2), gen1289)
+
+										var gen1291 Obj
+										if True == gen1290 {
+											gen1285 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1286 := Call(__e, ShenFunc(symhd), gen1285)
+
+											gen1287 := Call(__e, ShenFunc(sym_a), MakeSymbol("/."), gen1286)
+
+											var gen1288 Obj
+											if True == gen1287 {
+												gen1281 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1282 := Call(__e, ShenFunc(symtl), gen1281)
+
+												gen1283 := Call(__e, ShenFunc(symcons_2), gen1282)
+
+												var gen1284 Obj
+												if True == gen1283 {
+													gen1276 := Call(__e, ShenFunc(symhd), V385)
+
+													gen1277 := Call(__e, ShenFunc(symtl), gen1276)
+
+													gen1278 := Call(__e, ShenFunc(symtl), gen1277)
+
+													gen1279 := Call(__e, ShenFunc(symcons_2), gen1278)
+
+													var gen1280 Obj
+													if True == gen1279 {
+														gen1270 := Call(__e, ShenFunc(symhd), V385)
+
+														gen1271 := Call(__e, ShenFunc(symtl), gen1270)
+
+														gen1272 := Call(__e, ShenFunc(symtl), gen1271)
+
+														gen1273 := Call(__e, ShenFunc(symtl), gen1272)
+
+														gen1274 := Call(__e, ShenFunc(sym_a), Nil, gen1273)
+
+														var gen1275 Obj
+														if True == gen1274 {
+															gen1267 := Call(__e, ShenFunc(symtl), V385)
+
+															gen1268 := Call(__e, ShenFunc(symcons_2), gen1267)
+
+															var gen1269 Obj
+															if True == gen1268 {
+																gen1264 := Call(__e, ShenFunc(symtl), V385)
+
+																gen1265 := Call(__e, ShenFunc(symtl), gen1264)
+
+																gen1266 := Call(__e, ShenFunc(sym_a), Nil, gen1265)
+
+																if True == gen1266 {
+																	gen1269 = True
+																} else {
+																	gen1269 = False
+																}
+
+															} else {
+																gen1269 = False
+															}
+															if True == gen1269 {
+																gen1275 = True
+															} else {
+																gen1275 = False
+															}
+
+														} else {
+															gen1275 = False
+														}
+														if True == gen1275 {
+															gen1280 = True
+														} else {
+															gen1280 = False
+														}
+
+													} else {
+														gen1280 = False
+													}
+													if True == gen1280 {
+														gen1284 = True
+													} else {
+														gen1284 = False
+													}
+
+												} else {
+													gen1284 = False
+												}
+												if True == gen1284 {
+													gen1288 = True
+												} else {
+													gen1288 = False
+												}
+
+											} else {
+												gen1288 = False
+											}
+											if True == gen1288 {
+												gen1291 = True
+											} else {
+												gen1291 = False
+											}
+
+										} else {
+											gen1291 = False
+										}
+										if True == gen1291 {
+											gen1293 = True
+										} else {
+											gen1293 = False
+										}
+
+									} else {
+										gen1293 = False
+									}
+									if True == gen1293 {
+										gen1254 := Call(__e, ShenFunc(symtl), V385)
+
+										gen1255 := Call(__e, ShenFunc(symhd), gen1254)
+
+										gen1256 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1257 := Call(__e, ShenFunc(symtl), gen1256)
+
+										gen1258 := Call(__e, ShenFunc(symhd), gen1257)
+
+										gen1259 := Call(__e, ShenFunc(symhd), V385)
+
+										gen1260 := Call(__e, ShenFunc(symtl), gen1259)
+
+										gen1261 := Call(__e, ShenFunc(symtl), gen1260)
+
+										gen1262 := Call(__e, ShenFunc(symhd), gen1261)
+
+										gen1263 := Call(__e, ShenFunc(symshen_4ebr), gen1255, gen1258, gen1262)
+
+										__e.TailApply(ShenFunc(symshen_4reduce__help), gen1263)
+
+										return
+
+									} else {
+										gen1252 := Call(__e, ShenFunc(symcons_2), V385)
+
+										var gen1253 Obj
+										if True == gen1252 {
+											gen1249 := Call(__e, ShenFunc(symhd), V385)
+
+											gen1250 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen1249)
+
+											var gen1251 Obj
+											if True == gen1250 {
+												gen1246 := Call(__e, ShenFunc(symtl), V385)
+
+												gen1247 := Call(__e, ShenFunc(symcons_2), gen1246)
+
+												var gen1248 Obj
+												if True == gen1247 {
+													gen1242 := Call(__e, ShenFunc(symtl), V385)
+
+													gen1243 := Call(__e, ShenFunc(symtl), gen1242)
+
+													gen1244 := Call(__e, ShenFunc(symcons_2), gen1243)
+
+													var gen1245 Obj
+													if True == gen1244 {
+														gen1238 := Call(__e, ShenFunc(symtl), V385)
+
+														gen1239 := Call(__e, ShenFunc(symtl), gen1238)
+
+														gen1240 := Call(__e, ShenFunc(symtl), gen1239)
+
+														gen1241 := Call(__e, ShenFunc(sym_a), Nil, gen1240)
+
+														if True == gen1241 {
+															gen1245 = True
+														} else {
+															gen1245 = False
+														}
+
+													} else {
+														gen1245 = False
+													}
+													if True == gen1245 {
+														gen1248 = True
+													} else {
+														gen1248 = False
+													}
+
+												} else {
+													gen1248 = False
+												}
+												if True == gen1248 {
+													gen1251 = True
+												} else {
+													gen1251 = False
+												}
+
+											} else {
+												gen1251 = False
+											}
+											if True == gen1251 {
+												gen1253 = True
+											} else {
+												gen1253 = False
+											}
+
+										} else {
+											gen1253 = False
+										}
+										if True == gen1253 {
+											gen1233 := Call(__e, ShenFunc(symtl), V385)
+
+											gen1234 := Call(__e, ShenFunc(symhd), gen1233)
+
+											Call(__e, ShenFunc(symshen_4add__test), gen1234)
+
+											gen1235 := Call(__e, ShenFunc(symtl), V385)
+
+											gen1236 := Call(__e, ShenFunc(symtl), gen1235)
+
+											gen1237 := Call(__e, ShenFunc(symhd), gen1236)
+
+											__e.TailApply(ShenFunc(symshen_4reduce__help), gen1237)
+
+											return
+
+										} else {
+											gen1231 := Call(__e, ShenFunc(symcons_2), V385)
+
+											var gen1232 Obj
+											if True == gen1231 {
+												gen1228 := Call(__e, ShenFunc(symtl), V385)
+
+												gen1229 := Call(__e, ShenFunc(symcons_2), gen1228)
+
+												var gen1230 Obj
+												if True == gen1229 {
+													gen1225 := Call(__e, ShenFunc(symtl), V385)
+
+													gen1226 := Call(__e, ShenFunc(symtl), gen1225)
+
+													gen1227 := Call(__e, ShenFunc(sym_a), Nil, gen1226)
+
+													if True == gen1227 {
+														gen1230 = True
+													} else {
+														gen1230 = False
+													}
+
+												} else {
+													gen1230 = False
+												}
+												if True == gen1230 {
+													gen1232 = True
+												} else {
+													gen1232 = False
+												}
+
+											} else {
+												gen1232 = False
+											}
+											if True == gen1232 {
+												gen1219 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1220 := Call(__e, ShenFunc(symshen_4reduce__help), gen1219)
+
+												Z := gen1220
+												gen1223 := Call(__e, ShenFunc(symhd), V385)
+
+												gen1224 := Call(__e, ShenFunc(sym_a), gen1223, Z)
+
+												if True == gen1224 {
+													__e.Return(V385)
+													return
+												} else {
+													gen1221 := Call(__e, ShenFunc(symtl), V385)
+
+													gen1222 := Call(__e, ShenFunc(symcons), Z, gen1221)
+
+													__e.TailApply(ShenFunc(symshen_4reduce__help), gen1222)
+
+													return
+
+												}
+
+											} else {
+												__e.Return(V385)
+												return
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.reduce_help"), gen1774)
+
+		gen1776 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V387 := __args[0]
+			_ = V387
+			gen1775 := Call(__e, ShenFunc(sym_a), MakeString(""), V387)
+
+			if True == gen1775 {
+				__e.Return(False)
 				return
 			} else {
-				reg4282 := PrimIsPair(V412)
-				var reg4356 Obj
-				if reg4282 == True {
-					reg4283 := PrimHead(V412)
-					reg4284 := PrimIsPair(reg4283)
-					var reg4351 Obj
-					if reg4284 == True {
-						reg4285 := PrimHead(V412)
-						reg4286 := PrimHead(reg4285)
-						reg4287 := PrimIsPair(reg4286)
-						var reg4346 Obj
-						if reg4287 == True {
-							reg4288 := MakeSymbol(":")
-							reg4289 := PrimHead(V412)
-							reg4290 := PrimHead(reg4289)
-							reg4291 := PrimHead(reg4290)
-							reg4292 := PrimEqual(reg4288, reg4291)
-							var reg4341 Obj
-							if reg4292 == True {
-								reg4293 := PrimHead(V412)
-								reg4294 := PrimHead(reg4293)
-								reg4295 := PrimTail(reg4294)
-								reg4296 := PrimIsPair(reg4295)
-								var reg4336 Obj
-								if reg4296 == True {
-									reg4297 := MakeSymbol("shen.tests")
-									reg4298 := PrimHead(V412)
-									reg4299 := PrimHead(reg4298)
-									reg4300 := PrimTail(reg4299)
-									reg4301 := PrimHead(reg4300)
-									reg4302 := PrimEqual(reg4297, reg4301)
-									var reg4331 Obj
-									if reg4302 == True {
-										reg4303 := Nil
-										reg4304 := PrimHead(V412)
-										reg4305 := PrimHead(reg4304)
-										reg4306 := PrimTail(reg4305)
-										reg4307 := PrimTail(reg4306)
-										reg4308 := PrimEqual(reg4303, reg4307)
-										var reg4326 Obj
-										if reg4308 == True {
-											reg4309 := PrimHead(V412)
-											reg4310 := PrimTail(reg4309)
-											reg4311 := PrimIsPair(reg4310)
-											var reg4321 Obj
-											if reg4311 == True {
-												reg4312 := Nil
-												reg4313 := PrimHead(V412)
-												reg4314 := PrimTail(reg4313)
-												reg4315 := PrimTail(reg4314)
-												reg4316 := PrimEqual(reg4312, reg4315)
-												var reg4319 Obj
-												if reg4316 == True {
-													reg4317 := True
-													reg4319 = reg4317
-												} else {
-													reg4318 := False
-													reg4319 = reg4318
-												}
-												reg4321 = reg4319
-											} else {
-												reg4320 := False
-												reg4321 = reg4320
-											}
-											var reg4324 Obj
-											if reg4321 == True {
-												reg4322 := True
-												reg4324 = reg4322
-											} else {
-												reg4323 := False
-												reg4324 = reg4323
-											}
-											reg4326 = reg4324
-										} else {
-											reg4325 := False
-											reg4326 = reg4325
-										}
-										var reg4329 Obj
-										if reg4326 == True {
-											reg4327 := True
-											reg4329 = reg4327
-										} else {
-											reg4328 := False
-											reg4329 = reg4328
-										}
-										reg4331 = reg4329
-									} else {
-										reg4330 := False
-										reg4331 = reg4330
-									}
-									var reg4334 Obj
-									if reg4331 == True {
-										reg4332 := True
-										reg4334 = reg4332
-									} else {
-										reg4333 := False
-										reg4334 = reg4333
-									}
-									reg4336 = reg4334
-								} else {
-									reg4335 := False
-									reg4336 = reg4335
-								}
-								var reg4339 Obj
-								if reg4336 == True {
-									reg4337 := True
-									reg4339 = reg4337
-								} else {
-									reg4338 := False
-									reg4339 = reg4338
-								}
-								reg4341 = reg4339
-							} else {
-								reg4340 := False
-								reg4341 = reg4340
-							}
-							var reg4344 Obj
-							if reg4341 == True {
-								reg4342 := True
-								reg4344 = reg4342
-							} else {
-								reg4343 := False
-								reg4344 = reg4343
-							}
-							reg4346 = reg4344
-						} else {
-							reg4345 := False
-							reg4346 = reg4345
-						}
-						var reg4349 Obj
-						if reg4346 == True {
-							reg4347 := True
-							reg4349 = reg4347
-						} else {
-							reg4348 := False
-							reg4349 = reg4348
-						}
-						reg4351 = reg4349
-					} else {
-						reg4350 := False
-						reg4351 = reg4350
-					}
-					var reg4354 Obj
-					if reg4351 == True {
-						reg4352 := True
-						reg4354 = reg4352
-					} else {
-						reg4353 := False
-						reg4354 = reg4353
-					}
-					reg4356 = reg4354
-				} else {
-					reg4355 := False
-					reg4356 = reg4355
-				}
-				if reg4356 == True {
-					reg4357 := True
-					reg4358 := PrimHead(V412)
-					reg4359 := PrimTail(reg4358)
-					reg4360 := PrimCons(reg4357, reg4359)
-					reg4361 := Nil
-					reg4362 := PrimCons(reg4360, reg4361)
-					__e.Return(reg4362)
+				__e.TailApply(ShenFunc(symstring_2), V387)
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.+string?"), gen1776)
+
+		gen1780 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V389 := __args[0]
+			_ = V389
+			gen1779 := Call(__e, ShenFunc(symabsvector_2), V389)
+
+			if True == gen1779 {
+				gen1777 := Call(__e, ShenFunc(sym_5_1address), V389, MakeNumber(0))
+
+				gen1778 := Call(__e, ShenFunc(sym_6), gen1777, MakeNumber(0))
+
+				if True == gen1778 {
+					__e.Return(True)
 					return
 				} else {
-					reg4363 := PrimIsPair(V412)
-					var reg4426 Obj
-					if reg4363 == True {
-						reg4364 := PrimHead(V412)
-						reg4365 := PrimIsPair(reg4364)
-						var reg4421 Obj
-						if reg4365 == True {
-							reg4366 := PrimHead(V412)
-							reg4367 := PrimHead(reg4366)
-							reg4368 := PrimIsPair(reg4367)
-							var reg4416 Obj
-							if reg4368 == True {
-								reg4369 := MakeSymbol(":")
-								reg4370 := PrimHead(V412)
-								reg4371 := PrimHead(reg4370)
-								reg4372 := PrimHead(reg4371)
-								reg4373 := PrimEqual(reg4369, reg4372)
-								var reg4411 Obj
-								if reg4373 == True {
-									reg4374 := PrimHead(V412)
-									reg4375 := PrimHead(reg4374)
-									reg4376 := PrimTail(reg4375)
-									reg4377 := PrimIsPair(reg4376)
-									var reg4406 Obj
-									if reg4377 == True {
-										reg4378 := MakeSymbol("shen.tests")
-										reg4379 := PrimHead(V412)
-										reg4380 := PrimHead(reg4379)
-										reg4381 := PrimTail(reg4380)
-										reg4382 := PrimHead(reg4381)
-										reg4383 := PrimEqual(reg4378, reg4382)
-										var reg4401 Obj
-										if reg4383 == True {
-											reg4384 := PrimHead(V412)
-											reg4385 := PrimTail(reg4384)
-											reg4386 := PrimIsPair(reg4385)
-											var reg4396 Obj
-											if reg4386 == True {
-												reg4387 := Nil
-												reg4388 := PrimHead(V412)
-												reg4389 := PrimTail(reg4388)
-												reg4390 := PrimTail(reg4389)
-												reg4391 := PrimEqual(reg4387, reg4390)
-												var reg4394 Obj
-												if reg4391 == True {
-													reg4392 := True
-													reg4394 = reg4392
-												} else {
-													reg4393 := False
-													reg4394 = reg4393
-												}
-												reg4396 = reg4394
-											} else {
-												reg4395 := False
-												reg4396 = reg4395
-											}
-											var reg4399 Obj
-											if reg4396 == True {
-												reg4397 := True
-												reg4399 = reg4397
-											} else {
-												reg4398 := False
-												reg4399 = reg4398
-											}
-											reg4401 = reg4399
-										} else {
-											reg4400 := False
-											reg4401 = reg4400
-										}
-										var reg4404 Obj
-										if reg4401 == True {
-											reg4402 := True
-											reg4404 = reg4402
-										} else {
-											reg4403 := False
-											reg4404 = reg4403
-										}
-										reg4406 = reg4404
-									} else {
-										reg4405 := False
-										reg4406 = reg4405
-									}
-									var reg4409 Obj
-									if reg4406 == True {
-										reg4407 := True
-										reg4409 = reg4407
-									} else {
-										reg4408 := False
-										reg4409 = reg4408
-									}
-									reg4411 = reg4409
-								} else {
-									reg4410 := False
-									reg4411 = reg4410
-								}
-								var reg4414 Obj
-								if reg4411 == True {
-									reg4412 := True
-									reg4414 = reg4412
-								} else {
-									reg4413 := False
-									reg4414 = reg4413
-								}
-								reg4416 = reg4414
-							} else {
-								reg4415 := False
-								reg4416 = reg4415
-							}
-							var reg4419 Obj
-							if reg4416 == True {
-								reg4417 := True
-								reg4419 = reg4417
-							} else {
-								reg4418 := False
-								reg4419 = reg4418
-							}
-							reg4421 = reg4419
-						} else {
-							reg4420 := False
-							reg4421 = reg4420
-						}
-						var reg4424 Obj
-						if reg4421 == True {
-							reg4422 := True
-							reg4424 = reg4422
-						} else {
-							reg4423 := False
-							reg4424 = reg4423
-						}
-						reg4426 = reg4424
-					} else {
-						reg4425 := False
-						reg4426 = reg4425
-					}
-					if reg4426 == True {
-						reg4427 := PrimHead(V412)
-						reg4428 := PrimHead(reg4427)
-						reg4429 := PrimTail(reg4428)
-						reg4430 := PrimTail(reg4429)
-						reg4431 := Call(__e, __defun__shen_4embed_1and, reg4430)
-						reg4432 := PrimHead(V412)
-						reg4433 := PrimTail(reg4432)
-						reg4434 := PrimCons(reg4431, reg4433)
-						reg4435 := PrimTail(V412)
-						reg4436 := Call(__e, __defun__shen_4case_1form, reg4435, V413)
-						reg4437 := PrimCons(reg4434, reg4436)
-						__e.Return(reg4437)
-						return
-					} else {
-						reg4438 := MakeSymbol("shen.case-form")
-						__e.TailApply(__defun__shen_4f__error, reg4438)
-						return
-					}
+					__e.Return(False)
+					return
 				}
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.case-form", value: __defun__shen_4case_1form})
 
-	__defun__shen_4embed_1and = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V415 := __args[0]
-		_ = V415
-		reg4440 := PrimIsPair(V415)
-		var reg4448 Obj
-		if reg4440 == True {
-			reg4441 := Nil
-			reg4442 := PrimTail(V415)
-			reg4443 := PrimEqual(reg4441, reg4442)
-			var reg4446 Obj
-			if reg4443 == True {
-				reg4444 := True
-				reg4446 = reg4444
 			} else {
-				reg4445 := False
-				reg4446 = reg4445
+				__e.Return(False)
+				return
 			}
-			reg4448 = reg4446
-		} else {
-			reg4447 := False
-			reg4448 = reg4447
-		}
-		if reg4448 == True {
-			reg4449 := PrimHead(V415)
-			__e.Return(reg4449)
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.+vector?"), gen1780)
+
+		gen1844 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V402 := __args[0]
+			_ = V402
+			V403 := __args[1]
+			_ = V403
+			V404 := __args[2]
+			_ = V404
+			gen1843 := Call(__e, ShenFunc(sym_a), V404, V403)
+
+			if True == gen1843 {
+				__e.Return(V402)
+				return
+			} else {
+				gen1841 := Call(__e, ShenFunc(symcons_2), V404)
+
+				var gen1842 Obj
+				if True == gen1841 {
+					gen1838 := Call(__e, ShenFunc(symhd), V404)
+
+					gen1839 := Call(__e, ShenFunc(sym_a), MakeSymbol("lambda"), gen1838)
+
+					var gen1840 Obj
+					if True == gen1839 {
+						gen1835 := Call(__e, ShenFunc(symtl), V404)
+
+						gen1836 := Call(__e, ShenFunc(symcons_2), gen1835)
+
+						var gen1837 Obj
+						if True == gen1836 {
+							gen1831 := Call(__e, ShenFunc(symtl), V404)
+
+							gen1832 := Call(__e, ShenFunc(symtl), gen1831)
+
+							gen1833 := Call(__e, ShenFunc(symcons_2), gen1832)
+
+							var gen1834 Obj
+							if True == gen1833 {
+								gen1826 := Call(__e, ShenFunc(symtl), V404)
+
+								gen1827 := Call(__e, ShenFunc(symtl), gen1826)
+
+								gen1828 := Call(__e, ShenFunc(symtl), gen1827)
+
+								gen1829 := Call(__e, ShenFunc(sym_a), Nil, gen1828)
+
+								var gen1830 Obj
+								if True == gen1829 {
+									gen1823 := Call(__e, ShenFunc(symtl), V404)
+
+									gen1824 := Call(__e, ShenFunc(symhd), gen1823)
+
+									gen1825 := Call(__e, ShenFunc(symshen_4clash_2), gen1824, V403)
+
+									if True == gen1825 {
+										gen1830 = True
+									} else {
+										gen1830 = False
+									}
+
+								} else {
+									gen1830 = False
+								}
+								if True == gen1830 {
+									gen1834 = True
+								} else {
+									gen1834 = False
+								}
+
+							} else {
+								gen1834 = False
+							}
+							if True == gen1834 {
+								gen1837 = True
+							} else {
+								gen1837 = False
+							}
+
+						} else {
+							gen1837 = False
+						}
+						if True == gen1837 {
+							gen1840 = True
+						} else {
+							gen1840 = False
+						}
+
+					} else {
+						gen1840 = False
+					}
+					if True == gen1840 {
+						gen1842 = True
+					} else {
+						gen1842 = False
+					}
+
+				} else {
+					gen1842 = False
+				}
+				if True == gen1842 {
+					__e.Return(V404)
+					return
+				} else {
+					gen1821 := Call(__e, ShenFunc(symcons_2), V404)
+
+					var gen1822 Obj
+					if True == gen1821 {
+						gen1818 := Call(__e, ShenFunc(symhd), V404)
+
+						gen1819 := Call(__e, ShenFunc(sym_a), MakeSymbol("let"), gen1818)
+
+						var gen1820 Obj
+						if True == gen1819 {
+							gen1815 := Call(__e, ShenFunc(symtl), V404)
+
+							gen1816 := Call(__e, ShenFunc(symcons_2), gen1815)
+
+							var gen1817 Obj
+							if True == gen1816 {
+								gen1811 := Call(__e, ShenFunc(symtl), V404)
+
+								gen1812 := Call(__e, ShenFunc(symtl), gen1811)
+
+								gen1813 := Call(__e, ShenFunc(symcons_2), gen1812)
+
+								var gen1814 Obj
+								if True == gen1813 {
+									gen1806 := Call(__e, ShenFunc(symtl), V404)
+
+									gen1807 := Call(__e, ShenFunc(symtl), gen1806)
+
+									gen1808 := Call(__e, ShenFunc(symtl), gen1807)
+
+									gen1809 := Call(__e, ShenFunc(symcons_2), gen1808)
+
+									var gen1810 Obj
+									if True == gen1809 {
+										gen1800 := Call(__e, ShenFunc(symtl), V404)
+
+										gen1801 := Call(__e, ShenFunc(symtl), gen1800)
+
+										gen1802 := Call(__e, ShenFunc(symtl), gen1801)
+
+										gen1803 := Call(__e, ShenFunc(symtl), gen1802)
+
+										gen1804 := Call(__e, ShenFunc(sym_a), Nil, gen1803)
+
+										var gen1805 Obj
+										if True == gen1804 {
+											gen1797 := Call(__e, ShenFunc(symtl), V404)
+
+											gen1798 := Call(__e, ShenFunc(symhd), gen1797)
+
+											gen1799 := Call(__e, ShenFunc(symshen_4clash_2), gen1798, V403)
+
+											if True == gen1799 {
+												gen1805 = True
+											} else {
+												gen1805 = False
+											}
+
+										} else {
+											gen1805 = False
+										}
+										if True == gen1805 {
+											gen1810 = True
+										} else {
+											gen1810 = False
+										}
+
+									} else {
+										gen1810 = False
+									}
+									if True == gen1810 {
+										gen1814 = True
+									} else {
+										gen1814 = False
+									}
+
+								} else {
+									gen1814 = False
+								}
+								if True == gen1814 {
+									gen1817 = True
+								} else {
+									gen1817 = False
+								}
+
+							} else {
+								gen1817 = False
+							}
+							if True == gen1817 {
+								gen1820 = True
+							} else {
+								gen1820 = False
+							}
+
+						} else {
+							gen1820 = False
+						}
+						if True == gen1820 {
+							gen1822 = True
+						} else {
+							gen1822 = False
+						}
+
+					} else {
+						gen1822 = False
+					}
+					if True == gen1822 {
+						gen1786 := Call(__e, ShenFunc(symtl), V404)
+
+						gen1787 := Call(__e, ShenFunc(symhd), gen1786)
+
+						gen1788 := Call(__e, ShenFunc(symtl), V404)
+
+						gen1789 := Call(__e, ShenFunc(symtl), gen1788)
+
+						gen1790 := Call(__e, ShenFunc(symhd), gen1789)
+
+						gen1791 := Call(__e, ShenFunc(symshen_4ebr), V402, V403, gen1790)
+
+						gen1792 := Call(__e, ShenFunc(symtl), V404)
+
+						gen1793 := Call(__e, ShenFunc(symtl), gen1792)
+
+						gen1794 := Call(__e, ShenFunc(symtl), gen1793)
+
+						gen1795 := Call(__e, ShenFunc(symcons), gen1791, gen1794)
+
+						gen1796 := Call(__e, ShenFunc(symcons), gen1787, gen1795)
+
+						__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen1796)
+
+						return
+
+					} else {
+						gen1785 := Call(__e, ShenFunc(symcons_2), V404)
+
+						if True == gen1785 {
+							gen1781 := Call(__e, ShenFunc(symhd), V404)
+
+							gen1782 := Call(__e, ShenFunc(symshen_4ebr), V402, V403, gen1781)
+
+							gen1783 := Call(__e, ShenFunc(symtl), V404)
+
+							gen1784 := Call(__e, ShenFunc(symshen_4ebr), V402, V403, gen1783)
+
+							__e.TailApply(ShenFunc(symcons), gen1782, gen1784)
+
+							return
+
+						} else {
+							__e.Return(V404)
+							return
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.ebr"), gen1844)
+
+		gen1851 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V416 := __args[0]
+			_ = V416
+			V417 := __args[1]
+			_ = V417
+			gen1850 := Call(__e, ShenFunc(sym_a), V417, V416)
+
+			if True == gen1850 {
+				__e.Return(True)
+				return
+			} else {
+				gen1849 := Call(__e, ShenFunc(symcons_2), V417)
+
+				if True == gen1849 {
+					gen1847 := Call(__e, ShenFunc(symhd), V417)
+
+					gen1848 := Call(__e, ShenFunc(symshen_4clash_2), V416, gen1847)
+
+					if True == gen1848 {
+						__e.Return(True)
+						return
+					} else {
+						gen1845 := Call(__e, ShenFunc(symtl), V417)
+
+						gen1846 := Call(__e, ShenFunc(symshen_4clash_2), V416, gen1845)
+
+						if True == gen1846 {
+							__e.Return(True)
+							return
+						} else {
+							__e.Return(False)
+							return
+						}
+
+					}
+
+				} else {
+					__e.Return(False)
+					return
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.clash?"), gen1851)
+
+		gen1854 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V419 := __args[0]
+			_ = V419
+			gen1852 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*teststack*"))
+
+			gen1853 := Call(__e, ShenFunc(symcons), V419, gen1852)
+
+			__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*teststack*"), gen1853)
+
 			return
-		} else {
-			reg4450 := PrimIsPair(V415)
-			if reg4450 == True {
-				reg4451 := MakeSymbol("and")
-				reg4452 := PrimHead(V415)
-				reg4453 := PrimTail(V415)
-				reg4454 := Call(__e, __defun__shen_4embed_1and, reg4453)
-				reg4455 := Nil
-				reg4456 := PrimCons(reg4454, reg4455)
-				reg4457 := PrimCons(reg4452, reg4456)
-				reg4458 := PrimCons(reg4451, reg4457)
-				__e.Return(reg4458)
-				return
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.add_test"), gen1854)
+
+		gen1858 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V423 := __args[0]
+			_ = V423
+			V424 := __args[1]
+			_ = V424
+			V425 := __args[2]
+			_ = V425
+			gen1855 := Call(__e, ShenFunc(symshen_4err_1condition), V423)
+
+			Err := gen1855
+			gen1856 := Call(__e, ShenFunc(symshen_4case_1form), V425, Err)
+
+			Cases := gen1856
+			gen1857 := Call(__e, ShenFunc(symshen_4encode_1choices), Cases, V423)
+
+			EncodeChoices := gen1857
+			__e.TailApply(ShenFunc(symshen_4cond_1form), EncodeChoices)
+
+			return
+
+		}, 3)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.cond-expression"), gen1858)
+
+		gen1878 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V429 := __args[0]
+			_ = V429
+			gen1876 := Call(__e, ShenFunc(symcons_2), V429)
+
+			var gen1877 Obj
+			if True == gen1876 {
+				gen1873 := Call(__e, ShenFunc(symhd), V429)
+
+				gen1874 := Call(__e, ShenFunc(symcons_2), gen1873)
+
+				var gen1875 Obj
+				if True == gen1874 {
+					gen1869 := Call(__e, ShenFunc(symhd), V429)
+
+					gen1870 := Call(__e, ShenFunc(symhd), gen1869)
+
+					gen1871 := Call(__e, ShenFunc(sym_a), True, gen1870)
+
+					var gen1872 Obj
+					if True == gen1871 {
+						gen1865 := Call(__e, ShenFunc(symhd), V429)
+
+						gen1866 := Call(__e, ShenFunc(symtl), gen1865)
+
+						gen1867 := Call(__e, ShenFunc(symcons_2), gen1866)
+
+						var gen1868 Obj
+						if True == gen1867 {
+							gen1861 := Call(__e, ShenFunc(symhd), V429)
+
+							gen1862 := Call(__e, ShenFunc(symtl), gen1861)
+
+							gen1863 := Call(__e, ShenFunc(symtl), gen1862)
+
+							gen1864 := Call(__e, ShenFunc(sym_a), Nil, gen1863)
+
+							if True == gen1864 {
+								gen1868 = True
+							} else {
+								gen1868 = False
+							}
+
+						} else {
+							gen1868 = False
+						}
+						if True == gen1868 {
+							gen1872 = True
+						} else {
+							gen1872 = False
+						}
+
+					} else {
+						gen1872 = False
+					}
+					if True == gen1872 {
+						gen1875 = True
+					} else {
+						gen1875 = False
+					}
+
+				} else {
+					gen1875 = False
+				}
+				if True == gen1875 {
+					gen1877 = True
+				} else {
+					gen1877 = False
+				}
+
 			} else {
-				reg4459 := MakeSymbol("shen.embed-and")
-				__e.TailApply(__defun__shen_4f__error, reg4459)
+				gen1877 = False
+			}
+			if True == gen1877 {
+				gen1859 := Call(__e, ShenFunc(symhd), V429)
+
+				gen1860 := Call(__e, ShenFunc(symtl), gen1859)
+
+				__e.TailApply(ShenFunc(symhd), gen1860)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("cond"), V429)
+
 				return
 			}
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.embed-and", value: __defun__shen_4embed_1and})
 
-	__defun__shen_4err_1condition = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V417 := __args[0]
-		_ = V417
-		reg4461 := True
-		reg4462 := MakeSymbol("shen.f_error")
-		reg4463 := Nil
-		reg4464 := PrimCons(V417, reg4463)
-		reg4465 := PrimCons(reg4462, reg4464)
-		reg4466 := Nil
-		reg4467 := PrimCons(reg4465, reg4466)
-		reg4468 := PrimCons(reg4461, reg4467)
-		__e.Return(reg4468)
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.cond-form"), gen1878)
+
+		gen2101 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V434 := __args[0]
+			_ = V434
+			V435 := __args[1]
+			_ = V435
+			gen2100 := Call(__e, ShenFunc(sym_a), Nil, V434)
+
+			if True == gen2100 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen2098 := Call(__e, ShenFunc(symcons_2), V434)
+
+				var gen2099 Obj
+				if True == gen2098 {
+					gen2095 := Call(__e, ShenFunc(symhd), V434)
+
+					gen2096 := Call(__e, ShenFunc(symcons_2), gen2095)
+
+					var gen2097 Obj
+					if True == gen2096 {
+						gen2091 := Call(__e, ShenFunc(symhd), V434)
+
+						gen2092 := Call(__e, ShenFunc(symhd), gen2091)
+
+						gen2093 := Call(__e, ShenFunc(sym_a), True, gen2092)
+
+						var gen2094 Obj
+						if True == gen2093 {
+							gen2087 := Call(__e, ShenFunc(symhd), V434)
+
+							gen2088 := Call(__e, ShenFunc(symtl), gen2087)
+
+							gen2089 := Call(__e, ShenFunc(symcons_2), gen2088)
+
+							var gen2090 Obj
+							if True == gen2089 {
+								gen2082 := Call(__e, ShenFunc(symhd), V434)
+
+								gen2083 := Call(__e, ShenFunc(symtl), gen2082)
+
+								gen2084 := Call(__e, ShenFunc(symhd), gen2083)
+
+								gen2085 := Call(__e, ShenFunc(symcons_2), gen2084)
+
+								var gen2086 Obj
+								if True == gen2085 {
+									gen2076 := Call(__e, ShenFunc(symhd), V434)
+
+									gen2077 := Call(__e, ShenFunc(symtl), gen2076)
+
+									gen2078 := Call(__e, ShenFunc(symhd), gen2077)
+
+									gen2079 := Call(__e, ShenFunc(symhd), gen2078)
+
+									gen2080 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.choicepoint!"), gen2079)
+
+									var gen2081 Obj
+									if True == gen2080 {
+										gen2070 := Call(__e, ShenFunc(symhd), V434)
+
+										gen2071 := Call(__e, ShenFunc(symtl), gen2070)
+
+										gen2072 := Call(__e, ShenFunc(symhd), gen2071)
+
+										gen2073 := Call(__e, ShenFunc(symtl), gen2072)
+
+										gen2074 := Call(__e, ShenFunc(symcons_2), gen2073)
+
+										var gen2075 Obj
+										if True == gen2074 {
+											gen2063 := Call(__e, ShenFunc(symhd), V434)
+
+											gen2064 := Call(__e, ShenFunc(symtl), gen2063)
+
+											gen2065 := Call(__e, ShenFunc(symhd), gen2064)
+
+											gen2066 := Call(__e, ShenFunc(symtl), gen2065)
+
+											gen2067 := Call(__e, ShenFunc(symtl), gen2066)
+
+											gen2068 := Call(__e, ShenFunc(sym_a), Nil, gen2067)
+
+											var gen2069 Obj
+											if True == gen2068 {
+												gen2058 := Call(__e, ShenFunc(symhd), V434)
+
+												gen2059 := Call(__e, ShenFunc(symtl), gen2058)
+
+												gen2060 := Call(__e, ShenFunc(symtl), gen2059)
+
+												gen2061 := Call(__e, ShenFunc(sym_a), Nil, gen2060)
+
+												var gen2062 Obj
+												if True == gen2061 {
+													gen2056 := Call(__e, ShenFunc(symtl), V434)
+
+													gen2057 := Call(__e, ShenFunc(sym_a), Nil, gen2056)
+
+													if True == gen2057 {
+														gen2062 = True
+													} else {
+														gen2062 = False
+													}
+
+												} else {
+													gen2062 = False
+												}
+												if True == gen2062 {
+													gen2069 = True
+												} else {
+													gen2069 = False
+												}
+
+											} else {
+												gen2069 = False
+											}
+											if True == gen2069 {
+												gen2075 = True
+											} else {
+												gen2075 = False
+											}
+
+										} else {
+											gen2075 = False
+										}
+										if True == gen2075 {
+											gen2081 = True
+										} else {
+											gen2081 = False
+										}
+
+									} else {
+										gen2081 = False
+									}
+									if True == gen2081 {
+										gen2086 = True
+									} else {
+										gen2086 = False
+									}
+
+								} else {
+									gen2086 = False
+								}
+								if True == gen2086 {
+									gen2090 = True
+								} else {
+									gen2090 = False
+								}
+
+							} else {
+								gen2090 = False
+							}
+							if True == gen2090 {
+								gen2094 = True
+							} else {
+								gen2094 = False
+							}
+
+						} else {
+							gen2094 = False
+						}
+						if True == gen2094 {
+							gen2097 = True
+						} else {
+							gen2097 = False
+						}
+
+					} else {
+						gen2097 = False
+					}
+					if True == gen2097 {
+						gen2099 = True
+					} else {
+						gen2099 = False
+					}
+
+				} else {
+					gen2099 = False
+				}
+				if True == gen2099 {
+					gen2033 := Call(__e, ShenFunc(symhd), V434)
+
+					gen2034 := Call(__e, ShenFunc(symtl), gen2033)
+
+					gen2035 := Call(__e, ShenFunc(symhd), gen2034)
+
+					gen2036 := Call(__e, ShenFunc(symtl), gen2035)
+
+					gen2037 := Call(__e, ShenFunc(symhd), gen2036)
+
+					gen2038 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+
+					gen2039 := Call(__e, ShenFunc(symcons), gen2038, Nil)
+
+					gen2040 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), gen2039)
+
+					gen2041 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen2040)
+
+					gen2044 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*installing-kl*"))
+
+					var gen2045 Obj
+					if True == gen2044 {
+						gen2043 := Call(__e, ShenFunc(symcons), V435, Nil)
+
+						gen2045 = Call(__e, ShenFunc(symcons), MakeSymbol("shen.sys-error"), gen2043)
+
+					} else {
+						gen2042 := Call(__e, ShenFunc(symcons), V435, Nil)
+
+						gen2045 = Call(__e, ShenFunc(symcons), MakeSymbol("shen.f_error"), gen2042)
+
+					}
+					gen2046 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), Nil)
+
+					gen2047 := Call(__e, ShenFunc(symcons), gen2045, gen2046)
+
+					gen2048 := Call(__e, ShenFunc(symcons), gen2041, gen2047)
+
+					gen2049 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen2048)
+
+					gen2050 := Call(__e, ShenFunc(symcons), gen2049, Nil)
+
+					gen2051 := Call(__e, ShenFunc(symcons), gen2037, gen2050)
+
+					gen2052 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), gen2051)
+
+					gen2053 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen2052)
+
+					gen2054 := Call(__e, ShenFunc(symcons), gen2053, Nil)
+
+					gen2055 := Call(__e, ShenFunc(symcons), True, gen2054)
+
+					__e.TailApply(ShenFunc(symcons), gen2055, Nil)
+
+					return
+
+				} else {
+					gen2031 := Call(__e, ShenFunc(symcons_2), V434)
+
+					var gen2032 Obj
+					if True == gen2031 {
+						gen2028 := Call(__e, ShenFunc(symhd), V434)
+
+						gen2029 := Call(__e, ShenFunc(symcons_2), gen2028)
+
+						var gen2030 Obj
+						if True == gen2029 {
+							gen2024 := Call(__e, ShenFunc(symhd), V434)
+
+							gen2025 := Call(__e, ShenFunc(symhd), gen2024)
+
+							gen2026 := Call(__e, ShenFunc(sym_a), True, gen2025)
+
+							var gen2027 Obj
+							if True == gen2026 {
+								gen2020 := Call(__e, ShenFunc(symhd), V434)
+
+								gen2021 := Call(__e, ShenFunc(symtl), gen2020)
+
+								gen2022 := Call(__e, ShenFunc(symcons_2), gen2021)
+
+								var gen2023 Obj
+								if True == gen2022 {
+									gen2015 := Call(__e, ShenFunc(symhd), V434)
+
+									gen2016 := Call(__e, ShenFunc(symtl), gen2015)
+
+									gen2017 := Call(__e, ShenFunc(symhd), gen2016)
+
+									gen2018 := Call(__e, ShenFunc(symcons_2), gen2017)
+
+									var gen2019 Obj
+									if True == gen2018 {
+										gen2009 := Call(__e, ShenFunc(symhd), V434)
+
+										gen2010 := Call(__e, ShenFunc(symtl), gen2009)
+
+										gen2011 := Call(__e, ShenFunc(symhd), gen2010)
+
+										gen2012 := Call(__e, ShenFunc(symhd), gen2011)
+
+										gen2013 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.choicepoint!"), gen2012)
+
+										var gen2014 Obj
+										if True == gen2013 {
+											gen2003 := Call(__e, ShenFunc(symhd), V434)
+
+											gen2004 := Call(__e, ShenFunc(symtl), gen2003)
+
+											gen2005 := Call(__e, ShenFunc(symhd), gen2004)
+
+											gen2006 := Call(__e, ShenFunc(symtl), gen2005)
+
+											gen2007 := Call(__e, ShenFunc(symcons_2), gen2006)
+
+											var gen2008 Obj
+											if True == gen2007 {
+												gen1996 := Call(__e, ShenFunc(symhd), V434)
+
+												gen1997 := Call(__e, ShenFunc(symtl), gen1996)
+
+												gen1998 := Call(__e, ShenFunc(symhd), gen1997)
+
+												gen1999 := Call(__e, ShenFunc(symtl), gen1998)
+
+												gen2000 := Call(__e, ShenFunc(symtl), gen1999)
+
+												gen2001 := Call(__e, ShenFunc(sym_a), Nil, gen2000)
+
+												var gen2002 Obj
+												if True == gen2001 {
+													gen1992 := Call(__e, ShenFunc(symhd), V434)
+
+													gen1993 := Call(__e, ShenFunc(symtl), gen1992)
+
+													gen1994 := Call(__e, ShenFunc(symtl), gen1993)
+
+													gen1995 := Call(__e, ShenFunc(sym_a), Nil, gen1994)
+
+													if True == gen1995 {
+														gen2002 = True
+													} else {
+														gen2002 = False
+													}
+
+												} else {
+													gen2002 = False
+												}
+												if True == gen2002 {
+													gen2008 = True
+												} else {
+													gen2008 = False
+												}
+
+											} else {
+												gen2008 = False
+											}
+											if True == gen2008 {
+												gen2014 = True
+											} else {
+												gen2014 = False
+											}
+
+										} else {
+											gen2014 = False
+										}
+										if True == gen2014 {
+											gen2019 = True
+										} else {
+											gen2019 = False
+										}
+
+									} else {
+										gen2019 = False
+									}
+									if True == gen2019 {
+										gen2023 = True
+									} else {
+										gen2023 = False
+									}
+
+								} else {
+									gen2023 = False
+								}
+								if True == gen2023 {
+									gen2027 = True
+								} else {
+									gen2027 = False
+								}
+
+							} else {
+								gen2027 = False
+							}
+							if True == gen2027 {
+								gen2030 = True
+							} else {
+								gen2030 = False
+							}
+
+						} else {
+							gen2030 = False
+						}
+						if True == gen2030 {
+							gen2032 = True
+						} else {
+							gen2032 = False
+						}
+
+					} else {
+						gen2032 = False
+					}
+					if True == gen2032 {
+						gen1970 := Call(__e, ShenFunc(symhd), V434)
+
+						gen1971 := Call(__e, ShenFunc(symtl), gen1970)
+
+						gen1972 := Call(__e, ShenFunc(symhd), gen1971)
+
+						gen1973 := Call(__e, ShenFunc(symtl), gen1972)
+
+						gen1974 := Call(__e, ShenFunc(symhd), gen1973)
+
+						gen1975 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+
+						gen1976 := Call(__e, ShenFunc(symcons), gen1975, Nil)
+
+						gen1977 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), gen1976)
+
+						gen1978 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen1977)
+
+						gen1979 := Call(__e, ShenFunc(symtl), V434)
+
+						gen1980 := Call(__e, ShenFunc(symshen_4encode_1choices), gen1979, V435)
+
+						gen1981 := Call(__e, ShenFunc(symshen_4cond_1form), gen1980)
+
+						gen1982 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), Nil)
+
+						gen1983 := Call(__e, ShenFunc(symcons), gen1981, gen1982)
+
+						gen1984 := Call(__e, ShenFunc(symcons), gen1978, gen1983)
+
+						gen1985 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen1984)
+
+						gen1986 := Call(__e, ShenFunc(symcons), gen1985, Nil)
+
+						gen1987 := Call(__e, ShenFunc(symcons), gen1974, gen1986)
+
+						gen1988 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), gen1987)
+
+						gen1989 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen1988)
+
+						gen1990 := Call(__e, ShenFunc(symcons), gen1989, Nil)
+
+						gen1991 := Call(__e, ShenFunc(symcons), True, gen1990)
+
+						__e.TailApply(ShenFunc(symcons), gen1991, Nil)
+
+						return
+
+					} else {
+						gen1968 := Call(__e, ShenFunc(symcons_2), V434)
+
+						var gen1969 Obj
+						if True == gen1968 {
+							gen1965 := Call(__e, ShenFunc(symhd), V434)
+
+							gen1966 := Call(__e, ShenFunc(symcons_2), gen1965)
+
+							var gen1967 Obj
+							if True == gen1966 {
+								gen1961 := Call(__e, ShenFunc(symhd), V434)
+
+								gen1962 := Call(__e, ShenFunc(symtl), gen1961)
+
+								gen1963 := Call(__e, ShenFunc(symcons_2), gen1962)
+
+								var gen1964 Obj
+								if True == gen1963 {
+									gen1956 := Call(__e, ShenFunc(symhd), V434)
+
+									gen1957 := Call(__e, ShenFunc(symtl), gen1956)
+
+									gen1958 := Call(__e, ShenFunc(symhd), gen1957)
+
+									gen1959 := Call(__e, ShenFunc(symcons_2), gen1958)
+
+									var gen1960 Obj
+									if True == gen1959 {
+										gen1950 := Call(__e, ShenFunc(symhd), V434)
+
+										gen1951 := Call(__e, ShenFunc(symtl), gen1950)
+
+										gen1952 := Call(__e, ShenFunc(symhd), gen1951)
+
+										gen1953 := Call(__e, ShenFunc(symhd), gen1952)
+
+										gen1954 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.choicepoint!"), gen1953)
+
+										var gen1955 Obj
+										if True == gen1954 {
+											gen1944 := Call(__e, ShenFunc(symhd), V434)
+
+											gen1945 := Call(__e, ShenFunc(symtl), gen1944)
+
+											gen1946 := Call(__e, ShenFunc(symhd), gen1945)
+
+											gen1947 := Call(__e, ShenFunc(symtl), gen1946)
+
+											gen1948 := Call(__e, ShenFunc(symcons_2), gen1947)
+
+											var gen1949 Obj
+											if True == gen1948 {
+												gen1937 := Call(__e, ShenFunc(symhd), V434)
+
+												gen1938 := Call(__e, ShenFunc(symtl), gen1937)
+
+												gen1939 := Call(__e, ShenFunc(symhd), gen1938)
+
+												gen1940 := Call(__e, ShenFunc(symtl), gen1939)
+
+												gen1941 := Call(__e, ShenFunc(symtl), gen1940)
+
+												gen1942 := Call(__e, ShenFunc(sym_a), Nil, gen1941)
+
+												var gen1943 Obj
+												if True == gen1942 {
+													gen1933 := Call(__e, ShenFunc(symhd), V434)
+
+													gen1934 := Call(__e, ShenFunc(symtl), gen1933)
+
+													gen1935 := Call(__e, ShenFunc(symtl), gen1934)
+
+													gen1936 := Call(__e, ShenFunc(sym_a), Nil, gen1935)
+
+													if True == gen1936 {
+														gen1943 = True
+													} else {
+														gen1943 = False
+													}
+
+												} else {
+													gen1943 = False
+												}
+												if True == gen1943 {
+													gen1949 = True
+												} else {
+													gen1949 = False
+												}
+
+											} else {
+												gen1949 = False
+											}
+											if True == gen1949 {
+												gen1955 = True
+											} else {
+												gen1955 = False
+											}
+
+										} else {
+											gen1955 = False
+										}
+										if True == gen1955 {
+											gen1960 = True
+										} else {
+											gen1960 = False
+										}
+
+									} else {
+										gen1960 = False
+									}
+									if True == gen1960 {
+										gen1964 = True
+									} else {
+										gen1964 = False
+									}
+
+								} else {
+									gen1964 = False
+								}
+								if True == gen1964 {
+									gen1967 = True
+								} else {
+									gen1967 = False
+								}
+
+							} else {
+								gen1967 = False
+							}
+							if True == gen1967 {
+								gen1969 = True
+							} else {
+								gen1969 = False
+							}
+
+						} else {
+							gen1969 = False
+						}
+						if True == gen1969 {
+							gen1895 := Call(__e, ShenFunc(symtl), V434)
+
+							gen1896 := Call(__e, ShenFunc(symshen_4encode_1choices), gen1895, V435)
+
+							gen1897 := Call(__e, ShenFunc(symshen_4cond_1form), gen1896)
+
+							gen1898 := Call(__e, ShenFunc(symcons), gen1897, Nil)
+
+							gen1899 := Call(__e, ShenFunc(symcons), MakeSymbol("freeze"), gen1898)
+
+							gen1900 := Call(__e, ShenFunc(symhd), V434)
+
+							gen1901 := Call(__e, ShenFunc(symhd), gen1900)
+
+							gen1902 := Call(__e, ShenFunc(symhd), V434)
+
+							gen1903 := Call(__e, ShenFunc(symtl), gen1902)
+
+							gen1904 := Call(__e, ShenFunc(symhd), gen1903)
+
+							gen1905 := Call(__e, ShenFunc(symtl), gen1904)
+
+							gen1906 := Call(__e, ShenFunc(symhd), gen1905)
+
+							gen1907 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+
+							gen1908 := Call(__e, ShenFunc(symcons), gen1907, Nil)
+
+							gen1909 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), gen1908)
+
+							gen1910 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen1909)
+
+							gen1911 := Call(__e, ShenFunc(symcons), MakeSymbol("Freeze"), Nil)
+
+							gen1912 := Call(__e, ShenFunc(symcons), MakeSymbol("thaw"), gen1911)
+
+							gen1913 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), Nil)
+
+							gen1914 := Call(__e, ShenFunc(symcons), gen1912, gen1913)
+
+							gen1915 := Call(__e, ShenFunc(symcons), gen1910, gen1914)
+
+							gen1916 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen1915)
+
+							gen1917 := Call(__e, ShenFunc(symcons), gen1916, Nil)
+
+							gen1918 := Call(__e, ShenFunc(symcons), gen1906, gen1917)
+
+							gen1919 := Call(__e, ShenFunc(symcons), MakeSymbol("Result"), gen1918)
+
+							gen1920 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen1919)
+
+							gen1921 := Call(__e, ShenFunc(symcons), MakeSymbol("Freeze"), Nil)
+
+							gen1922 := Call(__e, ShenFunc(symcons), MakeSymbol("thaw"), gen1921)
+
+							gen1923 := Call(__e, ShenFunc(symcons), gen1922, Nil)
+
+							gen1924 := Call(__e, ShenFunc(symcons), gen1920, gen1923)
+
+							gen1925 := Call(__e, ShenFunc(symcons), gen1901, gen1924)
+
+							gen1926 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen1925)
+
+							gen1927 := Call(__e, ShenFunc(symcons), gen1926, Nil)
+
+							gen1928 := Call(__e, ShenFunc(symcons), gen1899, gen1927)
+
+							gen1929 := Call(__e, ShenFunc(symcons), MakeSymbol("Freeze"), gen1928)
+
+							gen1930 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen1929)
+
+							gen1931 := Call(__e, ShenFunc(symcons), gen1930, Nil)
+
+							gen1932 := Call(__e, ShenFunc(symcons), True, gen1931)
+
+							__e.TailApply(ShenFunc(symcons), gen1932, Nil)
+
+							return
+
+						} else {
+							gen1893 := Call(__e, ShenFunc(symcons_2), V434)
+
+							var gen1894 Obj
+							if True == gen1893 {
+								gen1890 := Call(__e, ShenFunc(symhd), V434)
+
+								gen1891 := Call(__e, ShenFunc(symcons_2), gen1890)
+
+								var gen1892 Obj
+								if True == gen1891 {
+									gen1886 := Call(__e, ShenFunc(symhd), V434)
+
+									gen1887 := Call(__e, ShenFunc(symtl), gen1886)
+
+									gen1888 := Call(__e, ShenFunc(symcons_2), gen1887)
+
+									var gen1889 Obj
+									if True == gen1888 {
+										gen1882 := Call(__e, ShenFunc(symhd), V434)
+
+										gen1883 := Call(__e, ShenFunc(symtl), gen1882)
+
+										gen1884 := Call(__e, ShenFunc(symtl), gen1883)
+
+										gen1885 := Call(__e, ShenFunc(sym_a), Nil, gen1884)
+
+										if True == gen1885 {
+											gen1889 = True
+										} else {
+											gen1889 = False
+										}
+
+									} else {
+										gen1889 = False
+									}
+									if True == gen1889 {
+										gen1892 = True
+									} else {
+										gen1892 = False
+									}
+
+								} else {
+									gen1892 = False
+								}
+								if True == gen1892 {
+									gen1894 = True
+								} else {
+									gen1894 = False
+								}
+
+							} else {
+								gen1894 = False
+							}
+							if True == gen1894 {
+								gen1879 := Call(__e, ShenFunc(symhd), V434)
+
+								gen1880 := Call(__e, ShenFunc(symtl), V434)
+
+								gen1881 := Call(__e, ShenFunc(symshen_4encode_1choices), gen1880, V435)
+
+								__e.TailApply(ShenFunc(symcons), gen1879, gen1881)
+
+								return
+
+							} else {
+								__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.encode-choices"))
+
+								return
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.encode-choices"), gen2101)
+
+		gen2256 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V442 := __args[0]
+			_ = V442
+			V443 := __args[1]
+			_ = V443
+			gen2255 := Call(__e, ShenFunc(sym_a), Nil, V442)
+
+			if True == gen2255 {
+				__e.TailApply(ShenFunc(symcons), V443, Nil)
+
+				return
+			} else {
+				gen2253 := Call(__e, ShenFunc(symcons_2), V442)
+
+				var gen2254 Obj
+				if True == gen2253 {
+					gen2250 := Call(__e, ShenFunc(symhd), V442)
+
+					gen2251 := Call(__e, ShenFunc(symcons_2), gen2250)
+
+					var gen2252 Obj
+					if True == gen2251 {
+						gen2246 := Call(__e, ShenFunc(symhd), V442)
+
+						gen2247 := Call(__e, ShenFunc(symhd), gen2246)
+
+						gen2248 := Call(__e, ShenFunc(symcons_2), gen2247)
+
+						var gen2249 Obj
+						if True == gen2248 {
+							gen2241 := Call(__e, ShenFunc(symhd), V442)
+
+							gen2242 := Call(__e, ShenFunc(symhd), gen2241)
+
+							gen2243 := Call(__e, ShenFunc(symhd), gen2242)
+
+							gen2244 := Call(__e, ShenFunc(sym_a), MakeSymbol(":"), gen2243)
+
+							var gen2245 Obj
+							if True == gen2244 {
+								gen2236 := Call(__e, ShenFunc(symhd), V442)
+
+								gen2237 := Call(__e, ShenFunc(symhd), gen2236)
+
+								gen2238 := Call(__e, ShenFunc(symtl), gen2237)
+
+								gen2239 := Call(__e, ShenFunc(symcons_2), gen2238)
+
+								var gen2240 Obj
+								if True == gen2239 {
+									gen2230 := Call(__e, ShenFunc(symhd), V442)
+
+									gen2231 := Call(__e, ShenFunc(symhd), gen2230)
+
+									gen2232 := Call(__e, ShenFunc(symtl), gen2231)
+
+									gen2233 := Call(__e, ShenFunc(symhd), gen2232)
+
+									gen2234 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.tests"), gen2233)
+
+									var gen2235 Obj
+									if True == gen2234 {
+										gen2224 := Call(__e, ShenFunc(symhd), V442)
+
+										gen2225 := Call(__e, ShenFunc(symhd), gen2224)
+
+										gen2226 := Call(__e, ShenFunc(symtl), gen2225)
+
+										gen2227 := Call(__e, ShenFunc(symtl), gen2226)
+
+										gen2228 := Call(__e, ShenFunc(sym_a), Nil, gen2227)
+
+										var gen2229 Obj
+										if True == gen2228 {
+											gen2220 := Call(__e, ShenFunc(symhd), V442)
+
+											gen2221 := Call(__e, ShenFunc(symtl), gen2220)
+
+											gen2222 := Call(__e, ShenFunc(symcons_2), gen2221)
+
+											var gen2223 Obj
+											if True == gen2222 {
+												gen2215 := Call(__e, ShenFunc(symhd), V442)
+
+												gen2216 := Call(__e, ShenFunc(symtl), gen2215)
+
+												gen2217 := Call(__e, ShenFunc(symhd), gen2216)
+
+												gen2218 := Call(__e, ShenFunc(symcons_2), gen2217)
+
+												var gen2219 Obj
+												if True == gen2218 {
+													gen2209 := Call(__e, ShenFunc(symhd), V442)
+
+													gen2210 := Call(__e, ShenFunc(symtl), gen2209)
+
+													gen2211 := Call(__e, ShenFunc(symhd), gen2210)
+
+													gen2212 := Call(__e, ShenFunc(symhd), gen2211)
+
+													gen2213 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.choicepoint!"), gen2212)
+
+													var gen2214 Obj
+													if True == gen2213 {
+														gen2203 := Call(__e, ShenFunc(symhd), V442)
+
+														gen2204 := Call(__e, ShenFunc(symtl), gen2203)
+
+														gen2205 := Call(__e, ShenFunc(symhd), gen2204)
+
+														gen2206 := Call(__e, ShenFunc(symtl), gen2205)
+
+														gen2207 := Call(__e, ShenFunc(symcons_2), gen2206)
+
+														var gen2208 Obj
+														if True == gen2207 {
+															gen2196 := Call(__e, ShenFunc(symhd), V442)
+
+															gen2197 := Call(__e, ShenFunc(symtl), gen2196)
+
+															gen2198 := Call(__e, ShenFunc(symhd), gen2197)
+
+															gen2199 := Call(__e, ShenFunc(symtl), gen2198)
+
+															gen2200 := Call(__e, ShenFunc(symtl), gen2199)
+
+															gen2201 := Call(__e, ShenFunc(sym_a), Nil, gen2200)
+
+															var gen2202 Obj
+															if True == gen2201 {
+																gen2192 := Call(__e, ShenFunc(symhd), V442)
+
+																gen2193 := Call(__e, ShenFunc(symtl), gen2192)
+
+																gen2194 := Call(__e, ShenFunc(symtl), gen2193)
+
+																gen2195 := Call(__e, ShenFunc(sym_a), Nil, gen2194)
+
+																if True == gen2195 {
+																	gen2202 = True
+																} else {
+																	gen2202 = False
+																}
+
+															} else {
+																gen2202 = False
+															}
+															if True == gen2202 {
+																gen2208 = True
+															} else {
+																gen2208 = False
+															}
+
+														} else {
+															gen2208 = False
+														}
+														if True == gen2208 {
+															gen2214 = True
+														} else {
+															gen2214 = False
+														}
+
+													} else {
+														gen2214 = False
+													}
+													if True == gen2214 {
+														gen2219 = True
+													} else {
+														gen2219 = False
+													}
+
+												} else {
+													gen2219 = False
+												}
+												if True == gen2219 {
+													gen2223 = True
+												} else {
+													gen2223 = False
+												}
+
+											} else {
+												gen2223 = False
+											}
+											if True == gen2223 {
+												gen2229 = True
+											} else {
+												gen2229 = False
+											}
+
+										} else {
+											gen2229 = False
+										}
+										if True == gen2229 {
+											gen2235 = True
+										} else {
+											gen2235 = False
+										}
+
+									} else {
+										gen2235 = False
+									}
+									if True == gen2235 {
+										gen2240 = True
+									} else {
+										gen2240 = False
+									}
+
+								} else {
+									gen2240 = False
+								}
+								if True == gen2240 {
+									gen2245 = True
+								} else {
+									gen2245 = False
+								}
+
+							} else {
+								gen2245 = False
+							}
+							if True == gen2245 {
+								gen2249 = True
+							} else {
+								gen2249 = False
+							}
+
+						} else {
+							gen2249 = False
+						}
+						if True == gen2249 {
+							gen2252 = True
+						} else {
+							gen2252 = False
+						}
+
+					} else {
+						gen2252 = False
+					}
+					if True == gen2252 {
+						gen2254 = True
+					} else {
+						gen2254 = False
+					}
+
+				} else {
+					gen2254 = False
+				}
+				if True == gen2254 {
+					gen2187 := Call(__e, ShenFunc(symhd), V442)
+
+					gen2188 := Call(__e, ShenFunc(symtl), gen2187)
+
+					gen2189 := Call(__e, ShenFunc(symcons), True, gen2188)
+
+					gen2190 := Call(__e, ShenFunc(symtl), V442)
+
+					gen2191 := Call(__e, ShenFunc(symshen_4case_1form), gen2190, V443)
+
+					__e.TailApply(ShenFunc(symcons), gen2189, gen2191)
+
+					return
+
+				} else {
+					gen2185 := Call(__e, ShenFunc(symcons_2), V442)
+
+					var gen2186 Obj
+					if True == gen2185 {
+						gen2182 := Call(__e, ShenFunc(symhd), V442)
+
+						gen2183 := Call(__e, ShenFunc(symcons_2), gen2182)
+
+						var gen2184 Obj
+						if True == gen2183 {
+							gen2178 := Call(__e, ShenFunc(symhd), V442)
+
+							gen2179 := Call(__e, ShenFunc(symhd), gen2178)
+
+							gen2180 := Call(__e, ShenFunc(symcons_2), gen2179)
+
+							var gen2181 Obj
+							if True == gen2180 {
+								gen2173 := Call(__e, ShenFunc(symhd), V442)
+
+								gen2174 := Call(__e, ShenFunc(symhd), gen2173)
+
+								gen2175 := Call(__e, ShenFunc(symhd), gen2174)
+
+								gen2176 := Call(__e, ShenFunc(sym_a), MakeSymbol(":"), gen2175)
+
+								var gen2177 Obj
+								if True == gen2176 {
+									gen2168 := Call(__e, ShenFunc(symhd), V442)
+
+									gen2169 := Call(__e, ShenFunc(symhd), gen2168)
+
+									gen2170 := Call(__e, ShenFunc(symtl), gen2169)
+
+									gen2171 := Call(__e, ShenFunc(symcons_2), gen2170)
+
+									var gen2172 Obj
+									if True == gen2171 {
+										gen2162 := Call(__e, ShenFunc(symhd), V442)
+
+										gen2163 := Call(__e, ShenFunc(symhd), gen2162)
+
+										gen2164 := Call(__e, ShenFunc(symtl), gen2163)
+
+										gen2165 := Call(__e, ShenFunc(symhd), gen2164)
+
+										gen2166 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.tests"), gen2165)
+
+										var gen2167 Obj
+										if True == gen2166 {
+											gen2156 := Call(__e, ShenFunc(symhd), V442)
+
+											gen2157 := Call(__e, ShenFunc(symhd), gen2156)
+
+											gen2158 := Call(__e, ShenFunc(symtl), gen2157)
+
+											gen2159 := Call(__e, ShenFunc(symtl), gen2158)
+
+											gen2160 := Call(__e, ShenFunc(sym_a), Nil, gen2159)
+
+											var gen2161 Obj
+											if True == gen2160 {
+												gen2152 := Call(__e, ShenFunc(symhd), V442)
+
+												gen2153 := Call(__e, ShenFunc(symtl), gen2152)
+
+												gen2154 := Call(__e, ShenFunc(symcons_2), gen2153)
+
+												var gen2155 Obj
+												if True == gen2154 {
+													gen2148 := Call(__e, ShenFunc(symhd), V442)
+
+													gen2149 := Call(__e, ShenFunc(symtl), gen2148)
+
+													gen2150 := Call(__e, ShenFunc(symtl), gen2149)
+
+													gen2151 := Call(__e, ShenFunc(sym_a), Nil, gen2150)
+
+													if True == gen2151 {
+														gen2155 = True
+													} else {
+														gen2155 = False
+													}
+
+												} else {
+													gen2155 = False
+												}
+												if True == gen2155 {
+													gen2161 = True
+												} else {
+													gen2161 = False
+												}
+
+											} else {
+												gen2161 = False
+											}
+											if True == gen2161 {
+												gen2167 = True
+											} else {
+												gen2167 = False
+											}
+
+										} else {
+											gen2167 = False
+										}
+										if True == gen2167 {
+											gen2172 = True
+										} else {
+											gen2172 = False
+										}
+
+									} else {
+										gen2172 = False
+									}
+									if True == gen2172 {
+										gen2177 = True
+									} else {
+										gen2177 = False
+									}
+
+								} else {
+									gen2177 = False
+								}
+								if True == gen2177 {
+									gen2181 = True
+								} else {
+									gen2181 = False
+								}
+
+							} else {
+								gen2181 = False
+							}
+							if True == gen2181 {
+								gen2184 = True
+							} else {
+								gen2184 = False
+							}
+
+						} else {
+							gen2184 = False
+						}
+						if True == gen2184 {
+							gen2186 = True
+						} else {
+							gen2186 = False
+						}
+
+					} else {
+						gen2186 = False
+					}
+					if True == gen2186 {
+						gen2145 := Call(__e, ShenFunc(symhd), V442)
+
+						gen2146 := Call(__e, ShenFunc(symtl), gen2145)
+
+						gen2147 := Call(__e, ShenFunc(symcons), True, gen2146)
+
+						__e.TailApply(ShenFunc(symcons), gen2147, Nil)
+
+						return
+
+					} else {
+						gen2143 := Call(__e, ShenFunc(symcons_2), V442)
+
+						var gen2144 Obj
+						if True == gen2143 {
+							gen2140 := Call(__e, ShenFunc(symhd), V442)
+
+							gen2141 := Call(__e, ShenFunc(symcons_2), gen2140)
+
+							var gen2142 Obj
+							if True == gen2141 {
+								gen2136 := Call(__e, ShenFunc(symhd), V442)
+
+								gen2137 := Call(__e, ShenFunc(symhd), gen2136)
+
+								gen2138 := Call(__e, ShenFunc(symcons_2), gen2137)
+
+								var gen2139 Obj
+								if True == gen2138 {
+									gen2131 := Call(__e, ShenFunc(symhd), V442)
+
+									gen2132 := Call(__e, ShenFunc(symhd), gen2131)
+
+									gen2133 := Call(__e, ShenFunc(symhd), gen2132)
+
+									gen2134 := Call(__e, ShenFunc(sym_a), MakeSymbol(":"), gen2133)
+
+									var gen2135 Obj
+									if True == gen2134 {
+										gen2126 := Call(__e, ShenFunc(symhd), V442)
+
+										gen2127 := Call(__e, ShenFunc(symhd), gen2126)
+
+										gen2128 := Call(__e, ShenFunc(symtl), gen2127)
+
+										gen2129 := Call(__e, ShenFunc(symcons_2), gen2128)
+
+										var gen2130 Obj
+										if True == gen2129 {
+											gen2120 := Call(__e, ShenFunc(symhd), V442)
+
+											gen2121 := Call(__e, ShenFunc(symhd), gen2120)
+
+											gen2122 := Call(__e, ShenFunc(symtl), gen2121)
+
+											gen2123 := Call(__e, ShenFunc(symhd), gen2122)
+
+											gen2124 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.tests"), gen2123)
+
+											var gen2125 Obj
+											if True == gen2124 {
+												gen2116 := Call(__e, ShenFunc(symhd), V442)
+
+												gen2117 := Call(__e, ShenFunc(symtl), gen2116)
+
+												gen2118 := Call(__e, ShenFunc(symcons_2), gen2117)
+
+												var gen2119 Obj
+												if True == gen2118 {
+													gen2112 := Call(__e, ShenFunc(symhd), V442)
+
+													gen2113 := Call(__e, ShenFunc(symtl), gen2112)
+
+													gen2114 := Call(__e, ShenFunc(symtl), gen2113)
+
+													gen2115 := Call(__e, ShenFunc(sym_a), Nil, gen2114)
+
+													if True == gen2115 {
+														gen2119 = True
+													} else {
+														gen2119 = False
+													}
+
+												} else {
+													gen2119 = False
+												}
+												if True == gen2119 {
+													gen2125 = True
+												} else {
+													gen2125 = False
+												}
+
+											} else {
+												gen2125 = False
+											}
+											if True == gen2125 {
+												gen2130 = True
+											} else {
+												gen2130 = False
+											}
+
+										} else {
+											gen2130 = False
+										}
+										if True == gen2130 {
+											gen2135 = True
+										} else {
+											gen2135 = False
+										}
+
+									} else {
+										gen2135 = False
+									}
+									if True == gen2135 {
+										gen2139 = True
+									} else {
+										gen2139 = False
+									}
+
+								} else {
+									gen2139 = False
+								}
+								if True == gen2139 {
+									gen2142 = True
+								} else {
+									gen2142 = False
+								}
+
+							} else {
+								gen2142 = False
+							}
+							if True == gen2142 {
+								gen2144 = True
+							} else {
+								gen2144 = False
+							}
+
+						} else {
+							gen2144 = False
+						}
+						if True == gen2144 {
+							gen2102 := Call(__e, ShenFunc(symhd), V442)
+
+							gen2103 := Call(__e, ShenFunc(symhd), gen2102)
+
+							gen2104 := Call(__e, ShenFunc(symtl), gen2103)
+
+							gen2105 := Call(__e, ShenFunc(symtl), gen2104)
+
+							gen2106 := Call(__e, ShenFunc(symshen_4embed_1and), gen2105)
+
+							gen2107 := Call(__e, ShenFunc(symhd), V442)
+
+							gen2108 := Call(__e, ShenFunc(symtl), gen2107)
+
+							gen2109 := Call(__e, ShenFunc(symcons), gen2106, gen2108)
+
+							gen2110 := Call(__e, ShenFunc(symtl), V442)
+
+							gen2111 := Call(__e, ShenFunc(symshen_4case_1form), gen2110, V443)
+
+							__e.TailApply(ShenFunc(symcons), gen2109, gen2111)
+
+							return
+
+						} else {
+							__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.case-form"))
+
+							return
+						}
+
+					}
+
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.case-form"), gen2256)
+
+		gen2267 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V445 := __args[0]
+			_ = V445
+			gen2265 := Call(__e, ShenFunc(symcons_2), V445)
+
+			var gen2266 Obj
+			if True == gen2265 {
+				gen2263 := Call(__e, ShenFunc(symtl), V445)
+
+				gen2264 := Call(__e, ShenFunc(sym_a), Nil, gen2263)
+
+				if True == gen2264 {
+					gen2266 = True
+				} else {
+					gen2266 = False
+				}
+
+			} else {
+				gen2266 = False
+			}
+			if True == gen2266 {
+				__e.TailApply(ShenFunc(symhd), V445)
+
+				return
+			} else {
+				gen2262 := Call(__e, ShenFunc(symcons_2), V445)
+
+				if True == gen2262 {
+					gen2257 := Call(__e, ShenFunc(symhd), V445)
+
+					gen2258 := Call(__e, ShenFunc(symtl), V445)
+
+					gen2259 := Call(__e, ShenFunc(symshen_4embed_1and), gen2258)
+
+					gen2260 := Call(__e, ShenFunc(symcons), gen2259, Nil)
+
+					gen2261 := Call(__e, ShenFunc(symcons), gen2257, gen2260)
+
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("and"), gen2261)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.embed-and"))
+
+					return
+				}
+
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.embed-and"), gen2267)
+
+		gen2271 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V447 := __args[0]
+			_ = V447
+			gen2268 := Call(__e, ShenFunc(symcons), V447, Nil)
+
+			gen2269 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.f_error"), gen2268)
+
+			gen2270 := Call(__e, ShenFunc(symcons), gen2269, Nil)
+
+			__e.TailApply(ShenFunc(symcons), True, gen2270)
+
+			return
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.err-condition"), gen2271)
+
+		gen2274 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V449 := __args[0]
+			_ = V449
+			gen2272 := Call(__e, ShenFunc(symshen_4app), V449, MakeString(": unexpected argument\n"), MakeSymbol("shen.a"))
+
+			gen2273 := Call(__e, ShenFunc(symcn), MakeString("system function "), gen2272)
+
+			__e.TailApply(ShenFunc(symsimple_1error), gen2273)
+
+			return
+
+		}, 1)
+		__e.TailApply(ShenFunc(symdefun), MakeSymbol("shen.sys-error"), gen2274)
+
 		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.err-condition", value: __defun__shen_4err_1condition})
 
-	__defun__shen_4sys_1error = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V419 := __args[0]
-		_ = V419
-		reg4469 := MakeString("system function ")
-		reg4470 := MakeString(": unexpected argument\n")
-		reg4471 := MakeSymbol("shen.a")
-		reg4472 := Call(__e, __defun__shen_4app, V419, reg4470, reg4471)
-		reg4473 := PrimStringConcat(reg4469, reg4472)
-		reg4474 := PrimSimpleError(reg4473)
-		__e.Return(reg4474)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.sys-error", value: __defun__shen_4sys_1error})
-
+	}, 0))
 }
