@@ -2,496 +2,539 @@ package main
 
 import . "github.com/tiancaiamao/shen-go/kl"
 
-var __defun__load Obj                       // load
-var __defun__shen_4load_1help Obj           // shen.load-help
-var __defun__shen_4remove_1synonyms Obj     // shen.remove-synonyms
-var __defun__shen_4typecheck_1and_1load Obj // shen.typecheck-and-load
-var __defun__shen_4typetable Obj            // shen.typetable
-var __defun__shen_4assumetype Obj           // shen.assumetype
-var __defun__shen_4unwind_1types Obj        // shen.unwind-types
-var __defun__shen_4remtype Obj              // shen.remtype
-var __defun__shen_4removetype Obj           // shen.removetype
-var __defun__shen_4_5sig_7rest_6 Obj        // shen.<sig+rest>
-var __defun__write_1to_1file Obj            // write-to-file
-
 func init() {
 	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
-		reg16463 := MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
-		__e.Return(reg16463)
-		return
-	}, 0))
-	__defun__load = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V671 := __args[0]
-		_ = V671
-		reg16464 := MakeSymbol("run")
-		reg16465 := PrimGetTime(reg16464)
-		Start := reg16465
-		_ = Start
-		reg16466 := MakeSymbol("shen.*tc*")
-		reg16467 := PrimValue(reg16466)
-		reg16468 := Call(__e, __defun__read_1file, V671)
-		reg16469 := Call(__e, __defun__shen_4load_1help, reg16467, reg16468)
-		Result := reg16469
-		_ = Result
-		reg16470 := MakeSymbol("run")
-		reg16471 := PrimGetTime(reg16470)
-		Finish := reg16471
-		_ = Finish
-		reg16472 := PrimNumberSubtract(Finish, Start)
-		Time := reg16472
-		_ = Time
-		reg16473 := MakeString("\nrun time: ")
-		reg16474 := PrimStr(Time)
-		reg16475 := MakeString(" secs\n")
-		reg16476 := PrimStringConcat(reg16474, reg16475)
-		reg16477 := PrimStringConcat(reg16473, reg16476)
-		reg16478 := Call(__e, __defun__stoutput)
-		reg16479 := Call(__e, __defun__shen_4prhush, reg16477, reg16478)
-		Message := reg16479
-		_ = Message
-		Load := Result
-		_ = Load
-		reg16480 := MakeSymbol("shen.*tc*")
-		reg16481 := PrimValue(reg16480)
-		var reg16491 Obj
-		if reg16481 == True {
-			reg16482 := MakeString("\ntypechecked in ")
-			reg16483 := Call(__e, __defun__inferences)
-			reg16484 := MakeString(" inferences\n")
-			reg16485 := MakeSymbol("shen.a")
-			reg16486 := Call(__e, __defun__shen_4app, reg16483, reg16484, reg16485)
-			reg16487 := PrimStringConcat(reg16482, reg16486)
-			reg16488 := Call(__e, __defun__stoutput)
-			reg16489 := Call(__e, __defun__shen_4prhush, reg16487, reg16488)
-			reg16491 = reg16489
-		} else {
-			reg16490 := MakeSymbol("shen.skip")
-			reg16491 = reg16490
-		}
-		Infs := reg16491
-		_ = Infs
-		reg16492 := MakeSymbol("loaded")
-		__e.Return(reg16492)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "load", value: __defun__load})
+		MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
 
-	__defun__shen_4load_1help = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V678 := __args[0]
-		_ = V678
-		V679 := __args[1]
-		_ = V679
-		reg16493 := False
-		reg16494 := PrimEqual(reg16493, V678)
-		if reg16494 == True {
-			reg16495 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				reg16496 := Call(__e, __defun__shen_4eval_1without_1macros, X)
-				reg16497 := MakeString("\n")
-				reg16498 := MakeSymbol("shen.s")
-				reg16499 := Call(__e, __defun__shen_4app, reg16496, reg16497, reg16498)
-				reg16500 := Call(__e, __defun__stoutput)
-				__e.TailApply(__defun__shen_4prhush, reg16499, reg16500)
-				return
-			}, 1)
-			__e.TailApply(__defun__shen_4for_1each, reg16495, V679)
+		gen11834 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V701 := __args[0]
+			_ = V701
+			gen11817 := Call(__e, ShenFunc(symget_1time), MakeSymbol("run"))
+
+			Start := gen11817
+			gen11818 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
+
+			gen11819 := Call(__e, ShenFunc(symread_1file), V701)
+
+			gen11820 := Call(__e, ShenFunc(symshen_4load_1help), gen11818, gen11819)
+
+			Result := gen11820
+			gen11821 := Call(__e, ShenFunc(symget_1time), MakeSymbol("run"))
+
+			Finish := gen11821
+			gen11822 := Call(__e, ShenFunc(sym_1), Finish, Start)
+
+			Time := gen11822
+			gen11823 := Call(__e, ShenFunc(symstr), Time)
+
+			gen11824 := Call(__e, ShenFunc(symcn), gen11823, MakeString(" secs\n"))
+
+			gen11825 := Call(__e, ShenFunc(symcn), MakeString("\nrun time: "), gen11824)
+
+			gen11826 := Call(__e, ShenFunc(symstoutput))
+
+			gen11827 := Call(__e, ShenFunc(symshen_4prhush), gen11825, gen11826)
+
+			Message := gen11827
+			_ = Message
+			Load := Result
+			_ = Load
+			gen11832 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
+
+			var gen11833 Obj
+			if True == gen11832 {
+				gen11828 := Call(__e, ShenFunc(syminferences))
+
+				gen11829 := Call(__e, ShenFunc(symshen_4app), gen11828, MakeString(" inferences\n"), MakeSymbol("shen.a"))
+
+				gen11830 := Call(__e, ShenFunc(symcn), MakeString("\ntypechecked in "), gen11829)
+
+				gen11831 := Call(__e, ShenFunc(symstoutput))
+
+				gen11833 = Call(__e, ShenFunc(symshen_4prhush), gen11830, gen11831)
+
+			} else {
+				gen11833 = MakeSymbol("shen.skip")
+			}
+			Infs := gen11833
+			_ = Infs
+			__e.Return(MakeSymbol("loaded"))
 			return
-		} else {
-			reg16503 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				__e.TailApply(__defun__shen_4remove_1synonyms, X)
-				return
-			}, 1)
-			reg16505 := Call(__e, __defun__mapcan, reg16503, V679)
-			RemoveSynonyms := reg16505
-			_ = RemoveSynonyms
-			reg16506 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				__e.TailApply(__defun__shen_4typetable, X)
-				return
-			}, 1)
-			reg16508 := Call(__e, __defun__mapcan, reg16506, RemoveSynonyms)
-			Table := reg16508
-			_ = Table
-			reg16509 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
-				_ = X
-				__e.TailApply(__defun__shen_4assumetype, X)
-				return
-			}, 1)
-			reg16511 := Call(__e, __defun__shen_4for_1each, reg16509, Table)
-			Assume := reg16511
-			_ = Assume
-			reg16512 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				reg16513 := MakeNative(func(__e Evaluator, __args ...Obj) {
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("load"), gen11834)
+
+		gen11849 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V708 := __args[0]
+			_ = V708
+			V709 := __args[1]
+			_ = V709
+			gen11848 := Call(__e, ShenFunc(sym_a), False, V708)
+
+			if True == gen11848 {
+				gen11847 := MakeNative(func(__e Evaluator, __args ...Obj) {
 					X := __args[0]
 					_ = X
-					__e.TailApply(__defun__shen_4typecheck_1and_1load, X)
+					gen11844 := Call(__e, ShenFunc(symshen_4eval_1without_1macros), X)
+
+					gen11845 := Call(__e, ShenFunc(symshen_4app), gen11844, MakeString("\n"), MakeSymbol("shen.s"))
+
+					gen11846 := Call(__e, ShenFunc(symstoutput))
+
+					__e.TailApply(ShenFunc(symshen_4prhush), gen11845, gen11846)
+
+					return
+
+				}, 1)
+				__e.TailApply(ShenFunc(symshen_4for_1each), gen11847, V709)
+
+				return
+
+			} else {
+				gen11835 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					X := __args[0]
+					_ = X
+					__e.TailApply(ShenFunc(symshen_4remove_1synonyms), X)
+
 					return
 				}, 1)
-				__e.TailApply(__defun__shen_4for_1each, reg16513, RemoveSynonyms)
-				return
-			}, 0)
-			reg16516 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				E := __args[0]
-				_ = E
-				__e.TailApply(__defun__shen_4unwind_1types, E, Table)
-				return
-			}, 1)
-			reg16518 := Try(__e, reg16512).Catch(reg16516)
-			__e.Return(reg16518)
-			return
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.load-help", value: __defun__shen_4load_1help})
+				gen11836 := Call(__e, ShenFunc(symmapcan), gen11835, V709)
 
-	__defun__shen_4remove_1synonyms = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V681 := __args[0]
-		_ = V681
-		reg16519 := PrimIsPair(V681)
-		var reg16527 Obj
-		if reg16519 == True {
-			reg16520 := MakeSymbol("shen.synonyms-help")
-			reg16521 := PrimHead(V681)
-			reg16522 := PrimEqual(reg16520, reg16521)
-			var reg16525 Obj
-			if reg16522 == True {
-				reg16523 := True
-				reg16525 = reg16523
-			} else {
-				reg16524 := False
-				reg16525 = reg16524
+				RemoveSynonyms := gen11836
+				gen11837 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					X := __args[0]
+					_ = X
+					__e.TailApply(ShenFunc(symshen_4typetable), X)
+
+					return
+				}, 1)
+				gen11838 := Call(__e, ShenFunc(symmapcan), gen11837, RemoveSynonyms)
+
+				Table := gen11838
+				gen11839 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					X := __args[0]
+					_ = X
+					__e.TailApply(ShenFunc(symshen_4assumetype), X)
+
+					return
+				}, 1)
+				gen11840 := Call(__e, ShenFunc(symshen_4for_1each), gen11839, Table)
+
+				Assume := gen11840
+				_ = Assume
+				gen11841 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					E := __args[0]
+					_ = E
+					__e.TailApply(ShenFunc(symshen_4unwind_1types), E, Table)
+
+					return
+				}, 1)
+				gen11843 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					gen11842 := MakeNative(func(__e Evaluator, __args ...Obj) {
+						X := __args[0]
+						_ = X
+						__e.TailApply(ShenFunc(symshen_4typecheck_1and_1load), X)
+
+						return
+					}, 1)
+					__e.TailApply(ShenFunc(symshen_4for_1each), gen11842, RemoveSynonyms)
+
+					return
+
+				}, 0)
+				__e.Return(Try(__e, gen11843).Catch(gen11841))
+				return
+
 			}
-			reg16527 = reg16525
-		} else {
-			reg16526 := False
-			reg16527 = reg16526
-		}
-		if reg16527 == True {
-			reg16528 := Call(__e, __defun__eval, V681)
-			_ = reg16528
-			reg16529 := Nil
-			__e.Return(reg16529)
-			return
-		} else {
-			reg16530 := Nil
-			reg16531 := PrimCons(V681, reg16530)
-			__e.Return(reg16531)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.remove-synonyms", value: __defun__shen_4remove_1synonyms})
 
-	__defun__shen_4typecheck_1and_1load = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V683 := __args[0]
-		_ = V683
-		reg16532 := MakeNumber(1)
-		reg16533 := Call(__e, __defun__nl, reg16532)
-		_ = reg16533
-		reg16534 := MakeSymbol("A")
-		reg16535 := Call(__e, __defun__gensym, reg16534)
-		__e.TailApply(__defun__shen_4typecheck_1and_1evaluate, V683, reg16535)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.typecheck-and-load", value: __defun__shen_4typecheck_1and_1load})
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.load-help"), gen11849)
 
-	__defun__shen_4typetable = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V689 := __args[0]
-		_ = V689
-		reg16537 := PrimIsPair(V689)
-		var reg16552 Obj
-		if reg16537 == True {
-			reg16538 := MakeSymbol("define")
-			reg16539 := PrimHead(V689)
-			reg16540 := PrimEqual(reg16538, reg16539)
-			var reg16547 Obj
-			if reg16540 == True {
-				reg16541 := PrimTail(V689)
-				reg16542 := PrimIsPair(reg16541)
-				var reg16545 Obj
-				if reg16542 == True {
-					reg16543 := True
-					reg16545 = reg16543
+		gen11854 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V711 := __args[0]
+			_ = V711
+			gen11852 := Call(__e, ShenFunc(symcons_2), V711)
+
+			var gen11853 Obj
+			if True == gen11852 {
+				gen11850 := Call(__e, ShenFunc(symhd), V711)
+
+				gen11851 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.synonyms-help"), gen11850)
+
+				if True == gen11851 {
+					gen11853 = True
 				} else {
-					reg16544 := False
-					reg16545 = reg16544
+					gen11853 = False
 				}
-				reg16547 = reg16545
-			} else {
-				reg16546 := False
-				reg16547 = reg16546
-			}
-			var reg16550 Obj
-			if reg16547 == True {
-				reg16548 := True
-				reg16550 = reg16548
-			} else {
-				reg16549 := False
-				reg16550 = reg16549
-			}
-			reg16552 = reg16550
-		} else {
-			reg16551 := False
-			reg16552 = reg16551
-		}
-		if reg16552 == True {
-			reg16553 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				Y := __args[0]
-				_ = Y
-				__e.TailApply(__defun__shen_4_5sig_7rest_6, Y)
-				return
-			}, 1)
-			reg16555 := PrimTail(V689)
-			reg16556 := PrimTail(reg16555)
-			reg16557 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				E := __args[0]
-				_ = E
-				reg16558 := PrimTail(V689)
-				reg16559 := PrimHead(reg16558)
-				reg16560 := MakeString(" lacks a proper signature.\n")
-				reg16561 := MakeSymbol("shen.a")
-				reg16562 := Call(__e, __defun__shen_4app, reg16559, reg16560, reg16561)
-				reg16563 := PrimSimpleError(reg16562)
-				__e.Return(reg16563)
-				return
-			}, 1)
-			reg16564 := Call(__e, __defun__compile, reg16553, reg16556, reg16557)
-			Sig := reg16564
-			_ = Sig
-			reg16565 := PrimTail(V689)
-			reg16566 := PrimHead(reg16565)
-			reg16567 := PrimCons(reg16566, Sig)
-			reg16568 := Nil
-			reg16569 := PrimCons(reg16567, reg16568)
-			__e.Return(reg16569)
-			return
-		} else {
-			reg16570 := Nil
-			__e.Return(reg16570)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.typetable", value: __defun__shen_4typetable})
 
-	__defun__shen_4assumetype = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V691 := __args[0]
-		_ = V691
-		reg16571 := PrimIsPair(V691)
-		if reg16571 == True {
-			reg16572 := PrimHead(V691)
-			reg16573 := PrimTail(V691)
-			__e.TailApply(__defun__declare, reg16572, reg16573)
-			return
-		} else {
-			reg16575 := MakeSymbol("shen.assumetype")
-			__e.TailApply(__defun__shen_4f__error, reg16575)
-			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.assumetype", value: __defun__shen_4assumetype})
-
-	__defun__shen_4unwind_1types = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V698 := __args[0]
-		_ = V698
-		V699 := __args[1]
-		_ = V699
-		reg16577 := Nil
-		reg16578 := PrimEqual(reg16577, V699)
-		if reg16578 == True {
-			reg16579 := PrimErrorToString(V698)
-			reg16580 := PrimSimpleError(reg16579)
-			__e.Return(reg16580)
-			return
-		} else {
-			reg16581 := PrimIsPair(V699)
-			var reg16588 Obj
-			if reg16581 == True {
-				reg16582 := PrimHead(V699)
-				reg16583 := PrimIsPair(reg16582)
-				var reg16586 Obj
-				if reg16583 == True {
-					reg16584 := True
-					reg16586 = reg16584
-				} else {
-					reg16585 := False
-					reg16586 = reg16585
-				}
-				reg16588 = reg16586
 			} else {
-				reg16587 := False
-				reg16588 = reg16587
+				gen11853 = False
 			}
-			if reg16588 == True {
-				reg16589 := PrimHead(V699)
-				reg16590 := PrimHead(reg16589)
-				reg16591 := Call(__e, __defun__shen_4remtype, reg16590)
-				_ = reg16591
-				reg16592 := PrimTail(V699)
-				__e.TailApply(__defun__shen_4unwind_1types, V698, reg16592)
+			if True == gen11853 {
+				Call(__e, ShenFunc(symeval), V711)
+				__e.Return(Nil)
 				return
+
 			} else {
-				reg16594 := MakeSymbol("shen.unwind-types")
-				__e.TailApply(__defun__shen_4f__error, reg16594)
+				__e.TailApply(ShenFunc(symcons), V711, Nil)
+
 				return
 			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.unwind-types", value: __defun__shen_4unwind_1types})
 
-	__defun__shen_4remtype = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V701 := __args[0]
-		_ = V701
-		reg16596 := MakeSymbol("shen.*signedfuncs*")
-		reg16597 := MakeSymbol("shen.*signedfuncs*")
-		reg16598 := PrimValue(reg16597)
-		reg16599 := Call(__e, __defun__shen_4removetype, V701, reg16598)
-		reg16600 := PrimSet(reg16596, reg16599)
-		__e.Return(reg16600)
-		return
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.remtype", value: __defun__shen_4remtype})
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.remove-synonyms"), gen11854)
 
-	__defun__shen_4removetype = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V709 := __args[0]
-		_ = V709
-		V710 := __args[1]
-		_ = V710
-		reg16601 := Nil
-		reg16602 := PrimEqual(reg16601, V710)
-		if reg16602 == True {
-			reg16603 := Nil
-			__e.Return(reg16603)
+		gen11856 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V713 := __args[0]
+			_ = V713
+			Call(__e, ShenFunc(symnl), MakeNumber(1))
+			gen11855 := Call(__e, ShenFunc(symgensym), MakeSymbol("A"))
+
+			__e.TailApply(ShenFunc(symshen_4typecheck_1and_1evaluate), V713, gen11855)
+
 			return
-		} else {
-			reg16604 := PrimIsPair(V710)
-			var reg16619 Obj
-			if reg16604 == True {
-				reg16605 := PrimHead(V710)
-				reg16606 := PrimIsPair(reg16605)
-				var reg16614 Obj
-				if reg16606 == True {
-					reg16607 := PrimHead(V710)
-					reg16608 := PrimHead(reg16607)
-					reg16609 := PrimEqual(reg16608, V709)
-					var reg16612 Obj
-					if reg16609 == True {
-						reg16610 := True
-						reg16612 = reg16610
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typecheck-and-load"), gen11856)
+
+		gen11875 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V719 := __args[0]
+			_ = V719
+			gen11873 := Call(__e, ShenFunc(symcons_2), V719)
+
+			var gen11874 Obj
+			if True == gen11873 {
+				gen11870 := Call(__e, ShenFunc(symhd), V719)
+
+				gen11871 := Call(__e, ShenFunc(sym_a), MakeSymbol("define"), gen11870)
+
+				var gen11872 Obj
+				if True == gen11871 {
+					gen11868 := Call(__e, ShenFunc(symtl), V719)
+
+					gen11869 := Call(__e, ShenFunc(symcons_2), gen11868)
+
+					if True == gen11869 {
+						gen11872 = True
 					} else {
-						reg16611 := False
-						reg16612 = reg16611
+						gen11872 = False
 					}
-					reg16614 = reg16612
-				} else {
-					reg16613 := False
-					reg16614 = reg16613
-				}
-				var reg16617 Obj
-				if reg16614 == True {
-					reg16615 := True
-					reg16617 = reg16615
-				} else {
-					reg16616 := False
-					reg16617 = reg16616
-				}
-				reg16619 = reg16617
-			} else {
-				reg16618 := False
-				reg16619 = reg16618
-			}
-			if reg16619 == True {
-				reg16620 := PrimHead(V710)
-				reg16621 := PrimHead(reg16620)
-				reg16622 := PrimTail(V710)
-				__e.TailApply(__defun__shen_4removetype, reg16621, reg16622)
-				return
-			} else {
-				reg16624 := PrimIsPair(V710)
-				if reg16624 == True {
-					reg16625 := PrimHead(V710)
-					reg16626 := PrimTail(V710)
-					reg16627 := Call(__e, __defun__shen_4removetype, V709, reg16626)
-					reg16628 := PrimCons(reg16625, reg16627)
-					__e.Return(reg16628)
-					return
-				} else {
-					reg16629 := MakeSymbol("shen.removetype")
-					__e.TailApply(__defun__shen_4f__error, reg16629)
-					return
-				}
-			}
-		}
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "shen.removetype", value: __defun__shen_4removetype})
 
-	__defun__shen_4_5sig_7rest_6 = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V712 := __args[0]
-		_ = V712
-		reg16631 := Call(__e, __defun__shen_4_5signature_6, V712)
-		Parse__shen_4_5signature_6 := reg16631
-		_ = Parse__shen_4_5signature_6
-		reg16632 := Call(__e, __defun__fail)
-		reg16633 := PrimEqual(reg16632, Parse__shen_4_5signature_6)
-		reg16634 := PrimNot(reg16633)
-		if reg16634 == True {
-			reg16635 := Call(__e, __defun___5_b_6, Parse__shen_4_5signature_6)
-			Parse___5_b_6 := reg16635
-			_ = Parse___5_b_6
-			reg16636 := Call(__e, __defun__fail)
-			reg16637 := PrimEqual(reg16636, Parse___5_b_6)
-			reg16638 := PrimNot(reg16637)
-			if reg16638 == True {
-				reg16639 := PrimHead(Parse___5_b_6)
-				reg16640 := Call(__e, __defun__shen_4hdtl, Parse__shen_4_5signature_6)
-				__e.TailApply(__defun__shen_4pair, reg16639, reg16640)
-				return
+				} else {
+					gen11872 = False
+				}
+				if True == gen11872 {
+					gen11874 = True
+				} else {
+					gen11874 = False
+				}
+
 			} else {
-				__e.TailApply(__defun__fail)
+				gen11874 = False
+			}
+			if True == gen11874 {
+				gen11857 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					Y := __args[0]
+					_ = Y
+					__e.TailApply(ShenFunc(symshen_4_5sig_7rest_6), Y)
+
+					return
+				}, 1)
+				gen11858 := Call(__e, ShenFunc(symtl), V719)
+
+				gen11859 := Call(__e, ShenFunc(symtl), gen11858)
+
+				gen11863 := MakeNative(func(__e Evaluator, __args ...Obj) {
+					E := __args[0]
+					_ = E
+					gen11860 := Call(__e, ShenFunc(symtl), V719)
+
+					gen11861 := Call(__e, ShenFunc(symhd), gen11860)
+
+					gen11862 := Call(__e, ShenFunc(symshen_4app), gen11861, MakeString(" lacks a proper signature.\n"), MakeSymbol("shen.a"))
+
+					__e.TailApply(ShenFunc(symsimple_1error), gen11862)
+
+					return
+
+				}, 1)
+				gen11864 := Call(__e, ShenFunc(symcompile), gen11857, gen11859, gen11863)
+
+				Sig := gen11864
+				gen11865 := Call(__e, ShenFunc(symtl), V719)
+
+				gen11866 := Call(__e, ShenFunc(symhd), gen11865)
+
+				gen11867 := Call(__e, ShenFunc(symcons), gen11866, Sig)
+
+				__e.TailApply(ShenFunc(symcons), gen11867, Nil)
+
+				return
+
+			} else {
+				__e.Return(Nil)
 				return
 			}
-		} else {
-			__e.TailApply(__defun__fail)
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typetable"), gen11875)
+
+		gen11879 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V721 := __args[0]
+			_ = V721
+			gen11878 := Call(__e, ShenFunc(symcons_2), V721)
+
+			if True == gen11878 {
+				gen11876 := Call(__e, ShenFunc(symhd), V721)
+
+				gen11877 := Call(__e, ShenFunc(symtl), V721)
+
+				__e.TailApply(ShenFunc(symdeclare), gen11876, gen11877)
+
+				return
+
+			} else {
+				__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.assumetype"))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.assumetype"), gen11879)
+
+		gen11889 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V728 := __args[0]
+			_ = V728
+			V729 := __args[1]
+			_ = V729
+			gen11888 := Call(__e, ShenFunc(sym_a), Nil, V729)
+
+			if True == gen11888 {
+				gen11887 := Call(__e, ShenFunc(symerror_1to_1string), V728)
+
+				__e.TailApply(ShenFunc(symsimple_1error), gen11887)
+
+				return
+
+			} else {
+				gen11885 := Call(__e, ShenFunc(symcons_2), V729)
+
+				var gen11886 Obj
+				if True == gen11885 {
+					gen11883 := Call(__e, ShenFunc(symhd), V729)
+
+					gen11884 := Call(__e, ShenFunc(symcons_2), gen11883)
+
+					if True == gen11884 {
+						gen11886 = True
+					} else {
+						gen11886 = False
+					}
+
+				} else {
+					gen11886 = False
+				}
+				if True == gen11886 {
+					gen11880 := Call(__e, ShenFunc(symhd), V729)
+
+					gen11881 := Call(__e, ShenFunc(symhd), gen11880)
+
+					Call(__e, ShenFunc(symshen_4remtype), gen11881)
+
+					gen11882 := Call(__e, ShenFunc(symtl), V729)
+
+					__e.TailApply(ShenFunc(symshen_4unwind_1types), V728, gen11882)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.unwind-types"))
+
+					return
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.unwind-types"), gen11889)
+
+		gen11892 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V731 := __args[0]
+			_ = V731
+			gen11890 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*signedfuncs*"))
+
+			gen11891 := Call(__e, ShenFunc(symshen_4removetype), V731, gen11890)
+
+			__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*signedfuncs*"), gen11891)
+
 			return
-		}
-	}, 1)
-	__initDefs = append(__initDefs, defType{name: "shen.<sig+rest>", value: __defun__shen_4_5sig_7rest_6})
 
-	__defun__write_1to_1file = MakeNative(func(__e Evaluator, __args ...Obj) {
-		V715 := __args[0]
-		_ = V715
-		V716 := __args[1]
-		_ = V716
-		reg16644 := MakeSymbol("out")
-		reg16645 := PrimOpenStream(V715, reg16644)
-		Stream := reg16645
-		_ = Stream
-		reg16646 := PrimIsString(V716)
-		var reg16653 Obj
-		if reg16646 == True {
-			reg16647 := MakeString("\n\n")
-			reg16648 := MakeSymbol("shen.a")
-			reg16649 := Call(__e, __defun__shen_4app, V716, reg16647, reg16648)
-			reg16653 = reg16649
-		} else {
-			reg16650 := MakeString("\n\n")
-			reg16651 := MakeSymbol("shen.s")
-			reg16652 := Call(__e, __defun__shen_4app, V716, reg16650, reg16651)
-			reg16653 = reg16652
-		}
-		String := reg16653
-		_ = String
-		reg16654 := Call(__e, __defun__pr, String, Stream)
-		Write := reg16654
-		_ = Write
-		reg16655 := PrimCloseStream(Stream)
-		Close := reg16655
-		_ = Close
-		__e.Return(V716)
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.remtype"), gen11892)
+
+		gen11909 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V739 := __args[0]
+			_ = V739
+			V740 := __args[1]
+			_ = V740
+			gen11908 := Call(__e, ShenFunc(sym_a), Nil, V740)
+
+			if True == gen11908 {
+				__e.Return(Nil)
+				return
+			} else {
+				gen11906 := Call(__e, ShenFunc(symcons_2), V740)
+
+				var gen11907 Obj
+				if True == gen11906 {
+					gen11903 := Call(__e, ShenFunc(symhd), V740)
+
+					gen11904 := Call(__e, ShenFunc(symcons_2), gen11903)
+
+					var gen11905 Obj
+					if True == gen11904 {
+						gen11900 := Call(__e, ShenFunc(symhd), V740)
+
+						gen11901 := Call(__e, ShenFunc(symhd), gen11900)
+
+						gen11902 := Call(__e, ShenFunc(sym_a), gen11901, V739)
+
+						if True == gen11902 {
+							gen11905 = True
+						} else {
+							gen11905 = False
+						}
+
+					} else {
+						gen11905 = False
+					}
+					if True == gen11905 {
+						gen11907 = True
+					} else {
+						gen11907 = False
+					}
+
+				} else {
+					gen11907 = False
+				}
+				if True == gen11907 {
+					gen11897 := Call(__e, ShenFunc(symhd), V740)
+
+					gen11898 := Call(__e, ShenFunc(symhd), gen11897)
+
+					gen11899 := Call(__e, ShenFunc(symtl), V740)
+
+					__e.TailApply(ShenFunc(symshen_4removetype), gen11898, gen11899)
+
+					return
+
+				} else {
+					gen11896 := Call(__e, ShenFunc(symcons_2), V740)
+
+					if True == gen11896 {
+						gen11893 := Call(__e, ShenFunc(symhd), V740)
+
+						gen11894 := Call(__e, ShenFunc(symtl), V740)
+
+						gen11895 := Call(__e, ShenFunc(symshen_4removetype), V739, gen11894)
+
+						__e.TailApply(ShenFunc(symcons), gen11893, gen11895)
+
+						return
+
+					} else {
+						__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.removetype"))
+
+						return
+					}
+
+				}
+
+			}
+
+		}, 2)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.removetype"), gen11909)
+
+		gen11920 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V742 := __args[0]
+			_ = V742
+			gen11910 := Call(__e, ShenFunc(symshen_4_5signature_6), V742)
+
+			Parse__shen_4_5signature_6 := gen11910
+			gen11917 := Call(__e, ShenFunc(symfail))
+
+			gen11918 := Call(__e, ShenFunc(sym_a), gen11917, Parse__shen_4_5signature_6)
+
+			gen11919 := Call(__e, ShenFunc(symnot), gen11918)
+
+			if True == gen11919 {
+				gen11911 := Call(__e, ShenFunc(sym_5_b_6), Parse__shen_4_5signature_6)
+
+				Parse___5_b_6 := gen11911
+				gen11914 := Call(__e, ShenFunc(symfail))
+
+				gen11915 := Call(__e, ShenFunc(sym_a), gen11914, Parse___5_b_6)
+
+				gen11916 := Call(__e, ShenFunc(symnot), gen11915)
+
+				if True == gen11916 {
+					gen11912 := Call(__e, ShenFunc(symhd), Parse___5_b_6)
+
+					gen11913 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5signature_6)
+
+					__e.TailApply(ShenFunc(symshen_4pair), gen11912, gen11913)
+
+					return
+
+				} else {
+					__e.TailApply(ShenFunc(symfail))
+
+					return
+				}
+
+			} else {
+				__e.TailApply(ShenFunc(symfail))
+
+				return
+			}
+
+		}, 1)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<sig+rest>"), gen11920)
+
+		gen11926 := MakeNative(func(__e Evaluator, __args ...Obj) {
+			V745 := __args[0]
+			_ = V745
+			V746 := __args[1]
+			_ = V746
+			gen11921 := Call(__e, ShenFunc(symopen), V745, MakeSymbol("out"))
+
+			Stream := gen11921
+			gen11922 := Call(__e, ShenFunc(symstring_2), V746)
+
+			var gen11923 Obj
+			if True == gen11922 {
+				gen11923 = Call(__e, ShenFunc(symshen_4app), V746, MakeString("\n\n"), MakeSymbol("shen.a"))
+
+			} else {
+				gen11923 = Call(__e, ShenFunc(symshen_4app), V746, MakeString("\n\n"), MakeSymbol("shen.s"))
+
+			}
+			String := gen11923
+			gen11924 := Call(__e, ShenFunc(sympr), String, Stream)
+
+			Write := gen11924
+			_ = Write
+			gen11925 := Call(__e, ShenFunc(symclose), Stream)
+
+			Close := gen11925
+			_ = Close
+			__e.Return(V746)
+			return
+
+		}, 2)
+		__e.TailApply(ShenFunc(symdefun), MakeSymbol("write-to-file"), gen11926)
+
 		return
-	}, 2)
-	__initDefs = append(__initDefs, defType{name: "write-to-file", value: __defun__write_1to_1file})
 
+	}, 0))
 }

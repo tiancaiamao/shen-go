@@ -157,7 +157,8 @@ func PrimStr(args ...Obj) Obj {
 	case scmHeadRaw:
 		return MakeString("#<raw >")
 	case scmHeadNative:
-		return MakeString("#<native >")
+		n := MustNative(args[0])
+		return MakeString(fmt.Sprintf("#<native %v>", *n))
 	default:
 		return MakeString("PrimStr unknown")
 	}
@@ -231,6 +232,24 @@ func CoraValue(args ...Obj) Obj {
 		return sym.cora
 	}
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
+}
+
+func ShenFunc(args ...Obj) Obj {
+	key := args[0]
+	sym := mustSymbol(key)
+	if sym.function != nil {
+		return sym.function
+	}
+	errMsg := fmt.Sprintf("variable %s not bound", sym.str)
+	fmt.Println("DEBUG---", errMsg)
+	panic(MakeError(errMsg))
+}
+
+func primDefun(args ...Obj) Obj {
+	key, val := args[0], args[1]
+	sym := mustSymbol(key)
+	sym.function = val
+	return val
 }
 
 func PrimSimpleError(args ...Obj) Obj {
