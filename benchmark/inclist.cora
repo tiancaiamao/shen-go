@@ -1,0 +1,12 @@
+(load "../src/init.cora")
+(load-so "random.so")
+
+
+(set '*list* (let-loop recur (n 50000 l [])
+                       (if (= n 0)
+                           l
+                         (recur (- n 1)
+                                [(random 65535) . l]))))
+
+
+(map (+ 1) *list*)

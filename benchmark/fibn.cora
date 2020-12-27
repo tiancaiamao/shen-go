@@ -1,0 +1,23 @@
+(func fibn-h
+      n1 n2 i n => n1 where (= i n)
+      n1 n2 i n => (fibn-h (+ n1 n2) n1 (+ i 1) n))
+
+(func fibn
+    0 => 1
+    1 => 1
+    n => (fibn-h 1 1 1 n))
+
+
+(defun dotimes (n f)
+  (let tmp (f)
+       (if (= n 0)
+           tmp
+         (dotimes (- n 1) f))))
+
+(dotimes 1000000 (lambda () (fibn 80)))
+
+;; (let-loop recur (n 100000)
+;;           (if (= n 0)
+;;             ()
+;;             (fibn 80))
+;;           (recur (- n 1)))
