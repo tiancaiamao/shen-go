@@ -2,56 +2,25 @@ package kl
 
 import (
 	"fmt"
-	"os"
 	"runtime"
-	// "runtime/debug"
 )
 
 type KLambda struct {
 	ControlFlow
 }
 
-func NewKLambda() *KLambda {
-	var e KLambda
-	for _, prim := range AllPrimitives {
-		sym := MakeSymbol(prim.Name)
-		BindSymbolFunc(sym, Obj(&prim.scmHead))
+func primEvalKL(e Evaluator) {
+	e.Return(evalExp(e, e.Get(1), Nil))
+	return
+}
+
+func primLoadFile(isCora bool) func(e Evaluator) {
+	return func(e Evaluator) {
+		path := mustString(e.Get(1))
+		res := loadFile(e, isCora, path)
+		e.Return(res)
+		return
 	}
-	// Overload for primitive set and value.
-	tmp := &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1, Function: e.primEvalKL}
-	BindSymbolFunc(MakeSymbol("eval-kl"), Obj(&tmp.scmHead))
-	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1, Function: e.primLoadFile}
-	BindSymbolFunc(MakeSymbol("load-file"), Obj(&tmp.scmHead))
-
-	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
-	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
-	dir, _ := os.Getwd()
-	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
-	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
-	PrimSet(MakeSymbol("*implementation*"), MakeString("AOT+interpreter"))
-	PrimSet(MakeSymbol("*relase*"), MakeString(runtime.Version()))
-	PrimSet(MakeSymbol("*os*"), MakeString(runtime.GOOS))
-	PrimSet(MakeSymbol("*porters*"), MakeString("Arthur Mao"))
-	PrimSet(MakeSymbol("*port*"), MakeString("1.0.0-rc1"))
-
-	// Extended by shen-go implementation
-	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
-	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "cora.", Required: 1, Function: CoraValue}
-	BindSymbolFunc(MakeSymbol("cora."), Obj(&tmp.scmHead))
-	tmp = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "defun", Required: 2, Function: primDefun}
-	BindSymbolFunc(MakeSymbol("defun"), Obj(&tmp.scmHead))
-	// TODO: This looks weird.
-	NewCora()
-	return &e
-}
-
-func (e *KLambda) primEvalKL(args ...Obj) Obj {
-	return evalExp(e, args[0], Nil)
-}
-
-func (e *KLambda) primLoadFile(args ...Obj) Obj {
-	path := mustString(args[0])
-	return loadFile(e, false, path)
 }
 
 func (e *KLambda) LoadFile(file string) Obj {
@@ -62,16 +31,12 @@ func (e *KLambda) eval() {
 	exp := e.data[e.pos]
 	env := e.data[e.pos+1]
 
-	// fmt.Println("eval exp = ", ObjString(exp))
-	// debug.PrintStack()
-
 	switch *exp {
 	// handle constant
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
 		e.Return(exp)
 		return
 	case scmHeadSymbol:
-		// fmt.Println("eval symbol ====", ObjString(exp))
 		if val, ok := envGet(env, exp); ok {
 			exp = val
 		}
@@ -206,11 +171,6 @@ func (e *KLambda) evalFunction(fn Obj, env Obj) Obj {
 		return evalExp(e, fn, env)
 	}
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
-}
-
-func (e *KLambda) RegistNativeCall(name string, f Obj) {
-	_ = MustNative(f)
-	BindSymbolFunc(MakeSymbol(name), f)
 }
 
 func (e *KLambda) BootstrapShen() {

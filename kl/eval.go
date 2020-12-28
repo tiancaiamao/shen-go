@@ -86,7 +86,7 @@ func (ctl *ControlFlow) Return(result Obj) {
 }
 
 func (ctl *ControlFlow) Get(n int) Obj {
-	return ctl.data[n]
+	return ctl.data[ctl.pos+n]
 }
 
 // trampoline is introduced for tail call optimization.
@@ -280,8 +280,7 @@ func apply(e Evaluator) {
 			ctl.Return(partialApply(prim.Required, args, Nil, f))
 			return
 		case len(args) == prim.Required:
-			ret := prim.Function(args...)
-			ctl.Return(ret)
+			prim.Function(e)
 			return
 		}
 	} else if *f == scmHeadProcedure {

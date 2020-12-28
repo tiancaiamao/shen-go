@@ -12,70 +12,37 @@ type Cora struct {
 	ControlFlow
 }
 
-func NewCora() *Cora {
-	var e Cora
-	for _, prim := range AllPrimitives {
-		sym := MakeSymbol(prim.Name)
-		CoraSet(sym, Obj(&prim.scmHead))
-	}
-	CoraSet(MakeSymbol("car"), CoraValue(MakeSymbol("hd")))
-	CoraSet(MakeSymbol("cdr"), CoraValue(MakeSymbol("tl")))
-	priv := &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "gensym", Required: 1, Function: PrimGenSym}
-	CoraSet(MakeSymbol("gensym"), Obj(&priv.scmHead))
-	priv = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: CoraSet}
-	CoraSet(MakeSymbol("set"), Obj(&priv.scmHead))
-	priv = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load", Required: 1, Function: e.primLoadFile}
-	CoraSet(MakeSymbol("load"), Obj(&priv.scmHead))
-	priv = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "load-so", Required: 1, Function: e.primLoadSo}
-	CoraSet(MakeSymbol("load-so"), Obj(&priv.scmHead))
-	priv = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-sexp", Required: 1, Function: readFileAsSexp}
-	CoraSet(MakeSymbol("read-file-as-sexp"), Obj(&priv.scmHead))
-	priv = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "write-sexp-to-file", Required: 2, Function: writeSexpToFile}
-	CoraSet(MakeSymbol("write-sexp-to-file"), Obj(&priv.scmHead))
-	priv = &ScmPrimitive{scmHead: scmHeadPrimitive, Name: "apply", Required: 2, Function: e.primApply}
-	CoraSet(MakeSymbol("apply"), Obj(&priv.scmHead))
-	return &e
-}
-
-func (e *Cora) primApply(args ...Obj) Obj {
-	fn := args[0]
-	l := args[1]
-	objs := ListToSlice(l)
-	return Call(e, fn, objs...)
-}
-
-func (e *Cora) primLoadFile(args ...Obj) Obj {
-	path := mustString(args[0])
-	return loadFile(e, true, path)
-}
-
-func (e *Cora) primLoadSo(args ...Obj) Obj {
-	pluginPath := GetString(args[0])
+func primLoadSo(e Evaluator) {
+	pluginPath := GetString(e.Get(1))
 	p, err := plugin.Open(pluginPath)
 	if err != nil {
-		return MakeError(err.Error())
+		e.Return(MakeError(err.Error()))
+		return
 	}
 
 	entry, err := p.Lookup("Main")
 	if err != nil {
-		return MakeError(err.Error())
+		e.Return(MakeError(err.Error()))
+		return
 	}
 
 	f, ok := entry.(func(__e Evaluator, __args ...Obj))
 	if !ok {
-		return MakeError("plugin Main should be func(__e Evaluator, __args ...Obj)")
+		e.Return(MakeError("plugin Main should be func(__e Evaluator, __args ...Obj)"))
+		return
 	}
 
 	res := Call(e, MakeNative(f, 0))
-
-	return res
+	e.Return(res)
+	return
 }
 
-func readFileAsSexp(args ...Obj) Obj {
-	filePath := mustString(args[0])
+func readFileAsSexp(e Evaluator) {
+	filePath := mustString(e.Get(1))
 	f, err := os.Open(filePath)
 	if err != nil {
-		return MakeError(err.Error())
+		e.Return(MakeError(err.Error()))
+		return
 	}
 	defer f.Close()
 
@@ -85,23 +52,27 @@ func readFileAsSexp(args ...Obj) Obj {
 		exp, err := r.Read()
 		if err != nil {
 			if err != io.EOF {
-				return MakeError(err.Error())
+				e.Return(MakeError(err.Error()))
+				return
 			}
 			break
 		}
 		ret = cons(exp, ret)
 	}
-	return reverse(ret)
+	e.Return(reverse(ret))
+	return
 }
 
-func writeSexpToFile(args ...Obj) Obj {
-	filePath := mustString(args[0])
-	str := ObjString(args[1])
+func writeSexpToFile(e Evaluator) {
+	filePath := mustString(e.Get(1))
+	str := ObjString(e.Get(2))
 	err := ioutil.WriteFile(filePath, []byte(str), 0644)
 	if err != nil {
-		return MakeError(err.Error())
+		e.Return(MakeError(err.Error()))
+		return
 	}
-	return Nil
+	e.Return(Nil)
+	return
 }
 
 func (e *Cora) eval() {

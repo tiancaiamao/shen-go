@@ -12,7 +12,7 @@ import (
 
 var mode string
 
-func main1() {
+func main() {
 	if len(os.Args) != 4 {
 		fmt.Println("usage: codegen mode from.scm to.go")
 		return
@@ -31,7 +31,7 @@ func main1() {
 	codeGen(declare, true, inputFile, outputFile)
 }
 
-func main() {
+func main1() {
 	fileNames := []string{
 		"toplevel",
 		"dict",
@@ -294,7 +294,7 @@ func generateConst(declare map[kl.Obj]struct{}, w io.Writer, c kl.Obj) error {
 	switch {
 	case kl.IsNumber(c):
 		fmt.Fprintf(w, "MakeNumber(%d)", kl.GetInteger(c))
-	case kl.PrimIsString(c) == kl.True:
+	case kl.IsString(c):
 		str := kl.GetString(c)
 		fmt.Fprintf(w, "MakeString(%#v)", str)
 	case kl.IsSymbol(c):

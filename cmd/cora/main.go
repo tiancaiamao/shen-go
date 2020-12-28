@@ -26,7 +26,7 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	e := kl.NewCora()
+	var e kl.Cora
 	kl.CoraSet(symMacroExpand, kl.Nil)
 
 	// kl.Call(e, kl.MakeNative(inix.Main, 0))
@@ -44,11 +44,11 @@ func main() {
 
 		expand := kl.CoraValue(symMacroExpand)
 		if expand != kl.Nil {
-			sexp = kl.Call(e, expand, sexp)
+			sexp = kl.Call(&e, expand, sexp)
 		}
 		// fmt.Println("after macroexpand = ", kl.ObjString(sexp))
 
-		res := kl.Eval(e, sexp)
+		res := kl.Eval(&e, sexp)
 		fmt.Println(kl.ObjString(res))
 	}
 }
