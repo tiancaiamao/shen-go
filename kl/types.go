@@ -78,16 +78,16 @@ type scmProcedure struct {
 	env   Obj
 }
 
-type ScmPrimitive struct {
+type scmPrimitive struct {
 	scmHead
 	Name     string
 	Required int
-	Function func(...Obj) Obj
-	CodeGen  string
+	Function func(Evaluator)
 }
 
 type scmNative struct {
 	scmHead
+	name     string
 	fn       func(Evaluator, ...Obj)
 	require  int
 	captured []Obj
@@ -152,8 +152,8 @@ func IsSymbol(o Obj) bool {
 	return *o == scmHeadSymbol
 }
 
-func MakePrimitive(name string, arity int, f func(...Obj) Obj) *ScmPrimitive {
-	return &ScmPrimitive{
+func MakePrimitive(name string, arity int, f func(e Evaluator)) *scmPrimitive {
+	return &scmPrimitive{
 		scmHead:  scmHeadPrimitive,
 		Name:     name,
 		Required: arity,
@@ -161,18 +161,18 @@ func MakePrimitive(name string, arity int, f func(...Obj) Obj) *ScmPrimitive {
 	}
 }
 
-func isPrimitive(o Obj) (bool, *ScmPrimitive) {
+func isPrimitive(o Obj) (bool, *scmPrimitive) {
 	if *o != scmHeadPrimitive {
 		return false, nil
 	}
-	return true, (*ScmPrimitive)(unsafe.Pointer(o))
+	return true, (*scmPrimitive)(unsafe.Pointer(o))
 }
 
-func mustPrimitive(o Obj) *ScmPrimitive {
+func mustPrimitive(o Obj) *scmPrimitive {
 	if *o != scmHeadPrimitive {
 		panic(MakeError("mustPrimitive"))
 	}
-	return (*ScmPrimitive)(unsafe.Pointer(o))
+	return (*scmPrimitive)(unsafe.Pointer(o))
 }
 
 func mustVector(o Obj) []Obj {
@@ -285,10 +285,10 @@ type trieNode struct {
 	value    scmSymbol
 }
 
-var trieRoot *trieNode
+var symbolRoot trieNode
 
 func trieFindOrInsert(str string) *trieNode {
-	p := trieRoot
+	p := &symbolRoot
 	for i := 0; i < len(str); i++ {
 		v := str[i]
 		if p.children[v] == nil {
@@ -317,8 +317,6 @@ func init() {
 
 	var tmp4 int
 	undefined = MakeRaw(&tmp4)
-
-	trieRoot = &trieNode{}
 
 	symQuote = MakeSymbol("quote")
 	symDefun = MakeSymbol("defun")
@@ -371,20 +369,16 @@ func MakeStream(raw interface{}) Obj {
 	return &tmp.scmHead
 }
 
+func IsString(o Obj) bool {
+	return *o == scmHeadString
+}
+
 func GetString(o Obj) string {
 	return mustString(o)
 }
 
 func GetSymbol(o Obj) string {
 	return mustSymbol(o).str
-}
-
-func BindSymbolFunc(sym Obj, f Obj) {
-	mustSymbol(sym).function = f
-}
-
-func GetSymbolFunc(sym Obj) Obj {
-	return mustSymbol(sym).function
 }
 
 func cons(x, y Obj) Obj {

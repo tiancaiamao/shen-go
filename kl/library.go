@@ -1,6 +1,7 @@
 package kl
 
 import (
+	"fmt"
 	"math"
 	"os"
 	"path"
@@ -149,4 +150,31 @@ func isPreciseInteger(f float64) bool {
 
 	bits := math.Float64bits(f)
 	return (bits << uint(12+exp)) == 0
+}
+
+func CoraSet(key, val Obj) {
+	sym := mustSymbol(key)
+	sym.cora = val
+	return
+}
+
+func CoraValue(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.cora != nil {
+		return sym.cora
+	}
+	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
+}
+
+func ShenFunc(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.function != nil {
+		return sym.function
+	}
+	errMsg := fmt.Sprintf("variable %s not bound", sym.str)
+	panic(MakeError(errMsg))
+}
+
+func BindSymbolFunc(sym Obj, f Obj) {
+	mustSymbol(sym).function = f
 }

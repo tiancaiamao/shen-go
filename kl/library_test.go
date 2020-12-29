@@ -65,8 +65,11 @@ func TestEqual(t *testing.T) {
 }
 
 func TestVectorGet(t *testing.T) {
+	var kl KLambda
+	vecSet := ShenFunc(MakeSymbol("address->"))
+	vecGet := ShenFunc(MakeSymbol("<-address"))
 	vec := MakeVector(1)
-	PrimVectorSet(vec, MakeInteger(0), MakeNumber(42))
+	Call(&kl, vecSet, vec, MakeInteger(0), MakeNumber(42))
 	func() {
 		defer func() {
 			err := recover()
@@ -75,9 +78,9 @@ func TestVectorGet(t *testing.T) {
 				t.Error("should be error out of range")
 			}
 		}()
-		PrimVectorGet(vec, MakeInteger(1))
+		Call(&kl, vecGet, vec, MakeInteger(1))
 	}()
-	if equal(PrimVectorGet(vec, MakeInteger(0)), MakeNumber(42)) != True {
+	if equal(Call(&kl, vecGet, vec, MakeInteger(0)), MakeNumber(42)) != True {
 		t.Error("vector set or get wrong")
 	}
 }

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"math/rand"
 	. "github.com/tiancaiamao/shen-go/kl"
+	"math/rand"
 )
 
 func Main(__e Evaluator, __args ...Obj) {
