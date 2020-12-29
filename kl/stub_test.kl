@@ -18,6 +18,9 @@
       res
     (reverse-help (cons (hd l) res) (tl l))))
 
+(defun reverse (l)
+    (reverse-help () l))
+
 (defun map-help (res f l)
   (if (cons? l)
       (map-help (cons (f (hd l)) res) f (tl l))

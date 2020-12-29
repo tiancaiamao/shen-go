@@ -201,5 +201,5 @@ func (e *KLambda) BootstrapShen() {
 
 func (e *KLambda) Override() {
 	isSymbol := MakePrimitive("symbol?", 1, PrimIsSymbol)
-	BindSymbolFunc(MakeSymbol("symbol?"), Obj(&isSymbol.scmHead))
+	BindSymbolFunc(MakeSymbol("symbol?"), isSymbol)
 }

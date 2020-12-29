@@ -9,56 +9,57 @@ import (
 	"time"
 )
 
-var allPrimitives = []*scmPrimitive{
+var klPrimitives = []scmPrimitive{
 	// &scmPrimitive{scmHead: scmHeadPrimitive, Name: "load-file", Required: 1},
 	// &scmPrimitive{scmHead: scmHeadPrimitive, Name: "type", Required: 2, Function: PrimTypeFunc},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "get-time", Required: 1, Function: PrimGetTime},
 	// &scmPrimitive{scmHead: scmHeadPrimitive, Name: "eval-kl", Required: 1},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "close", Required: 1, Function: PrimCloseStream},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "open", Required: 2, Function: PrimOpenStream},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-byte", Required: 1, Function: PrimReadByte},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "write-byte", Required: 2, Function: PrimWriteByte},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "absvector?", Required: 1, Function: PrimIsVector},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "<-address", Required: 2, Function: PrimVectorGet},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "address->", Required: 3, Function: PrimVectorSet},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "absvector", Required: 1, Function: PrimAbsvector},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "str", Required: 1, Function: PrimStr},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "<=", Required: 2, Function: PrimLessEqual},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: ">=", Required: 2, Function: PrimGreatEqual},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "<", Required: 2, Function: PrimLessThan},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: ">", Required: 2, Function: PrimGreatThan},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "error-to-string", Required: 1, Function: PrimErrorToString},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "simple-error", Required: 1, Function: PrimSimpleError},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "=", Required: 2, Function: PrimEqual},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "-", Required: 2, Function: PrimNumberSubtract},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "*", Required: 2, Function: PrimNumberMultiply},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "/", Required: 2, Function: PrimNumberDivide},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "+", Required: 2, Function: PrimNumberAdd},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "string->n", Required: 1, Function: PrimStringToNumber},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "n->string", Required: 1, Function: PrimNumberToString},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "number?", Required: 1, Function: PrimIsNumber},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "string?", Required: 1, Function: PrimIsString},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "pos", Required: 2, Function: PrimPos},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "tlstr", Required: 1, Function: PrimTailString},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "cn", Required: 2, Function: PrimStringConcat},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "intern", Required: 1, Function: PrimIntern},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "hd", Required: 1, Function: PrimHead},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "tl", Required: 1, Function: PrimTail},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "cons", Required: 2, Function: PrimCons},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "cons?", Required: 1, Function: PrimIsPair},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: PrimValue},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: PrimSet},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: PrimNot},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: PrimIf},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: PrimIsSymbol},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: PrimReadFileAsByteList},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: PrimReadFileAsString},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "variable?", Required: 1, Function: PrimIsVariable},
-	&scmPrimitive{scmHead: scmHeadPrimitive, Name: "integer?", Required: 1, Function: PrimIsInteger},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "get-time", Required: 1, Function: PrimGetTime},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "close", Required: 1, Function: PrimCloseStream},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "open", Required: 2, Function: PrimOpenStream},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-byte", Required: 1, Function: PrimReadByte},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "write-byte", Required: 2, Function: PrimWriteByte},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "absvector?", Required: 1, Function: PrimIsVector},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "<-address", Required: 2, Function: PrimVectorGet},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "address->", Required: 3, Function: PrimVectorSet},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "absvector", Required: 1, Function: PrimAbsvector},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "str", Required: 1, Function: PrimStr},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "<=", Required: 2, Function: PrimLessEqual},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: ">=", Required: 2, Function: PrimGreatEqual},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "<", Required: 2, Function: PrimLessThan},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: ">", Required: 2, Function: PrimGreatThan},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "error-to-string", Required: 1, Function: PrimErrorToString},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "simple-error", Required: 1, Function: PrimSimpleError},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "=", Required: 2, Function: PrimEqual},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "-", Required: 2, Function: PrimNumberSubtract},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "*", Required: 2, Function: PrimNumberMultiply},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "/", Required: 2, Function: PrimNumberDivide},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "+", Required: 2, Function: PrimNumberAdd},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "string->n", Required: 1, Function: PrimStringToNumber},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "n->string", Required: 1, Function: PrimNumberToString},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "number?", Required: 1, Function: PrimIsNumber},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "string?", Required: 1, Function: PrimIsString},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "pos", Required: 2, Function: PrimPos},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "tlstr", Required: 1, Function: PrimTailString},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "cn", Required: 2, Function: PrimStringConcat},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "intern", Required: 1, Function: PrimIntern},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "hd", Required: 1, Function: PrimHead},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "tl", Required: 1, Function: PrimTail},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "cons", Required: 2, Function: PrimCons},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "cons?", Required: 1, Function: PrimIsPair},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: PrimValue},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: PrimSet},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "not", Required: 1, Function: PrimNot},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "if", Required: 3, Function: PrimIf},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "symbol?", Required: 1, Function: PrimIsSymbol},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-bytelist", Required: 1, Function: PrimReadFileAsByteList},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-string", Required: 1, Function: PrimReadFileAsString},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "variable?", Required: 1, Function: PrimIsVariable},
+	scmPrimitive{scmHead: scmHeadPrimitive, Name: "integer?", Required: 1, Function: PrimIsInteger},
 }
 
 func init() {
-	for _, prim := range allPrimitives {
+	for i := 0; i < len(klPrimitives); i++ {
+		prim := &klPrimitives[i]
 		sym := MakeSymbol(prim.Name)
 		CoraSet(sym, Obj(&prim.scmHead))
 		BindSymbolFunc(sym, Obj(&prim.scmHead))
@@ -88,22 +89,16 @@ func init() {
 	tmp = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "defun", Required: 2, Function: primDefun}
 	BindSymbolFunc(MakeSymbol("defun"), Obj(&tmp.scmHead))
 
-	CoraSet(MakeSymbol("car"), CoraValue(MakeSymbol("hd")))
-	CoraSet(MakeSymbol("cdr"), CoraValue(MakeSymbol("tl")))
-	priv := &scmPrimitive{scmHead: scmHeadPrimitive, Name: "gensym", Required: 1, Function: PrimGenSym}
-	CoraSet(MakeSymbol("gensym"), Obj(&priv.scmHead))
-	priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "set", Required: 2, Function: coraSet}
-	CoraSet(MakeSymbol("set"), Obj(&priv.scmHead))
-	priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "value", Required: 1, Function: coraValue}
-	CoraSet(MakeSymbol("value"), Obj(&priv.scmHead))
-	priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "load", Required: 1, Function: primLoadFile(true)}
-	CoraSet(MakeSymbol("load"), Obj(&priv.scmHead))
-	priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "load-so", Required: 1, Function: primLoadSo}
-	CoraSet(MakeSymbol("load-so"), Obj(&priv.scmHead))
-	priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "read-file-as-sexp", Required: 1, Function: readFileAsSexp}
-	CoraSet(MakeSymbol("read-file-as-sexp"), Obj(&priv.scmHead))
-	priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "write-sexp-to-file", Required: 2, Function: writeSexpToFile}
-	CoraSet(MakeSymbol("write-sexp-to-file"), Obj(&priv.scmHead))
+	CoraSet(MakeSymbol("car"), MakePrimitive("car", 1, PrimHead))
+	CoraSet(MakeSymbol("cdr"), MakePrimitive("car", 1, PrimTail))
+	CoraSet(MakeSymbol("gensym"), MakePrimitive("gensym", 1, PrimGenSym))
+	CoraSet(MakeSymbol("set"), MakePrimitive("set", 2, coraSet))
+	CoraSet(MakeSymbol("value"), MakePrimitive("value", 1, coraValue))
+	CoraSet(MakeSymbol("load"), MakePrimitive("load", 1, primLoadFile(true)))
+	CoraSet(MakeSymbol("load-so"), MakePrimitive("load-so", 1, primLoadSo))
+	CoraSet(MakeSymbol("read-file-as-sexp"), MakePrimitive("read-file-as-sexp", 1, readFileAsSexp))
+	CoraSet(MakeSymbol("write-sexp-to-file"), MakePrimitive("write-sexp-to-file", 2, writeSexpToFile))
+	CoraSet(MakeSymbol("bc->go"), MakePrimitive("bc->go", 3, codeGen))
 	// priv = &scmPrimitive{scmHead: scmHeadPrimitive, Name: "apply", Required: 2, Function: e.primApply}
 	// coraSet(MakeSymbol("apply"), Obj(&priv.scmHead))
 }

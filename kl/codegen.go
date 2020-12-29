@@ -1,4 +1,4 @@
-package main
+package kl
 
 import (
 	"bytes"
@@ -6,115 +6,114 @@ import (
 	"fmt"
 	"io"
 	"os"
-
-	"github.com/tiancaiamao/shen-go/kl"
 )
 
-var mode string
+var (
+	modeShen = MakeSymbol("shen")
+	modeCora = MakeSymbol("cora")
+)
 
-func main() {
-	if len(os.Args) != 4 {
-		fmt.Println("usage: codegen mode from.scm to.go")
-		return
-	}
-	switch os.Args[1] {
-	case "shen", "cora":
-		mode = os.Args[1]
-	default:
-		fmt.Println("mode should be shen or cora")
-		return
-	}
+func codeGen(e Evaluator) {
+	mode := e.Get(1)
+	inFile := mustString(e.Get(2))
+	outFile := mustString(e.Get(3))
 
-	declare := make(map[kl.Obj]struct{})
-	inputFile := os.Args[2]
-	outputFile := os.Args[3]
-	codeGen(declare, true, inputFile, outputFile)
-}
-
-func main1() {
-	fileNames := []string{
-		"toplevel",
-		"dict",
-		"core",
-		"sys",
-		"sequent",
-		"yacc",
-		"reader",
-		"prolog",
-		"track",
-		"load",
-		"writer",
-		"macros",
-		"declarations",
-		"t-star",
-		"types",
-		"init",
-		"extension-features",
-		"extension-launcher",
-		"extension-factorise-defun",
-		// "extension-programmable-pattern-matching",
+	cg := &codeGenerator{
+		declare: make(map[Obj]struct{}),
+		mode:    mode,
 	}
 
-	declare := make(map[kl.Obj]struct{})
-	mode = "shen"
-	for i, name := range fileNames {
-		if err := codeGen(declare, i == len(fileNames)-1, name+".bc", name+".go"); err != nil {
-			panic(err)
-		}
-	}
-}
-
-func codeGen(declare map[kl.Obj]struct{}, final bool, inputFile, outputFile string) error {
-	f, err := os.Open(inputFile)
+	f, err := os.Open(inFile)
 	if err != nil {
-		return err
+		e.Return(MakeError(err.Error()))
+		return
 	}
 	defer f.Close()
 
-	out, err := os.Create(outputFile)
+	out, err := os.Create(outFile)
 	if err != nil {
-		return err
+		e.Return(MakeError(err.Error()))
+		return
 	}
 	defer out.Close()
 
+	if err := cg.HandleBody(f, out); err != nil {
+		e.Return(MakeError(err.Error()))
+		return
+	}
+	cg.HandleSymbol(out)
+
+	e.Return(Nil)
+	return
+}
+
+// 	fileNames := []string{
+// 		"toplevel",
+// 		"dict",
+// 		"core",
+// 		"sys",
+// 		"sequent",
+// 		"yacc",
+// 		"reader",
+// 		"prolog",
+// 		"track",
+// 		"load",
+// 		"writer",
+// 		"macros",
+// 		"declarations",
+// 		"t-star",
+// 		"types",
+// 		"init",
+// 		"extension-features",
+// 		"extension-launcher",
+// 		"extension-factorise-defun",
+// 		// "extension-programmable-pattern-matching",
+// 	}
+
+type codeGenerator struct {
+	mode    Obj
+	declare map[Obj]struct{}
+}
+
+func (cg *codeGenerator) HandleBody(f io.Reader, out io.Writer) error {
 	fmt.Fprintf(out, "package main\n\n")
 	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
 	fmt.Fprintf(out, `func init() {
     __initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
 `)
-	r := kl.NewSexpReader(f, false)
+	r := NewSexpReader(f, false)
 	bc, err := r.Read()
 	if err != nil {
 		fmt.Println("read bytecode error", err)
 		return err
 	}
-	for bc != kl.Nil {
-		curr := kl.Car(bc)
-		bc = kl.Cdr(bc)
-		if err := generateExpr(declare, out, curr, bc == kl.Nil); err != nil {
+	for bc != Nil {
+		curr := Car(bc)
+		bc = Cdr(bc)
+		if err := cg.generateExpr(out, curr, bc == Nil); err != nil {
 			return err
 		}
 		fmt.Fprintf(out, "\n\n")
 	}
 	fmt.Fprintf(out, "}, 0))\n}\n")
 
-	if final {
-		for sym, _ := range declare {
-			symStr := symbolString(sym)
-			symVar := "sym" + symbolAsVar(sym)
-			fmt.Fprintf(out, "var %s = MakeSymbol(\"%s\")\n", symVar, symStr)
-		}
-	}
-
 	return nil
 }
 
-func symbolString(sym kl.Obj) string {
-	return kl.GetSymbol(sym)
+func (cg *codeGenerator) HandleSymbol(out io.Writer) {
+	for sym, _ := range cg.declare {
+		symStr := symbolString(sym)
+		symVar := "sym" + symbolAsVar(sym)
+		fmt.Fprintf(out, "var %s = MakeSymbol(\"%s\")\n", symVar, symStr)
+	}
 }
 
-func symbolAsVar(sym kl.Obj) string {
-	str := kl.GetSymbol(sym)
+func symbolString(sym Obj) string {
+	return GetSymbol(sym)
+}
+
+func symbolAsVar(sym Obj) string {
+	str := GetSymbol(sym)
 	var buf bytes.Buffer
 	for i := 0; i < len(str); i++ {
 		switch str[i] {
@@ -159,9 +158,9 @@ func symbolAsVar(sym kl.Obj) string {
 	return buf.String()
 }
 
-func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bool) error {
-	// fmt.Printf("handle %s ..\n", kl.ObjString(sexp))
-	if kl.IsSymbol(sexp) {
+func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
+	// fmt.Printf("handle %s ..\n", ObjString(sexp))
+	if IsSymbol(sexp) {
 		if tail {
 			fmt.Fprintf(w, "__e.Return(%s)\nreturn\n", symbolAsVar(sexp))
 		} else {
@@ -169,49 +168,52 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		}
 		return nil
 	}
-	kind := kl.GetSymbol(kl.Car(sexp))
+	kind := GetSymbol(Car(sexp))
 	switch kind {
 	case "block":
-		for cur := kl.Cdr(sexp); cur != kl.Nil; cur = kl.Cdr(cur) {
-			p := kl.Car(cur)
+		for cur := Cdr(sexp); cur != Nil; cur = Cdr(cur) {
+			p := Car(cur)
 			tail1 := false
-			if kl.Cdr(cur) == kl.Nil {
+			if Cdr(cur) == Nil {
 				tail1 = tail
 			}
-			if err := generateExpr(declare, w, p, tail1); err != nil {
+			if err := cg.generateExpr(w, p, tail1); err != nil {
 				return err
 			}
 		}
 		fmt.Fprintln(w)
 	case "<-":
 		// (<- a b)
-		a := kl.Car(kl.Cdr(sexp))
-		b := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		a := Car(Cdr(sexp))
+		b := Car(Cdr(Cdr(sexp)))
 		fmt.Fprintf(w, "%s = ", symbolAsVar(a))
-		generateExpr(declare, w, b, false)
+		cg.generateExpr(w, b, false)
 		fmt.Fprintln(w)
 	case "<-:":
-		a := kl.Car(kl.Cdr(sexp))
-		b := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		a := Car(Cdr(sexp))
+		b := Car(Cdr(Cdr(sexp)))
 		fmt.Fprintf(w, "%s := ", symbolAsVar(a))
-		generateExpr(declare, w, b, false)
+		cg.generateExpr(w, b, false)
 		fmt.Fprintln(w)
 	case "$global":
-		sym := kl.Car(kl.Cdr(sexp))
-		declare[sym] = struct{}{}
-		if mode == "cora" {
+		sym := Car(Cdr(sexp))
+		cg.declare[sym] = struct{}{}
+		switch {
+		case cg.mode == modeCora:
 			fmt.Fprintf(w, "CoraValue(sym%s)", symbolAsVar(sym))
-		} else {
+		case cg.mode == modeShen:
 			fmt.Fprintf(w, "ShenFunc(sym%s)", symbolAsVar(sym))
+		default:
+			return errors.New("wrong mode")
 		}
 	case "declare":
 		// (declare x)
-		x := kl.Car(kl.Cdr(sexp))
+		x := Car(Cdr(sexp))
 		fmt.Fprintf(w, "var %s Obj\n", symbolAsVar(x))
 	case "lambda":
 		// (lambda (p1 p2 ...) ...)
-		tmp := kl.Car(kl.Cdr(sexp))
-		args := kl.ListToSlice(tmp)
+		tmp := Car(Cdr(sexp))
+		args := ListToSlice(tmp)
 		if tail {
 			fmt.Fprintf(w, "__e.Return(")
 		}
@@ -220,7 +222,7 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 			fmt.Fprintf(w, "%s := __args[%d]\n", symbolAsVar(arg), i)
 			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
 		}
-		if err := generateExpr(declare, w, kl.Car(kl.Cdr(kl.Cdr(sexp))), true); err != nil {
+		if err := cg.generateExpr(w, Car(Cdr(Cdr(sexp))), true); err != nil {
 			return err
 		}
 		fmt.Fprintf(w, "}, %d)", len(args))
@@ -231,11 +233,11 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		// (const Number)
 		// (const ())
 		// (const "xxx")
-		c := kl.Cadr(sexp)
+		c := Cadr(sexp)
 		if tail {
 			fmt.Fprintf(w, "__e.Return(")
 		}
-		if err := generateConst(declare, w, c); err != nil {
+		if err := cg.generateConst(w, c); err != nil {
 			return err
 		}
 		if tail {
@@ -243,10 +245,10 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		}
 	case "if":
 		// (if a b c)
-		a := kl.Cadr(sexp)
-		b := kl.Car(kl.Cdr(kl.Cdr(sexp)))
-		c := kl.Car(kl.Cdr(kl.Cdr(kl.Cdr(sexp))))
-		if err := generateIfExpr(declare, w, a, b, c, tail); err != nil {
+		a := Cadr(sexp)
+		b := Car(Cdr(Cdr(sexp)))
+		c := Car(Cdr(Cdr(Cdr(sexp))))
+		if err := cg.generateIfExpr(w, a, b, c, tail); err != nil {
 			return err
 		}
 	case "$call":
@@ -256,15 +258,15 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		} else {
 			fmt.Fprintf(w, "Call(__e, ")
 		}
-		args := kl.ListToSlice(kl.Cdr(sexp))
+		args := ListToSlice(Cdr(sexp))
 		for i, arg := range args {
 			if i != 0 {
 				fmt.Fprintf(w, ", ")
 			}
-			if kl.IsSymbol(arg) {
+			if IsSymbol(arg) {
 				fmt.Fprintf(w, "%s", symbolAsVar(arg))
 			} else {
-				if err := generateExpr(declare, w, arg, false); err != nil {
+				if err := cg.generateExpr(w, arg, false); err != nil {
 					return err
 				}
 			}
@@ -275,8 +277,8 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 		}
 	case "try-catch":
 		// (try-catch body handle)
-		body := kl.Car(kl.Cdr(sexp))
-		handle := kl.Car(kl.Cdr(kl.Cdr(sexp)))
+		body := Car(Cdr(sexp))
+		handle := Car(Cdr(Cdr(sexp)))
 		if tail {
 			fmt.Fprintf(w, "__e.Return(")
 		}
@@ -290,21 +292,21 @@ func generateExpr(declare map[kl.Obj]struct{}, w io.Writer, sexp kl.Obj, tail bo
 	return nil
 }
 
-func generateConst(declare map[kl.Obj]struct{}, w io.Writer, c kl.Obj) error {
+func (cg *codeGenerator) generateConst(w io.Writer, c Obj) error {
 	switch {
-	case kl.IsNumber(c):
-		fmt.Fprintf(w, "MakeNumber(%d)", kl.GetInteger(c))
-	case kl.IsString(c):
-		str := kl.GetString(c)
+	case IsNumber(c):
+		fmt.Fprintf(w, "MakeNumber(%d)", GetInteger(c))
+	case IsString(c):
+		str := GetString(c)
 		fmt.Fprintf(w, "MakeString(%#v)", str)
-	case kl.IsSymbol(c):
-		str := kl.GetSymbol(c)
+	case IsSymbol(c):
+		str := GetSymbol(c)
 		fmt.Fprintf(w, "MakeSymbol(\"%s\")", str)
-	case c == kl.Nil:
+	case c == Nil:
 		fmt.Fprintf(w, "Nil")
-	case c == kl.True:
+	case c == True:
 		fmt.Fprintf(w, "True")
-	case c == kl.False:
+	case c == False:
 		fmt.Fprintf(w, "False")
 	default:
 		return errors.New("unknown $const instruct")
@@ -312,17 +314,17 @@ func generateConst(declare map[kl.Obj]struct{}, w io.Writer, c kl.Obj) error {
 	return nil
 }
 
-func generateIfExpr(declare map[kl.Obj]struct{}, w io.Writer, a, b, c kl.Obj, tail bool) error {
+func (cg *codeGenerator) generateIfExpr(w io.Writer, a, b, c Obj, tail bool) error {
 	fmt.Fprintf(w, "if True == ")
-	if err := generateExpr(declare, w, a, false); err != nil {
+	if err := cg.generateExpr(w, a, false); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, " {\n")
-	if err := generateExpr(declare, w, b, tail); err != nil {
+	if err := cg.generateExpr(w, b, tail); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, "} else {\n")
-	if err := generateExpr(declare, w, c, tail); err != nil {
+	if err := cg.generateExpr(w, c, tail); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, "}\n")

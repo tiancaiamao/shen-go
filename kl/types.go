@@ -152,13 +152,14 @@ func IsSymbol(o Obj) bool {
 	return *o == scmHeadSymbol
 }
 
-func MakePrimitive(name string, arity int, f func(e Evaluator)) *scmPrimitive {
-	return &scmPrimitive{
+func MakePrimitive(name string, arity int, f func(e Evaluator)) Obj {
+	tmp := &scmPrimitive{
 		scmHead:  scmHeadPrimitive,
 		Name:     name,
 		Required: arity,
 		Function: f,
 	}
+	return Obj(&tmp.scmHead)
 }
 
 func isPrimitive(o Obj) (bool, *scmPrimitive) {
