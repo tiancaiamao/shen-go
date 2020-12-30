@@ -23,7 +23,6 @@ const (
 	scmHeadBoolean           = 6
 	scmHeadProcedure         = 14
 	scmHeadStream            = 17
-	scmHeadPrimitive         = 21
 	scmHeadError             = 22
 	scmHeadNative            = 23
 	scmHeadRaw               = 42
@@ -78,22 +77,15 @@ type scmProcedure struct {
 	env   Obj
 }
 
-type scmPrimitive struct {
-	scmHead
-	Name     string
-	Required int
-	Function func(Evaluator)
-}
-
 type scmNative struct {
 	scmHead
 	name     string
-	fn       func(Evaluator, ...Obj)
+	fn       func(Evaluator)
 	require  int
 	captured []Obj
 }
 
-func MakeNative(fn func(Evaluator, ...Obj), require int, captured ...Obj) Obj {
+func MakeNative(fn func(Evaluator), require int, captured ...Obj) Obj {
 	tmp := scmNative{
 		scmHead:  scmHeadNative,
 		fn:       fn,
@@ -153,27 +145,13 @@ func IsSymbol(o Obj) bool {
 }
 
 func MakePrimitive(name string, arity int, f func(e Evaluator)) Obj {
-	tmp := &scmPrimitive{
-		scmHead:  scmHeadPrimitive,
-		Name:     name,
-		Required: arity,
-		Function: f,
+	tmp := &scmNative{
+		scmHead: scmHeadNative,
+		name:    name,
+		require: arity,
+		fn:      f,
 	}
 	return Obj(&tmp.scmHead)
-}
-
-func isPrimitive(o Obj) (bool, *scmPrimitive) {
-	if *o != scmHeadPrimitive {
-		return false, nil
-	}
-	return true, (*scmPrimitive)(unsafe.Pointer(o))
-}
-
-func mustPrimitive(o Obj) *scmPrimitive {
-	if *o != scmHeadPrimitive {
-		panic(MakeError("mustPrimitive"))
-	}
-	return (*scmPrimitive)(unsafe.Pointer(o))
 }
 
 func mustVector(o Obj) []Obj {
@@ -487,12 +465,13 @@ func (o *scmHead) GoString() string {
 		return "#procedure"
 	case scmHeadStream:
 		return "#stream"
-	case scmHeadPrimitive:
-		prim := mustPrimitive(o)
-		return fmt.Sprintf("#primitive(%s)", prim.Name)
 	case scmHeadRaw:
 		return "#raw"
 	case scmHeadNative:
+		prim := MustNative(o)
+		if len(prim.name) > 0 {
+			return fmt.Sprintf("#primitive(%s)", prim.name)
+		}
 		return "#native"
 	}
 	return fmt.Sprintf("unknown type %d", *o)

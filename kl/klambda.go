@@ -9,20 +9,6 @@ type KLambda struct {
 	ControlFlow
 }
 
-func primEvalKL(e Evaluator) {
-	e.Return(evalExp(e, e.Get(1), Nil))
-	return
-}
-
-func primLoadFile(isCora bool) func(e Evaluator) {
-	return func(e Evaluator) {
-		path := mustString(e.Get(1))
-		res := loadFile(e, isCora, path)
-		e.Return(res)
-		return
-	}
-}
-
 func (e *KLambda) LoadFile(file string) Obj {
 	return loadFile(e, false, file)
 }
@@ -33,7 +19,7 @@ func (e *KLambda) eval() {
 
 	switch *exp {
 	// handle constant
-	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure, scmHeadPrimitive:
+	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure /* , scmHeadPrimitive */ :
 		e.Return(exp)
 		return
 	case scmHeadSymbol:
@@ -165,7 +151,7 @@ func (e *KLambda) evalFunction(fn Obj, env Obj) Obj {
 	}
 
 	switch *fn {
-	case scmHeadPrimitive, scmHeadProcedure, scmHeadNative:
+	case /* scmHeadPrimitive, */ scmHeadProcedure, scmHeadNative:
 		return fn
 	case scmHeadPair:
 		return evalExp(e, fn, env)

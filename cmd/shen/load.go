@@ -3,174 +3,174 @@ package main
 import . "github.com/tiancaiamao/shen-go/kl"
 
 func init() {
-	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
+	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator) {
 		MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
 
-		gen11834 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V701 := __args[0]
+		gen9586 := MakeNative(func(__e Evaluator) {
+			V701 := __e.Get(1)
 			_ = V701
-			gen11817 := Call(__e, ShenFunc(symget_1time), MakeSymbol("run"))
+			gen9569 := Call(__e, ShenFunc(symget_1time), MakeSymbol("run"))
 
-			Start := gen11817
-			gen11818 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
+			Start := gen9569
+			gen9570 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
 
-			gen11819 := Call(__e, ShenFunc(symread_1file), V701)
+			gen9571 := Call(__e, ShenFunc(symread_1file), V701)
 
-			gen11820 := Call(__e, ShenFunc(symshen_4load_1help), gen11818, gen11819)
+			gen9572 := Call(__e, ShenFunc(symshen_4load_1help), gen9570, gen9571)
 
-			Result := gen11820
-			gen11821 := Call(__e, ShenFunc(symget_1time), MakeSymbol("run"))
+			Result := gen9572
+			gen9573 := Call(__e, ShenFunc(symget_1time), MakeSymbol("run"))
 
-			Finish := gen11821
-			gen11822 := Call(__e, ShenFunc(sym_1), Finish, Start)
+			Finish := gen9573
+			gen9574 := Call(__e, ShenFunc(sym_1), Finish, Start)
 
-			Time := gen11822
-			gen11823 := Call(__e, ShenFunc(symstr), Time)
+			Time := gen9574
+			gen9575 := Call(__e, ShenFunc(symstr), Time)
 
-			gen11824 := Call(__e, ShenFunc(symcn), gen11823, MakeString(" secs\n"))
+			gen9576 := Call(__e, ShenFunc(symcn), gen9575, MakeString(" secs\n"))
 
-			gen11825 := Call(__e, ShenFunc(symcn), MakeString("\nrun time: "), gen11824)
+			gen9577 := Call(__e, ShenFunc(symcn), MakeString("\nrun time: "), gen9576)
 
-			gen11826 := Call(__e, ShenFunc(symstoutput))
+			gen9578 := Call(__e, ShenFunc(symstoutput))
 
-			gen11827 := Call(__e, ShenFunc(symshen_4prhush), gen11825, gen11826)
+			gen9579 := Call(__e, ShenFunc(symshen_4prhush), gen9577, gen9578)
 
-			Message := gen11827
+			Message := gen9579
 			_ = Message
 			Load := Result
 			_ = Load
-			gen11832 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
+			gen9584 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*tc*"))
 
-			var gen11833 Obj
-			if True == gen11832 {
-				gen11828 := Call(__e, ShenFunc(syminferences))
+			var gen9585 Obj
+			if True == gen9584 {
+				gen9580 := Call(__e, ShenFunc(syminferences))
 
-				gen11829 := Call(__e, ShenFunc(symshen_4app), gen11828, MakeString(" inferences\n"), MakeSymbol("shen.a"))
+				gen9581 := Call(__e, ShenFunc(symshen_4app), gen9580, MakeString(" inferences\n"), MakeSymbol("shen.a"))
 
-				gen11830 := Call(__e, ShenFunc(symcn), MakeString("\ntypechecked in "), gen11829)
+				gen9582 := Call(__e, ShenFunc(symcn), MakeString("\ntypechecked in "), gen9581)
 
-				gen11831 := Call(__e, ShenFunc(symstoutput))
+				gen9583 := Call(__e, ShenFunc(symstoutput))
 
-				gen11833 = Call(__e, ShenFunc(symshen_4prhush), gen11830, gen11831)
+				gen9585 = Call(__e, ShenFunc(symshen_4prhush), gen9582, gen9583)
 
 			} else {
-				gen11833 = MakeSymbol("shen.skip")
+				gen9585 = MakeSymbol("shen.skip")
 			}
-			Infs := gen11833
+			Infs := gen9585
 			_ = Infs
 			__e.Return(MakeSymbol("loaded"))
 			return
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("load"), gen11834)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("load"), gen9586)
 
-		gen11849 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V708 := __args[0]
+		gen9601 := MakeNative(func(__e Evaluator) {
+			V708 := __e.Get(1)
 			_ = V708
-			V709 := __args[1]
+			V709 := __e.Get(2)
 			_ = V709
-			gen11848 := Call(__e, ShenFunc(sym_a), False, V708)
+			gen9600 := Call(__e, ShenFunc(sym_a), False, V708)
 
-			if True == gen11848 {
-				gen11847 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					X := __args[0]
+			if True == gen9600 {
+				gen9599 := MakeNative(func(__e Evaluator) {
+					X := __e.Get(1)
 					_ = X
-					gen11844 := Call(__e, ShenFunc(symshen_4eval_1without_1macros), X)
+					gen9596 := Call(__e, ShenFunc(symshen_4eval_1without_1macros), X)
 
-					gen11845 := Call(__e, ShenFunc(symshen_4app), gen11844, MakeString("\n"), MakeSymbol("shen.s"))
+					gen9597 := Call(__e, ShenFunc(symshen_4app), gen9596, MakeString("\n"), MakeSymbol("shen.s"))
 
-					gen11846 := Call(__e, ShenFunc(symstoutput))
+					gen9598 := Call(__e, ShenFunc(symstoutput))
 
-					__e.TailApply(ShenFunc(symshen_4prhush), gen11845, gen11846)
+					__e.TailApply(ShenFunc(symshen_4prhush), gen9597, gen9598)
 
 					return
 
 				}, 1)
-				__e.TailApply(ShenFunc(symshen_4for_1each), gen11847, V709)
+				__e.TailApply(ShenFunc(symshen_4for_1each), gen9599, V709)
 
 				return
 
 			} else {
-				gen11835 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					X := __args[0]
+				gen9587 := MakeNative(func(__e Evaluator) {
+					X := __e.Get(1)
 					_ = X
 					__e.TailApply(ShenFunc(symshen_4remove_1synonyms), X)
 
 					return
 				}, 1)
-				gen11836 := Call(__e, ShenFunc(symmapcan), gen11835, V709)
+				gen9588 := Call(__e, ShenFunc(symmapcan), gen9587, V709)
 
-				RemoveSynonyms := gen11836
-				gen11837 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					X := __args[0]
+				RemoveSynonyms := gen9588
+				gen9589 := MakeNative(func(__e Evaluator) {
+					X := __e.Get(1)
 					_ = X
 					__e.TailApply(ShenFunc(symshen_4typetable), X)
 
 					return
 				}, 1)
-				gen11838 := Call(__e, ShenFunc(symmapcan), gen11837, RemoveSynonyms)
+				gen9590 := Call(__e, ShenFunc(symmapcan), gen9589, RemoveSynonyms)
 
-				Table := gen11838
-				gen11839 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					X := __args[0]
+				Table := gen9590
+				gen9591 := MakeNative(func(__e Evaluator) {
+					X := __e.Get(1)
 					_ = X
 					__e.TailApply(ShenFunc(symshen_4assumetype), X)
 
 					return
 				}, 1)
-				gen11840 := Call(__e, ShenFunc(symshen_4for_1each), gen11839, Table)
+				gen9592 := Call(__e, ShenFunc(symshen_4for_1each), gen9591, Table)
 
-				Assume := gen11840
+				Assume := gen9592
 				_ = Assume
-				gen11841 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					E := __args[0]
+				gen9593 := MakeNative(func(__e Evaluator) {
+					E := __e.Get(1)
 					_ = E
 					__e.TailApply(ShenFunc(symshen_4unwind_1types), E, Table)
 
 					return
 				}, 1)
-				gen11843 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					gen11842 := MakeNative(func(__e Evaluator, __args ...Obj) {
-						X := __args[0]
+				gen9595 := MakeNative(func(__e Evaluator) {
+					gen9594 := MakeNative(func(__e Evaluator) {
+						X := __e.Get(1)
 						_ = X
 						__e.TailApply(ShenFunc(symshen_4typecheck_1and_1load), X)
 
 						return
 					}, 1)
-					__e.TailApply(ShenFunc(symshen_4for_1each), gen11842, RemoveSynonyms)
+					__e.TailApply(ShenFunc(symshen_4for_1each), gen9594, RemoveSynonyms)
 
 					return
 
 				}, 0)
-				__e.Return(Try(__e, gen11843).Catch(gen11841))
+				__e.Return(Try(__e, gen9595).Catch(gen9593))
 				return
 
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.load-help"), gen11849)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.load-help"), gen9601)
 
-		gen11854 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V711 := __args[0]
+		gen9606 := MakeNative(func(__e Evaluator) {
+			V711 := __e.Get(1)
 			_ = V711
-			gen11852 := Call(__e, ShenFunc(symcons_2), V711)
+			gen9604 := Call(__e, ShenFunc(symcons_2), V711)
 
-			var gen11853 Obj
-			if True == gen11852 {
-				gen11850 := Call(__e, ShenFunc(symhd), V711)
+			var gen9605 Obj
+			if True == gen9604 {
+				gen9602 := Call(__e, ShenFunc(symhd), V711)
 
-				gen11851 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.synonyms-help"), gen11850)
+				gen9603 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.synonyms-help"), gen9602)
 
-				if True == gen11851 {
-					gen11853 = True
+				if True == gen9603 {
+					gen9605 = True
 				} else {
-					gen11853 = False
+					gen9605 = False
 				}
 
 			} else {
-				gen11853 = False
+				gen9605 = False
 			}
-			if True == gen11853 {
+			if True == gen9605 {
 				Call(__e, ShenFunc(symeval), V711)
 				__e.Return(Nil)
 				return
@@ -182,92 +182,92 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.remove-synonyms"), gen11854)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.remove-synonyms"), gen9606)
 
-		gen11856 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V713 := __args[0]
+		gen9608 := MakeNative(func(__e Evaluator) {
+			V713 := __e.Get(1)
 			_ = V713
 			Call(__e, ShenFunc(symnl), MakeNumber(1))
-			gen11855 := Call(__e, ShenFunc(symgensym), MakeSymbol("A"))
+			gen9607 := Call(__e, ShenFunc(symgensym), MakeSymbol("A"))
 
-			__e.TailApply(ShenFunc(symshen_4typecheck_1and_1evaluate), V713, gen11855)
+			__e.TailApply(ShenFunc(symshen_4typecheck_1and_1evaluate), V713, gen9607)
 
 			return
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typecheck-and-load"), gen11856)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typecheck-and-load"), gen9608)
 
-		gen11875 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V719 := __args[0]
+		gen9627 := MakeNative(func(__e Evaluator) {
+			V719 := __e.Get(1)
 			_ = V719
-			gen11873 := Call(__e, ShenFunc(symcons_2), V719)
+			gen9625 := Call(__e, ShenFunc(symcons_2), V719)
 
-			var gen11874 Obj
-			if True == gen11873 {
-				gen11870 := Call(__e, ShenFunc(symhd), V719)
+			var gen9626 Obj
+			if True == gen9625 {
+				gen9622 := Call(__e, ShenFunc(symhd), V719)
 
-				gen11871 := Call(__e, ShenFunc(sym_a), MakeSymbol("define"), gen11870)
+				gen9623 := Call(__e, ShenFunc(sym_a), MakeSymbol("define"), gen9622)
 
-				var gen11872 Obj
-				if True == gen11871 {
-					gen11868 := Call(__e, ShenFunc(symtl), V719)
+				var gen9624 Obj
+				if True == gen9623 {
+					gen9620 := Call(__e, ShenFunc(symtl), V719)
 
-					gen11869 := Call(__e, ShenFunc(symcons_2), gen11868)
+					gen9621 := Call(__e, ShenFunc(symcons_2), gen9620)
 
-					if True == gen11869 {
-						gen11872 = True
+					if True == gen9621 {
+						gen9624 = True
 					} else {
-						gen11872 = False
+						gen9624 = False
 					}
 
 				} else {
-					gen11872 = False
+					gen9624 = False
 				}
-				if True == gen11872 {
-					gen11874 = True
+				if True == gen9624 {
+					gen9626 = True
 				} else {
-					gen11874 = False
+					gen9626 = False
 				}
 
 			} else {
-				gen11874 = False
+				gen9626 = False
 			}
-			if True == gen11874 {
-				gen11857 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					Y := __args[0]
+			if True == gen9626 {
+				gen9609 := MakeNative(func(__e Evaluator) {
+					Y := __e.Get(1)
 					_ = Y
 					__e.TailApply(ShenFunc(symshen_4_5sig_7rest_6), Y)
 
 					return
 				}, 1)
-				gen11858 := Call(__e, ShenFunc(symtl), V719)
+				gen9610 := Call(__e, ShenFunc(symtl), V719)
 
-				gen11859 := Call(__e, ShenFunc(symtl), gen11858)
+				gen9611 := Call(__e, ShenFunc(symtl), gen9610)
 
-				gen11863 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					E := __args[0]
+				gen9615 := MakeNative(func(__e Evaluator) {
+					E := __e.Get(1)
 					_ = E
-					gen11860 := Call(__e, ShenFunc(symtl), V719)
+					gen9612 := Call(__e, ShenFunc(symtl), V719)
 
-					gen11861 := Call(__e, ShenFunc(symhd), gen11860)
+					gen9613 := Call(__e, ShenFunc(symhd), gen9612)
 
-					gen11862 := Call(__e, ShenFunc(symshen_4app), gen11861, MakeString(" lacks a proper signature.\n"), MakeSymbol("shen.a"))
+					gen9614 := Call(__e, ShenFunc(symshen_4app), gen9613, MakeString(" lacks a proper signature.\n"), MakeSymbol("shen.a"))
 
-					__e.TailApply(ShenFunc(symsimple_1error), gen11862)
+					__e.TailApply(ShenFunc(symsimple_1error), gen9614)
 
 					return
 
 				}, 1)
-				gen11864 := Call(__e, ShenFunc(symcompile), gen11857, gen11859, gen11863)
+				gen9616 := Call(__e, ShenFunc(symcompile), gen9609, gen9611, gen9615)
 
-				Sig := gen11864
-				gen11865 := Call(__e, ShenFunc(symtl), V719)
+				Sig := gen9616
+				gen9617 := Call(__e, ShenFunc(symtl), V719)
 
-				gen11866 := Call(__e, ShenFunc(symhd), gen11865)
+				gen9618 := Call(__e, ShenFunc(symhd), gen9617)
 
-				gen11867 := Call(__e, ShenFunc(symcons), gen11866, Sig)
+				gen9619 := Call(__e, ShenFunc(symcons), gen9618, Sig)
 
-				__e.TailApply(ShenFunc(symcons), gen11867, Nil)
+				__e.TailApply(ShenFunc(symcons), gen9619, Nil)
 
 				return
 
@@ -277,19 +277,19 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typetable"), gen11875)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.typetable"), gen9627)
 
-		gen11879 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V721 := __args[0]
+		gen9631 := MakeNative(func(__e Evaluator) {
+			V721 := __e.Get(1)
 			_ = V721
-			gen11878 := Call(__e, ShenFunc(symcons_2), V721)
+			gen9630 := Call(__e, ShenFunc(symcons_2), V721)
 
-			if True == gen11878 {
-				gen11876 := Call(__e, ShenFunc(symhd), V721)
+			if True == gen9630 {
+				gen9628 := Call(__e, ShenFunc(symhd), V721)
 
-				gen11877 := Call(__e, ShenFunc(symtl), V721)
+				gen9629 := Call(__e, ShenFunc(symtl), V721)
 
-				__e.TailApply(ShenFunc(symdeclare), gen11876, gen11877)
+				__e.TailApply(ShenFunc(symdeclare), gen9628, gen9629)
 
 				return
 
@@ -300,50 +300,50 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.assumetype"), gen11879)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.assumetype"), gen9631)
 
-		gen11889 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V728 := __args[0]
+		gen9641 := MakeNative(func(__e Evaluator) {
+			V728 := __e.Get(1)
 			_ = V728
-			V729 := __args[1]
+			V729 := __e.Get(2)
 			_ = V729
-			gen11888 := Call(__e, ShenFunc(sym_a), Nil, V729)
+			gen9640 := Call(__e, ShenFunc(sym_a), Nil, V729)
 
-			if True == gen11888 {
-				gen11887 := Call(__e, ShenFunc(symerror_1to_1string), V728)
+			if True == gen9640 {
+				gen9639 := Call(__e, ShenFunc(symerror_1to_1string), V728)
 
-				__e.TailApply(ShenFunc(symsimple_1error), gen11887)
+				__e.TailApply(ShenFunc(symsimple_1error), gen9639)
 
 				return
 
 			} else {
-				gen11885 := Call(__e, ShenFunc(symcons_2), V729)
+				gen9637 := Call(__e, ShenFunc(symcons_2), V729)
 
-				var gen11886 Obj
-				if True == gen11885 {
-					gen11883 := Call(__e, ShenFunc(symhd), V729)
+				var gen9638 Obj
+				if True == gen9637 {
+					gen9635 := Call(__e, ShenFunc(symhd), V729)
 
-					gen11884 := Call(__e, ShenFunc(symcons_2), gen11883)
+					gen9636 := Call(__e, ShenFunc(symcons_2), gen9635)
 
-					if True == gen11884 {
-						gen11886 = True
+					if True == gen9636 {
+						gen9638 = True
 					} else {
-						gen11886 = False
+						gen9638 = False
 					}
 
 				} else {
-					gen11886 = False
+					gen9638 = False
 				}
-				if True == gen11886 {
-					gen11880 := Call(__e, ShenFunc(symhd), V729)
+				if True == gen9638 {
+					gen9632 := Call(__e, ShenFunc(symhd), V729)
 
-					gen11881 := Call(__e, ShenFunc(symhd), gen11880)
+					gen9633 := Call(__e, ShenFunc(symhd), gen9632)
 
-					Call(__e, ShenFunc(symshen_4remtype), gen11881)
+					Call(__e, ShenFunc(symshen_4remtype), gen9633)
 
-					gen11882 := Call(__e, ShenFunc(symtl), V729)
+					gen9634 := Call(__e, ShenFunc(symtl), V729)
 
-					__e.TailApply(ShenFunc(symshen_4unwind_1types), V728, gen11882)
+					__e.TailApply(ShenFunc(symshen_4unwind_1types), V728, gen9634)
 
 					return
 
@@ -356,89 +356,89 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.unwind-types"), gen11889)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.unwind-types"), gen9641)
 
-		gen11892 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V731 := __args[0]
+		gen9644 := MakeNative(func(__e Evaluator) {
+			V731 := __e.Get(1)
 			_ = V731
-			gen11890 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*signedfuncs*"))
+			gen9642 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.*signedfuncs*"))
 
-			gen11891 := Call(__e, ShenFunc(symshen_4removetype), V731, gen11890)
+			gen9643 := Call(__e, ShenFunc(symshen_4removetype), V731, gen9642)
 
-			__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*signedfuncs*"), gen11891)
+			__e.TailApply(ShenFunc(symset), MakeSymbol("shen.*signedfuncs*"), gen9643)
 
 			return
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.remtype"), gen11892)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.remtype"), gen9644)
 
-		gen11909 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V739 := __args[0]
+		gen9661 := MakeNative(func(__e Evaluator) {
+			V739 := __e.Get(1)
 			_ = V739
-			V740 := __args[1]
+			V740 := __e.Get(2)
 			_ = V740
-			gen11908 := Call(__e, ShenFunc(sym_a), Nil, V740)
+			gen9660 := Call(__e, ShenFunc(sym_a), Nil, V740)
 
-			if True == gen11908 {
+			if True == gen9660 {
 				__e.Return(Nil)
 				return
 			} else {
-				gen11906 := Call(__e, ShenFunc(symcons_2), V740)
+				gen9658 := Call(__e, ShenFunc(symcons_2), V740)
 
-				var gen11907 Obj
-				if True == gen11906 {
-					gen11903 := Call(__e, ShenFunc(symhd), V740)
+				var gen9659 Obj
+				if True == gen9658 {
+					gen9655 := Call(__e, ShenFunc(symhd), V740)
 
-					gen11904 := Call(__e, ShenFunc(symcons_2), gen11903)
+					gen9656 := Call(__e, ShenFunc(symcons_2), gen9655)
 
-					var gen11905 Obj
-					if True == gen11904 {
-						gen11900 := Call(__e, ShenFunc(symhd), V740)
+					var gen9657 Obj
+					if True == gen9656 {
+						gen9652 := Call(__e, ShenFunc(symhd), V740)
 
-						gen11901 := Call(__e, ShenFunc(symhd), gen11900)
+						gen9653 := Call(__e, ShenFunc(symhd), gen9652)
 
-						gen11902 := Call(__e, ShenFunc(sym_a), gen11901, V739)
+						gen9654 := Call(__e, ShenFunc(sym_a), gen9653, V739)
 
-						if True == gen11902 {
-							gen11905 = True
+						if True == gen9654 {
+							gen9657 = True
 						} else {
-							gen11905 = False
+							gen9657 = False
 						}
 
 					} else {
-						gen11905 = False
+						gen9657 = False
 					}
-					if True == gen11905 {
-						gen11907 = True
+					if True == gen9657 {
+						gen9659 = True
 					} else {
-						gen11907 = False
+						gen9659 = False
 					}
 
 				} else {
-					gen11907 = False
+					gen9659 = False
 				}
-				if True == gen11907 {
-					gen11897 := Call(__e, ShenFunc(symhd), V740)
+				if True == gen9659 {
+					gen9649 := Call(__e, ShenFunc(symhd), V740)
 
-					gen11898 := Call(__e, ShenFunc(symhd), gen11897)
+					gen9650 := Call(__e, ShenFunc(symhd), gen9649)
 
-					gen11899 := Call(__e, ShenFunc(symtl), V740)
+					gen9651 := Call(__e, ShenFunc(symtl), V740)
 
-					__e.TailApply(ShenFunc(symshen_4removetype), gen11898, gen11899)
+					__e.TailApply(ShenFunc(symshen_4removetype), gen9650, gen9651)
 
 					return
 
 				} else {
-					gen11896 := Call(__e, ShenFunc(symcons_2), V740)
+					gen9648 := Call(__e, ShenFunc(symcons_2), V740)
 
-					if True == gen11896 {
-						gen11893 := Call(__e, ShenFunc(symhd), V740)
+					if True == gen9648 {
+						gen9645 := Call(__e, ShenFunc(symhd), V740)
 
-						gen11894 := Call(__e, ShenFunc(symtl), V740)
+						gen9646 := Call(__e, ShenFunc(symtl), V740)
 
-						gen11895 := Call(__e, ShenFunc(symshen_4removetype), V739, gen11894)
+						gen9647 := Call(__e, ShenFunc(symshen_4removetype), V739, gen9646)
 
-						__e.TailApply(ShenFunc(symcons), gen11893, gen11895)
+						__e.TailApply(ShenFunc(symcons), gen9645, gen9647)
 
 						return
 
@@ -453,36 +453,36 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.removetype"), gen11909)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.removetype"), gen9661)
 
-		gen11920 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V742 := __args[0]
+		gen9672 := MakeNative(func(__e Evaluator) {
+			V742 := __e.Get(1)
 			_ = V742
-			gen11910 := Call(__e, ShenFunc(symshen_4_5signature_6), V742)
+			gen9662 := Call(__e, ShenFunc(symshen_4_5signature_6), V742)
 
-			Parse__shen_4_5signature_6 := gen11910
-			gen11917 := Call(__e, ShenFunc(symfail))
+			Parse__shen_4_5signature_6 := gen9662
+			gen9669 := Call(__e, ShenFunc(symfail))
 
-			gen11918 := Call(__e, ShenFunc(sym_a), gen11917, Parse__shen_4_5signature_6)
+			gen9670 := Call(__e, ShenFunc(sym_a), gen9669, Parse__shen_4_5signature_6)
 
-			gen11919 := Call(__e, ShenFunc(symnot), gen11918)
+			gen9671 := Call(__e, ShenFunc(symnot), gen9670)
 
-			if True == gen11919 {
-				gen11911 := Call(__e, ShenFunc(sym_5_b_6), Parse__shen_4_5signature_6)
+			if True == gen9671 {
+				gen9663 := Call(__e, ShenFunc(sym_5_b_6), Parse__shen_4_5signature_6)
 
-				Parse___5_b_6 := gen11911
-				gen11914 := Call(__e, ShenFunc(symfail))
+				Parse___5_b_6 := gen9663
+				gen9666 := Call(__e, ShenFunc(symfail))
 
-				gen11915 := Call(__e, ShenFunc(sym_a), gen11914, Parse___5_b_6)
+				gen9667 := Call(__e, ShenFunc(sym_a), gen9666, Parse___5_b_6)
 
-				gen11916 := Call(__e, ShenFunc(symnot), gen11915)
+				gen9668 := Call(__e, ShenFunc(symnot), gen9667)
 
-				if True == gen11916 {
-					gen11912 := Call(__e, ShenFunc(symhd), Parse___5_b_6)
+				if True == gen9668 {
+					gen9664 := Call(__e, ShenFunc(symhd), Parse___5_b_6)
 
-					gen11913 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5signature_6)
+					gen9665 := Call(__e, ShenFunc(symshen_4hdtl), Parse__shen_4_5signature_6)
 
-					__e.TailApply(ShenFunc(symshen_4pair), gen11912, gen11913)
+					__e.TailApply(ShenFunc(symshen_4pair), gen9664, gen9665)
 
 					return
 
@@ -499,40 +499,40 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<sig+rest>"), gen11920)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.<sig+rest>"), gen9672)
 
-		gen11926 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V745 := __args[0]
+		gen9678 := MakeNative(func(__e Evaluator) {
+			V745 := __e.Get(1)
 			_ = V745
-			V746 := __args[1]
+			V746 := __e.Get(2)
 			_ = V746
-			gen11921 := Call(__e, ShenFunc(symopen), V745, MakeSymbol("out"))
+			gen9673 := Call(__e, ShenFunc(symopen), V745, MakeSymbol("out"))
 
-			Stream := gen11921
-			gen11922 := Call(__e, ShenFunc(symstring_2), V746)
+			Stream := gen9673
+			gen9674 := Call(__e, ShenFunc(symstring_2), V746)
 
-			var gen11923 Obj
-			if True == gen11922 {
-				gen11923 = Call(__e, ShenFunc(symshen_4app), V746, MakeString("\n\n"), MakeSymbol("shen.a"))
+			var gen9675 Obj
+			if True == gen9674 {
+				gen9675 = Call(__e, ShenFunc(symshen_4app), V746, MakeString("\n\n"), MakeSymbol("shen.a"))
 
 			} else {
-				gen11923 = Call(__e, ShenFunc(symshen_4app), V746, MakeString("\n\n"), MakeSymbol("shen.s"))
+				gen9675 = Call(__e, ShenFunc(symshen_4app), V746, MakeString("\n\n"), MakeSymbol("shen.s"))
 
 			}
-			String := gen11923
-			gen11924 := Call(__e, ShenFunc(sympr), String, Stream)
+			String := gen9675
+			gen9676 := Call(__e, ShenFunc(sympr), String, Stream)
 
-			Write := gen11924
+			Write := gen9676
 			_ = Write
-			gen11925 := Call(__e, ShenFunc(symclose), Stream)
+			gen9677 := Call(__e, ShenFunc(symclose), Stream)
 
-			Close := gen11925
+			Close := gen9677
 			_ = Close
 			__e.Return(V746)
 			return
 
 		}, 2)
-		__e.TailApply(ShenFunc(symdefun), MakeSymbol("write-to-file"), gen11926)
+		__e.TailApply(ShenFunc(symdefun), MakeSymbol("write-to-file"), gen9678)
 
 		return
 

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"unsafe"
 )
 
 var (
@@ -13,15 +14,24 @@ var (
 	modeCora = MakeSymbol("cora")
 )
 
-func codeGen(e Evaluator) {
+var makeCodeGenerator = MakePrimitive("make-code-generator", 1, func(e Evaluator) {
+	// (make-code-generator 'cora)
 	mode := e.Get(1)
-	inFile := mustString(e.Get(2))
-	outFile := mustString(e.Get(3))
-
 	cg := &codeGenerator{
 		declare: make(map[Obj]struct{}),
 		mode:    mode,
 	}
+	e.Return(MakeRaw(&cg.scmHead))
+	return
+})
+
+var bcToGo = MakePrimitive("cg:bc->go", 4, func(e Evaluator) {
+	// (let cg (make-code-generator 'shen)
+	//      (bc->go cg true "xx.bc" "xx.go"))
+	cg := (*codeGenerator)(unsafe.Pointer(e.Get(1)))
+	genSym := e.Get(2)
+	inFile := mustString(e.Get(3))
+	outFile := mustString(e.Get(4))
 
 	f, err := os.Open(inFile)
 	if err != nil {
@@ -41,11 +51,13 @@ func codeGen(e Evaluator) {
 		e.Return(MakeError(err.Error()))
 		return
 	}
-	cg.HandleSymbol(out)
+	if genSym == True {
+		cg.HandleSymbol(out)
+	}
 
 	e.Return(Nil)
 	return
-}
+})
 
 // 	fileNames := []string{
 // 		"toplevel",
@@ -71,6 +83,7 @@ func codeGen(e Evaluator) {
 // 	}
 
 type codeGenerator struct {
+	scmHead int
 	mode    Obj
 	declare map[Obj]struct{}
 }
@@ -79,7 +92,7 @@ func (cg *codeGenerator) HandleBody(f io.Reader, out io.Writer) error {
 	fmt.Fprintf(out, "package main\n\n")
 	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
 	fmt.Fprintf(out, `func init() {
-    __initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
+    __initExprs = append(__initExprs, MakeNative(func(__e Evaluator) {
 `)
 	r := NewSexpReader(f, false)
 	bc, err := r.Read()
@@ -217,9 +230,9 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 		if tail {
 			fmt.Fprintf(w, "__e.Return(")
 		}
-		fmt.Fprintf(w, "MakeNative(func(__e Evaluator, __args ...Obj) {\n")
+		fmt.Fprintf(w, "MakeNative(func(__e Evaluator) {\n")
 		for i, arg := range args {
-			fmt.Fprintf(w, "%s := __args[%d]\n", symbolAsVar(arg), i)
+			fmt.Fprintf(w, "%s := __e.Get(%d)\n", symbolAsVar(arg), i+1)
 			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
 		}
 		if err := cg.generateExpr(w, Car(Cdr(Cdr(sexp))), true); err != nil {

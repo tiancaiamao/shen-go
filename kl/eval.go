@@ -2,9 +2,6 @@ package kl
 
 import (
 	"fmt"
-	"io"
-	"os"
-	"path"
 	"runtime"
 )
 
@@ -225,65 +222,12 @@ func (t tryResult) Catch(f Obj) Obj {
 	return t.data
 }
 
-func loadFile(e Evaluator, extended bool, file string) Obj {
-	var filePath string
-	if _, err := os.Stat(file); err == nil {
-		filePath = file
-	} else {
-		filePath = path.Join(PackagePath(), file)
-		if _, err := os.Stat(filePath); err != nil {
-			return MakeError(err.Error())
-		}
-	}
-
-	f, err := os.Open(filePath)
-	if err != nil {
-		return MakeError(err.Error())
-	}
-	defer f.Close()
-
-	r := NewSexpReader(f, extended)
-	for {
-		exp, err := r.Read()
-		if err != nil {
-			if err != io.EOF {
-				return MakeError(err.Error())
-			}
-			break
-		}
-
-		// Macro expand for cora.
-		if extended {
-			expand := CoraValue(symMacroExpand)
-			if expand != Nil {
-				exp = Call(e, expand, exp)
-			}
-		}
-
-		res := evalExp(e, exp, Nil)
-		if *res == scmHeadError {
-			return res
-		}
-	}
-	return MakeString(file)
-}
-
 func apply(e Evaluator) {
 	ctl := e.base()
 	f := ctl.data[ctl.pos]
 	args := ctl.data[ctl.pos+1:]
-
-	if *f == scmHeadPrimitive {
-		prim := mustPrimitive(f)
-		switch {
-		case len(args) < prim.Required:
-			ctl.Return(partialApply(prim.Required, args, Nil, f))
-			return
-		case len(args) == prim.Required:
-			prim.Function(e)
-			return
-		}
-	} else if *f == scmHeadProcedure {
+	if *f == scmHeadProcedure {
+		args := ctl.data[ctl.pos+1:]
 		proc := mustProcedure(f)
 		switch {
 		case len(args) < proc.arity:
@@ -304,29 +248,36 @@ func apply(e Evaluator) {
 		provided := len(fn.captured) + len(args)
 		required := fn.require
 		if provided == required {
-			var tmp []Obj
-			if len(fn.captured) == 0 {
-				tmp = args
-			} else {
-				tmp = make([]Obj, 0, required)
-				tmp = append(tmp, fn.captured...)
-				tmp = append(tmp, args...)
+			if len(fn.captured) > 0 {
+				// Captured data should come fisrt, then the arguments.
+				ctl.data = append(ctl.data, make([]Obj, len(fn.captured))...)
+				dst := ctl.data[len(ctl.data)-len(args):]
+				copy(dst, args)
+				dst = ctl.data[ctl.pos+1 : ctl.pos+1+len(fn.captured)]
+				copy(dst, fn.captured)
 			}
-			fn.fn(e, tmp...)
+			fn.fn(e)
 			return
 		}
 
-		tmp := make([]Obj, 0, fn.require)
-		tmp = append(tmp, fn.captured...)
 		if provided < required {
+			tmp := make([]Obj, 0, fn.require)
+			tmp = append(tmp, fn.captured...)
 			tmp = append(tmp, args...)
 			ctl.Return(MakeNative(fn.fn, fn.require, tmp...))
 			return
 		}
 
-		taken := required - len(tmp)
-		tmp = append(tmp, args[:taken]...)
-		f = Call(e, f, tmp...)
+		// Trick: instead of adjust the arguments, we use a new call stack here.
+		savePos := ctl.pos
+		ctl.pos = len(ctl.data)
+		ctl.data = append(ctl.data, f) // Actually, it's not f any more.
+		ctl.data = append(ctl.data, fn.captured...)
+		taken := required - len(fn.captured)
+		ctl.data = append(ctl.data, ctl.data[savePos+1:savePos+1+taken]...)
+		fn.fn(e)
+		f := ctl.data[ctl.pos]
+		ctl.pos = savePos
 		args = args[taken:]
 		ctl.TailApply(f, args...)
 		return

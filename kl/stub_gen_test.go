@@ -1,14 +1,14 @@
 package kl
 
-var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
-	gen5 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		gen1 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			e := __args[0]
+var Load = MakeNative(func(__e Evaluator) {
+	gen5 := MakeNative(func(__e Evaluator) {
+		gen1 := MakeNative(func(__e Evaluator) {
+			e := __e.Get(1)
 			_ = e
 			__e.Return(MakeNumber(2))
 			return
 		}, 1)
-		gen3 := MakeNative(func(__e Evaluator, __args ...Obj) {
+		gen3 := MakeNative(func(__e Evaluator) {
 			gen2 := Call(__e, ShenFunc(symsimple_1error), MakeString("xxx"))
 
 			__e.TailApply(ShenFunc(sym_7), MakeNumber(2), gen2)
@@ -24,8 +24,8 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 0)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("f"), gen5)
 
-	gen8 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		n := __args[0]
+	gen8 := MakeNative(func(__e Evaluator) {
+		n := __e.Get(1)
 		_ = n
 		gen7 := Call(__e, ShenFunc(sym_a), n, MakeNumber(0))
 
@@ -44,10 +44,10 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 1)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("recur"), gen8)
 
-	gen12 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		sum := __args[0]
+	gen12 := MakeNative(func(__e Evaluator) {
+		sum := __e.Get(1)
 		_ = sum
-		n := __args[1]
+		n := __e.Get(2)
 		_ = n
 		gen11 := Call(__e, ShenFunc(sym_a), n, MakeNumber(0))
 
@@ -68,8 +68,8 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 2)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("fact0"), gen12)
 
-	gen13 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		n := __args[0]
+	gen13 := MakeNative(func(__e Evaluator) {
+		n := __e.Get(1)
 		_ = n
 		__e.TailApply(ShenFunc(symfact0), MakeNumber(1), n)
 
@@ -77,10 +77,10 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 1)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("fact"), gen13)
 
-	gen18 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		res := __args[0]
+	gen18 := MakeNative(func(__e Evaluator) {
+		res := __e.Get(1)
 		_ = res
-		l := __args[1]
+		l := __e.Get(2)
 		_ = l
 		gen17 := Call(__e, ShenFunc(sym_a), l, Nil)
 
@@ -103,8 +103,8 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 2)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("reverse-help"), gen18)
 
-	gen19 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		l := __args[0]
+	gen19 := MakeNative(func(__e Evaluator) {
+		l := __e.Get(1)
 		_ = l
 		__e.TailApply(ShenFunc(symreverse_1help), Nil, l)
 
@@ -112,12 +112,12 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 1)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("reverse"), gen19)
 
-	gen25 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		res := __args[0]
+	gen25 := MakeNative(func(__e Evaluator) {
+		res := __e.Get(1)
 		_ = res
-		f := __args[1]
+		f := __e.Get(2)
 		_ = f
-		l := __args[2]
+		l := __e.Get(3)
 		_ = l
 		gen24 := Call(__e, ShenFunc(symcons_2), l)
 
@@ -143,10 +143,10 @@ var Load = MakeNative(func(__e Evaluator, __args ...Obj) {
 	}, 3)
 	Call(__e, ShenFunc(symdefun), MakeSymbol("map-help"), gen25)
 
-	gen26 := MakeNative(func(__e Evaluator, __args ...Obj) {
-		f := __args[0]
+	gen26 := MakeNative(func(__e Evaluator) {
+		f := __e.Get(1)
 		_ = f
-		l := __args[1]
+		l := __e.Get(2)
 		_ = l
 		__e.TailApply(ShenFunc(symmap_1help), Nil, f, l)
 

@@ -3,54 +3,54 @@ package main
 import . "github.com/tiancaiamao/shen-go/kl"
 
 func init() {
-	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator, __args ...Obj) {
+	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator) {
 		MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
 
-		gen10279 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4724 := __args[0]
+		gen4361 := MakeNative(func(__e Evaluator) {
+			V4724 := __e.Get(1)
 			_ = V4724
-			gen10277 := Call(__e, ShenFunc(symcons_2), V4724)
+			gen4359 := Call(__e, ShenFunc(symcons_2), V4724)
 
-			var gen10278 Obj
-			if True == gen10277 {
-				gen10274 := Call(__e, ShenFunc(symhd), V4724)
+			var gen4360 Obj
+			if True == gen4359 {
+				gen4356 := Call(__e, ShenFunc(symhd), V4724)
 
-				gen10275 := Call(__e, ShenFunc(sym_a), MakeSymbol("defcc"), gen10274)
+				gen4357 := Call(__e, ShenFunc(sym_a), MakeSymbol("defcc"), gen4356)
 
-				var gen10276 Obj
-				if True == gen10275 {
-					gen10272 := Call(__e, ShenFunc(symtl), V4724)
+				var gen4358 Obj
+				if True == gen4357 {
+					gen4354 := Call(__e, ShenFunc(symtl), V4724)
 
-					gen10273 := Call(__e, ShenFunc(symcons_2), gen10272)
+					gen4355 := Call(__e, ShenFunc(symcons_2), gen4354)
 
-					if True == gen10273 {
-						gen10276 = True
+					if True == gen4355 {
+						gen4358 = True
 					} else {
-						gen10276 = False
+						gen4358 = False
 					}
 
 				} else {
-					gen10276 = False
+					gen4358 = False
 				}
-				if True == gen10276 {
-					gen10278 = True
+				if True == gen4358 {
+					gen4360 = True
 				} else {
-					gen10278 = False
+					gen4360 = False
 				}
 
 			} else {
-				gen10278 = False
+				gen4360 = False
 			}
-			if True == gen10278 {
-				gen10268 := Call(__e, ShenFunc(symtl), V4724)
+			if True == gen4360 {
+				gen4350 := Call(__e, ShenFunc(symtl), V4724)
 
-				gen10269 := Call(__e, ShenFunc(symhd), gen10268)
+				gen4351 := Call(__e, ShenFunc(symhd), gen4350)
 
-				gen10270 := Call(__e, ShenFunc(symtl), V4724)
+				gen4352 := Call(__e, ShenFunc(symtl), V4724)
 
-				gen10271 := Call(__e, ShenFunc(symtl), gen10270)
+				gen4353 := Call(__e, ShenFunc(symtl), gen4352)
 
-				__e.TailApply(ShenFunc(symshen_4yacc_1_6shen), gen10269, gen10271)
+				__e.TailApply(ShenFunc(symshen_4yacc_1_6shen), gen4351, gen4353)
 
 				return
 
@@ -61,69 +61,69 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.yacc"), gen10279)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.yacc"), gen4361)
 
-		gen10289 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4727 := __args[0]
+		gen4371 := MakeNative(func(__e Evaluator) {
+			V4727 := __e.Get(1)
 			_ = V4727
-			V4728 := __args[1]
+			V4728 := __e.Get(2)
 			_ = V4728
-			gen10280 := Call(__e, ShenFunc(symshen_4split__cc__rules), True, V4728, Nil)
+			gen4362 := Call(__e, ShenFunc(symshen_4split__cc__rules), True, V4728, Nil)
 
-			CCRules := gen10280
-			gen10281 := MakeNative(func(__e Evaluator, __args ...Obj) {
-				X := __args[0]
+			CCRules := gen4362
+			gen4363 := MakeNative(func(__e Evaluator) {
+				X := __e.Get(1)
 				_ = X
 				__e.TailApply(ShenFunc(symshen_4cc__body), X)
 
 				return
 			}, 1)
-			gen10282 := Call(__e, ShenFunc(symmap), gen10281, CCRules)
+			gen4364 := Call(__e, ShenFunc(symmap), gen4363, CCRules)
 
-			CCBody := gen10282
-			gen10283 := Call(__e, ShenFunc(symshen_4yacc__cases), CCBody)
+			CCBody := gen4364
+			gen4365 := Call(__e, ShenFunc(symshen_4yacc__cases), CCBody)
 
-			YaccCases := gen10283
-			gen10284 := Call(__e, ShenFunc(symshen_4kill_1code), YaccCases)
+			YaccCases := gen4365
+			gen4366 := Call(__e, ShenFunc(symshen_4kill_1code), YaccCases)
 
-			gen10285 := Call(__e, ShenFunc(symcons), gen10284, Nil)
+			gen4367 := Call(__e, ShenFunc(symcons), gen4366, Nil)
 
-			gen10286 := Call(__e, ShenFunc(symcons), MakeSymbol("->"), gen10285)
+			gen4368 := Call(__e, ShenFunc(symcons), MakeSymbol("->"), gen4367)
 
-			gen10287 := Call(__e, ShenFunc(symcons), MakeSymbol("Stream"), gen10286)
+			gen4369 := Call(__e, ShenFunc(symcons), MakeSymbol("Stream"), gen4368)
 
-			gen10288 := Call(__e, ShenFunc(symcons), V4727, gen10287)
+			gen4370 := Call(__e, ShenFunc(symcons), V4727, gen4369)
 
-			__e.TailApply(ShenFunc(symcons), MakeSymbol("define"), gen10288)
+			__e.TailApply(ShenFunc(symcons), MakeSymbol("define"), gen4370)
 
 			return
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.yacc->shen"), gen10289)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.yacc->shen"), gen4371)
 
-		gen10299 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4730 := __args[0]
+		gen4381 := MakeNative(func(__e Evaluator) {
+			V4730 := __e.Get(1)
 			_ = V4730
-			gen10297 := Call(__e, ShenFunc(symoccurrences), MakeSymbol("kill"), V4730)
+			gen4379 := Call(__e, ShenFunc(symoccurrences), MakeSymbol("kill"), V4730)
 
-			gen10298 := Call(__e, ShenFunc(sym_6), gen10297, MakeNumber(0))
+			gen4380 := Call(__e, ShenFunc(sym_6), gen4379, MakeNumber(0))
 
-			if True == gen10298 {
-				gen10290 := Call(__e, ShenFunc(symcons), MakeSymbol("E"), Nil)
+			if True == gen4380 {
+				gen4372 := Call(__e, ShenFunc(symcons), MakeSymbol("E"), Nil)
 
-				gen10291 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.analyse-kill"), gen10290)
+				gen4373 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.analyse-kill"), gen4372)
 
-				gen10292 := Call(__e, ShenFunc(symcons), gen10291, Nil)
+				gen4374 := Call(__e, ShenFunc(symcons), gen4373, Nil)
 
-				gen10293 := Call(__e, ShenFunc(symcons), MakeSymbol("E"), gen10292)
+				gen4375 := Call(__e, ShenFunc(symcons), MakeSymbol("E"), gen4374)
 
-				gen10294 := Call(__e, ShenFunc(symcons), MakeSymbol("lambda"), gen10293)
+				gen4376 := Call(__e, ShenFunc(symcons), MakeSymbol("lambda"), gen4375)
 
-				gen10295 := Call(__e, ShenFunc(symcons), gen10294, Nil)
+				gen4377 := Call(__e, ShenFunc(symcons), gen4376, Nil)
 
-				gen10296 := Call(__e, ShenFunc(symcons), V4730, gen10295)
+				gen4378 := Call(__e, ShenFunc(symcons), V4730, gen4377)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("trap-error"), gen10296)
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("trap-error"), gen4378)
 
 				return
 
@@ -133,24 +133,24 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.kill-code"), gen10299)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.kill-code"), gen4381)
 
-		gen10300 := MakeNative(func(__e Evaluator, __args ...Obj) {
+		gen4382 := MakeNative(func(__e Evaluator) {
 			__e.TailApply(ShenFunc(symsimple_1error), MakeString("yacc kill"))
 
 			return
 		}, 0)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("kill"), gen10300)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("kill"), gen4382)
 
-		gen10303 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4732 := __args[0]
+		gen4385 := MakeNative(func(__e Evaluator) {
+			V4732 := __e.Get(1)
 			_ = V4732
-			gen10301 := Call(__e, ShenFunc(symerror_1to_1string), V4732)
+			gen4383 := Call(__e, ShenFunc(symerror_1to_1string), V4732)
 
-			String := gen10301
-			gen10302 := Call(__e, ShenFunc(sym_a), String, MakeString("yacc kill"))
+			String := gen4383
+			gen4384 := Call(__e, ShenFunc(sym_a), String, MakeString("yacc kill"))
 
-			if True == gen10302 {
+			if True == gen4384 {
 				__e.TailApply(ShenFunc(symfail))
 
 				return
@@ -160,87 +160,87 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.analyse-kill"), gen10303)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.analyse-kill"), gen4385)
 
-		gen10322 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4738 := __args[0]
+		gen4404 := MakeNative(func(__e Evaluator) {
+			V4738 := __e.Get(1)
 			_ = V4738
-			V4739 := __args[1]
+			V4739 := __e.Get(2)
 			_ = V4739
-			V4740 := __args[2]
+			V4740 := __e.Get(3)
 			_ = V4740
-			gen10320 := Call(__e, ShenFunc(sym_a), Nil, V4739)
+			gen4402 := Call(__e, ShenFunc(sym_a), Nil, V4739)
 
-			var gen10321 Obj
-			if True == gen10320 {
-				gen10319 := Call(__e, ShenFunc(sym_a), Nil, V4740)
+			var gen4403 Obj
+			if True == gen4402 {
+				gen4401 := Call(__e, ShenFunc(sym_a), Nil, V4740)
 
-				if True == gen10319 {
-					gen10321 = True
+				if True == gen4401 {
+					gen4403 = True
 				} else {
-					gen10321 = False
+					gen4403 = False
 				}
 
 			} else {
-				gen10321 = False
+				gen4403 = False
 			}
-			if True == gen10321 {
+			if True == gen4403 {
 				__e.Return(Nil)
 				return
 			} else {
-				gen10318 := Call(__e, ShenFunc(sym_a), Nil, V4739)
+				gen4400 := Call(__e, ShenFunc(sym_a), Nil, V4739)
 
-				if True == gen10318 {
-					gen10316 := Call(__e, ShenFunc(symreverse), V4740)
+				if True == gen4400 {
+					gen4398 := Call(__e, ShenFunc(symreverse), V4740)
 
-					gen10317 := Call(__e, ShenFunc(symshen_4split__cc__rule), V4738, gen10316, Nil)
+					gen4399 := Call(__e, ShenFunc(symshen_4split__cc__rule), V4738, gen4398, Nil)
 
-					__e.TailApply(ShenFunc(symcons), gen10317, Nil)
+					__e.TailApply(ShenFunc(symcons), gen4399, Nil)
 
 					return
 
 				} else {
-					gen10314 := Call(__e, ShenFunc(symcons_2), V4739)
+					gen4396 := Call(__e, ShenFunc(symcons_2), V4739)
 
-					var gen10315 Obj
-					if True == gen10314 {
-						gen10312 := Call(__e, ShenFunc(symhd), V4739)
+					var gen4397 Obj
+					if True == gen4396 {
+						gen4394 := Call(__e, ShenFunc(symhd), V4739)
 
-						gen10313 := Call(__e, ShenFunc(sym_a), MakeSymbol(";"), gen10312)
+						gen4395 := Call(__e, ShenFunc(sym_a), MakeSymbol(";"), gen4394)
 
-						if True == gen10313 {
-							gen10315 = True
+						if True == gen4395 {
+							gen4397 = True
 						} else {
-							gen10315 = False
+							gen4397 = False
 						}
 
 					} else {
-						gen10315 = False
+						gen4397 = False
 					}
-					if True == gen10315 {
-						gen10308 := Call(__e, ShenFunc(symreverse), V4740)
+					if True == gen4397 {
+						gen4390 := Call(__e, ShenFunc(symreverse), V4740)
 
-						gen10309 := Call(__e, ShenFunc(symshen_4split__cc__rule), V4738, gen10308, Nil)
+						gen4391 := Call(__e, ShenFunc(symshen_4split__cc__rule), V4738, gen4390, Nil)
 
-						gen10310 := Call(__e, ShenFunc(symtl), V4739)
+						gen4392 := Call(__e, ShenFunc(symtl), V4739)
 
-						gen10311 := Call(__e, ShenFunc(symshen_4split__cc__rules), V4738, gen10310, Nil)
+						gen4393 := Call(__e, ShenFunc(symshen_4split__cc__rules), V4738, gen4392, Nil)
 
-						__e.TailApply(ShenFunc(symcons), gen10309, gen10311)
+						__e.TailApply(ShenFunc(symcons), gen4391, gen4393)
 
 						return
 
 					} else {
-						gen10307 := Call(__e, ShenFunc(symcons_2), V4739)
+						gen4389 := Call(__e, ShenFunc(symcons_2), V4739)
 
-						if True == gen10307 {
-							gen10304 := Call(__e, ShenFunc(symtl), V4739)
+						if True == gen4389 {
+							gen4386 := Call(__e, ShenFunc(symtl), V4739)
 
-							gen10305 := Call(__e, ShenFunc(symhd), V4739)
+							gen4387 := Call(__e, ShenFunc(symhd), V4739)
 
-							gen10306 := Call(__e, ShenFunc(symcons), gen10305, V4740)
+							gen4388 := Call(__e, ShenFunc(symcons), gen4387, V4740)
 
-							__e.TailApply(ShenFunc(symshen_4split__cc__rules), V4738, gen10304, gen10306)
+							__e.TailApply(ShenFunc(symshen_4split__cc__rules), V4738, gen4386, gen4388)
 
 							return
 
@@ -257,237 +257,237 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.split_cc_rules"), gen10322)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.split_cc_rules"), gen4404)
 
-		gen10383 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4748 := __args[0]
+		gen4465 := MakeNative(func(__e Evaluator) {
+			V4748 := __e.Get(1)
 			_ = V4748
-			V4749 := __args[1]
+			V4749 := __e.Get(2)
 			_ = V4749
-			V4750 := __args[2]
+			V4750 := __e.Get(3)
 			_ = V4750
-			gen10381 := Call(__e, ShenFunc(symcons_2), V4749)
+			gen4463 := Call(__e, ShenFunc(symcons_2), V4749)
 
-			var gen10382 Obj
-			if True == gen10381 {
-				gen10378 := Call(__e, ShenFunc(symhd), V4749)
+			var gen4464 Obj
+			if True == gen4463 {
+				gen4460 := Call(__e, ShenFunc(symhd), V4749)
 
-				gen10379 := Call(__e, ShenFunc(sym_a), MakeSymbol(":="), gen10378)
+				gen4461 := Call(__e, ShenFunc(sym_a), MakeSymbol(":="), gen4460)
 
-				var gen10380 Obj
-				if True == gen10379 {
-					gen10375 := Call(__e, ShenFunc(symtl), V4749)
+				var gen4462 Obj
+				if True == gen4461 {
+					gen4457 := Call(__e, ShenFunc(symtl), V4749)
 
-					gen10376 := Call(__e, ShenFunc(symcons_2), gen10375)
+					gen4458 := Call(__e, ShenFunc(symcons_2), gen4457)
 
-					var gen10377 Obj
-					if True == gen10376 {
-						gen10372 := Call(__e, ShenFunc(symtl), V4749)
+					var gen4459 Obj
+					if True == gen4458 {
+						gen4454 := Call(__e, ShenFunc(symtl), V4749)
 
-						gen10373 := Call(__e, ShenFunc(symtl), gen10372)
+						gen4455 := Call(__e, ShenFunc(symtl), gen4454)
 
-						gen10374 := Call(__e, ShenFunc(sym_a), Nil, gen10373)
+						gen4456 := Call(__e, ShenFunc(sym_a), Nil, gen4455)
 
-						if True == gen10374 {
-							gen10377 = True
+						if True == gen4456 {
+							gen4459 = True
 						} else {
-							gen10377 = False
+							gen4459 = False
 						}
 
 					} else {
-						gen10377 = False
+						gen4459 = False
 					}
-					if True == gen10377 {
-						gen10380 = True
+					if True == gen4459 {
+						gen4462 = True
 					} else {
-						gen10380 = False
+						gen4462 = False
 					}
 
 				} else {
-					gen10380 = False
+					gen4462 = False
 				}
-				if True == gen10380 {
-					gen10382 = True
+				if True == gen4462 {
+					gen4464 = True
 				} else {
-					gen10382 = False
+					gen4464 = False
 				}
 
 			} else {
-				gen10382 = False
+				gen4464 = False
 			}
-			if True == gen10382 {
-				gen10370 := Call(__e, ShenFunc(symreverse), V4750)
+			if True == gen4464 {
+				gen4452 := Call(__e, ShenFunc(symreverse), V4750)
 
-				gen10371 := Call(__e, ShenFunc(symtl), V4749)
+				gen4453 := Call(__e, ShenFunc(symtl), V4749)
 
-				__e.TailApply(ShenFunc(symcons), gen10370, gen10371)
+				__e.TailApply(ShenFunc(symcons), gen4452, gen4453)
 
 				return
 
 			} else {
-				gen10368 := Call(__e, ShenFunc(symcons_2), V4749)
+				gen4450 := Call(__e, ShenFunc(symcons_2), V4749)
 
-				var gen10369 Obj
-				if True == gen10368 {
-					gen10365 := Call(__e, ShenFunc(symhd), V4749)
+				var gen4451 Obj
+				if True == gen4450 {
+					gen4447 := Call(__e, ShenFunc(symhd), V4749)
 
-					gen10366 := Call(__e, ShenFunc(sym_a), MakeSymbol(":="), gen10365)
+					gen4448 := Call(__e, ShenFunc(sym_a), MakeSymbol(":="), gen4447)
 
-					var gen10367 Obj
-					if True == gen10366 {
-						gen10362 := Call(__e, ShenFunc(symtl), V4749)
+					var gen4449 Obj
+					if True == gen4448 {
+						gen4444 := Call(__e, ShenFunc(symtl), V4749)
 
-						gen10363 := Call(__e, ShenFunc(symcons_2), gen10362)
+						gen4445 := Call(__e, ShenFunc(symcons_2), gen4444)
 
-						var gen10364 Obj
-						if True == gen10363 {
-							gen10358 := Call(__e, ShenFunc(symtl), V4749)
+						var gen4446 Obj
+						if True == gen4445 {
+							gen4440 := Call(__e, ShenFunc(symtl), V4749)
 
-							gen10359 := Call(__e, ShenFunc(symtl), gen10358)
+							gen4441 := Call(__e, ShenFunc(symtl), gen4440)
 
-							gen10360 := Call(__e, ShenFunc(symcons_2), gen10359)
+							gen4442 := Call(__e, ShenFunc(symcons_2), gen4441)
 
-							var gen10361 Obj
-							if True == gen10360 {
-								gen10353 := Call(__e, ShenFunc(symtl), V4749)
+							var gen4443 Obj
+							if True == gen4442 {
+								gen4435 := Call(__e, ShenFunc(symtl), V4749)
 
-								gen10354 := Call(__e, ShenFunc(symtl), gen10353)
+								gen4436 := Call(__e, ShenFunc(symtl), gen4435)
 
-								gen10355 := Call(__e, ShenFunc(symhd), gen10354)
+								gen4437 := Call(__e, ShenFunc(symhd), gen4436)
 
-								gen10356 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen10355)
+								gen4438 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen4437)
 
-								var gen10357 Obj
-								if True == gen10356 {
-									gen10348 := Call(__e, ShenFunc(symtl), V4749)
+								var gen4439 Obj
+								if True == gen4438 {
+									gen4430 := Call(__e, ShenFunc(symtl), V4749)
 
-									gen10349 := Call(__e, ShenFunc(symtl), gen10348)
+									gen4431 := Call(__e, ShenFunc(symtl), gen4430)
 
-									gen10350 := Call(__e, ShenFunc(symtl), gen10349)
+									gen4432 := Call(__e, ShenFunc(symtl), gen4431)
 
-									gen10351 := Call(__e, ShenFunc(symcons_2), gen10350)
+									gen4433 := Call(__e, ShenFunc(symcons_2), gen4432)
 
-									var gen10352 Obj
-									if True == gen10351 {
-										gen10343 := Call(__e, ShenFunc(symtl), V4749)
+									var gen4434 Obj
+									if True == gen4433 {
+										gen4425 := Call(__e, ShenFunc(symtl), V4749)
 
-										gen10344 := Call(__e, ShenFunc(symtl), gen10343)
+										gen4426 := Call(__e, ShenFunc(symtl), gen4425)
 
-										gen10345 := Call(__e, ShenFunc(symtl), gen10344)
+										gen4427 := Call(__e, ShenFunc(symtl), gen4426)
 
-										gen10346 := Call(__e, ShenFunc(symtl), gen10345)
+										gen4428 := Call(__e, ShenFunc(symtl), gen4427)
 
-										gen10347 := Call(__e, ShenFunc(sym_a), Nil, gen10346)
+										gen4429 := Call(__e, ShenFunc(sym_a), Nil, gen4428)
 
-										if True == gen10347 {
-											gen10352 = True
+										if True == gen4429 {
+											gen4434 = True
 										} else {
-											gen10352 = False
+											gen4434 = False
 										}
 
 									} else {
-										gen10352 = False
+										gen4434 = False
 									}
-									if True == gen10352 {
-										gen10357 = True
+									if True == gen4434 {
+										gen4439 = True
 									} else {
-										gen10357 = False
+										gen4439 = False
 									}
 
 								} else {
-									gen10357 = False
+									gen4439 = False
 								}
-								if True == gen10357 {
-									gen10361 = True
+								if True == gen4439 {
+									gen4443 = True
 								} else {
-									gen10361 = False
+									gen4443 = False
 								}
 
 							} else {
-								gen10361 = False
+								gen4443 = False
 							}
-							if True == gen10361 {
-								gen10364 = True
+							if True == gen4443 {
+								gen4446 = True
 							} else {
-								gen10364 = False
+								gen4446 = False
 							}
 
 						} else {
-							gen10364 = False
+							gen4446 = False
 						}
-						if True == gen10364 {
-							gen10367 = True
+						if True == gen4446 {
+							gen4449 = True
 						} else {
-							gen10367 = False
+							gen4449 = False
 						}
 
 					} else {
-						gen10367 = False
+						gen4449 = False
 					}
-					if True == gen10367 {
-						gen10369 = True
+					if True == gen4449 {
+						gen4451 = True
 					} else {
-						gen10369 = False
+						gen4451 = False
 					}
 
 				} else {
-					gen10369 = False
+					gen4451 = False
 				}
-				if True == gen10369 {
-					gen10332 := Call(__e, ShenFunc(symreverse), V4750)
+				if True == gen4451 {
+					gen4414 := Call(__e, ShenFunc(symreverse), V4750)
 
-					gen10333 := Call(__e, ShenFunc(symtl), V4749)
+					gen4415 := Call(__e, ShenFunc(symtl), V4749)
 
-					gen10334 := Call(__e, ShenFunc(symtl), gen10333)
+					gen4416 := Call(__e, ShenFunc(symtl), gen4415)
 
-					gen10335 := Call(__e, ShenFunc(symtl), gen10334)
+					gen4417 := Call(__e, ShenFunc(symtl), gen4416)
 
-					gen10336 := Call(__e, ShenFunc(symhd), gen10335)
+					gen4418 := Call(__e, ShenFunc(symhd), gen4417)
 
-					gen10337 := Call(__e, ShenFunc(symtl), V4749)
+					gen4419 := Call(__e, ShenFunc(symtl), V4749)
 
-					gen10338 := Call(__e, ShenFunc(symhd), gen10337)
+					gen4420 := Call(__e, ShenFunc(symhd), gen4419)
 
-					gen10339 := Call(__e, ShenFunc(symcons), gen10338, Nil)
+					gen4421 := Call(__e, ShenFunc(symcons), gen4420, Nil)
 
-					gen10340 := Call(__e, ShenFunc(symcons), gen10336, gen10339)
+					gen4422 := Call(__e, ShenFunc(symcons), gen4418, gen4421)
 
-					gen10341 := Call(__e, ShenFunc(symcons), MakeSymbol("where"), gen10340)
+					gen4423 := Call(__e, ShenFunc(symcons), MakeSymbol("where"), gen4422)
 
-					gen10342 := Call(__e, ShenFunc(symcons), gen10341, Nil)
+					gen4424 := Call(__e, ShenFunc(symcons), gen4423, Nil)
 
-					__e.TailApply(ShenFunc(symcons), gen10332, gen10342)
+					__e.TailApply(ShenFunc(symcons), gen4414, gen4424)
 
 					return
 
 				} else {
-					gen10331 := Call(__e, ShenFunc(sym_a), Nil, V4749)
+					gen4413 := Call(__e, ShenFunc(sym_a), Nil, V4749)
 
-					if True == gen10331 {
+					if True == gen4413 {
 						Call(__e, ShenFunc(symshen_4semantic_1completion_1warning), V4748, V4750)
-						gen10327 := Call(__e, ShenFunc(symreverse), V4750)
+						gen4409 := Call(__e, ShenFunc(symreverse), V4750)
 
-						gen10328 := Call(__e, ShenFunc(symshen_4default__semantics), gen10327)
+						gen4410 := Call(__e, ShenFunc(symshen_4default__semantics), gen4409)
 
-						gen10329 := Call(__e, ShenFunc(symcons), gen10328, Nil)
+						gen4411 := Call(__e, ShenFunc(symcons), gen4410, Nil)
 
-						gen10330 := Call(__e, ShenFunc(symcons), MakeSymbol(":="), gen10329)
+						gen4412 := Call(__e, ShenFunc(symcons), MakeSymbol(":="), gen4411)
 
-						__e.TailApply(ShenFunc(symshen_4split__cc__rule), V4748, gen10330, V4750)
+						__e.TailApply(ShenFunc(symshen_4split__cc__rule), V4748, gen4412, V4750)
 
 						return
 
 					} else {
-						gen10326 := Call(__e, ShenFunc(symcons_2), V4749)
+						gen4408 := Call(__e, ShenFunc(symcons_2), V4749)
 
-						if True == gen10326 {
-							gen10323 := Call(__e, ShenFunc(symtl), V4749)
+						if True == gen4408 {
+							gen4405 := Call(__e, ShenFunc(symtl), V4749)
 
-							gen10324 := Call(__e, ShenFunc(symhd), V4749)
+							gen4406 := Call(__e, ShenFunc(symhd), V4749)
 
-							gen10325 := Call(__e, ShenFunc(symcons), gen10324, V4750)
+							gen4407 := Call(__e, ShenFunc(symcons), gen4406, V4750)
 
-							__e.TailApply(ShenFunc(symshen_4split__cc__rule), V4748, gen10323, gen10325)
+							__e.TailApply(ShenFunc(symshen_4split__cc__rule), V4748, gen4405, gen4407)
 
 							return
 
@@ -504,39 +504,39 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.split_cc_rule"), gen10383)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.split_cc_rule"), gen4465)
 
-		gen10391 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4761 := __args[0]
+		gen4473 := MakeNative(func(__e Evaluator) {
+			V4761 := __e.Get(1)
 			_ = V4761
-			V4762 := __args[1]
+			V4762 := __e.Get(2)
 			_ = V4762
-			gen10390 := Call(__e, ShenFunc(sym_a), True, V4761)
+			gen4472 := Call(__e, ShenFunc(sym_a), True, V4761)
 
-			if True == gen10390 {
-				gen10384 := Call(__e, ShenFunc(symstoutput))
+			if True == gen4472 {
+				gen4466 := Call(__e, ShenFunc(symstoutput))
 
-				Call(__e, ShenFunc(symshen_4prhush), MakeString("warning: "), gen10384)
+				Call(__e, ShenFunc(symshen_4prhush), MakeString("warning: "), gen4466)
 
-				gen10387 := MakeNative(func(__e Evaluator, __args ...Obj) {
-					X := __args[0]
+				gen4469 := MakeNative(func(__e Evaluator) {
+					X := __e.Get(1)
 					_ = X
-					gen10385 := Call(__e, ShenFunc(symshen_4app), X, MakeString(" "), MakeSymbol("shen.a"))
+					gen4467 := Call(__e, ShenFunc(symshen_4app), X, MakeString(" "), MakeSymbol("shen.a"))
 
-					gen10386 := Call(__e, ShenFunc(symstoutput))
+					gen4468 := Call(__e, ShenFunc(symstoutput))
 
-					__e.TailApply(ShenFunc(symshen_4prhush), gen10385, gen10386)
+					__e.TailApply(ShenFunc(symshen_4prhush), gen4467, gen4468)
 
 					return
 
 				}, 1)
-				gen10388 := Call(__e, ShenFunc(symreverse), V4762)
+				gen4470 := Call(__e, ShenFunc(symreverse), V4762)
 
-				Call(__e, ShenFunc(symshen_4for_1each), gen10387, gen10388)
+				Call(__e, ShenFunc(symshen_4for_1each), gen4469, gen4470)
 
-				gen10389 := Call(__e, ShenFunc(symstoutput))
+				gen4471 := Call(__e, ShenFunc(symstoutput))
 
-				__e.TailApply(ShenFunc(symshen_4prhush), MakeString("has no semantics.\n"), gen10389)
+				__e.TailApply(ShenFunc(symshen_4prhush), MakeString("has no semantics.\n"), gen4471)
 
 				return
 
@@ -546,101 +546,101 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.semantic-completion-warning"), gen10391)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.semantic-completion-warning"), gen4473)
 
-		gen10415 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4764 := __args[0]
+		gen4497 := MakeNative(func(__e Evaluator) {
+			V4764 := __e.Get(1)
 			_ = V4764
-			gen10414 := Call(__e, ShenFunc(sym_a), Nil, V4764)
+			gen4496 := Call(__e, ShenFunc(sym_a), Nil, V4764)
 
-			if True == gen10414 {
+			if True == gen4496 {
 				__e.Return(Nil)
 				return
 			} else {
-				gen10412 := Call(__e, ShenFunc(symcons_2), V4764)
+				gen4494 := Call(__e, ShenFunc(symcons_2), V4764)
 
-				var gen10413 Obj
-				if True == gen10412 {
-					gen10409 := Call(__e, ShenFunc(symtl), V4764)
+				var gen4495 Obj
+				if True == gen4494 {
+					gen4491 := Call(__e, ShenFunc(symtl), V4764)
 
-					gen10410 := Call(__e, ShenFunc(sym_a), Nil, gen10409)
+					gen4492 := Call(__e, ShenFunc(sym_a), Nil, gen4491)
 
-					var gen10411 Obj
-					if True == gen10410 {
-						gen10407 := Call(__e, ShenFunc(symhd), V4764)
+					var gen4493 Obj
+					if True == gen4492 {
+						gen4489 := Call(__e, ShenFunc(symhd), V4764)
 
-						gen10408 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), gen10407)
+						gen4490 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), gen4489)
 
-						if True == gen10408 {
-							gen10411 = True
+						if True == gen4490 {
+							gen4493 = True
 						} else {
-							gen10411 = False
+							gen4493 = False
 						}
 
 					} else {
-						gen10411 = False
+						gen4493 = False
 					}
-					if True == gen10411 {
-						gen10413 = True
+					if True == gen4493 {
+						gen4495 = True
 					} else {
-						gen10413 = False
+						gen4495 = False
 					}
 
 				} else {
-					gen10413 = False
+					gen4495 = False
 				}
-				if True == gen10413 {
+				if True == gen4495 {
 					__e.TailApply(ShenFunc(symhd), V4764)
 
 					return
 				} else {
-					gen10405 := Call(__e, ShenFunc(symcons_2), V4764)
+					gen4487 := Call(__e, ShenFunc(symcons_2), V4764)
 
-					var gen10406 Obj
-					if True == gen10405 {
-						gen10403 := Call(__e, ShenFunc(symhd), V4764)
+					var gen4488 Obj
+					if True == gen4487 {
+						gen4485 := Call(__e, ShenFunc(symhd), V4764)
 
-						gen10404 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), gen10403)
+						gen4486 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), gen4485)
 
-						if True == gen10404 {
-							gen10406 = True
+						if True == gen4486 {
+							gen4488 = True
 						} else {
-							gen10406 = False
+							gen4488 = False
 						}
 
 					} else {
-						gen10406 = False
+						gen4488 = False
 					}
-					if True == gen10406 {
-						gen10398 := Call(__e, ShenFunc(symhd), V4764)
+					if True == gen4488 {
+						gen4480 := Call(__e, ShenFunc(symhd), V4764)
 
-						gen10399 := Call(__e, ShenFunc(symtl), V4764)
+						gen4481 := Call(__e, ShenFunc(symtl), V4764)
 
-						gen10400 := Call(__e, ShenFunc(symshen_4default__semantics), gen10399)
+						gen4482 := Call(__e, ShenFunc(symshen_4default__semantics), gen4481)
 
-						gen10401 := Call(__e, ShenFunc(symcons), gen10400, Nil)
+						gen4483 := Call(__e, ShenFunc(symcons), gen4482, Nil)
 
-						gen10402 := Call(__e, ShenFunc(symcons), gen10398, gen10401)
+						gen4484 := Call(__e, ShenFunc(symcons), gen4480, gen4483)
 
-						__e.TailApply(ShenFunc(symcons), MakeSymbol("append"), gen10402)
+						__e.TailApply(ShenFunc(symcons), MakeSymbol("append"), gen4484)
 
 						return
 
 					} else {
-						gen10397 := Call(__e, ShenFunc(symcons_2), V4764)
+						gen4479 := Call(__e, ShenFunc(symcons_2), V4764)
 
-						if True == gen10397 {
-							gen10392 := Call(__e, ShenFunc(symhd), V4764)
+						if True == gen4479 {
+							gen4474 := Call(__e, ShenFunc(symhd), V4764)
 
-							gen10393 := Call(__e, ShenFunc(symtl), V4764)
+							gen4475 := Call(__e, ShenFunc(symtl), V4764)
 
-							gen10394 := Call(__e, ShenFunc(symshen_4default__semantics), gen10393)
+							gen4476 := Call(__e, ShenFunc(symshen_4default__semantics), gen4475)
 
-							gen10395 := Call(__e, ShenFunc(symcons), gen10394, Nil)
+							gen4477 := Call(__e, ShenFunc(symcons), gen4476, Nil)
 
-							gen10396 := Call(__e, ShenFunc(symcons), gen10392, gen10395)
+							gen4478 := Call(__e, ShenFunc(symcons), gen4474, gen4477)
 
-							__e.TailApply(ShenFunc(symcons), MakeSymbol("cons"), gen10396)
+							__e.TailApply(ShenFunc(symcons), MakeSymbol("cons"), gen4478)
 
 							return
 
@@ -657,41 +657,41 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.default_semantics"), gen10415)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.default_semantics"), gen4497)
 
-		gen10425 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4766 := __args[0]
+		gen4507 := MakeNative(func(__e Evaluator) {
+			V4766 := __e.Get(1)
 			_ = V4766
-			gen10424 := Call(__e, ShenFunc(symsymbol_2), V4766)
+			gen4506 := Call(__e, ShenFunc(symsymbol_2), V4766)
 
-			if True == gen10424 {
-				gen10416 := Call(__e, ShenFunc(symexplode), V4766)
+			if True == gen4506 {
+				gen4498 := Call(__e, ShenFunc(symexplode), V4766)
 
-				gen10417 := Call(__e, ShenFunc(symshen_4strip_1pathname), gen10416)
+				gen4499 := Call(__e, ShenFunc(symshen_4strip_1pathname), gen4498)
 
-				Cs := gen10417
-				gen10421 := Call(__e, ShenFunc(symhd), Cs)
+				Cs := gen4499
+				gen4503 := Call(__e, ShenFunc(symhd), Cs)
 
-				gen10422 := Call(__e, ShenFunc(sym_a), gen10421, MakeString("<"))
+				gen4504 := Call(__e, ShenFunc(sym_a), gen4503, MakeString("<"))
 
-				var gen10423 Obj
-				if True == gen10422 {
-					gen10418 := Call(__e, ShenFunc(symreverse), Cs)
+				var gen4505 Obj
+				if True == gen4504 {
+					gen4500 := Call(__e, ShenFunc(symreverse), Cs)
 
-					gen10419 := Call(__e, ShenFunc(symhd), gen10418)
+					gen4501 := Call(__e, ShenFunc(symhd), gen4500)
 
-					gen10420 := Call(__e, ShenFunc(sym_a), gen10419, MakeString(">"))
+					gen4502 := Call(__e, ShenFunc(sym_a), gen4501, MakeString(">"))
 
-					if True == gen10420 {
-						gen10423 = True
+					if True == gen4502 {
+						gen4505 = True
 					} else {
-						gen10423 = False
+						gen4505 = False
 					}
 
 				} else {
-					gen10423 = False
+					gen4505 = False
 				}
-				if True == gen10423 {
+				if True == gen4505 {
 					__e.Return(True)
 					return
 				} else {
@@ -705,66 +705,66 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.grammar_symbol?"), gen10425)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.grammar_symbol?"), gen4507)
 
-		gen10445 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4768 := __args[0]
+		gen4527 := MakeNative(func(__e Evaluator) {
+			V4768 := __e.Get(1)
 			_ = V4768
-			gen10443 := Call(__e, ShenFunc(symcons_2), V4768)
+			gen4525 := Call(__e, ShenFunc(symcons_2), V4768)
 
-			var gen10444 Obj
-			if True == gen10443 {
-				gen10441 := Call(__e, ShenFunc(symtl), V4768)
+			var gen4526 Obj
+			if True == gen4525 {
+				gen4523 := Call(__e, ShenFunc(symtl), V4768)
 
-				gen10442 := Call(__e, ShenFunc(sym_a), Nil, gen10441)
+				gen4524 := Call(__e, ShenFunc(sym_a), Nil, gen4523)
 
-				if True == gen10442 {
-					gen10444 = True
+				if True == gen4524 {
+					gen4526 = True
 				} else {
-					gen10444 = False
+					gen4526 = False
 				}
 
 			} else {
-				gen10444 = False
+				gen4526 = False
 			}
-			if True == gen10444 {
+			if True == gen4526 {
 				__e.TailApply(ShenFunc(symhd), V4768)
 
 				return
 			} else {
-				gen10440 := Call(__e, ShenFunc(symcons_2), V4768)
+				gen4522 := Call(__e, ShenFunc(symcons_2), V4768)
 
-				if True == gen10440 {
+				if True == gen4522 {
 					P := MakeSymbol("YaccParse")
-					gen10426 := Call(__e, ShenFunc(symhd), V4768)
+					gen4508 := Call(__e, ShenFunc(symhd), V4768)
 
-					gen10427 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+					gen4509 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-					gen10428 := Call(__e, ShenFunc(symcons), gen10427, Nil)
+					gen4510 := Call(__e, ShenFunc(symcons), gen4509, Nil)
 
-					gen10429 := Call(__e, ShenFunc(symcons), P, gen10428)
+					gen4511 := Call(__e, ShenFunc(symcons), P, gen4510)
 
-					gen10430 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen10429)
+					gen4512 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen4511)
 
-					gen10431 := Call(__e, ShenFunc(symtl), V4768)
+					gen4513 := Call(__e, ShenFunc(symtl), V4768)
 
-					gen10432 := Call(__e, ShenFunc(symshen_4yacc__cases), gen10431)
+					gen4514 := Call(__e, ShenFunc(symshen_4yacc__cases), gen4513)
 
-					gen10433 := Call(__e, ShenFunc(symcons), P, Nil)
+					gen4515 := Call(__e, ShenFunc(symcons), P, Nil)
 
-					gen10434 := Call(__e, ShenFunc(symcons), gen10432, gen10433)
+					gen4516 := Call(__e, ShenFunc(symcons), gen4514, gen4515)
 
-					gen10435 := Call(__e, ShenFunc(symcons), gen10430, gen10434)
+					gen4517 := Call(__e, ShenFunc(symcons), gen4512, gen4516)
 
-					gen10436 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen10435)
+					gen4518 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen4517)
 
-					gen10437 := Call(__e, ShenFunc(symcons), gen10436, Nil)
+					gen4519 := Call(__e, ShenFunc(symcons), gen4518, Nil)
 
-					gen10438 := Call(__e, ShenFunc(symcons), gen10426, gen10437)
+					gen4520 := Call(__e, ShenFunc(symcons), gen4508, gen4519)
 
-					gen10439 := Call(__e, ShenFunc(symcons), P, gen10438)
+					gen4521 := Call(__e, ShenFunc(symcons), P, gen4520)
 
-					__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen10439)
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen4521)
 
 					return
 
@@ -777,53 +777,53 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.yacc_cases"), gen10445)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.yacc_cases"), gen4527)
 
-		gen10457 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4770 := __args[0]
+		gen4539 := MakeNative(func(__e Evaluator) {
+			V4770 := __e.Get(1)
 			_ = V4770
-			gen10455 := Call(__e, ShenFunc(symcons_2), V4770)
+			gen4537 := Call(__e, ShenFunc(symcons_2), V4770)
 
-			var gen10456 Obj
-			if True == gen10455 {
-				gen10452 := Call(__e, ShenFunc(symtl), V4770)
+			var gen4538 Obj
+			if True == gen4537 {
+				gen4534 := Call(__e, ShenFunc(symtl), V4770)
 
-				gen10453 := Call(__e, ShenFunc(symcons_2), gen10452)
+				gen4535 := Call(__e, ShenFunc(symcons_2), gen4534)
 
-				var gen10454 Obj
-				if True == gen10453 {
-					gen10449 := Call(__e, ShenFunc(symtl), V4770)
+				var gen4536 Obj
+				if True == gen4535 {
+					gen4531 := Call(__e, ShenFunc(symtl), V4770)
 
-					gen10450 := Call(__e, ShenFunc(symtl), gen10449)
+					gen4532 := Call(__e, ShenFunc(symtl), gen4531)
 
-					gen10451 := Call(__e, ShenFunc(sym_a), Nil, gen10450)
+					gen4533 := Call(__e, ShenFunc(sym_a), Nil, gen4532)
 
-					if True == gen10451 {
-						gen10454 = True
+					if True == gen4533 {
+						gen4536 = True
 					} else {
-						gen10454 = False
+						gen4536 = False
 					}
 
 				} else {
-					gen10454 = False
+					gen4536 = False
 				}
-				if True == gen10454 {
-					gen10456 = True
+				if True == gen4536 {
+					gen4538 = True
 				} else {
-					gen10456 = False
+					gen4538 = False
 				}
 
 			} else {
-				gen10456 = False
+				gen4538 = False
 			}
-			if True == gen10456 {
-				gen10446 := Call(__e, ShenFunc(symhd), V4770)
+			if True == gen4538 {
+				gen4528 := Call(__e, ShenFunc(symhd), V4770)
 
-				gen10447 := Call(__e, ShenFunc(symtl), V4770)
+				gen4529 := Call(__e, ShenFunc(symtl), V4770)
 
-				gen10448 := Call(__e, ShenFunc(symhd), gen10447)
+				gen4530 := Call(__e, ShenFunc(symhd), gen4529)
 
-				__e.TailApply(ShenFunc(symshen_4syntax), gen10446, MakeSymbol("Stream"), gen10448)
+				__e.TailApply(ShenFunc(symshen_4syntax), gen4528, MakeSymbol("Stream"), gen4530)
 
 				return
 
@@ -834,212 +834,212 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.cc_body"), gen10457)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.cc_body"), gen4539)
 
-		gen10514 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4774 := __args[0]
+		gen4596 := MakeNative(func(__e Evaluator) {
+			V4774 := __e.Get(1)
 			_ = V4774
-			V4775 := __args[1]
+			V4775 := __e.Get(2)
 			_ = V4775
-			V4776 := __args[2]
+			V4776 := __e.Get(3)
 			_ = V4776
-			gen10512 := Call(__e, ShenFunc(sym_a), Nil, V4774)
+			gen4594 := Call(__e, ShenFunc(sym_a), Nil, V4774)
 
-			var gen10513 Obj
-			if True == gen10512 {
-				gen10510 := Call(__e, ShenFunc(symcons_2), V4776)
+			var gen4595 Obj
+			if True == gen4594 {
+				gen4592 := Call(__e, ShenFunc(symcons_2), V4776)
 
-				var gen10511 Obj
-				if True == gen10510 {
-					gen10507 := Call(__e, ShenFunc(symhd), V4776)
+				var gen4593 Obj
+				if True == gen4592 {
+					gen4589 := Call(__e, ShenFunc(symhd), V4776)
 
-					gen10508 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen10507)
+					gen4590 := Call(__e, ShenFunc(sym_a), MakeSymbol("where"), gen4589)
 
-					var gen10509 Obj
-					if True == gen10508 {
-						gen10504 := Call(__e, ShenFunc(symtl), V4776)
+					var gen4591 Obj
+					if True == gen4590 {
+						gen4586 := Call(__e, ShenFunc(symtl), V4776)
 
-						gen10505 := Call(__e, ShenFunc(symcons_2), gen10504)
+						gen4587 := Call(__e, ShenFunc(symcons_2), gen4586)
 
-						var gen10506 Obj
-						if True == gen10505 {
-							gen10500 := Call(__e, ShenFunc(symtl), V4776)
+						var gen4588 Obj
+						if True == gen4587 {
+							gen4582 := Call(__e, ShenFunc(symtl), V4776)
 
-							gen10501 := Call(__e, ShenFunc(symtl), gen10500)
+							gen4583 := Call(__e, ShenFunc(symtl), gen4582)
 
-							gen10502 := Call(__e, ShenFunc(symcons_2), gen10501)
+							gen4584 := Call(__e, ShenFunc(symcons_2), gen4583)
 
-							var gen10503 Obj
-							if True == gen10502 {
-								gen10496 := Call(__e, ShenFunc(symtl), V4776)
+							var gen4585 Obj
+							if True == gen4584 {
+								gen4578 := Call(__e, ShenFunc(symtl), V4776)
 
-								gen10497 := Call(__e, ShenFunc(symtl), gen10496)
+								gen4579 := Call(__e, ShenFunc(symtl), gen4578)
 
-								gen10498 := Call(__e, ShenFunc(symtl), gen10497)
+								gen4580 := Call(__e, ShenFunc(symtl), gen4579)
 
-								gen10499 := Call(__e, ShenFunc(sym_a), Nil, gen10498)
+								gen4581 := Call(__e, ShenFunc(sym_a), Nil, gen4580)
 
-								if True == gen10499 {
-									gen10503 = True
+								if True == gen4581 {
+									gen4585 = True
 								} else {
-									gen10503 = False
+									gen4585 = False
 								}
 
 							} else {
-								gen10503 = False
+								gen4585 = False
 							}
-							if True == gen10503 {
-								gen10506 = True
+							if True == gen4585 {
+								gen4588 = True
 							} else {
-								gen10506 = False
+								gen4588 = False
 							}
 
 						} else {
-							gen10506 = False
+							gen4588 = False
 						}
-						if True == gen10506 {
-							gen10509 = True
+						if True == gen4588 {
+							gen4591 = True
 						} else {
-							gen10509 = False
+							gen4591 = False
 						}
 
 					} else {
-						gen10509 = False
+						gen4591 = False
 					}
-					if True == gen10509 {
-						gen10511 = True
+					if True == gen4591 {
+						gen4593 = True
 					} else {
-						gen10511 = False
+						gen4593 = False
 					}
 
 				} else {
-					gen10511 = False
+					gen4593 = False
 				}
-				if True == gen10511 {
-					gen10513 = True
+				if True == gen4593 {
+					gen4595 = True
 				} else {
-					gen10513 = False
+					gen4595 = False
 				}
 
 			} else {
-				gen10513 = False
+				gen4595 = False
 			}
-			if True == gen10513 {
-				gen10480 := Call(__e, ShenFunc(symtl), V4776)
+			if True == gen4595 {
+				gen4562 := Call(__e, ShenFunc(symtl), V4776)
 
-				gen10481 := Call(__e, ShenFunc(symhd), gen10480)
+				gen4563 := Call(__e, ShenFunc(symhd), gen4562)
 
-				gen10482 := Call(__e, ShenFunc(symshen_4semantics), gen10481)
+				gen4564 := Call(__e, ShenFunc(symshen_4semantics), gen4563)
 
-				gen10483 := Call(__e, ShenFunc(symcons), V4775, Nil)
+				gen4565 := Call(__e, ShenFunc(symcons), V4775, Nil)
 
-				gen10484 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen10483)
+				gen4566 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen4565)
 
-				gen10485 := Call(__e, ShenFunc(symtl), V4776)
+				gen4567 := Call(__e, ShenFunc(symtl), V4776)
 
-				gen10486 := Call(__e, ShenFunc(symtl), gen10485)
+				gen4568 := Call(__e, ShenFunc(symtl), gen4567)
 
-				gen10487 := Call(__e, ShenFunc(symhd), gen10486)
+				gen4569 := Call(__e, ShenFunc(symhd), gen4568)
 
-				gen10488 := Call(__e, ShenFunc(symshen_4semantics), gen10487)
+				gen4570 := Call(__e, ShenFunc(symshen_4semantics), gen4569)
 
-				gen10489 := Call(__e, ShenFunc(symcons), gen10488, Nil)
+				gen4571 := Call(__e, ShenFunc(symcons), gen4570, Nil)
 
-				gen10490 := Call(__e, ShenFunc(symcons), gen10484, gen10489)
+				gen4572 := Call(__e, ShenFunc(symcons), gen4566, gen4571)
 
-				gen10491 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen10490)
+				gen4573 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen4572)
 
-				gen10492 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+				gen4574 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-				gen10493 := Call(__e, ShenFunc(symcons), gen10492, Nil)
+				gen4575 := Call(__e, ShenFunc(symcons), gen4574, Nil)
 
-				gen10494 := Call(__e, ShenFunc(symcons), gen10491, gen10493)
+				gen4576 := Call(__e, ShenFunc(symcons), gen4573, gen4575)
 
-				gen10495 := Call(__e, ShenFunc(symcons), gen10482, gen10494)
+				gen4577 := Call(__e, ShenFunc(symcons), gen4564, gen4576)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen10495)
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen4577)
 
 				return
 
 			} else {
-				gen10479 := Call(__e, ShenFunc(sym_a), Nil, V4774)
+				gen4561 := Call(__e, ShenFunc(sym_a), Nil, V4774)
 
-				if True == gen10479 {
-					gen10474 := Call(__e, ShenFunc(symcons), V4775, Nil)
+				if True == gen4561 {
+					gen4556 := Call(__e, ShenFunc(symcons), V4775, Nil)
 
-					gen10475 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen10474)
+					gen4557 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen4556)
 
-					gen10476 := Call(__e, ShenFunc(symshen_4semantics), V4776)
+					gen4558 := Call(__e, ShenFunc(symshen_4semantics), V4776)
 
-					gen10477 := Call(__e, ShenFunc(symcons), gen10476, Nil)
+					gen4559 := Call(__e, ShenFunc(symcons), gen4558, Nil)
 
-					gen10478 := Call(__e, ShenFunc(symcons), gen10475, gen10477)
+					gen4560 := Call(__e, ShenFunc(symcons), gen4557, gen4559)
 
-					__e.TailApply(ShenFunc(symcons), MakeSymbol("shen.pair"), gen10478)
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("shen.pair"), gen4560)
 
 					return
 
 				} else {
-					gen10473 := Call(__e, ShenFunc(symcons_2), V4774)
+					gen4555 := Call(__e, ShenFunc(symcons_2), V4774)
 
-					if True == gen10473 {
-						gen10471 := Call(__e, ShenFunc(symhd), V4774)
+					if True == gen4555 {
+						gen4553 := Call(__e, ShenFunc(symhd), V4774)
 
-						gen10472 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), gen10471)
+						gen4554 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), gen4553)
 
-						if True == gen10472 {
+						if True == gen4554 {
 							__e.TailApply(ShenFunc(symshen_4recursive__descent), V4774, V4775, V4776)
 
 							return
 						} else {
-							gen10469 := Call(__e, ShenFunc(symhd), V4774)
+							gen4551 := Call(__e, ShenFunc(symhd), V4774)
 
-							gen10470 := Call(__e, ShenFunc(symvariable_2), gen10469)
+							gen4552 := Call(__e, ShenFunc(symvariable_2), gen4551)
 
-							if True == gen10470 {
+							if True == gen4552 {
 								__e.TailApply(ShenFunc(symshen_4variable_1match), V4774, V4775, V4776)
 
 								return
 							} else {
-								gen10467 := Call(__e, ShenFunc(symhd), V4774)
+								gen4549 := Call(__e, ShenFunc(symhd), V4774)
 
-								gen10468 := Call(__e, ShenFunc(symshen_4jump__stream_2), gen10467)
+								gen4550 := Call(__e, ShenFunc(symshen_4jump__stream_2), gen4549)
 
-								if True == gen10468 {
+								if True == gen4550 {
 									__e.TailApply(ShenFunc(symshen_4jump__stream), V4774, V4775, V4776)
 
 									return
 								} else {
-									gen10465 := Call(__e, ShenFunc(symhd), V4774)
+									gen4547 := Call(__e, ShenFunc(symhd), V4774)
 
-									gen10466 := Call(__e, ShenFunc(symshen_4terminal_2), gen10465)
+									gen4548 := Call(__e, ShenFunc(symshen_4terminal_2), gen4547)
 
-									if True == gen10466 {
+									if True == gen4548 {
 										__e.TailApply(ShenFunc(symshen_4check__stream), V4774, V4775, V4776)
 
 										return
 									} else {
-										gen10463 := Call(__e, ShenFunc(symhd), V4774)
+										gen4545 := Call(__e, ShenFunc(symhd), V4774)
 
-										gen10464 := Call(__e, ShenFunc(symcons_2), gen10463)
+										gen4546 := Call(__e, ShenFunc(symcons_2), gen4545)
 
-										if True == gen10464 {
-											gen10460 := Call(__e, ShenFunc(symhd), V4774)
+										if True == gen4546 {
+											gen4542 := Call(__e, ShenFunc(symhd), V4774)
 
-											gen10461 := Call(__e, ShenFunc(symshen_4decons), gen10460)
+											gen4543 := Call(__e, ShenFunc(symshen_4decons), gen4542)
 
-											gen10462 := Call(__e, ShenFunc(symtl), V4774)
+											gen4544 := Call(__e, ShenFunc(symtl), V4774)
 
-											__e.TailApply(ShenFunc(symshen_4list_1stream), gen10461, gen10462, V4775, V4776)
+											__e.TailApply(ShenFunc(symshen_4list_1stream), gen4543, gen4544, V4775, V4776)
 
 											return
 
 										} else {
-											gen10458 := Call(__e, ShenFunc(symhd), V4774)
+											gen4540 := Call(__e, ShenFunc(symhd), V4774)
 
-											gen10459 := Call(__e, ShenFunc(symshen_4app), gen10458, MakeString(" is not legal syntax\n"), MakeSymbol("shen.a"))
+											gen4541 := Call(__e, ShenFunc(symshen_4app), gen4540, MakeString(" is not legal syntax\n"), MakeSymbol("shen.a"))
 
-											__e.TailApply(ShenFunc(symsimple_1error), gen10459)
+											__e.TailApply(ShenFunc(symsimple_1error), gen4541)
 
 											return
 
@@ -1064,276 +1064,276 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.syntax"), gen10514)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.syntax"), gen4596)
 
-		gen10548 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4781 := __args[0]
+		gen4630 := MakeNative(func(__e Evaluator) {
+			V4781 := __e.Get(1)
 			_ = V4781
-			V4782 := __args[1]
+			V4782 := __e.Get(2)
 			_ = V4782
-			V4783 := __args[2]
+			V4783 := __e.Get(3)
 			_ = V4783
-			V4784 := __args[3]
+			V4784 := __e.Get(4)
 			_ = V4784
-			gen10515 := Call(__e, ShenFunc(symcons), V4783, Nil)
+			gen4597 := Call(__e, ShenFunc(symcons), V4783, Nil)
 
-			gen10516 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen10515)
+			gen4598 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen4597)
 
-			gen10517 := Call(__e, ShenFunc(symcons), gen10516, Nil)
+			gen4599 := Call(__e, ShenFunc(symcons), gen4598, Nil)
 
-			gen10518 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen10517)
+			gen4600 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen4599)
 
-			gen10519 := Call(__e, ShenFunc(symcons), V4783, Nil)
+			gen4601 := Call(__e, ShenFunc(symcons), V4783, Nil)
 
-			gen10520 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen10519)
+			gen4602 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen4601)
 
-			gen10521 := Call(__e, ShenFunc(symcons), gen10520, Nil)
+			gen4603 := Call(__e, ShenFunc(symcons), gen4602, Nil)
 
-			gen10522 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen10521)
+			gen4604 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen4603)
 
-			gen10523 := Call(__e, ShenFunc(symcons), gen10522, Nil)
+			gen4605 := Call(__e, ShenFunc(symcons), gen4604, Nil)
 
-			gen10524 := Call(__e, ShenFunc(symcons), gen10518, gen10523)
+			gen4606 := Call(__e, ShenFunc(symcons), gen4600, gen4605)
 
-			gen10525 := Call(__e, ShenFunc(symcons), MakeSymbol("and"), gen10524)
+			gen4607 := Call(__e, ShenFunc(symcons), MakeSymbol("and"), gen4606)
 
-			Test := gen10525
-			gen10526 := Call(__e, ShenFunc(symgensym), MakeSymbol("shen.place"))
+			Test := gen4607
+			gen4608 := Call(__e, ShenFunc(symgensym), MakeSymbol("shen.place"))
 
-			Placeholder := gen10526
-			gen10527 := Call(__e, ShenFunc(symcons), V4783, Nil)
+			Placeholder := gen4608
+			gen4609 := Call(__e, ShenFunc(symcons), V4783, Nil)
 
-			gen10528 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen10527)
+			gen4610 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen4609)
 
-			gen10529 := Call(__e, ShenFunc(symcons), V4783, Nil)
+			gen4611 := Call(__e, ShenFunc(symcons), V4783, Nil)
 
-			gen10530 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen10529)
+			gen4612 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen4611)
 
-			gen10531 := Call(__e, ShenFunc(symcons), gen10530, Nil)
+			gen4613 := Call(__e, ShenFunc(symcons), gen4612, Nil)
 
-			gen10532 := Call(__e, ShenFunc(symcons), gen10528, gen10531)
+			gen4614 := Call(__e, ShenFunc(symcons), gen4610, gen4613)
 
-			gen10533 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen10532)
+			gen4615 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen4614)
 
-			gen10534 := Call(__e, ShenFunc(symshen_4syntax), V4782, gen10533, V4784)
+			gen4616 := Call(__e, ShenFunc(symshen_4syntax), V4782, gen4615, V4784)
 
-			RunOn := gen10534
-			gen10535 := Call(__e, ShenFunc(symcons), V4783, Nil)
+			RunOn := gen4616
+			gen4617 := Call(__e, ShenFunc(symcons), V4783, Nil)
 
-			gen10536 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen10535)
+			gen4618 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen4617)
 
-			gen10537 := Call(__e, ShenFunc(symcons), V4783, Nil)
+			gen4619 := Call(__e, ShenFunc(symcons), V4783, Nil)
 
-			gen10538 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen10537)
+			gen4620 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen4619)
 
-			gen10539 := Call(__e, ShenFunc(symcons), gen10538, Nil)
+			gen4621 := Call(__e, ShenFunc(symcons), gen4620, Nil)
 
-			gen10540 := Call(__e, ShenFunc(symcons), gen10536, gen10539)
+			gen4622 := Call(__e, ShenFunc(symcons), gen4618, gen4621)
 
-			gen10541 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen10540)
+			gen4623 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen4622)
 
-			gen10542 := Call(__e, ShenFunc(symshen_4syntax), V4781, gen10541, Placeholder)
+			gen4624 := Call(__e, ShenFunc(symshen_4syntax), V4781, gen4623, Placeholder)
 
-			gen10543 := Call(__e, ShenFunc(symshen_4insert_1runon), RunOn, Placeholder, gen10542)
+			gen4625 := Call(__e, ShenFunc(symshen_4insert_1runon), RunOn, Placeholder, gen4624)
 
-			Action := gen10543
-			gen10544 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+			Action := gen4625
+			gen4626 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-			gen10545 := Call(__e, ShenFunc(symcons), gen10544, Nil)
+			gen4627 := Call(__e, ShenFunc(symcons), gen4626, Nil)
 
-			gen10546 := Call(__e, ShenFunc(symcons), Action, gen10545)
+			gen4628 := Call(__e, ShenFunc(symcons), Action, gen4627)
 
-			gen10547 := Call(__e, ShenFunc(symcons), Test, gen10546)
+			gen4629 := Call(__e, ShenFunc(symcons), Test, gen4628)
 
-			__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen10547)
+			__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen4629)
 
 			return
 
 		}, 4)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.list-stream"), gen10548)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.list-stream"), gen4630)
 
-		gen10594 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4786 := __args[0]
+		gen4676 := MakeNative(func(__e Evaluator) {
+			V4786 := __e.Get(1)
 			_ = V4786
-			gen10592 := Call(__e, ShenFunc(symcons_2), V4786)
+			gen4674 := Call(__e, ShenFunc(symcons_2), V4786)
 
-			var gen10593 Obj
-			if True == gen10592 {
-				gen10589 := Call(__e, ShenFunc(symhd), V4786)
+			var gen4675 Obj
+			if True == gen4674 {
+				gen4671 := Call(__e, ShenFunc(symhd), V4786)
 
-				gen10590 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons"), gen10589)
+				gen4672 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons"), gen4671)
 
-				var gen10591 Obj
-				if True == gen10590 {
-					gen10586 := Call(__e, ShenFunc(symtl), V4786)
+				var gen4673 Obj
+				if True == gen4672 {
+					gen4668 := Call(__e, ShenFunc(symtl), V4786)
 
-					gen10587 := Call(__e, ShenFunc(symcons_2), gen10586)
+					gen4669 := Call(__e, ShenFunc(symcons_2), gen4668)
 
-					var gen10588 Obj
-					if True == gen10587 {
-						gen10582 := Call(__e, ShenFunc(symtl), V4786)
+					var gen4670 Obj
+					if True == gen4669 {
+						gen4664 := Call(__e, ShenFunc(symtl), V4786)
 
-						gen10583 := Call(__e, ShenFunc(symtl), gen10582)
+						gen4665 := Call(__e, ShenFunc(symtl), gen4664)
 
-						gen10584 := Call(__e, ShenFunc(symcons_2), gen10583)
+						gen4666 := Call(__e, ShenFunc(symcons_2), gen4665)
 
-						var gen10585 Obj
-						if True == gen10584 {
-							gen10577 := Call(__e, ShenFunc(symtl), V4786)
+						var gen4667 Obj
+						if True == gen4666 {
+							gen4659 := Call(__e, ShenFunc(symtl), V4786)
 
-							gen10578 := Call(__e, ShenFunc(symtl), gen10577)
+							gen4660 := Call(__e, ShenFunc(symtl), gen4659)
 
-							gen10579 := Call(__e, ShenFunc(symhd), gen10578)
+							gen4661 := Call(__e, ShenFunc(symhd), gen4660)
 
-							gen10580 := Call(__e, ShenFunc(sym_a), Nil, gen10579)
+							gen4662 := Call(__e, ShenFunc(sym_a), Nil, gen4661)
 
-							var gen10581 Obj
-							if True == gen10580 {
-								gen10573 := Call(__e, ShenFunc(symtl), V4786)
+							var gen4663 Obj
+							if True == gen4662 {
+								gen4655 := Call(__e, ShenFunc(symtl), V4786)
 
-								gen10574 := Call(__e, ShenFunc(symtl), gen10573)
+								gen4656 := Call(__e, ShenFunc(symtl), gen4655)
 
-								gen10575 := Call(__e, ShenFunc(symtl), gen10574)
+								gen4657 := Call(__e, ShenFunc(symtl), gen4656)
 
-								gen10576 := Call(__e, ShenFunc(sym_a), Nil, gen10575)
+								gen4658 := Call(__e, ShenFunc(sym_a), Nil, gen4657)
 
-								if True == gen10576 {
-									gen10581 = True
+								if True == gen4658 {
+									gen4663 = True
 								} else {
-									gen10581 = False
+									gen4663 = False
 								}
 
 							} else {
-								gen10581 = False
+								gen4663 = False
 							}
-							if True == gen10581 {
-								gen10585 = True
+							if True == gen4663 {
+								gen4667 = True
 							} else {
-								gen10585 = False
+								gen4667 = False
 							}
 
 						} else {
-							gen10585 = False
+							gen4667 = False
 						}
-						if True == gen10585 {
-							gen10588 = True
+						if True == gen4667 {
+							gen4670 = True
 						} else {
-							gen10588 = False
+							gen4670 = False
 						}
 
 					} else {
-						gen10588 = False
+						gen4670 = False
 					}
-					if True == gen10588 {
-						gen10591 = True
+					if True == gen4670 {
+						gen4673 = True
 					} else {
-						gen10591 = False
+						gen4673 = False
 					}
 
 				} else {
-					gen10591 = False
+					gen4673 = False
 				}
-				if True == gen10591 {
-					gen10593 = True
+				if True == gen4673 {
+					gen4675 = True
 				} else {
-					gen10593 = False
+					gen4675 = False
 				}
 
 			} else {
-				gen10593 = False
+				gen4675 = False
 			}
-			if True == gen10593 {
-				gen10571 := Call(__e, ShenFunc(symtl), V4786)
+			if True == gen4675 {
+				gen4653 := Call(__e, ShenFunc(symtl), V4786)
 
-				gen10572 := Call(__e, ShenFunc(symhd), gen10571)
+				gen4654 := Call(__e, ShenFunc(symhd), gen4653)
 
-				__e.TailApply(ShenFunc(symcons), gen10572, Nil)
+				__e.TailApply(ShenFunc(symcons), gen4654, Nil)
 
 				return
 
 			} else {
-				gen10569 := Call(__e, ShenFunc(symcons_2), V4786)
+				gen4651 := Call(__e, ShenFunc(symcons_2), V4786)
 
-				var gen10570 Obj
-				if True == gen10569 {
-					gen10566 := Call(__e, ShenFunc(symhd), V4786)
+				var gen4652 Obj
+				if True == gen4651 {
+					gen4648 := Call(__e, ShenFunc(symhd), V4786)
 
-					gen10567 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons"), gen10566)
+					gen4649 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons"), gen4648)
 
-					var gen10568 Obj
-					if True == gen10567 {
-						gen10563 := Call(__e, ShenFunc(symtl), V4786)
+					var gen4650 Obj
+					if True == gen4649 {
+						gen4645 := Call(__e, ShenFunc(symtl), V4786)
 
-						gen10564 := Call(__e, ShenFunc(symcons_2), gen10563)
+						gen4646 := Call(__e, ShenFunc(symcons_2), gen4645)
 
-						var gen10565 Obj
-						if True == gen10564 {
-							gen10559 := Call(__e, ShenFunc(symtl), V4786)
+						var gen4647 Obj
+						if True == gen4646 {
+							gen4641 := Call(__e, ShenFunc(symtl), V4786)
 
-							gen10560 := Call(__e, ShenFunc(symtl), gen10559)
+							gen4642 := Call(__e, ShenFunc(symtl), gen4641)
 
-							gen10561 := Call(__e, ShenFunc(symcons_2), gen10560)
+							gen4643 := Call(__e, ShenFunc(symcons_2), gen4642)
 
-							var gen10562 Obj
-							if True == gen10561 {
-								gen10555 := Call(__e, ShenFunc(symtl), V4786)
+							var gen4644 Obj
+							if True == gen4643 {
+								gen4637 := Call(__e, ShenFunc(symtl), V4786)
 
-								gen10556 := Call(__e, ShenFunc(symtl), gen10555)
+								gen4638 := Call(__e, ShenFunc(symtl), gen4637)
 
-								gen10557 := Call(__e, ShenFunc(symtl), gen10556)
+								gen4639 := Call(__e, ShenFunc(symtl), gen4638)
 
-								gen10558 := Call(__e, ShenFunc(sym_a), Nil, gen10557)
+								gen4640 := Call(__e, ShenFunc(sym_a), Nil, gen4639)
 
-								if True == gen10558 {
-									gen10562 = True
+								if True == gen4640 {
+									gen4644 = True
 								} else {
-									gen10562 = False
+									gen4644 = False
 								}
 
 							} else {
-								gen10562 = False
+								gen4644 = False
 							}
-							if True == gen10562 {
-								gen10565 = True
+							if True == gen4644 {
+								gen4647 = True
 							} else {
-								gen10565 = False
+								gen4647 = False
 							}
 
 						} else {
-							gen10565 = False
+							gen4647 = False
 						}
-						if True == gen10565 {
-							gen10568 = True
+						if True == gen4647 {
+							gen4650 = True
 						} else {
-							gen10568 = False
+							gen4650 = False
 						}
 
 					} else {
-						gen10568 = False
+						gen4650 = False
 					}
-					if True == gen10568 {
-						gen10570 = True
+					if True == gen4650 {
+						gen4652 = True
 					} else {
-						gen10570 = False
+						gen4652 = False
 					}
 
 				} else {
-					gen10570 = False
+					gen4652 = False
 				}
-				if True == gen10570 {
-					gen10549 := Call(__e, ShenFunc(symtl), V4786)
+				if True == gen4652 {
+					gen4631 := Call(__e, ShenFunc(symtl), V4786)
 
-					gen10550 := Call(__e, ShenFunc(symhd), gen10549)
+					gen4632 := Call(__e, ShenFunc(symhd), gen4631)
 
-					gen10551 := Call(__e, ShenFunc(symtl), V4786)
+					gen4633 := Call(__e, ShenFunc(symtl), V4786)
 
-					gen10552 := Call(__e, ShenFunc(symtl), gen10551)
+					gen4634 := Call(__e, ShenFunc(symtl), gen4633)
 
-					gen10553 := Call(__e, ShenFunc(symhd), gen10552)
+					gen4635 := Call(__e, ShenFunc(symhd), gen4634)
 
-					gen10554 := Call(__e, ShenFunc(symshen_4decons), gen10553)
+					gen4636 := Call(__e, ShenFunc(symshen_4decons), gen4635)
 
-					__e.TailApply(ShenFunc(symcons), gen10550, gen10554)
+					__e.TailApply(ShenFunc(symcons), gen4632, gen4636)
 
 					return
 
@@ -1345,117 +1345,117 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.decons"), gen10594)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.decons"), gen4676)
 
-		gen10618 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4801 := __args[0]
+		gen4700 := MakeNative(func(__e Evaluator) {
+			V4801 := __e.Get(1)
 			_ = V4801
-			V4802 := __args[1]
+			V4802 := __e.Get(2)
 			_ = V4802
-			V4803 := __args[2]
+			V4803 := __e.Get(3)
 			_ = V4803
-			gen10616 := Call(__e, ShenFunc(symcons_2), V4803)
+			gen4698 := Call(__e, ShenFunc(symcons_2), V4803)
 
-			var gen10617 Obj
-			if True == gen10616 {
-				gen10613 := Call(__e, ShenFunc(symhd), V4803)
+			var gen4699 Obj
+			if True == gen4698 {
+				gen4695 := Call(__e, ShenFunc(symhd), V4803)
 
-				gen10614 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.pair"), gen10613)
+				gen4696 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.pair"), gen4695)
 
-				var gen10615 Obj
-				if True == gen10614 {
-					gen10610 := Call(__e, ShenFunc(symtl), V4803)
+				var gen4697 Obj
+				if True == gen4696 {
+					gen4692 := Call(__e, ShenFunc(symtl), V4803)
 
-					gen10611 := Call(__e, ShenFunc(symcons_2), gen10610)
+					gen4693 := Call(__e, ShenFunc(symcons_2), gen4692)
 
-					var gen10612 Obj
-					if True == gen10611 {
-						gen10606 := Call(__e, ShenFunc(symtl), V4803)
+					var gen4694 Obj
+					if True == gen4693 {
+						gen4688 := Call(__e, ShenFunc(symtl), V4803)
 
-						gen10607 := Call(__e, ShenFunc(symtl), gen10606)
+						gen4689 := Call(__e, ShenFunc(symtl), gen4688)
 
-						gen10608 := Call(__e, ShenFunc(symcons_2), gen10607)
+						gen4690 := Call(__e, ShenFunc(symcons_2), gen4689)
 
-						var gen10609 Obj
-						if True == gen10608 {
-							gen10601 := Call(__e, ShenFunc(symtl), V4803)
+						var gen4691 Obj
+						if True == gen4690 {
+							gen4683 := Call(__e, ShenFunc(symtl), V4803)
 
-							gen10602 := Call(__e, ShenFunc(symtl), gen10601)
+							gen4684 := Call(__e, ShenFunc(symtl), gen4683)
 
-							gen10603 := Call(__e, ShenFunc(symtl), gen10602)
+							gen4685 := Call(__e, ShenFunc(symtl), gen4684)
 
-							gen10604 := Call(__e, ShenFunc(sym_a), Nil, gen10603)
+							gen4686 := Call(__e, ShenFunc(sym_a), Nil, gen4685)
 
-							var gen10605 Obj
-							if True == gen10604 {
-								gen10597 := Call(__e, ShenFunc(symtl), V4803)
+							var gen4687 Obj
+							if True == gen4686 {
+								gen4679 := Call(__e, ShenFunc(symtl), V4803)
 
-								gen10598 := Call(__e, ShenFunc(symtl), gen10597)
+								gen4680 := Call(__e, ShenFunc(symtl), gen4679)
 
-								gen10599 := Call(__e, ShenFunc(symhd), gen10598)
+								gen4681 := Call(__e, ShenFunc(symhd), gen4680)
 
-								gen10600 := Call(__e, ShenFunc(sym_a), gen10599, V4802)
+								gen4682 := Call(__e, ShenFunc(sym_a), gen4681, V4802)
 
-								if True == gen10600 {
-									gen10605 = True
+								if True == gen4682 {
+									gen4687 = True
 								} else {
-									gen10605 = False
+									gen4687 = False
 								}
 
 							} else {
-								gen10605 = False
+								gen4687 = False
 							}
-							if True == gen10605 {
-								gen10609 = True
+							if True == gen4687 {
+								gen4691 = True
 							} else {
-								gen10609 = False
+								gen4691 = False
 							}
 
 						} else {
-							gen10609 = False
+							gen4691 = False
 						}
-						if True == gen10609 {
-							gen10612 = True
+						if True == gen4691 {
+							gen4694 = True
 						} else {
-							gen10612 = False
+							gen4694 = False
 						}
 
 					} else {
-						gen10612 = False
+						gen4694 = False
 					}
-					if True == gen10612 {
-						gen10615 = True
+					if True == gen4694 {
+						gen4697 = True
 					} else {
-						gen10615 = False
+						gen4697 = False
 					}
 
 				} else {
-					gen10615 = False
+					gen4697 = False
 				}
-				if True == gen10615 {
-					gen10617 = True
+				if True == gen4697 {
+					gen4699 = True
 				} else {
-					gen10617 = False
+					gen4699 = False
 				}
 
 			} else {
-				gen10617 = False
+				gen4699 = False
 			}
-			if True == gen10617 {
+			if True == gen4699 {
 				__e.Return(V4801)
 				return
 			} else {
-				gen10596 := Call(__e, ShenFunc(symcons_2), V4803)
+				gen4678 := Call(__e, ShenFunc(symcons_2), V4803)
 
-				if True == gen10596 {
-					gen10595 := MakeNative(func(__e Evaluator, __args ...Obj) {
-						Z := __args[0]
+				if True == gen4678 {
+					gen4677 := MakeNative(func(__e Evaluator) {
+						Z := __e.Get(1)
 						_ = Z
 						__e.TailApply(ShenFunc(symshen_4insert_1runon), V4801, V4802, Z)
 
 						return
 					}, 1)
-					__e.TailApply(ShenFunc(symmap), gen10595, V4803)
+					__e.TailApply(ShenFunc(symmap), gen4677, V4803)
 
 					return
 
@@ -1467,25 +1467,25 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.insert-runon"), gen10618)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.insert-runon"), gen4700)
 
-		gen10623 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4809 := __args[0]
+		gen4705 := MakeNative(func(__e Evaluator) {
+			V4809 := __e.Get(1)
 			_ = V4809
-			gen10621 := Call(__e, ShenFunc(symelement_2), MakeString("."), V4809)
+			gen4703 := Call(__e, ShenFunc(symelement_2), MakeString("."), V4809)
 
-			gen10622 := Call(__e, ShenFunc(symnot), gen10621)
+			gen4704 := Call(__e, ShenFunc(symnot), gen4703)
 
-			if True == gen10622 {
+			if True == gen4704 {
 				__e.Return(V4809)
 				return
 			} else {
-				gen10620 := Call(__e, ShenFunc(symcons_2), V4809)
+				gen4702 := Call(__e, ShenFunc(symcons_2), V4809)
 
-				if True == gen10620 {
-					gen10619 := Call(__e, ShenFunc(symtl), V4809)
+				if True == gen4702 {
+					gen4701 := Call(__e, ShenFunc(symtl), V4809)
 
-					__e.TailApply(ShenFunc(symshen_4strip_1pathname), gen10619)
+					__e.TailApply(ShenFunc(symshen_4strip_1pathname), gen4701)
 
 					return
 
@@ -1498,72 +1498,72 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.strip-pathname"), gen10623)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.strip-pathname"), gen4705)
 
-		gen10650 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4813 := __args[0]
+		gen4732 := MakeNative(func(__e Evaluator) {
+			V4813 := __e.Get(1)
 			_ = V4813
-			V4814 := __args[1]
+			V4814 := __e.Get(2)
 			_ = V4814
-			V4815 := __args[2]
+			V4815 := __e.Get(3)
 			_ = V4815
-			gen10649 := Call(__e, ShenFunc(symcons_2), V4813)
+			gen4731 := Call(__e, ShenFunc(symcons_2), V4813)
 
-			if True == gen10649 {
-				gen10624 := Call(__e, ShenFunc(symhd), V4813)
+			if True == gen4731 {
+				gen4706 := Call(__e, ShenFunc(symhd), V4813)
 
-				gen10625 := Call(__e, ShenFunc(symcons), V4814, Nil)
+				gen4707 := Call(__e, ShenFunc(symcons), V4814, Nil)
 
-				gen10626 := Call(__e, ShenFunc(symcons), gen10624, gen10625)
+				gen4708 := Call(__e, ShenFunc(symcons), gen4706, gen4707)
 
-				Test := gen10626
-				gen10627 := Call(__e, ShenFunc(symtl), V4813)
+				Test := gen4708
+				gen4709 := Call(__e, ShenFunc(symtl), V4813)
 
-				gen10628 := Call(__e, ShenFunc(symhd), V4813)
+				gen4710 := Call(__e, ShenFunc(symhd), V4813)
 
-				gen10629 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen10628)
+				gen4711 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen4710)
 
-				gen10630 := Call(__e, ShenFunc(symshen_4syntax), gen10627, gen10629, V4815)
+				gen4712 := Call(__e, ShenFunc(symshen_4syntax), gen4709, gen4711, V4815)
 
-				Action := gen10630
-				gen10631 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+				Action := gen4712
+				gen4713 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-				Else := gen10631
-				gen10632 := Call(__e, ShenFunc(symhd), V4813)
+				Else := gen4713
+				gen4714 := Call(__e, ShenFunc(symhd), V4813)
 
-				gen10633 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen10632)
+				gen4715 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen4714)
 
-				gen10634 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+				gen4716 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-				gen10635 := Call(__e, ShenFunc(symhd), V4813)
+				gen4717 := Call(__e, ShenFunc(symhd), V4813)
 
-				gen10636 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen10635)
+				gen4718 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen4717)
 
-				gen10637 := Call(__e, ShenFunc(symcons), gen10636, Nil)
+				gen4719 := Call(__e, ShenFunc(symcons), gen4718, Nil)
 
-				gen10638 := Call(__e, ShenFunc(symcons), gen10634, gen10637)
+				gen4720 := Call(__e, ShenFunc(symcons), gen4716, gen4719)
 
-				gen10639 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen10638)
+				gen4721 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen4720)
 
-				gen10640 := Call(__e, ShenFunc(symcons), gen10639, Nil)
+				gen4722 := Call(__e, ShenFunc(symcons), gen4721, Nil)
 
-				gen10641 := Call(__e, ShenFunc(symcons), MakeSymbol("not"), gen10640)
+				gen4723 := Call(__e, ShenFunc(symcons), MakeSymbol("not"), gen4722)
 
-				gen10642 := Call(__e, ShenFunc(symcons), Else, Nil)
+				gen4724 := Call(__e, ShenFunc(symcons), Else, Nil)
 
-				gen10643 := Call(__e, ShenFunc(symcons), Action, gen10642)
+				gen4725 := Call(__e, ShenFunc(symcons), Action, gen4724)
 
-				gen10644 := Call(__e, ShenFunc(symcons), gen10641, gen10643)
+				gen4726 := Call(__e, ShenFunc(symcons), gen4723, gen4725)
 
-				gen10645 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen10644)
+				gen4727 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen4726)
 
-				gen10646 := Call(__e, ShenFunc(symcons), gen10645, Nil)
+				gen4728 := Call(__e, ShenFunc(symcons), gen4727, Nil)
 
-				gen10647 := Call(__e, ShenFunc(symcons), Test, gen10646)
+				gen4729 := Call(__e, ShenFunc(symcons), Test, gen4728)
 
-				gen10648 := Call(__e, ShenFunc(symcons), gen10633, gen10647)
+				gen4730 := Call(__e, ShenFunc(symcons), gen4715, gen4729)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen10648)
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen4730)
 
 				return
 
@@ -1574,72 +1574,72 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.recursive_descent"), gen10650)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.recursive_descent"), gen4732)
 
-		gen10677 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4819 := __args[0]
+		gen4759 := MakeNative(func(__e Evaluator) {
+			V4819 := __e.Get(1)
 			_ = V4819
-			V4820 := __args[1]
+			V4820 := __e.Get(2)
 			_ = V4820
-			V4821 := __args[2]
+			V4821 := __e.Get(3)
 			_ = V4821
-			gen10676 := Call(__e, ShenFunc(symcons_2), V4819)
+			gen4758 := Call(__e, ShenFunc(symcons_2), V4819)
 
-			if True == gen10676 {
-				gen10651 := Call(__e, ShenFunc(symcons), V4820, Nil)
+			if True == gen4758 {
+				gen4733 := Call(__e, ShenFunc(symcons), V4820, Nil)
 
-				gen10652 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen10651)
+				gen4734 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen4733)
 
-				gen10653 := Call(__e, ShenFunc(symcons), gen10652, Nil)
+				gen4735 := Call(__e, ShenFunc(symcons), gen4734, Nil)
 
-				gen10654 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen10653)
+				gen4736 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen4735)
 
-				Test := gen10654
-				gen10655 := Call(__e, ShenFunc(symhd), V4819)
+				Test := gen4736
+				gen4737 := Call(__e, ShenFunc(symhd), V4819)
 
-				gen10656 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen10655)
+				gen4738 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), gen4737)
 
-				gen10657 := Call(__e, ShenFunc(symcons), V4820, Nil)
+				gen4739 := Call(__e, ShenFunc(symcons), V4820, Nil)
 
-				gen10658 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen10657)
+				gen4740 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen4739)
 
-				gen10659 := Call(__e, ShenFunc(symtl), V4819)
+				gen4741 := Call(__e, ShenFunc(symtl), V4819)
 
-				gen10660 := Call(__e, ShenFunc(symcons), V4820, Nil)
+				gen4742 := Call(__e, ShenFunc(symcons), V4820, Nil)
 
-				gen10661 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen10660)
+				gen4743 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen4742)
 
-				gen10662 := Call(__e, ShenFunc(symcons), V4820, Nil)
+				gen4744 := Call(__e, ShenFunc(symcons), V4820, Nil)
 
-				gen10663 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen10662)
+				gen4745 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen4744)
 
-				gen10664 := Call(__e, ShenFunc(symcons), gen10663, Nil)
+				gen4746 := Call(__e, ShenFunc(symcons), gen4745, Nil)
 
-				gen10665 := Call(__e, ShenFunc(symcons), gen10661, gen10664)
+				gen4747 := Call(__e, ShenFunc(symcons), gen4743, gen4746)
 
-				gen10666 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen10665)
+				gen4748 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen4747)
 
-				gen10667 := Call(__e, ShenFunc(symshen_4syntax), gen10659, gen10666, V4821)
+				gen4749 := Call(__e, ShenFunc(symshen_4syntax), gen4741, gen4748, V4821)
 
-				gen10668 := Call(__e, ShenFunc(symcons), gen10667, Nil)
+				gen4750 := Call(__e, ShenFunc(symcons), gen4749, Nil)
 
-				gen10669 := Call(__e, ShenFunc(symcons), gen10658, gen10668)
+				gen4751 := Call(__e, ShenFunc(symcons), gen4740, gen4750)
 
-				gen10670 := Call(__e, ShenFunc(symcons), gen10656, gen10669)
+				gen4752 := Call(__e, ShenFunc(symcons), gen4738, gen4751)
 
-				gen10671 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen10670)
+				gen4753 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen4752)
 
-				Action := gen10671
-				gen10672 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+				Action := gen4753
+				gen4754 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-				Else := gen10672
-				gen10673 := Call(__e, ShenFunc(symcons), Else, Nil)
+				Else := gen4754
+				gen4755 := Call(__e, ShenFunc(symcons), Else, Nil)
 
-				gen10674 := Call(__e, ShenFunc(symcons), Action, gen10673)
+				gen4756 := Call(__e, ShenFunc(symcons), Action, gen4755)
 
-				gen10675 := Call(__e, ShenFunc(symcons), Test, gen10674)
+				gen4757 := Call(__e, ShenFunc(symcons), Test, gen4756)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen10675)
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen4757)
 
 				return
 
@@ -1650,20 +1650,20 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.variable-match"), gen10677)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.variable-match"), gen4759)
 
-		gen10680 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4831 := __args[0]
+		gen4762 := MakeNative(func(__e Evaluator) {
+			V4831 := __e.Get(1)
 			_ = V4831
-			gen10679 := Call(__e, ShenFunc(symcons_2), V4831)
+			gen4761 := Call(__e, ShenFunc(symcons_2), V4831)
 
-			if True == gen10679 {
+			if True == gen4761 {
 				__e.Return(False)
 				return
 			} else {
-				gen10678 := Call(__e, ShenFunc(symvariable_2), V4831)
+				gen4760 := Call(__e, ShenFunc(symvariable_2), V4831)
 
-				if True == gen10678 {
+				if True == gen4760 {
 					__e.Return(False)
 					return
 				} else {
@@ -1674,14 +1674,14 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.terminal?"), gen10680)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.terminal?"), gen4762)
 
-		gen10682 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4837 := __args[0]
+		gen4764 := MakeNative(func(__e Evaluator) {
+			V4837 := __e.Get(1)
 			_ = V4837
-			gen10681 := Call(__e, ShenFunc(sym_a), V4837, MakeSymbol("_"))
+			gen4763 := Call(__e, ShenFunc(sym_a), V4837, MakeSymbol("_"))
 
-			if True == gen10681 {
+			if True == gen4763 {
 				__e.Return(True)
 				return
 			} else {
@@ -1690,85 +1690,85 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.jump_stream?"), gen10682)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.jump_stream?"), gen4764)
 
-		gen10715 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4841 := __args[0]
+		gen4797 := MakeNative(func(__e Evaluator) {
+			V4841 := __e.Get(1)
 			_ = V4841
-			V4842 := __args[1]
+			V4842 := __e.Get(2)
 			_ = V4842
-			V4843 := __args[2]
+			V4843 := __e.Get(3)
 			_ = V4843
-			gen10714 := Call(__e, ShenFunc(symcons_2), V4841)
+			gen4796 := Call(__e, ShenFunc(symcons_2), V4841)
 
-			if True == gen10714 {
-				gen10683 := Call(__e, ShenFunc(symcons), V4842, Nil)
+			if True == gen4796 {
+				gen4765 := Call(__e, ShenFunc(symcons), V4842, Nil)
 
-				gen10684 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen10683)
+				gen4766 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen4765)
 
-				gen10685 := Call(__e, ShenFunc(symcons), gen10684, Nil)
+				gen4767 := Call(__e, ShenFunc(symcons), gen4766, Nil)
 
-				gen10686 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen10685)
+				gen4768 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen4767)
 
-				gen10687 := Call(__e, ShenFunc(symhd), V4841)
+				gen4769 := Call(__e, ShenFunc(symhd), V4841)
 
-				gen10688 := Call(__e, ShenFunc(symcons), V4842, Nil)
+				gen4770 := Call(__e, ShenFunc(symcons), V4842, Nil)
 
-				gen10689 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen10688)
+				gen4771 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdhd"), gen4770)
 
-				gen10690 := Call(__e, ShenFunc(symcons), gen10689, Nil)
+				gen4772 := Call(__e, ShenFunc(symcons), gen4771, Nil)
 
-				gen10691 := Call(__e, ShenFunc(symcons), gen10687, gen10690)
+				gen4773 := Call(__e, ShenFunc(symcons), gen4769, gen4772)
 
-				gen10692 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen10691)
+				gen4774 := Call(__e, ShenFunc(symcons), MakeSymbol("="), gen4773)
 
-				gen10693 := Call(__e, ShenFunc(symcons), gen10692, Nil)
+				gen4775 := Call(__e, ShenFunc(symcons), gen4774, Nil)
 
-				gen10694 := Call(__e, ShenFunc(symcons), gen10686, gen10693)
+				gen4776 := Call(__e, ShenFunc(symcons), gen4768, gen4775)
 
-				gen10695 := Call(__e, ShenFunc(symcons), MakeSymbol("and"), gen10694)
+				gen4777 := Call(__e, ShenFunc(symcons), MakeSymbol("and"), gen4776)
 
-				Test := gen10695
-				gen10696 := Call(__e, ShenFunc(symgensym), MakeSymbol("NewStream"))
+				Test := gen4777
+				gen4778 := Call(__e, ShenFunc(symgensym), MakeSymbol("NewStream"))
 
-				NewStr := gen10696
-				gen10697 := Call(__e, ShenFunc(symcons), V4842, Nil)
+				NewStr := gen4778
+				gen4779 := Call(__e, ShenFunc(symcons), V4842, Nil)
 
-				gen10698 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen10697)
+				gen4780 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen4779)
 
-				gen10699 := Call(__e, ShenFunc(symcons), V4842, Nil)
+				gen4781 := Call(__e, ShenFunc(symcons), V4842, Nil)
 
-				gen10700 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen10699)
+				gen4782 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen4781)
 
-				gen10701 := Call(__e, ShenFunc(symcons), gen10700, Nil)
+				gen4783 := Call(__e, ShenFunc(symcons), gen4782, Nil)
 
-				gen10702 := Call(__e, ShenFunc(symcons), gen10698, gen10701)
+				gen4784 := Call(__e, ShenFunc(symcons), gen4780, gen4783)
 
-				gen10703 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen10702)
+				gen4785 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen4784)
 
-				gen10704 := Call(__e, ShenFunc(symtl), V4841)
+				gen4786 := Call(__e, ShenFunc(symtl), V4841)
 
-				gen10705 := Call(__e, ShenFunc(symshen_4syntax), gen10704, NewStr, V4843)
+				gen4787 := Call(__e, ShenFunc(symshen_4syntax), gen4786, NewStr, V4843)
 
-				gen10706 := Call(__e, ShenFunc(symcons), gen10705, Nil)
+				gen4788 := Call(__e, ShenFunc(symcons), gen4787, Nil)
 
-				gen10707 := Call(__e, ShenFunc(symcons), gen10703, gen10706)
+				gen4789 := Call(__e, ShenFunc(symcons), gen4785, gen4788)
 
-				gen10708 := Call(__e, ShenFunc(symcons), NewStr, gen10707)
+				gen4790 := Call(__e, ShenFunc(symcons), NewStr, gen4789)
 
-				gen10709 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen10708)
+				gen4791 := Call(__e, ShenFunc(symcons), MakeSymbol("let"), gen4790)
 
-				Action := gen10709
-				gen10710 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+				Action := gen4791
+				gen4792 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-				Else := gen10710
-				gen10711 := Call(__e, ShenFunc(symcons), Else, Nil)
+				Else := gen4792
+				gen4793 := Call(__e, ShenFunc(symcons), Else, Nil)
 
-				gen10712 := Call(__e, ShenFunc(symcons), Action, gen10711)
+				gen4794 := Call(__e, ShenFunc(symcons), Action, gen4793)
 
-				gen10713 := Call(__e, ShenFunc(symcons), Test, gen10712)
+				gen4795 := Call(__e, ShenFunc(symcons), Test, gen4794)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen10713)
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen4795)
 
 				return
 
@@ -1779,56 +1779,56 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.check_stream"), gen10715)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.check_stream"), gen4797)
 
-		gen10734 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4847 := __args[0]
+		gen4816 := MakeNative(func(__e Evaluator) {
+			V4847 := __e.Get(1)
 			_ = V4847
-			V4848 := __args[1]
+			V4848 := __e.Get(2)
 			_ = V4848
-			V4849 := __args[2]
+			V4849 := __e.Get(3)
 			_ = V4849
-			gen10733 := Call(__e, ShenFunc(symcons_2), V4847)
+			gen4815 := Call(__e, ShenFunc(symcons_2), V4847)
 
-			if True == gen10733 {
-				gen10716 := Call(__e, ShenFunc(symcons), V4848, Nil)
+			if True == gen4815 {
+				gen4798 := Call(__e, ShenFunc(symcons), V4848, Nil)
 
-				gen10717 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen10716)
+				gen4799 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen4798)
 
-				gen10718 := Call(__e, ShenFunc(symcons), gen10717, Nil)
+				gen4800 := Call(__e, ShenFunc(symcons), gen4799, Nil)
 
-				gen10719 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen10718)
+				gen4801 := Call(__e, ShenFunc(symcons), MakeSymbol("cons?"), gen4800)
 
-				Test := gen10719
-				gen10720 := Call(__e, ShenFunc(symtl), V4847)
+				Test := gen4801
+				gen4802 := Call(__e, ShenFunc(symtl), V4847)
 
-				gen10721 := Call(__e, ShenFunc(symcons), V4848, Nil)
+				gen4803 := Call(__e, ShenFunc(symcons), V4848, Nil)
 
-				gen10722 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen10721)
+				gen4804 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.tlhd"), gen4803)
 
-				gen10723 := Call(__e, ShenFunc(symcons), V4848, Nil)
+				gen4805 := Call(__e, ShenFunc(symcons), V4848, Nil)
 
-				gen10724 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen10723)
+				gen4806 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen4805)
 
-				gen10725 := Call(__e, ShenFunc(symcons), gen10724, Nil)
+				gen4807 := Call(__e, ShenFunc(symcons), gen4806, Nil)
 
-				gen10726 := Call(__e, ShenFunc(symcons), gen10722, gen10725)
+				gen4808 := Call(__e, ShenFunc(symcons), gen4804, gen4807)
 
-				gen10727 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen10726)
+				gen4809 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.pair"), gen4808)
 
-				gen10728 := Call(__e, ShenFunc(symshen_4syntax), gen10720, gen10727, V4849)
+				gen4810 := Call(__e, ShenFunc(symshen_4syntax), gen4802, gen4809, V4849)
 
-				Action := gen10728
-				gen10729 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
+				Action := gen4810
+				gen4811 := Call(__e, ShenFunc(symcons), MakeSymbol("fail"), Nil)
 
-				Else := gen10729
-				gen10730 := Call(__e, ShenFunc(symcons), Else, Nil)
+				Else := gen4811
+				gen4812 := Call(__e, ShenFunc(symcons), Else, Nil)
 
-				gen10731 := Call(__e, ShenFunc(symcons), Action, gen10730)
+				gen4813 := Call(__e, ShenFunc(symcons), Action, gen4812)
 
-				gen10732 := Call(__e, ShenFunc(symcons), Test, gen10731)
+				gen4814 := Call(__e, ShenFunc(symcons), Test, gen4813)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen10732)
+				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen4814)
 
 				return
 
@@ -1839,47 +1839,47 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.jump_stream"), gen10734)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.jump_stream"), gen4816)
 
-		gen10742 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4851 := __args[0]
+		gen4824 := MakeNative(func(__e Evaluator) {
+			V4851 := __e.Get(1)
 			_ = V4851
-			gen10741 := Call(__e, ShenFunc(sym_a), Nil, V4851)
+			gen4823 := Call(__e, ShenFunc(sym_a), Nil, V4851)
 
-			if True == gen10741 {
+			if True == gen4823 {
 				__e.Return(Nil)
 				return
 			} else {
-				gen10740 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), V4851)
+				gen4822 := Call(__e, ShenFunc(symshen_4grammar__symbol_2), V4851)
 
-				if True == gen10740 {
-					gen10738 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), V4851)
+				if True == gen4822 {
+					gen4820 := Call(__e, ShenFunc(symconcat), MakeSymbol("Parse_"), V4851)
 
-					gen10739 := Call(__e, ShenFunc(symcons), gen10738, Nil)
+					gen4821 := Call(__e, ShenFunc(symcons), gen4820, Nil)
 
-					__e.TailApply(ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen10739)
+					__e.TailApply(ShenFunc(symcons), MakeSymbol("shen.hdtl"), gen4821)
 
 					return
 
 				} else {
-					gen10737 := Call(__e, ShenFunc(symvariable_2), V4851)
+					gen4819 := Call(__e, ShenFunc(symvariable_2), V4851)
 
-					if True == gen10737 {
+					if True == gen4819 {
 						__e.TailApply(ShenFunc(symconcat), MakeSymbol("Parse_"), V4851)
 
 						return
 					} else {
-						gen10736 := Call(__e, ShenFunc(symcons_2), V4851)
+						gen4818 := Call(__e, ShenFunc(symcons_2), V4851)
 
-						if True == gen10736 {
-							gen10735 := MakeNative(func(__e Evaluator, __args ...Obj) {
-								Z := __args[0]
+						if True == gen4818 {
+							gen4817 := MakeNative(func(__e Evaluator) {
+								Z := __e.Get(1)
 								_ = Z
 								__e.TailApply(ShenFunc(symshen_4semantics), Z)
 
 								return
 							}, 1)
-							__e.TailApply(ShenFunc(symmap), gen10735, V4851)
+							__e.TailApply(ShenFunc(symmap), gen4817, V4851)
 
 							return
 
@@ -1895,99 +1895,99 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.semantics"), gen10742)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.semantics"), gen4824)
 
-		gen10744 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4854 := __args[0]
+		gen4826 := MakeNative(func(__e Evaluator) {
+			V4854 := __e.Get(1)
 			_ = V4854
-			V4855 := __args[1]
+			V4855 := __e.Get(2)
 			_ = V4855
-			gen10743 := Call(__e, ShenFunc(symcons), V4855, Nil)
+			gen4825 := Call(__e, ShenFunc(symcons), V4855, Nil)
 
-			__e.TailApply(ShenFunc(symcons), V4854, gen10743)
+			__e.TailApply(ShenFunc(symcons), V4854, gen4825)
 
 			return
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.pair"), gen10744)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.pair"), gen4826)
 
-		gen10746 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4857 := __args[0]
+		gen4828 := MakeNative(func(__e Evaluator) {
+			V4857 := __e.Get(1)
 			_ = V4857
-			gen10745 := Call(__e, ShenFunc(symtl), V4857)
+			gen4827 := Call(__e, ShenFunc(symtl), V4857)
 
-			__e.TailApply(ShenFunc(symhd), gen10745)
+			__e.TailApply(ShenFunc(symhd), gen4827)
 
 			return
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.hdtl"), gen10746)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.hdtl"), gen4828)
 
-		gen10748 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4859 := __args[0]
+		gen4830 := MakeNative(func(__e Evaluator) {
+			V4859 := __e.Get(1)
 			_ = V4859
-			gen10747 := Call(__e, ShenFunc(symhd), V4859)
+			gen4829 := Call(__e, ShenFunc(symhd), V4859)
 
-			__e.TailApply(ShenFunc(symhd), gen10747)
+			__e.TailApply(ShenFunc(symhd), gen4829)
 
 			return
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.hdhd"), gen10748)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.hdhd"), gen4830)
 
-		gen10750 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4861 := __args[0]
+		gen4832 := MakeNative(func(__e Evaluator) {
+			V4861 := __e.Get(1)
 			_ = V4861
-			gen10749 := Call(__e, ShenFunc(symhd), V4861)
+			gen4831 := Call(__e, ShenFunc(symhd), V4861)
 
-			__e.TailApply(ShenFunc(symtl), gen10749)
+			__e.TailApply(ShenFunc(symtl), gen4831)
 
 			return
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.tlhd"), gen10750)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.tlhd"), gen4832)
 
-		gen10760 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4869 := __args[0]
+		gen4842 := MakeNative(func(__e Evaluator) {
+			V4869 := __e.Get(1)
 			_ = V4869
-			gen10758 := Call(__e, ShenFunc(symcons_2), V4869)
+			gen4840 := Call(__e, ShenFunc(symcons_2), V4869)
 
-			var gen10759 Obj
-			if True == gen10758 {
-				gen10755 := Call(__e, ShenFunc(symtl), V4869)
+			var gen4841 Obj
+			if True == gen4840 {
+				gen4837 := Call(__e, ShenFunc(symtl), V4869)
 
-				gen10756 := Call(__e, ShenFunc(symcons_2), gen10755)
+				gen4838 := Call(__e, ShenFunc(symcons_2), gen4837)
 
-				var gen10757 Obj
-				if True == gen10756 {
-					gen10752 := Call(__e, ShenFunc(symtl), V4869)
+				var gen4839 Obj
+				if True == gen4838 {
+					gen4834 := Call(__e, ShenFunc(symtl), V4869)
 
-					gen10753 := Call(__e, ShenFunc(symtl), gen10752)
+					gen4835 := Call(__e, ShenFunc(symtl), gen4834)
 
-					gen10754 := Call(__e, ShenFunc(sym_a), Nil, gen10753)
+					gen4836 := Call(__e, ShenFunc(sym_a), Nil, gen4835)
 
-					if True == gen10754 {
-						gen10757 = True
+					if True == gen4836 {
+						gen4839 = True
 					} else {
-						gen10757 = False
+						gen4839 = False
 					}
 
 				} else {
-					gen10757 = False
+					gen4839 = False
 				}
-				if True == gen10757 {
-					gen10759 = True
+				if True == gen4839 {
+					gen4841 = True
 				} else {
-					gen10759 = False
+					gen4841 = False
 				}
 
 			} else {
-				gen10759 = False
+				gen4841 = False
 			}
-			if True == gen10759 {
-				gen10751 := Call(__e, ShenFunc(symtl), V4869)
+			if True == gen4841 {
+				gen4833 := Call(__e, ShenFunc(symtl), V4869)
 
-				__e.TailApply(ShenFunc(symhd), gen10751)
+				__e.TailApply(ShenFunc(symhd), gen4833)
 
 				return
 
@@ -1998,57 +1998,57 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.snd-or-fail"), gen10760)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.snd-or-fail"), gen4842)
 
-		gen10761 := MakeNative(func(__e Evaluator, __args ...Obj) {
+		gen4843 := MakeNative(func(__e Evaluator) {
 			__e.Return(MakeSymbol("shen.fail!"))
 			return
 		}, 0)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("fail"), gen10761)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("fail"), gen4843)
 
-		gen10772 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4877 := __args[0]
+		gen4854 := MakeNative(func(__e Evaluator) {
+			V4877 := __e.Get(1)
 			_ = V4877
-			gen10770 := Call(__e, ShenFunc(symcons_2), V4877)
+			gen4852 := Call(__e, ShenFunc(symcons_2), V4877)
 
-			var gen10771 Obj
-			if True == gen10770 {
-				gen10767 := Call(__e, ShenFunc(symtl), V4877)
+			var gen4853 Obj
+			if True == gen4852 {
+				gen4849 := Call(__e, ShenFunc(symtl), V4877)
 
-				gen10768 := Call(__e, ShenFunc(symcons_2), gen10767)
+				gen4850 := Call(__e, ShenFunc(symcons_2), gen4849)
 
-				var gen10769 Obj
-				if True == gen10768 {
-					gen10764 := Call(__e, ShenFunc(symtl), V4877)
+				var gen4851 Obj
+				if True == gen4850 {
+					gen4846 := Call(__e, ShenFunc(symtl), V4877)
 
-					gen10765 := Call(__e, ShenFunc(symtl), gen10764)
+					gen4847 := Call(__e, ShenFunc(symtl), gen4846)
 
-					gen10766 := Call(__e, ShenFunc(sym_a), Nil, gen10765)
+					gen4848 := Call(__e, ShenFunc(sym_a), Nil, gen4847)
 
-					if True == gen10766 {
-						gen10769 = True
+					if True == gen4848 {
+						gen4851 = True
 					} else {
-						gen10769 = False
+						gen4851 = False
 					}
 
 				} else {
-					gen10769 = False
+					gen4851 = False
 				}
-				if True == gen10769 {
-					gen10771 = True
+				if True == gen4851 {
+					gen4853 = True
 				} else {
-					gen10771 = False
+					gen4853 = False
 				}
 
 			} else {
-				gen10771 = False
+				gen4853 = False
 			}
-			if True == gen10771 {
-				gen10762 := Call(__e, ShenFunc(symhd), V4877)
+			if True == gen4853 {
+				gen4844 := Call(__e, ShenFunc(symhd), V4877)
 
-				gen10763 := Call(__e, ShenFunc(symcons), gen10762, Nil)
+				gen4845 := Call(__e, ShenFunc(symcons), gen4844, Nil)
 
-				__e.TailApply(ShenFunc(symcons), Nil, gen10763)
+				__e.TailApply(ShenFunc(symcons), Nil, gen4845)
 
 				return
 
@@ -2059,51 +2059,51 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("<!>"), gen10772)
+		Call(__e, ShenFunc(symdefun), MakeSymbol("<!>"), gen4854)
 
-		gen10783 := MakeNative(func(__e Evaluator, __args ...Obj) {
-			V4883 := __args[0]
+		gen4865 := MakeNative(func(__e Evaluator) {
+			V4883 := __e.Get(1)
 			_ = V4883
-			gen10781 := Call(__e, ShenFunc(symcons_2), V4883)
+			gen4863 := Call(__e, ShenFunc(symcons_2), V4883)
 
-			var gen10782 Obj
-			if True == gen10781 {
-				gen10778 := Call(__e, ShenFunc(symtl), V4883)
+			var gen4864 Obj
+			if True == gen4863 {
+				gen4860 := Call(__e, ShenFunc(symtl), V4883)
 
-				gen10779 := Call(__e, ShenFunc(symcons_2), gen10778)
+				gen4861 := Call(__e, ShenFunc(symcons_2), gen4860)
 
-				var gen10780 Obj
-				if True == gen10779 {
-					gen10775 := Call(__e, ShenFunc(symtl), V4883)
+				var gen4862 Obj
+				if True == gen4861 {
+					gen4857 := Call(__e, ShenFunc(symtl), V4883)
 
-					gen10776 := Call(__e, ShenFunc(symtl), gen10775)
+					gen4858 := Call(__e, ShenFunc(symtl), gen4857)
 
-					gen10777 := Call(__e, ShenFunc(sym_a), Nil, gen10776)
+					gen4859 := Call(__e, ShenFunc(sym_a), Nil, gen4858)
 
-					if True == gen10777 {
-						gen10780 = True
+					if True == gen4859 {
+						gen4862 = True
 					} else {
-						gen10780 = False
+						gen4862 = False
 					}
 
 				} else {
-					gen10780 = False
+					gen4862 = False
 				}
-				if True == gen10780 {
-					gen10782 = True
+				if True == gen4862 {
+					gen4864 = True
 				} else {
-					gen10782 = False
+					gen4864 = False
 				}
 
 			} else {
-				gen10782 = False
+				gen4864 = False
 			}
-			if True == gen10782 {
-				gen10773 := Call(__e, ShenFunc(symhd), V4883)
+			if True == gen4864 {
+				gen4855 := Call(__e, ShenFunc(symhd), V4883)
 
-				gen10774 := Call(__e, ShenFunc(symcons), Nil, Nil)
+				gen4856 := Call(__e, ShenFunc(symcons), Nil, Nil)
 
-				__e.TailApply(ShenFunc(symcons), gen10773, gen10774)
+				__e.TailApply(ShenFunc(symcons), gen4855, gen4856)
 
 				return
 
@@ -2114,7 +2114,7 @@ func init() {
 			}
 
 		}, 1)
-		__e.TailApply(ShenFunc(symdefun), MakeSymbol("<e>"), gen10783)
+		__e.TailApply(ShenFunc(symdefun), MakeSymbol("<e>"), gen4865)
 
 		return
 
