@@ -9,75 +9,75 @@ func init() {
 		gen17712 := MakeNative(func(__e Evaluator) {
 			V4931 := __e.Get(1)
 			_ = V4931
-			gen17710 := Call(__e, ShenFunc(symcons_2), V4931)
+			gen17710 := Call(__e, __e.Global(symcons_2), V4931)
 
 			var gen17711 Obj
 			if True == gen17710 {
-				gen17707 := Call(__e, ShenFunc(symhd), V4931)
+				gen17707 := Call(__e, __e.Global(symhd), V4931)
 
-				gen17708 := Call(__e, ShenFunc(sym_a), MakeSymbol("defun"), gen17707)
+				gen17708 := Call(__e, __e.Global(sym_a), MakeSymbol("defun"), gen17707)
 
 				var gen17709 Obj
 				if True == gen17708 {
-					gen17704 := Call(__e, ShenFunc(symtl), V4931)
+					gen17704 := Call(__e, __e.Global(symtl), V4931)
 
-					gen17705 := Call(__e, ShenFunc(symcons_2), gen17704)
+					gen17705 := Call(__e, __e.Global(symcons_2), gen17704)
 
 					var gen17706 Obj
 					if True == gen17705 {
-						gen17700 := Call(__e, ShenFunc(symtl), V4931)
+						gen17700 := Call(__e, __e.Global(symtl), V4931)
 
-						gen17701 := Call(__e, ShenFunc(symtl), gen17700)
+						gen17701 := Call(__e, __e.Global(symtl), gen17700)
 
-						gen17702 := Call(__e, ShenFunc(symcons_2), gen17701)
+						gen17702 := Call(__e, __e.Global(symcons_2), gen17701)
 
 						var gen17703 Obj
 						if True == gen17702 {
-							gen17695 := Call(__e, ShenFunc(symtl), V4931)
+							gen17695 := Call(__e, __e.Global(symtl), V4931)
 
-							gen17696 := Call(__e, ShenFunc(symtl), gen17695)
+							gen17696 := Call(__e, __e.Global(symtl), gen17695)
 
-							gen17697 := Call(__e, ShenFunc(symtl), gen17696)
+							gen17697 := Call(__e, __e.Global(symtl), gen17696)
 
-							gen17698 := Call(__e, ShenFunc(symcons_2), gen17697)
+							gen17698 := Call(__e, __e.Global(symcons_2), gen17697)
 
 							var gen17699 Obj
 							if True == gen17698 {
-								gen17689 := Call(__e, ShenFunc(symtl), V4931)
+								gen17689 := Call(__e, __e.Global(symtl), V4931)
 
-								gen17690 := Call(__e, ShenFunc(symtl), gen17689)
+								gen17690 := Call(__e, __e.Global(symtl), gen17689)
 
-								gen17691 := Call(__e, ShenFunc(symtl), gen17690)
+								gen17691 := Call(__e, __e.Global(symtl), gen17690)
 
-								gen17692 := Call(__e, ShenFunc(symhd), gen17691)
+								gen17692 := Call(__e, __e.Global(symhd), gen17691)
 
-								gen17693 := Call(__e, ShenFunc(symcons_2), gen17692)
+								gen17693 := Call(__e, __e.Global(symcons_2), gen17692)
 
 								var gen17694 Obj
 								if True == gen17693 {
-									gen17682 := Call(__e, ShenFunc(symtl), V4931)
+									gen17682 := Call(__e, __e.Global(symtl), V4931)
 
-									gen17683 := Call(__e, ShenFunc(symtl), gen17682)
+									gen17683 := Call(__e, __e.Global(symtl), gen17682)
 
-									gen17684 := Call(__e, ShenFunc(symtl), gen17683)
+									gen17684 := Call(__e, __e.Global(symtl), gen17683)
 
-									gen17685 := Call(__e, ShenFunc(symhd), gen17684)
+									gen17685 := Call(__e, __e.Global(symhd), gen17684)
 
-									gen17686 := Call(__e, ShenFunc(symhd), gen17685)
+									gen17686 := Call(__e, __e.Global(symhd), gen17685)
 
-									gen17687 := Call(__e, ShenFunc(sym_a), MakeSymbol("cond"), gen17686)
+									gen17687 := Call(__e, __e.Global(sym_a), MakeSymbol("cond"), gen17686)
 
 									var gen17688 Obj
 									if True == gen17687 {
-										gen17677 := Call(__e, ShenFunc(symtl), V4931)
+										gen17677 := Call(__e, __e.Global(symtl), V4931)
 
-										gen17678 := Call(__e, ShenFunc(symtl), gen17677)
+										gen17678 := Call(__e, __e.Global(symtl), gen17677)
 
-										gen17679 := Call(__e, ShenFunc(symtl), gen17678)
+										gen17679 := Call(__e, __e.Global(symtl), gen17678)
 
-										gen17680 := Call(__e, ShenFunc(symtl), gen17679)
+										gen17680 := Call(__e, __e.Global(symtl), gen17679)
 
-										gen17681 := Call(__e, ShenFunc(sym_a), Nil, gen17680)
+										gen17681 := Call(__e, __e.Global(sym_a), Nil, gen17680)
 
 										if True == gen17681 {
 											gen17688 = True
@@ -143,47 +143,47 @@ func init() {
 				gen17711 = False
 			}
 			if True == gen17711 {
-				gen17657 := Call(__e, ShenFunc(symtl), V4931)
+				gen17657 := Call(__e, __e.Global(symtl), V4931)
 
-				gen17658 := Call(__e, ShenFunc(symhd), gen17657)
+				gen17658 := Call(__e, __e.Global(symhd), gen17657)
 
-				gen17659 := Call(__e, ShenFunc(symtl), V4931)
+				gen17659 := Call(__e, __e.Global(symtl), V4931)
 
-				gen17660 := Call(__e, ShenFunc(symtl), gen17659)
+				gen17660 := Call(__e, __e.Global(symtl), gen17659)
 
-				gen17661 := Call(__e, ShenFunc(symhd), gen17660)
+				gen17661 := Call(__e, __e.Global(symhd), gen17660)
 
-				gen17662 := Call(__e, ShenFunc(symtl), V4931)
+				gen17662 := Call(__e, __e.Global(symtl), V4931)
 
-				gen17663 := Call(__e, ShenFunc(symtl), gen17662)
+				gen17663 := Call(__e, __e.Global(symtl), gen17662)
 
-				gen17664 := Call(__e, ShenFunc(symtl), gen17663)
+				gen17664 := Call(__e, __e.Global(symtl), gen17663)
 
-				gen17665 := Call(__e, ShenFunc(symhd), gen17664)
+				gen17665 := Call(__e, __e.Global(symhd), gen17664)
 
-				gen17666 := Call(__e, ShenFunc(symtl), V4931)
+				gen17666 := Call(__e, __e.Global(symtl), V4931)
 
-				gen17667 := Call(__e, ShenFunc(symhd), gen17666)
+				gen17667 := Call(__e, __e.Global(symhd), gen17666)
 
-				gen17668 := Call(__e, ShenFunc(symcons), gen17667, Nil)
+				gen17668 := Call(__e, __e.Global(symcons), gen17667, Nil)
 
-				gen17669 := Call(__e, ShenFunc(symcons), MakeSymbol("shen.f_error"), gen17668)
+				gen17669 := Call(__e, __e.Global(symcons), MakeSymbol("shen.f_error"), gen17668)
 
-				gen17670 := Call(__e, ShenFunc(symtl), V4931)
+				gen17670 := Call(__e, __e.Global(symtl), V4931)
 
-				gen17671 := Call(__e, ShenFunc(symtl), gen17670)
+				gen17671 := Call(__e, __e.Global(symtl), gen17670)
 
-				gen17672 := Call(__e, ShenFunc(symhd), gen17671)
+				gen17672 := Call(__e, __e.Global(symhd), gen17671)
 
-				gen17673 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4factorise_1cond), gen17665, gen17669, gen17672)
+				gen17673 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4factorise_1cond), gen17665, gen17669, gen17672)
 
-				gen17674 := Call(__e, ShenFunc(symcons), gen17673, Nil)
+				gen17674 := Call(__e, __e.Global(symcons), gen17673, Nil)
 
-				gen17675 := Call(__e, ShenFunc(symcons), gen17661, gen17674)
+				gen17675 := Call(__e, __e.Global(symcons), gen17661, gen17674)
 
-				gen17676 := Call(__e, ShenFunc(symcons), gen17658, gen17675)
+				gen17676 := Call(__e, __e.Global(symcons), gen17658, gen17675)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("defun"), gen17676)
+				__e.TailApply(__e.Global(symcons), MakeSymbol("defun"), gen17676)
 
 				return
 
@@ -193,7 +193,7 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.factorise-defun"), gen17712)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.factorise-defun"), gen17712)
 
 		gen17720 := MakeNative(func(__e Evaluator) {
 			V4943 := __e.Get(1)
@@ -202,13 +202,13 @@ func init() {
 			_ = V4944
 			V4945 := __e.Get(3)
 			_ = V4945
-			gen17718 := Call(__e, ShenFunc(symcons_2), V4943)
+			gen17718 := Call(__e, __e.Global(symcons_2), V4943)
 
 			var gen17719 Obj
 			if True == gen17718 {
-				gen17716 := Call(__e, ShenFunc(symhd), V4943)
+				gen17716 := Call(__e, __e.Global(symhd), V4943)
 
-				gen17717 := Call(__e, ShenFunc(sym_a), MakeSymbol("cond"), gen17716)
+				gen17717 := Call(__e, __e.Global(sym_a), MakeSymbol("cond"), gen17716)
 
 				if True == gen17717 {
 					gen17719 = True
@@ -220,13 +220,13 @@ func init() {
 				gen17719 = False
 			}
 			if True == gen17719 {
-				gen17713 := Call(__e, ShenFunc(symtl), V4943)
+				gen17713 := Call(__e, __e.Global(symtl), V4943)
 
-				gen17714 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4add_1returns), gen17713)
+				gen17714 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4add_1returns), gen17713)
 
-				gen17715 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4rebranch), gen17714, V4944)
+				gen17715 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4rebranch), gen17714, V4944)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17715, V4945)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17715, V4945)
 
 				return
 
@@ -236,42 +236,42 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.factorise-cond"), gen17720)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.factorise-cond"), gen17720)
 
 		gen17744 := MakeNative(func(__e Evaluator) {
 			V4947 := __e.Get(1)
 			_ = V4947
-			gen17743 := Call(__e, ShenFunc(sym_a), Nil, V4947)
+			gen17743 := Call(__e, __e.Global(sym_a), Nil, V4947)
 
 			if True == gen17743 {
 				__e.Return(Nil)
 				return
 			} else {
-				gen17741 := Call(__e, ShenFunc(symcons_2), V4947)
+				gen17741 := Call(__e, __e.Global(symcons_2), V4947)
 
 				var gen17742 Obj
 				if True == gen17741 {
-					gen17738 := Call(__e, ShenFunc(symhd), V4947)
+					gen17738 := Call(__e, __e.Global(symhd), V4947)
 
-					gen17739 := Call(__e, ShenFunc(symcons_2), gen17738)
+					gen17739 := Call(__e, __e.Global(symcons_2), gen17738)
 
 					var gen17740 Obj
 					if True == gen17739 {
-						gen17734 := Call(__e, ShenFunc(symhd), V4947)
+						gen17734 := Call(__e, __e.Global(symhd), V4947)
 
-						gen17735 := Call(__e, ShenFunc(symtl), gen17734)
+						gen17735 := Call(__e, __e.Global(symtl), gen17734)
 
-						gen17736 := Call(__e, ShenFunc(symcons_2), gen17735)
+						gen17736 := Call(__e, __e.Global(symcons_2), gen17735)
 
 						var gen17737 Obj
 						if True == gen17736 {
-							gen17730 := Call(__e, ShenFunc(symhd), V4947)
+							gen17730 := Call(__e, __e.Global(symhd), V4947)
 
-							gen17731 := Call(__e, ShenFunc(symtl), gen17730)
+							gen17731 := Call(__e, __e.Global(symtl), gen17730)
 
-							gen17732 := Call(__e, ShenFunc(symtl), gen17731)
+							gen17732 := Call(__e, __e.Global(symtl), gen17731)
 
-							gen17733 := Call(__e, ShenFunc(sym_a), Nil, gen17732)
+							gen17733 := Call(__e, __e.Global(sym_a), Nil, gen17732)
 
 							if True == gen17733 {
 								gen17737 = True
@@ -301,30 +301,30 @@ func init() {
 					gen17742 = False
 				}
 				if True == gen17742 {
-					gen17721 := Call(__e, ShenFunc(symhd), V4947)
+					gen17721 := Call(__e, __e.Global(symhd), V4947)
 
-					gen17722 := Call(__e, ShenFunc(symhd), gen17721)
+					gen17722 := Call(__e, __e.Global(symhd), gen17721)
 
-					gen17723 := Call(__e, ShenFunc(symhd), V4947)
+					gen17723 := Call(__e, __e.Global(symhd), V4947)
 
-					gen17724 := Call(__e, ShenFunc(symtl), gen17723)
+					gen17724 := Call(__e, __e.Global(symtl), gen17723)
 
-					gen17725 := Call(__e, ShenFunc(symcons), MakeSymbol("%%return"), gen17724)
+					gen17725 := Call(__e, __e.Global(symcons), MakeSymbol("%%return"), gen17724)
 
-					gen17726 := Call(__e, ShenFunc(symcons), gen17725, Nil)
+					gen17726 := Call(__e, __e.Global(symcons), gen17725, Nil)
 
-					gen17727 := Call(__e, ShenFunc(symcons), gen17722, gen17726)
+					gen17727 := Call(__e, __e.Global(symcons), gen17722, gen17726)
 
-					gen17728 := Call(__e, ShenFunc(symtl), V4947)
+					gen17728 := Call(__e, __e.Global(symtl), V4947)
 
-					gen17729 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4add_1returns), gen17728)
+					gen17729 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4add_1returns), gen17728)
 
-					__e.TailApply(ShenFunc(symcons), gen17727, gen17729)
+					__e.TailApply(__e.Global(symcons), gen17727, gen17729)
 
 					return
 
 				} else {
-					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.add-returns"))
+					__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.add-returns"))
 
 					return
 				}
@@ -332,28 +332,28 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.add-returns"), gen17744)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.add-returns"), gen17744)
 
 		gen17745 := MakeNative(func(__e Evaluator) {
-			__e.TailApply(ShenFunc(symgensym), MakeSymbol("%%label"))
+			__e.TailApply(__e.Global(symgensym), MakeSymbol("%%label"))
 
 			return
 		}, 0)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.generate-label"), gen17745)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.generate-label"), gen17745)
 
 		gen17747 := MakeNative(func(__e Evaluator) {
 			V4950 := __e.Get(1)
 			_ = V4950
 			V4951 := __e.Get(2)
 			_ = V4951
-			gen17746 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4free_1variables_1h), V4950, V4951, Nil)
+			gen17746 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4free_1variables_1h), V4950, V4951, Nil)
 
-			__e.TailApply(ShenFunc(symreverse), gen17746)
+			__e.TailApply(__e.Global(symreverse), gen17746)
 
 			return
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.free-variables"), gen17747)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.free-variables"), gen17747)
 
 		gen17808 := MakeNative(func(__e Evaluator) {
 			V4963 := __e.Get(1)
@@ -362,49 +362,49 @@ func init() {
 			_ = V4964
 			V4965 := __e.Get(3)
 			_ = V4965
-			gen17806 := Call(__e, ShenFunc(symcons_2), V4963)
+			gen17806 := Call(__e, __e.Global(symcons_2), V4963)
 
 			var gen17807 Obj
 			if True == gen17806 {
-				gen17803 := Call(__e, ShenFunc(symhd), V4963)
+				gen17803 := Call(__e, __e.Global(symhd), V4963)
 
-				gen17804 := Call(__e, ShenFunc(sym_a), MakeSymbol("let"), gen17803)
+				gen17804 := Call(__e, __e.Global(sym_a), MakeSymbol("let"), gen17803)
 
 				var gen17805 Obj
 				if True == gen17804 {
-					gen17800 := Call(__e, ShenFunc(symtl), V4963)
+					gen17800 := Call(__e, __e.Global(symtl), V4963)
 
-					gen17801 := Call(__e, ShenFunc(symcons_2), gen17800)
+					gen17801 := Call(__e, __e.Global(symcons_2), gen17800)
 
 					var gen17802 Obj
 					if True == gen17801 {
-						gen17796 := Call(__e, ShenFunc(symtl), V4963)
+						gen17796 := Call(__e, __e.Global(symtl), V4963)
 
-						gen17797 := Call(__e, ShenFunc(symtl), gen17796)
+						gen17797 := Call(__e, __e.Global(symtl), gen17796)
 
-						gen17798 := Call(__e, ShenFunc(symcons_2), gen17797)
+						gen17798 := Call(__e, __e.Global(symcons_2), gen17797)
 
 						var gen17799 Obj
 						if True == gen17798 {
-							gen17791 := Call(__e, ShenFunc(symtl), V4963)
+							gen17791 := Call(__e, __e.Global(symtl), V4963)
 
-							gen17792 := Call(__e, ShenFunc(symtl), gen17791)
+							gen17792 := Call(__e, __e.Global(symtl), gen17791)
 
-							gen17793 := Call(__e, ShenFunc(symtl), gen17792)
+							gen17793 := Call(__e, __e.Global(symtl), gen17792)
 
-							gen17794 := Call(__e, ShenFunc(symcons_2), gen17793)
+							gen17794 := Call(__e, __e.Global(symcons_2), gen17793)
 
 							var gen17795 Obj
 							if True == gen17794 {
-								gen17786 := Call(__e, ShenFunc(symtl), V4963)
+								gen17786 := Call(__e, __e.Global(symtl), V4963)
 
-								gen17787 := Call(__e, ShenFunc(symtl), gen17786)
+								gen17787 := Call(__e, __e.Global(symtl), gen17786)
 
-								gen17788 := Call(__e, ShenFunc(symtl), gen17787)
+								gen17788 := Call(__e, __e.Global(symtl), gen17787)
 
-								gen17789 := Call(__e, ShenFunc(symtl), gen17788)
+								gen17789 := Call(__e, __e.Global(symtl), gen17788)
 
-								gen17790 := Call(__e, ShenFunc(sym_a), Nil, gen17789)
+								gen17790 := Call(__e, __e.Global(sym_a), Nil, gen17789)
 
 								if True == gen17790 {
 									gen17795 = True
@@ -452,64 +452,64 @@ func init() {
 				gen17807 = False
 			}
 			if True == gen17807 {
-				gen17775 := Call(__e, ShenFunc(symtl), V4963)
+				gen17775 := Call(__e, __e.Global(symtl), V4963)
 
-				gen17776 := Call(__e, ShenFunc(symtl), gen17775)
+				gen17776 := Call(__e, __e.Global(symtl), gen17775)
 
-				gen17777 := Call(__e, ShenFunc(symtl), gen17776)
+				gen17777 := Call(__e, __e.Global(symtl), gen17776)
 
-				gen17778 := Call(__e, ShenFunc(symhd), gen17777)
+				gen17778 := Call(__e, __e.Global(symhd), gen17777)
 
-				gen17779 := Call(__e, ShenFunc(symtl), V4963)
+				gen17779 := Call(__e, __e.Global(symtl), V4963)
 
-				gen17780 := Call(__e, ShenFunc(symhd), gen17779)
+				gen17780 := Call(__e, __e.Global(symhd), gen17779)
 
-				gen17781 := Call(__e, ShenFunc(symremove), gen17780, V4964)
+				gen17781 := Call(__e, __e.Global(symremove), gen17780, V4964)
 
-				gen17782 := Call(__e, ShenFunc(symtl), V4963)
+				gen17782 := Call(__e, __e.Global(symtl), V4963)
 
-				gen17783 := Call(__e, ShenFunc(symtl), gen17782)
+				gen17783 := Call(__e, __e.Global(symtl), gen17782)
 
-				gen17784 := Call(__e, ShenFunc(symhd), gen17783)
+				gen17784 := Call(__e, __e.Global(symhd), gen17783)
 
-				gen17785 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17784, V4964, V4965)
+				gen17785 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17784, V4964, V4965)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17778, gen17781, gen17785)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17778, gen17781, gen17785)
 
 				return
 
 			} else {
-				gen17773 := Call(__e, ShenFunc(symcons_2), V4963)
+				gen17773 := Call(__e, __e.Global(symcons_2), V4963)
 
 				var gen17774 Obj
 				if True == gen17773 {
-					gen17770 := Call(__e, ShenFunc(symhd), V4963)
+					gen17770 := Call(__e, __e.Global(symhd), V4963)
 
-					gen17771 := Call(__e, ShenFunc(sym_a), MakeSymbol("lambda"), gen17770)
+					gen17771 := Call(__e, __e.Global(sym_a), MakeSymbol("lambda"), gen17770)
 
 					var gen17772 Obj
 					if True == gen17771 {
-						gen17767 := Call(__e, ShenFunc(symtl), V4963)
+						gen17767 := Call(__e, __e.Global(symtl), V4963)
 
-						gen17768 := Call(__e, ShenFunc(symcons_2), gen17767)
+						gen17768 := Call(__e, __e.Global(symcons_2), gen17767)
 
 						var gen17769 Obj
 						if True == gen17768 {
-							gen17763 := Call(__e, ShenFunc(symtl), V4963)
+							gen17763 := Call(__e, __e.Global(symtl), V4963)
 
-							gen17764 := Call(__e, ShenFunc(symtl), gen17763)
+							gen17764 := Call(__e, __e.Global(symtl), gen17763)
 
-							gen17765 := Call(__e, ShenFunc(symcons_2), gen17764)
+							gen17765 := Call(__e, __e.Global(symcons_2), gen17764)
 
 							var gen17766 Obj
 							if True == gen17765 {
-								gen17759 := Call(__e, ShenFunc(symtl), V4963)
+								gen17759 := Call(__e, __e.Global(symtl), V4963)
 
-								gen17760 := Call(__e, ShenFunc(symtl), gen17759)
+								gen17760 := Call(__e, __e.Global(symtl), gen17759)
 
-								gen17761 := Call(__e, ShenFunc(symtl), gen17760)
+								gen17761 := Call(__e, __e.Global(symtl), gen17760)
 
-								gen17762 := Call(__e, ShenFunc(sym_a), Nil, gen17761)
+								gen17762 := Call(__e, __e.Global(sym_a), Nil, gen17761)
 
 								if True == gen17762 {
 									gen17766 = True
@@ -548,41 +548,41 @@ func init() {
 					gen17774 = False
 				}
 				if True == gen17774 {
-					gen17753 := Call(__e, ShenFunc(symtl), V4963)
+					gen17753 := Call(__e, __e.Global(symtl), V4963)
 
-					gen17754 := Call(__e, ShenFunc(symtl), gen17753)
+					gen17754 := Call(__e, __e.Global(symtl), gen17753)
 
-					gen17755 := Call(__e, ShenFunc(symhd), gen17754)
+					gen17755 := Call(__e, __e.Global(symhd), gen17754)
 
-					gen17756 := Call(__e, ShenFunc(symtl), V4963)
+					gen17756 := Call(__e, __e.Global(symtl), V4963)
 
-					gen17757 := Call(__e, ShenFunc(symhd), gen17756)
+					gen17757 := Call(__e, __e.Global(symhd), gen17756)
 
-					gen17758 := Call(__e, ShenFunc(symremove), gen17757, V4964)
+					gen17758 := Call(__e, __e.Global(symremove), gen17757, V4964)
 
-					__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17755, gen17758, V4965)
+					__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17755, gen17758, V4965)
 
 					return
 
 				} else {
-					gen17752 := Call(__e, ShenFunc(symcons_2), V4963)
+					gen17752 := Call(__e, __e.Global(symcons_2), V4963)
 
 					if True == gen17752 {
-						gen17749 := Call(__e, ShenFunc(symtl), V4963)
+						gen17749 := Call(__e, __e.Global(symtl), V4963)
 
-						gen17750 := Call(__e, ShenFunc(symhd), V4963)
+						gen17750 := Call(__e, __e.Global(symhd), V4963)
 
-						gen17751 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17750, V4964, V4965)
+						gen17751 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17750, V4964, V4965)
 
-						__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17749, V4964, gen17751)
+						__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4free_1variables_1h), gen17749, V4964, gen17751)
 
 						return
 
 					} else {
-						gen17748 := Call(__e, ShenFunc(symelement_2), V4963, V4964)
+						gen17748 := Call(__e, __e.Global(symelement_2), V4963, V4964)
 
 						if True == gen17748 {
-							__e.TailApply(ShenFunc(symadjoin), V4963, V4965)
+							__e.TailApply(__e.Global(symadjoin), V4963, V4965)
 
 							return
 						} else {
@@ -597,56 +597,56 @@ func init() {
 			}
 
 		}, 3)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.free-variables-h"), gen17808)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.free-variables-h"), gen17808)
 
 		gen17862 := MakeNative(func(__e Evaluator) {
 			V4968 := __e.Get(1)
 			_ = V4968
 			V4969 := __e.Get(2)
 			_ = V4969
-			gen17860 := Call(__e, ShenFunc(symcons_2), V4968)
+			gen17860 := Call(__e, __e.Global(symcons_2), V4968)
 
 			var gen17861 Obj
 			if True == gen17860 {
-				gen17857 := Call(__e, ShenFunc(symhd), V4968)
+				gen17857 := Call(__e, __e.Global(symhd), V4968)
 
-				gen17858 := Call(__e, ShenFunc(sym_a), MakeSymbol("%%let-label"), gen17857)
+				gen17858 := Call(__e, __e.Global(sym_a), MakeSymbol("%%let-label"), gen17857)
 
 				var gen17859 Obj
 				if True == gen17858 {
-					gen17854 := Call(__e, ShenFunc(symtl), V4968)
+					gen17854 := Call(__e, __e.Global(symtl), V4968)
 
-					gen17855 := Call(__e, ShenFunc(symcons_2), gen17854)
+					gen17855 := Call(__e, __e.Global(symcons_2), gen17854)
 
 					var gen17856 Obj
 					if True == gen17855 {
-						gen17850 := Call(__e, ShenFunc(symtl), V4968)
+						gen17850 := Call(__e, __e.Global(symtl), V4968)
 
-						gen17851 := Call(__e, ShenFunc(symtl), gen17850)
+						gen17851 := Call(__e, __e.Global(symtl), gen17850)
 
-						gen17852 := Call(__e, ShenFunc(symcons_2), gen17851)
+						gen17852 := Call(__e, __e.Global(symcons_2), gen17851)
 
 						var gen17853 Obj
 						if True == gen17852 {
-							gen17845 := Call(__e, ShenFunc(symtl), V4968)
+							gen17845 := Call(__e, __e.Global(symtl), V4968)
 
-							gen17846 := Call(__e, ShenFunc(symtl), gen17845)
+							gen17846 := Call(__e, __e.Global(symtl), gen17845)
 
-							gen17847 := Call(__e, ShenFunc(symtl), gen17846)
+							gen17847 := Call(__e, __e.Global(symtl), gen17846)
 
-							gen17848 := Call(__e, ShenFunc(symcons_2), gen17847)
+							gen17848 := Call(__e, __e.Global(symcons_2), gen17847)
 
 							var gen17849 Obj
 							if True == gen17848 {
-								gen17840 := Call(__e, ShenFunc(symtl), V4968)
+								gen17840 := Call(__e, __e.Global(symtl), V4968)
 
-								gen17841 := Call(__e, ShenFunc(symtl), gen17840)
+								gen17841 := Call(__e, __e.Global(symtl), gen17840)
 
-								gen17842 := Call(__e, ShenFunc(symtl), gen17841)
+								gen17842 := Call(__e, __e.Global(symtl), gen17841)
 
-								gen17843 := Call(__e, ShenFunc(symtl), gen17842)
+								gen17843 := Call(__e, __e.Global(symtl), gen17842)
 
-								gen17844 := Call(__e, ShenFunc(sym_a), Nil, gen17843)
+								gen17844 := Call(__e, __e.Global(sym_a), Nil, gen17843)
 
 								if True == gen17844 {
 									gen17849 = True
@@ -694,159 +694,159 @@ func init() {
 				gen17861 = False
 			}
 			if True == gen17861 {
-				gen17809 := Call(__e, ShenFunc(symtl), V4968)
+				gen17809 := Call(__e, __e.Global(symtl), V4968)
 
-				gen17810 := Call(__e, ShenFunc(symtl), gen17809)
+				gen17810 := Call(__e, __e.Global(symtl), gen17809)
 
-				gen17811 := Call(__e, ShenFunc(symhd), gen17810)
+				gen17811 := Call(__e, __e.Global(symhd), gen17810)
 
-				gen17812 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4free_1variables), gen17811, V4969)
+				gen17812 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4free_1variables), gen17811, V4969)
 
 				FreeVars := gen17812
-				gen17828 := Call(__e, ShenFunc(sym_a), Nil, FreeVars)
+				gen17828 := Call(__e, __e.Global(sym_a), Nil, FreeVars)
 
 				var gen17829 Obj
 				if True == gen17828 {
-					gen17825 := Call(__e, ShenFunc(symtl), V4968)
+					gen17825 := Call(__e, __e.Global(symtl), V4968)
 
-					gen17826 := Call(__e, ShenFunc(symtl), gen17825)
+					gen17826 := Call(__e, __e.Global(symtl), gen17825)
 
-					gen17827 := Call(__e, ShenFunc(symtl), gen17826)
+					gen17827 := Call(__e, __e.Global(symtl), gen17826)
 
-					gen17829 = Call(__e, ShenFunc(symhd), gen17827)
+					gen17829 = Call(__e, __e.Global(symhd), gen17827)
 
 				} else {
-					gen17813 := Call(__e, ShenFunc(symtl), V4968)
+					gen17813 := Call(__e, __e.Global(symtl), V4968)
 
-					gen17814 := Call(__e, ShenFunc(symhd), gen17813)
+					gen17814 := Call(__e, __e.Global(symhd), gen17813)
 
-					gen17815 := Call(__e, ShenFunc(symcons), gen17814, FreeVars)
+					gen17815 := Call(__e, __e.Global(symcons), gen17814, FreeVars)
 
-					gen17816 := Call(__e, ShenFunc(symcons), MakeSymbol("%%goto-label"), gen17815)
+					gen17816 := Call(__e, __e.Global(symcons), MakeSymbol("%%goto-label"), gen17815)
 
-					gen17817 := Call(__e, ShenFunc(symtl), V4968)
+					gen17817 := Call(__e, __e.Global(symtl), V4968)
 
-					gen17818 := Call(__e, ShenFunc(symhd), gen17817)
+					gen17818 := Call(__e, __e.Global(symhd), gen17817)
 
-					gen17819 := Call(__e, ShenFunc(symcons), gen17818, Nil)
+					gen17819 := Call(__e, __e.Global(symcons), gen17818, Nil)
 
-					gen17820 := Call(__e, ShenFunc(symcons), MakeSymbol("%%goto-label"), gen17819)
+					gen17820 := Call(__e, __e.Global(symcons), MakeSymbol("%%goto-label"), gen17819)
 
-					gen17821 := Call(__e, ShenFunc(symtl), V4968)
+					gen17821 := Call(__e, __e.Global(symtl), V4968)
 
-					gen17822 := Call(__e, ShenFunc(symtl), gen17821)
+					gen17822 := Call(__e, __e.Global(symtl), gen17821)
 
-					gen17823 := Call(__e, ShenFunc(symtl), gen17822)
+					gen17823 := Call(__e, __e.Global(symtl), gen17822)
 
-					gen17824 := Call(__e, ShenFunc(symhd), gen17823)
+					gen17824 := Call(__e, __e.Global(symhd), gen17823)
 
-					gen17829 = Call(__e, ShenFunc(symsubst), gen17816, gen17820, gen17824)
+					gen17829 = Call(__e, __e.Global(symsubst), gen17816, gen17820, gen17824)
 
 				}
 				NewBody := gen17829
-				gen17830 := Call(__e, ShenFunc(symtl), V4968)
+				gen17830 := Call(__e, __e.Global(symtl), V4968)
 
-				gen17831 := Call(__e, ShenFunc(symhd), gen17830)
+				gen17831 := Call(__e, __e.Global(symhd), gen17830)
 
-				gen17832 := Call(__e, ShenFunc(symcons), gen17831, FreeVars)
+				gen17832 := Call(__e, __e.Global(symcons), gen17831, FreeVars)
 
-				gen17833 := Call(__e, ShenFunc(symtl), V4968)
+				gen17833 := Call(__e, __e.Global(symtl), V4968)
 
-				gen17834 := Call(__e, ShenFunc(symtl), gen17833)
+				gen17834 := Call(__e, __e.Global(symtl), gen17833)
 
-				gen17835 := Call(__e, ShenFunc(symhd), gen17834)
+				gen17835 := Call(__e, __e.Global(symhd), gen17834)
 
-				gen17836 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), NewBody, V4969)
+				gen17836 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), NewBody, V4969)
 
-				gen17837 := Call(__e, ShenFunc(symcons), gen17836, Nil)
+				gen17837 := Call(__e, __e.Global(symcons), gen17836, Nil)
 
-				gen17838 := Call(__e, ShenFunc(symcons), gen17835, gen17837)
+				gen17838 := Call(__e, __e.Global(symcons), gen17835, gen17837)
 
-				gen17839 := Call(__e, ShenFunc(symcons), gen17832, gen17838)
+				gen17839 := Call(__e, __e.Global(symcons), gen17832, gen17838)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("%%let-label"), gen17839)
+				__e.TailApply(__e.Global(symcons), MakeSymbol("%%let-label"), gen17839)
 
 				return
 
 			} else {
-				__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.attach-free-variables"))
+				__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.attach-free-variables"))
 
 				return
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.attach-free-variables"), gen17862)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.attach-free-variables"), gen17862)
 
 		gen18017 := MakeNative(func(__e Evaluator) {
 			V4976 := __e.Get(1)
 			_ = V4976
 			V4977 := __e.Get(2)
 			_ = V4977
-			gen18015 := Call(__e, ShenFunc(symcons_2), V4976)
+			gen18015 := Call(__e, __e.Global(symcons_2), V4976)
 
 			var gen18016 Obj
 			if True == gen18015 {
-				gen18012 := Call(__e, ShenFunc(symhd), V4976)
+				gen18012 := Call(__e, __e.Global(symhd), V4976)
 
-				gen18013 := Call(__e, ShenFunc(sym_a), MakeSymbol("%%let-label"), gen18012)
+				gen18013 := Call(__e, __e.Global(sym_a), MakeSymbol("%%let-label"), gen18012)
 
 				var gen18014 Obj
 				if True == gen18013 {
-					gen18009 := Call(__e, ShenFunc(symtl), V4976)
+					gen18009 := Call(__e, __e.Global(symtl), V4976)
 
-					gen18010 := Call(__e, ShenFunc(symcons_2), gen18009)
+					gen18010 := Call(__e, __e.Global(symcons_2), gen18009)
 
 					var gen18011 Obj
 					if True == gen18010 {
-						gen18005 := Call(__e, ShenFunc(symtl), V4976)
+						gen18005 := Call(__e, __e.Global(symtl), V4976)
 
-						gen18006 := Call(__e, ShenFunc(symtl), gen18005)
+						gen18006 := Call(__e, __e.Global(symtl), gen18005)
 
-						gen18007 := Call(__e, ShenFunc(symcons_2), gen18006)
+						gen18007 := Call(__e, __e.Global(symcons_2), gen18006)
 
 						var gen18008 Obj
 						if True == gen18007 {
-							gen18000 := Call(__e, ShenFunc(symtl), V4976)
+							gen18000 := Call(__e, __e.Global(symtl), V4976)
 
-							gen18001 := Call(__e, ShenFunc(symtl), gen18000)
+							gen18001 := Call(__e, __e.Global(symtl), gen18000)
 
-							gen18002 := Call(__e, ShenFunc(symtl), gen18001)
+							gen18002 := Call(__e, __e.Global(symtl), gen18001)
 
-							gen18003 := Call(__e, ShenFunc(symcons_2), gen18002)
+							gen18003 := Call(__e, __e.Global(symcons_2), gen18002)
 
 							var gen18004 Obj
 							if True == gen18003 {
-								gen17994 := Call(__e, ShenFunc(symtl), V4976)
+								gen17994 := Call(__e, __e.Global(symtl), V4976)
 
-								gen17995 := Call(__e, ShenFunc(symtl), gen17994)
+								gen17995 := Call(__e, __e.Global(symtl), gen17994)
 
-								gen17996 := Call(__e, ShenFunc(symtl), gen17995)
+								gen17996 := Call(__e, __e.Global(symtl), gen17995)
 
-								gen17997 := Call(__e, ShenFunc(symtl), gen17996)
+								gen17997 := Call(__e, __e.Global(symtl), gen17996)
 
-								gen17998 := Call(__e, ShenFunc(sym_a), Nil, gen17997)
+								gen17998 := Call(__e, __e.Global(sym_a), Nil, gen17997)
 
 								var gen17999 Obj
 								if True == gen17998 {
-									gen17984 := Call(__e, ShenFunc(symtl), V4976)
+									gen17984 := Call(__e, __e.Global(symtl), V4976)
 
-									gen17985 := Call(__e, ShenFunc(symhd), gen17984)
+									gen17985 := Call(__e, __e.Global(symhd), gen17984)
 
-									gen17986 := Call(__e, ShenFunc(symcons), gen17985, Nil)
+									gen17986 := Call(__e, __e.Global(symcons), gen17985, Nil)
 
-									gen17987 := Call(__e, ShenFunc(symcons), MakeSymbol("%%goto-label"), gen17986)
+									gen17987 := Call(__e, __e.Global(symcons), MakeSymbol("%%goto-label"), gen17986)
 
-									gen17988 := Call(__e, ShenFunc(symtl), V4976)
+									gen17988 := Call(__e, __e.Global(symtl), V4976)
 
-									gen17989 := Call(__e, ShenFunc(symtl), gen17988)
+									gen17989 := Call(__e, __e.Global(symtl), gen17988)
 
-									gen17990 := Call(__e, ShenFunc(symtl), gen17989)
+									gen17990 := Call(__e, __e.Global(symtl), gen17989)
 
-									gen17991 := Call(__e, ShenFunc(symhd), gen17990)
+									gen17991 := Call(__e, __e.Global(symhd), gen17990)
 
-									gen17992 := Call(__e, ShenFunc(symoccurrences), gen17987, gen17991)
+									gen17992 := Call(__e, __e.Global(symoccurrences), gen17987, gen17991)
 
-									gen17993 := Call(__e, ShenFunc(sym_6), gen17992, MakeNumber(1))
+									gen17993 := Call(__e, __e.Global(sym_6), gen17992, MakeNumber(1))
 
 									if True == gen17993 {
 										gen17999 = True
@@ -903,78 +903,78 @@ func init() {
 				gen18016 = False
 			}
 			if True == gen18016 {
-				gen17972 := Call(__e, ShenFunc(symtl), V4976)
+				gen17972 := Call(__e, __e.Global(symtl), V4976)
 
-				gen17973 := Call(__e, ShenFunc(symhd), gen17972)
+				gen17973 := Call(__e, __e.Global(symhd), gen17972)
 
-				gen17974 := Call(__e, ShenFunc(symtl), V4976)
+				gen17974 := Call(__e, __e.Global(symtl), V4976)
 
-				gen17975 := Call(__e, ShenFunc(symtl), gen17974)
+				gen17975 := Call(__e, __e.Global(symtl), gen17974)
 
-				gen17976 := Call(__e, ShenFunc(symhd), gen17975)
+				gen17976 := Call(__e, __e.Global(symhd), gen17975)
 
-				gen17977 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17976, V4977)
+				gen17977 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17976, V4977)
 
-				gen17978 := Call(__e, ShenFunc(symtl), V4976)
+				gen17978 := Call(__e, __e.Global(symtl), V4976)
 
-				gen17979 := Call(__e, ShenFunc(symtl), gen17978)
+				gen17979 := Call(__e, __e.Global(symtl), gen17978)
 
-				gen17980 := Call(__e, ShenFunc(symtl), gen17979)
+				gen17980 := Call(__e, __e.Global(symtl), gen17979)
 
-				gen17981 := Call(__e, ShenFunc(symcons), gen17977, gen17980)
+				gen17981 := Call(__e, __e.Global(symcons), gen17977, gen17980)
 
-				gen17982 := Call(__e, ShenFunc(symcons), gen17973, gen17981)
+				gen17982 := Call(__e, __e.Global(symcons), gen17973, gen17981)
 
-				gen17983 := Call(__e, ShenFunc(symcons), MakeSymbol("%%let-label"), gen17982)
+				gen17983 := Call(__e, __e.Global(symcons), MakeSymbol("%%let-label"), gen17982)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4attach_1free_1variables), gen17983, V4977)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4attach_1free_1variables), gen17983, V4977)
 
 				return
 
 			} else {
-				gen17970 := Call(__e, ShenFunc(symcons_2), V4976)
+				gen17970 := Call(__e, __e.Global(symcons_2), V4976)
 
 				var gen17971 Obj
 				if True == gen17970 {
-					gen17967 := Call(__e, ShenFunc(symhd), V4976)
+					gen17967 := Call(__e, __e.Global(symhd), V4976)
 
-					gen17968 := Call(__e, ShenFunc(sym_a), MakeSymbol("%%let-label"), gen17967)
+					gen17968 := Call(__e, __e.Global(sym_a), MakeSymbol("%%let-label"), gen17967)
 
 					var gen17969 Obj
 					if True == gen17968 {
-						gen17964 := Call(__e, ShenFunc(symtl), V4976)
+						gen17964 := Call(__e, __e.Global(symtl), V4976)
 
-						gen17965 := Call(__e, ShenFunc(symcons_2), gen17964)
+						gen17965 := Call(__e, __e.Global(symcons_2), gen17964)
 
 						var gen17966 Obj
 						if True == gen17965 {
-							gen17960 := Call(__e, ShenFunc(symtl), V4976)
+							gen17960 := Call(__e, __e.Global(symtl), V4976)
 
-							gen17961 := Call(__e, ShenFunc(symtl), gen17960)
+							gen17961 := Call(__e, __e.Global(symtl), gen17960)
 
-							gen17962 := Call(__e, ShenFunc(symcons_2), gen17961)
+							gen17962 := Call(__e, __e.Global(symcons_2), gen17961)
 
 							var gen17963 Obj
 							if True == gen17962 {
-								gen17955 := Call(__e, ShenFunc(symtl), V4976)
+								gen17955 := Call(__e, __e.Global(symtl), V4976)
 
-								gen17956 := Call(__e, ShenFunc(symtl), gen17955)
+								gen17956 := Call(__e, __e.Global(symtl), gen17955)
 
-								gen17957 := Call(__e, ShenFunc(symtl), gen17956)
+								gen17957 := Call(__e, __e.Global(symtl), gen17956)
 
-								gen17958 := Call(__e, ShenFunc(symcons_2), gen17957)
+								gen17958 := Call(__e, __e.Global(symcons_2), gen17957)
 
 								var gen17959 Obj
 								if True == gen17958 {
-									gen17950 := Call(__e, ShenFunc(symtl), V4976)
+									gen17950 := Call(__e, __e.Global(symtl), V4976)
 
-									gen17951 := Call(__e, ShenFunc(symtl), gen17950)
+									gen17951 := Call(__e, __e.Global(symtl), gen17950)
 
-									gen17952 := Call(__e, ShenFunc(symtl), gen17951)
+									gen17952 := Call(__e, __e.Global(symtl), gen17951)
 
-									gen17953 := Call(__e, ShenFunc(symtl), gen17952)
+									gen17953 := Call(__e, __e.Global(symtl), gen17952)
 
-									gen17954 := Call(__e, ShenFunc(sym_a), Nil, gen17953)
+									gen17954 := Call(__e, __e.Global(sym_a), Nil, gen17953)
 
 									if True == gen17954 {
 										gen17959 = True
@@ -1022,80 +1022,80 @@ func init() {
 					gen17971 = False
 				}
 				if True == gen17971 {
-					gen17937 := Call(__e, ShenFunc(symtl), V4976)
+					gen17937 := Call(__e, __e.Global(symtl), V4976)
 
-					gen17938 := Call(__e, ShenFunc(symtl), gen17937)
+					gen17938 := Call(__e, __e.Global(symtl), gen17937)
 
-					gen17939 := Call(__e, ShenFunc(symhd), gen17938)
+					gen17939 := Call(__e, __e.Global(symhd), gen17938)
 
-					gen17940 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17939, V4977)
+					gen17940 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17939, V4977)
 
-					gen17941 := Call(__e, ShenFunc(symtl), V4976)
+					gen17941 := Call(__e, __e.Global(symtl), V4976)
 
-					gen17942 := Call(__e, ShenFunc(symhd), gen17941)
+					gen17942 := Call(__e, __e.Global(symhd), gen17941)
 
-					gen17943 := Call(__e, ShenFunc(symcons), gen17942, Nil)
+					gen17943 := Call(__e, __e.Global(symcons), gen17942, Nil)
 
-					gen17944 := Call(__e, ShenFunc(symcons), MakeSymbol("%%goto-label"), gen17943)
+					gen17944 := Call(__e, __e.Global(symcons), MakeSymbol("%%goto-label"), gen17943)
 
-					gen17945 := Call(__e, ShenFunc(symtl), V4976)
+					gen17945 := Call(__e, __e.Global(symtl), V4976)
 
-					gen17946 := Call(__e, ShenFunc(symtl), gen17945)
+					gen17946 := Call(__e, __e.Global(symtl), gen17945)
 
-					gen17947 := Call(__e, ShenFunc(symtl), gen17946)
+					gen17947 := Call(__e, __e.Global(symtl), gen17946)
 
-					gen17948 := Call(__e, ShenFunc(symhd), gen17947)
+					gen17948 := Call(__e, __e.Global(symhd), gen17947)
 
-					gen17949 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17948, V4977)
+					gen17949 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17948, V4977)
 
-					__e.TailApply(ShenFunc(symsubst), gen17940, gen17944, gen17949)
+					__e.TailApply(__e.Global(symsubst), gen17940, gen17944, gen17949)
 
 					return
 
 				} else {
-					gen17935 := Call(__e, ShenFunc(symcons_2), V4976)
+					gen17935 := Call(__e, __e.Global(symcons_2), V4976)
 
 					var gen17936 Obj
 					if True == gen17935 {
-						gen17932 := Call(__e, ShenFunc(symhd), V4976)
+						gen17932 := Call(__e, __e.Global(symhd), V4976)
 
-						gen17933 := Call(__e, ShenFunc(sym_a), MakeSymbol("if"), gen17932)
+						gen17933 := Call(__e, __e.Global(sym_a), MakeSymbol("if"), gen17932)
 
 						var gen17934 Obj
 						if True == gen17933 {
-							gen17929 := Call(__e, ShenFunc(symtl), V4976)
+							gen17929 := Call(__e, __e.Global(symtl), V4976)
 
-							gen17930 := Call(__e, ShenFunc(symcons_2), gen17929)
+							gen17930 := Call(__e, __e.Global(symcons_2), gen17929)
 
 							var gen17931 Obj
 							if True == gen17930 {
-								gen17925 := Call(__e, ShenFunc(symtl), V4976)
+								gen17925 := Call(__e, __e.Global(symtl), V4976)
 
-								gen17926 := Call(__e, ShenFunc(symtl), gen17925)
+								gen17926 := Call(__e, __e.Global(symtl), gen17925)
 
-								gen17927 := Call(__e, ShenFunc(symcons_2), gen17926)
+								gen17927 := Call(__e, __e.Global(symcons_2), gen17926)
 
 								var gen17928 Obj
 								if True == gen17927 {
-									gen17920 := Call(__e, ShenFunc(symtl), V4976)
+									gen17920 := Call(__e, __e.Global(symtl), V4976)
 
-									gen17921 := Call(__e, ShenFunc(symtl), gen17920)
+									gen17921 := Call(__e, __e.Global(symtl), gen17920)
 
-									gen17922 := Call(__e, ShenFunc(symtl), gen17921)
+									gen17922 := Call(__e, __e.Global(symtl), gen17921)
 
-									gen17923 := Call(__e, ShenFunc(symcons_2), gen17922)
+									gen17923 := Call(__e, __e.Global(symcons_2), gen17922)
 
 									var gen17924 Obj
 									if True == gen17923 {
-										gen17915 := Call(__e, ShenFunc(symtl), V4976)
+										gen17915 := Call(__e, __e.Global(symtl), V4976)
 
-										gen17916 := Call(__e, ShenFunc(symtl), gen17915)
+										gen17916 := Call(__e, __e.Global(symtl), gen17915)
 
-										gen17917 := Call(__e, ShenFunc(symtl), gen17916)
+										gen17917 := Call(__e, __e.Global(symtl), gen17916)
 
-										gen17918 := Call(__e, ShenFunc(symtl), gen17917)
+										gen17918 := Call(__e, __e.Global(symtl), gen17917)
 
-										gen17919 := Call(__e, ShenFunc(sym_a), Nil, gen17918)
+										gen17919 := Call(__e, __e.Global(sym_a), Nil, gen17918)
 
 										if True == gen17919 {
 											gen17924 = True
@@ -1143,82 +1143,82 @@ func init() {
 						gen17936 = False
 					}
 					if True == gen17936 {
-						gen17901 := Call(__e, ShenFunc(symtl), V4976)
+						gen17901 := Call(__e, __e.Global(symtl), V4976)
 
-						gen17902 := Call(__e, ShenFunc(symhd), gen17901)
+						gen17902 := Call(__e, __e.Global(symhd), gen17901)
 
-						gen17903 := Call(__e, ShenFunc(symtl), V4976)
+						gen17903 := Call(__e, __e.Global(symtl), V4976)
 
-						gen17904 := Call(__e, ShenFunc(symtl), gen17903)
+						gen17904 := Call(__e, __e.Global(symtl), gen17903)
 
-						gen17905 := Call(__e, ShenFunc(symhd), gen17904)
+						gen17905 := Call(__e, __e.Global(symhd), gen17904)
 
-						gen17906 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17905, V4977)
+						gen17906 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17905, V4977)
 
-						gen17907 := Call(__e, ShenFunc(symtl), V4976)
+						gen17907 := Call(__e, __e.Global(symtl), V4976)
 
-						gen17908 := Call(__e, ShenFunc(symtl), gen17907)
+						gen17908 := Call(__e, __e.Global(symtl), gen17907)
 
-						gen17909 := Call(__e, ShenFunc(symtl), gen17908)
+						gen17909 := Call(__e, __e.Global(symtl), gen17908)
 
-						gen17910 := Call(__e, ShenFunc(symhd), gen17909)
+						gen17910 := Call(__e, __e.Global(symhd), gen17909)
 
-						gen17911 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17910, V4977)
+						gen17911 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17910, V4977)
 
-						gen17912 := Call(__e, ShenFunc(symcons), gen17911, Nil)
+						gen17912 := Call(__e, __e.Global(symcons), gen17911, Nil)
 
-						gen17913 := Call(__e, ShenFunc(symcons), gen17906, gen17912)
+						gen17913 := Call(__e, __e.Global(symcons), gen17906, gen17912)
 
-						gen17914 := Call(__e, ShenFunc(symcons), gen17902, gen17913)
+						gen17914 := Call(__e, __e.Global(symcons), gen17902, gen17913)
 
-						__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen17914)
+						__e.TailApply(__e.Global(symcons), MakeSymbol("if"), gen17914)
 
 						return
 
 					} else {
-						gen17899 := Call(__e, ShenFunc(symcons_2), V4976)
+						gen17899 := Call(__e, __e.Global(symcons_2), V4976)
 
 						var gen17900 Obj
 						if True == gen17899 {
-							gen17896 := Call(__e, ShenFunc(symhd), V4976)
+							gen17896 := Call(__e, __e.Global(symhd), V4976)
 
-							gen17897 := Call(__e, ShenFunc(sym_a), MakeSymbol("let"), gen17896)
+							gen17897 := Call(__e, __e.Global(sym_a), MakeSymbol("let"), gen17896)
 
 							var gen17898 Obj
 							if True == gen17897 {
-								gen17893 := Call(__e, ShenFunc(symtl), V4976)
+								gen17893 := Call(__e, __e.Global(symtl), V4976)
 
-								gen17894 := Call(__e, ShenFunc(symcons_2), gen17893)
+								gen17894 := Call(__e, __e.Global(symcons_2), gen17893)
 
 								var gen17895 Obj
 								if True == gen17894 {
-									gen17889 := Call(__e, ShenFunc(symtl), V4976)
+									gen17889 := Call(__e, __e.Global(symtl), V4976)
 
-									gen17890 := Call(__e, ShenFunc(symtl), gen17889)
+									gen17890 := Call(__e, __e.Global(symtl), gen17889)
 
-									gen17891 := Call(__e, ShenFunc(symcons_2), gen17890)
+									gen17891 := Call(__e, __e.Global(symcons_2), gen17890)
 
 									var gen17892 Obj
 									if True == gen17891 {
-										gen17884 := Call(__e, ShenFunc(symtl), V4976)
+										gen17884 := Call(__e, __e.Global(symtl), V4976)
 
-										gen17885 := Call(__e, ShenFunc(symtl), gen17884)
+										gen17885 := Call(__e, __e.Global(symtl), gen17884)
 
-										gen17886 := Call(__e, ShenFunc(symtl), gen17885)
+										gen17886 := Call(__e, __e.Global(symtl), gen17885)
 
-										gen17887 := Call(__e, ShenFunc(symcons_2), gen17886)
+										gen17887 := Call(__e, __e.Global(symcons_2), gen17886)
 
 										var gen17888 Obj
 										if True == gen17887 {
-											gen17879 := Call(__e, ShenFunc(symtl), V4976)
+											gen17879 := Call(__e, __e.Global(symtl), V4976)
 
-											gen17880 := Call(__e, ShenFunc(symtl), gen17879)
+											gen17880 := Call(__e, __e.Global(symtl), gen17879)
 
-											gen17881 := Call(__e, ShenFunc(symtl), gen17880)
+											gen17881 := Call(__e, __e.Global(symtl), gen17880)
 
-											gen17882 := Call(__e, ShenFunc(symtl), gen17881)
+											gen17882 := Call(__e, __e.Global(symtl), gen17881)
 
-											gen17883 := Call(__e, ShenFunc(sym_a), Nil, gen17882)
+											gen17883 := Call(__e, __e.Global(sym_a), Nil, gen17882)
 
 											if True == gen17883 {
 												gen17888 = True
@@ -1266,39 +1266,39 @@ func init() {
 							gen17900 = False
 						}
 						if True == gen17900 {
-							gen17863 := Call(__e, ShenFunc(symtl), V4976)
+							gen17863 := Call(__e, __e.Global(symtl), V4976)
 
-							gen17864 := Call(__e, ShenFunc(symhd), gen17863)
+							gen17864 := Call(__e, __e.Global(symhd), gen17863)
 
-							gen17865 := Call(__e, ShenFunc(symtl), V4976)
+							gen17865 := Call(__e, __e.Global(symtl), V4976)
 
-							gen17866 := Call(__e, ShenFunc(symtl), gen17865)
+							gen17866 := Call(__e, __e.Global(symtl), gen17865)
 
-							gen17867 := Call(__e, ShenFunc(symhd), gen17866)
+							gen17867 := Call(__e, __e.Global(symhd), gen17866)
 
-							gen17868 := Call(__e, ShenFunc(symtl), V4976)
+							gen17868 := Call(__e, __e.Global(symtl), V4976)
 
-							gen17869 := Call(__e, ShenFunc(symtl), gen17868)
+							gen17869 := Call(__e, __e.Global(symtl), gen17868)
 
-							gen17870 := Call(__e, ShenFunc(symtl), gen17869)
+							gen17870 := Call(__e, __e.Global(symtl), gen17869)
 
-							gen17871 := Call(__e, ShenFunc(symhd), gen17870)
+							gen17871 := Call(__e, __e.Global(symhd), gen17870)
 
-							gen17872 := Call(__e, ShenFunc(symtl), V4976)
+							gen17872 := Call(__e, __e.Global(symtl), V4976)
 
-							gen17873 := Call(__e, ShenFunc(symhd), gen17872)
+							gen17873 := Call(__e, __e.Global(symhd), gen17872)
 
-							gen17874 := Call(__e, ShenFunc(symcons), gen17873, V4977)
+							gen17874 := Call(__e, __e.Global(symcons), gen17873, V4977)
 
-							gen17875 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17871, gen17874)
+							gen17875 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4inline_1mono_1labels), gen17871, gen17874)
 
-							gen17876 := Call(__e, ShenFunc(symcons), gen17875, Nil)
+							gen17876 := Call(__e, __e.Global(symcons), gen17875, Nil)
 
-							gen17877 := Call(__e, ShenFunc(symcons), gen17867, gen17876)
+							gen17877 := Call(__e, __e.Global(symcons), gen17867, gen17876)
 
-							gen17878 := Call(__e, ShenFunc(symcons), gen17864, gen17877)
+							gen17878 := Call(__e, __e.Global(symcons), gen17864, gen17877)
 
-							__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen17878)
+							__e.TailApply(__e.Global(symcons), MakeSymbol("let"), gen17878)
 
 							return
 
@@ -1314,52 +1314,52 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.inline-mono-labels"), gen18017)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.inline-mono-labels"), gen18017)
 
 		gen18113 := MakeNative(func(__e Evaluator) {
 			V4984 := __e.Get(1)
 			_ = V4984
 			V4985 := __e.Get(2)
 			_ = V4985
-			gen18112 := Call(__e, ShenFunc(sym_a), Nil, V4984)
+			gen18112 := Call(__e, __e.Global(sym_a), Nil, V4984)
 
 			if True == gen18112 {
 				__e.Return(V4985)
 				return
 			} else {
-				gen18110 := Call(__e, ShenFunc(symcons_2), V4984)
+				gen18110 := Call(__e, __e.Global(symcons_2), V4984)
 
 				var gen18111 Obj
 				if True == gen18110 {
-					gen18107 := Call(__e, ShenFunc(symhd), V4984)
+					gen18107 := Call(__e, __e.Global(symhd), V4984)
 
-					gen18108 := Call(__e, ShenFunc(symcons_2), gen18107)
+					gen18108 := Call(__e, __e.Global(symcons_2), gen18107)
 
 					var gen18109 Obj
 					if True == gen18108 {
-						gen18103 := Call(__e, ShenFunc(symhd), V4984)
+						gen18103 := Call(__e, __e.Global(symhd), V4984)
 
-						gen18104 := Call(__e, ShenFunc(symhd), gen18103)
+						gen18104 := Call(__e, __e.Global(symhd), gen18103)
 
-						gen18105 := Call(__e, ShenFunc(sym_a), True, gen18104)
+						gen18105 := Call(__e, __e.Global(sym_a), True, gen18104)
 
 						var gen18106 Obj
 						if True == gen18105 {
-							gen18099 := Call(__e, ShenFunc(symhd), V4984)
+							gen18099 := Call(__e, __e.Global(symhd), V4984)
 
-							gen18100 := Call(__e, ShenFunc(symtl), gen18099)
+							gen18100 := Call(__e, __e.Global(symtl), gen18099)
 
-							gen18101 := Call(__e, ShenFunc(symcons_2), gen18100)
+							gen18101 := Call(__e, __e.Global(symcons_2), gen18100)
 
 							var gen18102 Obj
 							if True == gen18101 {
-								gen18095 := Call(__e, ShenFunc(symhd), V4984)
+								gen18095 := Call(__e, __e.Global(symhd), V4984)
 
-								gen18096 := Call(__e, ShenFunc(symtl), gen18095)
+								gen18096 := Call(__e, __e.Global(symtl), gen18095)
 
-								gen18097 := Call(__e, ShenFunc(symtl), gen18096)
+								gen18097 := Call(__e, __e.Global(symtl), gen18096)
 
-								gen18098 := Call(__e, ShenFunc(sym_a), Nil, gen18097)
+								gen18098 := Call(__e, __e.Global(sym_a), Nil, gen18097)
 
 								if True == gen18098 {
 									gen18102 = True
@@ -1398,94 +1398,94 @@ func init() {
 					gen18111 = False
 				}
 				if True == gen18111 {
-					gen18093 := Call(__e, ShenFunc(symhd), V4984)
+					gen18093 := Call(__e, __e.Global(symhd), V4984)
 
-					gen18094 := Call(__e, ShenFunc(symtl), gen18093)
+					gen18094 := Call(__e, __e.Global(symtl), gen18093)
 
-					__e.TailApply(ShenFunc(symhd), gen18094)
+					__e.TailApply(__e.Global(symhd), gen18094)
 
 					return
 
 				} else {
-					gen18091 := Call(__e, ShenFunc(symcons_2), V4984)
+					gen18091 := Call(__e, __e.Global(symcons_2), V4984)
 
 					var gen18092 Obj
 					if True == gen18091 {
-						gen18088 := Call(__e, ShenFunc(symhd), V4984)
+						gen18088 := Call(__e, __e.Global(symhd), V4984)
 
-						gen18089 := Call(__e, ShenFunc(symcons_2), gen18088)
+						gen18089 := Call(__e, __e.Global(symcons_2), gen18088)
 
 						var gen18090 Obj
 						if True == gen18089 {
-							gen18084 := Call(__e, ShenFunc(symhd), V4984)
+							gen18084 := Call(__e, __e.Global(symhd), V4984)
 
-							gen18085 := Call(__e, ShenFunc(symhd), gen18084)
+							gen18085 := Call(__e, __e.Global(symhd), gen18084)
 
-							gen18086 := Call(__e, ShenFunc(symcons_2), gen18085)
+							gen18086 := Call(__e, __e.Global(symcons_2), gen18085)
 
 							var gen18087 Obj
 							if True == gen18086 {
-								gen18079 := Call(__e, ShenFunc(symhd), V4984)
+								gen18079 := Call(__e, __e.Global(symhd), V4984)
 
-								gen18080 := Call(__e, ShenFunc(symhd), gen18079)
+								gen18080 := Call(__e, __e.Global(symhd), gen18079)
 
-								gen18081 := Call(__e, ShenFunc(symhd), gen18080)
+								gen18081 := Call(__e, __e.Global(symhd), gen18080)
 
-								gen18082 := Call(__e, ShenFunc(sym_a), MakeSymbol("and"), gen18081)
+								gen18082 := Call(__e, __e.Global(sym_a), MakeSymbol("and"), gen18081)
 
 								var gen18083 Obj
 								if True == gen18082 {
-									gen18074 := Call(__e, ShenFunc(symhd), V4984)
+									gen18074 := Call(__e, __e.Global(symhd), V4984)
 
-									gen18075 := Call(__e, ShenFunc(symhd), gen18074)
+									gen18075 := Call(__e, __e.Global(symhd), gen18074)
 
-									gen18076 := Call(__e, ShenFunc(symtl), gen18075)
+									gen18076 := Call(__e, __e.Global(symtl), gen18075)
 
-									gen18077 := Call(__e, ShenFunc(symcons_2), gen18076)
+									gen18077 := Call(__e, __e.Global(symcons_2), gen18076)
 
 									var gen18078 Obj
 									if True == gen18077 {
-										gen18068 := Call(__e, ShenFunc(symhd), V4984)
+										gen18068 := Call(__e, __e.Global(symhd), V4984)
 
-										gen18069 := Call(__e, ShenFunc(symhd), gen18068)
+										gen18069 := Call(__e, __e.Global(symhd), gen18068)
 
-										gen18070 := Call(__e, ShenFunc(symtl), gen18069)
+										gen18070 := Call(__e, __e.Global(symtl), gen18069)
 
-										gen18071 := Call(__e, ShenFunc(symtl), gen18070)
+										gen18071 := Call(__e, __e.Global(symtl), gen18070)
 
-										gen18072 := Call(__e, ShenFunc(symcons_2), gen18071)
+										gen18072 := Call(__e, __e.Global(symcons_2), gen18071)
 
 										var gen18073 Obj
 										if True == gen18072 {
-											gen18061 := Call(__e, ShenFunc(symhd), V4984)
+											gen18061 := Call(__e, __e.Global(symhd), V4984)
 
-											gen18062 := Call(__e, ShenFunc(symhd), gen18061)
+											gen18062 := Call(__e, __e.Global(symhd), gen18061)
 
-											gen18063 := Call(__e, ShenFunc(symtl), gen18062)
+											gen18063 := Call(__e, __e.Global(symtl), gen18062)
 
-											gen18064 := Call(__e, ShenFunc(symtl), gen18063)
+											gen18064 := Call(__e, __e.Global(symtl), gen18063)
 
-											gen18065 := Call(__e, ShenFunc(symtl), gen18064)
+											gen18065 := Call(__e, __e.Global(symtl), gen18064)
 
-											gen18066 := Call(__e, ShenFunc(sym_a), Nil, gen18065)
+											gen18066 := Call(__e, __e.Global(sym_a), Nil, gen18065)
 
 											var gen18067 Obj
 											if True == gen18066 {
-												gen18057 := Call(__e, ShenFunc(symhd), V4984)
+												gen18057 := Call(__e, __e.Global(symhd), V4984)
 
-												gen18058 := Call(__e, ShenFunc(symtl), gen18057)
+												gen18058 := Call(__e, __e.Global(symtl), gen18057)
 
-												gen18059 := Call(__e, ShenFunc(symcons_2), gen18058)
+												gen18059 := Call(__e, __e.Global(symcons_2), gen18058)
 
 												var gen18060 Obj
 												if True == gen18059 {
-													gen18053 := Call(__e, ShenFunc(symhd), V4984)
+													gen18053 := Call(__e, __e.Global(symhd), V4984)
 
-													gen18054 := Call(__e, ShenFunc(symtl), gen18053)
+													gen18054 := Call(__e, __e.Global(symtl), gen18053)
 
-													gen18055 := Call(__e, ShenFunc(symtl), gen18054)
+													gen18055 := Call(__e, __e.Global(symtl), gen18054)
 
-													gen18056 := Call(__e, ShenFunc(sym_a), Nil, gen18055)
+													gen18056 := Call(__e, __e.Global(sym_a), Nil, gen18055)
 
 													if True == gen18056 {
 														gen18060 = True
@@ -1560,66 +1560,66 @@ func init() {
 						gen18092 = False
 					}
 					if True == gen18092 {
-						gen18039 := Call(__e, ShenFunc(symhd), V4984)
+						gen18039 := Call(__e, __e.Global(symhd), V4984)
 
-						gen18040 := Call(__e, ShenFunc(symhd), gen18039)
+						gen18040 := Call(__e, __e.Global(symhd), gen18039)
 
-						gen18041 := Call(__e, ShenFunc(symtl), gen18040)
+						gen18041 := Call(__e, __e.Global(symtl), gen18040)
 
-						gen18042 := Call(__e, ShenFunc(symhd), gen18041)
+						gen18042 := Call(__e, __e.Global(symhd), gen18041)
 
-						gen18043 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4true_1branch), gen18042, V4984)
+						gen18043 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4true_1branch), gen18042, V4984)
 
 						TrueBranch := gen18043
-						gen18044 := Call(__e, ShenFunc(symhd), V4984)
+						gen18044 := Call(__e, __e.Global(symhd), V4984)
 
-						gen18045 := Call(__e, ShenFunc(symhd), gen18044)
+						gen18045 := Call(__e, __e.Global(symhd), gen18044)
 
-						gen18046 := Call(__e, ShenFunc(symtl), gen18045)
+						gen18046 := Call(__e, __e.Global(symtl), gen18045)
 
-						gen18047 := Call(__e, ShenFunc(symhd), gen18046)
+						gen18047 := Call(__e, __e.Global(symhd), gen18046)
 
-						gen18048 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4false_1branch), gen18047, V4984)
+						gen18048 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4false_1branch), gen18047, V4984)
 
 						FalseBranch := gen18048
-						gen18049 := Call(__e, ShenFunc(symhd), V4984)
+						gen18049 := Call(__e, __e.Global(symhd), V4984)
 
-						gen18050 := Call(__e, ShenFunc(symhd), gen18049)
+						gen18050 := Call(__e, __e.Global(symhd), gen18049)
 
-						gen18051 := Call(__e, ShenFunc(symtl), gen18050)
+						gen18051 := Call(__e, __e.Global(symtl), gen18050)
 
-						gen18052 := Call(__e, ShenFunc(symhd), gen18051)
+						gen18052 := Call(__e, __e.Global(symhd), gen18051)
 
-						__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4rebranch_1h), gen18052, TrueBranch, FalseBranch, V4985)
+						__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4rebranch_1h), gen18052, TrueBranch, FalseBranch, V4985)
 
 						return
 
 					} else {
-						gen18037 := Call(__e, ShenFunc(symcons_2), V4984)
+						gen18037 := Call(__e, __e.Global(symcons_2), V4984)
 
 						var gen18038 Obj
 						if True == gen18037 {
-							gen18034 := Call(__e, ShenFunc(symhd), V4984)
+							gen18034 := Call(__e, __e.Global(symhd), V4984)
 
-							gen18035 := Call(__e, ShenFunc(symcons_2), gen18034)
+							gen18035 := Call(__e, __e.Global(symcons_2), gen18034)
 
 							var gen18036 Obj
 							if True == gen18035 {
-								gen18030 := Call(__e, ShenFunc(symhd), V4984)
+								gen18030 := Call(__e, __e.Global(symhd), V4984)
 
-								gen18031 := Call(__e, ShenFunc(symtl), gen18030)
+								gen18031 := Call(__e, __e.Global(symtl), gen18030)
 
-								gen18032 := Call(__e, ShenFunc(symcons_2), gen18031)
+								gen18032 := Call(__e, __e.Global(symcons_2), gen18031)
 
 								var gen18033 Obj
 								if True == gen18032 {
-									gen18026 := Call(__e, ShenFunc(symhd), V4984)
+									gen18026 := Call(__e, __e.Global(symhd), V4984)
 
-									gen18027 := Call(__e, ShenFunc(symtl), gen18026)
+									gen18027 := Call(__e, __e.Global(symtl), gen18026)
 
-									gen18028 := Call(__e, ShenFunc(symtl), gen18027)
+									gen18028 := Call(__e, __e.Global(symtl), gen18027)
 
-									gen18029 := Call(__e, ShenFunc(sym_a), Nil, gen18028)
+									gen18029 := Call(__e, __e.Global(sym_a), Nil, gen18028)
 
 									if True == gen18029 {
 										gen18033 = True
@@ -1649,30 +1649,30 @@ func init() {
 							gen18038 = False
 						}
 						if True == gen18038 {
-							gen18018 := Call(__e, ShenFunc(symhd), V4984)
+							gen18018 := Call(__e, __e.Global(symhd), V4984)
 
-							gen18019 := Call(__e, ShenFunc(symhd), gen18018)
+							gen18019 := Call(__e, __e.Global(symhd), gen18018)
 
-							gen18020 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4true_1branch), gen18019, V4984)
+							gen18020 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4true_1branch), gen18019, V4984)
 
 							TrueBranch := gen18020
-							gen18021 := Call(__e, ShenFunc(symhd), V4984)
+							gen18021 := Call(__e, __e.Global(symhd), V4984)
 
-							gen18022 := Call(__e, ShenFunc(symhd), gen18021)
+							gen18022 := Call(__e, __e.Global(symhd), gen18021)
 
-							gen18023 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4false_1branch), gen18022, V4984)
+							gen18023 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4false_1branch), gen18022, V4984)
 
 							FalseBranch := gen18023
-							gen18024 := Call(__e, ShenFunc(symhd), V4984)
+							gen18024 := Call(__e, __e.Global(symhd), V4984)
 
-							gen18025 := Call(__e, ShenFunc(symhd), gen18024)
+							gen18025 := Call(__e, __e.Global(symhd), gen18024)
 
-							__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4rebranch_1h), gen18025, TrueBranch, FalseBranch, V4985)
+							__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4rebranch_1h), gen18025, TrueBranch, FalseBranch, V4985)
 
 							return
 
 						} else {
-							__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.rebranch"))
+							__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.rebranch"))
 
 							return
 						}
@@ -1684,7 +1684,7 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.rebranch"), gen18113)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.rebranch"), gen18113)
 
 		gen18122 := MakeNative(func(__e Evaluator) {
 			V4990 := __e.Get(1)
@@ -1695,132 +1695,132 @@ func init() {
 			_ = V4992
 			V4993 := __e.Get(4)
 			_ = V4993
-			gen18114 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4rebranch), V4992, V4993)
+			gen18114 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4rebranch), V4992, V4993)
 
 			NewElse := gen18114
 			gen18121 := MakeNative(func(__e Evaluator) {
 				GotoElse := __e.Get(1)
 				_ = GotoElse
-				gen18115 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4rebranch), V4991, GotoElse)
+				gen18115 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4rebranch), V4991, GotoElse)
 
-				gen18116 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4optimize_1selectors), V4990, gen18115)
+				gen18116 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4optimize_1selectors), V4990, gen18115)
 
-				gen18117 := Call(__e, ShenFunc(symcons), GotoElse, Nil)
+				gen18117 := Call(__e, __e.Global(symcons), GotoElse, Nil)
 
-				gen18118 := Call(__e, ShenFunc(symcons), gen18116, gen18117)
+				gen18118 := Call(__e, __e.Global(symcons), gen18116, gen18117)
 
-				gen18119 := Call(__e, ShenFunc(symcons), V4990, gen18118)
+				gen18119 := Call(__e, __e.Global(symcons), V4990, gen18118)
 
-				gen18120 := Call(__e, ShenFunc(symcons), MakeSymbol("if"), gen18119)
+				gen18120 := Call(__e, __e.Global(symcons), MakeSymbol("if"), gen18119)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4merge_1same_1else_1ifs), gen18120)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4merge_1same_1else_1ifs), gen18120)
 
 				return
 
 			}, 1)
-			__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4with_1labelled_1else), NewElse, gen18121)
+			__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4with_1labelled_1else), NewElse, gen18121)
 
 			return
 
 		}, 4)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.rebranch-h"), gen18122)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.rebranch-h"), gen18122)
 
 		gen18203 := MakeNative(func(__e Evaluator) {
 			V5006 := __e.Get(1)
 			_ = V5006
 			V5007 := __e.Get(2)
 			_ = V5007
-			gen18201 := Call(__e, ShenFunc(symcons_2), V5007)
+			gen18201 := Call(__e, __e.Global(symcons_2), V5007)
 
 			var gen18202 Obj
 			if True == gen18201 {
-				gen18198 := Call(__e, ShenFunc(symhd), V5007)
+				gen18198 := Call(__e, __e.Global(symhd), V5007)
 
-				gen18199 := Call(__e, ShenFunc(symcons_2), gen18198)
+				gen18199 := Call(__e, __e.Global(symcons_2), gen18198)
 
 				var gen18200 Obj
 				if True == gen18199 {
-					gen18194 := Call(__e, ShenFunc(symhd), V5007)
+					gen18194 := Call(__e, __e.Global(symhd), V5007)
 
-					gen18195 := Call(__e, ShenFunc(symhd), gen18194)
+					gen18195 := Call(__e, __e.Global(symhd), gen18194)
 
-					gen18196 := Call(__e, ShenFunc(symcons_2), gen18195)
+					gen18196 := Call(__e, __e.Global(symcons_2), gen18195)
 
 					var gen18197 Obj
 					if True == gen18196 {
-						gen18189 := Call(__e, ShenFunc(symhd), V5007)
+						gen18189 := Call(__e, __e.Global(symhd), V5007)
 
-						gen18190 := Call(__e, ShenFunc(symhd), gen18189)
+						gen18190 := Call(__e, __e.Global(symhd), gen18189)
 
-						gen18191 := Call(__e, ShenFunc(symhd), gen18190)
+						gen18191 := Call(__e, __e.Global(symhd), gen18190)
 
-						gen18192 := Call(__e, ShenFunc(sym_a), MakeSymbol("and"), gen18191)
+						gen18192 := Call(__e, __e.Global(sym_a), MakeSymbol("and"), gen18191)
 
 						var gen18193 Obj
 						if True == gen18192 {
-							gen18184 := Call(__e, ShenFunc(symhd), V5007)
+							gen18184 := Call(__e, __e.Global(symhd), V5007)
 
-							gen18185 := Call(__e, ShenFunc(symhd), gen18184)
+							gen18185 := Call(__e, __e.Global(symhd), gen18184)
 
-							gen18186 := Call(__e, ShenFunc(symtl), gen18185)
+							gen18186 := Call(__e, __e.Global(symtl), gen18185)
 
-							gen18187 := Call(__e, ShenFunc(symcons_2), gen18186)
+							gen18187 := Call(__e, __e.Global(symcons_2), gen18186)
 
 							var gen18188 Obj
 							if True == gen18187 {
-								gen18178 := Call(__e, ShenFunc(symhd), V5007)
+								gen18178 := Call(__e, __e.Global(symhd), V5007)
 
-								gen18179 := Call(__e, ShenFunc(symhd), gen18178)
+								gen18179 := Call(__e, __e.Global(symhd), gen18178)
 
-								gen18180 := Call(__e, ShenFunc(symtl), gen18179)
+								gen18180 := Call(__e, __e.Global(symtl), gen18179)
 
-								gen18181 := Call(__e, ShenFunc(symtl), gen18180)
+								gen18181 := Call(__e, __e.Global(symtl), gen18180)
 
-								gen18182 := Call(__e, ShenFunc(symcons_2), gen18181)
+								gen18182 := Call(__e, __e.Global(symcons_2), gen18181)
 
 								var gen18183 Obj
 								if True == gen18182 {
-									gen18171 := Call(__e, ShenFunc(symhd), V5007)
+									gen18171 := Call(__e, __e.Global(symhd), V5007)
 
-									gen18172 := Call(__e, ShenFunc(symhd), gen18171)
+									gen18172 := Call(__e, __e.Global(symhd), gen18171)
 
-									gen18173 := Call(__e, ShenFunc(symtl), gen18172)
+									gen18173 := Call(__e, __e.Global(symtl), gen18172)
 
-									gen18174 := Call(__e, ShenFunc(symtl), gen18173)
+									gen18174 := Call(__e, __e.Global(symtl), gen18173)
 
-									gen18175 := Call(__e, ShenFunc(symtl), gen18174)
+									gen18175 := Call(__e, __e.Global(symtl), gen18174)
 
-									gen18176 := Call(__e, ShenFunc(sym_a), Nil, gen18175)
+									gen18176 := Call(__e, __e.Global(sym_a), Nil, gen18175)
 
 									var gen18177 Obj
 									if True == gen18176 {
-										gen18167 := Call(__e, ShenFunc(symhd), V5007)
+										gen18167 := Call(__e, __e.Global(symhd), V5007)
 
-										gen18168 := Call(__e, ShenFunc(symtl), gen18167)
+										gen18168 := Call(__e, __e.Global(symtl), gen18167)
 
-										gen18169 := Call(__e, ShenFunc(symcons_2), gen18168)
+										gen18169 := Call(__e, __e.Global(symcons_2), gen18168)
 
 										var gen18170 Obj
 										if True == gen18169 {
-											gen18162 := Call(__e, ShenFunc(symhd), V5007)
+											gen18162 := Call(__e, __e.Global(symhd), V5007)
 
-											gen18163 := Call(__e, ShenFunc(symtl), gen18162)
+											gen18163 := Call(__e, __e.Global(symtl), gen18162)
 
-											gen18164 := Call(__e, ShenFunc(symtl), gen18163)
+											gen18164 := Call(__e, __e.Global(symtl), gen18163)
 
-											gen18165 := Call(__e, ShenFunc(sym_a), Nil, gen18164)
+											gen18165 := Call(__e, __e.Global(sym_a), Nil, gen18164)
 
 											var gen18166 Obj
 											if True == gen18165 {
-												gen18157 := Call(__e, ShenFunc(symhd), V5007)
+												gen18157 := Call(__e, __e.Global(symhd), V5007)
 
-												gen18158 := Call(__e, ShenFunc(symhd), gen18157)
+												gen18158 := Call(__e, __e.Global(symhd), gen18157)
 
-												gen18159 := Call(__e, ShenFunc(symtl), gen18158)
+												gen18159 := Call(__e, __e.Global(symtl), gen18158)
 
-												gen18160 := Call(__e, ShenFunc(symhd), gen18159)
+												gen18160 := Call(__e, __e.Global(symhd), gen18159)
 
-												gen18161 := Call(__e, ShenFunc(sym_a), gen18160, V5006)
+												gen18161 := Call(__e, __e.Global(sym_a), gen18160, V5006)
 
 												if True == gen18161 {
 													gen18166 = True
@@ -1904,72 +1904,72 @@ func init() {
 				gen18202 = False
 			}
 			if True == gen18202 {
-				gen18143 := Call(__e, ShenFunc(symhd), V5007)
+				gen18143 := Call(__e, __e.Global(symhd), V5007)
 
-				gen18144 := Call(__e, ShenFunc(symhd), gen18143)
+				gen18144 := Call(__e, __e.Global(symhd), gen18143)
 
-				gen18145 := Call(__e, ShenFunc(symtl), gen18144)
+				gen18145 := Call(__e, __e.Global(symtl), gen18144)
 
-				gen18146 := Call(__e, ShenFunc(symtl), gen18145)
+				gen18146 := Call(__e, __e.Global(symtl), gen18145)
 
-				gen18147 := Call(__e, ShenFunc(symhd), gen18146)
+				gen18147 := Call(__e, __e.Global(symhd), gen18146)
 
-				gen18148 := Call(__e, ShenFunc(symhd), V5007)
+				gen18148 := Call(__e, __e.Global(symhd), V5007)
 
-				gen18149 := Call(__e, ShenFunc(symtl), gen18148)
+				gen18149 := Call(__e, __e.Global(symtl), gen18148)
 
-				gen18150 := Call(__e, ShenFunc(symcons), gen18147, gen18149)
+				gen18150 := Call(__e, __e.Global(symcons), gen18147, gen18149)
 
-				gen18151 := Call(__e, ShenFunc(symhd), V5007)
+				gen18151 := Call(__e, __e.Global(symhd), V5007)
 
-				gen18152 := Call(__e, ShenFunc(symhd), gen18151)
+				gen18152 := Call(__e, __e.Global(symhd), gen18151)
 
-				gen18153 := Call(__e, ShenFunc(symtl), gen18152)
+				gen18153 := Call(__e, __e.Global(symtl), gen18152)
 
-				gen18154 := Call(__e, ShenFunc(symhd), gen18153)
+				gen18154 := Call(__e, __e.Global(symhd), gen18153)
 
-				gen18155 := Call(__e, ShenFunc(symtl), V5007)
+				gen18155 := Call(__e, __e.Global(symtl), V5007)
 
-				gen18156 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4true_1branch), gen18154, gen18155)
+				gen18156 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4true_1branch), gen18154, gen18155)
 
-				__e.TailApply(ShenFunc(symcons), gen18150, gen18156)
+				__e.TailApply(__e.Global(symcons), gen18150, gen18156)
 
 				return
 
 			} else {
-				gen18141 := Call(__e, ShenFunc(symcons_2), V5007)
+				gen18141 := Call(__e, __e.Global(symcons_2), V5007)
 
 				var gen18142 Obj
 				if True == gen18141 {
-					gen18138 := Call(__e, ShenFunc(symhd), V5007)
+					gen18138 := Call(__e, __e.Global(symhd), V5007)
 
-					gen18139 := Call(__e, ShenFunc(symcons_2), gen18138)
+					gen18139 := Call(__e, __e.Global(symcons_2), gen18138)
 
 					var gen18140 Obj
 					if True == gen18139 {
-						gen18134 := Call(__e, ShenFunc(symhd), V5007)
+						gen18134 := Call(__e, __e.Global(symhd), V5007)
 
-						gen18135 := Call(__e, ShenFunc(symtl), gen18134)
+						gen18135 := Call(__e, __e.Global(symtl), gen18134)
 
-						gen18136 := Call(__e, ShenFunc(symcons_2), gen18135)
+						gen18136 := Call(__e, __e.Global(symcons_2), gen18135)
 
 						var gen18137 Obj
 						if True == gen18136 {
-							gen18129 := Call(__e, ShenFunc(symhd), V5007)
+							gen18129 := Call(__e, __e.Global(symhd), V5007)
 
-							gen18130 := Call(__e, ShenFunc(symtl), gen18129)
+							gen18130 := Call(__e, __e.Global(symtl), gen18129)
 
-							gen18131 := Call(__e, ShenFunc(symtl), gen18130)
+							gen18131 := Call(__e, __e.Global(symtl), gen18130)
 
-							gen18132 := Call(__e, ShenFunc(sym_a), Nil, gen18131)
+							gen18132 := Call(__e, __e.Global(sym_a), Nil, gen18131)
 
 							var gen18133 Obj
 							if True == gen18132 {
-								gen18126 := Call(__e, ShenFunc(symhd), V5007)
+								gen18126 := Call(__e, __e.Global(symhd), V5007)
 
-								gen18127 := Call(__e, ShenFunc(symhd), gen18126)
+								gen18127 := Call(__e, __e.Global(symhd), gen18126)
 
-								gen18128 := Call(__e, ShenFunc(sym_a), gen18127, V5006)
+								gen18128 := Call(__e, __e.Global(sym_a), gen18127, V5006)
 
 								if True == gen18128 {
 									gen18133 = True
@@ -2008,13 +2008,13 @@ func init() {
 					gen18142 = False
 				}
 				if True == gen18142 {
-					gen18123 := Call(__e, ShenFunc(symhd), V5007)
+					gen18123 := Call(__e, __e.Global(symhd), V5007)
 
-					gen18124 := Call(__e, ShenFunc(symtl), gen18123)
+					gen18124 := Call(__e, __e.Global(symtl), gen18123)
 
-					gen18125 := Call(__e, ShenFunc(symcons), True, gen18124)
+					gen18125 := Call(__e, __e.Global(symcons), True, gen18124)
 
-					__e.TailApply(ShenFunc(symcons), gen18125, Nil)
+					__e.TailApply(__e.Global(symcons), gen18125, Nil)
 
 					return
 
@@ -2026,104 +2026,104 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.true-branch"), gen18203)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.true-branch"), gen18203)
 
 		gen18275 := MakeNative(func(__e Evaluator) {
 			V5016 := __e.Get(1)
 			_ = V5016
 			V5017 := __e.Get(2)
 			_ = V5017
-			gen18273 := Call(__e, ShenFunc(symcons_2), V5017)
+			gen18273 := Call(__e, __e.Global(symcons_2), V5017)
 
 			var gen18274 Obj
 			if True == gen18273 {
-				gen18270 := Call(__e, ShenFunc(symhd), V5017)
+				gen18270 := Call(__e, __e.Global(symhd), V5017)
 
-				gen18271 := Call(__e, ShenFunc(symcons_2), gen18270)
+				gen18271 := Call(__e, __e.Global(symcons_2), gen18270)
 
 				var gen18272 Obj
 				if True == gen18271 {
-					gen18266 := Call(__e, ShenFunc(symhd), V5017)
+					gen18266 := Call(__e, __e.Global(symhd), V5017)
 
-					gen18267 := Call(__e, ShenFunc(symhd), gen18266)
+					gen18267 := Call(__e, __e.Global(symhd), gen18266)
 
-					gen18268 := Call(__e, ShenFunc(symcons_2), gen18267)
+					gen18268 := Call(__e, __e.Global(symcons_2), gen18267)
 
 					var gen18269 Obj
 					if True == gen18268 {
-						gen18261 := Call(__e, ShenFunc(symhd), V5017)
+						gen18261 := Call(__e, __e.Global(symhd), V5017)
 
-						gen18262 := Call(__e, ShenFunc(symhd), gen18261)
+						gen18262 := Call(__e, __e.Global(symhd), gen18261)
 
-						gen18263 := Call(__e, ShenFunc(symhd), gen18262)
+						gen18263 := Call(__e, __e.Global(symhd), gen18262)
 
-						gen18264 := Call(__e, ShenFunc(sym_a), MakeSymbol("and"), gen18263)
+						gen18264 := Call(__e, __e.Global(sym_a), MakeSymbol("and"), gen18263)
 
 						var gen18265 Obj
 						if True == gen18264 {
-							gen18256 := Call(__e, ShenFunc(symhd), V5017)
+							gen18256 := Call(__e, __e.Global(symhd), V5017)
 
-							gen18257 := Call(__e, ShenFunc(symhd), gen18256)
+							gen18257 := Call(__e, __e.Global(symhd), gen18256)
 
-							gen18258 := Call(__e, ShenFunc(symtl), gen18257)
+							gen18258 := Call(__e, __e.Global(symtl), gen18257)
 
-							gen18259 := Call(__e, ShenFunc(symcons_2), gen18258)
+							gen18259 := Call(__e, __e.Global(symcons_2), gen18258)
 
 							var gen18260 Obj
 							if True == gen18259 {
-								gen18250 := Call(__e, ShenFunc(symhd), V5017)
+								gen18250 := Call(__e, __e.Global(symhd), V5017)
 
-								gen18251 := Call(__e, ShenFunc(symhd), gen18250)
+								gen18251 := Call(__e, __e.Global(symhd), gen18250)
 
-								gen18252 := Call(__e, ShenFunc(symtl), gen18251)
+								gen18252 := Call(__e, __e.Global(symtl), gen18251)
 
-								gen18253 := Call(__e, ShenFunc(symtl), gen18252)
+								gen18253 := Call(__e, __e.Global(symtl), gen18252)
 
-								gen18254 := Call(__e, ShenFunc(symcons_2), gen18253)
+								gen18254 := Call(__e, __e.Global(symcons_2), gen18253)
 
 								var gen18255 Obj
 								if True == gen18254 {
-									gen18243 := Call(__e, ShenFunc(symhd), V5017)
+									gen18243 := Call(__e, __e.Global(symhd), V5017)
 
-									gen18244 := Call(__e, ShenFunc(symhd), gen18243)
+									gen18244 := Call(__e, __e.Global(symhd), gen18243)
 
-									gen18245 := Call(__e, ShenFunc(symtl), gen18244)
+									gen18245 := Call(__e, __e.Global(symtl), gen18244)
 
-									gen18246 := Call(__e, ShenFunc(symtl), gen18245)
+									gen18246 := Call(__e, __e.Global(symtl), gen18245)
 
-									gen18247 := Call(__e, ShenFunc(symtl), gen18246)
+									gen18247 := Call(__e, __e.Global(symtl), gen18246)
 
-									gen18248 := Call(__e, ShenFunc(sym_a), Nil, gen18247)
+									gen18248 := Call(__e, __e.Global(sym_a), Nil, gen18247)
 
 									var gen18249 Obj
 									if True == gen18248 {
-										gen18239 := Call(__e, ShenFunc(symhd), V5017)
+										gen18239 := Call(__e, __e.Global(symhd), V5017)
 
-										gen18240 := Call(__e, ShenFunc(symtl), gen18239)
+										gen18240 := Call(__e, __e.Global(symtl), gen18239)
 
-										gen18241 := Call(__e, ShenFunc(symcons_2), gen18240)
+										gen18241 := Call(__e, __e.Global(symcons_2), gen18240)
 
 										var gen18242 Obj
 										if True == gen18241 {
-											gen18234 := Call(__e, ShenFunc(symhd), V5017)
+											gen18234 := Call(__e, __e.Global(symhd), V5017)
 
-											gen18235 := Call(__e, ShenFunc(symtl), gen18234)
+											gen18235 := Call(__e, __e.Global(symtl), gen18234)
 
-											gen18236 := Call(__e, ShenFunc(symtl), gen18235)
+											gen18236 := Call(__e, __e.Global(symtl), gen18235)
 
-											gen18237 := Call(__e, ShenFunc(sym_a), Nil, gen18236)
+											gen18237 := Call(__e, __e.Global(sym_a), Nil, gen18236)
 
 											var gen18238 Obj
 											if True == gen18237 {
-												gen18229 := Call(__e, ShenFunc(symhd), V5017)
+												gen18229 := Call(__e, __e.Global(symhd), V5017)
 
-												gen18230 := Call(__e, ShenFunc(symhd), gen18229)
+												gen18230 := Call(__e, __e.Global(symhd), gen18229)
 
-												gen18231 := Call(__e, ShenFunc(symtl), gen18230)
+												gen18231 := Call(__e, __e.Global(symtl), gen18230)
 
-												gen18232 := Call(__e, ShenFunc(symhd), gen18231)
+												gen18232 := Call(__e, __e.Global(symhd), gen18231)
 
-												gen18233 := Call(__e, ShenFunc(sym_a), gen18232, V5016)
+												gen18233 := Call(__e, __e.Global(sym_a), gen18232, V5016)
 
 												if True == gen18233 {
 													gen18238 = True
@@ -2207,54 +2207,54 @@ func init() {
 				gen18274 = False
 			}
 			if True == gen18274 {
-				gen18224 := Call(__e, ShenFunc(symhd), V5017)
+				gen18224 := Call(__e, __e.Global(symhd), V5017)
 
-				gen18225 := Call(__e, ShenFunc(symhd), gen18224)
+				gen18225 := Call(__e, __e.Global(symhd), gen18224)
 
-				gen18226 := Call(__e, ShenFunc(symtl), gen18225)
+				gen18226 := Call(__e, __e.Global(symtl), gen18225)
 
-				gen18227 := Call(__e, ShenFunc(symhd), gen18226)
+				gen18227 := Call(__e, __e.Global(symhd), gen18226)
 
-				gen18228 := Call(__e, ShenFunc(symtl), V5017)
+				gen18228 := Call(__e, __e.Global(symtl), V5017)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4false_1branch), gen18227, gen18228)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4false_1branch), gen18227, gen18228)
 
 				return
 
 			} else {
-				gen18222 := Call(__e, ShenFunc(symcons_2), V5017)
+				gen18222 := Call(__e, __e.Global(symcons_2), V5017)
 
 				var gen18223 Obj
 				if True == gen18222 {
-					gen18219 := Call(__e, ShenFunc(symhd), V5017)
+					gen18219 := Call(__e, __e.Global(symhd), V5017)
 
-					gen18220 := Call(__e, ShenFunc(symcons_2), gen18219)
+					gen18220 := Call(__e, __e.Global(symcons_2), gen18219)
 
 					var gen18221 Obj
 					if True == gen18220 {
-						gen18215 := Call(__e, ShenFunc(symhd), V5017)
+						gen18215 := Call(__e, __e.Global(symhd), V5017)
 
-						gen18216 := Call(__e, ShenFunc(symtl), gen18215)
+						gen18216 := Call(__e, __e.Global(symtl), gen18215)
 
-						gen18217 := Call(__e, ShenFunc(symcons_2), gen18216)
+						gen18217 := Call(__e, __e.Global(symcons_2), gen18216)
 
 						var gen18218 Obj
 						if True == gen18217 {
-							gen18210 := Call(__e, ShenFunc(symhd), V5017)
+							gen18210 := Call(__e, __e.Global(symhd), V5017)
 
-							gen18211 := Call(__e, ShenFunc(symtl), gen18210)
+							gen18211 := Call(__e, __e.Global(symtl), gen18210)
 
-							gen18212 := Call(__e, ShenFunc(symtl), gen18211)
+							gen18212 := Call(__e, __e.Global(symtl), gen18211)
 
-							gen18213 := Call(__e, ShenFunc(sym_a), Nil, gen18212)
+							gen18213 := Call(__e, __e.Global(sym_a), Nil, gen18212)
 
 							var gen18214 Obj
 							if True == gen18213 {
-								gen18207 := Call(__e, ShenFunc(symhd), V5017)
+								gen18207 := Call(__e, __e.Global(symhd), V5017)
 
-								gen18208 := Call(__e, ShenFunc(symhd), gen18207)
+								gen18208 := Call(__e, __e.Global(symhd), gen18207)
 
-								gen18209 := Call(__e, ShenFunc(sym_a), gen18208, V5016)
+								gen18209 := Call(__e, __e.Global(sym_a), gen18208, V5016)
 
 								if True == gen18209 {
 									gen18214 = True
@@ -2293,13 +2293,13 @@ func init() {
 					gen18223 = False
 				}
 				if True == gen18223 {
-					gen18204 := Call(__e, ShenFunc(symhd), V5017)
+					gen18204 := Call(__e, __e.Global(symhd), V5017)
 
-					gen18205 := Call(__e, ShenFunc(symhd), gen18204)
+					gen18205 := Call(__e, __e.Global(symhd), gen18204)
 
-					gen18206 := Call(__e, ShenFunc(symtl), V5017)
+					gen18206 := Call(__e, __e.Global(symtl), V5017)
 
-					__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4false_1branch), gen18205, gen18206)
+					__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4false_1branch), gen18205, gen18206)
 
 					return
 
@@ -2311,44 +2311,44 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.false-branch"), gen18275)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.false-branch"), gen18275)
 
 		gen18317 := MakeNative(func(__e Evaluator) {
 			V5020 := __e.Get(1)
 			_ = V5020
 			V5021 := __e.Get(2)
 			_ = V5021
-			gen18315 := Call(__e, ShenFunc(symcons_2), V5020)
+			gen18315 := Call(__e, __e.Global(symcons_2), V5020)
 
 			var gen18316 Obj
 			if True == gen18315 {
-				gen18312 := Call(__e, ShenFunc(symhd), V5020)
+				gen18312 := Call(__e, __e.Global(symhd), V5020)
 
-				gen18313 := Call(__e, ShenFunc(sym_a), MakeSymbol("%%return"), gen18312)
+				gen18313 := Call(__e, __e.Global(sym_a), MakeSymbol("%%return"), gen18312)
 
 				var gen18314 Obj
 				if True == gen18313 {
-					gen18309 := Call(__e, ShenFunc(symtl), V5020)
+					gen18309 := Call(__e, __e.Global(symtl), V5020)
 
-					gen18310 := Call(__e, ShenFunc(symcons_2), gen18309)
+					gen18310 := Call(__e, __e.Global(symcons_2), gen18309)
 
 					var gen18311 Obj
 					if True == gen18310 {
-						gen18305 := Call(__e, ShenFunc(symtl), V5020)
+						gen18305 := Call(__e, __e.Global(symtl), V5020)
 
-						gen18306 := Call(__e, ShenFunc(symtl), gen18305)
+						gen18306 := Call(__e, __e.Global(symtl), gen18305)
 
-						gen18307 := Call(__e, ShenFunc(sym_a), Nil, gen18306)
+						gen18307 := Call(__e, __e.Global(sym_a), Nil, gen18306)
 
 						var gen18308 Obj
 						if True == gen18307 {
-							gen18301 := Call(__e, ShenFunc(symtl), V5020)
+							gen18301 := Call(__e, __e.Global(symtl), V5020)
 
-							gen18302 := Call(__e, ShenFunc(symhd), gen18301)
+							gen18302 := Call(__e, __e.Global(symhd), gen18301)
 
-							gen18303 := Call(__e, ShenFunc(symcons_2), gen18302)
+							gen18303 := Call(__e, __e.Global(symcons_2), gen18302)
 
-							gen18304 := Call(__e, ShenFunc(symnot), gen18303)
+							gen18304 := Call(__e, __e.Global(symnot), gen18303)
 
 							if True == gen18304 {
 								gen18308 = True
@@ -2391,19 +2391,19 @@ func init() {
 
 				return
 			} else {
-				gen18299 := Call(__e, ShenFunc(symcons_2), V5020)
+				gen18299 := Call(__e, __e.Global(symcons_2), V5020)
 
 				var gen18300 Obj
 				if True == gen18299 {
-					gen18296 := Call(__e, ShenFunc(symhd), V5020)
+					gen18296 := Call(__e, __e.Global(symhd), V5020)
 
-					gen18297 := Call(__e, ShenFunc(sym_a), MakeSymbol("fail"), gen18296)
+					gen18297 := Call(__e, __e.Global(sym_a), MakeSymbol("fail"), gen18296)
 
 					var gen18298 Obj
 					if True == gen18297 {
-						gen18294 := Call(__e, ShenFunc(symtl), V5020)
+						gen18294 := Call(__e, __e.Global(symtl), V5020)
 
-						gen18295 := Call(__e, ShenFunc(sym_a), Nil, gen18294)
+						gen18295 := Call(__e, __e.Global(sym_a), Nil, gen18294)
 
 						if True == gen18295 {
 							gen18298 = True
@@ -2428,27 +2428,27 @@ func init() {
 
 					return
 				} else {
-					gen18292 := Call(__e, ShenFunc(symcons_2), V5020)
+					gen18292 := Call(__e, __e.Global(symcons_2), V5020)
 
 					var gen18293 Obj
 					if True == gen18292 {
-						gen18289 := Call(__e, ShenFunc(symhd), V5020)
+						gen18289 := Call(__e, __e.Global(symhd), V5020)
 
-						gen18290 := Call(__e, ShenFunc(sym_a), MakeSymbol("%%goto-label"), gen18289)
+						gen18290 := Call(__e, __e.Global(sym_a), MakeSymbol("%%goto-label"), gen18289)
 
 						var gen18291 Obj
 						if True == gen18290 {
-							gen18286 := Call(__e, ShenFunc(symtl), V5020)
+							gen18286 := Call(__e, __e.Global(symtl), V5020)
 
-							gen18287 := Call(__e, ShenFunc(symcons_2), gen18286)
+							gen18287 := Call(__e, __e.Global(symcons_2), gen18286)
 
 							var gen18288 Obj
 							if True == gen18287 {
-								gen18283 := Call(__e, ShenFunc(symtl), V5020)
+								gen18283 := Call(__e, __e.Global(symtl), V5020)
 
-								gen18284 := Call(__e, ShenFunc(symtl), gen18283)
+								gen18284 := Call(__e, __e.Global(symtl), gen18283)
 
-								gen18285 := Call(__e, ShenFunc(sym_a), Nil, gen18284)
+								gen18285 := Call(__e, __e.Global(sym_a), Nil, gen18284)
 
 								if True == gen18285 {
 									gen18288 = True
@@ -2482,22 +2482,22 @@ func init() {
 
 						return
 					} else {
-						gen18276 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4generate_1label))
+						gen18276 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4generate_1label))
 
 						Label := gen18276
-						gen18277 := Call(__e, ShenFunc(symcons), Label, Nil)
+						gen18277 := Call(__e, __e.Global(symcons), Label, Nil)
 
-						gen18278 := Call(__e, ShenFunc(symcons), MakeSymbol("%%goto-label"), gen18277)
+						gen18278 := Call(__e, __e.Global(symcons), MakeSymbol("%%goto-label"), gen18277)
 
 						gen18279 := Call(__e, V5021, gen18278)
 
-						gen18280 := Call(__e, ShenFunc(symcons), gen18279, Nil)
+						gen18280 := Call(__e, __e.Global(symcons), gen18279, Nil)
 
-						gen18281 := Call(__e, ShenFunc(symcons), V5020, gen18280)
+						gen18281 := Call(__e, __e.Global(symcons), V5020, gen18280)
 
-						gen18282 := Call(__e, ShenFunc(symcons), Label, gen18281)
+						gen18282 := Call(__e, __e.Global(symcons), Label, gen18281)
 
-						__e.TailApply(ShenFunc(symcons), MakeSymbol("%%let-label"), gen18282)
+						__e.TailApply(__e.Global(symcons), MakeSymbol("%%let-label"), gen18282)
 
 						return
 
@@ -2508,162 +2508,162 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.with-labelled-else"), gen18317)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.with-labelled-else"), gen18317)
 
 		gen18415 := MakeNative(func(__e Evaluator) {
 			V5024 := __e.Get(1)
 			_ = V5024
-			gen18413 := Call(__e, ShenFunc(symcons_2), V5024)
+			gen18413 := Call(__e, __e.Global(symcons_2), V5024)
 
 			var gen18414 Obj
 			if True == gen18413 {
-				gen18410 := Call(__e, ShenFunc(symhd), V5024)
+				gen18410 := Call(__e, __e.Global(symhd), V5024)
 
-				gen18411 := Call(__e, ShenFunc(sym_a), MakeSymbol("if"), gen18410)
+				gen18411 := Call(__e, __e.Global(sym_a), MakeSymbol("if"), gen18410)
 
 				var gen18412 Obj
 				if True == gen18411 {
-					gen18407 := Call(__e, ShenFunc(symtl), V5024)
+					gen18407 := Call(__e, __e.Global(symtl), V5024)
 
-					gen18408 := Call(__e, ShenFunc(symcons_2), gen18407)
+					gen18408 := Call(__e, __e.Global(symcons_2), gen18407)
 
 					var gen18409 Obj
 					if True == gen18408 {
-						gen18403 := Call(__e, ShenFunc(symtl), V5024)
+						gen18403 := Call(__e, __e.Global(symtl), V5024)
 
-						gen18404 := Call(__e, ShenFunc(symtl), gen18403)
+						gen18404 := Call(__e, __e.Global(symtl), gen18403)
 
-						gen18405 := Call(__e, ShenFunc(symcons_2), gen18404)
+						gen18405 := Call(__e, __e.Global(symcons_2), gen18404)
 
 						var gen18406 Obj
 						if True == gen18405 {
-							gen18398 := Call(__e, ShenFunc(symtl), V5024)
+							gen18398 := Call(__e, __e.Global(symtl), V5024)
 
-							gen18399 := Call(__e, ShenFunc(symtl), gen18398)
+							gen18399 := Call(__e, __e.Global(symtl), gen18398)
 
-							gen18400 := Call(__e, ShenFunc(symhd), gen18399)
+							gen18400 := Call(__e, __e.Global(symhd), gen18399)
 
-							gen18401 := Call(__e, ShenFunc(symcons_2), gen18400)
+							gen18401 := Call(__e, __e.Global(symcons_2), gen18400)
 
 							var gen18402 Obj
 							if True == gen18401 {
-								gen18392 := Call(__e, ShenFunc(symtl), V5024)
+								gen18392 := Call(__e, __e.Global(symtl), V5024)
 
-								gen18393 := Call(__e, ShenFunc(symtl), gen18392)
+								gen18393 := Call(__e, __e.Global(symtl), gen18392)
 
-								gen18394 := Call(__e, ShenFunc(symhd), gen18393)
+								gen18394 := Call(__e, __e.Global(symhd), gen18393)
 
-								gen18395 := Call(__e, ShenFunc(symhd), gen18394)
+								gen18395 := Call(__e, __e.Global(symhd), gen18394)
 
-								gen18396 := Call(__e, ShenFunc(sym_a), MakeSymbol("if"), gen18395)
+								gen18396 := Call(__e, __e.Global(sym_a), MakeSymbol("if"), gen18395)
 
 								var gen18397 Obj
 								if True == gen18396 {
-									gen18386 := Call(__e, ShenFunc(symtl), V5024)
+									gen18386 := Call(__e, __e.Global(symtl), V5024)
 
-									gen18387 := Call(__e, ShenFunc(symtl), gen18386)
+									gen18387 := Call(__e, __e.Global(symtl), gen18386)
 
-									gen18388 := Call(__e, ShenFunc(symhd), gen18387)
+									gen18388 := Call(__e, __e.Global(symhd), gen18387)
 
-									gen18389 := Call(__e, ShenFunc(symtl), gen18388)
+									gen18389 := Call(__e, __e.Global(symtl), gen18388)
 
-									gen18390 := Call(__e, ShenFunc(symcons_2), gen18389)
+									gen18390 := Call(__e, __e.Global(symcons_2), gen18389)
 
 									var gen18391 Obj
 									if True == gen18390 {
-										gen18379 := Call(__e, ShenFunc(symtl), V5024)
+										gen18379 := Call(__e, __e.Global(symtl), V5024)
 
-										gen18380 := Call(__e, ShenFunc(symtl), gen18379)
+										gen18380 := Call(__e, __e.Global(symtl), gen18379)
 
-										gen18381 := Call(__e, ShenFunc(symhd), gen18380)
+										gen18381 := Call(__e, __e.Global(symhd), gen18380)
 
-										gen18382 := Call(__e, ShenFunc(symtl), gen18381)
+										gen18382 := Call(__e, __e.Global(symtl), gen18381)
 
-										gen18383 := Call(__e, ShenFunc(symtl), gen18382)
+										gen18383 := Call(__e, __e.Global(symtl), gen18382)
 
-										gen18384 := Call(__e, ShenFunc(symcons_2), gen18383)
+										gen18384 := Call(__e, __e.Global(symcons_2), gen18383)
 
 										var gen18385 Obj
 										if True == gen18384 {
-											gen18371 := Call(__e, ShenFunc(symtl), V5024)
+											gen18371 := Call(__e, __e.Global(symtl), V5024)
 
-											gen18372 := Call(__e, ShenFunc(symtl), gen18371)
+											gen18372 := Call(__e, __e.Global(symtl), gen18371)
 
-											gen18373 := Call(__e, ShenFunc(symhd), gen18372)
+											gen18373 := Call(__e, __e.Global(symhd), gen18372)
 
-											gen18374 := Call(__e, ShenFunc(symtl), gen18373)
+											gen18374 := Call(__e, __e.Global(symtl), gen18373)
 
-											gen18375 := Call(__e, ShenFunc(symtl), gen18374)
+											gen18375 := Call(__e, __e.Global(symtl), gen18374)
 
-											gen18376 := Call(__e, ShenFunc(symtl), gen18375)
+											gen18376 := Call(__e, __e.Global(symtl), gen18375)
 
-											gen18377 := Call(__e, ShenFunc(symcons_2), gen18376)
+											gen18377 := Call(__e, __e.Global(symcons_2), gen18376)
 
 											var gen18378 Obj
 											if True == gen18377 {
-												gen18362 := Call(__e, ShenFunc(symtl), V5024)
+												gen18362 := Call(__e, __e.Global(symtl), V5024)
 
-												gen18363 := Call(__e, ShenFunc(symtl), gen18362)
+												gen18363 := Call(__e, __e.Global(symtl), gen18362)
 
-												gen18364 := Call(__e, ShenFunc(symhd), gen18363)
+												gen18364 := Call(__e, __e.Global(symhd), gen18363)
 
-												gen18365 := Call(__e, ShenFunc(symtl), gen18364)
+												gen18365 := Call(__e, __e.Global(symtl), gen18364)
 
-												gen18366 := Call(__e, ShenFunc(symtl), gen18365)
+												gen18366 := Call(__e, __e.Global(symtl), gen18365)
 
-												gen18367 := Call(__e, ShenFunc(symtl), gen18366)
+												gen18367 := Call(__e, __e.Global(symtl), gen18366)
 
-												gen18368 := Call(__e, ShenFunc(symtl), gen18367)
+												gen18368 := Call(__e, __e.Global(symtl), gen18367)
 
-												gen18369 := Call(__e, ShenFunc(sym_a), Nil, gen18368)
+												gen18369 := Call(__e, __e.Global(sym_a), Nil, gen18368)
 
 												var gen18370 Obj
 												if True == gen18369 {
-													gen18357 := Call(__e, ShenFunc(symtl), V5024)
+													gen18357 := Call(__e, __e.Global(symtl), V5024)
 
-													gen18358 := Call(__e, ShenFunc(symtl), gen18357)
+													gen18358 := Call(__e, __e.Global(symtl), gen18357)
 
-													gen18359 := Call(__e, ShenFunc(symtl), gen18358)
+													gen18359 := Call(__e, __e.Global(symtl), gen18358)
 
-													gen18360 := Call(__e, ShenFunc(symcons_2), gen18359)
+													gen18360 := Call(__e, __e.Global(symcons_2), gen18359)
 
 													var gen18361 Obj
 													if True == gen18360 {
-														gen18351 := Call(__e, ShenFunc(symtl), V5024)
+														gen18351 := Call(__e, __e.Global(symtl), V5024)
 
-														gen18352 := Call(__e, ShenFunc(symtl), gen18351)
+														gen18352 := Call(__e, __e.Global(symtl), gen18351)
 
-														gen18353 := Call(__e, ShenFunc(symtl), gen18352)
+														gen18353 := Call(__e, __e.Global(symtl), gen18352)
 
-														gen18354 := Call(__e, ShenFunc(symtl), gen18353)
+														gen18354 := Call(__e, __e.Global(symtl), gen18353)
 
-														gen18355 := Call(__e, ShenFunc(sym_a), Nil, gen18354)
+														gen18355 := Call(__e, __e.Global(sym_a), Nil, gen18354)
 
 														var gen18356 Obj
 														if True == gen18355 {
-															gen18339 := Call(__e, ShenFunc(symtl), V5024)
+															gen18339 := Call(__e, __e.Global(symtl), V5024)
 
-															gen18340 := Call(__e, ShenFunc(symtl), gen18339)
+															gen18340 := Call(__e, __e.Global(symtl), gen18339)
 
-															gen18341 := Call(__e, ShenFunc(symtl), gen18340)
+															gen18341 := Call(__e, __e.Global(symtl), gen18340)
 
-															gen18342 := Call(__e, ShenFunc(symhd), gen18341)
+															gen18342 := Call(__e, __e.Global(symhd), gen18341)
 
-															gen18343 := Call(__e, ShenFunc(symtl), V5024)
+															gen18343 := Call(__e, __e.Global(symtl), V5024)
 
-															gen18344 := Call(__e, ShenFunc(symtl), gen18343)
+															gen18344 := Call(__e, __e.Global(symtl), gen18343)
 
-															gen18345 := Call(__e, ShenFunc(symhd), gen18344)
+															gen18345 := Call(__e, __e.Global(symhd), gen18344)
 
-															gen18346 := Call(__e, ShenFunc(symtl), gen18345)
+															gen18346 := Call(__e, __e.Global(symtl), gen18345)
 
-															gen18347 := Call(__e, ShenFunc(symtl), gen18346)
+															gen18347 := Call(__e, __e.Global(symtl), gen18346)
 
-															gen18348 := Call(__e, ShenFunc(symtl), gen18347)
+															gen18348 := Call(__e, __e.Global(symtl), gen18347)
 
-															gen18349 := Call(__e, ShenFunc(symhd), gen18348)
+															gen18349 := Call(__e, __e.Global(symhd), gen18348)
 
-															gen18350 := Call(__e, ShenFunc(sym_a), gen18342, gen18349)
+															gen18350 := Call(__e, __e.Global(sym_a), gen18342, gen18349)
 
 															if True == gen18350 {
 																gen18356 = True
@@ -2774,49 +2774,49 @@ func init() {
 				gen18414 = False
 			}
 			if True == gen18414 {
-				gen18318 := Call(__e, ShenFunc(symtl), V5024)
+				gen18318 := Call(__e, __e.Global(symtl), V5024)
 
-				gen18319 := Call(__e, ShenFunc(symhd), gen18318)
+				gen18319 := Call(__e, __e.Global(symhd), gen18318)
 
-				gen18320 := Call(__e, ShenFunc(symtl), V5024)
+				gen18320 := Call(__e, __e.Global(symtl), V5024)
 
-				gen18321 := Call(__e, ShenFunc(symtl), gen18320)
+				gen18321 := Call(__e, __e.Global(symtl), gen18320)
 
-				gen18322 := Call(__e, ShenFunc(symhd), gen18321)
+				gen18322 := Call(__e, __e.Global(symhd), gen18321)
 
-				gen18323 := Call(__e, ShenFunc(symtl), gen18322)
+				gen18323 := Call(__e, __e.Global(symtl), gen18322)
 
-				gen18324 := Call(__e, ShenFunc(symhd), gen18323)
+				gen18324 := Call(__e, __e.Global(symhd), gen18323)
 
-				gen18325 := Call(__e, ShenFunc(symcons), gen18324, Nil)
+				gen18325 := Call(__e, __e.Global(symcons), gen18324, Nil)
 
-				gen18326 := Call(__e, ShenFunc(symcons), gen18319, gen18325)
+				gen18326 := Call(__e, __e.Global(symcons), gen18319, gen18325)
 
-				gen18327 := Call(__e, ShenFunc(symcons), MakeSymbol("and"), gen18326)
+				gen18327 := Call(__e, __e.Global(symcons), MakeSymbol("and"), gen18326)
 
-				gen18328 := Call(__e, ShenFunc(symtl), V5024)
+				gen18328 := Call(__e, __e.Global(symtl), V5024)
 
-				gen18329 := Call(__e, ShenFunc(symtl), gen18328)
+				gen18329 := Call(__e, __e.Global(symtl), gen18328)
 
-				gen18330 := Call(__e, ShenFunc(symhd), gen18329)
+				gen18330 := Call(__e, __e.Global(symhd), gen18329)
 
-				gen18331 := Call(__e, ShenFunc(symtl), gen18330)
+				gen18331 := Call(__e, __e.Global(symtl), gen18330)
 
-				gen18332 := Call(__e, ShenFunc(symtl), gen18331)
+				gen18332 := Call(__e, __e.Global(symtl), gen18331)
 
-				gen18333 := Call(__e, ShenFunc(symhd), gen18332)
+				gen18333 := Call(__e, __e.Global(symhd), gen18332)
 
-				gen18334 := Call(__e, ShenFunc(symtl), V5024)
+				gen18334 := Call(__e, __e.Global(symtl), V5024)
 
-				gen18335 := Call(__e, ShenFunc(symtl), gen18334)
+				gen18335 := Call(__e, __e.Global(symtl), gen18334)
 
-				gen18336 := Call(__e, ShenFunc(symtl), gen18335)
+				gen18336 := Call(__e, __e.Global(symtl), gen18335)
 
-				gen18337 := Call(__e, ShenFunc(symcons), gen18333, gen18336)
+				gen18337 := Call(__e, __e.Global(symcons), gen18333, gen18336)
 
-				gen18338 := Call(__e, ShenFunc(symcons), gen18327, gen18337)
+				gen18338 := Call(__e, __e.Global(symcons), gen18327, gen18337)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("if"), gen18338)
+				__e.TailApply(__e.Global(symcons), MakeSymbol("if"), gen18338)
 
 				return
 
@@ -2826,46 +2826,46 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.merge-same-else-ifs"), gen18415)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.merge-same-else-ifs"), gen18415)
 
 		gen18417 := MakeNative(func(__e Evaluator) {
 			V5027 := __e.Get(1)
 			_ = V5027
 			V5028 := __e.Get(2)
 			_ = V5028
-			gen18416 := Call(__e, ShenFunc(symconcat), MakeSymbol("/"), V5028)
+			gen18416 := Call(__e, __e.Global(symconcat), MakeSymbol("/"), V5028)
 
-			__e.TailApply(ShenFunc(symconcat), V5027, gen18416)
+			__e.TailApply(__e.Global(symconcat), V5027, gen18416)
 
 			return
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.concat/"), gen18417)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.concat/"), gen18417)
 
 		gen18435 := MakeNative(func(__e Evaluator) {
 			V5032 := __e.Get(1)
 			_ = V5032
-			gen18433 := Call(__e, ShenFunc(symcons_2), V5032)
+			gen18433 := Call(__e, __e.Global(symcons_2), V5032)
 
 			var gen18434 Obj
 			if True == gen18433 {
-				gen18430 := Call(__e, ShenFunc(symtl), V5032)
+				gen18430 := Call(__e, __e.Global(symtl), V5032)
 
-				gen18431 := Call(__e, ShenFunc(symcons_2), gen18430)
+				gen18431 := Call(__e, __e.Global(symcons_2), gen18430)
 
 				var gen18432 Obj
 				if True == gen18431 {
-					gen18426 := Call(__e, ShenFunc(symtl), V5032)
+					gen18426 := Call(__e, __e.Global(symtl), V5032)
 
-					gen18427 := Call(__e, ShenFunc(symtl), gen18426)
+					gen18427 := Call(__e, __e.Global(symtl), gen18426)
 
-					gen18428 := Call(__e, ShenFunc(sym_a), Nil, gen18427)
+					gen18428 := Call(__e, __e.Global(sym_a), Nil, gen18427)
 
 					var gen18429 Obj
 					if True == gen18428 {
-						gen18424 := Call(__e, ShenFunc(symhd), V5032)
+						gen18424 := Call(__e, __e.Global(symhd), V5032)
 
-						gen18425 := Call(__e, ShenFunc(symsymbol_2), gen18424)
+						gen18425 := Call(__e, __e.Global(symsymbol_2), gen18424)
 
 						if True == gen18425 {
 							gen18429 = True
@@ -2895,25 +2895,25 @@ func init() {
 				gen18434 = False
 			}
 			if True == gen18434 {
-				gen18420 := Call(__e, ShenFunc(symtl), V5032)
+				gen18420 := Call(__e, __e.Global(symtl), V5032)
 
-				gen18421 := Call(__e, ShenFunc(symhd), gen18420)
+				gen18421 := Call(__e, __e.Global(symhd), gen18420)
 
-				gen18422 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4exp_1var), gen18421)
+				gen18422 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4exp_1var), gen18421)
 
-				gen18423 := Call(__e, ShenFunc(symhd), V5032)
+				gen18423 := Call(__e, __e.Global(symhd), V5032)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4concat_c), gen18422, gen18423)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4concat_c), gen18422, gen18423)
 
 				return
 
 			} else {
-				gen18419 := Call(__e, ShenFunc(symcons_2), V5032)
+				gen18419 := Call(__e, __e.Global(symcons_2), V5032)
 
 				if True == gen18419 {
-					gen18418 := Call(__e, ShenFunc(symhd), V5032)
+					gen18418 := Call(__e, __e.Global(symhd), V5032)
 
-					__e.TailApply(ShenFunc(symgensym), gen18418)
+					__e.TailApply(__e.Global(symgensym), gen18418)
 
 					return
 
@@ -2925,46 +2925,46 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.exp-var"), gen18435)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.exp-var"), gen18435)
 
 		gen18437 := MakeNative(func(__e Evaluator) {
 			V5035 := __e.Get(1)
 			_ = V5035
 			V5036 := __e.Get(2)
 			_ = V5036
-			gen18436 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4test_1_6selectors), V5035)
+			gen18436 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4test_1_6selectors), V5035)
 
-			__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4bind_1repeating_1selectors), gen18436, V5036)
+			__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4bind_1repeating_1selectors), gen18436, V5036)
 
 			return
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.optimize-selectors"), gen18437)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.optimize-selectors"), gen18437)
 
 		gen18506 := MakeNative(func(__e Evaluator) {
 			V5042 := __e.Get(1)
 			_ = V5042
-			gen18504 := Call(__e, ShenFunc(symcons_2), V5042)
+			gen18504 := Call(__e, __e.Global(symcons_2), V5042)
 
 			var gen18505 Obj
 			if True == gen18504 {
-				gen18501 := Call(__e, ShenFunc(symhd), V5042)
+				gen18501 := Call(__e, __e.Global(symhd), V5042)
 
-				gen18502 := Call(__e, ShenFunc(sym_a), MakeSymbol("cons?"), gen18501)
+				gen18502 := Call(__e, __e.Global(sym_a), MakeSymbol("cons?"), gen18501)
 
 				var gen18503 Obj
 				if True == gen18502 {
-					gen18498 := Call(__e, ShenFunc(symtl), V5042)
+					gen18498 := Call(__e, __e.Global(symtl), V5042)
 
-					gen18499 := Call(__e, ShenFunc(symcons_2), gen18498)
+					gen18499 := Call(__e, __e.Global(symcons_2), gen18498)
 
 					var gen18500 Obj
 					if True == gen18499 {
-						gen18495 := Call(__e, ShenFunc(symtl), V5042)
+						gen18495 := Call(__e, __e.Global(symtl), V5042)
 
-						gen18496 := Call(__e, ShenFunc(symtl), gen18495)
+						gen18496 := Call(__e, __e.Global(symtl), gen18495)
 
-						gen18497 := Call(__e, ShenFunc(sym_a), Nil, gen18496)
+						gen18497 := Call(__e, __e.Global(sym_a), Nil, gen18496)
 
 						if True == gen18497 {
 							gen18500 = True
@@ -2994,42 +2994,42 @@ func init() {
 				gen18505 = False
 			}
 			if True == gen18505 {
-				gen18490 := Call(__e, ShenFunc(symtl), V5042)
+				gen18490 := Call(__e, __e.Global(symtl), V5042)
 
-				gen18491 := Call(__e, ShenFunc(symcons), MakeSymbol("hd"), gen18490)
+				gen18491 := Call(__e, __e.Global(symcons), MakeSymbol("hd"), gen18490)
 
-				gen18492 := Call(__e, ShenFunc(symtl), V5042)
+				gen18492 := Call(__e, __e.Global(symtl), V5042)
 
-				gen18493 := Call(__e, ShenFunc(symcons), MakeSymbol("tl"), gen18492)
+				gen18493 := Call(__e, __e.Global(symcons), MakeSymbol("tl"), gen18492)
 
-				gen18494 := Call(__e, ShenFunc(symcons), gen18493, Nil)
+				gen18494 := Call(__e, __e.Global(symcons), gen18493, Nil)
 
-				__e.TailApply(ShenFunc(symcons), gen18491, gen18494)
+				__e.TailApply(__e.Global(symcons), gen18491, gen18494)
 
 				return
 
 			} else {
-				gen18488 := Call(__e, ShenFunc(symcons_2), V5042)
+				gen18488 := Call(__e, __e.Global(symcons_2), V5042)
 
 				var gen18489 Obj
 				if True == gen18488 {
-					gen18485 := Call(__e, ShenFunc(symhd), V5042)
+					gen18485 := Call(__e, __e.Global(symhd), V5042)
 
-					gen18486 := Call(__e, ShenFunc(sym_a), MakeSymbol("tuple?"), gen18485)
+					gen18486 := Call(__e, __e.Global(sym_a), MakeSymbol("tuple?"), gen18485)
 
 					var gen18487 Obj
 					if True == gen18486 {
-						gen18482 := Call(__e, ShenFunc(symtl), V5042)
+						gen18482 := Call(__e, __e.Global(symtl), V5042)
 
-						gen18483 := Call(__e, ShenFunc(symcons_2), gen18482)
+						gen18483 := Call(__e, __e.Global(symcons_2), gen18482)
 
 						var gen18484 Obj
 						if True == gen18483 {
-							gen18479 := Call(__e, ShenFunc(symtl), V5042)
+							gen18479 := Call(__e, __e.Global(symtl), V5042)
 
-							gen18480 := Call(__e, ShenFunc(symtl), gen18479)
+							gen18480 := Call(__e, __e.Global(symtl), gen18479)
 
-							gen18481 := Call(__e, ShenFunc(sym_a), Nil, gen18480)
+							gen18481 := Call(__e, __e.Global(sym_a), Nil, gen18480)
 
 							if True == gen18481 {
 								gen18484 = True
@@ -3059,42 +3059,42 @@ func init() {
 					gen18489 = False
 				}
 				if True == gen18489 {
-					gen18474 := Call(__e, ShenFunc(symtl), V5042)
+					gen18474 := Call(__e, __e.Global(symtl), V5042)
 
-					gen18475 := Call(__e, ShenFunc(symcons), MakeSymbol("fst"), gen18474)
+					gen18475 := Call(__e, __e.Global(symcons), MakeSymbol("fst"), gen18474)
 
-					gen18476 := Call(__e, ShenFunc(symtl), V5042)
+					gen18476 := Call(__e, __e.Global(symtl), V5042)
 
-					gen18477 := Call(__e, ShenFunc(symcons), MakeSymbol("snd"), gen18476)
+					gen18477 := Call(__e, __e.Global(symcons), MakeSymbol("snd"), gen18476)
 
-					gen18478 := Call(__e, ShenFunc(symcons), gen18477, Nil)
+					gen18478 := Call(__e, __e.Global(symcons), gen18477, Nil)
 
-					__e.TailApply(ShenFunc(symcons), gen18475, gen18478)
+					__e.TailApply(__e.Global(symcons), gen18475, gen18478)
 
 					return
 
 				} else {
-					gen18472 := Call(__e, ShenFunc(symcons_2), V5042)
+					gen18472 := Call(__e, __e.Global(symcons_2), V5042)
 
 					var gen18473 Obj
 					if True == gen18472 {
-						gen18469 := Call(__e, ShenFunc(symhd), V5042)
+						gen18469 := Call(__e, __e.Global(symhd), V5042)
 
-						gen18470 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.+string?"), gen18469)
+						gen18470 := Call(__e, __e.Global(sym_a), MakeSymbol("shen.+string?"), gen18469)
 
 						var gen18471 Obj
 						if True == gen18470 {
-							gen18466 := Call(__e, ShenFunc(symtl), V5042)
+							gen18466 := Call(__e, __e.Global(symtl), V5042)
 
-							gen18467 := Call(__e, ShenFunc(symcons_2), gen18466)
+							gen18467 := Call(__e, __e.Global(symcons_2), gen18466)
 
 							var gen18468 Obj
 							if True == gen18467 {
-								gen18463 := Call(__e, ShenFunc(symtl), V5042)
+								gen18463 := Call(__e, __e.Global(symtl), V5042)
 
-								gen18464 := Call(__e, ShenFunc(symtl), gen18463)
+								gen18464 := Call(__e, __e.Global(symtl), gen18463)
 
-								gen18465 := Call(__e, ShenFunc(sym_a), Nil, gen18464)
+								gen18465 := Call(__e, __e.Global(sym_a), Nil, gen18464)
 
 								if True == gen18465 {
 									gen18468 = True
@@ -3124,42 +3124,42 @@ func init() {
 						gen18473 = False
 					}
 					if True == gen18473 {
-						gen18458 := Call(__e, ShenFunc(symtl), V5042)
+						gen18458 := Call(__e, __e.Global(symtl), V5042)
 
-						gen18459 := Call(__e, ShenFunc(symcons), MakeSymbol("hdstr"), gen18458)
+						gen18459 := Call(__e, __e.Global(symcons), MakeSymbol("hdstr"), gen18458)
 
-						gen18460 := Call(__e, ShenFunc(symtl), V5042)
+						gen18460 := Call(__e, __e.Global(symtl), V5042)
 
-						gen18461 := Call(__e, ShenFunc(symcons), MakeSymbol("tlstr"), gen18460)
+						gen18461 := Call(__e, __e.Global(symcons), MakeSymbol("tlstr"), gen18460)
 
-						gen18462 := Call(__e, ShenFunc(symcons), gen18461, Nil)
+						gen18462 := Call(__e, __e.Global(symcons), gen18461, Nil)
 
-						__e.TailApply(ShenFunc(symcons), gen18459, gen18462)
+						__e.TailApply(__e.Global(symcons), gen18459, gen18462)
 
 						return
 
 					} else {
-						gen18456 := Call(__e, ShenFunc(symcons_2), V5042)
+						gen18456 := Call(__e, __e.Global(symcons_2), V5042)
 
 						var gen18457 Obj
 						if True == gen18456 {
-							gen18453 := Call(__e, ShenFunc(symhd), V5042)
+							gen18453 := Call(__e, __e.Global(symhd), V5042)
 
-							gen18454 := Call(__e, ShenFunc(sym_a), MakeSymbol("shen.+vector?"), gen18453)
+							gen18454 := Call(__e, __e.Global(sym_a), MakeSymbol("shen.+vector?"), gen18453)
 
 							var gen18455 Obj
 							if True == gen18454 {
-								gen18450 := Call(__e, ShenFunc(symtl), V5042)
+								gen18450 := Call(__e, __e.Global(symtl), V5042)
 
-								gen18451 := Call(__e, ShenFunc(symcons_2), gen18450)
+								gen18451 := Call(__e, __e.Global(symcons_2), gen18450)
 
 								var gen18452 Obj
 								if True == gen18451 {
-									gen18447 := Call(__e, ShenFunc(symtl), V5042)
+									gen18447 := Call(__e, __e.Global(symtl), V5042)
 
-									gen18448 := Call(__e, ShenFunc(symtl), gen18447)
+									gen18448 := Call(__e, __e.Global(symtl), gen18447)
 
-									gen18449 := Call(__e, ShenFunc(sym_a), Nil, gen18448)
+									gen18449 := Call(__e, __e.Global(sym_a), Nil, gen18448)
 
 									if True == gen18449 {
 										gen18452 = True
@@ -3189,29 +3189,29 @@ func init() {
 							gen18457 = False
 						}
 						if True == gen18457 {
-							gen18442 := Call(__e, ShenFunc(symtl), V5042)
+							gen18442 := Call(__e, __e.Global(symtl), V5042)
 
-							gen18443 := Call(__e, ShenFunc(symcons), MakeSymbol("hdv"), gen18442)
+							gen18443 := Call(__e, __e.Global(symcons), MakeSymbol("hdv"), gen18442)
 
-							gen18444 := Call(__e, ShenFunc(symtl), V5042)
+							gen18444 := Call(__e, __e.Global(symtl), V5042)
 
-							gen18445 := Call(__e, ShenFunc(symcons), MakeSymbol("tlv"), gen18444)
+							gen18445 := Call(__e, __e.Global(symcons), MakeSymbol("tlv"), gen18444)
 
-							gen18446 := Call(__e, ShenFunc(symcons), gen18445, Nil)
+							gen18446 := Call(__e, __e.Global(symcons), gen18445, Nil)
 
-							__e.TailApply(ShenFunc(symcons), gen18443, gen18446)
+							__e.TailApply(__e.Global(symcons), gen18443, gen18446)
 
 							return
 
 						} else {
-							gen18438 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
+							gen18438 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
 
-							gen18439 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4apply_1selector_1handlers), gen18438, V5042)
+							gen18439 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4apply_1selector_1handlers), gen18438, V5042)
 
 							Result := gen18439
-							gen18440 := Call(__e, ShenFunc(symfail))
+							gen18440 := Call(__e, __e.Global(symfail))
 
-							gen18441 := Call(__e, ShenFunc(sym_a), Result, gen18440)
+							gen18441 := Call(__e, __e.Global(sym_a), Result, gen18440)
 
 							if True == gen18441 {
 								__e.Return(Nil)
@@ -3230,34 +3230,34 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.test->selectors"), gen18506)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.test->selectors"), gen18506)
 
 		gen18512 := MakeNative(func(__e Evaluator) {
 			V5045 := __e.Get(1)
 			_ = V5045
 			V5046 := __e.Get(2)
 			_ = V5046
-			gen18511 := Call(__e, ShenFunc(symcons_2), V5045)
+			gen18511 := Call(__e, __e.Global(symcons_2), V5045)
 
 			if True == gen18511 {
-				gen18508 := Call(__e, ShenFunc(symhd), V5045)
+				gen18508 := Call(__e, __e.Global(symhd), V5045)
 
-				gen18509 := Call(__e, ShenFunc(symtl), V5045)
+				gen18509 := Call(__e, __e.Global(symtl), V5045)
 
-				gen18510 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4bind_1repeating_1selectors), gen18509, V5046)
+				gen18510 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4bind_1repeating_1selectors), gen18509, V5046)
 
-				__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4bind_1selector), gen18508, gen18510)
+				__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4bind_1selector), gen18508, gen18510)
 
 				return
 
 			} else {
-				gen18507 := Call(__e, ShenFunc(sym_a), Nil, V5045)
+				gen18507 := Call(__e, __e.Global(sym_a), Nil, V5045)
 
 				if True == gen18507 {
 					__e.Return(V5046)
 					return
 				} else {
-					__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.bind-repeating-selectors"))
+					__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.bind-repeating-selectors"))
 
 					return
 				}
@@ -3265,30 +3265,30 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.bind-repeating-selectors"), gen18512)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.bind-repeating-selectors"), gen18512)
 
 		gen18520 := MakeNative(func(__e Evaluator) {
 			V5053 := __e.Get(1)
 			_ = V5053
 			V5054 := __e.Get(2)
 			_ = V5054
-			gen18518 := Call(__e, ShenFunc(symoccurrences), V5053, V5054)
+			gen18518 := Call(__e, __e.Global(symoccurrences), V5053, V5054)
 
-			gen18519 := Call(__e, ShenFunc(sym_6), gen18518, MakeNumber(1))
+			gen18519 := Call(__e, __e.Global(sym_6), gen18518, MakeNumber(1))
 
 			if True == gen18519 {
-				gen18513 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4exp_1var), V5053)
+				gen18513 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4exp_1var), V5053)
 
 				Var := gen18513
-				gen18514 := Call(__e, ShenFunc(symsubst), Var, V5053, V5054)
+				gen18514 := Call(__e, __e.Global(symsubst), Var, V5053, V5054)
 
-				gen18515 := Call(__e, ShenFunc(symcons), gen18514, Nil)
+				gen18515 := Call(__e, __e.Global(symcons), gen18514, Nil)
 
-				gen18516 := Call(__e, ShenFunc(symcons), V5053, gen18515)
+				gen18516 := Call(__e, __e.Global(symcons), V5053, gen18515)
 
-				gen18517 := Call(__e, ShenFunc(symcons), Var, gen18516)
+				gen18517 := Call(__e, __e.Global(symcons), Var, gen18516)
 
-				__e.TailApply(ShenFunc(symcons), MakeSymbol("let"), gen18517)
+				__e.TailApply(__e.Global(symcons), MakeSymbol("let"), gen18517)
 
 				return
 
@@ -3298,53 +3298,53 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.bind-selector"), gen18520)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.bind-selector"), gen18520)
 
 		gen18530 := MakeNative(func(__e Evaluator) {
 			V5067 := __e.Get(1)
 			_ = V5067
 			V5068 := __e.Get(2)
 			_ = V5068
-			gen18529 := Call(__e, ShenFunc(sym_a), Nil, V5067)
+			gen18529 := Call(__e, __e.Global(sym_a), Nil, V5067)
 
 			if True == gen18529 {
-				__e.TailApply(ShenFunc(symfail))
+				__e.TailApply(__e.Global(symfail))
 
 				return
 			} else {
 				gen18523 := MakeNative(func(__e Evaluator) {
-					gen18522 := Call(__e, ShenFunc(symcons_2), V5067)
+					gen18522 := Call(__e, __e.Global(symcons_2), V5067)
 
 					if True == gen18522 {
-						gen18521 := Call(__e, ShenFunc(symtl), V5067)
+						gen18521 := Call(__e, __e.Global(symtl), V5067)
 
-						__e.TailApply(ShenFunc(symshen_4x_4factorise_1defun_4apply_1selector_1handlers), gen18521, V5068)
+						__e.TailApply(__e.Global(symshen_4x_4factorise_1defun_4apply_1selector_1handlers), gen18521, V5068)
 
 						return
 
 					} else {
-						__e.TailApply(ShenFunc(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.apply-selector-handlers"))
+						__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.x.factorise-defun.apply-selector-handlers"))
 
 						return
 					}
 
 				}, 0)
 				Freeze := gen18523
-				gen18528 := Call(__e, ShenFunc(symcons_2), V5067)
+				gen18528 := Call(__e, __e.Global(symcons_2), V5067)
 
 				if True == gen18528 {
-					gen18524 := Call(__e, ShenFunc(symhd), V5067)
+					gen18524 := Call(__e, __e.Global(symhd), V5067)
 
 					f34 := gen18524
 					gen18525 := Call(__e, f34, V5068)
 
 					Result := gen18525
-					gen18526 := Call(__e, ShenFunc(symfail))
+					gen18526 := Call(__e, __e.Global(symfail))
 
-					gen18527 := Call(__e, ShenFunc(sym_a), Result, gen18526)
+					gen18527 := Call(__e, __e.Global(sym_a), Result, gen18526)
 
 					if True == gen18527 {
-						__e.TailApply(ShenFunc(symthaw), Freeze)
+						__e.TailApply(__e.Global(symthaw), Freeze)
 
 						return
 					} else {
@@ -3353,7 +3353,7 @@ func init() {
 					}
 
 				} else {
-					__e.TailApply(ShenFunc(symthaw), Freeze)
+					__e.TailApply(__e.Global(symthaw), Freeze)
 
 					return
 				}
@@ -3361,41 +3361,41 @@ func init() {
 			}
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.apply-selector-handlers"), gen18530)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.apply-selector-handlers"), gen18530)
 
 		gen18531 := MakeNative(func(__e Evaluator) {
-			Call(__e, ShenFunc(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"), Nil)
-			Call(__e, ShenFunc(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"), Nil)
+			Call(__e, __e.Global(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"), Nil)
+			Call(__e, __e.Global(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"), Nil)
 			__e.Return(MakeSymbol("shen.x.factorise-defun.done"))
 			return
 
 		}, 0)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.initialise"), gen18531)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.initialise"), gen18531)
 
 		gen18539 := MakeNative(func(__e Evaluator) {
 			V5070 := __e.Get(1)
 			_ = V5070
-			gen18537 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
+			gen18537 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
 
-			gen18538 := Call(__e, ShenFunc(symelement_2), V5070, gen18537)
+			gen18538 := Call(__e, __e.Global(symelement_2), V5070, gen18537)
 
 			if True == gen18538 {
 				__e.Return(V5070)
 				return
 			} else {
-				gen18532 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
+				gen18532 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
 
-				gen18533 := Call(__e, ShenFunc(symcons), V5070, gen18532)
+				gen18533 := Call(__e, __e.Global(symcons), V5070, gen18532)
 
-				Call(__e, ShenFunc(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"), gen18533)
+				Call(__e, __e.Global(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"), gen18533)
 
-				gen18534 := Call(__e, ShenFunc(symfunction), V5070)
+				gen18534 := Call(__e, __e.Global(symfunction), V5070)
 
-				gen18535 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
+				gen18535 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
 
-				gen18536 := Call(__e, ShenFunc(symcons), gen18534, gen18535)
+				gen18536 := Call(__e, __e.Global(symcons), gen18534, gen18535)
 
-				Call(__e, ShenFunc(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"), gen18536)
+				Call(__e, __e.Global(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"), gen18536)
 
 				__e.Return(V5070)
 				return
@@ -3403,7 +3403,7 @@ func init() {
 			}
 
 		}, 1)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.register-selector-handler"), gen18539)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.register-selector-handler"), gen18539)
 
 		gen18543 := MakeNative(func(__e Evaluator) {
 			V5073 := __e.Get(1)
@@ -3413,15 +3413,15 @@ func init() {
 			gen18541 := MakeNative(func(__e Evaluator) {
 				__ := __e.Get(1)
 				_ = __
-				gen18540 := Call(__e, ShenFunc(symshen_4app), V5073, MakeString(" is not a selector handler\n"), MakeSymbol("shen.a"))
+				gen18540 := Call(__e, __e.Global(symshen_4app), V5073, MakeString(" is not a selector handler\n"), MakeSymbol("shen.a"))
 
-				__e.TailApply(ShenFunc(symsimple_1error), gen18540)
+				__e.TailApply(__e.Global(symsimple_1error), gen18540)
 
 				return
 
 			}, 1)
 			gen18542 := MakeNative(func(__e Evaluator) {
-				__e.TailApply(ShenFunc(symshen_4findpos), V5073, V5074)
+				__e.TailApply(__e.Global(symshen_4findpos), V5073, V5074)
 
 				return
 			}, 0)
@@ -3429,28 +3429,28 @@ func init() {
 			return
 
 		}, 2)
-		Call(__e, ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.findpos"), gen18543)
+		Call(__e, __e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.findpos"), gen18543)
 
 		gen18551 := MakeNative(func(__e Evaluator) {
 			V5076 := __e.Get(1)
 			_ = V5076
-			gen18544 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"))
+			gen18544 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"))
 
 			Reg := gen18544
-			gen18545 := Call(__e, ShenFunc(symshen_4x_4factorise_1defun_4findpos), V5076, Reg)
+			gen18545 := Call(__e, __e.Global(symshen_4x_4factorise_1defun_4findpos), V5076, Reg)
 
 			Pos := gen18545
-			gen18546 := Call(__e, ShenFunc(symremove), V5076, Reg)
+			gen18546 := Call(__e, __e.Global(symremove), V5076, Reg)
 
-			gen18547 := Call(__e, ShenFunc(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"), gen18546)
+			gen18547 := Call(__e, __e.Global(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers-reg*"), gen18546)
 
 			RemoveReg := gen18547
 			_ = RemoveReg
-			gen18548 := Call(__e, ShenFunc(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
+			gen18548 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"))
 
-			gen18549 := Call(__e, ShenFunc(symshen_4remove_1nth), Pos, gen18548)
+			gen18549 := Call(__e, __e.Global(symshen_4remove_1nth), Pos, gen18548)
 
-			gen18550 := Call(__e, ShenFunc(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"), gen18549)
+			gen18550 := Call(__e, __e.Global(symset), MakeSymbol("shen.x.factorise-defun.*selector-handlers*"), gen18549)
 
 			RemoveFun := gen18550
 			_ = RemoveFun
@@ -3458,7 +3458,7 @@ func init() {
 			return
 
 		}, 1)
-		__e.TailApply(ShenFunc(symdefun), MakeSymbol("shen.x.factorise-defun.unregister-selector-handler"), gen18551)
+		__e.TailApply(__e.Global(symdefun), MakeSymbol("shen.x.factorise-defun.unregister-selector-handler"), gen18551)
 
 		return
 

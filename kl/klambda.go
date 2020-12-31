@@ -189,3 +189,14 @@ func (e *KLambda) Override() {
 	isSymbol := MakePrimitive("symbol?", 1, PrimIsSymbol)
 	BindSymbolFunc(MakeSymbol("symbol?"), isSymbol)
 }
+
+
+
+func (e *KLambda) Global(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.function != nil {
+		return sym.function
+	}
+	errMsg := fmt.Sprintf("variable %s not bound", sym.str)
+	panic(MakeError(errMsg))
+}

@@ -8,6 +8,7 @@ import (
 type Evaluator interface {
 	base() *ControlFlow
 	eval()
+	Global(Obj) Obj
 
 	// All the following methods are provided by ControlFlow
 	TailEval(exp Obj, env Obj)

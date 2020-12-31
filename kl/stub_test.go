@@ -10,14 +10,14 @@ func TestTrampoline(t *testing.T) {
 	var kl KLambda
 	Call(&kl, Load)
 	// Make sure no OOM in the tail apply case by using Trampoine
-	recur := ShenFunc(MakeSymbol("recur"))
+	recur := kl.Global(MakeSymbol("recur"))
 	_ = Call(&kl, recur, MakeNumber(100000))
 }
 
 func TestFact(t *testing.T) {
 	var kl KLambda
 	Call(&kl, Load)
-	fn := ShenFunc(MakeSymbol("fact"))
+	fn := kl.Global(MakeSymbol("fact"))
 	res := Call(&kl, fn, MakeInteger(5))
 	n := mustInteger(res)
 	if n != 120 {
@@ -28,7 +28,7 @@ func TestFact(t *testing.T) {
 func TestPartialApply(t *testing.T) {
 	var kl KLambda
 	Call(&kl, Load)
-	fn := ShenFunc(MakeSymbol("fact0"))
+	fn := kl.Global(MakeSymbol("fact0"))
 	fn1 := Call(&kl, fn, MakeInteger(1))
 	res := Call(&kl, fn1, MakeInteger(5))
 	if mustInteger(res) != 120 {

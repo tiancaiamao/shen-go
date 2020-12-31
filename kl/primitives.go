@@ -317,7 +317,7 @@ func coraSet(e Evaluator) {
 
 func coraValue(e Evaluator) {
 	key := e.Get(1)
-	e.Return(CoraValue(key))
+	e.Return(e.Global(key))
 	return
 }
 
@@ -685,7 +685,7 @@ func loadFile(e Evaluator, extended bool, file string) Obj {
 
 		// Macro expand for cora.
 		if extended {
-			expand := CoraValue(symMacroExpand)
+			expand := e.Global(symMacroExpand)
 			if expand != Nil {
 				exp = Call(e, expand, exp)
 			}

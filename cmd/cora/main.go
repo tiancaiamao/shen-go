@@ -29,8 +29,6 @@ func main() {
 	var e kl.Cora
 	kl.CoraSet(symMacroExpand, kl.Nil)
 
-	// kl.Call(e, kl.MakeNative(inix.Main, 0))
-
 	r := kl.NewSexpReader(os.Stdin, true)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
@@ -42,7 +40,7 @@ func main() {
 			break
 		}
 
-		expand := kl.CoraValue(symMacroExpand)
+		expand := e.Global(symMacroExpand)
 		if expand != kl.Nil {
 			sexp = kl.Call(&e, expand, sexp)
 		}

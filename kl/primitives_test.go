@@ -7,10 +7,10 @@ import (
 )
 
 func TestReadByte(t *testing.T) {
-	fn := ShenFunc(MakeSymbol("read-byte"))
+	var kl KLambda
+	fn := kl.Global(MakeSymbol("read-byte"))
 	buf := bytes.NewBufferString("a")
 	stream := MakeStream(buf)
-	var kl KLambda
 	b := Call(&kl, fn, stream)
 	if mustInteger(b) != 97 {
 		t.Error("should be 97")
@@ -24,7 +24,7 @@ func TestReadByte(t *testing.T) {
 
 func TestIntern(t *testing.T) {
 	var kl KLambda
-	fn := ShenFunc(MakeSymbol("intern"))
+	fn := kl.Global(MakeSymbol("intern"))
 	if Call(&kl, fn, MakeString("true")) != True {
 		t.Error("intern(true) should be boolean")
 	}
@@ -65,7 +65,7 @@ func TestStr(t *testing.T) {
 	}
 
 	var kl KLambda
-	fn := ShenFunc(MakeSymbol("str"))
+	fn := kl.Global(MakeSymbol("str"))
 	str := Call(&kl, fn, makeProcedure(MakeSymbol("x"), MakeSymbol("x"), Nil))
 	if allAlpha(mustString(str)) {
 		t.Error("str of procedure should not be all alpha")

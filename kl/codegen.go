@@ -9,17 +9,10 @@ import (
 	"unsafe"
 )
 
-var (
-	modeShen = MakeSymbol("shen")
-	modeCora = MakeSymbol("cora")
-)
-
-var makeCodeGenerator = MakePrimitive("make-code-generator", 1, func(e Evaluator) {
+var makeCodeGenerator = MakePrimitive("make-code-generator", 0, func(e Evaluator) {
 	// (make-code-generator 'cora)
-	mode := e.Get(1)
 	cg := &codeGenerator{
 		declare: make(map[Obj]struct{}),
-		mode:    mode,
 	}
 	e.Return(MakeRaw(&cg.scmHead))
 	return
@@ -59,32 +52,8 @@ var bcToGo = MakePrimitive("cg:bc->go", 4, func(e Evaluator) {
 	return
 })
 
-// 	fileNames := []string{
-// 		"toplevel",
-// 		"dict",
-// 		"core",
-// 		"sys",
-// 		"sequent",
-// 		"yacc",
-// 		"reader",
-// 		"prolog",
-// 		"track",
-// 		"load",
-// 		"writer",
-// 		"macros",
-// 		"declarations",
-// 		"t-star",
-// 		"types",
-// 		"init",
-// 		"extension-features",
-// 		"extension-launcher",
-// 		"extension-factorise-defun",
-// 		// "extension-programmable-pattern-matching",
-// 	}
-
 type codeGenerator struct {
 	scmHead int
-	mode    Obj
 	declare map[Obj]struct{}
 }
 
@@ -211,14 +180,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 	case "$global":
 		sym := Car(Cdr(sexp))
 		cg.declare[sym] = struct{}{}
-		switch {
-		case cg.mode == modeCora:
-			fmt.Fprintf(w, "CoraValue(sym%s)", symbolAsVar(sym))
-		case cg.mode == modeShen:
-			fmt.Fprintf(w, "ShenFunc(sym%s)", symbolAsVar(sym))
-		default:
-			return errors.New("wrong mode")
-		}
+		fmt.Fprintf(w, "__e.Global(sym%s)", symbolAsVar(sym))
 	case "declare":
 		// (declare x)
 		x := Car(Cdr(sexp))

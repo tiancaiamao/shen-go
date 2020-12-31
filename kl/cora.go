@@ -39,8 +39,6 @@ func (e *Cora) eval() {
 		tl := pair.cdr // handle special form
 		switch pair.car {
 		case symQuote:
-			// Extension to make vm work.
-			// TODO: remove it later
 			e.Return(car(tl))
 			return
 		case symIf: // (if a b c)
@@ -69,4 +67,13 @@ func (e *Cora) eval() {
 	e.pos = savePOS
 	e.kind = ControlFlowApply
 	return
+}
+
+
+func (e *Cora) Global(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.cora != nil {
+		return sym.cora
+	}
+	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
