@@ -275,8 +275,8 @@ func (cg *codeGenerator) generateConst(w io.Writer, c Obj) error {
 		str := GetString(c)
 		fmt.Fprintf(w, "MakeString(%#v)", str)
 	case IsSymbol(c):
-		str := GetSymbol(c)
-		fmt.Fprintf(w, "MakeSymbol(\"%s\")", str)
+		cg.declare[c] = struct{}{}
+		fmt.Fprintf(w, symbolAsVar(c))
 	case c == Nil:
 		fmt.Fprintf(w, "Nil")
 	case c == True:
