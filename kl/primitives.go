@@ -11,424 +11,367 @@ import (
 	"time"
 )
 
-var klPrimitives = []scmNative{
+var klPrimitives = []struct {
+	name  string
+	arity int
+	fn    interface{}
+}{
 	// &scmNative{scmHead: scmHeadNative, name: "load-file", require: 1},
 	// &scmNative{scmHead: scmHeadNative, name: "type", require: 2, fn: PrimTypeFunc},
 	// &scmNative{scmHead: scmHeadNative, name: "eval-kl", require: 1},
-	scmNative{scmHead: scmHeadNative, name: "get-time", require: 1, fn: PrimGetTime},
-	scmNative{scmHead: scmHeadNative, name: "close", require: 1, fn: PrimCloseStream},
-	scmNative{scmHead: scmHeadNative, name: "open", require: 2, fn: PrimOpenStream},
-	scmNative{scmHead: scmHeadNative, name: "read-byte", require: 1, fn: PrimReadByte},
-	scmNative{scmHead: scmHeadNative, name: "write-byte", require: 2, fn: PrimWriteByte},
-	scmNative{scmHead: scmHeadNative, name: "absvector?", require: 1, fn: PrimIsVector},
-	scmNative{scmHead: scmHeadNative, name: "<-address", require: 2, fn: PrimVectorGet},
-	scmNative{scmHead: scmHeadNative, name: "address->", require: 3, fn: PrimVectorSet},
-	scmNative{scmHead: scmHeadNative, name: "absvector", require: 1, fn: PrimAbsvector},
-	scmNative{scmHead: scmHeadNative, name: "str", require: 1, fn: PrimStr},
-	scmNative{scmHead: scmHeadNative, name: "<=", require: 2, fn: PrimLessEqual},
-	scmNative{scmHead: scmHeadNative, name: ">=", require: 2, fn: PrimGreatEqual},
-	scmNative{scmHead: scmHeadNative, name: "<", require: 2, fn: PrimLessThan},
-	scmNative{scmHead: scmHeadNative, name: ">", require: 2, fn: PrimGreatThan},
-	scmNative{scmHead: scmHeadNative, name: "error-to-string", require: 1, fn: PrimErrorToString},
-	scmNative{scmHead: scmHeadNative, name: "simple-error", require: 1, fn: PrimSimpleError},
-	scmNative{scmHead: scmHeadNative, name: "=", require: 2, fn: PrimEqual},
-	scmNative{scmHead: scmHeadNative, name: "-", require: 2, fn: PrimNumberSubtract},
-	scmNative{scmHead: scmHeadNative, name: "*", require: 2, fn: PrimNumberMultiply},
-	scmNative{scmHead: scmHeadNative, name: "/", require: 2, fn: PrimNumberDivide},
-	scmNative{scmHead: scmHeadNative, name: "+", require: 2, fn: PrimNumberAdd},
-	scmNative{scmHead: scmHeadNative, name: "string->n", require: 1, fn: PrimStringToNumber},
-	scmNative{scmHead: scmHeadNative, name: "n->string", require: 1, fn: PrimNumberToString},
-	scmNative{scmHead: scmHeadNative, name: "number?", require: 1, fn: PrimIsNumber},
-	scmNative{scmHead: scmHeadNative, name: "string?", require: 1, fn: PrimIsString},
-	scmNative{scmHead: scmHeadNative, name: "pos", require: 2, fn: PrimPos},
-	scmNative{scmHead: scmHeadNative, name: "tlstr", require: 1, fn: PrimTailString},
-	scmNative{scmHead: scmHeadNative, name: "cn", require: 2, fn: PrimStringConcat},
-	scmNative{scmHead: scmHeadNative, name: "intern", require: 1, fn: PrimIntern},
-	scmNative{scmHead: scmHeadNative, name: "hd", require: 1, fn: PrimHead},
-	scmNative{scmHead: scmHeadNative, name: "tl", require: 1, fn: PrimTail},
-	scmNative{scmHead: scmHeadNative, name: "cons", require: 2, fn: PrimCons},
-	scmNative{scmHead: scmHeadNative, name: "cons?", require: 1, fn: PrimIsPair},
-	scmNative{scmHead: scmHeadNative, name: "value", require: 1, fn: PrimValue},
-	scmNative{scmHead: scmHeadNative, name: "set", require: 2, fn: PrimSet},
-	scmNative{scmHead: scmHeadNative, name: "not", require: 1, fn: PrimNot},
-	scmNative{scmHead: scmHeadNative, name: "if", require: 3, fn: PrimIf},
-	scmNative{scmHead: scmHeadNative, name: "symbol?", require: 1, fn: PrimIsSymbol},
-	scmNative{scmHead: scmHeadNative, name: "read-file-as-bytelist", require: 1, fn: PrimReadFileAsByteList},
-	scmNative{scmHead: scmHeadNative, name: "read-file-as-string", require: 1, fn: PrimReadFileAsString},
-	scmNative{scmHead: scmHeadNative, name: "variable?", require: 1, fn: PrimIsVariable},
-	scmNative{scmHead: scmHeadNative, name: "integer?", require: 1, fn: PrimIsInteger},
+	{"get-time", 1, PrimGetTime},
+	{"close", 1, PrimCloseStream},
+	{"open", 2, PrimOpenStream},
+	{"read-byte", 1, PrimReadByte},
+	{"write-byte", 2, PrimWriteByte},
+	{"absvector?", 1, PrimIsVector},
+	{"<-address", 2, PrimVectorGet},
+	{"address->", 3, PrimVectorSet},
+	{"absvector", 1, PrimAbsvector},
+	{"str", 1, PrimStr},
+	{"<=", 2, PrimLessEqual},
+	{">=", 2, PrimGreatEqual},
+	{"<", 2, PrimLessThan},
+	{">", 2, PrimGreatThan},
+	{"error-to-string", 1, PrimErrorToString},
+	{"simple-error", 1, PrimSimpleError},
+	{"=", 2, PrimEqual},
+	{"-", 2, PrimNumberSubtract},
+	{"*", 2, PrimNumberMultiply},
+	{"/", 2, PrimNumberDivide},
+	{"+", 2, PrimNumberAdd},
+	{"string->n", 1, PrimStringToNumber},
+	{"n->string", 1, PrimNumberToString},
+	{"number?", 1, PrimIsNumber},
+	{"string?", 1, PrimIsString},
+	{"pos", 2, PrimPos},
+	{"tlstr", 1, PrimTailString},
+	{"cn", 2, PrimStringConcat},
+	{"intern", 1, PrimIntern},
+	{"hd", 1, PrimHead},
+	{"tl", 1, PrimTail},
+	{"cons", 2, PrimCons},
+	{"cons?", 1, PrimIsPair},
+	{"value", 1, PrimValue},
+	{"set", 2, PrimSet},
+	{"not", 1, PrimNot},
+	{"if", 3, PrimIf},
+	{"symbol?", 1, PrimIsSymbol},
+	{"read-file-as-bytelist", 1, PrimReadFileAsByteList},
+	{"read-file-as-string", 1, PrimReadFileAsString},
+	{"variable?", 1, PrimIsVariable},
+	{"integer?", 1, PrimIsInteger},
 }
 
 func init() {
-	for i := 0; i < len(klPrimitives); i++ {
-		prim := &klPrimitives[i]
-		sym := MakeSymbol(prim.name)
-		CoraSet(sym, Obj(&prim.scmHead))
-		BindSymbolFunc(sym, Obj(&prim.scmHead))
+	for _, item := range klPrimitives {
+		sym := MakeSymbol(item.name)
+		prim := MakePrimitive(item.name, item.arity, item.fn)
+		CoraSet(sym, prim)
+		BindSymbolFunc(sym, prim)
 	}
 
 	// Overload for primitive set and value.
-	BindSymbolFunc(MakeSymbol("eval-kl"), MakePrimitive("eval-kl", 1, primEvalKL))
-	BindSymbolFunc(MakeSymbol("load-file"), MakePrimitive("load-file", 1, primLoadFile(false)))
+	BindSymbolFunc(MakeSymbol("eval-kl"), MakeNative(primEvalKL, 1))
+	BindSymbolFunc(MakeSymbol("load-file"), MakeNative(primLoadFile(false), 1))
 
-	primSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
-	primSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
+	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
+	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
 	dir, _ := os.Getwd()
-	primSet(MakeSymbol("*home-directory*"), MakeString(dir))
-	primSet(MakeSymbol("*language*"), MakeString("Go"))
-	primSet(MakeSymbol("*implementation*"), MakeString("AOT+interpreter"))
-	primSet(MakeSymbol("*relase*"), MakeString(runtime.Version()))
-	primSet(MakeSymbol("*os*"), MakeString(runtime.GOOS))
-	primSet(MakeSymbol("*porters*"), MakeString("Arthur Mao"))
-	primSet(MakeSymbol("*port*"), MakeString("1.0.0-rc1"))
+	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
+	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
+	PrimSet(MakeSymbol("*implementation*"), MakeString("AOT+interpreter"))
+	PrimSet(MakeSymbol("*relase*"), MakeString(runtime.Version()))
+	PrimSet(MakeSymbol("*os*"), MakeString(runtime.GOOS))
+	PrimSet(MakeSymbol("*porters*"), MakeString("Arthur Mao"))
+	PrimSet(MakeSymbol("*port*"), MakeString("1.0.0-rc1"))
 
 	// Extended by shen-go implementation
-	primSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
+	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
 
-	BindSymbolFunc(MakeSymbol("cora."), MakePrimitive("cora.", 1, coraValue))
+	// BindSymbolFunc(MakeSymbol("cora."), MakePrimitive("cora.", 1, coraValue))
 	BindSymbolFunc(MakeSymbol("defun"), MakePrimitive("defun", 2, primDefun))
 	CoraSet(MakeSymbol("set"), MakePrimitive("set", 2, coraSet))
-	CoraSet(MakeSymbol("value"), MakePrimitive("value", 1, coraValue))
+	// CoraSet(MakeSymbol("value"), MakePrimitive("value", 1, coraValue))
 
 	CoraSet(MakeSymbol("car"), MakePrimitive("car", 1, PrimHead))
 	CoraSet(MakeSymbol("cdr"), MakePrimitive("car", 1, PrimTail))
 	CoraSet(MakeSymbol("gensym"), MakePrimitive("gensym", 1, PrimGenSym))
-	CoraSet(MakeSymbol("load"), MakePrimitive("load", 1, primLoadFile(true)))
-	CoraSet(MakeSymbol("load-so"), MakePrimitive("load-so", 1, primLoadSo))
-	CoraSet(MakeSymbol("read-file-as-sexp"), MakePrimitive("read-file-as-sexp", 1, readFileAsSexp))
-	CoraSet(MakeSymbol("write-sexp-to-file"), MakePrimitive("write-sexp-to-file", 2, writeSexpToFile))
+	CoraSet(MakeSymbol("load"), MakeNative(primLoadFile(true), 1))
+	CoraSet(MakeSymbol("load-so"), MakeNative(primLoadSo, 1))
+	CoraSet(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 1))
+	CoraSet(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
 	CoraSet(MakeSymbol("make-code-generator"), makeCodeGenerator)
 	CoraSet(MakeSymbol("cg:bc->go"), bcToGo)
 	// priv = &scmNative{scmHead: scmHeadNative, Name: "apply", require: 2, fn: e.primApply}
 	// coraSet(MakeSymbol("apply"), Obj(&priv.scmHead))
 }
 
-func PrimNumberAdd(e Evaluator) {
-	x1 := mustNumber(e.Get(1))
-	y1 := mustNumber(e.Get(2))
-	e.Return(MakeNumber(x1 + y1))
-	return
+func PrimNumberAdd(x, y Obj) Obj {
+	x1 := mustNumber(x)
+	y1 := mustNumber(y)
+	return MakeNumber(x1 + y1)
 }
 
-func PrimNumberSubtract(e Evaluator) {
-	x1 := mustNumber(e.Get(1))
-	y1 := mustNumber(e.Get(2))
-	e.Return(MakeNumber(x1 - y1))
-	return
+func PrimNumberSubtract(x, y Obj) Obj {
+	x1 := mustNumber(x)
+	y1 := mustNumber(y)
+	return MakeNumber(x1 - y1)
 }
 
-func PrimNumberMultiply(e Evaluator) {
-	x1 := mustNumber(e.Get(1))
-	y1 := mustNumber(e.Get(2))
-	e.Return(MakeNumber(x1 * y1))
-	return
+func PrimNumberMultiply(x, y Obj) Obj {
+	x1 := mustNumber(x)
+	y1 := mustNumber(y)
+	return MakeNumber(x1 * y1)
 }
 
-func PrimNumberDivide(e Evaluator) {
-	x1 := mustNumber(e.Get(1))
-	y1 := mustNumber(e.Get(2))
-	e.Return(MakeNumber(x1 / y1))
-	return
+func PrimNumberDivide(x, y Obj) Obj {
+	x1 := mustNumber(x)
+	y1 := mustNumber(y)
+	return MakeNumber(x1 / y1)
 }
 
-func PrimIntern(e Evaluator) {
-	str := mustString(e.Get(1))
+func PrimIntern(o Obj) Obj {
+	str := mustString(o)
 	switch str {
 	case "true":
-		e.Return(True)
-		return
+		return True
 	case "false":
-		e.Return(False)
-		return
+		return False
 	}
-	e.Return(MakeSymbol(str))
-	return
+	return MakeSymbol(str)
 }
 
-func PrimHead(e Evaluator) {
-	e.Return(car(e.Get(1)))
-	return
+func PrimHead(o Obj) Obj {
+	return car(o)
 }
 
-func PrimTail(e Evaluator) {
-	e.Return(cdr(e.Get(1)))
-	return
+func PrimTail(o Obj) Obj {
+	return cdr(o)
 }
 
-func PrimIsNumber(e Evaluator) {
-	if *e.Get(1) == scmHeadNumber {
-		e.Return(True)
-		return
+func PrimIsNumber(o Obj) Obj {
+	if *o == scmHeadNumber {
+		return True
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimStringToNumber(e Evaluator) {
-	str := mustString(e.Get(1))
+func PrimStringToNumber(o Obj) Obj {
+	str := mustString(o)
 	n := ([]rune(str))[0]
-	e.Return(MakeInteger(int(n)))
-	return
+	return MakeInteger(int(n))
 }
 
-func PrimNumberToString(e Evaluator) {
-	n := mustInteger(e.Get(1))
-	e.Return(MakeString(string(rune(n))))
-	return
+func PrimNumberToString(o Obj) Obj {
+	n := mustInteger(o)
+	return MakeString(string(rune(n)))
 }
 
-func PrimStr(e Evaluator) {
-	switch *e.Get(1) {
+func PrimStr(o Obj) Obj {
+	switch *o {
 	case scmHeadPair:
 		// Pair may contain recursive list.
 		panic(MakeError("can't str pair object"))
 	case scmHeadNull:
-		e.Return(MakeString("()"))
-		return
+		return MakeString("()")
 	case scmHeadSymbol:
-		str := GetSymbol(e.Get(1))
-		e.Return(MakeString(str))
-		return
+		str := GetSymbol(o)
+		return MakeString(str)
 	case scmHeadNumber:
-		if isFixnum(e.Get(1)) {
-			e.Return(MakeString(fmt.Sprintf("%d", mustInteger(e.Get(1)))))
-			return
+		if isFixnum(o) {
+			return MakeString(fmt.Sprintf("%d", mustInteger(o)))
 		}
-		f := mustNumber(e.Get(1))
+		f := mustNumber(o)
 		if !isPreciseInteger(f) {
-			e.Return(MakeString(fmt.Sprintf("%f", f)))
-			return
+			return MakeString(fmt.Sprintf("%f", f))
 		}
-		e.Return(MakeString(fmt.Sprintf("%d", int(f))))
-		return
+		return MakeString(fmt.Sprintf("%d", int(f)))
 	case scmHeadString:
-		e.Return(MakeString(fmt.Sprintf(`"%s"`, mustString(e.Get(1)))))
-		return
+		return MakeString(fmt.Sprintf(`"%s"`, mustString(o)))
 	case scmHeadProcedure:
-		e.Return(MakeString("#<procedure >"))
-		return
+		return MakeString("#<procedure >")
 	case scmHeadBoolean:
-		if e.Get(1) == True {
-			e.Return(MakeString("true"))
-			return
-		} else if e.Get(1) == False {
-			e.Return(MakeString("false"))
-			return
+		if o == True {
+			return MakeString("true")
+		} else if o == False {
+			return MakeString("false")
 		}
 	case scmHeadError:
-		err := mustError(e.Get(1))
-		e.Return(MakeString("#<err " + err.err + ">"))
-		return
+		err := mustError(o)
+		return MakeString("#<err " + err.err + ">")
 	case scmHeadStream:
-		e.Return(MakeString("#<stream >"))
-		return
+		return MakeString("#<stream >")
 	case scmHeadRaw:
-		e.Return(MakeString("#<raw >"))
-		return
+		return MakeString("#<raw >")
 	case scmHeadNative:
-		n := MustNative(e.Get(1))
+		n := MustNative(o)
 		if len(n.name) > 0 {
-			e.Return(MakeString(fmt.Sprintf("#<primitive %s>", n.name)))
+			return MakeString(fmt.Sprintf("#<primitive %s>", n.name))
 		} else {
-			e.Return(MakeString(fmt.Sprintf("#<native %v>", *n)))
+			return MakeString(fmt.Sprintf("#<native %v>", *n))
 		}
-		return
 	default:
-		e.Return(MakeString("PrimStr unknown"))
-		return
+		return MakeString("PrimStr unknown")
+
 	}
-	e.Return(MakeString("wrong input, the object is not atom ..."))
-	return
+	return MakeString("wrong input, the object is not atom ...")
 }
 
-func PrimStringConcat(e Evaluator) {
-	s1 := mustString(e.Get(1))
-	s2 := mustString(e.Get(2))
-	e.Return(MakeString(s1 + s2))
-	return
+func PrimStringConcat(x, y Obj) Obj {
+	s1 := mustString(x)
+	s2 := mustString(y)
+	return MakeString(s1 + s2)
 }
 
-func PrimTailString(e Evaluator) {
-	str := mustString(e.Get(1))
+func PrimTailString(o Obj) Obj {
+	str := mustString(o)
 	if len(str) == 0 {
 		panic(MakeError("empty string"))
 	}
-	e.Return(MakeString(string([]rune(str)[1:])))
-	return
+	return MakeString(string([]rune(str)[1:]))
 }
 
-func PrimPos(e Evaluator) {
-	s := []rune(mustString(e.Get(1)))
-	n := mustInteger(e.Get(2))
+func PrimPos(x, y Obj) Obj {
+	s := []rune(mustString(x))
+	n := mustInteger(y)
 	if n >= len(s) {
 		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
 	}
-	e.Return(MakeString(string([]rune(s)[n])))
-	return
+	return MakeString(string([]rune(s)[n]))
 }
 
-func and(e Evaluator) {
-	if e.Get(1) == True && e.Get(2) == True {
-		e.Return(True)
-		return
+func and(x, y Obj) Obj {
+	if x == True && y == True {
+		return True
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func or(e Evaluator) {
-	if e.Get(1) == False || e.Get(2) == False {
-		e.Return(False)
-		return
+func or(x, y Obj) Obj {
+	if x == False || y == False {
+		return False
 	}
-	e.Return(True)
-	return
+	return True
 }
 
-func primSet(key, val Obj) Obj {
+func PrimSet(key, val Obj) Obj {
 	sym := mustSymbol(key)
 	sym.value = val
 	return val
 }
 
-func PrimSet(e Evaluator) {
-	key, val := e.Get(1), e.Get(2)
-	sym := mustSymbol(key)
-	sym.value = val
-	e.Return(val)
-	return
-}
-
-func PrimValue(e Evaluator) {
-	key := e.Get(1)
+func PrimValue(o Obj) Obj {
+	key := o
 	sym := mustSymbol(key)
 	if sym.value != nil {
-		e.Return(sym.value)
-		return
+		return sym.value
 	}
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
-func coraSet(e Evaluator) {
-	key, val := e.Get(1), e.Get(2)
+func coraSet(key, val Obj) Obj {
 	CoraSet(key, val)
-	e.Return(val)
+	return val
 }
 
-func coraValue(e Evaluator) {
-	key := e.Get(1)
-	e.Return(e.Global(key))
-	return
-}
-
-func primDefun(e Evaluator) {
-	key, val := e.Get(1), e.Get(2)
+func primDefun(key, val Obj) Obj {
 	sym := mustSymbol(key)
 	sym.function = val
-	e.Return(val)
-	return
+	return val
 }
 
-func PrimSimpleError(e Evaluator) {
-	str := mustString(e.Get(1))
+func PrimSimpleError(o Obj) Obj {
+	str := mustString(o)
 	panic(MakeError(str))
 }
 
-func PrimErrorToString(e Evaluator) {
-	err := mustError(e.Get(1))
-	e.Return(MakeString(err.err))
-	return
+func PrimErrorToString(o Obj) Obj {
+	err := mustError(o)
+	return MakeString(err.err)
 }
 
-func PrimGreatThan(e Evaluator) {
-	x := mustInteger(e.Get(1))
-	y := mustInteger(e.Get(2))
-	if x > y {
-		e.Return(True)
-		return
+func PrimGreatThan(x, y Obj) Obj {
+	x1 := mustInteger(x)
+	y1 := mustInteger(y)
+	if x1 > y1 {
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimLessThan(e Evaluator) {
-	x := mustInteger(e.Get(1))
-	y := mustInteger(e.Get(2))
+func PrimLessThan(a, b Obj) Obj {
+	x := mustInteger(a)
+	y := mustInteger(b)
 	if x < y {
-		e.Return(True)
-		return
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimLessEqual(e Evaluator) {
-	x := mustInteger(e.Get(1))
-	y := mustInteger(e.Get(2))
+func PrimLessEqual(a, b Obj) Obj {
+	x := mustInteger(a)
+	y := mustInteger(b)
 	if x <= y {
-		e.Return(True)
-		return
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
+
 }
 
-func PrimGreatEqual(e Evaluator) {
-	x := mustInteger(e.Get(1))
-	y := mustInteger(e.Get(2))
+func PrimGreatEqual(a, b Obj) Obj {
+	x := mustInteger(a)
+	y := mustInteger(b)
 	if x >= y {
-		e.Return(True)
-		return
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimAbsvector(e Evaluator) {
-	n := mustInteger(e.Get(1))
+func PrimAbsvector(o Obj) Obj {
+	n := mustInteger(o)
 	if n < 0 {
 		panic(MakeError("absvector wrong argument"))
 	}
-	e.Return(MakeVector(n))
-	return
+	return MakeVector(n)
 }
 
-func PrimVectorSet(e Evaluator) {
-	vec := mustVector(e.Get(1))
-	off := mustInteger(e.Get(2))
-	val := e.Get(3)
+func PrimVectorSet(x, y, z Obj) Obj {
+	vec := mustVector(x)
+	off := mustInteger(y)
+	val := z
 	vec[off] = val
-	e.Return(e.Get(1))
-	return
+	return x
 }
 
-func PrimVectorGet(e Evaluator) {
-	vec := mustVector(e.Get(1))
-	off := mustInteger(e.Get(2))
+func PrimVectorGet(x, y Obj) Obj {
+	vec := mustVector(x)
+	off := mustInteger(y)
 	if off >= len(vec) {
 		panic(MakeError(fmt.Sprintf("index %d out of range %d", off, len(vec))))
 	}
 	ret := vec[off]
 	if ret == nil {
-		e.Return(undefined)
-		return
+		return undefined
 	}
-	e.Return(ret)
-	return
+	return ret
 }
 
-func PrimIsVector(e Evaluator) {
-	if *e.Get(1) == scmHeadVector {
-		e.Return(True)
-		return
+func PrimIsVector(x Obj) Obj {
+	if *x == scmHeadVector {
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimWriteByte(e Evaluator) {
-	n := mustInteger(e.Get(1))
-	s := mustStream(e.Get(2))
+func PrimWriteByte(x, y Obj) Obj {
+	n := mustInteger(x)
+	s := mustStream(y)
 	w, ok := s.raw.(io.Writer)
 	if !ok {
 		panic(MakeError("stream is not opened in out mode"))
@@ -439,12 +382,11 @@ func PrimWriteByte(e Evaluator) {
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}
-	e.Return(e.Get(1))
-	return
+	return x
 }
 
-func PrimReadByte(e Evaluator) {
-	s := mustStream(e.Get(1))
+func PrimReadByte(x Obj) Obj {
+	s := mustStream(x)
 	r, ok := s.raw.(io.Reader)
 	if !ok {
 		panic(MakeError("stream is closed of not opened in in mode"))
@@ -453,19 +395,17 @@ func PrimReadByte(e Evaluator) {
 	_, err := r.Read(buf[:])
 	if err != nil {
 		if err == io.EOF {
-			e.Return(MakeInteger(-1))
-			return
+			return MakeInteger(-1)
 		}
 		panic(MakeError(err.Error()))
 	}
-	e.Return(MakeInteger(int(buf[0])))
-	return
+	return MakeInteger(int(buf[0]))
 }
 
-func PrimOpenStream(e Evaluator) {
-	file := mustString(e.Get(1))
+func PrimOpenStream(x, y Obj) Obj {
+	file := mustString(x)
 	var flag int
-	mode := GetSymbol(e.Get(2))
+	mode := GetSymbol(y)
 	switch mode {
 	case "in":
 		flag |= os.O_RDONLY
@@ -479,94 +419,80 @@ func PrimOpenStream(e Evaluator) {
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}
-	e.Return(MakeStream(f))
-	return
+	return MakeStream(f)
 }
 
-func PrimCloseStream(e Evaluator) {
-	s := mustStream(e.Get(1))
+func PrimCloseStream(x Obj) Obj {
+	s := mustStream(x)
 	c := s.raw.(io.Closer)
 	c.Close()
-	e.Return(Nil)
-	return
+	return Nil
 }
 
-func PrimGetTime(e Evaluator) {
-	kind := GetSymbol(e.Get(1))
+func PrimGetTime(x Obj) Obj {
+	kind := GetSymbol(x)
 	switch kind {
 	case "unix":
-		e.Return(MakeNumber(float64(time.Now().Unix())))
-		return
+		return MakeNumber(float64(time.Now().Unix()))
 	case "run":
-		e.Return(MakeNumber(time.Since(uptime).Seconds()))
-		return
+		return MakeNumber(time.Since(uptime).Seconds())
+
 	}
 	panic(MakeError(fmt.Sprintf("get-time does not understand the parameter %s", kind)))
 }
 
-func PrimIsString(e Evaluator) {
-	if *e.Get(1) == scmHeadString {
-		e.Return(True)
-		return
+func PrimIsString(x Obj) Obj {
+	if *x == scmHeadString {
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimIsPair(e Evaluator) {
-	if *e.Get(1) == scmHeadPair {
-		e.Return(True)
-		return
+func PrimIsPair(x Obj) Obj {
+	if *x == scmHeadPair {
+		return True
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimNot(e Evaluator) {
-	if e.Get(1) == False {
-		e.Return(True)
-		return
-	} else if e.Get(1) == True {
-		e.Return(False)
-		return
+func PrimNot(x Obj) Obj {
+	if x == False {
+		return True
+	} else if x == True {
+		return False
 	}
 	panic(MakeError("PrimNot"))
-
 }
 
-func PrimIf(e Evaluator) {
-	switch e.Get(1) {
+func PrimIf(x, y, z Obj) Obj {
+	switch x {
 	case True:
-		e.Return(e.Get(2))
-		return
+		return y
 	case False:
-		e.Return(e.Get(3))
-		return
+		return z
 	}
 	panic(MakeError("PrimIf"))
 }
 
-func PrimEqual(e Evaluator) {
-	e.Return(equal(e.Get(1), e.Get(2)))
-	return
+func PrimEqual(x, y Obj) Obj {
+	return equal(x, y)
 }
 
-func PrimCons(e Evaluator) {
-	e.Return(cons(e.Get(1), e.Get(2)))
-	return
+func PrimCons(x, y Obj) Obj {
+	return cons(x, y)
 }
 
-func PrimIsSymbol(e Evaluator) {
-	if IsSymbol(e.Get(1)) {
-		e.Return(True)
-		return
+func PrimIsSymbol(x Obj) Obj {
+	if IsSymbol(x) {
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
-func PrimReadFileAsByteList(e Evaluator) {
-	fileName := mustString(e.Get(1))
+func PrimReadFileAsByteList(x Obj) Obj {
+	fileName := mustString(x)
 	buf, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		panic(MakeError(err.Error()))
@@ -579,72 +505,64 @@ func PrimReadFileAsByteList(e Evaluator) {
 		curr.cdr = tmp
 		curr = mustPair(tmp)
 	}
-	e.Return(cdr(ret))
-	return
+	return cdr(ret)
 }
 
-func PrimReadFileAsString(e Evaluator) {
-	fileName := mustString(e.Get(1))
+func PrimReadFileAsString(x Obj) Obj {
+	fileName := mustString(x)
 	buf, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}
-
-	e.Return(MakeString(string(buf)))
-	return
+	return MakeString(string(buf))
 }
 
-func PrimIsVariable(e Evaluator) {
-	if *e.Get(1) != scmHeadSymbol {
-		e.Return(False)
-		return
+func PrimIsVariable(x Obj) Obj {
+	if *x != scmHeadSymbol {
+		return False
 	}
 
-	sym := GetSymbol(e.Get(1))
+	sym := GetSymbol(x)
 	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
-		e.Return(False)
-		return
+		return False
 	}
-	e.Return(True)
-	return
+	return True
 }
 
-func PrimIsInteger(e Evaluator) {
-	if *e.Get(1) != scmHeadNumber {
-		e.Return(False)
-		return
+func PrimIsInteger(x Obj) Obj {
+	if *x != scmHeadNumber {
+		return False
+
 	}
-	if isFixnum(e.Get(1)) {
-		e.Return(True)
-		return
+	if isFixnum(x) {
+		return True
+
 	}
-	f := mustNumber(e.Get(1))
+	f := mustNumber(x)
 	if isPreciseInteger(f) {
-		e.Return(True)
-		return
+		return True
+
 	}
-	e.Return(False)
-	return
+	return False
 }
 
 // func PrimEvalKL(e Evaluator, args ...Obj) Obj {
-// 	e.Return(evalExp(e, e.Get(1), Nil))
+// 	 evalExp(e, e.Get(1), Nil))
 // 	return
 // }
 
 var genIdx uint64 = 0
 
-func PrimGenSym(e Evaluator) {
-	sym := mustSymbol(e.Get(1))
+func PrimGenSym(x Obj) Obj {
+	sym := mustSymbol(x)
 	str := fmt.Sprintf("%s%d", sym.str, genIdx)
 	genIdx++
-	e.Return(MakeSymbol(str))
-	return
+	return MakeSymbol(str)
 }
 
 func primEvalKL(e Evaluator) {
-	e.Return(evalExp(e, e.Get(1), Nil))
-	return
+	res := evalExp(e, e.Get(1), Nil)
+	e.Return(res)
 }
 
 func primLoadFile(isCora bool) func(e Evaluator) {
@@ -652,7 +570,6 @@ func primLoadFile(isCora bool) func(e Evaluator) {
 		path := mustString(e.Get(1))
 		res := loadFile(e, isCora, path)
 		e.Return(res)
-		return
 	}
 }
 
@@ -721,7 +638,6 @@ func primLoadSo(e Evaluator) {
 
 	res := Call(e, MakeNative(f, 0))
 	e.Return(res)
-	return
 }
 
 func readFileAsSexp(e Evaluator) {
@@ -760,4 +676,74 @@ func writeSexpToFile(e Evaluator) {
 	}
 	e.Return(Nil)
 	return
+}
+
+func wrapf1(f func(Obj) Obj) func(Evaluator) {
+	return func(e Evaluator) {
+		tmp := e.Get(1)
+		res := f(tmp)
+		e.Return(res)
+	}
+}
+
+func wrapf2(f func(x, y Obj) Obj) func(Evaluator) {
+	return func(e Evaluator) {
+		tmp1 := e.Get(1)
+		tmp2 := e.Get(2)
+		res := f(tmp1, tmp2)
+		e.Return(res)
+	}
+}
+
+func wrapf3(f func(x, y, z Obj) Obj) func(Evaluator) {
+	return func(e Evaluator) {
+		tmp1 := e.Get(1)
+		tmp2 := e.Get(2)
+		tmp3 := e.Get(3)
+		res := f(tmp1, tmp2, tmp3)
+		e.Return(res)
+	}
+}
+
+func wrapf4(f func(x, y, z Obj) Obj) func(Evaluator) {
+	return func(e Evaluator) {
+		tmp1 := e.Get(1)
+		tmp2 := e.Get(2)
+		tmp3 := e.Get(3)
+		res := f(tmp1, tmp2, tmp3)
+		e.Return(res)
+	}
+}
+
+func MakePrimitive(name string, arity int, f interface{}) Obj {
+	var fn func(Evaluator)
+	switch arity {
+	case 1:
+		raw, ok := f.(func(Obj) Obj)
+		if !ok {
+			panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
+		}
+		fn = wrapf1(raw)
+	case 2:
+		raw, ok := f.(func(x, y Obj) Obj)
+		if !ok {
+			panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
+		}
+		fn = wrapf2(raw)
+	case 3:
+		raw, ok := f.(func(x, y, z Obj) Obj)
+		if !ok {
+			panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
+		}
+		fn = wrapf3(raw)
+	default:
+		panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
+	}
+	tmp := &scmNative{
+		scmHead: scmHeadNative,
+		name:    name,
+		require: arity,
+		fn:      fn,
+	}
+	return Obj(&tmp.scmHead)
 }

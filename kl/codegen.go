@@ -9,16 +9,16 @@ import (
 	"unsafe"
 )
 
-var makeCodeGenerator = MakePrimitive("make-code-generator", 0, func(e Evaluator) {
+var makeCodeGenerator = MakeNative(func(e Evaluator) {
 	// (make-code-generator 'cora)
 	cg := &codeGenerator{
 		declare: make(map[Obj]struct{}),
 	}
 	e.Return(MakeRaw(&cg.scmHead))
 	return
-})
+}, 0)
 
-var bcToGo = MakePrimitive("cg:bc->go", 4, func(e Evaluator) {
+var bcToGo = MakeNative(func(e Evaluator) {
 	// (let cg (make-code-generator 'shen)
 	//      (bc->go cg true "xx.bc" "xx.go"))
 	cg := (*codeGenerator)(unsafe.Pointer(e.Get(1)))
@@ -50,7 +50,7 @@ var bcToGo = MakePrimitive("cg:bc->go", 4, func(e Evaluator) {
 
 	e.Return(Nil)
 	return
-})
+}, 4)
 
 type codeGenerator struct {
 	scmHead int

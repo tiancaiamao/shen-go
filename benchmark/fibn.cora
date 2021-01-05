@@ -14,7 +14,7 @@
            tmp
          (dotimes (- n 1) f))))
 
-(dotimes 1000000 (lambda () (fibn 80)))
+(dotimes 100000 (lambda () (fibn 29)))
 
 ;; (let-loop recur (n 100000)
 ;;           (if (= n 0)
