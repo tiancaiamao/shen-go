@@ -69,7 +69,6 @@ func (e *Cora) eval() {
 	return
 }
 
-
 func (e *Cora) Global(key Obj) Obj {
 	sym := mustSymbol(key)
 	if sym.cora != nil {

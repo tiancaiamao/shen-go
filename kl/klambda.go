@@ -190,8 +190,6 @@ func (e *KLambda) Override() {
 	BindSymbolFunc(MakeSymbol("symbol?"), isSymbol)
 }
 
-
-
 func (e *KLambda) Global(key Obj) Obj {
 	sym := mustSymbol(key)
 	if sym.function != nil {

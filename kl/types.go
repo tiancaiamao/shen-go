@@ -144,16 +144,6 @@ func IsSymbol(o Obj) bool {
 	return *o == scmHeadSymbol
 }
 
-func MakePrimitive(name string, arity int, f func(e Evaluator)) Obj {
-	tmp := &scmNative{
-		scmHead: scmHeadNative,
-		name:    name,
-		require: arity,
-		fn:      f,
-	}
-	return Obj(&tmp.scmHead)
-}
-
 func mustVector(o Obj) []Obj {
 	if (*o) != scmHeadVector {
 		panic(MakeError("mustVector"))
