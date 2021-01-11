@@ -7,31 +7,27 @@ import (
 )
 
 func TestReadByte(t *testing.T) {
-	var kl KLambda
-	fn := kl.Global(MakeSymbol("read-byte"))
 	buf := bytes.NewBufferString("a")
 	stream := MakeStream(buf)
-	b := Call(&kl, fn, stream)
+	b := PrimReadByte(stream)
 	if mustInteger(b) != 97 {
 		t.Error("should be 97")
 	}
 
-	b = Call(&kl, fn, stream)
+	b = PrimReadByte(stream)
 	if mustInteger(b) != -1 {
 		t.Error("read EOF should return -1")
 	}
 }
 
 func TestIntern(t *testing.T) {
-	var kl KLambda
-	fn := kl.Global(MakeSymbol("intern"))
-	if Call(&kl, fn, MakeString("true")) != True {
+	if PrimIntern(MakeString("true")) != True {
 		t.Error("intern(true) should be boolean")
 	}
-	if Call(&kl, fn, MakeString("false")) != False {
+	if PrimIntern(MakeString("false")) != False {
 		t.Error("intern(false) should be boolean")
 	}
-	if equal(Call(&kl, fn, MakeString("asdf")), MakeSymbol("asdf")) != True {
+	if equal(PrimIntern(MakeString("asdf")), MakeSymbol("asdf")) != True {
 		t.FailNow()
 	}
 }
@@ -64,9 +60,7 @@ func TestStr(t *testing.T) {
 		return true
 	}
 
-	var kl KLambda
-	fn := kl.Global(MakeSymbol("str"))
-	str := Call(&kl, fn, makeProcedure(MakeSymbol("x"), MakeSymbol("x"), Nil))
+	str := PrimStr(makeProcedure(MakeSymbol("x"), MakeSymbol("x"), Nil))
 	if allAlpha(mustString(str)) {
 		t.Error("str of procedure should not be all alpha")
 	}

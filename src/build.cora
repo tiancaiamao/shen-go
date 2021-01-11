@@ -1,0 +1,30 @@
+(func kl->cora
+  env () => ()
+  env x => x where (or (number? x) (string? x) (boolean? x))
+  env ['if x y z] => ['if (kl->cora env x) (kl->cora env y) (kl->cora env z)]
+  env ['do x y] => ['do (kl->cora env x) (kl->cora env y)]
+  env ['lambda x y] => ['lambda [x] (kl->cora [x . env] y)]
+
+  env ['defun f x y] => ['ns2-set ['quote f] ['lambda x (kl->cora x y)]]
+  env ['let x y z] => [['lambda [x] (kl->cora (cons x env) z)] (kl->cora env y)]
+  env ['trap-error body handler] => ['try-catch ['lambda [] (kl->cora env body)] (kl->cora env handler)]
+
+  env ['or x y] => (kl->cora env ['if x true ['if y true false]])
+  env ['and x y] => (kl->cora env ['if x ['if y true false] false])
+  env ['cond [case action]] => (kl->cora env ['if case action ['simple-error "no cond match"]])
+  env ['cond [case action] . more] => (kl->cora env ['if case action ['cond . more]])
+  env ['freeze body] => ['lambda [] (kl->cora env body)]
+
+  env [f . x] => [(parse-app env f) . (map (kl->cora env) x)] where (symbol? f)
+  env [f . x] => (map (kl->cora env) [f . x])
+  env x => (if (elem? x env) x ['quote x]))
+
+
+(func parse-app
+  env f => f where (elem? f env)
+  _ f => ['ns2-value ['quote f]])
+
+(defun compile-file (fin fout)
+  (let exprs (read-file-as-sexp fin false)
+       (let res (cons 'begin (map (kl->cora ()) exprs))
+	    (write-sexp-to-file fout res))))

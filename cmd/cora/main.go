@@ -31,15 +31,15 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	var e kl.Cora
-	kl.CoraSet(symMacroExpand, kl.Nil)
+	var e kl.ControlFlow
+	kl.PrimNS1Set(symMacroExpand, kl.Nil)
 
 	if !quiet {
 		home, err := os.UserHomeDir()
 		if err == nil {
 			path := filepath.Join(home, ".cora", "init.cora")
 			if _, err := os.Stat(path); err == nil {
-				res := kl.Call(&e, e.Global(kl.MakeSymbol("load")), kl.MakeString(path))
+				res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(path))
 				if kl.IsError(res) {
 					os.Exit(-1)
 				}
@@ -49,7 +49,7 @@ func main() {
 	repl(&e)
 }
 
-func repl(e *kl.Cora) {
+func repl(e *kl.ControlFlow) {
 	r := kl.NewSexpReader(os.Stdin, true)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
@@ -61,7 +61,7 @@ func repl(e *kl.Cora) {
 			break
 		}
 
-		expand := e.Global(symMacroExpand)
+		expand := kl.PrimNS1Value(symMacroExpand)
 		if expand != kl.Nil {
 			sexp = kl.Call(e, expand, sexp)
 		}

@@ -16,9 +16,9 @@ var klPrimitives = []struct {
 	arity int
 	fn    interface{}
 }{
-	// &scmNative{scmHead: scmHeadNative, name: "load-file", require: 1},
-	// &scmNative{scmHead: scmHeadNative, name: "type", require: 2, fn: PrimTypeFunc},
-	// &scmNative{scmHead: scmHeadNative, name: "eval-kl", require: 1},
+	{"set", 2, PrimNS1Set},
+	{"car", 1, PrimHead},
+	{"cdr", 1, PrimTail},
 	{"get-time", 1, PrimGetTime},
 	{"close", 1, PrimCloseStream},
 	{"open", 2, PrimOpenStream},
@@ -52,11 +52,10 @@ var klPrimitives = []struct {
 	{"tl", 1, PrimTail},
 	{"cons", 2, PrimCons},
 	{"cons?", 1, PrimIsPair},
-	{"value", 1, PrimValue},
-	{"set", 2, PrimSet},
 	{"not", 1, PrimNot},
 	{"if", 3, PrimIf},
 	{"symbol?", 1, PrimIsSymbol},
+	{"gensym", 1, PrimGenSym},
 	{"read-file-as-bytelist", 1, PrimReadFileAsByteList},
 	{"read-file-as-string", 1, PrimReadFileAsString},
 	{"variable?", 1, PrimIsVariable},
@@ -67,44 +66,19 @@ func init() {
 	for _, item := range klPrimitives {
 		sym := MakeSymbol(item.name)
 		prim := MakePrimitive(item.name, item.arity, item.fn)
-		CoraSet(sym, prim)
-		BindSymbolFunc(sym, prim)
+		PrimNS1Set(sym, prim)
 	}
 
-	// Overload for primitive set and value.
-	BindSymbolFunc(MakeSymbol("eval-kl"), MakeNative(primEvalKL, 1))
-	BindSymbolFunc(MakeSymbol("load-file"), MakeNative(primLoadFile(false), 1))
+	PrimNS1Set(MakeSymbol("load"), MakeNative(PrimLoadFile(true), 1))
+	PrimNS1Set(MakeSymbol("load-so"), MakeNative(primLoadSo, 1))
+	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
+	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
+	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
+	PrimNS1Set(MakeSymbol("make-code-generator"), makeCodeGenerator)
+	PrimNS1Set(MakeSymbol("cg:bc->go"), bcToGo)
 
-	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
-	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
-	dir, _ := os.Getwd()
-	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
-	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
-	PrimSet(MakeSymbol("*implementation*"), MakeString("AOT+interpreter"))
-	PrimSet(MakeSymbol("*relase*"), MakeString(runtime.Version()))
-	PrimSet(MakeSymbol("*os*"), MakeString(runtime.GOOS))
-	PrimSet(MakeSymbol("*porters*"), MakeString("Arthur Mao"))
-	PrimSet(MakeSymbol("*port*"), MakeString("1.0.0-rc1"))
-
-	// Extended by shen-go implementation
-	PrimSet(MakeSymbol("*package-path*"), MakeString(PackagePath()))
-
-	// BindSymbolFunc(MakeSymbol("cora."), MakePrimitive("cora.", 1, coraValue))
-	BindSymbolFunc(MakeSymbol("defun"), MakePrimitive("defun", 2, primDefun))
-	CoraSet(MakeSymbol("set"), MakePrimitive("set", 2, coraSet))
-	// CoraSet(MakeSymbol("value"), MakePrimitive("value", 1, coraValue))
-
-	CoraSet(MakeSymbol("car"), MakePrimitive("car", 1, PrimHead))
-	CoraSet(MakeSymbol("cdr"), MakePrimitive("car", 1, PrimTail))
-	CoraSet(MakeSymbol("gensym"), MakePrimitive("gensym", 1, PrimGenSym))
-	CoraSet(MakeSymbol("load"), MakeNative(primLoadFile(true), 1))
-	CoraSet(MakeSymbol("load-so"), MakeNative(primLoadSo, 1))
-	CoraSet(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 1))
-	CoraSet(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
-	CoraSet(MakeSymbol("make-code-generator"), makeCodeGenerator)
-	CoraSet(MakeSymbol("cg:bc->go"), bcToGo)
-	// priv = &scmNative{scmHead: scmHeadNative, Name: "apply", require: 2, fn: e.primApply}
-	// coraSet(MakeSymbol("apply"), Obj(&priv.scmHead))
+	PrimNS1Set(MakeSymbol("ns2-set"), MakePrimitive("ns2-set", 2, PrimNS2Set))
+	PrimNS1Set(MakeSymbol("ns2-value"), MakePrimitive("ns2-value", 1, PrimNS2Value))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -253,32 +227,6 @@ func or(x, y Obj) Obj {
 		return False
 	}
 	return True
-}
-
-func PrimSet(key, val Obj) Obj {
-	sym := mustSymbol(key)
-	sym.value = val
-	return val
-}
-
-func PrimValue(o Obj) Obj {
-	key := o
-	sym := mustSymbol(key)
-	if sym.value != nil {
-		return sym.value
-	}
-	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
-}
-
-func coraSet(key, val Obj) Obj {
-	CoraSet(key, val)
-	return val
-}
-
-func primDefun(key, val Obj) Obj {
-	sym := mustSymbol(key)
-	sym.function = val
-	return val
 }
 
 func PrimSimpleError(o Obj) Obj {
@@ -546,11 +494,6 @@ func PrimIsInteger(x Obj) Obj {
 	return False
 }
 
-// func PrimEvalKL(e Evaluator, args ...Obj) Obj {
-// 	 evalExp(e, e.Get(1), Nil))
-// 	return
-// }
-
 var genIdx uint64 = 0
 
 func PrimGenSym(x Obj) Obj {
@@ -560,25 +503,25 @@ func PrimGenSym(x Obj) Obj {
 	return MakeSymbol(str)
 }
 
-func primEvalKL(e Evaluator) {
-	res := evalExp(e, e.Get(1), Nil)
-	e.Return(res)
-}
-
-func primLoadFile(isCora bool) func(e Evaluator) {
-	return func(e Evaluator) {
+func PrimLoadFile(isCora bool) func(e *ControlFlow) {
+	return func(e *ControlFlow) {
 		path := mustString(e.Get(1))
 		res := loadFile(e, isCora, path)
 		e.Return(res)
 	}
 }
 
-func loadFile(e Evaluator, extended bool, file string) Obj {
+func packagePath() string {
+	gopath := os.Getenv("GOPATH")
+	return path.Join(gopath, "src/github.com/tiancaiamao/shen-go")
+}
+
+func loadFile(e *ControlFlow, extended bool, file string) Obj {
 	var filePath string
 	if _, err := os.Stat(file); err == nil {
 		filePath = file
 	} else {
-		filePath = path.Join(PackagePath(), file)
+		filePath = path.Join(packagePath(), file)
 		if _, err := os.Stat(filePath); err != nil {
 			return MakeError(err.Error())
 		}
@@ -602,7 +545,7 @@ func loadFile(e Evaluator, extended bool, file string) Obj {
 
 		// Macro expand for cora.
 		if extended {
-			expand := e.Global(symMacroExpand)
+			expand := mustSymbol(symMacroExpand).cora
 			if expand != Nil {
 				exp = Call(e, expand, exp)
 			}
@@ -616,7 +559,7 @@ func loadFile(e Evaluator, extended bool, file string) Obj {
 	return MakeString(file)
 }
 
-func primLoadSo(e Evaluator) {
+func primLoadSo(e *ControlFlow) {
 	pluginPath := GetString(e.Get(1))
 	p, err := plugin.Open(pluginPath)
 	if err != nil {
@@ -630,9 +573,9 @@ func primLoadSo(e Evaluator) {
 		return
 	}
 
-	f, ok := entry.(func(__e Evaluator))
+	f, ok := entry.(func(__e *ControlFlow))
 	if !ok {
-		e.Return(MakeError("plugin Main should be func(__e Evaluator)"))
+		e.Return(MakeError("plugin Main should be func(__e *ControlFlow)"))
 		return
 	}
 
@@ -640,8 +583,9 @@ func primLoadSo(e Evaluator) {
 	e.Return(res)
 }
 
-func readFileAsSexp(e Evaluator) {
+func readFileAsSexp(e *ControlFlow) {
 	filePath := mustString(e.Get(1))
+	extend := (e.Get(2) == True)
 	f, err := os.Open(filePath)
 	if err != nil {
 		e.Return(MakeError(err.Error()))
@@ -650,7 +594,7 @@ func readFileAsSexp(e Evaluator) {
 	defer f.Close()
 
 	ret := Nil
-	r := NewSexpReader(f, true)
+	r := NewSexpReader(f, extend)
 	for {
 		exp, err := r.Read()
 		if err != nil {
@@ -666,7 +610,7 @@ func readFileAsSexp(e Evaluator) {
 	return
 }
 
-func writeSexpToFile(e Evaluator) {
+func writeSexpToFile(e *ControlFlow) {
 	filePath := mustString(e.Get(1))
 	str := ObjString(e.Get(2))
 	err := ioutil.WriteFile(filePath, []byte(str), 0644)
@@ -678,16 +622,16 @@ func writeSexpToFile(e Evaluator) {
 	return
 }
 
-func wrapf1(f func(Obj) Obj) func(Evaluator) {
-	return func(e Evaluator) {
+func wrapf1(f func(Obj) Obj) func(*ControlFlow) {
+	return func(e *ControlFlow) {
 		tmp := e.Get(1)
 		res := f(tmp)
 		e.Return(res)
 	}
 }
 
-func wrapf2(f func(x, y Obj) Obj) func(Evaluator) {
-	return func(e Evaluator) {
+func wrapf2(f func(x, y Obj) Obj) func(*ControlFlow) {
+	return func(e *ControlFlow) {
 		tmp1 := e.Get(1)
 		tmp2 := e.Get(2)
 		res := f(tmp1, tmp2)
@@ -695,8 +639,8 @@ func wrapf2(f func(x, y Obj) Obj) func(Evaluator) {
 	}
 }
 
-func wrapf3(f func(x, y, z Obj) Obj) func(Evaluator) {
-	return func(e Evaluator) {
+func wrapf3(f func(x, y, z Obj) Obj) func(*ControlFlow) {
+	return func(e *ControlFlow) {
 		tmp1 := e.Get(1)
 		tmp2 := e.Get(2)
 		tmp3 := e.Get(3)
@@ -705,8 +649,8 @@ func wrapf3(f func(x, y, z Obj) Obj) func(Evaluator) {
 	}
 }
 
-func wrapf4(f func(x, y, z Obj) Obj) func(Evaluator) {
-	return func(e Evaluator) {
+func wrapf4(f func(x, y, z Obj) Obj) func(*ControlFlow) {
+	return func(e *ControlFlow) {
 		tmp1 := e.Get(1)
 		tmp2 := e.Get(2)
 		tmp3 := e.Get(3)
@@ -716,7 +660,7 @@ func wrapf4(f func(x, y, z Obj) Obj) func(Evaluator) {
 }
 
 func MakePrimitive(name string, arity int, f interface{}) Obj {
-	var fn func(Evaluator)
+	var fn func(*ControlFlow)
 	switch arity {
 	case 1:
 		raw, ok := f.(func(Obj) Obj)
@@ -746,4 +690,91 @@ func MakePrimitive(name string, arity int, f interface{}) Obj {
 		fn:      fn,
 	}
 	return Obj(&tmp.scmHead)
+}
+
+type tryResult struct {
+	e    *ControlFlow
+	data Obj
+}
+
+func try(e *ControlFlow, f Obj) (res tryResult) {
+	savePos := e.pos
+	defer func() {
+		if err := recover(); err != nil {
+			if val, ok := err.(Obj); ok {
+				if IsError(val) {
+					// Don't forget to recover the calling stack!
+					e.pos = savePos
+					e.data = e.data[:e.pos]
+					res = tryResult{e: e, data: val}
+					return
+				}
+			}
+			// Unexpected panic?
+			var buf [4096]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Panic:", err)
+			fmt.Println("Recovered in Try:", ObjString(f))
+			fmt.Println(string(buf[:n]))
+		}
+	}()
+	val := Call(e, f)
+	res = tryResult{e: e, data: val}
+	return
+}
+
+func (t tryResult) Catch(f Obj) Obj {
+	if IsError(t.data) {
+		return Call(t.e, f, t.data)
+	}
+	return t.data
+}
+
+func primTryCatch(e *ControlFlow) {
+	exp := e.Get(1)
+	act := e.Get(2)
+	res := try(e, exp).Catch(act)
+	e.Return(res)
+}
+
+func PrimNS1Set(key, val Obj) Obj {
+	sym := mustSymbol(key)
+	sym.cora = val
+	return val
+}
+
+func PrimNS2Set(key, val Obj) Obj {
+	sym := mustSymbol(key)
+	sym.function = val
+	return key
+}
+
+func PrimNS3Set(key, val Obj) Obj {
+	sym := mustSymbol(key)
+	sym.value = val
+	return val
+}
+
+func PrimNS1Value(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.cora != nil {
+		return sym.cora
+	}
+	panic(fmt.Sprintf("variable %s not bound", sym.str))
+}
+
+func PrimNS2Value(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.function != nil {
+		return sym.function
+	}
+	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
+}
+
+func PrimNS3Value(key Obj) Obj {
+	sym := mustSymbol(key)
+	if sym.value != nil {
+		return sym.value
+	}
+	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }

@@ -80,12 +80,12 @@ type scmProcedure struct {
 type scmNative struct {
 	scmHead
 	name     string
-	fn       func(Evaluator)
+	fn       func(*ControlFlow)
 	require  int
 	captured []Obj
 }
 
-func MakeNative(fn func(Evaluator), require int, captured ...Obj) Obj {
+func MakeNative(fn func(*ControlFlow), require int, captured ...Obj) Obj {
 	tmp := scmNative{
 		scmHead:  scmHeadNative,
 		fn:       fn,

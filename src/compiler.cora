@@ -68,7 +68,7 @@
 	    (expr->stmt () raw))))
 
 (defun compile-file (fin fout)
-  (let exprs (read-file-as-sexp fin)
+  (let exprs (read-file-as-sexp fin true)
        (let expands (map macroexpand exprs)
 	    (let bc (map codegen expands)
 		 (write-sexp-to-file fout bc)))))
