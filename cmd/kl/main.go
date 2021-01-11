@@ -7,8 +7,8 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
-	"runtime"
 	"path/filepath"
+	"runtime"
 
 	"github.com/tiancaiamao/shen-go/kl"
 )
@@ -25,7 +25,6 @@ func main() {
 	if pprof {
 		go http.ListenAndServe(":8080", nil)
 	}
-
 
 	var e kl.ControlFlow
 	klInit()
@@ -63,10 +62,9 @@ func main() {
 
 var (
 	symMacroExpand = kl.MakeSymbol("macroexpand")
-	symEvalKL = kl.MakeSymbol("eval-kl")
-	symKLToCora = kl.MakeSymbol("kl->cora")
+	symEvalKL      = kl.MakeSymbol("eval-kl")
+	symKLToCora    = kl.MakeSymbol("kl->cora")
 )
-
 
 var klPrimitives = []struct {
 	name  string
