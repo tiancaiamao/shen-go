@@ -7,17 +7,17 @@ import (
 )
 
 func TestTrampoline(t *testing.T) {
-	var kl KLambda
+	var kl ControlFlow
 	Call(&kl, Load)
 	// Make sure no OOM in the tail apply case by using Trampoine
-	recur := kl.Global(MakeSymbol("recur"))
+	recur := PrimNS1Value(MakeSymbol("recur"))
 	_ = Call(&kl, recur, MakeNumber(100000))
 }
 
 func TestFact(t *testing.T) {
-	var kl KLambda
+	var kl ControlFlow
 	Call(&kl, Load)
-	fn := kl.Global(MakeSymbol("fact"))
+	fn := PrimNS1Value(MakeSymbol("fact"))
 	res := Call(&kl, fn, MakeInteger(5))
 	n := mustInteger(res)
 	if n != 120 {
@@ -26,9 +26,9 @@ func TestFact(t *testing.T) {
 }
 
 func TestPartialApply(t *testing.T) {
-	var kl KLambda
+	var kl ControlFlow
 	Call(&kl, Load)
-	fn := kl.Global(MakeSymbol("fact0"))
+	fn := PrimNS1Value(MakeSymbol("fact0"))
 	fn1 := Call(&kl, fn, MakeInteger(1))
 	res := Call(&kl, fn1, MakeInteger(5))
 	if mustInteger(res) != 120 {
@@ -37,10 +37,10 @@ func TestPartialApply(t *testing.T) {
 }
 
 func TestTryCatch(t *testing.T) {
-	var kl KLambda
+	var kl ControlFlow
 	Call(&kl, Load)
 	// (trap-error (+ 2 (simple-error "xxx")) (lambda X (error-to-string X)))
-	exp := `(trap-error (+ 2 (simple-error "xxx")) (lambda X (error-to-string X)))`
+	exp := `(try-catch (lambda () (+ 2 (simple-error "xxx"))) (lambda (X) (error-to-string X)))`
 	r := NewSexpReader(strings.NewReader(exp), false)
 	sexp, err := r.Read()
 	if err != nil {
@@ -58,7 +58,7 @@ func TestTryCatch(t *testing.T) {
 }
 
 func TestFusion(t *testing.T) {
-	var kl KLambda
+	var kl ControlFlow
 	Call(&kl, Load)
 	expect := Cons(MakeNumber(2), Cons(MakeNumber(3), Cons(MakeNumber(4), Nil)))
 

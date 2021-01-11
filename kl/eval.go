@@ -5,36 +5,6 @@ import (
 	"runtime"
 )
 
-type Evaluator interface {
-	base() *ControlFlow
-	eval()
-	Global(Obj) Obj
-
-	// All the following methods are provided by ControlFlow
-	TailEval(exp Obj, env Obj)
-	TailApply(f Obj, args ...Obj)
-	Return(result Obj)
-	Get(n int) Obj
-}
-
-func envGet(env Obj, sym Obj) (Obj, bool) {
-	for env != Nil {
-		pair := car(env)
-		if car(pair) == sym {
-			return cdr(pair), true
-		}
-		env = cdr(env)
-	}
-	return nil, false
-}
-
-func envExtend(env Obj, symbols, values []Obj) Obj {
-	for i := 0; i < len(symbols); i++ {
-		env = cons(cons(symbols[i], values[i]), env)
-	}
-	return env
-}
-
 type ControlFlowKind int
 
 const (
@@ -55,10 +25,6 @@ type ControlFlow struct {
 	// (f (g1 h) (g2 n) ...), the stack is used to store the temporary arguments
 	data []Obj
 	pos  int
-}
-
-func (ctl *ControlFlow) base() *ControlFlow {
-	return ctl
 }
 
 func (ctl *ControlFlow) TailEval(exp Obj, env Obj) {
@@ -88,14 +54,13 @@ func (ctl *ControlFlow) Get(n int) Obj {
 }
 
 // trampoline is introduced for tail call optimization.
-func trampoline(e Evaluator) Obj {
-	ctl := e.base()
+func trampoline(ctl *ControlFlow) Obj {
 	for ctl.kind != ControlFlowReturn {
 		switch ctl.kind {
 		case ControlFlowEval:
-			e.eval()
+			eval(ctl)
 		case ControlFlowApply:
-			apply(e)
+			apply(ctl)
 		}
 	}
 	ret := ctl.data[ctl.pos]
@@ -103,12 +68,12 @@ func trampoline(e Evaluator) Obj {
 	return ret
 }
 
-func evalExp(e Evaluator, exp Obj, env Obj) Obj {
+func evalExp(e *ControlFlow, exp Obj, env Obj) Obj {
 	e.TailEval(exp, env)
 	return trampoline(e)
 }
 
-func evalIf(e Evaluator, a, b, c Obj, env Obj) {
+func evalIf(e *ControlFlow, a, b, c Obj, env Obj) {
 	t := evalExp(e, a, env)
 	switch t {
 	case True:
@@ -121,7 +86,7 @@ func evalIf(e Evaluator, a, b, c Obj, env Obj) {
 	panic("second argument of if should be boolean")
 }
 
-func evalAnd(e Evaluator, a, b Obj, env Obj) {
+func evalAnd(e *ControlFlow, a, b Obj, env Obj) {
 	if evalExp(e, a, env) == False {
 		e.Return(False)
 		return
@@ -129,7 +94,7 @@ func evalAnd(e Evaluator, a, b Obj, env Obj) {
 	e.TailEval(b, env)
 }
 
-func evalOr(e Evaluator, a, b Obj, env Obj) {
+func evalOr(e *ControlFlow, a, b Obj, env Obj) {
 	if evalExp(e, a, env) == True {
 		e.Return(True)
 		return
@@ -167,12 +132,12 @@ func makeTempSymbols(n int) []Obj {
 	return ret
 }
 
-func Call(e Evaluator, f Obj, args ...Obj) Obj {
+func Call(e *ControlFlow, f Obj, args ...Obj) Obj {
 	e.TailApply(f, args...)
 	return trampoline(e)
 }
 
-func Eval(e Evaluator, exp Obj) (res Obj) {
+func Eval(e *ControlFlow, exp Obj) (res Obj) {
 	defer func() {
 		if r := recover(); r != nil {
 			var buf [4096]byte
@@ -188,43 +153,7 @@ func Eval(e Evaluator, exp Obj) (res Obj) {
 	return
 }
 
-type tryResult struct {
-	e    Evaluator
-	data Obj
-}
-
-func Try(e Evaluator, f Obj) (res tryResult) {
-	defer func() {
-		if err := recover(); err != nil {
-			if val, ok := err.(Obj); ok {
-				if IsError(val) {
-					res = tryResult{e: e, data: val}
-					return
-				}
-			}
-			// Unexpected panic?
-			var buf [4096]byte
-			n := runtime.Stack(buf[:], false)
-			fmt.Println("Panic:", err)
-			fmt.Println("Recovered in Try:", ObjString(f))
-			fmt.Println(string(buf[:n]))
-		}
-	}()
-	MustNative(f)
-	val := Call(e, f)
-	res = tryResult{e: e, data: val}
-	return
-}
-
-func (t tryResult) Catch(f Obj) Obj {
-	if IsError(t.data) {
-		return Call(t.e, f, t.data)
-	}
-	return t.data
-}
-
-func apply(e Evaluator) {
-	ctl := e.base()
+func apply(ctl *ControlFlow) {
 	f := ctl.data[ctl.pos]
 	args := ctl.data[ctl.pos+1:]
 	if *f == scmHeadProcedure {
@@ -240,7 +169,7 @@ func apply(e Evaluator) {
 			return
 		case len(args) > proc.arity:
 			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
-			res := evalExp(e, proc.body, newEnv)
+			res := evalExp(ctl, proc.body, newEnv)
 			ctl.TailApply(res, args[proc.arity:]...)
 			return
 		}
@@ -257,7 +186,7 @@ func apply(e Evaluator) {
 				dst = ctl.data[ctl.pos+1 : ctl.pos+1+len(fn.captured)]
 				copy(dst, fn.captured)
 			}
-			fn.fn(e)
+			fn.fn(ctl)
 			return
 		}
 
@@ -276,7 +205,7 @@ func apply(e Evaluator) {
 		ctl.data = append(ctl.data, fn.captured...)
 		taken := required - len(fn.captured)
 		ctl.data = append(ctl.data, ctl.data[savePos+1:savePos+1+taken]...)
-		fn.fn(e)
+		fn.fn(ctl)
 		f := ctl.data[ctl.pos]
 		ctl.pos = savePos
 		args = args[taken:]
@@ -284,4 +213,88 @@ func apply(e Evaluator) {
 		return
 	}
 	panic("can't apply object")
+}
+
+var symDebug = MakeSymbol("*debug-eval*")
+
+func eval(e *ControlFlow) {
+	exp := e.data[e.pos]
+	env := e.data[e.pos+1]
+
+	enableDebug := mustSymbol(symDebug).value
+	if enableDebug != nil && enableDebug != Nil {
+		fmt.Println("eval === exp:", ObjString(exp))
+	}
+
+	switch *exp {
+	// handle constant
+	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure /* , scmHeadPrimitive */ :
+		e.Return(exp)
+		return
+	case scmHeadSymbol:
+		if val, ok := envGet(env, exp); ok {
+			e.Return(val)
+			return
+		}
+		sym := mustSymbol(exp)
+		if sym.cora == nil {
+			// TODO: xxx
+			fmt.Println("NOT DEFINED")
+			panic("undefined symbol:" + sym.str)
+		}
+		e.Return(sym.cora)
+		return
+	}
+
+	pair := mustPair(exp)
+	if IsSymbol(pair.car) {
+		tl := pair.cdr // handle special form
+		switch pair.car {
+		case symQuote:
+			e.Return(car(tl))
+			return
+		case symIf: // (if a b c)
+			if listLength(pair.cdr) == 3 {
+				evalIf(e, car(tl), cadr(tl), caddr(tl), env)
+				return
+			} // if may also be a function for partial apply
+		case symDo: // (do A A)
+			evalExp(e, car(tl), env)
+			e.TailEval(cadr(tl), env)
+			return
+		case symLambda: // (lambda (x y) x)
+			e.Return(makeProcedure(car(tl), cadr(tl), env))
+			return
+		}
+	}
+
+	savePOS := e.pos
+	args := exp
+	for *args == scmHeadPair {
+		v := evalExp(e, car(args), env)
+		e.data = append(e.data, v)
+		e.pos++
+		args = cdr(args)
+	}
+	e.pos = savePOS
+	e.kind = ControlFlowApply
+	return
+}
+
+func envGet(env Obj, sym Obj) (Obj, bool) {
+	for env != Nil {
+		pair := car(env)
+		if car(pair) == sym {
+			return cdr(pair), true
+		}
+		env = cdr(env)
+	}
+	return nil, false
+}
+
+func envExtend(env Obj, symbols, values []Obj) Obj {
+	for i := 0; i < len(symbols); i++ {
+		env = cons(cons(symbols[i], values[i]), env)
+	}
+	return env
 }

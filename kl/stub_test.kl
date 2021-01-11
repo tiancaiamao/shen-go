@@ -1,4 +1,4 @@
-(defun f () (+ 1 (trap-error (+ 2 (simple-error "xxx")) (lambda e 2))))
+(defun f () (+ 1 (try-catch (lambda () (+ 2 (simple-error "xxx"))) (lambda (e) 2))))
 
 (defun recur (n)
   (if (= n 0)

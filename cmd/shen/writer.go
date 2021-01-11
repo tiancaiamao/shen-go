@@ -2,606 +2,947 @@ package main
 
 import . "github.com/tiancaiamao/shen-go/kl"
 
-func init() {
-	__initExprs = append(__initExprs, MakeNative(func(__e Evaluator) {
-		MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
+var WriterMain = MakeNative(func(__e *ControlFlow) {
+	MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
+	gen19897 := MakeNative(func(__e *ControlFlow) {
+		V4594 := __e.Get(1)
+		_ = V4594
+		V4595 := __e.Get(2)
+		_ = V4595
+		gen19895 := MakeNative(func(__e *ControlFlow) {
+			gen19894 := Call(__e, PrimNS1Value(symns2_1value), symshen_4prh)
 
-		gen9681 := MakeNative(func(__e Evaluator) {
-			V4594 := __e.Get(1)
-			_ = V4594
-			V4595 := __e.Get(2)
-			_ = V4595
-			gen9679 := MakeNative(func(__e Evaluator) {
-				E := __e.Get(1)
-				_ = E
-				__e.Return(V4594)
+			__e.TailApply(gen19894, V4594, V4595, MakeNumber(0))
+
+			return
+
+		}, 0)
+
+		gen19896 := MakeNative(func(__e *ControlFlow) {
+			E := __e.Get(1)
+			_ = E
+			__e.Return(V4594)
+			return
+		}, 1)
+
+		__e.TailApply(PrimNS1Value(symtry_1catch), gen19895, gen19896)
+
+		return
+
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), sympr, gen19897)
+
+	gen19901 := MakeNative(func(__e *ControlFlow) {
+		V4599 := __e.Get(1)
+		_ = V4599
+		V4600 := __e.Get(2)
+		_ = V4600
+		V4601 := __e.Get(3)
+		_ = V4601
+		gen19898 := Call(__e, PrimNS1Value(symns2_1value), symshen_4prh)
+
+		gen19899 := Call(__e, PrimNS1Value(symns2_1value), symshen_4write_1char_1and_1inc)
+
+		gen19900 := Call(__e, gen19899, V4599, V4600, V4601)
+
+		__e.TailApply(gen19898, V4599, V4600, gen19900)
+
+		return
+
+	}, 3)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4prh, gen19901)
+
+	gen19908 := MakeNative(func(__e *ControlFlow) {
+		V4605 := __e.Get(1)
+		_ = V4605
+		V4606 := __e.Get(2)
+		_ = V4606
+		V4607 := __e.Get(3)
+		_ = V4607
+		gen19902 := Call(__e, PrimNS1Value(symns2_1value), symwrite_1byte)
+
+		gen19903 := Call(__e, PrimNS1Value(symns2_1value), symstring_1_6n)
+
+		gen19904 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+		gen19905 := Call(__e, gen19904, V4605, V4607)
+
+		gen19906 := Call(__e, gen19903, gen19905)
+
+		Call(__e, gen19902, gen19906, V4606)
+
+		gen19907 := Call(__e, PrimNS1Value(symns2_1value), sym_7)
+
+		__e.TailApply(gen19907, V4607, MakeNumber(1))
+
+		return
+
+	}, 3)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4write_1char_1and_1inc, gen19908)
+
+	gen19917 := MakeNative(func(__e *ControlFlow) {
+		V4609 := __e.Get(1)
+		_ = V4609
+		gen19914 := MakeNative(func(__e *ControlFlow) {
+			String := __e.Get(1)
+			_ = String
+			gen19909 := MakeNative(func(__e *ControlFlow) {
+				Print := __e.Get(1)
+				_ = Print
+				__e.Return(V4609)
 				return
 			}, 1)
-			gen9680 := MakeNative(func(__e Evaluator) {
-				__e.TailApply(__e.Global(symshen_4prh), V4594, V4595, MakeNumber(0))
 
-				return
-			}, 0)
-			__e.Return(Try(__e, gen9680).Catch(gen9679))
-			return
+			gen19910 := Call(__e, PrimNS1Value(symns2_1value), symshen_4prhush)
 
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("pr"), gen9681)
+			gen19911 := Call(__e, PrimNS1Value(symns2_1value), symstoutput)
 
-		gen9683 := MakeNative(func(__e Evaluator) {
-			V4599 := __e.Get(1)
-			_ = V4599
-			V4600 := __e.Get(2)
-			_ = V4600
-			V4601 := __e.Get(3)
-			_ = V4601
-			gen9682 := Call(__e, __e.Global(symshen_4write_1char_1and_1inc), V4599, V4600, V4601)
+			gen19912 := Call(__e, gen19911)
 
-			__e.TailApply(__e.Global(symshen_4prh), V4599, V4600, gen9682)
+			gen19913 := Call(__e, gen19910, String, gen19912)
 
-			return
+			__e.TailApply(gen19909, gen19913)
 
-		}, 3)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.prh"), gen9683)
-
-		gen9686 := MakeNative(func(__e Evaluator) {
-			V4605 := __e.Get(1)
-			_ = V4605
-			V4606 := __e.Get(2)
-			_ = V4606
-			V4607 := __e.Get(3)
-			_ = V4607
-			gen9684 := Call(__e, __e.Global(sympos), V4605, V4607)
-
-			gen9685 := Call(__e, __e.Global(symstring_1_6n), gen9684)
-
-			Call(__e, __e.Global(symwrite_1byte), gen9685, V4606)
-
-			__e.TailApply(__e.Global(sym_7), V4607, MakeNumber(1))
-
-			return
-
-		}, 3)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.write-char-and-inc"), gen9686)
-
-		gen9690 := MakeNative(func(__e Evaluator) {
-			V4609 := __e.Get(1)
-			_ = V4609
-			gen9687 := Call(__e, __e.Global(symshen_4insert), V4609, MakeString("~S"))
-
-			String := gen9687
-			gen9688 := Call(__e, __e.Global(symstoutput))
-
-			gen9689 := Call(__e, __e.Global(symshen_4prhush), String, gen9688)
-
-			Print := gen9689
-			_ = Print
-			__e.Return(V4609)
 			return
 
 		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("print"), gen9690)
 
-		gen9692 := MakeNative(func(__e Evaluator) {
-			V4612 := __e.Get(1)
-			_ = V4612
-			V4613 := __e.Get(2)
-			_ = V4613
-			gen9691 := Call(__e, __e.Global(symvalue), MakeSymbol("*hush*"))
+		gen19915 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert)
 
-			if True == gen9691 {
-				__e.Return(V4612)
+		gen19916 := Call(__e, gen19915, V4609, MakeString("~S"))
+
+		__e.TailApply(gen19914, gen19916)
+
+		return
+
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symprint, gen19917)
+
+	gen19921 := MakeNative(func(__e *ControlFlow) {
+		V4612 := __e.Get(1)
+		_ = V4612
+		V4613 := __e.Get(2)
+		_ = V4613
+		gen19919 := Call(__e, PrimNS1Value(symns2_1value), symvalue)
+
+		gen19920 := Call(__e, gen19919, sym_dhush_d)
+
+		if True == gen19920 {
+			__e.Return(V4612)
+			return
+		} else {
+			gen19918 := Call(__e, PrimNS1Value(symns2_1value), sympr)
+
+			__e.TailApply(gen19918, V4612, V4613)
+
+			return
+
+		}
+
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4prhush, gen19921)
+
+	gen19933 := MakeNative(func(__e *ControlFlow) {
+		V4616 := __e.Get(1)
+		_ = V4616
+		V4617 := __e.Get(2)
+		_ = V4617
+		gen19931 := Call(__e, PrimNS1Value(symns2_1value), symstring_2)
+
+		gen19932 := Call(__e, gen19931, V4616)
+
+		if True == gen19932 {
+			gen19928 := Call(__e, PrimNS1Value(symns2_1value), symshen_4mkstr_1l)
+
+			gen19929 := Call(__e, PrimNS1Value(symns2_1value), symshen_4proc_1nl)
+
+			gen19930 := Call(__e, gen19929, V4616)
+
+			__e.TailApply(gen19928, gen19930, V4617)
+
+			return
+
+		} else {
+			if True == True {
+				gen19923 := Call(__e, PrimNS1Value(symns2_1value), symshen_4mkstr_1r)
+
+				gen19924 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+				gen19925 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+				gen19926 := Call(__e, gen19925, V4616, Nil)
+
+				gen19927 := Call(__e, gen19924, symshen_4proc_1nl, gen19926)
+
+				__e.TailApply(gen19923, gen19927, V4617)
+
 				return
+
 			} else {
-				__e.TailApply(__e.Global(sympr), V4612, V4613)
+				gen19922 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+				__e.TailApply(gen19922, MakeString("no cond match"))
 
 				return
+
 			}
+		}
 
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.prhush"), gen9692)
+	}, 2)
 
-		gen9697 := MakeNative(func(__e Evaluator) {
-			V4616 := __e.Get(1)
-			_ = V4616
-			V4617 := __e.Get(2)
-			_ = V4617
-			gen9696 := Call(__e, __e.Global(symstring_2), V4616)
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4mkstr, gen19933)
 
-			if True == gen9696 {
-				gen9695 := Call(__e, __e.Global(symshen_4proc_1nl), V4616)
+	gen19947 := MakeNative(func(__e *ControlFlow) {
+		V4620 := __e.Get(1)
+		_ = V4620
+		V4621 := __e.Get(2)
+		_ = V4621
+		gen19945 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-				__e.TailApply(__e.Global(symshen_4mkstr_1l), gen9695, V4617)
+		gen19946 := Call(__e, gen19945, Nil, V4621)
+
+		if True == gen19946 {
+			__e.Return(V4620)
+			return
+		} else {
+			gen19943 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+			gen19944 := Call(__e, gen19943, V4621)
+
+			if True == gen19944 {
+				gen19936 := Call(__e, PrimNS1Value(symns2_1value), symshen_4mkstr_1l)
+
+				gen19937 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1l)
+
+				gen19938 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+				gen19939 := Call(__e, gen19938, V4621)
+
+				gen19940 := Call(__e, gen19937, gen19939, V4620)
+
+				gen19941 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+				gen19942 := Call(__e, gen19941, V4621)
+
+				__e.TailApply(gen19936, gen19940, gen19942)
 
 				return
 
 			} else {
-				gen9693 := Call(__e, __e.Global(symcons), V4616, Nil)
+				if True == True {
+					gen19935 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
 
-				gen9694 := Call(__e, __e.Global(symcons), MakeSymbol("shen.proc-nl"), gen9693)
-
-				__e.TailApply(__e.Global(symshen_4mkstr_1r), gen9694, V4617)
-
-				return
-
-			}
-
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.mkstr"), gen9697)
-
-		gen9703 := MakeNative(func(__e Evaluator) {
-			V4620 := __e.Get(1)
-			_ = V4620
-			V4621 := __e.Get(2)
-			_ = V4621
-			gen9702 := Call(__e, __e.Global(sym_a), Nil, V4621)
-
-			if True == gen9702 {
-				__e.Return(V4620)
-				return
-			} else {
-				gen9701 := Call(__e, __e.Global(symcons_2), V4621)
-
-				if True == gen9701 {
-					gen9698 := Call(__e, __e.Global(symhd), V4621)
-
-					gen9699 := Call(__e, __e.Global(symshen_4insert_1l), gen9698, V4620)
-
-					gen9700 := Call(__e, __e.Global(symtl), V4621)
-
-					__e.TailApply(__e.Global(symshen_4mkstr_1l), gen9699, gen9700)
+					__e.TailApply(gen19935, symshen_4mkstr_1l)
 
 					return
 
 				} else {
-					__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.mkstr-l"))
+					gen19934 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+					__e.TailApply(gen19934, MakeString("no cond match"))
 
 					return
-				}
 
+				}
 			}
 
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.mkstr-l"), gen9703)
+		}
 
-		gen9817 := MakeNative(func(__e Evaluator) {
-			V4626 := __e.Get(1)
-			_ = V4626
-			V4627 := __e.Get(2)
-			_ = V4627
-			gen9816 := Call(__e, __e.Global(sym_a), MakeString(""), V4627)
+	}, 2)
 
-			if True == gen9816 {
-				__e.Return(MakeString(""))
-				return
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4mkstr_1l, gen19947)
+
+	gen20164 := MakeNative(func(__e *ControlFlow) {
+		V4626 := __e.Get(1)
+		_ = V4626
+		V4627 := __e.Get(2)
+		_ = V4627
+		gen20162 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20163 := Call(__e, gen20162, MakeString(""), V4627)
+
+		if True == gen20163 {
+			__e.Return(MakeString(""))
+			return
+		} else {
+			gen20159 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+			gen20160 := Call(__e, gen20159, V4627)
+
+			var gen20161 Obj
+
+			if True == gen20160 {
+				gen20154 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+				gen20155 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+				gen20156 := Call(__e, gen20155, V4627, MakeNumber(0))
+
+				gen20157 := Call(__e, gen20154, MakeString("~"), gen20156)
+
+				var gen20158 Obj
+
+				if True == gen20157 {
+					gen20149 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+					gen20150 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20151 := Call(__e, gen20150, V4627)
+
+					gen20152 := Call(__e, gen20149, gen20151)
+
+					var gen20153 Obj
+
+					if True == gen20152 {
+						gen20143 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+						gen20144 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+						gen20145 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20146 := Call(__e, gen20145, V4627)
+
+						gen20147 := Call(__e, gen20144, gen20146, MakeNumber(0))
+
+						gen20148 := Call(__e, gen20143, MakeString("A"), gen20147)
+
+						if True == gen20148 {
+							gen20153 = True
+						} else {
+							gen20153 = False
+						}
+
+					} else {
+						gen20153 = False
+					}
+
+					if True == gen20153 {
+						gen20158 = True
+					} else {
+						gen20158 = False
+					}
+
+				} else {
+					gen20158 = False
+				}
+
+				if True == gen20158 {
+					gen20161 = True
+				} else {
+					gen20161 = False
+				}
+
 			} else {
-				gen9814 := Call(__e, __e.Global(symshen_4_7string_2), V4627)
+				gen20161 = False
+			}
 
-				var gen9815 Obj
-				if True == gen9814 {
-					gen9811 := Call(__e, __e.Global(sympos), V4627, MakeNumber(0))
+			if True == gen20161 {
+				gen20132 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-					gen9812 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9811)
+				gen20133 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-					var gen9813 Obj
-					if True == gen9812 {
-						gen9808 := Call(__e, __e.Global(symtlstr), V4627)
+				gen20134 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-						gen9809 := Call(__e, __e.Global(symshen_4_7string_2), gen9808)
+				gen20135 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
 
-						var gen9810 Obj
-						if True == gen9809 {
-							gen9805 := Call(__e, __e.Global(symtlstr), V4627)
+				gen20136 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
 
-							gen9806 := Call(__e, __e.Global(sympos), gen9805, MakeNumber(0))
+				gen20137 := Call(__e, gen20136, V4627)
 
-							gen9807 := Call(__e, __e.Global(sym_a), MakeString("A"), gen9806)
+				gen20138 := Call(__e, gen20135, gen20137)
 
-							if True == gen9807 {
-								gen9810 = True
+				gen20139 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+				gen20140 := Call(__e, gen20139, symshen_4a, Nil)
+
+				gen20141 := Call(__e, gen20134, gen20138, gen20140)
+
+				gen20142 := Call(__e, gen20133, V4626, gen20141)
+
+				__e.TailApply(gen20132, symshen_4app, gen20142)
+
+				return
+
+			} else {
+				gen20129 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+				gen20130 := Call(__e, gen20129, V4627)
+
+				var gen20131 Obj
+
+				if True == gen20130 {
+					gen20124 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+					gen20125 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+					gen20126 := Call(__e, gen20125, V4627, MakeNumber(0))
+
+					gen20127 := Call(__e, gen20124, MakeString("~"), gen20126)
+
+					var gen20128 Obj
+
+					if True == gen20127 {
+						gen20119 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+						gen20120 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20121 := Call(__e, gen20120, V4627)
+
+						gen20122 := Call(__e, gen20119, gen20121)
+
+						var gen20123 Obj
+
+						if True == gen20122 {
+							gen20113 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+							gen20114 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+							gen20115 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+							gen20116 := Call(__e, gen20115, V4627)
+
+							gen20117 := Call(__e, gen20114, gen20116, MakeNumber(0))
+
+							gen20118 := Call(__e, gen20113, MakeString("R"), gen20117)
+
+							if True == gen20118 {
+								gen20123 = True
 							} else {
-								gen9810 = False
+								gen20123 = False
 							}
 
 						} else {
-							gen9810 = False
+							gen20123 = False
 						}
-						if True == gen9810 {
-							gen9813 = True
+
+						if True == gen20123 {
+							gen20128 = True
 						} else {
-							gen9813 = False
+							gen20128 = False
 						}
 
 					} else {
-						gen9813 = False
+						gen20128 = False
 					}
-					if True == gen9813 {
-						gen9815 = True
+
+					if True == gen20128 {
+						gen20131 = True
 					} else {
-						gen9815 = False
+						gen20131 = False
 					}
 
 				} else {
-					gen9815 = False
+					gen20131 = False
 				}
-				if True == gen9815 {
-					gen9800 := Call(__e, __e.Global(symtlstr), V4627)
 
-					gen9801 := Call(__e, __e.Global(symtlstr), gen9800)
+				if True == gen20131 {
+					gen20102 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-					gen9802 := Call(__e, __e.Global(symcons), MakeSymbol("shen.a"), Nil)
+					gen20103 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-					gen9803 := Call(__e, __e.Global(symcons), gen9801, gen9802)
+					gen20104 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-					gen9804 := Call(__e, __e.Global(symcons), V4626, gen9803)
+					gen20105 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
 
-					__e.TailApply(__e.Global(symcons), MakeSymbol("shen.app"), gen9804)
+					gen20106 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20107 := Call(__e, gen20106, V4627)
+
+					gen20108 := Call(__e, gen20105, gen20107)
+
+					gen20109 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+					gen20110 := Call(__e, gen20109, symshen_4r, Nil)
+
+					gen20111 := Call(__e, gen20104, gen20108, gen20110)
+
+					gen20112 := Call(__e, gen20103, V4626, gen20111)
+
+					__e.TailApply(gen20102, symshen_4app, gen20112)
 
 					return
 
 				} else {
-					gen9798 := Call(__e, __e.Global(symshen_4_7string_2), V4627)
+					gen20099 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
 
-					var gen9799 Obj
-					if True == gen9798 {
-						gen9795 := Call(__e, __e.Global(sympos), V4627, MakeNumber(0))
+					gen20100 := Call(__e, gen20099, V4627)
 
-						gen9796 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9795)
+					var gen20101 Obj
 
-						var gen9797 Obj
-						if True == gen9796 {
-							gen9792 := Call(__e, __e.Global(symtlstr), V4627)
+					if True == gen20100 {
+						gen20094 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-							gen9793 := Call(__e, __e.Global(symshen_4_7string_2), gen9792)
+						gen20095 := Call(__e, PrimNS1Value(symns2_1value), sympos)
 
-							var gen9794 Obj
-							if True == gen9793 {
-								gen9789 := Call(__e, __e.Global(symtlstr), V4627)
+						gen20096 := Call(__e, gen20095, V4627, MakeNumber(0))
 
-								gen9790 := Call(__e, __e.Global(sympos), gen9789, MakeNumber(0))
+						gen20097 := Call(__e, gen20094, MakeString("~"), gen20096)
 
-								gen9791 := Call(__e, __e.Global(sym_a), MakeString("R"), gen9790)
+						var gen20098 Obj
 
-								if True == gen9791 {
-									gen9794 = True
+						if True == gen20097 {
+							gen20089 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+							gen20090 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+							gen20091 := Call(__e, gen20090, V4627)
+
+							gen20092 := Call(__e, gen20089, gen20091)
+
+							var gen20093 Obj
+
+							if True == gen20092 {
+								gen20083 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+								gen20084 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+								gen20085 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+								gen20086 := Call(__e, gen20085, V4627)
+
+								gen20087 := Call(__e, gen20084, gen20086, MakeNumber(0))
+
+								gen20088 := Call(__e, gen20083, MakeString("S"), gen20087)
+
+								if True == gen20088 {
+									gen20093 = True
 								} else {
-									gen9794 = False
+									gen20093 = False
 								}
 
 							} else {
-								gen9794 = False
+								gen20093 = False
 							}
-							if True == gen9794 {
-								gen9797 = True
+
+							if True == gen20093 {
+								gen20098 = True
 							} else {
-								gen9797 = False
+								gen20098 = False
 							}
 
 						} else {
-							gen9797 = False
+							gen20098 = False
 						}
-						if True == gen9797 {
-							gen9799 = True
+
+						if True == gen20098 {
+							gen20101 = True
 						} else {
-							gen9799 = False
+							gen20101 = False
 						}
 
 					} else {
-						gen9799 = False
+						gen20101 = False
 					}
-					if True == gen9799 {
-						gen9784 := Call(__e, __e.Global(symtlstr), V4627)
 
-						gen9785 := Call(__e, __e.Global(symtlstr), gen9784)
+					if True == gen20101 {
+						gen20072 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-						gen9786 := Call(__e, __e.Global(symcons), MakeSymbol("shen.r"), Nil)
+						gen20073 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-						gen9787 := Call(__e, __e.Global(symcons), gen9785, gen9786)
+						gen20074 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-						gen9788 := Call(__e, __e.Global(symcons), V4626, gen9787)
+						gen20075 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
 
-						__e.TailApply(__e.Global(symcons), MakeSymbol("shen.app"), gen9788)
+						gen20076 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20077 := Call(__e, gen20076, V4627)
+
+						gen20078 := Call(__e, gen20075, gen20077)
+
+						gen20079 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+						gen20080 := Call(__e, gen20079, symshen_4s, Nil)
+
+						gen20081 := Call(__e, gen20074, gen20078, gen20080)
+
+						gen20082 := Call(__e, gen20073, V4626, gen20081)
+
+						__e.TailApply(gen20072, symshen_4app, gen20082)
 
 						return
 
 					} else {
-						gen9782 := Call(__e, __e.Global(symshen_4_7string_2), V4627)
+						gen20070 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
 
-						var gen9783 Obj
-						if True == gen9782 {
-							gen9779 := Call(__e, __e.Global(sympos), V4627, MakeNumber(0))
+						gen20071 := Call(__e, gen20070, V4627)
 
-							gen9780 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9779)
+						if True == gen20071 {
+							gen20057 := Call(__e, PrimNS1Value(symns2_1value), symshen_4factor_1cn)
 
-							var gen9781 Obj
-							if True == gen9780 {
-								gen9776 := Call(__e, __e.Global(symtlstr), V4627)
+							gen20058 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-								gen9777 := Call(__e, __e.Global(symshen_4_7string_2), gen9776)
+							gen20059 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-								var gen9778 Obj
-								if True == gen9777 {
-									gen9773 := Call(__e, __e.Global(symtlstr), V4627)
+							gen20060 := Call(__e, PrimNS1Value(symns2_1value), sympos)
 
-									gen9774 := Call(__e, __e.Global(sympos), gen9773, MakeNumber(0))
+							gen20061 := Call(__e, gen20060, V4627, MakeNumber(0))
 
-									gen9775 := Call(__e, __e.Global(sym_a), MakeString("S"), gen9774)
+							gen20062 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-									if True == gen9775 {
-										gen9778 = True
-									} else {
-										gen9778 = False
-									}
+							gen20063 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1l)
 
-								} else {
-									gen9778 = False
-								}
-								if True == gen9778 {
-									gen9781 = True
-								} else {
-									gen9781 = False
-								}
+							gen20064 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
 
-							} else {
-								gen9781 = False
-							}
-							if True == gen9781 {
-								gen9783 = True
-							} else {
-								gen9783 = False
-							}
+							gen20065 := Call(__e, gen20064, V4627)
 
-						} else {
-							gen9783 = False
-						}
-						if True == gen9783 {
-							gen9768 := Call(__e, __e.Global(symtlstr), V4627)
+							gen20066 := Call(__e, gen20063, V4626, gen20065)
 
-							gen9769 := Call(__e, __e.Global(symtlstr), gen9768)
+							gen20067 := Call(__e, gen20062, gen20066, Nil)
 
-							gen9770 := Call(__e, __e.Global(symcons), MakeSymbol("shen.s"), Nil)
+							gen20068 := Call(__e, gen20059, gen20061, gen20067)
 
-							gen9771 := Call(__e, __e.Global(symcons), gen9769, gen9770)
+							gen20069 := Call(__e, gen20058, symcn, gen20068)
 
-							gen9772 := Call(__e, __e.Global(symcons), V4626, gen9771)
-
-							__e.TailApply(__e.Global(symcons), MakeSymbol("shen.app"), gen9772)
+							__e.TailApply(gen20057, gen20069)
 
 							return
 
 						} else {
-							gen9767 := Call(__e, __e.Global(symshen_4_7string_2), V4627)
+							gen20054 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-							if True == gen9767 {
-								gen9761 := Call(__e, __e.Global(sympos), V4627, MakeNumber(0))
+							gen20055 := Call(__e, gen20054, V4627)
 
-								gen9762 := Call(__e, __e.Global(symtlstr), V4627)
+							var gen20056 Obj
 
-								gen9763 := Call(__e, __e.Global(symshen_4insert_1l), V4626, gen9762)
+							if True == gen20055 {
+								gen20049 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-								gen9764 := Call(__e, __e.Global(symcons), gen9763, Nil)
+								gen20050 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-								gen9765 := Call(__e, __e.Global(symcons), gen9761, gen9764)
+								gen20051 := Call(__e, gen20050, V4627)
 
-								gen9766 := Call(__e, __e.Global(symcons), MakeSymbol("cn"), gen9765)
+								gen20052 := Call(__e, gen20049, symcn, gen20051)
 
-								__e.TailApply(__e.Global(symshen_4factor_1cn), gen9766)
+								var gen20053 Obj
+
+								if True == gen20052 {
+									gen20044 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+									gen20045 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen20046 := Call(__e, gen20045, V4627)
+
+									gen20047 := Call(__e, gen20044, gen20046)
+
+									var gen20048 Obj
+
+									if True == gen20047 {
+										gen20037 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+										gen20038 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20039 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20040 := Call(__e, gen20039, V4627)
+
+										gen20041 := Call(__e, gen20038, gen20040)
+
+										gen20042 := Call(__e, gen20037, gen20041)
+
+										var gen20043 Obj
+
+										if True == gen20042 {
+											gen20029 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+											gen20030 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen20031 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen20032 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen20033 := Call(__e, gen20032, V4627)
+
+											gen20034 := Call(__e, gen20031, gen20033)
+
+											gen20035 := Call(__e, gen20030, gen20034)
+
+											gen20036 := Call(__e, gen20029, Nil, gen20035)
+
+											if True == gen20036 {
+												gen20043 = True
+											} else {
+												gen20043 = False
+											}
+
+										} else {
+											gen20043 = False
+										}
+
+										if True == gen20043 {
+											gen20048 = True
+										} else {
+											gen20048 = False
+										}
+
+									} else {
+										gen20048 = False
+									}
+
+									if True == gen20048 {
+										gen20053 = True
+									} else {
+										gen20053 = False
+									}
+
+								} else {
+									gen20053 = False
+								}
+
+								if True == gen20053 {
+									gen20056 = True
+								} else {
+									gen20056 = False
+								}
+
+							} else {
+								gen20056 = False
+							}
+
+							if True == gen20056 {
+								gen20012 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+								gen20013 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+								gen20014 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+								gen20015 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+								gen20016 := Call(__e, gen20015, V4627)
+
+								gen20017 := Call(__e, gen20014, gen20016)
+
+								gen20018 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+								gen20019 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1l)
+
+								gen20020 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+								gen20021 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+								gen20022 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+								gen20023 := Call(__e, gen20022, V4627)
+
+								gen20024 := Call(__e, gen20021, gen20023)
+
+								gen20025 := Call(__e, gen20020, gen20024)
+
+								gen20026 := Call(__e, gen20019, V4626, gen20025)
+
+								gen20027 := Call(__e, gen20018, gen20026, Nil)
+
+								gen20028 := Call(__e, gen20013, gen20017, gen20027)
+
+								__e.TailApply(gen20012, symcn, gen20028)
 
 								return
 
 							} else {
-								gen9759 := Call(__e, __e.Global(symcons_2), V4627)
+								gen20009 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-								var gen9760 Obj
-								if True == gen9759 {
-									gen9756 := Call(__e, __e.Global(symhd), V4627)
+								gen20010 := Call(__e, gen20009, V4627)
 
-									gen9757 := Call(__e, __e.Global(sym_a), MakeSymbol("cn"), gen9756)
+								var gen20011 Obj
 
-									var gen9758 Obj
-									if True == gen9757 {
-										gen9753 := Call(__e, __e.Global(symtl), V4627)
+								if True == gen20010 {
+									gen20004 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-										gen9754 := Call(__e, __e.Global(symcons_2), gen9753)
+									gen20005 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-										var gen9755 Obj
-										if True == gen9754 {
-											gen9749 := Call(__e, __e.Global(symtl), V4627)
+									gen20006 := Call(__e, gen20005, V4627)
 
-											gen9750 := Call(__e, __e.Global(symtl), gen9749)
+									gen20007 := Call(__e, gen20004, symshen_4app, gen20006)
 
-											gen9751 := Call(__e, __e.Global(symcons_2), gen9750)
+									var gen20008 Obj
 
-											var gen9752 Obj
-											if True == gen9751 {
-												gen9745 := Call(__e, __e.Global(symtl), V4627)
+									if True == gen20007 {
+										gen19999 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-												gen9746 := Call(__e, __e.Global(symtl), gen9745)
+										gen20000 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-												gen9747 := Call(__e, __e.Global(symtl), gen9746)
+										gen20001 := Call(__e, gen20000, V4627)
 
-												gen9748 := Call(__e, __e.Global(sym_a), Nil, gen9747)
+										gen20002 := Call(__e, gen19999, gen20001)
 
-												if True == gen9748 {
-													gen9752 = True
+										var gen20003 Obj
+
+										if True == gen20002 {
+											gen19992 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+											gen19993 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen19994 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen19995 := Call(__e, gen19994, V4627)
+
+											gen19996 := Call(__e, gen19993, gen19995)
+
+											gen19997 := Call(__e, gen19992, gen19996)
+
+											var gen19998 Obj
+
+											if True == gen19997 {
+												gen19983 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+												gen19984 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+												gen19985 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+												gen19986 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+												gen19987 := Call(__e, gen19986, V4627)
+
+												gen19988 := Call(__e, gen19985, gen19987)
+
+												gen19989 := Call(__e, gen19984, gen19988)
+
+												gen19990 := Call(__e, gen19983, gen19989)
+
+												var gen19991 Obj
+
+												if True == gen19990 {
+													gen19973 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+													gen19974 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen19975 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen19976 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen19977 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen19978 := Call(__e, gen19977, V4627)
+
+													gen19979 := Call(__e, gen19976, gen19978)
+
+													gen19980 := Call(__e, gen19975, gen19979)
+
+													gen19981 := Call(__e, gen19974, gen19980)
+
+													gen19982 := Call(__e, gen19973, Nil, gen19981)
+
+													if True == gen19982 {
+														gen19991 = True
+													} else {
+														gen19991 = False
+													}
+
 												} else {
-													gen9752 = False
+													gen19991 = False
+												}
+
+												if True == gen19991 {
+													gen19998 = True
+												} else {
+													gen19998 = False
 												}
 
 											} else {
-												gen9752 = False
+												gen19998 = False
 											}
-											if True == gen9752 {
-												gen9755 = True
+
+											if True == gen19998 {
+												gen20003 = True
 											} else {
-												gen9755 = False
+												gen20003 = False
 											}
 
 										} else {
-											gen9755 = False
+											gen20003 = False
 										}
-										if True == gen9755 {
-											gen9758 = True
+
+										if True == gen20003 {
+											gen20008 = True
 										} else {
-											gen9758 = False
+											gen20008 = False
 										}
 
 									} else {
-										gen9758 = False
+										gen20008 = False
 									}
-									if True == gen9758 {
-										gen9760 = True
+
+									if True == gen20008 {
+										gen20011 = True
 									} else {
-										gen9760 = False
+										gen20011 = False
 									}
 
 								} else {
-									gen9760 = False
+									gen20011 = False
 								}
-								if True == gen9760 {
-									gen9737 := Call(__e, __e.Global(symtl), V4627)
 
-									gen9738 := Call(__e, __e.Global(symhd), gen9737)
+								if True == gen20011 {
+									gen19950 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-									gen9739 := Call(__e, __e.Global(symtl), V4627)
+									gen19951 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-									gen9740 := Call(__e, __e.Global(symtl), gen9739)
+									gen19952 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-									gen9741 := Call(__e, __e.Global(symhd), gen9740)
+									gen19953 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-									gen9742 := Call(__e, __e.Global(symshen_4insert_1l), V4626, gen9741)
+									gen19954 := Call(__e, gen19953, V4627)
 
-									gen9743 := Call(__e, __e.Global(symcons), gen9742, Nil)
+									gen19955 := Call(__e, gen19952, gen19954)
 
-									gen9744 := Call(__e, __e.Global(symcons), gen9738, gen9743)
+									gen19956 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-									__e.TailApply(__e.Global(symcons), MakeSymbol("cn"), gen9744)
+									gen19957 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1l)
+
+									gen19958 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+									gen19959 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen19960 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen19961 := Call(__e, gen19960, V4627)
+
+									gen19962 := Call(__e, gen19959, gen19961)
+
+									gen19963 := Call(__e, gen19958, gen19962)
+
+									gen19964 := Call(__e, gen19957, V4626, gen19963)
+
+									gen19965 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen19966 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen19967 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen19968 := Call(__e, gen19967, V4627)
+
+									gen19969 := Call(__e, gen19966, gen19968)
+
+									gen19970 := Call(__e, gen19965, gen19969)
+
+									gen19971 := Call(__e, gen19956, gen19964, gen19970)
+
+									gen19972 := Call(__e, gen19951, gen19955, gen19971)
+
+									__e.TailApply(gen19950, symshen_4app, gen19972)
 
 									return
 
 								} else {
-									gen9735 := Call(__e, __e.Global(symcons_2), V4627)
+									if True == True {
+										gen19949 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
 
-									var gen9736 Obj
-									if True == gen9735 {
-										gen9732 := Call(__e, __e.Global(symhd), V4627)
-
-										gen9733 := Call(__e, __e.Global(sym_a), MakeSymbol("shen.app"), gen9732)
-
-										var gen9734 Obj
-										if True == gen9733 {
-											gen9729 := Call(__e, __e.Global(symtl), V4627)
-
-											gen9730 := Call(__e, __e.Global(symcons_2), gen9729)
-
-											var gen9731 Obj
-											if True == gen9730 {
-												gen9725 := Call(__e, __e.Global(symtl), V4627)
-
-												gen9726 := Call(__e, __e.Global(symtl), gen9725)
-
-												gen9727 := Call(__e, __e.Global(symcons_2), gen9726)
-
-												var gen9728 Obj
-												if True == gen9727 {
-													gen9720 := Call(__e, __e.Global(symtl), V4627)
-
-													gen9721 := Call(__e, __e.Global(symtl), gen9720)
-
-													gen9722 := Call(__e, __e.Global(symtl), gen9721)
-
-													gen9723 := Call(__e, __e.Global(symcons_2), gen9722)
-
-													var gen9724 Obj
-													if True == gen9723 {
-														gen9715 := Call(__e, __e.Global(symtl), V4627)
-
-														gen9716 := Call(__e, __e.Global(symtl), gen9715)
-
-														gen9717 := Call(__e, __e.Global(symtl), gen9716)
-
-														gen9718 := Call(__e, __e.Global(symtl), gen9717)
-
-														gen9719 := Call(__e, __e.Global(sym_a), Nil, gen9718)
-
-														if True == gen9719 {
-															gen9724 = True
-														} else {
-															gen9724 = False
-														}
-
-													} else {
-														gen9724 = False
-													}
-													if True == gen9724 {
-														gen9728 = True
-													} else {
-														gen9728 = False
-													}
-
-												} else {
-													gen9728 = False
-												}
-												if True == gen9728 {
-													gen9731 = True
-												} else {
-													gen9731 = False
-												}
-
-											} else {
-												gen9731 = False
-											}
-											if True == gen9731 {
-												gen9734 = True
-											} else {
-												gen9734 = False
-											}
-
-										} else {
-											gen9734 = False
-										}
-										if True == gen9734 {
-											gen9736 = True
-										} else {
-											gen9736 = False
-										}
-
-									} else {
-										gen9736 = False
-									}
-									if True == gen9736 {
-										gen9704 := Call(__e, __e.Global(symtl), V4627)
-
-										gen9705 := Call(__e, __e.Global(symhd), gen9704)
-
-										gen9706 := Call(__e, __e.Global(symtl), V4627)
-
-										gen9707 := Call(__e, __e.Global(symtl), gen9706)
-
-										gen9708 := Call(__e, __e.Global(symhd), gen9707)
-
-										gen9709 := Call(__e, __e.Global(symshen_4insert_1l), V4626, gen9708)
-
-										gen9710 := Call(__e, __e.Global(symtl), V4627)
-
-										gen9711 := Call(__e, __e.Global(symtl), gen9710)
-
-										gen9712 := Call(__e, __e.Global(symtl), gen9711)
-
-										gen9713 := Call(__e, __e.Global(symcons), gen9709, gen9712)
-
-										gen9714 := Call(__e, __e.Global(symcons), gen9705, gen9713)
-
-										__e.TailApply(__e.Global(symcons), MakeSymbol("shen.app"), gen9714)
+										__e.TailApply(gen19949, symshen_4insert_1l)
 
 										return
 
 									} else {
-										__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.insert-l"))
+										gen19948 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+										__e.TailApply(gen19948, MakeString("no cond match"))
 
 										return
-									}
 
+									}
 								}
 
 							}
@@ -614,1203 +955,1885 @@ func init() {
 
 			}
 
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.insert-l"), gen9817)
+		}
 
-		gen9891 := MakeNative(func(__e Evaluator) {
-			V4629 := __e.Get(1)
-			_ = V4629
-			gen9889 := Call(__e, __e.Global(symcons_2), V4629)
+	}, 2)
 
-			var gen9890 Obj
-			if True == gen9889 {
-				gen9886 := Call(__e, __e.Global(symhd), V4629)
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4insert_1l, gen20164)
 
-				gen9887 := Call(__e, __e.Global(sym_a), MakeSymbol("cn"), gen9886)
+	gen20302 := MakeNative(func(__e *ControlFlow) {
+		V4629 := __e.Get(1)
+		_ = V4629
+		gen20299 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-				var gen9888 Obj
-				if True == gen9887 {
-					gen9883 := Call(__e, __e.Global(symtl), V4629)
+		gen20300 := Call(__e, gen20299, V4629)
 
-					gen9884 := Call(__e, __e.Global(symcons_2), gen9883)
+		var gen20301 Obj
 
-					var gen9885 Obj
-					if True == gen9884 {
-						gen9879 := Call(__e, __e.Global(symtl), V4629)
+		if True == gen20300 {
+			gen20294 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-						gen9880 := Call(__e, __e.Global(symtl), gen9879)
+			gen20295 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-						gen9881 := Call(__e, __e.Global(symcons_2), gen9880)
+			gen20296 := Call(__e, gen20295, V4629)
 
-						var gen9882 Obj
-						if True == gen9881 {
-							gen9874 := Call(__e, __e.Global(symtl), V4629)
+			gen20297 := Call(__e, gen20294, symcn, gen20296)
 
-							gen9875 := Call(__e, __e.Global(symtl), gen9874)
+			var gen20298 Obj
 
-							gen9876 := Call(__e, __e.Global(symhd), gen9875)
+			if True == gen20297 {
+				gen20289 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-							gen9877 := Call(__e, __e.Global(symcons_2), gen9876)
+				gen20290 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-							var gen9878 Obj
-							if True == gen9877 {
-								gen9868 := Call(__e, __e.Global(symtl), V4629)
+				gen20291 := Call(__e, gen20290, V4629)
 
-								gen9869 := Call(__e, __e.Global(symtl), gen9868)
+				gen20292 := Call(__e, gen20289, gen20291)
 
-								gen9870 := Call(__e, __e.Global(symhd), gen9869)
+				var gen20293 Obj
 
-								gen9871 := Call(__e, __e.Global(symhd), gen9870)
+				if True == gen20292 {
+					gen20282 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-								gen9872 := Call(__e, __e.Global(sym_a), MakeSymbol("cn"), gen9871)
+					gen20283 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-								var gen9873 Obj
-								if True == gen9872 {
-									gen9862 := Call(__e, __e.Global(symtl), V4629)
+					gen20284 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-									gen9863 := Call(__e, __e.Global(symtl), gen9862)
+					gen20285 := Call(__e, gen20284, V4629)
 
-									gen9864 := Call(__e, __e.Global(symhd), gen9863)
+					gen20286 := Call(__e, gen20283, gen20285)
 
-									gen9865 := Call(__e, __e.Global(symtl), gen9864)
+					gen20287 := Call(__e, gen20282, gen20286)
 
-									gen9866 := Call(__e, __e.Global(symcons_2), gen9865)
+					var gen20288 Obj
 
-									var gen9867 Obj
-									if True == gen9866 {
-										gen9855 := Call(__e, __e.Global(symtl), V4629)
+					if True == gen20287 {
+						gen20273 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-										gen9856 := Call(__e, __e.Global(symtl), gen9855)
+						gen20274 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-										gen9857 := Call(__e, __e.Global(symhd), gen9856)
+						gen20275 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-										gen9858 := Call(__e, __e.Global(symtl), gen9857)
+						gen20276 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-										gen9859 := Call(__e, __e.Global(symtl), gen9858)
+						gen20277 := Call(__e, gen20276, V4629)
 
-										gen9860 := Call(__e, __e.Global(symcons_2), gen9859)
+						gen20278 := Call(__e, gen20275, gen20277)
 
-										var gen9861 Obj
-										if True == gen9860 {
-											gen9847 := Call(__e, __e.Global(symtl), V4629)
+						gen20279 := Call(__e, gen20274, gen20278)
 
-											gen9848 := Call(__e, __e.Global(symtl), gen9847)
+						gen20280 := Call(__e, gen20273, gen20279)
 
-											gen9849 := Call(__e, __e.Global(symhd), gen9848)
+						var gen20281 Obj
 
-											gen9850 := Call(__e, __e.Global(symtl), gen9849)
+						if True == gen20280 {
+							gen20262 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-											gen9851 := Call(__e, __e.Global(symtl), gen9850)
+							gen20263 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-											gen9852 := Call(__e, __e.Global(symtl), gen9851)
+							gen20264 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-											gen9853 := Call(__e, __e.Global(sym_a), Nil, gen9852)
+							gen20265 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-											var gen9854 Obj
-											if True == gen9853 {
-												gen9842 := Call(__e, __e.Global(symtl), V4629)
+							gen20266 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-												gen9843 := Call(__e, __e.Global(symtl), gen9842)
+							gen20267 := Call(__e, gen20266, V4629)
 
-												gen9844 := Call(__e, __e.Global(symtl), gen9843)
+							gen20268 := Call(__e, gen20265, gen20267)
 
-												gen9845 := Call(__e, __e.Global(sym_a), Nil, gen9844)
+							gen20269 := Call(__e, gen20264, gen20268)
 
-												var gen9846 Obj
-												if True == gen9845 {
-													gen9838 := Call(__e, __e.Global(symtl), V4629)
+							gen20270 := Call(__e, gen20263, gen20269)
 
-													gen9839 := Call(__e, __e.Global(symhd), gen9838)
+							gen20271 := Call(__e, gen20262, symcn, gen20270)
 
-													gen9840 := Call(__e, __e.Global(symstring_2), gen9839)
+							var gen20272 Obj
 
-													var gen9841 Obj
-													if True == gen9840 {
-														gen9832 := Call(__e, __e.Global(symtl), V4629)
+							if True == gen20271 {
+								gen20251 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-														gen9833 := Call(__e, __e.Global(symtl), gen9832)
+								gen20252 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-														gen9834 := Call(__e, __e.Global(symhd), gen9833)
+								gen20253 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-														gen9835 := Call(__e, __e.Global(symtl), gen9834)
+								gen20254 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-														gen9836 := Call(__e, __e.Global(symhd), gen9835)
+								gen20255 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-														gen9837 := Call(__e, __e.Global(symstring_2), gen9836)
+								gen20256 := Call(__e, gen20255, V4629)
 
-														if True == gen9837 {
-															gen9841 = True
-														} else {
-															gen9841 = False
-														}
+								gen20257 := Call(__e, gen20254, gen20256)
 
+								gen20258 := Call(__e, gen20253, gen20257)
+
+								gen20259 := Call(__e, gen20252, gen20258)
+
+								gen20260 := Call(__e, gen20251, gen20259)
+
+								var gen20261 Obj
+
+								if True == gen20260 {
+									gen20238 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+									gen20239 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen20240 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen20241 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+									gen20242 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen20243 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+									gen20244 := Call(__e, gen20243, V4629)
+
+									gen20245 := Call(__e, gen20242, gen20244)
+
+									gen20246 := Call(__e, gen20241, gen20245)
+
+									gen20247 := Call(__e, gen20240, gen20246)
+
+									gen20248 := Call(__e, gen20239, gen20247)
+
+									gen20249 := Call(__e, gen20238, gen20248)
+
+									var gen20250 Obj
+
+									if True == gen20249 {
+										gen20223 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+										gen20224 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20225 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20226 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20227 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+										gen20228 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20229 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+										gen20230 := Call(__e, gen20229, V4629)
+
+										gen20231 := Call(__e, gen20228, gen20230)
+
+										gen20232 := Call(__e, gen20227, gen20231)
+
+										gen20233 := Call(__e, gen20226, gen20232)
+
+										gen20234 := Call(__e, gen20225, gen20233)
+
+										gen20235 := Call(__e, gen20224, gen20234)
+
+										gen20236 := Call(__e, gen20223, Nil, gen20235)
+
+										var gen20237 Obj
+
+										if True == gen20236 {
+											gen20214 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+											gen20215 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen20216 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen20217 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+											gen20218 := Call(__e, gen20217, V4629)
+
+											gen20219 := Call(__e, gen20216, gen20218)
+
+											gen20220 := Call(__e, gen20215, gen20219)
+
+											gen20221 := Call(__e, gen20214, Nil, gen20220)
+
+											var gen20222 Obj
+
+											if True == gen20221 {
+												gen20207 := Call(__e, PrimNS1Value(symns2_1value), symstring_2)
+
+												gen20208 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+												gen20209 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+												gen20210 := Call(__e, gen20209, V4629)
+
+												gen20211 := Call(__e, gen20208, gen20210)
+
+												gen20212 := Call(__e, gen20207, gen20211)
+
+												var gen20213 Obj
+
+												if True == gen20212 {
+													gen20195 := Call(__e, PrimNS1Value(symns2_1value), symstring_2)
+
+													gen20196 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+													gen20197 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen20198 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+													gen20199 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen20200 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+													gen20201 := Call(__e, gen20200, V4629)
+
+													gen20202 := Call(__e, gen20199, gen20201)
+
+													gen20203 := Call(__e, gen20198, gen20202)
+
+													gen20204 := Call(__e, gen20197, gen20203)
+
+													gen20205 := Call(__e, gen20196, gen20204)
+
+													gen20206 := Call(__e, gen20195, gen20205)
+
+													if True == gen20206 {
+														gen20213 = True
 													} else {
-														gen9841 = False
-													}
-													if True == gen9841 {
-														gen9846 = True
-													} else {
-														gen9846 = False
+														gen20213 = False
 													}
 
 												} else {
-													gen9846 = False
+													gen20213 = False
 												}
-												if True == gen9846 {
-													gen9854 = True
+
+												if True == gen20213 {
+													gen20222 = True
 												} else {
-													gen9854 = False
+													gen20222 = False
 												}
 
 											} else {
-												gen9854 = False
+												gen20222 = False
 											}
-											if True == gen9854 {
-												gen9861 = True
+
+											if True == gen20222 {
+												gen20237 = True
 											} else {
-												gen9861 = False
+												gen20237 = False
 											}
 
 										} else {
-											gen9861 = False
+											gen20237 = False
 										}
-										if True == gen9861 {
-											gen9867 = True
+
+										if True == gen20237 {
+											gen20250 = True
 										} else {
-											gen9867 = False
+											gen20250 = False
 										}
 
 									} else {
-										gen9867 = False
+										gen20250 = False
 									}
-									if True == gen9867 {
-										gen9873 = True
+
+									if True == gen20250 {
+										gen20261 = True
 									} else {
-										gen9873 = False
+										gen20261 = False
 									}
 
 								} else {
-									gen9873 = False
+									gen20261 = False
 								}
-								if True == gen9873 {
-									gen9878 = True
+
+								if True == gen20261 {
+									gen20272 = True
 								} else {
-									gen9878 = False
+									gen20272 = False
 								}
 
 							} else {
-								gen9878 = False
+								gen20272 = False
 							}
-							if True == gen9878 {
-								gen9882 = True
+
+							if True == gen20272 {
+								gen20281 = True
 							} else {
-								gen9882 = False
+								gen20281 = False
 							}
 
 						} else {
-							gen9882 = False
+							gen20281 = False
 						}
-						if True == gen9882 {
-							gen9885 = True
+
+						if True == gen20281 {
+							gen20288 = True
 						} else {
-							gen9885 = False
+							gen20288 = False
 						}
 
 					} else {
-						gen9885 = False
+						gen20288 = False
 					}
-					if True == gen9885 {
-						gen9888 = True
+
+					if True == gen20288 {
+						gen20293 = True
 					} else {
-						gen9888 = False
+						gen20293 = False
 					}
 
 				} else {
-					gen9888 = False
+					gen20293 = False
 				}
-				if True == gen9888 {
-					gen9890 = True
+
+				if True == gen20293 {
+					gen20298 = True
 				} else {
-					gen9890 = False
+					gen20298 = False
 				}
 
 			} else {
-				gen9890 = False
+				gen20298 = False
 			}
-			if True == gen9890 {
-				gen9818 := Call(__e, __e.Global(symtl), V4629)
 
-				gen9819 := Call(__e, __e.Global(symhd), gen9818)
-
-				gen9820 := Call(__e, __e.Global(symtl), V4629)
-
-				gen9821 := Call(__e, __e.Global(symtl), gen9820)
-
-				gen9822 := Call(__e, __e.Global(symhd), gen9821)
-
-				gen9823 := Call(__e, __e.Global(symtl), gen9822)
-
-				gen9824 := Call(__e, __e.Global(symhd), gen9823)
-
-				gen9825 := Call(__e, __e.Global(symcn), gen9819, gen9824)
-
-				gen9826 := Call(__e, __e.Global(symtl), V4629)
-
-				gen9827 := Call(__e, __e.Global(symtl), gen9826)
-
-				gen9828 := Call(__e, __e.Global(symhd), gen9827)
-
-				gen9829 := Call(__e, __e.Global(symtl), gen9828)
-
-				gen9830 := Call(__e, __e.Global(symtl), gen9829)
-
-				gen9831 := Call(__e, __e.Global(symcons), gen9825, gen9830)
-
-				__e.TailApply(__e.Global(symcons), MakeSymbol("cn"), gen9831)
-
-				return
-
+			if True == gen20298 {
+				gen20301 = True
 			} else {
+				gen20301 = False
+			}
+
+		} else {
+			gen20301 = False
+		}
+
+		if True == gen20301 {
+			gen20166 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+			gen20167 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+
+			gen20168 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+			gen20169 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+			gen20170 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20171 := Call(__e, gen20170, V4629)
+
+			gen20172 := Call(__e, gen20169, gen20171)
+
+			gen20173 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+			gen20174 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20175 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+			gen20176 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20177 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20178 := Call(__e, gen20177, V4629)
+
+			gen20179 := Call(__e, gen20176, gen20178)
+
+			gen20180 := Call(__e, gen20175, gen20179)
+
+			gen20181 := Call(__e, gen20174, gen20180)
+
+			gen20182 := Call(__e, gen20173, gen20181)
+
+			gen20183 := Call(__e, gen20168, gen20172, gen20182)
+
+			gen20184 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20185 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20186 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+			gen20187 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20188 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+			gen20189 := Call(__e, gen20188, V4629)
+
+			gen20190 := Call(__e, gen20187, gen20189)
+
+			gen20191 := Call(__e, gen20186, gen20190)
+
+			gen20192 := Call(__e, gen20185, gen20191)
+
+			gen20193 := Call(__e, gen20184, gen20192)
+
+			gen20194 := Call(__e, gen20167, gen20183, gen20193)
+
+			__e.TailApply(gen20166, symcn, gen20194)
+
+			return
+
+		} else {
+			if True == True {
 				__e.Return(V4629)
 				return
-			}
-
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.factor-cn"), gen9891)
-
-		gen9912 := MakeNative(func(__e Evaluator) {
-			V4631 := __e.Get(1)
-			_ = V4631
-			gen9911 := Call(__e, __e.Global(sym_a), MakeString(""), V4631)
-
-			if True == gen9911 {
-				__e.Return(MakeString(""))
-				return
 			} else {
-				gen9909 := Call(__e, __e.Global(symshen_4_7string_2), V4631)
+				gen20165 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
 
-				var gen9910 Obj
-				if True == gen9909 {
-					gen9906 := Call(__e, __e.Global(sympos), V4631, MakeNumber(0))
+				__e.TailApply(gen20165, MakeString("no cond match"))
 
-					gen9907 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9906)
+				return
 
-					var gen9908 Obj
-					if True == gen9907 {
-						gen9903 := Call(__e, __e.Global(symtlstr), V4631)
+			}
+		}
 
-						gen9904 := Call(__e, __e.Global(symshen_4_7string_2), gen9903)
+	}, 1)
 
-						var gen9905 Obj
-						if True == gen9904 {
-							gen9900 := Call(__e, __e.Global(symtlstr), V4631)
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4factor_1cn, gen20302)
 
-							gen9901 := Call(__e, __e.Global(sympos), gen9900, MakeNumber(0))
+	gen20344 := MakeNative(func(__e *ControlFlow) {
+		V4631 := __e.Get(1)
+		_ = V4631
+		gen20342 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
 
-							gen9902 := Call(__e, __e.Global(sym_a), MakeString("%"), gen9901)
+		gen20343 := Call(__e, gen20342, MakeString(""), V4631)
 
-							if True == gen9902 {
-								gen9905 = True
-							} else {
-								gen9905 = False
-							}
+		if True == gen20343 {
+			__e.Return(MakeString(""))
+			return
+		} else {
+			gen20339 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
 
+			gen20340 := Call(__e, gen20339, V4631)
+
+			var gen20341 Obj
+
+			if True == gen20340 {
+				gen20334 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+				gen20335 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+				gen20336 := Call(__e, gen20335, V4631, MakeNumber(0))
+
+				gen20337 := Call(__e, gen20334, MakeString("~"), gen20336)
+
+				var gen20338 Obj
+
+				if True == gen20337 {
+					gen20329 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+					gen20330 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20331 := Call(__e, gen20330, V4631)
+
+					gen20332 := Call(__e, gen20329, gen20331)
+
+					var gen20333 Obj
+
+					if True == gen20332 {
+						gen20323 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+						gen20324 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+						gen20325 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20326 := Call(__e, gen20325, V4631)
+
+						gen20327 := Call(__e, gen20324, gen20326, MakeNumber(0))
+
+						gen20328 := Call(__e, gen20323, MakeString("%"), gen20327)
+
+						if True == gen20328 {
+							gen20333 = True
 						} else {
-							gen9905 = False
-						}
-						if True == gen9905 {
-							gen9908 = True
-						} else {
-							gen9908 = False
+							gen20333 = False
 						}
 
 					} else {
-						gen9908 = False
+						gen20333 = False
 					}
-					if True == gen9908 {
-						gen9910 = True
+
+					if True == gen20333 {
+						gen20338 = True
 					} else {
-						gen9910 = False
+						gen20338 = False
 					}
 
 				} else {
-					gen9910 = False
+					gen20338 = False
 				}
-				if True == gen9910 {
-					gen9896 := Call(__e, __e.Global(symn_1_6string), MakeNumber(10))
 
-					gen9897 := Call(__e, __e.Global(symtlstr), V4631)
+				if True == gen20338 {
+					gen20341 = True
+				} else {
+					gen20341 = False
+				}
 
-					gen9898 := Call(__e, __e.Global(symtlstr), gen9897)
+			} else {
+				gen20341 = False
+			}
 
-					gen9899 := Call(__e, __e.Global(symshen_4proc_1nl), gen9898)
+			if True == gen20341 {
+				gen20314 := Call(__e, PrimNS1Value(symns2_1value), symcn)
 
-					__e.TailApply(__e.Global(symcn), gen9896, gen9899)
+				gen20315 := Call(__e, PrimNS1Value(symns2_1value), symn_1_6string)
+
+				gen20316 := Call(__e, gen20315, MakeNumber(10))
+
+				gen20317 := Call(__e, PrimNS1Value(symns2_1value), symshen_4proc_1nl)
+
+				gen20318 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+				gen20319 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+				gen20320 := Call(__e, gen20319, V4631)
+
+				gen20321 := Call(__e, gen20318, gen20320)
+
+				gen20322 := Call(__e, gen20317, gen20321)
+
+				__e.TailApply(gen20314, gen20316, gen20322)
+
+				return
+
+			} else {
+				gen20312 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+				gen20313 := Call(__e, gen20312, V4631)
+
+				if True == gen20313 {
+					gen20305 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+					gen20306 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+					gen20307 := Call(__e, gen20306, V4631, MakeNumber(0))
+
+					gen20308 := Call(__e, PrimNS1Value(symns2_1value), symshen_4proc_1nl)
+
+					gen20309 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20310 := Call(__e, gen20309, V4631)
+
+					gen20311 := Call(__e, gen20308, gen20310)
+
+					__e.TailApply(gen20305, gen20307, gen20311)
 
 					return
 
 				} else {
-					gen9895 := Call(__e, __e.Global(symshen_4_7string_2), V4631)
+					if True == True {
+						gen20304 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
 
-					if True == gen9895 {
-						gen9892 := Call(__e, __e.Global(sympos), V4631, MakeNumber(0))
-
-						gen9893 := Call(__e, __e.Global(symtlstr), V4631)
-
-						gen9894 := Call(__e, __e.Global(symshen_4proc_1nl), gen9893)
-
-						__e.TailApply(__e.Global(symcn), gen9892, gen9894)
+						__e.TailApply(gen20304, symshen_4proc_1nl)
 
 						return
 
 					} else {
-						__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.proc-nl"))
+						gen20303 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
 
-						return
-					}
-
-				}
-
-			}
-
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.proc-nl"), gen9912)
-
-		gen9920 := MakeNative(func(__e Evaluator) {
-			V4634 := __e.Get(1)
-			_ = V4634
-			V4635 := __e.Get(2)
-			_ = V4635
-			gen9919 := Call(__e, __e.Global(sym_a), Nil, V4635)
-
-			if True == gen9919 {
-				__e.Return(V4634)
-				return
-			} else {
-				gen9918 := Call(__e, __e.Global(symcons_2), V4635)
-
-				if True == gen9918 {
-					gen9913 := Call(__e, __e.Global(symhd), V4635)
-
-					gen9914 := Call(__e, __e.Global(symcons), V4634, Nil)
-
-					gen9915 := Call(__e, __e.Global(symcons), gen9913, gen9914)
-
-					gen9916 := Call(__e, __e.Global(symcons), MakeSymbol("shen.insert"), gen9915)
-
-					gen9917 := Call(__e, __e.Global(symtl), V4635)
-
-					__e.TailApply(__e.Global(symshen_4mkstr_1r), gen9916, gen9917)
-
-					return
-
-				} else {
-					__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.mkstr-r"))
-
-					return
-				}
-
-			}
-
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.mkstr-r"), gen9920)
-
-		gen9921 := MakeNative(func(__e Evaluator) {
-			V4638 := __e.Get(1)
-			_ = V4638
-			V4639 := __e.Get(2)
-			_ = V4639
-			__e.TailApply(__e.Global(symshen_4insert_1h), V4638, V4639, MakeString(""))
-
-			return
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.insert"), gen9921)
-
-		gen9969 := MakeNative(func(__e Evaluator) {
-			V4645 := __e.Get(1)
-			_ = V4645
-			V4646 := __e.Get(2)
-			_ = V4646
-			V4647 := __e.Get(3)
-			_ = V4647
-			gen9968 := Call(__e, __e.Global(sym_a), MakeString(""), V4646)
-
-			if True == gen9968 {
-				__e.Return(V4647)
-				return
-			} else {
-				gen9966 := Call(__e, __e.Global(symshen_4_7string_2), V4646)
-
-				var gen9967 Obj
-				if True == gen9966 {
-					gen9963 := Call(__e, __e.Global(sympos), V4646, MakeNumber(0))
-
-					gen9964 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9963)
-
-					var gen9965 Obj
-					if True == gen9964 {
-						gen9960 := Call(__e, __e.Global(symtlstr), V4646)
-
-						gen9961 := Call(__e, __e.Global(symshen_4_7string_2), gen9960)
-
-						var gen9962 Obj
-						if True == gen9961 {
-							gen9957 := Call(__e, __e.Global(symtlstr), V4646)
-
-							gen9958 := Call(__e, __e.Global(sympos), gen9957, MakeNumber(0))
-
-							gen9959 := Call(__e, __e.Global(sym_a), MakeString("A"), gen9958)
-
-							if True == gen9959 {
-								gen9962 = True
-							} else {
-								gen9962 = False
-							}
-
-						} else {
-							gen9962 = False
-						}
-						if True == gen9962 {
-							gen9965 = True
-						} else {
-							gen9965 = False
-						}
-
-					} else {
-						gen9965 = False
-					}
-					if True == gen9965 {
-						gen9967 = True
-					} else {
-						gen9967 = False
-					}
-
-				} else {
-					gen9967 = False
-				}
-				if True == gen9967 {
-					gen9954 := Call(__e, __e.Global(symtlstr), V4646)
-
-					gen9955 := Call(__e, __e.Global(symtlstr), gen9954)
-
-					gen9956 := Call(__e, __e.Global(symshen_4app), V4645, gen9955, MakeSymbol("shen.a"))
-
-					__e.TailApply(__e.Global(symcn), V4647, gen9956)
-
-					return
-
-				} else {
-					gen9952 := Call(__e, __e.Global(symshen_4_7string_2), V4646)
-
-					var gen9953 Obj
-					if True == gen9952 {
-						gen9949 := Call(__e, __e.Global(sympos), V4646, MakeNumber(0))
-
-						gen9950 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9949)
-
-						var gen9951 Obj
-						if True == gen9950 {
-							gen9946 := Call(__e, __e.Global(symtlstr), V4646)
-
-							gen9947 := Call(__e, __e.Global(symshen_4_7string_2), gen9946)
-
-							var gen9948 Obj
-							if True == gen9947 {
-								gen9943 := Call(__e, __e.Global(symtlstr), V4646)
-
-								gen9944 := Call(__e, __e.Global(sympos), gen9943, MakeNumber(0))
-
-								gen9945 := Call(__e, __e.Global(sym_a), MakeString("R"), gen9944)
-
-								if True == gen9945 {
-									gen9948 = True
-								} else {
-									gen9948 = False
-								}
-
-							} else {
-								gen9948 = False
-							}
-							if True == gen9948 {
-								gen9951 = True
-							} else {
-								gen9951 = False
-							}
-
-						} else {
-							gen9951 = False
-						}
-						if True == gen9951 {
-							gen9953 = True
-						} else {
-							gen9953 = False
-						}
-
-					} else {
-						gen9953 = False
-					}
-					if True == gen9953 {
-						gen9940 := Call(__e, __e.Global(symtlstr), V4646)
-
-						gen9941 := Call(__e, __e.Global(symtlstr), gen9940)
-
-						gen9942 := Call(__e, __e.Global(symshen_4app), V4645, gen9941, MakeSymbol("shen.r"))
-
-						__e.TailApply(__e.Global(symcn), V4647, gen9942)
+						__e.TailApply(gen20303, MakeString("no cond match"))
 
 						return
 
-					} else {
-						gen9938 := Call(__e, __e.Global(symshen_4_7string_2), V4646)
-
-						var gen9939 Obj
-						if True == gen9938 {
-							gen9935 := Call(__e, __e.Global(sympos), V4646, MakeNumber(0))
-
-							gen9936 := Call(__e, __e.Global(sym_a), MakeString("~"), gen9935)
-
-							var gen9937 Obj
-							if True == gen9936 {
-								gen9932 := Call(__e, __e.Global(symtlstr), V4646)
-
-								gen9933 := Call(__e, __e.Global(symshen_4_7string_2), gen9932)
-
-								var gen9934 Obj
-								if True == gen9933 {
-									gen9929 := Call(__e, __e.Global(symtlstr), V4646)
-
-									gen9930 := Call(__e, __e.Global(sympos), gen9929, MakeNumber(0))
-
-									gen9931 := Call(__e, __e.Global(sym_a), MakeString("S"), gen9930)
-
-									if True == gen9931 {
-										gen9934 = True
-									} else {
-										gen9934 = False
-									}
-
-								} else {
-									gen9934 = False
-								}
-								if True == gen9934 {
-									gen9937 = True
-								} else {
-									gen9937 = False
-								}
-
-							} else {
-								gen9937 = False
-							}
-							if True == gen9937 {
-								gen9939 = True
-							} else {
-								gen9939 = False
-							}
-
-						} else {
-							gen9939 = False
-						}
-						if True == gen9939 {
-							gen9926 := Call(__e, __e.Global(symtlstr), V4646)
-
-							gen9927 := Call(__e, __e.Global(symtlstr), gen9926)
-
-							gen9928 := Call(__e, __e.Global(symshen_4app), V4645, gen9927, MakeSymbol("shen.s"))
-
-							__e.TailApply(__e.Global(symcn), V4647, gen9928)
-
-							return
-
-						} else {
-							gen9925 := Call(__e, __e.Global(symshen_4_7string_2), V4646)
-
-							if True == gen9925 {
-								gen9922 := Call(__e, __e.Global(symtlstr), V4646)
-
-								gen9923 := Call(__e, __e.Global(sympos), V4646, MakeNumber(0))
-
-								gen9924 := Call(__e, __e.Global(symcn), V4647, gen9923)
-
-								__e.TailApply(__e.Global(symshen_4insert_1h), V4645, gen9922, gen9924)
-
-								return
-
-							} else {
-								__e.TailApply(__e.Global(symshen_4f__error), MakeSymbol("shen.insert-h"))
-
-								return
-							}
-
-						}
-
 					}
-
 				}
 
 			}
 
-		}, 3)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.insert-h"), gen9969)
+		}
 
-		gen9971 := MakeNative(func(__e Evaluator) {
-			V4651 := __e.Get(1)
-			_ = V4651
-			V4652 := __e.Get(2)
-			_ = V4652
-			V4653 := __e.Get(3)
-			_ = V4653
-			gen9970 := Call(__e, __e.Global(symshen_4arg_1_6str), V4651, V4653)
+	}, 1)
 
-			__e.TailApply(__e.Global(symcn), gen9970, V4652)
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4proc_1nl, gen20344)
 
+	gen20362 := MakeNative(func(__e *ControlFlow) {
+		V4634 := __e.Get(1)
+		_ = V4634
+		V4635 := __e.Get(2)
+		_ = V4635
+		gen20360 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20361 := Call(__e, gen20360, Nil, V4635)
+
+		if True == gen20361 {
+			__e.Return(V4634)
 			return
+		} else {
+			gen20358 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
 
-		}, 3)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.app"), gen9971)
+			gen20359 := Call(__e, gen20358, V4635)
 
-		gen9977 := MakeNative(func(__e Evaluator) {
-			V4661 := __e.Get(1)
-			_ = V4661
-			V4662 := __e.Get(2)
-			_ = V4662
-			gen9975 := Call(__e, __e.Global(symfail))
+			if True == gen20359 {
+				gen20347 := Call(__e, PrimNS1Value(symns2_1value), symshen_4mkstr_1r)
 
-			gen9976 := Call(__e, __e.Global(sym_a), V4661, gen9975)
+				gen20348 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-			if True == gen9976 {
-				__e.Return(MakeString("..."))
-				return
-			} else {
-				gen9974 := Call(__e, __e.Global(symshen_4list_2), V4661)
+				gen20349 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-				if True == gen9974 {
-					__e.TailApply(__e.Global(symshen_4list_1_6str), V4661, V4662)
+				gen20350 := Call(__e, PrimNS1Value(symns2_1value), symhd)
 
-					return
-				} else {
-					gen9973 := Call(__e, __e.Global(symstring_2), V4661)
+				gen20351 := Call(__e, gen20350, V4635)
 
-					if True == gen9973 {
-						__e.TailApply(__e.Global(symshen_4str_1_6str), V4661, V4662)
+				gen20352 := Call(__e, PrimNS1Value(symns2_1value), symcons)
 
-						return
-					} else {
-						gen9972 := Call(__e, __e.Global(symabsvector_2), V4661)
+				gen20353 := Call(__e, gen20352, V4634, Nil)
 
-						if True == gen9972 {
-							__e.TailApply(__e.Global(symshen_4vector_1_6str), V4661, V4662)
+				gen20354 := Call(__e, gen20349, gen20351, gen20353)
 
-							return
-						} else {
-							__e.TailApply(__e.Global(symshen_4atom_1_6str), V4661)
+				gen20355 := Call(__e, gen20348, symshen_4insert, gen20354)
 
-							return
-						}
+				gen20356 := Call(__e, PrimNS1Value(symns2_1value), symtl)
 
-					}
+				gen20357 := Call(__e, gen20356, V4635)
 
-				}
-
-			}
-
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.arg->str"), gen9977)
-
-		gen9985 := MakeNative(func(__e Evaluator) {
-			V4665 := __e.Get(1)
-			_ = V4665
-			V4666 := __e.Get(2)
-			_ = V4666
-			gen9984 := Call(__e, __e.Global(sym_a), MakeSymbol("shen.r"), V4666)
-
-			if True == gen9984 {
-				gen9981 := Call(__e, __e.Global(symshen_4maxseq))
-
-				gen9982 := Call(__e, __e.Global(symshen_4iter_1list), V4665, MakeSymbol("shen.r"), gen9981)
-
-				gen9983 := Call(__e, __e.Global(sym_8s), gen9982, MakeString(")"))
-
-				__e.TailApply(__e.Global(sym_8s), MakeString("("), gen9983)
+				__e.TailApply(gen20347, gen20355, gen20357)
 
 				return
 
 			} else {
-				gen9978 := Call(__e, __e.Global(symshen_4maxseq))
+				if True == True {
+					gen20346 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
 
-				gen9979 := Call(__e, __e.Global(symshen_4iter_1list), V4665, V4666, gen9978)
-
-				gen9980 := Call(__e, __e.Global(sym_8s), gen9979, MakeString("]"))
-
-				__e.TailApply(__e.Global(sym_8s), MakeString("["), gen9980)
-
-				return
-
-			}
-
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.list->str"), gen9985)
-
-		gen9986 := MakeNative(func(__e Evaluator) {
-			__e.TailApply(__e.Global(symvalue), MakeSymbol("*maximum-print-sequence-size*"))
-
-			return
-		}, 0)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.maxseq"), gen9986)
-
-		gen10003 := MakeNative(func(__e Evaluator) {
-			V4680 := __e.Get(1)
-			_ = V4680
-			V4681 := __e.Get(2)
-			_ = V4681
-			V4682 := __e.Get(3)
-			_ = V4682
-			gen10002 := Call(__e, __e.Global(sym_a), Nil, V4680)
-
-			if True == gen10002 {
-				__e.Return(MakeString(""))
-				return
-			} else {
-				gen10001 := Call(__e, __e.Global(sym_a), MakeNumber(0), V4682)
-
-				if True == gen10001 {
-					__e.Return(MakeString("... etc"))
-					return
-				} else {
-					gen9999 := Call(__e, __e.Global(symcons_2), V4680)
-
-					var gen10000 Obj
-					if True == gen9999 {
-						gen9997 := Call(__e, __e.Global(symtl), V4680)
-
-						gen9998 := Call(__e, __e.Global(sym_a), Nil, gen9997)
-
-						if True == gen9998 {
-							gen10000 = True
-						} else {
-							gen10000 = False
-						}
-
-					} else {
-						gen10000 = False
-					}
-					if True == gen10000 {
-						gen9996 := Call(__e, __e.Global(symhd), V4680)
-
-						__e.TailApply(__e.Global(symshen_4arg_1_6str), gen9996, V4681)
-
-						return
-
-					} else {
-						gen9995 := Call(__e, __e.Global(symcons_2), V4680)
-
-						if True == gen9995 {
-							gen9989 := Call(__e, __e.Global(symhd), V4680)
-
-							gen9990 := Call(__e, __e.Global(symshen_4arg_1_6str), gen9989, V4681)
-
-							gen9991 := Call(__e, __e.Global(symtl), V4680)
-
-							gen9992 := Call(__e, __e.Global(sym_1), V4682, MakeNumber(1))
-
-							gen9993 := Call(__e, __e.Global(symshen_4iter_1list), gen9991, V4681, gen9992)
-
-							gen9994 := Call(__e, __e.Global(sym_8s), MakeString(" "), gen9993)
-
-							__e.TailApply(__e.Global(sym_8s), gen9990, gen9994)
-
-							return
-
-						} else {
-							gen9987 := Call(__e, __e.Global(symshen_4arg_1_6str), V4680, V4681)
-
-							gen9988 := Call(__e, __e.Global(sym_8s), MakeString(" "), gen9987)
-
-							__e.TailApply(__e.Global(sym_8s), MakeString("|"), gen9988)
-
-							return
-
-						}
-
-					}
-
-				}
-
-			}
-
-		}, 3)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.iter-list"), gen10003)
-
-		gen10008 := MakeNative(func(__e Evaluator) {
-			V4689 := __e.Get(1)
-			_ = V4689
-			V4690 := __e.Get(2)
-			_ = V4690
-			gen10007 := Call(__e, __e.Global(sym_a), MakeSymbol("shen.a"), V4690)
-
-			if True == gen10007 {
-				__e.Return(V4689)
-				return
-			} else {
-				gen10004 := Call(__e, __e.Global(symn_1_6string), MakeNumber(34))
-
-				gen10005 := Call(__e, __e.Global(symn_1_6string), MakeNumber(34))
-
-				gen10006 := Call(__e, __e.Global(sym_8s), V4689, gen10005)
-
-				__e.TailApply(__e.Global(sym_8s), gen10004, gen10006)
-
-				return
-
-			}
-
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.str->str"), gen10008)
-
-		gen10020 := MakeNative(func(__e Evaluator) {
-			V4693 := __e.Get(1)
-			_ = V4693
-			V4694 := __e.Get(2)
-			_ = V4694
-			gen10019 := Call(__e, __e.Global(symshen_4print_1vector_2), V4693)
-
-			if True == gen10019 {
-				gen10017 := Call(__e, __e.Global(sym_5_1address), V4693, MakeNumber(0))
-
-				gen10018 := Call(__e, __e.Global(symfunction), gen10017)
-
-				f32 := gen10018
-				__e.TailApply(f32, V4693)
-
-				return
-
-			} else {
-				gen10016 := Call(__e, __e.Global(symvector_2), V4693)
-
-				if True == gen10016 {
-					gen10013 := Call(__e, __e.Global(symshen_4maxseq))
-
-					gen10014 := Call(__e, __e.Global(symshen_4iter_1vector), V4693, MakeNumber(1), V4694, gen10013)
-
-					gen10015 := Call(__e, __e.Global(sym_8s), gen10014, MakeString(">"))
-
-					__e.TailApply(__e.Global(sym_8s), MakeString("<"), gen10015)
+					__e.TailApply(gen20346, symshen_4mkstr_1r)
 
 					return
 
 				} else {
-					gen10009 := Call(__e, __e.Global(symshen_4maxseq))
+					gen20345 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
 
-					gen10010 := Call(__e, __e.Global(symshen_4iter_1vector), V4693, MakeNumber(0), V4694, gen10009)
-
-					gen10011 := Call(__e, __e.Global(sym_8s), gen10010, MakeString(">>"))
-
-					gen10012 := Call(__e, __e.Global(sym_8s), MakeString("<"), gen10011)
-
-					__e.TailApply(__e.Global(sym_8s), MakeString("<"), gen10012)
+					__e.TailApply(gen20345, MakeString("no cond match"))
 
 					return
 
 				}
-
 			}
 
-		}, 2)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.vector->str"), gen10020)
+		}
 
-		gen10022 := MakeNative(func(__e Evaluator) {
-			V4696 := __e.Get(1)
-			_ = V4696
-			gen10021 := Call(__e, __e.Global(symvalue), MakeSymbol("shen.*empty-absvector*"))
+	}, 2)
 
-			__e.TailApply(__e.Global(sym_a), V4696, gen10021)
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4mkstr_1r, gen20362)
 
-			return
+	gen20364 := MakeNative(func(__e *ControlFlow) {
+		V4638 := __e.Get(1)
+		_ = V4638
+		V4639 := __e.Get(2)
+		_ = V4639
+		gen20363 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1h)
 
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.empty-absvector?"), gen10022)
-
-		gen10036 := MakeNative(func(__e Evaluator) {
-			V4698 := __e.Get(1)
-			_ = V4698
-			gen10034 := Call(__e, __e.Global(symshen_4empty_1absvector_2), V4698)
-
-			gen10035 := Call(__e, __e.Global(symnot), gen10034)
-
-			if True == gen10035 {
-				gen10023 := Call(__e, __e.Global(sym_5_1address), V4698, MakeNumber(0))
-
-				First := gen10023
-				gen10032 := Call(__e, __e.Global(sym_a), First, MakeSymbol("shen.tuple"))
-
-				var gen10033 Obj
-				if True == gen10032 {
-					gen10033 = True
-				} else {
-					gen10030 := Call(__e, __e.Global(sym_a), First, MakeSymbol("shen.pvar"))
-
-					var gen10031 Obj
-					if True == gen10030 {
-						gen10031 = True
-					} else {
-						gen10028 := Call(__e, __e.Global(sym_a), First, MakeSymbol("shen.dictionary"))
-
-						var gen10029 Obj
-						if True == gen10028 {
-							gen10029 = True
-						} else {
-							gen10025 := Call(__e, __e.Global(symnumber_2), First)
-
-							gen10026 := Call(__e, __e.Global(symnot), gen10025)
-
-							var gen10027 Obj
-							if True == gen10026 {
-								gen10024 := Call(__e, __e.Global(symshen_4fbound_2), First)
-
-								if True == gen10024 {
-									gen10027 = True
-								} else {
-									gen10027 = False
-								}
-
-							} else {
-								gen10027 = False
-							}
-							if True == gen10027 {
-								gen10029 = True
-							} else {
-								gen10029 = False
-							}
-
-						}
-						if True == gen10029 {
-							gen10031 = True
-						} else {
-							gen10031 = False
-						}
-
-					}
-					if True == gen10031 {
-						gen10033 = True
-					} else {
-						gen10033 = False
-					}
-
-				}
-				if True == gen10033 {
-					__e.Return(True)
-					return
-				} else {
-					__e.Return(False)
-					return
-				}
-
-			} else {
-				__e.Return(False)
-				return
-			}
-
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.print-vector?"), gen10036)
-
-		gen10039 := MakeNative(func(__e Evaluator) {
-			V4700 := __e.Get(1)
-			_ = V4700
-			gen10037 := MakeNative(func(__e Evaluator) {
-				E := __e.Get(1)
-				_ = E
-				__e.Return(False)
-				return
-			}, 1)
-			gen10038 := MakeNative(func(__e Evaluator) {
-				Call(__e, __e.Global(symshen_4lookup_1func), V4700)
-				__e.Return(True)
-				return
-
-			}, 0)
-			__e.Return(Try(__e, gen10038).Catch(gen10037))
-			return
-
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.fbound?"), gen10039)
-
-		gen10045 := MakeNative(func(__e Evaluator) {
-			V4702 := __e.Get(1)
-			_ = V4702
-			gen10040 := Call(__e, __e.Global(sym_5_1address), V4702, MakeNumber(1))
-
-			gen10041 := Call(__e, __e.Global(sym_5_1address), V4702, MakeNumber(2))
-
-			gen10042 := Call(__e, __e.Global(symshen_4app), gen10041, MakeString(")"), MakeSymbol("shen.s"))
-
-			gen10043 := Call(__e, __e.Global(symcn), MakeString(" "), gen10042)
-
-			gen10044 := Call(__e, __e.Global(symshen_4app), gen10040, gen10043, MakeSymbol("shen.s"))
-
-			__e.TailApply(__e.Global(symcn), MakeString("(@p "), gen10044)
-
-			return
-
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.tuple"), gen10045)
-
-		gen10046 := MakeNative(func(__e Evaluator) {
-			V4704 := __e.Get(1)
-			_ = V4704
-			__e.Return(MakeString("(dict ...)"))
-			return
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.dictionary"), gen10046)
-
-		gen10062 := MakeNative(func(__e Evaluator) {
-			V4715 := __e.Get(1)
-			_ = V4715
-			V4716 := __e.Get(2)
-			_ = V4716
-			V4717 := __e.Get(3)
-			_ = V4717
-			V4718 := __e.Get(4)
-			_ = V4718
-			gen10061 := Call(__e, __e.Global(sym_a), MakeNumber(0), V4718)
-
-			if True == gen10061 {
-				__e.Return(MakeString("... etc"))
-				return
-			} else {
-				gen10047 := MakeNative(func(__e Evaluator) {
-					E := __e.Get(1)
-					_ = E
-					__e.Return(MakeSymbol("shen.out-of-bounds"))
-					return
-				}, 1)
-				gen10048 := MakeNative(func(__e Evaluator) {
-					__e.TailApply(__e.Global(sym_5_1address), V4715, V4716)
-
-					return
-				}, 0)
-				gen10049 := Try(__e, gen10048).Catch(gen10047)
-				Item := gen10049
-				gen10050 := MakeNative(func(__e Evaluator) {
-					E := __e.Get(1)
-					_ = E
-					__e.Return(MakeSymbol("shen.out-of-bounds"))
-					return
-				}, 1)
-				gen10052 := MakeNative(func(__e Evaluator) {
-					gen10051 := Call(__e, __e.Global(sym_7), V4716, MakeNumber(1))
-
-					__e.TailApply(__e.Global(sym_5_1address), V4715, gen10051)
-
-					return
-
-				}, 0)
-				gen10053 := Try(__e, gen10052).Catch(gen10050)
-				Next := gen10053
-				gen10060 := Call(__e, __e.Global(sym_a), Item, MakeSymbol("shen.out-of-bounds"))
-
-				if True == gen10060 {
-					__e.Return(MakeString(""))
-					return
-				} else {
-					gen10059 := Call(__e, __e.Global(sym_a), Next, MakeSymbol("shen.out-of-bounds"))
-
-					if True == gen10059 {
-						__e.TailApply(__e.Global(symshen_4arg_1_6str), Item, V4717)
-
-						return
-					} else {
-						gen10054 := Call(__e, __e.Global(symshen_4arg_1_6str), Item, V4717)
-
-						gen10055 := Call(__e, __e.Global(sym_7), V4716, MakeNumber(1))
-
-						gen10056 := Call(__e, __e.Global(sym_1), V4718, MakeNumber(1))
-
-						gen10057 := Call(__e, __e.Global(symshen_4iter_1vector), V4715, gen10055, V4717, gen10056)
-
-						gen10058 := Call(__e, __e.Global(sym_8s), MakeString(" "), gen10057)
-
-						__e.TailApply(__e.Global(sym_8s), gen10054, gen10058)
-
-						return
-
-					}
-
-				}
-
-			}
-
-		}, 4)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.iter-vector"), gen10062)
-
-		gen10065 := MakeNative(func(__e Evaluator) {
-			V4720 := __e.Get(1)
-			_ = V4720
-			gen10063 := MakeNative(func(__e Evaluator) {
-				E := __e.Get(1)
-				_ = E
-				__e.TailApply(__e.Global(symshen_4funexstring))
-
-				return
-			}, 1)
-			gen10064 := MakeNative(func(__e Evaluator) {
-				__e.TailApply(__e.Global(symstr), V4720)
-
-				return
-			}, 0)
-			__e.Return(Try(__e, gen10064).Catch(gen10063))
-			return
-
-		}, 1)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.atom->str"), gen10065)
-
-		gen10074 := MakeNative(func(__e Evaluator) {
-			gen10066 := Call(__e, __e.Global(symintern), MakeString("x"))
-
-			gen10067 := Call(__e, __e.Global(symgensym), gen10066)
-
-			gen10068 := Call(__e, __e.Global(symshen_4arg_1_6str), gen10067, MakeSymbol("shen.a"))
-
-			gen10069 := Call(__e, __e.Global(sym_8s), gen10068, MakeString("\x11"))
-
-			gen10070 := Call(__e, __e.Global(sym_8s), MakeString("e"), gen10069)
-
-			gen10071 := Call(__e, __e.Global(sym_8s), MakeString("n"), gen10070)
-
-			gen10072 := Call(__e, __e.Global(sym_8s), MakeString("u"), gen10071)
-
-			gen10073 := Call(__e, __e.Global(sym_8s), MakeString("f"), gen10072)
-
-			__e.TailApply(__e.Global(sym_8s), MakeString("\x10"), gen10073)
-
-			return
-
-		}, 0)
-		Call(__e, __e.Global(symdefun), MakeSymbol("shen.funexstring"), gen10074)
-
-		gen10077 := MakeNative(func(__e Evaluator) {
-			V4722 := __e.Get(1)
-			_ = V4722
-			gen10076 := Call(__e, __e.Global(symempty_2), V4722)
-
-			if True == gen10076 {
-				__e.Return(True)
-				return
-			} else {
-				gen10075 := Call(__e, __e.Global(symcons_2), V4722)
-
-				if True == gen10075 {
-					__e.Return(True)
-					return
-				} else {
-					__e.Return(False)
-					return
-				}
-
-			}
-
-		}, 1)
-		__e.TailApply(__e.Global(symdefun), MakeSymbol("shen.list?"), gen10077)
+		__e.TailApply(gen20363, V4638, V4639, MakeString(""))
 
 		return
 
-	}, 0))
-}
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4insert, gen20364)
+
+	gen20456 := MakeNative(func(__e *ControlFlow) {
+		V4645 := __e.Get(1)
+		_ = V4645
+		V4646 := __e.Get(2)
+		_ = V4646
+		V4647 := __e.Get(3)
+		_ = V4647
+		gen20454 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20455 := Call(__e, gen20454, MakeString(""), V4646)
+
+		if True == gen20455 {
+			__e.Return(V4647)
+			return
+		} else {
+			gen20451 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+			gen20452 := Call(__e, gen20451, V4646)
+
+			var gen20453 Obj
+
+			if True == gen20452 {
+				gen20446 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+				gen20447 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+				gen20448 := Call(__e, gen20447, V4646, MakeNumber(0))
+
+				gen20449 := Call(__e, gen20446, MakeString("~"), gen20448)
+
+				var gen20450 Obj
+
+				if True == gen20449 {
+					gen20441 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+					gen20442 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20443 := Call(__e, gen20442, V4646)
+
+					gen20444 := Call(__e, gen20441, gen20443)
+
+					var gen20445 Obj
+
+					if True == gen20444 {
+						gen20435 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+						gen20436 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+						gen20437 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20438 := Call(__e, gen20437, V4646)
+
+						gen20439 := Call(__e, gen20436, gen20438, MakeNumber(0))
+
+						gen20440 := Call(__e, gen20435, MakeString("A"), gen20439)
+
+						if True == gen20440 {
+							gen20445 = True
+						} else {
+							gen20445 = False
+						}
+
+					} else {
+						gen20445 = False
+					}
+
+					if True == gen20445 {
+						gen20450 = True
+					} else {
+						gen20450 = False
+					}
+
+				} else {
+					gen20450 = False
+				}
+
+				if True == gen20450 {
+					gen20453 = True
+				} else {
+					gen20453 = False
+				}
+
+			} else {
+				gen20453 = False
+			}
+
+			if True == gen20453 {
+				gen20428 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+				gen20429 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+
+				gen20430 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+				gen20431 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+				gen20432 := Call(__e, gen20431, V4646)
+
+				gen20433 := Call(__e, gen20430, gen20432)
+
+				gen20434 := Call(__e, gen20429, V4645, gen20433, symshen_4a)
+
+				__e.TailApply(gen20428, V4647, gen20434)
+
+				return
+
+			} else {
+				gen20425 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+				gen20426 := Call(__e, gen20425, V4646)
+
+				var gen20427 Obj
+
+				if True == gen20426 {
+					gen20420 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+					gen20421 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+					gen20422 := Call(__e, gen20421, V4646, MakeNumber(0))
+
+					gen20423 := Call(__e, gen20420, MakeString("~"), gen20422)
+
+					var gen20424 Obj
+
+					if True == gen20423 {
+						gen20415 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+						gen20416 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20417 := Call(__e, gen20416, V4646)
+
+						gen20418 := Call(__e, gen20415, gen20417)
+
+						var gen20419 Obj
+
+						if True == gen20418 {
+							gen20409 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+							gen20410 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+							gen20411 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+							gen20412 := Call(__e, gen20411, V4646)
+
+							gen20413 := Call(__e, gen20410, gen20412, MakeNumber(0))
+
+							gen20414 := Call(__e, gen20409, MakeString("R"), gen20413)
+
+							if True == gen20414 {
+								gen20419 = True
+							} else {
+								gen20419 = False
+							}
+
+						} else {
+							gen20419 = False
+						}
+
+						if True == gen20419 {
+							gen20424 = True
+						} else {
+							gen20424 = False
+						}
+
+					} else {
+						gen20424 = False
+					}
+
+					if True == gen20424 {
+						gen20427 = True
+					} else {
+						gen20427 = False
+					}
+
+				} else {
+					gen20427 = False
+				}
+
+				if True == gen20427 {
+					gen20402 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+					gen20403 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+
+					gen20404 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20405 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+					gen20406 := Call(__e, gen20405, V4646)
+
+					gen20407 := Call(__e, gen20404, gen20406)
+
+					gen20408 := Call(__e, gen20403, V4645, gen20407, symshen_4r)
+
+					__e.TailApply(gen20402, V4647, gen20408)
+
+					return
+
+				} else {
+					gen20399 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+					gen20400 := Call(__e, gen20399, V4646)
+
+					var gen20401 Obj
+
+					if True == gen20400 {
+						gen20394 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+						gen20395 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+						gen20396 := Call(__e, gen20395, V4646, MakeNumber(0))
+
+						gen20397 := Call(__e, gen20394, MakeString("~"), gen20396)
+
+						var gen20398 Obj
+
+						if True == gen20397 {
+							gen20389 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+							gen20390 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+							gen20391 := Call(__e, gen20390, V4646)
+
+							gen20392 := Call(__e, gen20389, gen20391)
+
+							var gen20393 Obj
+
+							if True == gen20392 {
+								gen20383 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+								gen20384 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+								gen20385 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+								gen20386 := Call(__e, gen20385, V4646)
+
+								gen20387 := Call(__e, gen20384, gen20386, MakeNumber(0))
+
+								gen20388 := Call(__e, gen20383, MakeString("S"), gen20387)
+
+								if True == gen20388 {
+									gen20393 = True
+								} else {
+									gen20393 = False
+								}
+
+							} else {
+								gen20393 = False
+							}
+
+							if True == gen20393 {
+								gen20398 = True
+							} else {
+								gen20398 = False
+							}
+
+						} else {
+							gen20398 = False
+						}
+
+						if True == gen20398 {
+							gen20401 = True
+						} else {
+							gen20401 = False
+						}
+
+					} else {
+						gen20401 = False
+					}
+
+					if True == gen20401 {
+						gen20376 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+						gen20377 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+
+						gen20378 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20379 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+						gen20380 := Call(__e, gen20379, V4646)
+
+						gen20381 := Call(__e, gen20378, gen20380)
+
+						gen20382 := Call(__e, gen20377, V4645, gen20381, symshen_4s)
+
+						__e.TailApply(gen20376, V4647, gen20382)
+
+						return
+
+					} else {
+						gen20374 := Call(__e, PrimNS1Value(symns2_1value), symshen_4_7string_2)
+
+						gen20375 := Call(__e, gen20374, V4646)
+
+						if True == gen20375 {
+							gen20367 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1h)
+
+							gen20368 := Call(__e, PrimNS1Value(symns2_1value), symtlstr)
+
+							gen20369 := Call(__e, gen20368, V4646)
+
+							gen20370 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+							gen20371 := Call(__e, PrimNS1Value(symns2_1value), sympos)
+
+							gen20372 := Call(__e, gen20371, V4646, MakeNumber(0))
+
+							gen20373 := Call(__e, gen20370, V4647, gen20372)
+
+							__e.TailApply(gen20367, V4645, gen20369, gen20373)
+
+							return
+
+						} else {
+							if True == True {
+								gen20366 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
+
+								__e.TailApply(gen20366, symshen_4insert_1h)
+
+								return
+
+							} else {
+								gen20365 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+								__e.TailApply(gen20365, MakeString("no cond match"))
+
+								return
+
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}, 3)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4insert_1h, gen20456)
+
+	gen20460 := MakeNative(func(__e *ControlFlow) {
+		V4651 := __e.Get(1)
+		_ = V4651
+		V4652 := __e.Get(2)
+		_ = V4652
+		V4653 := __e.Get(3)
+		_ = V4653
+		gen20457 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+		gen20458 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+		gen20459 := Call(__e, gen20458, V4651, V4653)
+
+		__e.TailApply(gen20457, gen20459, V4652)
+
+		return
+
+	}, 3)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4app, gen20460)
+
+	gen20476 := MakeNative(func(__e *ControlFlow) {
+		V4661 := __e.Get(1)
+		_ = V4661
+		V4662 := __e.Get(2)
+		_ = V4662
+		gen20472 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20473 := Call(__e, PrimNS1Value(symns2_1value), symfail)
+
+		gen20474 := Call(__e, gen20473)
+
+		gen20475 := Call(__e, gen20472, V4661, gen20474)
+
+		if True == gen20475 {
+			__e.Return(MakeString("..."))
+			return
+		} else {
+			gen20470 := Call(__e, PrimNS1Value(symns2_1value), symshen_4list_2)
+
+			gen20471 := Call(__e, gen20470, V4661)
+
+			if True == gen20471 {
+				gen20469 := Call(__e, PrimNS1Value(symns2_1value), symshen_4list_1_6str)
+
+				__e.TailApply(gen20469, V4661, V4662)
+
+				return
+
+			} else {
+				gen20467 := Call(__e, PrimNS1Value(symns2_1value), symstring_2)
+
+				gen20468 := Call(__e, gen20467, V4661)
+
+				if True == gen20468 {
+					gen20466 := Call(__e, PrimNS1Value(symns2_1value), symshen_4str_1_6str)
+
+					__e.TailApply(gen20466, V4661, V4662)
+
+					return
+
+				} else {
+					gen20464 := Call(__e, PrimNS1Value(symns2_1value), symabsvector_2)
+
+					gen20465 := Call(__e, gen20464, V4661)
+
+					if True == gen20465 {
+						gen20463 := Call(__e, PrimNS1Value(symns2_1value), symshen_4vector_1_6str)
+
+						__e.TailApply(gen20463, V4661, V4662)
+
+						return
+
+					} else {
+						if True == True {
+							gen20462 := Call(__e, PrimNS1Value(symns2_1value), symshen_4atom_1_6str)
+
+							__e.TailApply(gen20462, V4661)
+
+							return
+
+						} else {
+							gen20461 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+							__e.TailApply(gen20461, MakeString("no cond match"))
+
+							return
+
+						}
+					}
+
+				}
+
+			}
+
+		}
+
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4arg_1_6str, gen20476)
+
+	gen20494 := MakeNative(func(__e *ControlFlow) {
+		V4665 := __e.Get(1)
+		_ = V4665
+		V4666 := __e.Get(2)
+		_ = V4666
+		gen20492 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20493 := Call(__e, gen20492, symshen_4r, V4666)
+
+		if True == gen20493 {
+			gen20485 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+			gen20486 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+			gen20487 := Call(__e, PrimNS1Value(symns2_1value), symshen_4iter_1list)
+
+			gen20488 := Call(__e, PrimNS1Value(symns2_1value), symshen_4maxseq)
+
+			gen20489 := Call(__e, gen20488)
+
+			gen20490 := Call(__e, gen20487, V4665, symshen_4r, gen20489)
+
+			gen20491 := Call(__e, gen20486, gen20490, MakeString(")"))
+
+			__e.TailApply(gen20485, MakeString("("), gen20491)
+
+			return
+
+		} else {
+			if True == True {
+				gen20478 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20479 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20480 := Call(__e, PrimNS1Value(symns2_1value), symshen_4iter_1list)
+
+				gen20481 := Call(__e, PrimNS1Value(symns2_1value), symshen_4maxseq)
+
+				gen20482 := Call(__e, gen20481)
+
+				gen20483 := Call(__e, gen20480, V4665, V4666, gen20482)
+
+				gen20484 := Call(__e, gen20479, gen20483, MakeString("]"))
+
+				__e.TailApply(gen20478, MakeString("["), gen20484)
+
+				return
+
+			} else {
+				gen20477 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+				__e.TailApply(gen20477, MakeString("no cond match"))
+
+				return
+
+			}
+		}
+
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4list_1_6str, gen20494)
+
+	gen20496 := MakeNative(func(__e *ControlFlow) {
+		gen20495 := Call(__e, PrimNS1Value(symns2_1value), symvalue)
+
+		__e.TailApply(gen20495, sym_dmaximum_1print_1sequence_1size_d)
+
+		return
+
+	}, 0)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4maxseq, gen20496)
+
+	gen20532 := MakeNative(func(__e *ControlFlow) {
+		V4680 := __e.Get(1)
+		_ = V4680
+		V4681 := __e.Get(2)
+		_ = V4681
+		V4682 := __e.Get(3)
+		_ = V4682
+		gen20530 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20531 := Call(__e, gen20530, Nil, V4680)
+
+		if True == gen20531 {
+			__e.Return(MakeString(""))
+			return
+		} else {
+			gen20528 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+			gen20529 := Call(__e, gen20528, MakeNumber(0), V4682)
+
+			if True == gen20529 {
+				__e.Return(MakeString("... etc"))
+				return
+			} else {
+				gen20525 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+				gen20526 := Call(__e, gen20525, V4680)
+
+				var gen20527 Obj
+
+				if True == gen20526 {
+					gen20521 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+					gen20522 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+					gen20523 := Call(__e, gen20522, V4680)
+
+					gen20524 := Call(__e, gen20521, Nil, gen20523)
+
+					if True == gen20524 {
+						gen20527 = True
+					} else {
+						gen20527 = False
+					}
+
+				} else {
+					gen20527 = False
+				}
+
+				if True == gen20527 {
+					gen20518 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+					gen20519 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+					gen20520 := Call(__e, gen20519, V4680)
+
+					__e.TailApply(gen20518, gen20520, V4681)
+
+					return
+
+				} else {
+					gen20516 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+					gen20517 := Call(__e, gen20516, V4680)
+
+					if True == gen20517 {
+						gen20503 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+						gen20504 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+						gen20505 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+
+						gen20506 := Call(__e, gen20505, V4680)
+
+						gen20507 := Call(__e, gen20504, gen20506, V4681)
+
+						gen20508 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+						gen20509 := Call(__e, PrimNS1Value(symns2_1value), symshen_4iter_1list)
+
+						gen20510 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+
+						gen20511 := Call(__e, gen20510, V4680)
+
+						gen20512 := Call(__e, PrimNS1Value(symns2_1value), sym_1)
+
+						gen20513 := Call(__e, gen20512, V4682, MakeNumber(1))
+
+						gen20514 := Call(__e, gen20509, gen20511, V4681, gen20513)
+
+						gen20515 := Call(__e, gen20508, MakeString(" "), gen20514)
+
+						__e.TailApply(gen20503, gen20507, gen20515)
+
+						return
+
+					} else {
+						if True == True {
+							gen20498 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+							gen20499 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+							gen20500 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+							gen20501 := Call(__e, gen20500, V4680, V4681)
+
+							gen20502 := Call(__e, gen20499, MakeString(" "), gen20501)
+
+							__e.TailApply(gen20498, MakeString("|"), gen20502)
+
+							return
+
+						} else {
+							gen20497 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+							__e.TailApply(gen20497, MakeString("no cond match"))
+
+							return
+
+						}
+					}
+
+				}
+
+			}
+
+		}
+
+	}, 3)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4iter_1list, gen20532)
+
+	gen20543 := MakeNative(func(__e *ControlFlow) {
+		V4689 := __e.Get(1)
+		_ = V4689
+		V4690 := __e.Get(2)
+		_ = V4690
+		gen20541 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20542 := Call(__e, gen20541, symshen_4a, V4690)
+
+		if True == gen20542 {
+			__e.Return(V4689)
+			return
+		} else {
+			if True == True {
+				gen20534 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20535 := Call(__e, PrimNS1Value(symns2_1value), symn_1_6string)
+
+				gen20536 := Call(__e, gen20535, MakeNumber(34))
+
+				gen20537 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20538 := Call(__e, PrimNS1Value(symns2_1value), symn_1_6string)
+
+				gen20539 := Call(__e, gen20538, MakeNumber(34))
+
+				gen20540 := Call(__e, gen20537, V4689, gen20539)
+
+				__e.TailApply(gen20534, gen20536, gen20540)
+
+				return
+
+			} else {
+				gen20533 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+				__e.TailApply(gen20533, MakeString("no cond match"))
+
+				return
+
+			}
+		}
+
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4str_1_6str, gen20543)
+
+	gen20568 := MakeNative(func(__e *ControlFlow) {
+		V4693 := __e.Get(1)
+		_ = V4693
+		V4694 := __e.Get(2)
+		_ = V4694
+		gen20566 := Call(__e, PrimNS1Value(symns2_1value), symshen_4print_1vector_2)
+
+		gen20567 := Call(__e, gen20566, V4693)
+
+		if True == gen20567 {
+			gen20562 := Call(__e, PrimNS1Value(symns2_1value), symfunction)
+
+			gen20563 := Call(__e, PrimNS1Value(symns2_1value), sym_5_1address)
+
+			gen20564 := Call(__e, gen20563, V4693, MakeNumber(0))
+
+			gen20565 := Call(__e, gen20562, gen20564)
+
+			__e.TailApply(gen20565, V4693)
+
+			return
+
+		} else {
+			gen20560 := Call(__e, PrimNS1Value(symns2_1value), symvector_2)
+
+			gen20561 := Call(__e, gen20560, V4693)
+
+			if True == gen20561 {
+				gen20553 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20554 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20555 := Call(__e, PrimNS1Value(symns2_1value), symshen_4iter_1vector)
+
+				gen20556 := Call(__e, PrimNS1Value(symns2_1value), symshen_4maxseq)
+
+				gen20557 := Call(__e, gen20556)
+
+				gen20558 := Call(__e, gen20555, V4693, MakeNumber(1), V4694, gen20557)
+
+				gen20559 := Call(__e, gen20554, gen20558, MakeString(">"))
+
+				__e.TailApply(gen20553, MakeString("<"), gen20559)
+
+				return
+
+			} else {
+				gen20544 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20545 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20546 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+				gen20547 := Call(__e, PrimNS1Value(symns2_1value), symshen_4iter_1vector)
+
+				gen20548 := Call(__e, PrimNS1Value(symns2_1value), symshen_4maxseq)
+
+				gen20549 := Call(__e, gen20548)
+
+				gen20550 := Call(__e, gen20547, V4693, MakeNumber(0), V4694, gen20549)
+
+				gen20551 := Call(__e, gen20546, gen20550, MakeString(">>"))
+
+				gen20552 := Call(__e, gen20545, MakeString("<"), gen20551)
+
+				__e.TailApply(gen20544, MakeString("<"), gen20552)
+
+				return
+
+			}
+
+		}
+
+	}, 2)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4vector_1_6str, gen20568)
+
+	gen20572 := MakeNative(func(__e *ControlFlow) {
+		V4696 := __e.Get(1)
+		_ = V4696
+		gen20569 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20570 := Call(__e, PrimNS1Value(symns2_1value), symvalue)
+
+		gen20571 := Call(__e, gen20570, symshen_4_dempty_1absvector_d)
+
+		__e.TailApply(gen20569, V4696, gen20571)
+
+		return
+
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4empty_1absvector_2, gen20572)
+
+	gen20596 := MakeNative(func(__e *ControlFlow) {
+		V4698 := __e.Get(1)
+		_ = V4698
+		gen20592 := Call(__e, PrimNS1Value(symns2_1value), symnot)
+
+		gen20593 := Call(__e, PrimNS1Value(symns2_1value), symshen_4empty_1absvector_2)
+
+		gen20594 := Call(__e, gen20593, V4698)
+
+		gen20595 := Call(__e, gen20592, gen20594)
+
+		if True == gen20595 {
+			gen20588 := MakeNative(func(__e *ControlFlow) {
+				First := __e.Get(1)
+				_ = First
+				gen20586 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+				gen20587 := Call(__e, gen20586, First, symshen_4tuple)
+
+				if True == gen20587 {
+					__e.Return(True)
+					return
+				} else {
+					gen20583 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+					gen20584 := Call(__e, gen20583, First, symshen_4pvar)
+
+					var gen20585 Obj
+
+					if True == gen20584 {
+						gen20585 = True
+					} else {
+						gen20580 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+						gen20581 := Call(__e, gen20580, First, symshen_4dictionary)
+
+						var gen20582 Obj
+
+						if True == gen20581 {
+							gen20582 = True
+						} else {
+							gen20575 := Call(__e, PrimNS1Value(symns2_1value), symnot)
+
+							gen20576 := Call(__e, PrimNS1Value(symns2_1value), symnumber_2)
+
+							gen20577 := Call(__e, gen20576, First)
+
+							gen20578 := Call(__e, gen20575, gen20577)
+
+							var gen20579 Obj
+
+							if True == gen20578 {
+								gen20573 := Call(__e, PrimNS1Value(symns2_1value), symshen_4fbound_2)
+
+								gen20574 := Call(__e, gen20573, First)
+
+								if True == gen20574 {
+									gen20579 = True
+								} else {
+									gen20579 = False
+								}
+
+							} else {
+								gen20579 = False
+							}
+
+							if True == gen20579 {
+								gen20582 = True
+							} else {
+								gen20582 = False
+							}
+
+						}
+
+						if True == gen20582 {
+							gen20585 = True
+						} else {
+							gen20585 = False
+						}
+
+					}
+
+					if True == gen20585 {
+						__e.Return(True)
+						return
+					} else {
+						__e.Return(False)
+						return
+					}
+
+				}
+
+			}, 1)
+
+			gen20589 := Call(__e, PrimNS1Value(symns2_1value), sym_5_1address)
+
+			gen20590 := Call(__e, gen20589, V4698, MakeNumber(0))
+
+			gen20591 := Call(__e, gen20588, gen20590)
+
+			if True == gen20591 {
+				__e.Return(True)
+				return
+			} else {
+				__e.Return(False)
+				return
+			}
+
+		} else {
+			__e.Return(False)
+			return
+		}
+
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4print_1vector_2, gen20596)
+
+	gen20600 := MakeNative(func(__e *ControlFlow) {
+		V4700 := __e.Get(1)
+		_ = V4700
+		gen20598 := MakeNative(func(__e *ControlFlow) {
+			gen20597 := Call(__e, PrimNS1Value(symns2_1value), symshen_4lookup_1func)
+
+			Call(__e, gen20597, V4700)
+
+			__e.Return(True)
+			return
+
+		}, 0)
+
+		gen20599 := MakeNative(func(__e *ControlFlow) {
+			E := __e.Get(1)
+			_ = E
+			__e.Return(False)
+			return
+		}, 1)
+
+		__e.TailApply(PrimNS1Value(symtry_1catch), gen20598, gen20599)
+
+		return
+
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4fbound_2, gen20600)
+
+	gen20612 := MakeNative(func(__e *ControlFlow) {
+		V4702 := __e.Get(1)
+		_ = V4702
+		gen20601 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+		gen20602 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+
+		gen20603 := Call(__e, PrimNS1Value(symns2_1value), sym_5_1address)
+
+		gen20604 := Call(__e, gen20603, V4702, MakeNumber(1))
+
+		gen20605 := Call(__e, PrimNS1Value(symns2_1value), symcn)
+
+		gen20606 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+
+		gen20607 := Call(__e, PrimNS1Value(symns2_1value), sym_5_1address)
+
+		gen20608 := Call(__e, gen20607, V4702, MakeNumber(2))
+
+		gen20609 := Call(__e, gen20606, gen20608, MakeString(")"), symshen_4s)
+
+		gen20610 := Call(__e, gen20605, MakeString(" "), gen20609)
+
+		gen20611 := Call(__e, gen20602, gen20604, gen20610, symshen_4s)
+
+		__e.TailApply(gen20601, MakeString("(@p "), gen20611)
+
+		return
+
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4tuple, gen20612)
+
+	gen20613 := MakeNative(func(__e *ControlFlow) {
+		V4704 := __e.Get(1)
+		_ = V4704
+		__e.Return(MakeString("(dict ...)"))
+		return
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4dictionary, gen20613)
+
+	gen20645 := MakeNative(func(__e *ControlFlow) {
+		V4715 := __e.Get(1)
+		_ = V4715
+		V4716 := __e.Get(2)
+		_ = V4716
+		V4717 := __e.Get(3)
+		_ = V4717
+		V4718 := __e.Get(4)
+		_ = V4718
+		gen20643 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+		gen20644 := Call(__e, gen20643, MakeNumber(0), V4718)
+
+		if True == gen20644 {
+			__e.Return(MakeString("... etc"))
+			return
+		} else {
+			if True == True {
+				gen20638 := MakeNative(func(__e *ControlFlow) {
+					Item := __e.Get(1)
+					_ = Item
+					gen20631 := MakeNative(func(__e *ControlFlow) {
+						Next := __e.Get(1)
+						_ = Next
+						gen20629 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+						gen20630 := Call(__e, gen20629, Item, symshen_4out_1of_1bounds)
+
+						if True == gen20630 {
+							__e.Return(MakeString(""))
+							return
+						} else {
+							gen20627 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+
+							gen20628 := Call(__e, gen20627, Next, symshen_4out_1of_1bounds)
+
+							if True == gen20628 {
+								gen20626 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+								__e.TailApply(gen20626, Item, V4717)
+
+								return
+
+							} else {
+								gen20615 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+								gen20616 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+								gen20617 := Call(__e, gen20616, Item, V4717)
+
+								gen20618 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+								gen20619 := Call(__e, PrimNS1Value(symns2_1value), symshen_4iter_1vector)
+
+								gen20620 := Call(__e, PrimNS1Value(symns2_1value), sym_7)
+
+								gen20621 := Call(__e, gen20620, V4716, MakeNumber(1))
+
+								gen20622 := Call(__e, PrimNS1Value(symns2_1value), sym_1)
+
+								gen20623 := Call(__e, gen20622, V4718, MakeNumber(1))
+
+								gen20624 := Call(__e, gen20619, V4715, gen20621, V4717, gen20623)
+
+								gen20625 := Call(__e, gen20618, MakeString(" "), gen20624)
+
+								__e.TailApply(gen20615, gen20617, gen20625)
+
+								return
+
+							}
+
+						}
+
+					}, 1)
+
+					gen20635 := MakeNative(func(__e *ControlFlow) {
+						gen20632 := Call(__e, PrimNS1Value(symns2_1value), sym_5_1address)
+
+						gen20633 := Call(__e, PrimNS1Value(symns2_1value), sym_7)
+
+						gen20634 := Call(__e, gen20633, V4716, MakeNumber(1))
+
+						__e.TailApply(gen20632, V4715, gen20634)
+
+						return
+
+					}, 0)
+
+					gen20636 := MakeNative(func(__e *ControlFlow) {
+						E := __e.Get(1)
+						_ = E
+						__e.Return(symshen_4out_1of_1bounds)
+						return
+					}, 1)
+
+					gen20637 := Call(__e, PrimNS1Value(symtry_1catch), gen20635, gen20636)
+
+					__e.TailApply(gen20631, gen20637)
+
+					return
+
+				}, 1)
+
+				gen20640 := MakeNative(func(__e *ControlFlow) {
+					gen20639 := Call(__e, PrimNS1Value(symns2_1value), sym_5_1address)
+
+					__e.TailApply(gen20639, V4715, V4716)
+
+					return
+
+				}, 0)
+
+				gen20641 := MakeNative(func(__e *ControlFlow) {
+					E := __e.Get(1)
+					_ = E
+					__e.Return(symshen_4out_1of_1bounds)
+					return
+				}, 1)
+
+				gen20642 := Call(__e, PrimNS1Value(symtry_1catch), gen20640, gen20641)
+
+				__e.TailApply(gen20638, gen20642)
+
+				return
+
+			} else {
+				gen20614 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+
+				__e.TailApply(gen20614, MakeString("no cond match"))
+
+				return
+
+			}
+		}
+
+	}, 4)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4iter_1vector, gen20645)
+
+	gen20650 := MakeNative(func(__e *ControlFlow) {
+		V4720 := __e.Get(1)
+		_ = V4720
+		gen20647 := MakeNative(func(__e *ControlFlow) {
+			gen20646 := Call(__e, PrimNS1Value(symns2_1value), symstr)
+
+			__e.TailApply(gen20646, V4720)
+
+			return
+
+		}, 0)
+
+		gen20649 := MakeNative(func(__e *ControlFlow) {
+			E := __e.Get(1)
+			_ = E
+			gen20648 := Call(__e, PrimNS1Value(symns2_1value), symshen_4funexstring)
+
+			__e.TailApply(gen20648)
+
+			return
+
+		}, 1)
+
+		__e.TailApply(PrimNS1Value(symtry_1catch), gen20647, gen20649)
+
+		return
+
+	}, 1)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4atom_1_6str, gen20650)
+
+	gen20668 := MakeNative(func(__e *ControlFlow) {
+		gen20651 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+		gen20652 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+		gen20653 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+		gen20654 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+		gen20655 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+		gen20656 := Call(__e, PrimNS1Value(symns2_1value), sym_8s)
+
+		gen20657 := Call(__e, PrimNS1Value(symns2_1value), symshen_4arg_1_6str)
+
+		gen20658 := Call(__e, PrimNS1Value(symns2_1value), symgensym)
+
+		gen20659 := Call(__e, PrimNS1Value(symns2_1value), symintern)
+
+		gen20660 := Call(__e, gen20659, MakeString("x"))
+
+		gen20661 := Call(__e, gen20658, gen20660)
+
+		gen20662 := Call(__e, gen20657, gen20661, symshen_4a)
+
+		gen20663 := Call(__e, gen20656, gen20662, MakeString("\x11"))
+
+		gen20664 := Call(__e, gen20655, MakeString("e"), gen20663)
+
+		gen20665 := Call(__e, gen20654, MakeString("n"), gen20664)
+
+		gen20666 := Call(__e, gen20653, MakeString("u"), gen20665)
+
+		gen20667 := Call(__e, gen20652, MakeString("f"), gen20666)
+
+		__e.TailApply(gen20651, MakeString("\x10"), gen20667)
+
+		return
+
+	}, 0)
+
+	Call(__e, PrimNS1Value(symns2_1set), symshen_4funexstring, gen20668)
+
+	gen20673 := MakeNative(func(__e *ControlFlow) {
+		V4722 := __e.Get(1)
+		_ = V4722
+		gen20671 := Call(__e, PrimNS1Value(symns2_1value), symempty_2)
+
+		gen20672 := Call(__e, gen20671, V4722)
+
+		if True == gen20672 {
+			__e.Return(True)
+			return
+		} else {
+			gen20669 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+
+			gen20670 := Call(__e, gen20669, V4722)
+
+			if True == gen20670 {
+				__e.Return(True)
+				return
+			} else {
+				__e.Return(False)
+				return
+			}
+
+		}
+
+	}, 1)
+
+	__e.TailApply(PrimNS1Value(symns2_1set), symshen_4list_2, gen20673)
+
+	return
+
+}, 0)

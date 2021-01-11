@@ -9,7 +9,7 @@ import (
 	"unsafe"
 )
 
-var makeCodeGenerator = MakeNative(func(e Evaluator) {
+var makeCodeGenerator = MakeNative(func(e *ControlFlow) {
 	// (make-code-generator 'cora)
 	cg := &codeGenerator{
 		declare: make(map[Obj]struct{}),
@@ -18,13 +18,14 @@ var makeCodeGenerator = MakeNative(func(e Evaluator) {
 	return
 }, 0)
 
-var bcToGo = MakeNative(func(e Evaluator) {
+var bcToGo = MakeNative(func(e *ControlFlow) {
 	// (let cg (make-code-generator 'shen)
-	//      (bc->go cg true "xx.bc" "xx.go"))
+	//      (bc->go cg "Main" true "xx.bc" "xx.go"))
 	cg := (*codeGenerator)(unsafe.Pointer(e.Get(1)))
-	genSym := e.Get(2)
-	inFile := mustString(e.Get(3))
-	outFile := mustString(e.Get(4))
+	exportName := mustString(e.Get(2))
+	genSym := e.Get(3)
+	inFile := mustString(e.Get(4))
+	outFile := mustString(e.Get(5))
 
 	f, err := os.Open(inFile)
 	if err != nil {
@@ -40,7 +41,7 @@ var bcToGo = MakeNative(func(e Evaluator) {
 	}
 	defer out.Close()
 
-	if err := cg.HandleBody(f, out); err != nil {
+	if err := cg.HandleBody(f, exportName, out); err != nil {
 		e.Return(MakeError(err.Error()))
 		return
 	}
@@ -50,19 +51,18 @@ var bcToGo = MakeNative(func(e Evaluator) {
 
 	e.Return(Nil)
 	return
-}, 4)
+}, 5)
 
 type codeGenerator struct {
 	scmHead int
 	declare map[Obj]struct{}
 }
 
-func (cg *codeGenerator) HandleBody(f io.Reader, out io.Writer) error {
+func (cg *codeGenerator) HandleBody(f io.Reader, export string, out io.Writer) error {
 	fmt.Fprintf(out, "package main\n\n")
 	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
-	fmt.Fprintf(out, `func init() {
-    __initExprs = append(__initExprs, MakeNative(func(__e Evaluator) {
-`)
+	fmt.Fprintf(out, `var %s = MakeNative(func(__e *ControlFlow) {
+`, export)
 	r := NewSexpReader(f, false)
 	bc, err := r.Read()
 	if err != nil {
@@ -77,21 +77,16 @@ func (cg *codeGenerator) HandleBody(f io.Reader, out io.Writer) error {
 		}
 		fmt.Fprintf(out, "\n\n")
 	}
-	fmt.Fprintf(out, "}, 0))\n}\n")
-
+	fmt.Fprintf(out, "}, 0)\n")
 	return nil
 }
 
 func (cg *codeGenerator) HandleSymbol(out io.Writer) {
 	for sym, _ := range cg.declare {
-		symStr := symbolString(sym)
+		symStr := GetSymbol(sym)
 		symVar := "sym" + symbolAsVar(sym)
 		fmt.Fprintf(out, "var %s = MakeSymbol(\"%s\")\n", symVar, symStr)
 	}
-}
-
-func symbolString(sym Obj) string {
-	return GetSymbol(sym)
 }
 
 func symbolAsVar(sym Obj) string {
@@ -133,6 +128,14 @@ func symbolAsVar(sym Obj) string {
 			buf.WriteString("_g")
 		case ':':
 			buf.WriteString("_h")
+		case '{':
+			buf.WriteString("_i")
+		case '}':
+			buf.WriteString("_j")
+		case ';':
+			buf.WriteString("_k")
+		case ',':
+			buf.WriteString("_l")
 		default:
 			buf.WriteByte(str[i])
 		}
@@ -162,6 +165,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 			if err := cg.generateExpr(w, p, tail1); err != nil {
 				return err
 			}
+			fmt.Fprintln(w)
 		}
 		fmt.Fprintln(w)
 	case "<-":
@@ -180,7 +184,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 	case "$global":
 		sym := Car(Cdr(sexp))
 		cg.declare[sym] = struct{}{}
-		fmt.Fprintf(w, "__e.Global(sym%s)", symbolAsVar(sym))
+		fmt.Fprintf(w, "PrimNS1Value(sym%s)", symbolAsVar(sym))
 	case "declare":
 		// (declare x)
 		x := Car(Cdr(sexp))
@@ -192,7 +196,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 		if tail {
 			fmt.Fprintf(w, "__e.Return(")
 		}
-		fmt.Fprintf(w, "MakeNative(func(__e Evaluator) {\n")
+		fmt.Fprintf(w, "MakeNative(func(__e *ControlFlow) {\n")
 		for i, arg := range args {
 			fmt.Fprintf(w, "%s := __e.Get(%d)\n", symbolAsVar(arg), i+1)
 			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
@@ -276,7 +280,7 @@ func (cg *codeGenerator) generateConst(w io.Writer, c Obj) error {
 		fmt.Fprintf(w, "MakeString(%#v)", str)
 	case IsSymbol(c):
 		cg.declare[c] = struct{}{}
-		fmt.Fprintf(w, symbolAsVar(c))
+		fmt.Fprintf(w, "sym"+symbolAsVar(c))
 	case c == Nil:
 		fmt.Fprintf(w, "Nil")
 	case c == True:
