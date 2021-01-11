@@ -102,6 +102,10 @@ func MustNative(o Obj) *scmNative {
 	return (*scmNative)(unsafe.Pointer(o))
 }
 
+func IsNative(o Obj) bool {
+	return *o == scmHeadNative
+}
+
 type scmError struct {
 	scmHead
 	err string

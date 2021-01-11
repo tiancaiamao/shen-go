@@ -21,9 +21,6 @@
       ['$let x y z] k => (anf-a y (lambda (y1)
 				    ['let x y1 (anf z k)]))
       ['$lambda args body] k => (k ['lambda args (anf body id)])
-      ['$try-catch body handle] k => (anf-a handle (lambda (h1)
-						     (anf-a body (lambda (b1)
-								   (k ['try-catch b1 h1])))))
       [f . args] k => (anf-a f (lambda (f1)
 				 (anf-a* args (lambda (args1)
 						(k ['$call f1 . args1]))))))
@@ -53,14 +50,27 @@
       dst x => (expr->stmt-item dst x) where (symbol? x)
       dst ['$const x] => (expr->stmt-item dst ['$const x])
       dst ['$global x] => (expr->stmt-item dst ['$global x])
-      dst ['try-catch . x] => (expr->stmt-item dst ['try-catch . x])
       dst ['if x y z] => ['if (expr->stmt [] x) (expr->stmt dst y) (expr->stmt dst z)]
       dst ['do x y] => ['block (expr->stmt [] x) (expr->stmt dst y)]
       dst ['lambda args body] => (expr->stmt-item dst ['lambda args (expr->stmt [] body)])
+      dst ['$call [$global f] . args] => ['$prim f . args] where (inline-primitive? f args)
       dst ['$call f . args] => (expr->stmt-item dst ['$call f . args])
       dst ['let x ['if . y] z] => ['block ['declare x] (expr->stmt x ['if . y]) (expr->stmt dst z)]
       dst ['let x ['do . y] z] => ['block (expr->stmt () y) (expr->stmt dst z)]
       dst ['let x y z] => ['block ['<-: x (expr->stmt () y)] (expr->stmt dst z)])
+
+(func in-list?
+      s1 [] => ()
+      s1 [s2 x . more] => [s2 . x] where (= s1 s2)
+      s1 [_ _ . more] => (in-list? s1 more))
+
+(defun inline-primitive? (f args)
+  (let found (in-list? f ['set 2 'car 1 'cdr 1  '> 2 '< 2 '= 2 'string? 2 'cons 2 'cons? 1 'not 1 'gensym 1 'symbol? 1  'number? 1 'string? 1 '+ 2 '- 2 '* 2 '/ 2])
+       (if (not (null? found))
+	   (if (= (cdr found) (length args))
+	       true
+	     false)
+	 false)))
 
 (defun codegen (input)
   (let ast (parse () input)

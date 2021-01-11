@@ -254,6 +254,32 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 		if tail {
 			fmt.Fprintf(w, "\nreturn\n")
 		}
+	case "$prim":
+		// ($prim f a b c ...)
+		if tail {
+			fmt.Fprintf(w, "__e.Return(")
+		}
+		sym := GetSymbol(Car(Cdr(sexp)))
+		prim := klPrimitives[sym].name
+		fmt.Fprintf(w, "%s(", prim)
+		args := ListToSlice(Cdr(Cdr(sexp)))
+		for i, arg := range args {
+			if i != 0 {
+				fmt.Fprintf(w, ", ")
+			}
+			if IsSymbol(arg) {
+				fmt.Fprintf(w, "%s", symbolAsVar(arg))
+			} else {
+				if err := cg.generateExpr(w, arg, false); err != nil {
+					return err
+				}
+			}
+		}
+		fmt.Fprintf(w, ")")
+		if tail {
+			fmt.Fprintf(w, ")\nreturn")
+		}
+		fmt.Fprintln(w)
 	case "try-catch":
 		// (try-catch body handle)
 		body := Car(Cdr(sexp))

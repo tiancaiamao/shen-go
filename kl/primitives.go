@@ -11,61 +11,59 @@ import (
 	"time"
 )
 
-var klPrimitives = []struct {
-	name  string
+var klPrimitives = map[string]struct {
 	arity int
 	fn    interface{}
+	name  string
 }{
-	{"set", 2, PrimNS1Set},
-	{"car", 1, PrimHead},
-	{"cdr", 1, PrimTail},
-	{"get-time", 1, PrimGetTime},
-	{"close", 1, PrimCloseStream},
-	{"open", 2, PrimOpenStream},
-	{"read-byte", 1, PrimReadByte},
-	{"write-byte", 2, PrimWriteByte},
-	{"absvector?", 1, PrimIsVector},
-	{"<-address", 2, PrimVectorGet},
-	{"address->", 3, PrimVectorSet},
-	{"absvector", 1, PrimAbsvector},
-	{"str", 1, PrimStr},
-	{"<=", 2, PrimLessEqual},
-	{">=", 2, PrimGreatEqual},
-	{"<", 2, PrimLessThan},
-	{">", 2, PrimGreatThan},
-	{"error-to-string", 1, PrimErrorToString},
-	{"simple-error", 1, PrimSimpleError},
-	{"=", 2, PrimEqual},
-	{"-", 2, PrimNumberSubtract},
-	{"*", 2, PrimNumberMultiply},
-	{"/", 2, PrimNumberDivide},
-	{"+", 2, PrimNumberAdd},
-	{"string->n", 1, PrimStringToNumber},
-	{"n->string", 1, PrimNumberToString},
-	{"number?", 1, PrimIsNumber},
-	{"string?", 1, PrimIsString},
-	{"pos", 2, PrimPos},
-	{"tlstr", 1, PrimTailString},
-	{"cn", 2, PrimStringConcat},
-	{"intern", 1, PrimIntern},
-	{"hd", 1, PrimHead},
-	{"tl", 1, PrimTail},
-	{"cons", 2, PrimCons},
-	{"cons?", 1, PrimIsPair},
-	{"not", 1, PrimNot},
-	{"if", 3, PrimIf},
-	{"symbol?", 1, PrimIsSymbol},
-	{"gensym", 1, PrimGenSym},
-	{"read-file-as-bytelist", 1, PrimReadFileAsByteList},
-	{"read-file-as-string", 1, PrimReadFileAsString},
-	{"variable?", 1, PrimIsVariable},
-	{"integer?", 1, PrimIsInteger},
+	"set":                   {2, PrimNS1Set, "PrimNS1Set"},
+	"car":                   {1, PrimHead, "PrimHead"},
+	"cdr":                   {1, PrimTail, "PrimTail"},
+	"get-time":              {1, PrimGetTime, "PrimGetTime"},
+	"close":                 {1, PrimCloseStream, "PrimCloseStream"},
+	"open":                  {2, PrimOpenStream, "PrimOpenStream"},
+	"read-byte":             {1, PrimReadByte, "PrimReadByte"},
+	"write-byte":            {2, PrimWriteByte, "PrimWriteByte"},
+	"absvector?":            {1, PrimIsVector, "PrimIsVector"},
+	"<-address":             {2, PrimVectorGet, "PrimVectorGet"},
+	"address->":             {3, PrimVectorSet, "PrimVectorSet"},
+	"absvector":             {1, PrimAbsvector, "PrimAbsvector"},
+	"str":                   {1, PrimStr, "PrimStr"},
+	"<=":                    {2, PrimLessEqual, "PrimLessEqual"},
+	">=":                    {2, PrimGreatEqual, "PrimGreatEqual"},
+	"<":                     {2, PrimLessThan, "PrimLessThan"},
+	">":                     {2, PrimGreatThan, "PrimGreatThan"},
+	"error-to-string":       {1, PrimErrorToString, "PrimErrorToString"},
+	"simple-error":          {1, PrimSimpleError, "PrimSimpleError"},
+	"=":                     {2, PrimEqual, "PrimEqual"},
+	"-":                     {2, PrimNumberSubtract, "PrimNumberSubtract"},
+	"*":                     {2, PrimNumberMultiply, "PrimNumberMultiply"},
+	"/":                     {2, PrimNumberDivide, "PrimNumberDivide"},
+	"+":                     {2, PrimNumberAdd, "PrimNumberAdd"},
+	"string->n":             {1, PrimStringToNumber, "PrimStringToNumber"},
+	"n->string":             {1, PrimNumberToString, "PrimNumberToString"},
+	"number?":               {1, PrimIsNumber, "PrimIsNumber"},
+	"string?":               {1, PrimIsString, "PrimIsString"},
+	"pos":                   {2, PrimPos, "PrimPos"},
+	"tlstr":                 {1, PrimTailString, "PrimTailString"},
+	"cn":                    {2, PrimStringConcat, "PrimStringConcat"},
+	"intern":                {1, PrimIntern, "PrimIntern"},
+	"cons":                  {2, PrimCons, "PrimCons"},
+	"cons?":                 {1, PrimIsPair, "PrimIsPair"},
+	"not":                   {1, PrimNot, "PrimNot"},
+	"if":                    {3, PrimIf, "PrimIf"},
+	"symbol?":               {1, PrimIsSymbol, "PrimIsSymbol"},
+	"gensym":                {1, PrimGenSym, "PrimGenSym"},
+	"read-file-as-bytelist": {1, PrimReadFileAsByteList, "PrimReadFileAsByteList"},
+	"read-file-as-string":   {1, PrimReadFileAsString, "PrimReadFileAsString"},
+	"variable?":             {1, PrimIsVariable, "PrimIsVariable"},
+	"integer?":              {1, PrimIsInteger, "PrimIsInteger"},
 }
 
 func init() {
-	for _, item := range klPrimitives {
-		sym := MakeSymbol(item.name)
-		prim := MakePrimitive(item.name, item.arity, item.fn)
+	for name, item := range klPrimitives {
+		sym := MakeSymbol(name)
+		prim := MakePrimitive(name, item.arity, item.fn)
 		PrimNS1Set(sym, prim)
 	}
 
@@ -77,8 +75,8 @@ func init() {
 	PrimNS1Set(MakeSymbol("make-code-generator"), makeCodeGenerator)
 	PrimNS1Set(MakeSymbol("cg:bc->go"), bcToGo)
 
-	PrimNS1Set(MakeSymbol("ns2-set"), MakePrimitive("ns2-set", 2, PrimNS2Set))
-	PrimNS1Set(MakeSymbol("ns2-value"), MakePrimitive("ns2-value", 1, PrimNS2Value))
+	// PrimNS1Set(MakeSymbol("ns2-set"), MakePrimitive("ns2-set", 2, PrimNS2Set))
+	// PrimNS1Set(MakeSymbol("ns2-value"), MakePrimitive("ns2-value", 1, PrimNS2Value))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -573,13 +571,22 @@ func primLoadSo(e *ControlFlow) {
 		return
 	}
 
-	f, ok := entry.(func(__e *ControlFlow))
+	f, ok := entry.(*Obj)
 	if !ok {
-		e.Return(MakeError("plugin Main should be func(__e *ControlFlow)"))
+		e.Return(MakeError("plugin Main must be kl.Obj"))
+		return
+	}
+	if !IsNative(*f) {
+		e.Return(MakeError("plugin Main must be a scmNative object"))
+		return
+	}
+	n := MustNative(*f)
+	if n.require != 0 {
+		e.Return(MakeError("plugin Main arity is incorrect"))
 		return
 	}
 
-	res := Call(e, MakeNative(f, 0))
+	res := Call(e, *f)
 	e.Return(res)
 }
 
