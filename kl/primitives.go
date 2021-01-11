@@ -11,10 +11,10 @@ import (
 	"time"
 )
 
-var klPrimitives = map[string]struct {
+var Primitives = map[string]struct {
 	arity int
 	fn    interface{}
-	name  string
+	Name  string
 }{
 	"set":                   {2, PrimNS1Set, "PrimNS1Set"},
 	"car":                   {1, PrimHead, "PrimHead"},
@@ -61,7 +61,7 @@ var klPrimitives = map[string]struct {
 }
 
 func init() {
-	for name, item := range klPrimitives {
+	for name, item := range Primitives {
 		sym := MakeSymbol(name)
 		prim := MakePrimitive(name, item.arity, item.fn)
 		PrimNS1Set(sym, prim)
@@ -72,8 +72,6 @@ func init() {
 	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
 	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
 	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
-	PrimNS1Set(MakeSymbol("make-code-generator"), makeCodeGenerator)
-	PrimNS1Set(MakeSymbol("cg:bc->go"), bcToGo)
 
 	// PrimNS1Set(MakeSymbol("ns2-set"), MakePrimitive("ns2-set", 2, PrimNS2Set))
 	// PrimNS1Set(MakeSymbol("ns2-value"), MakePrimitive("ns2-value", 1, PrimNS2Value))

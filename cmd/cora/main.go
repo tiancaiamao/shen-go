@@ -33,6 +33,8 @@ func main() {
 
 	var e kl.ControlFlow
 	kl.PrimNS1Set(symMacroExpand, kl.Nil)
+	kl.PrimNS1Set(kl.MakeSymbol("make-code-generator"), makeCodeGenerator)
+	kl.PrimNS1Set(kl.MakeSymbol("cg:bc->go"), bcToGo)
 
 	if !quiet {
 		home, err := os.UserHomeDir()

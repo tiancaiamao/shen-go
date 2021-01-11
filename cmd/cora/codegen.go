@@ -1,4 +1,4 @@
-package kl
+package main
 
 import (
 	"bytes"
@@ -7,6 +7,8 @@ import (
 	"io"
 	"os"
 	"unsafe"
+
+	. "github.com/tiancaiamao/shen-go/kl"
 )
 
 var makeCodeGenerator = MakeNative(func(e *ControlFlow) {
@@ -22,10 +24,10 @@ var bcToGo = MakeNative(func(e *ControlFlow) {
 	// (let cg (make-code-generator 'shen)
 	//      (bc->go cg "Main" true "xx.bc" "xx.go"))
 	cg := (*codeGenerator)(unsafe.Pointer(e.Get(1)))
-	exportName := mustString(e.Get(2))
+	exportName := GetString(e.Get(2))
 	genSym := e.Get(3)
-	inFile := mustString(e.Get(4))
-	outFile := mustString(e.Get(5))
+	inFile := GetString(e.Get(4))
+	outFile := GetString(e.Get(5))
 
 	f, err := os.Open(inFile)
 	if err != nil {
@@ -260,7 +262,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 			fmt.Fprintf(w, "__e.Return(")
 		}
 		sym := GetSymbol(Car(Cdr(sexp)))
-		prim := klPrimitives[sym].name
+		prim := Primitives[sym].Name
 		fmt.Fprintf(w, "%s(", prim)
 		args := ListToSlice(Cdr(Cdr(sexp)))
 		for i, arg := range args {

@@ -16,14 +16,14 @@
 (defun reverse-help (res l)
   (if (= l ())
       res
-    (reverse-help (cons (hd l) res) (tl l))))
+    (reverse-help (cons (car l) res) (cdr l))))
 
 (defun reverse (l)
     (reverse-help () l))
 
 (defun map-help (res f l)
   (if (cons? l)
-      (map-help (cons (f (hd l)) res) f (tl l))
+      (map-help (cons (f (car l)) res) f (cdr l))
     (reverse res)))
 
 (defun map (f l)
