@@ -248,7 +248,7 @@ var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 
 var addrForFixnum [1 << 20]byte
 
-const fixnumCount = 8 << 20
+const fixnumCount = 1 << 20
 
 var fixnumBaseAddr = uintptr(unsafe.Pointer(&addrForFixnum[0]))
 var fixnumEndAddr = fixnumBaseAddr + fixnumCount
@@ -428,6 +428,9 @@ func (o *scmPair) fmt(buf io.Writer, start bool) {
 func (o *scmHead) GoString() string {
 	switch *o {
 	case scmHeadNumber:
+		if isFixnum(o) {
+			return fmt.Sprintf("%d", uintptr(unsafe.Pointer(o))-fixnumBaseAddr)
+		}
 		f := mustNumber(o)
 		if !isPreciseInteger(f) {
 			return fmt.Sprintf("%f", f)

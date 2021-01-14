@@ -221,7 +221,7 @@ func eval(e *ControlFlow) {
 	exp := e.data[e.pos]
 	env := e.data[e.pos+1]
 
-	enableDebug := mustSymbol(symDebug).value
+	enableDebug := mustSymbol(symDebug).cora
 	if enableDebug != nil && enableDebug != Nil {
 		fmt.Println("eval === exp:", ObjString(exp))
 	}

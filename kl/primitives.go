@@ -5,7 +5,6 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"path"
 	"plugin"
 	"runtime"
 	"time"
@@ -56,7 +55,6 @@ var Primitives = map[string]struct {
 	"gensym":                {1, PrimGenSym, "PrimGenSym"},
 	"read-file-as-bytelist": {1, PrimReadFileAsByteList, "PrimReadFileAsByteList"},
 	"read-file-as-string":   {1, PrimReadFileAsString, "PrimReadFileAsString"},
-	"variable?":             {1, PrimIsVariable, "PrimIsVariable"},
 	"integer?":              {1, PrimIsInteger, "PrimIsInteger"},
 }
 
@@ -72,9 +70,6 @@ func init() {
 	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
 	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
 	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
-
-	// PrimNS1Set(MakeSymbol("ns2-set"), MakePrimitive("ns2-set", 2, PrimNS2Set))
-	// PrimNS1Set(MakeSymbol("ns2-value"), MakePrimitive("ns2-value", 1, PrimNS2Value))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -461,18 +456,6 @@ func PrimReadFileAsString(x Obj) Obj {
 	return MakeString(string(buf))
 }
 
-func PrimIsVariable(x Obj) Obj {
-	if *x != scmHeadSymbol {
-		return False
-	}
-
-	sym := GetSymbol(x)
-	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
-		return False
-	}
-	return True
-}
-
 func PrimIsInteger(x Obj) Obj {
 	if *x != scmHeadNumber {
 		return False
@@ -507,23 +490,12 @@ func PrimLoadFile(isCora bool) func(e *ControlFlow) {
 	}
 }
 
-func packagePath() string {
-	gopath := os.Getenv("GOPATH")
-	return path.Join(gopath, "src/github.com/tiancaiamao/shen-go")
-}
-
 func loadFile(e *ControlFlow, extended bool, file string) Obj {
-	var filePath string
-	if _, err := os.Stat(file); err == nil {
-		filePath = file
-	} else {
-		filePath = path.Join(packagePath(), file)
-		if _, err := os.Stat(filePath); err != nil {
-			return MakeError(err.Error())
-		}
+	if _, err := os.Stat(file); err != nil {
+		return MakeError(err.Error())
 	}
 
-	f, err := os.Open(filePath)
+	f, err := os.Open(file)
 	if err != nil {
 		return MakeError(err.Error())
 	}
