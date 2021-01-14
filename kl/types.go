@@ -428,9 +428,6 @@ func (o *scmPair) fmt(buf io.Writer, start bool) {
 func (o *scmHead) GoString() string {
 	switch *o {
 	case scmHeadNumber:
-		if isFixnum(o) {
-			return fmt.Sprintf("%d", uintptr(unsafe.Pointer(o))-fixnumBaseAddr)
-		}
 		f := mustNumber(o)
 		if !isPreciseInteger(f) {
 			return fmt.Sprintf("%f", f)
