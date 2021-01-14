@@ -65,3 +65,10 @@ func TestStr(t *testing.T) {
 		t.Error("str of procedure should not be all alpha")
 	}
 }
+
+func TestFixnum(t *testing.T) {
+	n := MakeNumber(3000001)
+	if PrimIsPair(n) != False {
+		t.Error("3000000 should not be a cons")
+	}
+}

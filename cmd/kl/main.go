@@ -111,7 +111,7 @@ var klPrimitives = []struct {
 	{"symbol?", 1, kl.PrimIsSymbol},
 	{"read-file-as-bytelist", 1, kl.PrimReadFileAsByteList},
 	{"read-file-as-string", 1, kl.PrimReadFileAsString},
-	{"variable?", 1, kl.PrimIsVariable},
+	{"variable?", 1, PrimIsVariable},
 	{"integer?", 1, kl.PrimIsInteger},
 }
 
@@ -191,4 +191,16 @@ func primLoad(e *kl.ControlFlow) {
 		}
 	}
 	e.Return(kl.MakeSymbol("loaded"))
+}
+
+func PrimIsVariable(x kl.Obj) kl.Obj {
+	if !kl.IsSymbol(x) {
+		return kl.False
+	}
+
+	sym := kl.GetSymbol(x)
+	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
+		return kl.False
+	}
+	return kl.True
 }
