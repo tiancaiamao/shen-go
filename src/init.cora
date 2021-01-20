@@ -316,26 +316,44 @@
       f [x . y] => (f (map (cora:walk f) [x . y]))
       f x => (f x))
 
-(func propagate-boolean-rule
-      ['cons? ['cons . _]] => true
+(func propagate-boolean0
       ['car ['cons x _]] => x
       ['cdr ['cons _ x]] => x
+      ['cons? ['cons _ _]] => true
       ['and true true] => true
-      ['null? ['cons . _]] => false
       ['null? ()] => true
+      ['null? ['cons _ _]] => false
       ['not true] => false
       ['not false] => true
-      ['if true x _] => x
-      ['if false _ x] => x
+      ['if true y z] => y
+      ['if false y z] => z
       x => x)
 
 (func propagate-boolean
-      ['lambda arg body] => ['lambda arg (propagate-boolean body)]
       ['quote x] => ['quote x]
-      x => (cora:walk propagate-boolean-rule x))
+      ['cons? x] => (let x1 (propagate-boolean x)
+		       (propagate-boolean0 ['cons? x1]))
+      ['car x] => (let x1 (propagate-boolean x)
+		       (propagate-boolean0 ['car x1]))
+      ['cdr x] => (let x1 (propagate-boolean x)
+		       (propagate-boolean0 ['cdr x1]))
+      ['and x y] => (let x1 (propagate-boolean x)
+			 y1 (propagate-boolean y)
+			 (propagate-boolean0 ['and x1 y1]))
+      ['null? x] => (let x1 (propagate-boolean x)
+			 (propagate-boolean0 ['null? x1]))
+      ['not x] => (let x1 (propagate-boolean x)
+		       (propagate-boolean0 ['not x1]))
+      ['if x y z] => (let x1 (propagate-boolean x)
+			  y1 (propagate-boolean y)
+			  z1 (propagate-boolean z)
+			  (propagate-boolean0 ['if x1 y1 z1]))
+      ['lambda args body] => ['lambda args (propagate-boolean body)]
+      [f . args] => (map propagate-boolean [f . args])
+      x => x)
 
-;; (defun macroexpand (exp)
-;;   (propagate-boolean (macroexpand-boot exp)))
+(defun macroexpand (exp)
+  (propagate-boolean (macroexpand-boot exp)))
 
 ;; ===============
 
