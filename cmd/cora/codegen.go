@@ -21,7 +21,7 @@ var makeCodeGenerator = MakeNative(func(e *ControlFlow) {
 }, 0)
 
 var bcToGo = MakeNative(func(e *ControlFlow) {
-	// (let cg (make-code-generator 'shen)
+	// (let cg (make-code-generator)
 	//      (bc->go cg "Main" true "xx.bc" "xx.go"))
 	cg := (*codeGenerator)(unsafe.Pointer(e.Get(1)))
 	exportName := GetString(e.Get(2))
@@ -71,15 +71,11 @@ func (cg *codeGenerator) HandleBody(f io.Reader, export string, out io.Writer) e
 		fmt.Println("read bytecode error", err)
 		return err
 	}
-	for bc != Nil {
-		curr := Car(bc)
-		bc = Cdr(bc)
-		if err := cg.generateExpr(out, curr, bc == Nil); err != nil {
-			return err
-		}
-		fmt.Fprintf(out, "\n\n")
+	if err := cg.generateExpr(out, bc); err != nil {
+		return err
 	}
-	fmt.Fprintf(out, "}, 0)\n")
+	fmt.Fprintf(out, "\n\n")
+	fmt.Fprintf(out, "}, 0)\n\n")
 	return nil
 }
 
@@ -145,14 +141,10 @@ func symbolAsVar(sym Obj) string {
 	return buf.String()
 }
 
-func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
+func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 	// fmt.Printf("handle %s ..\n", ObjString(sexp))
 	if IsSymbol(sexp) {
-		if tail {
-			fmt.Fprintf(w, "__e.Return(%s)\nreturn\n", symbolAsVar(sexp))
-		} else {
-			fmt.Fprintf(w, "%s", symbolAsVar(sexp))
-		}
+		fmt.Fprintf(w, "%s", symbolAsVar(sexp))
 		return nil
 	}
 	kind := GetSymbol(Car(sexp))
@@ -160,11 +152,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 	case "block":
 		for cur := Cdr(sexp); cur != Nil; cur = Cdr(cur) {
 			p := Car(cur)
-			tail1 := false
-			if Cdr(cur) == Nil {
-				tail1 = tail
-			}
-			if err := cg.generateExpr(w, p, tail1); err != nil {
+			if err := cg.generateExpr(w, p); err != nil {
 				return err
 			}
 			fmt.Fprintln(w)
@@ -175,70 +163,64 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 		a := Car(Cdr(sexp))
 		b := Car(Cdr(Cdr(sexp)))
 		fmt.Fprintf(w, "%s = ", symbolAsVar(a))
-		cg.generateExpr(w, b, false)
+		cg.generateExpr(w, b)
 		fmt.Fprintln(w)
 	case "<-:":
 		a := Car(Cdr(sexp))
 		b := Car(Cdr(Cdr(sexp)))
 		fmt.Fprintf(w, "%s := ", symbolAsVar(a))
-		cg.generateExpr(w, b, false)
+		cg.generateExpr(w, b)
 		fmt.Fprintln(w)
 	case "$global":
 		sym := Car(Cdr(sexp))
 		cg.declare[sym] = struct{}{}
 		fmt.Fprintf(w, "PrimNS1Value(sym%s)", symbolAsVar(sym))
-	case "declare":
-		// (declare x)
-		x := Car(Cdr(sexp))
-		fmt.Fprintf(w, "var %s Obj\n", symbolAsVar(x))
-	case "lambda":
-		// (lambda (p1 p2 ...) ...)
-		tmp := Car(Cdr(sexp))
-		args := ListToSlice(tmp)
-		if tail {
-			fmt.Fprintf(w, "__e.Return(")
-		}
-		fmt.Fprintf(w, "MakeNative(func(__e *ControlFlow) {\n")
-		for i, arg := range args {
-			fmt.Fprintf(w, "%s := __e.Get(%d)\n", symbolAsVar(arg), i+1)
-			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
-		}
-		if err := cg.generateExpr(w, Car(Cdr(Cdr(sexp))), true); err != nil {
-			return err
-		}
-		fmt.Fprintf(w, "}, %d)", len(args))
-		if tail {
-			fmt.Fprintf(w, ")\nreturn\n")
-		}
 	case "$const":
 		// (const Number)
 		// (const ())
 		// (const "xxx")
 		c := Cadr(sexp)
-		if tail {
-			fmt.Fprintf(w, "__e.Return(")
-		}
 		if err := cg.generateConst(w, c); err != nil {
 			return err
 		}
-		if tail {
-			fmt.Fprintf(w, ")\nreturn\n")
+	case "lambda":
+		// (lambda (p1 p2 ...) ...)
+		tmp := Car(Cdr(sexp))
+		args := ListToSlice(tmp)
+		fmt.Fprintf(w, "MakeNative(func(__e *ControlFlow) {\n")
+		for i, arg := range args {
+			fmt.Fprintf(w, "%s := __e.Get(%d)\n", symbolAsVar(arg), i+1)
+			fmt.Fprintf(w, "_ = %s\n", symbolAsVar(arg))
 		}
+		if err := cg.generateExpr(w, Car(Cdr(Cdr(sexp)))); err != nil {
+			return err
+		}
+		fmt.Fprintf(w, "}, %d)", len(args))
 	case "if":
 		// (if a b c)
 		a := Cadr(sexp)
 		b := Car(Cdr(Cdr(sexp)))
 		c := Car(Cdr(Cdr(Cdr(sexp))))
-		if err := cg.generateIfExpr(w, a, b, c, tail); err != nil {
+		if err := cg.generateIfExpr(w, a, b, c); err != nil {
 			return err
 		}
-	case "$call":
+	case "ignore": // (ignore xx)
+		fmt.Fprintf(w, "_ = ")
+		exp := Car(Cdr(sexp))
+		cg.generateExpr(w, exp)
+		fmt.Fprintln(w)
+	case "var":
+		// (var xxx)
+		sym := Car(Cdr(sexp))
+		fmt.Fprintf(w, "var %s Obj\n", symbolAsVar(sym))
+	case "return":
+		val := Cadr(sexp)
+		fmt.Fprintf(w, "__e.Return(")
+		cg.generateExpr(w, val)
+		fmt.Fprintf(w, ")\nreturn\n")
+	case "call":
 		// ($call f a b c ...)
-		if tail {
-			fmt.Fprintf(w, "__e.TailApply(")
-		} else {
-			fmt.Fprintf(w, "Call(__e, ")
-		}
+		fmt.Fprintf(w, "Call(__e, ")
 		args := ListToSlice(Cdr(sexp))
 		for i, arg := range args {
 			if i != 0 {
@@ -247,20 +229,31 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 			if IsSymbol(arg) {
 				fmt.Fprintf(w, "%s", symbolAsVar(arg))
 			} else {
-				if err := cg.generateExpr(w, arg, false); err != nil {
+				if err := cg.generateExpr(w, arg); err != nil {
 					return err
 				}
 			}
 		}
 		fmt.Fprintf(w, ")\n")
-		if tail {
-			fmt.Fprintf(w, "\nreturn\n")
+	case "tailapply":
+		// ($call f a b c ...)
+		fmt.Fprintf(w, "__e.TailApply(")
+		args := ListToSlice(Cdr(sexp))
+		for i, arg := range args {
+			if i != 0 {
+				fmt.Fprintf(w, ", ")
+			}
+			if IsSymbol(arg) {
+				fmt.Fprintf(w, "%s", symbolAsVar(arg))
+			} else {
+				if err := cg.generateExpr(w, arg); err != nil {
+					return err
+				}
+			}
 		}
+		fmt.Fprintf(w, ")\nreturn\n")
 	case "$prim":
 		// ($prim f a b c ...)
-		if tail {
-			fmt.Fprintf(w, "__e.Return(")
-		}
 		sym := GetSymbol(Car(Cdr(sexp)))
 		prim := Primitives[sym].Name
 		fmt.Fprintf(w, "%s(", prim)
@@ -272,27 +265,18 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj, tail bool) error {
 			if IsSymbol(arg) {
 				fmt.Fprintf(w, "%s", symbolAsVar(arg))
 			} else {
-				if err := cg.generateExpr(w, arg, false); err != nil {
+				if err := cg.generateExpr(w, arg); err != nil {
 					return err
 				}
 			}
 		}
 		fmt.Fprintf(w, ")")
-		if tail {
-			fmt.Fprintf(w, ")\nreturn")
-		}
 		fmt.Fprintln(w)
 	case "try-catch":
 		// (try-catch body handle)
 		body := Car(Cdr(sexp))
 		handle := Car(Cdr(Cdr(sexp)))
-		if tail {
-			fmt.Fprintf(w, "__e.Return(")
-		}
 		fmt.Fprintf(w, "Try(__e, %s).Catch(%s)", symbolAsVar(body), symbolAsVar(handle))
-		if tail {
-			fmt.Fprintf(w, ")\nreturn\n")
-		}
 	default:
 		return fmt.Errorf("unknown instruct: %s\n", kind)
 	}
@@ -321,17 +305,17 @@ func (cg *codeGenerator) generateConst(w io.Writer, c Obj) error {
 	return nil
 }
 
-func (cg *codeGenerator) generateIfExpr(w io.Writer, a, b, c Obj, tail bool) error {
+func (cg *codeGenerator) generateIfExpr(w io.Writer, a, b, c Obj) error {
 	fmt.Fprintf(w, "if True == ")
-	if err := cg.generateExpr(w, a, false); err != nil {
+	if err := cg.generateExpr(w, a); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, " {\n")
-	if err := cg.generateExpr(w, b, tail); err != nil {
+	if err := cg.generateExpr(w, b); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, "} else {\n")
-	if err := cg.generateExpr(w, c, tail); err != nil {
+	if err := cg.generateExpr(w, c); err != nil {
 		return err
 	}
 	fmt.Fprintf(w, "}\n")

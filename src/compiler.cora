@@ -7,78 +7,58 @@
       env ['lambda args body] => ['$lambda args (parse (append args env) body)]
       env [f . args] => (map (parse env) [f . args]))
 
-(defun id (x) x)
+(func peval-t
+      bc ['$const x] => (cons ['return ['$const x]] bc)
+      bc ['$global x] => (cons ['return ['$global x]] bc)
+      bc ['$if x y z] => (let y1 (peval0 y)
+			      z1 (peval0 z)
+			      tmp (gensym 'ifres)
+			      (peval bc x (lambda (bc1 reg1)
+					    (cons ['if reg1 y1 z1] bc1))))
+      bc ['$do x y] => (peval bc x (lambda (bc1 x1)
+				    (peval-t (cons ['ignore x1] bc1) y)))
+      bc ['$lambda args body] => (cons ['return ['lambda args (peval0 body)]] bc)
+      bc [f . args] => (peval-call bc [f . args] []
+				   (lambda (bc1 regs)
+				     (cons ['tailapply . regs] bc1)))
+      bc x => (cons ['return x] bc))
 
-(func anf
-      x k => (k x) where (symbol? x)
-      ['$const x] k => (k ['$const x])
-      ['$global x] k => (k ['$global x])
-      ['$if x y z] k => (let y1 (anf y id)
-			     z1 (anf z id)
-			     (anf-a x (lambda (x1)
-					(k ['if x1 y1 z1]))))
-      ['$do x y] k => ['do (anf x id) (anf y k)]
-      ['$let x y z] k => (anf-a y (lambda (y1)
-				    ['let x y1 (anf z k)]))
-      ['$lambda args body] k => (k ['lambda args (anf body id)])
-      [f . args] k => (anf-a f (lambda (f1)
-				 (anf-a* args (lambda (args1)
-						(k ['$call f1 . args1]))))))
+(func peval
+      bc ['$const x] cc => (cc bc ['$const x])
+      bc ['$global x] cc => (cc bc ['$global x])
+      bc ['$if x y z] cc => (let tmp (gensym 'ifres)
+				 (let y1 (peval [] y (lambda (bc1 y1) (cons 'block (reverse (cons ['<- tmp y1] bc1)))))
+				      z1 (peval [] z (lambda (bc1 z1) (cons 'block (reverse (cons ['<- tmp z1] bc1)))))
+				      (peval bc x (lambda (bc1 reg1)
+						    (cc [['if reg1 y1 z1] ['var tmp] . bc1] tmp)))))
+      bc ['$do x y] cc => (peval bc x (lambda (bc1 x1)
+					(peval (cons ['ignore x1] bc1) y cc)))
+      bc ['$lambda args body] cc => (let tmp (gensym 'tmp)
+					 (cc (cons ['<-: tmp ['lambda args (peval0 body)]] bc) tmp))
+      bc [f . args] cc => (peval-call bc [f . args] []
+				      (lambda (bc1 regs)
+					(let tmp (gensym 'tmp)
+					     (cc (cons ['<-: tmp ['call . regs]] bc1) tmp))))
+      bc x cc => (cc bc x))
 
-(defun anf-a (exp k)
-  (anf exp (lambda (x)
-	     (anf-a-h x k))))
+(func peval-call
+      bc [] regs cc => (cc bc (reverse regs))
+      bc [x . xs] regs cc => (peval bc x (lambda (bc1 x1)
+					     (peval-call bc1 xs (cons x1 regs) cc))))
 
-(func anf-a-h
-      x k => (k x) where (symbol? x)
-      ['$const x] k => (k ['$const x])
-      ['$global x] k => (k ['$global x])
-      x k => (let t (gensym 'gen)
-		  ['let t x (k t)]))
-
-(func anf-a*
-      [] k => (k '())
-      [hd . tl] k => (anf-a hd (lambda (hd1)
-				 (anf-a* tl (lambda (tl1)
-					      (k [hd1 . tl1]))))))
-
-(func expr->stmt-item
-      [] x => x
-      dst x => ['<- dst x])
-
-(func expr->stmt
-      dst x => (expr->stmt-item dst x) where (symbol? x)
-      dst ['$const x] => (expr->stmt-item dst ['$const x])
-      dst ['$global x] => (expr->stmt-item dst ['$global x])
-      dst ['if x y z] => ['if (expr->stmt [] x) (expr->stmt dst y) (expr->stmt dst z)]
-      dst ['do x y] => ['block (expr->stmt [] x) (expr->stmt dst y)]
-      dst ['lambda args body] => (expr->stmt-item dst ['lambda args (expr->stmt [] body)])
-      dst ['$call [$global f] . args] => ['$prim f . args] where (inline-primitive? f args)
-      dst ['$call f . args] => (expr->stmt-item dst ['$call f . args])
-      dst ['let x ['if . y] z] => ['block ['declare x] (expr->stmt x ['if . y]) (expr->stmt dst z)]
-      dst ['let x ['do . y] z] => ['block (expr->stmt () y) (expr->stmt dst z)]
-      dst ['let x y z] => ['block ['<-: x (expr->stmt () y)] (expr->stmt dst z)])
-
-(func in-list?
-      s1 [] => ()
-      s1 [s2 x . more] => [s2 . x] where (= s1 s2)
-      s1 [_ _ . more] => (in-list? s1 more))
-
-(defun inline-primitive? (f args)
-  (let found (in-list? f ['set 2 'car 1 'cdr 1  '> 2 '< 2 '= 2 'string? 2 'cons 2 'cons? 1 'not 1 'gensym 1 'symbol? 1  'number? 1 'string? 1 '+ 2 '- 2 '* 2 '/ 2])
-       (if (not (null? found))
-	   (if (= (cdr found) (length args))
-	       true
-	     false)
-	 false)))
+(defun peval0 (exp)
+  (let ret (reverse (peval-t [] exp))
+       (if (= 1 (length ret))
+	   (car ret)
+	 (cons 'block ret))))
 
 (defun codegen (input)
   (let ast (parse () input)
-       (let raw (anf ast id)
-	    (expr->stmt () raw))))
+       (peval0 ast)))
 
 (defun compile-file (fin fout)
-  (let exprs (read-file-as-sexp fin true)
-       (let expands (map macroexpand exprs)
-	    (let bc (map codegen expands)
+  (let expr (cons 'begin (read-file-as-sexp fin true))
+       (let expand (macroexpand expr)
+	    (let bc (codegen expand)
 		 (write-sexp-to-file fout bc)))))
+
