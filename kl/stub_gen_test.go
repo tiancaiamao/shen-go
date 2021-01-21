@@ -1,189 +1,193 @@
 package kl
 
 var Load = MakeNative(func(__e *ControlFlow) {
-	gen99 := MakeNative(func(__e *ControlFlow) {
-		gen96 := MakeNative(func(__e *ControlFlow) {
-			gen95 := Call(__e, PrimNS1Value(symsimple_1error), MakeString("xxx"))
+	tmp176 := MakeNative(func(__e *ControlFlow) {
+		tmp177 := MakeNative(func(__e *ControlFlow) {
+			tmp178 := Call(__e, PrimNS1Value(symsimple_1error), MakeString("xxx"))
 
-			__e.TailApply(PrimNS1Value(sym_7), MakeNumber(2), gen95)
-
+			__e.TailApply(PrimNS1Value(sym_7), MakeNumber(2), tmp178)
 			return
 
 		}, 0)
 
-		gen97 := MakeNative(func(__e *ControlFlow) {
+		tmp179 := MakeNative(func(__e *ControlFlow) {
 			e := __e.Get(1)
 			_ = e
 			__e.Return(MakeNumber(2))
 			return
 		}, 1)
 
-		gen98 := Call(__e, PrimNS1Value(symtry_1catch), gen96, gen97)
+		tmp180 := Call(__e, PrimNS1Value(symtry_1catch), tmp177, tmp179)
 
-		__e.TailApply(PrimNS1Value(sym_7), MakeNumber(1), gen98)
-
+		__e.TailApply(PrimNS1Value(sym_7), MakeNumber(1), tmp180)
 		return
 
 	}, 0)
 
-	Call(__e, PrimNS1Value(symset), symf, gen99)
+	tmp181 := Call(__e, PrimNS1Value(symset), symf, tmp176)
 
-	gen102 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp181
+
+	tmp182 := MakeNative(func(__e *ControlFlow) {
 		n := __e.Get(1)
 		_ = n
-		gen101 := Call(__e, PrimNS1Value(sym_a), n, MakeNumber(0))
+		tmp185 := Call(__e, PrimNS1Value(sym_a), n, MakeNumber(0))
 
-		if True == gen101 {
+		if True == tmp185 {
 			__e.Return(n)
 			return
 		} else {
-			gen100 := Call(__e, PrimNS1Value(sym_1), n, MakeNumber(1))
+			tmp184 := Call(__e, PrimNS1Value(sym_1), n, MakeNumber(1))
 
-			__e.TailApply(PrimNS1Value(symrecur), gen100)
-
+			__e.TailApply(PrimNS1Value(symrecur), tmp184)
 			return
 
 		}
 
 	}, 1)
 
-	Call(__e, PrimNS1Value(symset), symrecur, gen102)
+	tmp186 := Call(__e, PrimNS1Value(symset), symrecur, tmp182)
 
-	gen106 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp186
+
+	tmp187 := MakeNative(func(__e *ControlFlow) {
 		sum := __e.Get(1)
 		_ = sum
 		n := __e.Get(2)
 		_ = n
-		gen105 := Call(__e, PrimNS1Value(sym_a), n, MakeNumber(0))
+		tmp191 := Call(__e, PrimNS1Value(sym_a), n, MakeNumber(0))
 
-		if True == gen105 {
+		if True == tmp191 {
 			__e.Return(sum)
 			return
 		} else {
-			gen103 := Call(__e, PrimNS1Value(sym_d), sum, n)
+			tmp189 := Call(__e, PrimNS1Value(sym_d), sum, n)
 
-			gen104 := Call(__e, PrimNS1Value(sym_1), n, MakeNumber(1))
+			tmp190 := Call(__e, PrimNS1Value(sym_1), n, MakeNumber(1))
 
-			__e.TailApply(PrimNS1Value(symfact0), gen103, gen104)
-
+			__e.TailApply(PrimNS1Value(symfact0), tmp189, tmp190)
 			return
 
 		}
 
 	}, 2)
 
-	Call(__e, PrimNS1Value(symset), symfact0, gen106)
+	tmp192 := Call(__e, PrimNS1Value(symset), symfact0, tmp187)
 
-	gen107 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp192
+
+	tmp193 := MakeNative(func(__e *ControlFlow) {
 		n := __e.Get(1)
 		_ = n
 		__e.TailApply(PrimNS1Value(symfact0), MakeNumber(1), n)
-
 		return
 	}, 1)
 
-	Call(__e, PrimNS1Value(symset), symfact, gen107)
+	tmp194 := Call(__e, PrimNS1Value(symset), symfact, tmp193)
 
-	gen112 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp194
+
+	tmp195 := MakeNative(func(__e *ControlFlow) {
 		res := __e.Get(1)
 		_ = res
 		l := __e.Get(2)
 		_ = l
-		gen111 := Call(__e, PrimNS1Value(sym_a), l, Nil)
+		tmp200 := Call(__e, PrimNS1Value(sym_a), l, Nil)
 
-		if True == gen111 {
+		if True == tmp200 {
 			__e.Return(res)
 			return
 		} else {
-			gen108 := Call(__e, PrimNS1Value(symhd), l)
+			tmp197 := Call(__e, PrimNS1Value(symcar), l)
 
-			gen109 := Call(__e, PrimNS1Value(symcons), gen108, res)
+			tmp198 := Call(__e, PrimNS1Value(symcons), tmp197, res)
 
-			gen110 := Call(__e, PrimNS1Value(symtl), l)
+			tmp199 := Call(__e, PrimNS1Value(symcdr), l)
 
-			__e.TailApply(PrimNS1Value(symreverse_1help), gen109, gen110)
-
+			__e.TailApply(PrimNS1Value(symreverse_1help), tmp198, tmp199)
 			return
 
 		}
 
 	}, 2)
 
-	Call(__e, PrimNS1Value(symset), symreverse_1help, gen112)
+	tmp201 := Call(__e, PrimNS1Value(symset), symreverse_1help, tmp195)
 
-	gen113 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp201
+
+	tmp202 := MakeNative(func(__e *ControlFlow) {
 		l := __e.Get(1)
 		_ = l
 		__e.TailApply(PrimNS1Value(symreverse_1help), Nil, l)
-
 		return
 	}, 1)
 
-	Call(__e, PrimNS1Value(symset), symreverse, gen113)
+	tmp203 := Call(__e, PrimNS1Value(symset), symreverse, tmp202)
 
-	gen119 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp203
+
+	tmp204 := MakeNative(func(__e *ControlFlow) {
 		res := __e.Get(1)
 		_ = res
 		f := __e.Get(2)
 		_ = f
 		l := __e.Get(3)
 		_ = l
-		gen118 := Call(__e, PrimNS1Value(symcons_2), l)
+		tmp210 := Call(__e, PrimNS1Value(symcons_2), l)
 
-		if True == gen118 {
-			gen114 := Call(__e, PrimNS1Value(symhd), l)
+		if True == tmp210 {
+			tmp206 := Call(__e, PrimNS1Value(symcar), l)
 
-			gen115 := Call(__e, f, gen114)
+			tmp207 := Call(__e, f, tmp206)
 
-			gen116 := Call(__e, PrimNS1Value(symcons), gen115, res)
+			tmp208 := Call(__e, PrimNS1Value(symcons), tmp207, res)
 
-			gen117 := Call(__e, PrimNS1Value(symtl), l)
+			tmp209 := Call(__e, PrimNS1Value(symcdr), l)
 
-			__e.TailApply(PrimNS1Value(symmap_1help), gen116, f, gen117)
-
+			__e.TailApply(PrimNS1Value(symmap_1help), tmp208, f, tmp209)
 			return
 
 		} else {
 			__e.TailApply(PrimNS1Value(symreverse), res)
-
 			return
 		}
 
 	}, 3)
 
-	Call(__e, PrimNS1Value(symset), symmap_1help, gen119)
+	tmp211 := Call(__e, PrimNS1Value(symset), symmap_1help, tmp204)
 
-	gen120 := MakeNative(func(__e *ControlFlow) {
+	_ = tmp211
+
+	tmp212 := MakeNative(func(__e *ControlFlow) {
 		f := __e.Get(1)
 		_ = f
 		l := __e.Get(2)
 		_ = l
 		__e.TailApply(PrimNS1Value(symmap_1help), Nil, f, l)
-
 		return
 	}, 2)
 
-	__e.TailApply(PrimNS1Value(symset), symmap, gen120)
-
+	__e.TailApply(PrimNS1Value(symset), symmap, tmp212)
 	return
 
 }, 0)
-var symcons_2 = MakeSymbol("cons?")
-var symf = MakeSymbol("f")
-var symrecur = MakeSymbol("recur")
-var symfact0 = MakeSymbol("fact0")
-var sym_1 = MakeSymbol("-")
+
 var symcons = MakeSymbol("cons")
 var symreverse_1help = MakeSymbol("reverse-help")
 var symmap = MakeSymbol("map")
-var sym_7 = MakeSymbol("+")
-var symset = MakeSymbol("set")
+var symf = MakeSymbol("f")
 var sym_a = MakeSymbol("=")
-var symfact = MakeSymbol("fact")
-var symtl = MakeSymbol("cdr")
+var symrecur = MakeSymbol("recur")
+var sym_d = MakeSymbol("*")
+var symfact0 = MakeSymbol("fact0")
+var symcar = MakeSymbol("car")
 var symsimple_1error = MakeSymbol("simple-error")
 var symtry_1catch = MakeSymbol("try-catch")
-var sym_d = MakeSymbol("*")
-var symhd = MakeSymbol("car")
+var symfact = MakeSymbol("fact")
+var sym_7 = MakeSymbol("+")
+var symset = MakeSymbol("set")
 var symreverse = MakeSymbol("reverse")
+var symcons_2 = MakeSymbol("cons?")
 var symmap_1help = MakeSymbol("map-help")
+var sym_1 = MakeSymbol("-")
+var symcdr = MakeSymbol("cdr")
