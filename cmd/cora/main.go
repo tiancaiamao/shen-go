@@ -7,7 +7,6 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
-	"path/filepath"
 
 	"github.com/tiancaiamao/shen-go/kl"
 )
@@ -37,15 +36,9 @@ func main() {
 	kl.PrimNS1Set(kl.MakeSymbol("cg:bc->go"), bcToGo)
 
 	if !quiet {
-		home, err := os.UserHomeDir()
-		if err == nil {
-			path := filepath.Join(home, ".cora", "init.cora")
-			if _, err := os.Stat(path); err == nil {
-				res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(path))
-				if kl.IsError(res) {
-					os.Exit(-1)
-				}
-			}
+		err := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("cora.init")))
+		if kl.IsError(err) {
+			os.Exit(-1)
 		}
 	}
 	repl(&e)

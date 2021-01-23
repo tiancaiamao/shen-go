@@ -1,6 +1,7 @@
 package kl
 
 import (
+	"embed"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -70,6 +71,7 @@ func init() {
 	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
 	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
 	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
+	PrimNS1Set(MakeSymbol("cora.init"), MakeNative(primCoraInit, 0))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -500,8 +502,15 @@ func loadFile(e *ControlFlow, extended bool, file string) Obj {
 		return MakeError(err.Error())
 	}
 	defer f.Close()
-
 	r := NewSexpReader(f, extended)
+	res := loadFileFromReader(e, extended, r)
+	if IsError(res) {
+		return res
+	}
+	return MakeString(file)
+}
+
+func loadFileFromReader(e *ControlFlow, extended bool, r *SexpReader) Obj {
 	for {
 		exp, err := r.Read()
 		if err != nil {
@@ -524,7 +533,7 @@ func loadFile(e *ControlFlow, extended bool, file string) Obj {
 			return res
 		}
 	}
-	return MakeString(file)
+	return Nil
 }
 
 func primLoadSo(e *ControlFlow) {
@@ -754,4 +763,19 @@ func PrimNS3Value(key Obj) Obj {
 		return sym.value
 	}
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
+}
+
+//go:embed init.cora
+var initFS embed.FS
+
+func primCoraInit(e *ControlFlow) {
+	f, err := initFS.Open("init.cora")
+	if err != nil {
+		e.Return(MakeError(err.Error()))
+		return
+	}
+	defer f.Close()
+	r := NewSexpReader(f, true)
+	res := loadFileFromReader(e, true, r)
+	e.Return(res)
 }

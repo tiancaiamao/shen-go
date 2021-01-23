@@ -30,15 +30,16 @@ func main() {
 	klInit()
 
 	kl.PrimNS1Set(symMacroExpand, kl.Nil)
-	if home, err := os.UserHomeDir(); err == nil {
-		initFiles := []string{"init.cora", "build.cora"}
-		for _, file := range initFiles {
-			path := filepath.Join(home, ".cora", file)
-			if _, err := os.Stat(path); err == nil {
-				res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(path))
-				if kl.IsError(res) {
-					os.Exit(-1)
-				}
+	gopath := os.Getenv("GOPATH")
+	initFiles := []string{
+		filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/kl", "init.cora"),
+		filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/src", "build.cora"),
+	}
+	for _, file := range initFiles {
+		if _, err := os.Stat(file); err == nil {
+			res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(file))
+			if kl.IsError(res) {
+				os.Exit(-1)
 			}
 		}
 	}
