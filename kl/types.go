@@ -21,7 +21,6 @@ const (
 	scmHeadString            = 4
 	scmHeadSymbol            = 5
 	scmHeadBoolean           = 6
-	scmHeadProcedure         = 14
 	scmHeadStream            = 17
 	scmHeadError             = 22
 	scmHeadNative            = 23
@@ -66,15 +65,6 @@ type scmStream struct {
 type scmBoolean struct {
 	scmHead
 	bool
-}
-
-type scmProcedure struct {
-	scmHead
-	name  string
-	arg   []Obj
-	arity int
-	body  Obj
-	env   Obj
 }
 
 type scmNative struct {
@@ -154,13 +144,6 @@ func mustVector(o Obj) []Obj {
 	}
 	tmp := (*scmVector)(unsafe.Pointer(o))
 	return tmp.vector
-}
-
-func mustProcedure(o Obj) *scmProcedure {
-	if (*o) != scmHeadProcedure {
-		panic(MakeError("mustProcedure"))
-	}
-	return (*scmProcedure)(unsafe.Pointer(o))
 }
 
 func mustString(o Obj) string {
@@ -389,20 +372,13 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-func makeProcedure(arg Obj, body Obj, env Obj) Obj {
-	tmp := scmProcedure{
-		scmHead: scmHeadProcedure,
-		body:    body,
-		env:     env,
-	}
-	if *arg == scmHeadSymbol {
-		tmp.arg = []Obj{arg}
-		tmp.arity = 1
-	} else {
-		tmp.arg = ListToSlice(arg)
-		tmp.arity = len(tmp.arg)
-	}
-	return &tmp.scmHead
+
+func makeClosure(params, body, env Obj) Obj {
+  return cons(symLambda, cons(params, cons(body, env)))
+}
+
+func isClosure(o Obj) bool {
+	return *o == scmHeadPair && car(o) == symLambda
 }
 
 func ObjString(o Obj) string {
@@ -455,8 +431,6 @@ func (o *scmHead) GoString() string {
 		}
 	case scmHeadError:
 		return fmt.Sprintf("Error(%s)", mustError(o).err)
-	case scmHeadProcedure:
-		return "#procedure"
 	case scmHeadStream:
 		return "#stream"
 	case scmHeadRaw:

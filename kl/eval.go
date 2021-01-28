@@ -102,28 +102,6 @@ func evalOr(e *ControlFlow, a, b Obj, env Obj) {
 	e.TailEval(b, env)
 }
 
-// partialApply works when Required > providArgs
-func partialApply(required int, providArgs []Obj, env Obj, proc Obj) Obj {
-	// Partial apply...
-	// (f x y z) => (lambda (z) (f x y z)) with x y in env
-	symbols := makeTempSymbols(required)
-	env1 := envExtend(env, symbols[:len(providArgs)], providArgs)
-
-	args := Nil
-	for i, count := len(symbols)-1, required-len(providArgs); count > 0; count-- {
-		args = cons(symbols[i], args)
-		i--
-	}
-
-	body := Nil
-	for i := len(symbols) - 1; i >= 0; i-- {
-		body = cons(symbols[i], body)
-	}
-	body = cons(proc, body)
-
-	return makeProcedure(args, body, env1)
-}
-
 func makeTempSymbols(n int) []Obj {
 	ret := make([]Obj, n)
 	for i := 0; i < n; i++ {
@@ -156,24 +134,32 @@ func Eval(e *ControlFlow, exp Obj) (res Obj) {
 func apply(ctl *ControlFlow) {
 	f := ctl.data[ctl.pos]
 	args := ctl.data[ctl.pos+1:]
-	if *f == scmHeadProcedure {
-		args := ctl.data[ctl.pos+1:]
-		proc := mustProcedure(f)
-		switch {
-		case len(args) < proc.arity:
-			ctl.Return(partialApply(proc.arity, args, proc.env, f))
-			return
-		case len(args) == proc.arity:
-			newEnv := envExtend(proc.env, proc.arg, args)
-			ctl.TailEval(proc.body, newEnv)
-			return
-		case len(args) > proc.arity:
-			newEnv := envExtend(proc.env, proc.arg, args[:proc.arity])
-			res := evalExp(ctl, proc.body, newEnv)
-			ctl.TailApply(res, args[proc.arity:]...)
+	if isClosure(f) {
+		// (lambda (params) body . env)
+		params := cadr(f)
+		body := caddr(f)
+		env := cdddr(f)
+
+		env, params, args = envExtend(env, params, args)
+		if params != Nil {
+			// More params than args, auto curry.
+			closure := makeClosure(params, body, env)
+			ctl.Return(closure)
 			return
 		}
-	} else if *f == scmHeadNative {
+		if len(args) > 0 {
+			savePos := ctl.pos
+			ctl.pos = len(ctl.data)
+			f := evalExp(ctl, body, env)
+			ctl.pos = savePos
+			ctl.TailApply(f, args...)
+			return
+		}
+		ctl.TailEval(body, env)
+		return
+	}
+
+	if *f == scmHeadNative {
 		fn := MustNative(f)
 		provided := len(fn.captured) + len(args)
 		required := fn.require
@@ -228,12 +214,12 @@ func eval(e *ControlFlow) {
 
 	switch *exp {
 	// handle constant
-	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure /* , scmHeadPrimitive */ :
+	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull /*, scmHeadProcedure , scmHeadPrimitive */ :
 		e.Return(exp)
 		return
 	case scmHeadSymbol:
-		if val, ok := envGet(env, exp); ok {
-			e.Return(val)
+		if found := envGet(env, exp); found != Nil {
+			e.Return(cdr(found))
 			return
 		}
 		sym := mustSymbol(exp)
@@ -263,7 +249,7 @@ func eval(e *ControlFlow) {
 			e.TailEval(cadr(tl), env)
 			return
 		case symLambda: // (lambda (x y) x)
-			e.Return(makeProcedure(car(tl), cadr(tl), env))
+			e.Return(makeClosure(car(tl), cadr(tl), env))
 			return
 		}
 	}
@@ -281,20 +267,24 @@ func eval(e *ControlFlow) {
 	return
 }
 
-func envGet(env Obj, sym Obj) (Obj, bool) {
-	for env != Nil {
+func envGet(env, sym Obj) Obj {
+	for ; env != Nil; env = cdr(env) {
 		pair := car(env)
 		if car(pair) == sym {
-			return cdr(pair), true
+			return pair
 		}
-		env = cdr(env)
 	}
-	return nil, false
+	return Nil
 }
 
-func envExtend(env Obj, symbols, values []Obj) Obj {
-	for i := 0; i < len(symbols); i++ {
-		env = cons(cons(symbols[i], values[i]), env)
+
+// envExtend return the new (env, params, args)
+func envExtend(env Obj, params Obj, args []Obj) (Obj, Obj, []Obj) {
+	for params != Nil && len(args) > 0 {
+		pair := cons(car(params), args[0])
+		env = cons(pair, env)
+		params = cdr(params)
+		args = args[1:]
 	}
-	return env
+	return env, params, args
 }

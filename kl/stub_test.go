@@ -64,7 +64,7 @@ func TestFusion(t *testing.T) {
 
 	// Partial apply, generated code and intepreted code fusion!!
 	cases := []string{
-		"(map (lambda x (+ x 1)) (cons 1 (cons 2 (cons 3 ()))))",
+		"(map (lambda (x) (+ x 1)) (cons 1 (cons 2 (cons 3 ()))))",
 		"(map (+ 1) (cons 1 (cons 2 (cons 3 ()))))",
 		"((map (+ 1)) (cons 1 (cons 2 (cons 3 ()))))",
 		"((map) (+ 1) (cons 1 (cons 2 (cons 3 ()))))",

@@ -2,7 +2,6 @@ package kl
 
 import (
 	"bytes"
-	// "fmt"
 	"testing"
 )
 
@@ -60,7 +59,7 @@ func TestStr(t *testing.T) {
 		return true
 	}
 
-	str := PrimStr(makeProcedure(MakeSymbol("x"), MakeSymbol("x"), Nil))
+	str := PrimStr(makeClosure(MakeSymbol("x"), MakeSymbol("x"), Nil))
 	if allAlpha(mustString(str)) {
 		t.Error("str of procedure should not be all alpha")
 	}

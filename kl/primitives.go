@@ -138,6 +138,11 @@ func PrimNumberToString(o Obj) Obj {
 func PrimStr(o Obj) Obj {
 	switch *o {
 	case scmHeadPair:
+		// This is actually a special representation for closure in cora.
+		// To make shen happy ...
+		if car(o) == symLambda {
+			return MakeString("#<closure >")
+		}
 		// Pair may contain recursive list.
 		panic(MakeError("can't str pair object"))
 	case scmHeadNull:
@@ -156,8 +161,6 @@ func PrimStr(o Obj) Obj {
 		return MakeString(fmt.Sprintf("%d", int(f)))
 	case scmHeadString:
 		return MakeString(fmt.Sprintf(`"%s"`, mustString(o)))
-	case scmHeadProcedure:
-		return MakeString("#<procedure >")
 	case scmHeadBoolean:
 		if o == True {
 			return MakeString("true")
