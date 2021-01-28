@@ -12,7 +12,7 @@ import (
 )
 
 var Primitives = map[string]struct {
-	arity int
+	Arity int
 	fn    interface{}
 	Name  string
 }{
@@ -62,7 +62,7 @@ var Primitives = map[string]struct {
 func init() {
 	for name, item := range Primitives {
 		sym := MakeSymbol(name)
-		prim := MakePrimitive(name, item.arity, item.fn)
+		prim := MakePrimitive(name, item.Arity, item.fn)
 		PrimNS1Set(sym, prim)
 	}
 

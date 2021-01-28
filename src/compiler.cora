@@ -1,5 +1,6 @@
 (func parse
-      env x => (if (elem? x env) x ['$global x]) where (symbol? x)
+      env ['ns2-value ['quote f]] => ['$global 2 f] ;; optimize for shen code gen
+      env x => (if (elem? x env) x ['$global 1 x]) where (symbol? x)
       env x => ['$const x] where (or (number? x) (string? x) (boolean? x) (null? x))
       env ['quote x] => ['$const x]
       env ['if x y z] => ['$if (parse env x) (parse env y) (parse env z)]
@@ -9,7 +10,7 @@
 
 (func peval-t
       bc ['$const x] => (cons ['return ['$const x]] bc)
-      bc ['$global x] => (cons ['return ['$global x]] bc)
+      bc ['$global ns x] => (cons ['return ['$global ns x]] bc)
       bc ['$if x y z] => (let y1 (peval0 y)
 			      z1 (peval0 z)
 			      tmp (gensym 'ifres)
@@ -25,7 +26,7 @@
 
 (func peval
       bc ['$const x] cc => (cc bc ['$const x])
-      bc ['$global x] cc => (cc bc ['$global x])
+      bc ['$global ns x] cc => (cc bc ['$global ns x])
       bc ['$if x y z] cc => (let tmp (gensym 'ifres)
 				 (let y1 (peval [] y (lambda (bc1 y1) (cons 'block (reverse (cons ['<- tmp y1] bc1)))))
 				      z1 (peval [] z (lambda (bc1 z1) (cons 'block (reverse (cons ['<- tmp z1] bc1)))))
