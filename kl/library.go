@@ -72,7 +72,7 @@ func equal(x, y Obj) Obj {
 				return False
 			}
 		}
-	case scmHeadStream, scmHeadProcedure, scmHeadNative:
+	case scmHeadStream, scmHeadNative:
 		if x != y {
 			return False
 		}
@@ -101,15 +101,6 @@ func listLength(l Obj) int {
 		l = cdr(l)
 	}
 	return count
-}
-
-func ListToSlice(l Obj) []Obj {
-	var ret []Obj
-	for *l == scmHeadPair {
-		ret = append(ret, car(l))
-		l = cdr(l)
-	}
-	return ret
 }
 
 func Cadr(o Obj) Obj {

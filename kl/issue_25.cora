@@ -1,0 +1,6 @@
+(defun return (x) (lambda (k) (k x)))
+
+(defun add1 (n)
+  (return (+ n 1)))
+
+(check (add1 4 (lambda (x) x)) 5) 

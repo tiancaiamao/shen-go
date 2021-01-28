@@ -321,3 +321,12 @@ func (cg *codeGenerator) generateIfExpr(w io.Writer, a, b, c Obj) error {
 	fmt.Fprintf(w, "}\n")
 	return nil
 }
+
+func ListToSlice(l Obj) []Obj {
+	var ret []Obj
+	for PrimIsPair(l) == True {
+		ret = append(ret, Car(l))
+		l = Cdr(l)
+	}
+	return ret
+}
