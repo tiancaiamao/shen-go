@@ -21,3 +21,14 @@
 ;;             ()
 ;;             (fibn 80))
 ;;           (recur (- n 1)))
+
+
+(defun fibn1 (n1 n2 i n)
+  (cond
+   ((= n 0) 1)
+   ((= n 1) 1)
+   (true (if (= i n)
+	     n1
+	   (fibn1 (+ n1 n2) n1 (+ i 1) n)))))
+
+;; (dotimes 100000 (lambda () (fibn1 1 1 1 29)))

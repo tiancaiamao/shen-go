@@ -5,230 +5,166 @@ import . "github.com/tiancaiamao/shen-go/kl"
 var YaccMain = MakeNative(func(__e *ControlFlow) {
 	_ = MakeString("Copyright (c) 2010-2015, Mark Tarver\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\nthis list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors\nmay be used to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ''AS IS'' AND\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n")
 
-	tmp105362 := MakeNative(func(__e *ControlFlow) {
+	tmp24058 := MakeNative(func(__e *ControlFlow) {
 		V4724 := __e.Get(1)
 		_ = V4724
-		tmp105386 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24072 := PrimIsPair(V4724)
 
-		tmp105387 := Call(__e, tmp105386, V4724)
+		var ifres24064 Obj
 
-		var ifres105374 Obj
+		if True == tmp24072 {
+			tmp24070 := PrimHead(V4724)
 
-		if True == tmp105387 {
-			tmp105382 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24071 := PrimEqual(symdefcc, tmp24070)
 
-			tmp105383 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			var ifres24066 Obj
 
-			tmp105384 := Call(__e, tmp105383, V4724)
+			if True == tmp24071 {
+				tmp24068 := PrimTail(V4724)
 
-			tmp105385 := Call(__e, tmp105382, symdefcc, tmp105384)
+				tmp24069 := PrimIsPair(tmp24068)
 
-			var ifres105376 Obj
+				var ifres24067 Obj
 
-			if True == tmp105385 {
-				tmp105378 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
-
-				tmp105379 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp105380 := Call(__e, tmp105379, V4724)
-
-				tmp105381 := Call(__e, tmp105378, tmp105380)
-
-				var ifres105377 Obj
-
-				if True == tmp105381 {
-					ifres105377 = True
+				if True == tmp24069 {
+					ifres24067 = True
 
 				} else {
-					ifres105377 = False
+					ifres24067 = False
 
 				}
 
-				ifres105376 = ifres105377
+				ifres24066 = ifres24067
 
 			} else {
-				ifres105376 = False
+				ifres24066 = False
 
 			}
 
-			var ifres105375 Obj
+			var ifres24065 Obj
 
-			if True == ifres105376 {
-				ifres105375 = True
+			if True == ifres24066 {
+				ifres24065 = True
 
 			} else {
-				ifres105375 = False
+				ifres24065 = False
 
 			}
 
-			ifres105374 = ifres105375
+			ifres24064 = ifres24065
 
 		} else {
-			ifres105374 = False
+			ifres24064 = False
 
 		}
 
-		if True == ifres105374 {
-			tmp105365 := Call(__e, PrimNS1Value(symns2_1value), symshen_4yacc_1_6shen)
+		if True == ifres24064 {
+			tmp24060 := PrimTail(V4724)
 
-			tmp105366 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			tmp24061 := PrimHead(tmp24060)
 
-			tmp105367 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			tmp24062 := PrimTail(V4724)
 
-			tmp105368 := Call(__e, tmp105367, V4724)
+			tmp24063 := PrimTail(tmp24062)
 
-			tmp105369 := Call(__e, tmp105366, tmp105368)
-
-			tmp105370 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp105371 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp105372 := Call(__e, tmp105371, V4724)
-
-			tmp105373 := Call(__e, tmp105370, tmp105372)
-
-			__e.TailApply(tmp105365, tmp105369, tmp105373)
+			__e.TailApply(PrimNS2Value(symshen_4yacc_1_6shen), tmp24061, tmp24063)
 			return
 
 		} else {
-			tmp105364 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp105364, symshen_4yacc)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4yacc)
 			return
-
 		}
 
 	}, 1)
 
-	tmp105388 := Call(__e, PrimNS1Value(symns2_1set), symshen_4yacc, tmp105362)
+	tmp24073 := Call(__e, PrimNS1Value(symns2_1set), symshen_4yacc, tmp24058)
 
-	_ = tmp105388
+	_ = tmp24073
 
-	tmp105389 := MakeNative(func(__e *ControlFlow) {
+	tmp24074 := MakeNative(func(__e *ControlFlow) {
 		V4727 := __e.Get(1)
 		_ = V4727
 		V4728 := __e.Get(2)
 		_ = V4728
-		tmp105390 := MakeNative(func(__e *ControlFlow) {
+		tmp24075 := MakeNative(func(__e *ControlFlow) {
 			CCRules := __e.Get(1)
 			_ = CCRules
-			tmp105391 := MakeNative(func(__e *ControlFlow) {
+			tmp24076 := MakeNative(func(__e *ControlFlow) {
 				CCBody := __e.Get(1)
 				_ = CCBody
-				tmp105392 := MakeNative(func(__e *ControlFlow) {
+				tmp24077 := MakeNative(func(__e *ControlFlow) {
 					YaccCases := __e.Get(1)
 					_ = YaccCases
-					tmp105393 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24078 := Call(__e, PrimNS2Value(symshen_4kill_1code), YaccCases)
 
-					tmp105394 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24079 := PrimCons(tmp24078, Nil)
 
-					tmp105395 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24080 := PrimCons(sym_1_6, tmp24079)
 
-					tmp105396 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24081 := PrimCons(symStream, tmp24080)
 
-					tmp105397 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24082 := PrimCons(V4727, tmp24081)
 
-					tmp105398 := Call(__e, PrimNS1Value(symns2_1value), symshen_4kill_1code)
-
-					tmp105399 := Call(__e, tmp105398, YaccCases)
-
-					tmp105400 := Call(__e, tmp105397, tmp105399, Nil)
-
-					tmp105401 := Call(__e, tmp105396, sym_1_6, tmp105400)
-
-					tmp105402 := Call(__e, tmp105395, symStream, tmp105401)
-
-					tmp105403 := Call(__e, tmp105394, V4727, tmp105402)
-
-					__e.TailApply(tmp105393, symdefine, tmp105403)
+					__e.Return(PrimCons(symdefine, tmp24082))
 					return
 
 				}, 1)
 
-				tmp105404 := Call(__e, PrimNS1Value(symns2_1value), symshen_4yacc__cases)
+				tmp24083 := Call(__e, PrimNS2Value(symshen_4yacc__cases), CCBody)
 
-				tmp105405 := Call(__e, tmp105404, CCBody)
-
-				__e.TailApply(tmp105392, tmp105405)
+				__e.TailApply(tmp24077, tmp24083)
 				return
 
 			}, 1)
 
-			tmp105406 := Call(__e, PrimNS1Value(symns2_1value), symmap)
-
-			tmp105407 := MakeNative(func(__e *ControlFlow) {
+			tmp24084 := MakeNative(func(__e *ControlFlow) {
 				X := __e.Get(1)
 				_ = X
-				tmp105408 := Call(__e, PrimNS1Value(symns2_1value), symshen_4cc__body)
-
-				__e.TailApply(tmp105408, X)
+				__e.TailApply(PrimNS2Value(symshen_4cc__body), X)
 				return
-
 			}, 1)
 
-			tmp105409 := Call(__e, tmp105406, tmp105407, CCRules)
+			tmp24085 := Call(__e, PrimNS2Value(symmap), tmp24084, CCRules)
 
-			__e.TailApply(tmp105391, tmp105409)
+			__e.TailApply(tmp24076, tmp24085)
 			return
 
 		}, 1)
 
-		tmp105410 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rules)
+		tmp24086 := Call(__e, PrimNS2Value(symshen_4split__cc__rules), True, V4728, Nil)
 
-		tmp105411 := Call(__e, tmp105410, True, V4728, Nil)
-
-		__e.TailApply(tmp105390, tmp105411)
+		__e.TailApply(tmp24075, tmp24086)
 		return
 
 	}, 2)
 
-	tmp105412 := Call(__e, PrimNS1Value(symns2_1set), symshen_4yacc_1_6shen, tmp105389)
+	tmp24087 := Call(__e, PrimNS1Value(symns2_1set), symshen_4yacc_1_6shen, tmp24074)
 
-	_ = tmp105412
+	_ = tmp24087
 
-	tmp105413 := MakeNative(func(__e *ControlFlow) {
+	tmp24088 := MakeNative(func(__e *ControlFlow) {
 		V4730 := __e.Get(1)
 		_ = V4730
-		tmp105430 := Call(__e, PrimNS1Value(symns2_1value), sym_6)
+		tmp24097 := Call(__e, PrimNS2Value(symoccurrences), symkill, V4730)
 
-		tmp105431 := Call(__e, PrimNS1Value(symns2_1value), symoccurrences)
+		tmp24098 := PrimGreatThan(tmp24097, MakeNumber(0))
 
-		tmp105432 := Call(__e, tmp105431, symkill, V4730)
+		if True == tmp24098 {
+			tmp24090 := PrimCons(symE, Nil)
 
-		tmp105433 := Call(__e, tmp105430, tmp105432, MakeNumber(0))
+			tmp24091 := PrimCons(symshen_4analyse_1kill, tmp24090)
 
-		if True == tmp105433 {
-			tmp105415 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24092 := PrimCons(tmp24091, Nil)
 
-			tmp105416 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24093 := PrimCons(symE, tmp24092)
 
-			tmp105417 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24094 := PrimCons(symlambda, tmp24093)
 
-			tmp105418 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24095 := PrimCons(tmp24094, Nil)
 
-			tmp105419 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24096 := PrimCons(V4730, tmp24095)
 
-			tmp105420 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp105421 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp105422 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp105423 := Call(__e, tmp105422, symE, Nil)
-
-			tmp105424 := Call(__e, tmp105421, symshen_4analyse_1kill, tmp105423)
-
-			tmp105425 := Call(__e, tmp105420, tmp105424, Nil)
-
-			tmp105426 := Call(__e, tmp105419, symE, tmp105425)
-
-			tmp105427 := Call(__e, tmp105418, symlambda, tmp105426)
-
-			tmp105428 := Call(__e, tmp105417, tmp105427, Nil)
-
-			tmp105429 := Call(__e, tmp105416, V4730, tmp105428)
-
-			__e.TailApply(tmp105415, symtrap_1error, tmp105429)
+			__e.Return(PrimCons(symtrap_1error, tmp24096))
 			return
 
 		} else {
@@ -238,38 +174,30 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp105434 := Call(__e, PrimNS1Value(symns2_1set), symshen_4kill_1code, tmp105413)
+	tmp24099 := Call(__e, PrimNS1Value(symns2_1set), symshen_4kill_1code, tmp24088)
 
-	_ = tmp105434
+	_ = tmp24099
 
-	tmp105435 := MakeNative(func(__e *ControlFlow) {
-		tmp105436 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
-
-		__e.TailApply(tmp105436, MakeString("yacc kill"))
+	tmp24100 := MakeNative(func(__e *ControlFlow) {
+		__e.Return(PrimSimpleError(MakeString("yacc kill")))
 		return
-
 	}, 0)
 
-	tmp105437 := Call(__e, PrimNS1Value(symns2_1set), symkill, tmp105435)
+	tmp24101 := Call(__e, PrimNS1Value(symns2_1set), symkill, tmp24100)
 
-	_ = tmp105437
+	_ = tmp24101
 
-	tmp105438 := MakeNative(func(__e *ControlFlow) {
+	tmp24102 := MakeNative(func(__e *ControlFlow) {
 		V4732 := __e.Get(1)
 		_ = V4732
-		tmp105439 := MakeNative(func(__e *ControlFlow) {
+		tmp24103 := MakeNative(func(__e *ControlFlow) {
 			String := __e.Get(1)
 			_ = String
-			tmp105442 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24105 := PrimEqual(String, MakeString("yacc kill"))
 
-			tmp105443 := Call(__e, tmp105442, String, MakeString("yacc kill"))
-
-			if True == tmp105443 {
-				tmp105441 := Call(__e, PrimNS1Value(symns2_1value), symfail)
-
-				__e.TailApply(tmp105441)
+			if True == tmp24105 {
+				__e.TailApply(PrimNS2Value(symfail))
 				return
-
 			} else {
 				__e.Return(V4732)
 				return
@@ -277,160 +205,117 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 		}, 1)
 
-		tmp105444 := Call(__e, PrimNS1Value(symns2_1value), symerror_1to_1string)
+		tmp24106 := PrimErrorToString(V4732)
 
-		tmp105445 := Call(__e, tmp105444, V4732)
-
-		__e.TailApply(tmp105439, tmp105445)
+		__e.TailApply(tmp24103, tmp24106)
 		return
 
 	}, 1)
 
-	tmp105446 := Call(__e, PrimNS1Value(symns2_1set), symshen_4analyse_1kill, tmp105438)
+	tmp24107 := Call(__e, PrimNS1Value(symns2_1set), symshen_4analyse_1kill, tmp24102)
 
-	_ = tmp105446
+	_ = tmp24107
 
-	tmp105447 := MakeNative(func(__e *ControlFlow) {
+	tmp24108 := MakeNative(func(__e *ControlFlow) {
 		V4738 := __e.Get(1)
 		_ = V4738
 		V4739 := __e.Get(2)
 		_ = V4739
 		V4740 := __e.Get(3)
 		_ = V4740
-		tmp105490 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+		tmp24132 := PrimEqual(Nil, V4739)
 
-		tmp105491 := Call(__e, tmp105490, Nil, V4739)
+		var ifres24129 Obj
 
-		var ifres105486 Obj
+		if True == tmp24132 {
+			tmp24131 := PrimEqual(Nil, V4740)
 
-		if True == tmp105491 {
-			tmp105488 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			var ifres24130 Obj
 
-			tmp105489 := Call(__e, tmp105488, Nil, V4740)
-
-			var ifres105487 Obj
-
-			if True == tmp105489 {
-				ifres105487 = True
+			if True == tmp24131 {
+				ifres24130 = True
 
 			} else {
-				ifres105487 = False
+				ifres24130 = False
 
 			}
 
-			ifres105486 = ifres105487
+			ifres24129 = ifres24130
 
 		} else {
-			ifres105486 = False
+			ifres24129 = False
 
 		}
 
-		if True == ifres105486 {
+		if True == ifres24129 {
 			__e.Return(Nil)
 			return
 		} else {
-			tmp105484 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24128 := PrimEqual(Nil, V4739)
 
-			tmp105485 := Call(__e, tmp105484, Nil, V4739)
+			if True == tmp24128 {
+				tmp24126 := Call(__e, PrimNS2Value(symreverse), V4740)
 
-			if True == tmp105485 {
-				tmp105479 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24127 := Call(__e, PrimNS2Value(symshen_4split__cc__rule), V4738, tmp24126, Nil)
 
-				tmp105480 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rule)
-
-				tmp105481 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
-
-				tmp105482 := Call(__e, tmp105481, V4740)
-
-				tmp105483 := Call(__e, tmp105480, V4738, tmp105482, Nil)
-
-				__e.TailApply(tmp105479, tmp105483, Nil)
+				__e.Return(PrimCons(tmp24127, Nil))
 				return
 
 			} else {
-				tmp105477 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+				tmp24125 := PrimIsPair(V4739)
 
-				tmp105478 := Call(__e, tmp105477, V4739)
+				var ifres24121 Obj
 
-				var ifres105471 Obj
+				if True == tmp24125 {
+					tmp24123 := PrimHead(V4739)
 
-				if True == tmp105478 {
-					tmp105473 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+					tmp24124 := PrimEqual(sym_k, tmp24123)
 
-					tmp105474 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+					var ifres24122 Obj
 
-					tmp105475 := Call(__e, tmp105474, V4739)
-
-					tmp105476 := Call(__e, tmp105473, sym_k, tmp105475)
-
-					var ifres105472 Obj
-
-					if True == tmp105476 {
-						ifres105472 = True
+					if True == tmp24124 {
+						ifres24122 = True
 
 					} else {
-						ifres105472 = False
+						ifres24122 = False
 
 					}
 
-					ifres105471 = ifres105472
+					ifres24121 = ifres24122
 
 				} else {
-					ifres105471 = False
+					ifres24121 = False
 
 				}
 
-				if True == ifres105471 {
-					tmp105462 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				if True == ifres24121 {
+					tmp24117 := Call(__e, PrimNS2Value(symreverse), V4740)
 
-					tmp105463 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rule)
+					tmp24118 := Call(__e, PrimNS2Value(symshen_4split__cc__rule), V4738, tmp24117, Nil)
 
-					tmp105464 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
+					tmp24119 := PrimTail(V4739)
 
-					tmp105465 := Call(__e, tmp105464, V4740)
+					tmp24120 := Call(__e, PrimNS2Value(symshen_4split__cc__rules), V4738, tmp24119, Nil)
 
-					tmp105466 := Call(__e, tmp105463, V4738, tmp105465, Nil)
-
-					tmp105467 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rules)
-
-					tmp105468 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-					tmp105469 := Call(__e, tmp105468, V4739)
-
-					tmp105470 := Call(__e, tmp105467, V4738, tmp105469, Nil)
-
-					__e.TailApply(tmp105462, tmp105466, tmp105470)
+					__e.Return(PrimCons(tmp24118, tmp24120))
 					return
 
 				} else {
-					tmp105460 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+					tmp24116 := PrimIsPair(V4739)
 
-					tmp105461 := Call(__e, tmp105460, V4739)
+					if True == tmp24116 {
+						tmp24113 := PrimTail(V4739)
 
-					if True == tmp105461 {
-						tmp105453 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rules)
+						tmp24114 := PrimHead(V4739)
 
-						tmp105454 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24115 := PrimCons(tmp24114, V4740)
 
-						tmp105455 := Call(__e, tmp105454, V4739)
-
-						tmp105456 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp105457 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-						tmp105458 := Call(__e, tmp105457, V4739)
-
-						tmp105459 := Call(__e, tmp105456, tmp105458, V4740)
-
-						__e.TailApply(tmp105453, V4738, tmp105455, tmp105459)
+						__e.TailApply(PrimNS2Value(symshen_4split__cc__rules), V4738, tmp24113, tmp24115)
 						return
 
 					} else {
-						tmp105452 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-						__e.TailApply(tmp105452, symshen_4split__cc__rules)
+						__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4split__cc__rules)
 						return
-
 					}
 
 				}
@@ -441,440 +326,325 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 3)
 
-	tmp105492 := Call(__e, PrimNS1Value(symns2_1set), symshen_4split__cc__rules, tmp105447)
+	tmp24133 := Call(__e, PrimNS1Value(symns2_1set), symshen_4split__cc__rules, tmp24108)
 
-	_ = tmp105492
+	_ = tmp24133
 
-	tmp105493 := MakeNative(func(__e *ControlFlow) {
+	tmp24134 := MakeNative(func(__e *ControlFlow) {
 		V4748 := __e.Get(1)
 		_ = V4748
 		V4749 := __e.Get(2)
 		_ = V4749
 		V4750 := __e.Get(3)
 		_ = V4750
-		tmp105623 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24208 := PrimIsPair(V4749)
 
-		tmp105624 := Call(__e, tmp105623, V4749)
+		var ifres24195 Obj
 
-		var ifres105603 Obj
+		if True == tmp24208 {
+			tmp24206 := PrimHead(V4749)
 
-		if True == tmp105624 {
-			tmp105619 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24207 := PrimEqual(sym_h_a, tmp24206)
 
-			tmp105620 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			var ifres24197 Obj
 
-			tmp105621 := Call(__e, tmp105620, V4749)
+			if True == tmp24207 {
+				tmp24204 := PrimTail(V4749)
 
-			tmp105622 := Call(__e, tmp105619, sym_h_a, tmp105621)
+				tmp24205 := PrimIsPair(tmp24204)
 
-			var ifres105605 Obj
+				var ifres24199 Obj
 
-			if True == tmp105622 {
-				tmp105615 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+				if True == tmp24205 {
+					tmp24201 := PrimTail(V4749)
 
-				tmp105616 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+					tmp24202 := PrimTail(tmp24201)
 
-				tmp105617 := Call(__e, tmp105616, V4749)
+					tmp24203 := PrimEqual(Nil, tmp24202)
 
-				tmp105618 := Call(__e, tmp105615, tmp105617)
+					var ifres24200 Obj
 
-				var ifres105607 Obj
-
-				if True == tmp105618 {
-					tmp105609 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
-
-					tmp105610 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-					tmp105611 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-					tmp105612 := Call(__e, tmp105611, V4749)
-
-					tmp105613 := Call(__e, tmp105610, tmp105612)
-
-					tmp105614 := Call(__e, tmp105609, Nil, tmp105613)
-
-					var ifres105608 Obj
-
-					if True == tmp105614 {
-						ifres105608 = True
+					if True == tmp24203 {
+						ifres24200 = True
 
 					} else {
-						ifres105608 = False
+						ifres24200 = False
 
 					}
 
-					ifres105607 = ifres105608
+					ifres24199 = ifres24200
 
 				} else {
-					ifres105607 = False
+					ifres24199 = False
 
 				}
 
-				var ifres105606 Obj
+				var ifres24198 Obj
 
-				if True == ifres105607 {
-					ifres105606 = True
+				if True == ifres24199 {
+					ifres24198 = True
 
 				} else {
-					ifres105606 = False
+					ifres24198 = False
 
 				}
 
-				ifres105605 = ifres105606
+				ifres24197 = ifres24198
 
 			} else {
-				ifres105605 = False
+				ifres24197 = False
 
 			}
 
-			var ifres105604 Obj
+			var ifres24196 Obj
 
-			if True == ifres105605 {
-				ifres105604 = True
+			if True == ifres24197 {
+				ifres24196 = True
 
 			} else {
-				ifres105604 = False
+				ifres24196 = False
 
 			}
 
-			ifres105603 = ifres105604
+			ifres24195 = ifres24196
 
 		} else {
-			ifres105603 = False
+			ifres24195 = False
 
 		}
 
-		if True == ifres105603 {
-			tmp105598 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		if True == ifres24195 {
+			tmp24193 := Call(__e, PrimNS2Value(symreverse), V4750)
 
-			tmp105599 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
+			tmp24194 := PrimTail(V4749)
 
-			tmp105600 := Call(__e, tmp105599, V4750)
-
-			tmp105601 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp105602 := Call(__e, tmp105601, V4749)
-
-			__e.TailApply(tmp105598, tmp105600, tmp105602)
+			__e.Return(PrimCons(tmp24193, tmp24194))
 			return
 
 		} else {
-			tmp105596 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24192 := PrimIsPair(V4749)
 
-			tmp105597 := Call(__e, tmp105596, V4749)
+			var ifres24160 Obj
 
-			var ifres105544 Obj
+			if True == tmp24192 {
+				tmp24190 := PrimHead(V4749)
 
-			if True == tmp105597 {
-				tmp105592 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				tmp24191 := PrimEqual(sym_h_a, tmp24190)
 
-				tmp105593 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				var ifres24162 Obj
 
-				tmp105594 := Call(__e, tmp105593, V4749)
+				if True == tmp24191 {
+					tmp24188 := PrimTail(V4749)
 
-				tmp105595 := Call(__e, tmp105592, sym_h_a, tmp105594)
+					tmp24189 := PrimIsPair(tmp24188)
 
-				var ifres105546 Obj
+					var ifres24164 Obj
 
-				if True == tmp105595 {
-					tmp105588 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+					if True == tmp24189 {
+						tmp24185 := PrimTail(V4749)
 
-					tmp105589 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24186 := PrimTail(tmp24185)
 
-					tmp105590 := Call(__e, tmp105589, V4749)
+						tmp24187 := PrimIsPair(tmp24186)
 
-					tmp105591 := Call(__e, tmp105588, tmp105590)
+						var ifres24166 Obj
 
-					var ifres105548 Obj
+						if True == tmp24187 {
+							tmp24181 := PrimTail(V4749)
 
-					if True == tmp105591 {
-						tmp105582 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+							tmp24182 := PrimTail(tmp24181)
 
-						tmp105583 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							tmp24183 := PrimHead(tmp24182)
 
-						tmp105584 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							tmp24184 := PrimEqual(symwhere, tmp24183)
 
-						tmp105585 := Call(__e, tmp105584, V4749)
+							var ifres24168 Obj
 
-						tmp105586 := Call(__e, tmp105583, tmp105585)
+							if True == tmp24184 {
+								tmp24177 := PrimTail(V4749)
 
-						tmp105587 := Call(__e, tmp105582, tmp105586)
+								tmp24178 := PrimTail(tmp24177)
 
-						var ifres105550 Obj
+								tmp24179 := PrimTail(tmp24178)
 
-						if True == tmp105587 {
-							tmp105574 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+								tmp24180 := PrimIsPair(tmp24179)
 
-							tmp105575 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+								var ifres24170 Obj
 
-							tmp105576 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+								if True == tmp24180 {
+									tmp24172 := PrimTail(V4749)
 
-							tmp105577 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+									tmp24173 := PrimTail(tmp24172)
 
-							tmp105578 := Call(__e, tmp105577, V4749)
+									tmp24174 := PrimTail(tmp24173)
 
-							tmp105579 := Call(__e, tmp105576, tmp105578)
+									tmp24175 := PrimTail(tmp24174)
 
-							tmp105580 := Call(__e, tmp105575, tmp105579)
+									tmp24176 := PrimEqual(Nil, tmp24175)
 
-							tmp105581 := Call(__e, tmp105574, symwhere, tmp105580)
+									var ifres24171 Obj
 
-							var ifres105552 Obj
-
-							if True == tmp105581 {
-								tmp105566 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
-
-								tmp105567 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-								tmp105568 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-								tmp105569 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-								tmp105570 := Call(__e, tmp105569, V4749)
-
-								tmp105571 := Call(__e, tmp105568, tmp105570)
-
-								tmp105572 := Call(__e, tmp105567, tmp105571)
-
-								tmp105573 := Call(__e, tmp105566, tmp105572)
-
-								var ifres105554 Obj
-
-								if True == tmp105573 {
-									tmp105556 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
-
-									tmp105557 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-									tmp105558 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-									tmp105559 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-									tmp105560 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-									tmp105561 := Call(__e, tmp105560, V4749)
-
-									tmp105562 := Call(__e, tmp105559, tmp105561)
-
-									tmp105563 := Call(__e, tmp105558, tmp105562)
-
-									tmp105564 := Call(__e, tmp105557, tmp105563)
-
-									tmp105565 := Call(__e, tmp105556, Nil, tmp105564)
-
-									var ifres105555 Obj
-
-									if True == tmp105565 {
-										ifres105555 = True
+									if True == tmp24176 {
+										ifres24171 = True
 
 									} else {
-										ifres105555 = False
+										ifres24171 = False
 
 									}
 
-									ifres105554 = ifres105555
+									ifres24170 = ifres24171
 
 								} else {
-									ifres105554 = False
+									ifres24170 = False
 
 								}
 
-								var ifres105553 Obj
+								var ifres24169 Obj
 
-								if True == ifres105554 {
-									ifres105553 = True
+								if True == ifres24170 {
+									ifres24169 = True
 
 								} else {
-									ifres105553 = False
+									ifres24169 = False
 
 								}
 
-								ifres105552 = ifres105553
+								ifres24168 = ifres24169
 
 							} else {
-								ifres105552 = False
+								ifres24168 = False
 
 							}
 
-							var ifres105551 Obj
+							var ifres24167 Obj
 
-							if True == ifres105552 {
-								ifres105551 = True
+							if True == ifres24168 {
+								ifres24167 = True
 
 							} else {
-								ifres105551 = False
+								ifres24167 = False
 
 							}
 
-							ifres105550 = ifres105551
+							ifres24166 = ifres24167
 
 						} else {
-							ifres105550 = False
+							ifres24166 = False
 
 						}
 
-						var ifres105549 Obj
+						var ifres24165 Obj
 
-						if True == ifres105550 {
-							ifres105549 = True
+						if True == ifres24166 {
+							ifres24165 = True
 
 						} else {
-							ifres105549 = False
+							ifres24165 = False
 
 						}
 
-						ifres105548 = ifres105549
+						ifres24164 = ifres24165
 
 					} else {
-						ifres105548 = False
+						ifres24164 = False
 
 					}
 
-					var ifres105547 Obj
+					var ifres24163 Obj
 
-					if True == ifres105548 {
-						ifres105547 = True
+					if True == ifres24164 {
+						ifres24163 = True
 
 					} else {
-						ifres105547 = False
+						ifres24163 = False
 
 					}
 
-					ifres105546 = ifres105547
+					ifres24162 = ifres24163
 
 				} else {
-					ifres105546 = False
+					ifres24162 = False
 
 				}
 
-				var ifres105545 Obj
+				var ifres24161 Obj
 
-				if True == ifres105546 {
-					ifres105545 = True
+				if True == ifres24162 {
+					ifres24161 = True
 
 				} else {
-					ifres105545 = False
+					ifres24161 = False
 
 				}
 
-				ifres105544 = ifres105545
+				ifres24160 = ifres24161
 
 			} else {
-				ifres105544 = False
+				ifres24160 = False
 
 			}
 
-			if True == ifres105544 {
-				tmp105521 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			if True == ifres24160 {
+				tmp24149 := Call(__e, PrimNS2Value(symreverse), V4750)
 
-				tmp105522 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
+				tmp24150 := PrimTail(V4749)
 
-				tmp105523 := Call(__e, tmp105522, V4750)
+				tmp24151 := PrimTail(tmp24150)
 
-				tmp105524 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24152 := PrimTail(tmp24151)
 
-				tmp105525 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24153 := PrimHead(tmp24152)
 
-				tmp105526 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24154 := PrimTail(V4749)
 
-				tmp105527 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				tmp24155 := PrimHead(tmp24154)
 
-				tmp105528 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24156 := PrimCons(tmp24155, Nil)
 
-				tmp105529 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24157 := PrimCons(tmp24153, tmp24156)
 
-				tmp105530 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24158 := PrimCons(symwhere, tmp24157)
 
-				tmp105531 := Call(__e, tmp105530, V4749)
+				tmp24159 := PrimCons(tmp24158, Nil)
 
-				tmp105532 := Call(__e, tmp105529, tmp105531)
-
-				tmp105533 := Call(__e, tmp105528, tmp105532)
-
-				tmp105534 := Call(__e, tmp105527, tmp105533)
-
-				tmp105535 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp105536 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-				tmp105537 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp105538 := Call(__e, tmp105537, V4749)
-
-				tmp105539 := Call(__e, tmp105536, tmp105538)
-
-				tmp105540 := Call(__e, tmp105535, tmp105539, Nil)
-
-				tmp105541 := Call(__e, tmp105526, tmp105534, tmp105540)
-
-				tmp105542 := Call(__e, tmp105525, symwhere, tmp105541)
-
-				tmp105543 := Call(__e, tmp105524, tmp105542, Nil)
-
-				__e.TailApply(tmp105521, tmp105523, tmp105543)
+				__e.Return(PrimCons(tmp24149, tmp24159))
 				return
 
 			} else {
-				tmp105519 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				tmp24148 := PrimEqual(Nil, V4749)
 
-				tmp105520 := Call(__e, tmp105519, Nil, V4749)
+				if True == tmp24148 {
+					tmp24143 := Call(__e, PrimNS2Value(symshen_4semantic_1completion_1warning), V4748, V4750)
 
-				if True == tmp105520 {
-					tmp105508 := Call(__e, PrimNS1Value(symns2_1value), symshen_4semantic_1completion_1warning)
+					_ = tmp24143
 
-					tmp105509 := Call(__e, tmp105508, V4748, V4750)
+					tmp24144 := Call(__e, PrimNS2Value(symreverse), V4750)
 
-					_ = tmp105509
+					tmp24145 := Call(__e, PrimNS2Value(symshen_4default__semantics), tmp24144)
 
-					tmp105510 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rule)
+					tmp24146 := PrimCons(tmp24145, Nil)
 
-					tmp105511 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24147 := PrimCons(sym_h_a, tmp24146)
 
-					tmp105512 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-					tmp105513 := Call(__e, PrimNS1Value(symns2_1value), symshen_4default__semantics)
-
-					tmp105514 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
-
-					tmp105515 := Call(__e, tmp105514, V4750)
-
-					tmp105516 := Call(__e, tmp105513, tmp105515)
-
-					tmp105517 := Call(__e, tmp105512, tmp105516, Nil)
-
-					tmp105518 := Call(__e, tmp105511, sym_h_a, tmp105517)
-
-					__e.TailApply(tmp105510, V4748, tmp105518, V4750)
+					__e.TailApply(PrimNS2Value(symshen_4split__cc__rule), V4748, tmp24147, V4750)
 					return
 
 				} else {
-					tmp105506 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+					tmp24142 := PrimIsPair(V4749)
 
-					tmp105507 := Call(__e, tmp105506, V4749)
+					if True == tmp24142 {
+						tmp24139 := PrimTail(V4749)
 
-					if True == tmp105507 {
-						tmp105499 := Call(__e, PrimNS1Value(symns2_1value), symshen_4split__cc__rule)
+						tmp24140 := PrimHead(V4749)
 
-						tmp105500 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24141 := PrimCons(tmp24140, V4750)
 
-						tmp105501 := Call(__e, tmp105500, V4749)
-
-						tmp105502 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp105503 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-						tmp105504 := Call(__e, tmp105503, V4749)
-
-						tmp105505 := Call(__e, tmp105502, tmp105504, V4750)
-
-						__e.TailApply(tmp105499, V4748, tmp105501, tmp105505)
+						__e.TailApply(PrimNS2Value(symshen_4split__cc__rule), V4748, tmp24139, tmp24141)
 						return
 
 					} else {
-						tmp105498 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-						__e.TailApply(tmp105498, symshen_4split__cc__rule)
+						__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4split__cc__rule)
 						return
-
 					}
 
 				}
@@ -885,65 +655,45 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 3)
 
-	tmp105625 := Call(__e, PrimNS1Value(symns2_1set), symshen_4split__cc__rule, tmp105493)
+	tmp24209 := Call(__e, PrimNS1Value(symns2_1set), symshen_4split__cc__rule, tmp24134)
 
-	_ = tmp105625
+	_ = tmp24209
 
-	tmp105626 := MakeNative(func(__e *ControlFlow) {
+	tmp24210 := MakeNative(func(__e *ControlFlow) {
 		V4761 := __e.Get(1)
 		_ = V4761
 		V4762 := __e.Get(2)
 		_ = V4762
-		tmp105645 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+		tmp24220 := PrimEqual(True, V4761)
 
-		tmp105646 := Call(__e, tmp105645, True, V4761)
+		if True == tmp24220 {
+			tmp24212 := Call(__e, PrimNS2Value(symstoutput))
 
-		if True == tmp105646 {
-			tmp105628 := Call(__e, PrimNS1Value(symns2_1value), symshen_4prhush)
+			tmp24213 := Call(__e, PrimNS2Value(symshen_4prhush), MakeString("warning: "), tmp24212)
 
-			tmp105629 := Call(__e, PrimNS1Value(symns2_1value), symstoutput)
+			_ = tmp24213
 
-			tmp105630 := Call(__e, tmp105629)
-
-			tmp105631 := Call(__e, tmp105628, MakeString("warning: "), tmp105630)
-
-			_ = tmp105631
-
-			tmp105632 := Call(__e, PrimNS1Value(symns2_1value), symshen_4for_1each)
-
-			tmp105633 := MakeNative(func(__e *ControlFlow) {
+			tmp24214 := MakeNative(func(__e *ControlFlow) {
 				X := __e.Get(1)
 				_ = X
-				tmp105634 := Call(__e, PrimNS1Value(symns2_1value), symshen_4prhush)
+				tmp24215 := Call(__e, PrimNS2Value(symshen_4app), X, MakeString(" "), symshen_4a)
 
-				tmp105635 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+				tmp24216 := Call(__e, PrimNS2Value(symstoutput))
 
-				tmp105636 := Call(__e, tmp105635, X, MakeString(" "), symshen_4a)
-
-				tmp105637 := Call(__e, PrimNS1Value(symns2_1value), symstoutput)
-
-				tmp105638 := Call(__e, tmp105637)
-
-				__e.TailApply(tmp105634, tmp105636, tmp105638)
+				__e.TailApply(PrimNS2Value(symshen_4prhush), tmp24215, tmp24216)
 				return
 
 			}, 1)
 
-			tmp105639 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
+			tmp24217 := Call(__e, PrimNS2Value(symreverse), V4762)
 
-			tmp105640 := Call(__e, tmp105639, V4762)
+			tmp24218 := Call(__e, PrimNS2Value(symshen_4for_1each), tmp24214, tmp24217)
 
-			tmp105641 := Call(__e, tmp105632, tmp105633, tmp105640)
+			_ = tmp24218
 
-			_ = tmp105641
+			tmp24219 := Call(__e, PrimNS2Value(symstoutput))
 
-			tmp105642 := Call(__e, PrimNS1Value(symns2_1value), symshen_4prhush)
-
-			tmp105643 := Call(__e, PrimNS1Value(symns2_1value), symstoutput)
-
-			tmp105644 := Call(__e, tmp105643)
-
-			__e.TailApply(tmp105642, MakeString("has no semantics.\n"), tmp105644)
+			__e.TailApply(PrimNS2Value(symshen_4prhush), MakeString("has no semantics.\n"), tmp24219)
 			return
 
 		} else {
@@ -953,183 +703,133 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 2)
 
-	tmp105647 := Call(__e, PrimNS1Value(symns2_1set), symshen_4semantic_1completion_1warning, tmp105626)
+	tmp24221 := Call(__e, PrimNS1Value(symns2_1set), symshen_4semantic_1completion_1warning, tmp24210)
 
-	_ = tmp105647
+	_ = tmp24221
 
-	tmp105648 := MakeNative(func(__e *ControlFlow) {
+	tmp24222 := MakeNative(func(__e *ControlFlow) {
 		V4764 := __e.Get(1)
 		_ = V4764
-		tmp105701 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+		tmp24252 := PrimEqual(Nil, V4764)
 
-		tmp105702 := Call(__e, tmp105701, Nil, V4764)
-
-		if True == tmp105702 {
+		if True == tmp24252 {
 			__e.Return(Nil)
 			return
 		} else {
-			tmp105699 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24251 := PrimIsPair(V4764)
 
-			tmp105700 := Call(__e, tmp105699, V4764)
+			var ifres24243 Obj
 
-			var ifres105687 Obj
+			if True == tmp24251 {
+				tmp24249 := PrimTail(V4764)
 
-			if True == tmp105700 {
-				tmp105695 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				tmp24250 := PrimEqual(Nil, tmp24249)
 
-				tmp105696 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				var ifres24245 Obj
 
-				tmp105697 := Call(__e, tmp105696, V4764)
+				if True == tmp24250 {
+					tmp24247 := PrimHead(V4764)
 
-				tmp105698 := Call(__e, tmp105695, Nil, tmp105697)
+					tmp24248 := Call(__e, PrimNS2Value(symshen_4grammar__symbol_2), tmp24247)
 
-				var ifres105689 Obj
+					var ifres24246 Obj
 
-				if True == tmp105698 {
-					tmp105691 := Call(__e, PrimNS1Value(symns2_1value), symshen_4grammar__symbol_2)
-
-					tmp105692 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-					tmp105693 := Call(__e, tmp105692, V4764)
-
-					tmp105694 := Call(__e, tmp105691, tmp105693)
-
-					var ifres105690 Obj
-
-					if True == tmp105694 {
-						ifres105690 = True
+					if True == tmp24248 {
+						ifres24246 = True
 
 					} else {
-						ifres105690 = False
+						ifres24246 = False
 
 					}
 
-					ifres105689 = ifres105690
+					ifres24245 = ifres24246
 
 				} else {
-					ifres105689 = False
+					ifres24245 = False
 
 				}
 
-				var ifres105688 Obj
+				var ifres24244 Obj
 
-				if True == ifres105689 {
-					ifres105688 = True
+				if True == ifres24245 {
+					ifres24244 = True
 
 				} else {
-					ifres105688 = False
+					ifres24244 = False
 
 				}
 
-				ifres105687 = ifres105688
+				ifres24243 = ifres24244
 
 			} else {
-				ifres105687 = False
+				ifres24243 = False
 
 			}
 
-			if True == ifres105687 {
-				tmp105686 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-				__e.TailApply(tmp105686, V4764)
+			if True == ifres24243 {
+				__e.Return(PrimHead(V4764))
 				return
-
 			} else {
-				tmp105684 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+				tmp24242 := PrimIsPair(V4764)
 
-				tmp105685 := Call(__e, tmp105684, V4764)
+				var ifres24238 Obj
 
-				var ifres105678 Obj
+				if True == tmp24242 {
+					tmp24240 := PrimHead(V4764)
 
-				if True == tmp105685 {
-					tmp105680 := Call(__e, PrimNS1Value(symns2_1value), symshen_4grammar__symbol_2)
+					tmp24241 := Call(__e, PrimNS2Value(symshen_4grammar__symbol_2), tmp24240)
 
-					tmp105681 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+					var ifres24239 Obj
 
-					tmp105682 := Call(__e, tmp105681, V4764)
-
-					tmp105683 := Call(__e, tmp105680, tmp105682)
-
-					var ifres105679 Obj
-
-					if True == tmp105683 {
-						ifres105679 = True
+					if True == tmp24241 {
+						ifres24239 = True
 
 					} else {
-						ifres105679 = False
+						ifres24239 = False
 
 					}
 
-					ifres105678 = ifres105679
+					ifres24238 = ifres24239
 
 				} else {
-					ifres105678 = False
+					ifres24238 = False
 
 				}
 
-				if True == ifres105678 {
-					tmp105667 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				if True == ifres24238 {
+					tmp24233 := PrimHead(V4764)
 
-					tmp105668 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24234 := PrimTail(V4764)
 
-					tmp105669 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+					tmp24235 := Call(__e, PrimNS2Value(symshen_4default__semantics), tmp24234)
 
-					tmp105670 := Call(__e, tmp105669, V4764)
+					tmp24236 := PrimCons(tmp24235, Nil)
 
-					tmp105671 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24237 := PrimCons(tmp24233, tmp24236)
 
-					tmp105672 := Call(__e, PrimNS1Value(symns2_1value), symshen_4default__semantics)
-
-					tmp105673 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-					tmp105674 := Call(__e, tmp105673, V4764)
-
-					tmp105675 := Call(__e, tmp105672, tmp105674)
-
-					tmp105676 := Call(__e, tmp105671, tmp105675, Nil)
-
-					tmp105677 := Call(__e, tmp105668, tmp105670, tmp105676)
-
-					__e.TailApply(tmp105667, symappend, tmp105677)
+					__e.Return(PrimCons(symappend, tmp24237))
 					return
 
 				} else {
-					tmp105665 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+					tmp24232 := PrimIsPair(V4764)
 
-					tmp105666 := Call(__e, tmp105665, V4764)
+					if True == tmp24232 {
+						tmp24227 := PrimHead(V4764)
 
-					if True == tmp105666 {
-						tmp105654 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24228 := PrimTail(V4764)
 
-						tmp105655 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24229 := Call(__e, PrimNS2Value(symshen_4default__semantics), tmp24228)
 
-						tmp105656 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+						tmp24230 := PrimCons(tmp24229, Nil)
 
-						tmp105657 := Call(__e, tmp105656, V4764)
+						tmp24231 := PrimCons(tmp24227, tmp24230)
 
-						tmp105658 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp105659 := Call(__e, PrimNS1Value(symns2_1value), symshen_4default__semantics)
-
-						tmp105660 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-						tmp105661 := Call(__e, tmp105660, V4764)
-
-						tmp105662 := Call(__e, tmp105659, tmp105661)
-
-						tmp105663 := Call(__e, tmp105658, tmp105662, Nil)
-
-						tmp105664 := Call(__e, tmp105655, tmp105657, tmp105663)
-
-						__e.TailApply(tmp105654, symcons, tmp105664)
+						__e.Return(PrimCons(symcons, tmp24231))
 						return
 
 					} else {
-						tmp105653 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-						__e.TailApply(tmp105653, symshen_4default__semantics)
+						__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4default__semantics)
 						return
-
 					}
 
 				}
@@ -1140,43 +840,31 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp105703 := Call(__e, PrimNS1Value(symns2_1set), symshen_4default__semantics, tmp105648)
+	tmp24253 := Call(__e, PrimNS1Value(symns2_1set), symshen_4default__semantics, tmp24222)
 
-	_ = tmp105703
+	_ = tmp24253
 
-	tmp105704 := MakeNative(func(__e *ControlFlow) {
+	tmp24254 := MakeNative(func(__e *ControlFlow) {
 		V4766 := __e.Get(1)
 		_ = V4766
-		tmp105725 := Call(__e, PrimNS1Value(symns2_1value), symsymbol_2)
+		tmp24268 := PrimIsSymbol(V4766)
 
-		tmp105726 := Call(__e, tmp105725, V4766)
-
-		if True == tmp105726 {
-			tmp105707 := MakeNative(func(__e *ControlFlow) {
+		if True == tmp24268 {
+			tmp24257 := MakeNative(func(__e *ControlFlow) {
 				Cs := __e.Get(1)
 				_ = Cs
-				tmp105716 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				tmp24263 := PrimHead(Cs)
 
-				tmp105717 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				tmp24264 := PrimEqual(tmp24263, MakeString("<"))
 
-				tmp105718 := Call(__e, tmp105717, Cs)
+				if True == tmp24264 {
+					tmp24260 := Call(__e, PrimNS2Value(symreverse), Cs)
 
-				tmp105719 := Call(__e, tmp105716, tmp105718, MakeString("<"))
+					tmp24261 := PrimHead(tmp24260)
 
-				if True == tmp105719 {
-					tmp105710 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+					tmp24262 := PrimEqual(tmp24261, MakeString(">"))
 
-					tmp105711 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-					tmp105712 := Call(__e, PrimNS1Value(symns2_1value), symreverse)
-
-					tmp105713 := Call(__e, tmp105712, Cs)
-
-					tmp105714 := Call(__e, tmp105711, tmp105713)
-
-					tmp105715 := Call(__e, tmp105710, tmp105714, MakeString(">"))
-
-					if True == tmp105715 {
+					if True == tmp24262 {
 						__e.Return(True)
 						return
 					} else {
@@ -1191,17 +879,13 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 			}, 1)
 
-			tmp105720 := Call(__e, PrimNS1Value(symns2_1value), symshen_4strip_1pathname)
+			tmp24265 := Call(__e, PrimNS2Value(symexplode), V4766)
 
-			tmp105721 := Call(__e, PrimNS1Value(symns2_1value), symexplode)
+			tmp24266 := Call(__e, PrimNS2Value(symshen_4strip_1pathname), tmp24265)
 
-			tmp105722 := Call(__e, tmp105721, V4766)
+			tmp24267 := Call(__e, tmp24257, tmp24266)
 
-			tmp105723 := Call(__e, tmp105720, tmp105722)
-
-			tmp105724 := Call(__e, tmp105707, tmp105723)
-
-			if True == tmp105724 {
+			if True == tmp24267 {
 				__e.Return(True)
 				return
 			} else {
@@ -1216,605 +900,416 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp105727 := Call(__e, PrimNS1Value(symns2_1set), symshen_4grammar__symbol_2, tmp105704)
+	tmp24269 := Call(__e, PrimNS1Value(symns2_1set), symshen_4grammar__symbol_2, tmp24254)
 
-	_ = tmp105727
+	_ = tmp24269
 
-	tmp105728 := MakeNative(func(__e *ControlFlow) {
+	tmp24270 := MakeNative(func(__e *ControlFlow) {
 		V4768 := __e.Get(1)
 		_ = V4768
-		tmp105771 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24293 := PrimIsPair(V4768)
 
-		tmp105772 := Call(__e, tmp105771, V4768)
+		var ifres24289 Obj
 
-		var ifres105765 Obj
+		if True == tmp24293 {
+			tmp24291 := PrimTail(V4768)
 
-		if True == tmp105772 {
-			tmp105767 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24292 := PrimEqual(Nil, tmp24291)
 
-			tmp105768 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			var ifres24290 Obj
 
-			tmp105769 := Call(__e, tmp105768, V4768)
-
-			tmp105770 := Call(__e, tmp105767, Nil, tmp105769)
-
-			var ifres105766 Obj
-
-			if True == tmp105770 {
-				ifres105766 = True
+			if True == tmp24292 {
+				ifres24290 = True
 
 			} else {
-				ifres105766 = False
+				ifres24290 = False
 
 			}
 
-			ifres105765 = ifres105766
+			ifres24289 = ifres24290
 
 		} else {
-			ifres105765 = False
+			ifres24289 = False
 
 		}
 
-		if True == ifres105765 {
-			tmp105764 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-			__e.TailApply(tmp105764, V4768)
+		if True == ifres24289 {
+			__e.Return(PrimHead(V4768))
 			return
-
 		} else {
-			tmp105762 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24288 := PrimIsPair(V4768)
 
-			tmp105763 := Call(__e, tmp105762, V4768)
-
-			if True == tmp105763 {
-				tmp105732 := MakeNative(func(__e *ControlFlow) {
+			if True == tmp24288 {
+				tmp24273 := MakeNative(func(__e *ControlFlow) {
 					P := __e.Get(1)
 					_ = P
-					tmp105733 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24274 := PrimHead(V4768)
 
-					tmp105734 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24275 := PrimCons(symfail, Nil)
 
-					tmp105735 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24276 := PrimCons(tmp24275, Nil)
 
-					tmp105736 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+					tmp24277 := PrimCons(P, tmp24276)
 
-					tmp105737 := Call(__e, tmp105736, V4768)
+					tmp24278 := PrimCons(sym_a, tmp24277)
 
-					tmp105738 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24279 := PrimTail(V4768)
 
-					tmp105739 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24280 := Call(__e, PrimNS2Value(symshen_4yacc__cases), tmp24279)
 
-					tmp105740 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24281 := PrimCons(P, Nil)
 
-					tmp105741 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24282 := PrimCons(tmp24280, tmp24281)
 
-					tmp105742 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24283 := PrimCons(tmp24278, tmp24282)
 
-					tmp105743 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24284 := PrimCons(symif, tmp24283)
 
-					tmp105744 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24285 := PrimCons(tmp24284, Nil)
 
-					tmp105745 := Call(__e, tmp105744, symfail, Nil)
+					tmp24286 := PrimCons(tmp24274, tmp24285)
 
-					tmp105746 := Call(__e, tmp105743, tmp105745, Nil)
+					tmp24287 := PrimCons(P, tmp24286)
 
-					tmp105747 := Call(__e, tmp105742, P, tmp105746)
-
-					tmp105748 := Call(__e, tmp105741, sym_a, tmp105747)
-
-					tmp105749 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-					tmp105750 := Call(__e, PrimNS1Value(symns2_1value), symshen_4yacc__cases)
-
-					tmp105751 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-					tmp105752 := Call(__e, tmp105751, V4768)
-
-					tmp105753 := Call(__e, tmp105750, tmp105752)
-
-					tmp105754 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-					tmp105755 := Call(__e, tmp105754, P, Nil)
-
-					tmp105756 := Call(__e, tmp105749, tmp105753, tmp105755)
-
-					tmp105757 := Call(__e, tmp105740, tmp105748, tmp105756)
-
-					tmp105758 := Call(__e, tmp105739, symif, tmp105757)
-
-					tmp105759 := Call(__e, tmp105738, tmp105758, Nil)
-
-					tmp105760 := Call(__e, tmp105735, tmp105737, tmp105759)
-
-					tmp105761 := Call(__e, tmp105734, P, tmp105760)
-
-					__e.TailApply(tmp105733, symlet, tmp105761)
+					__e.Return(PrimCons(symlet, tmp24287))
 					return
 
 				}, 1)
 
-				__e.TailApply(tmp105732, symYaccParse)
+				__e.TailApply(tmp24273, symYaccParse)
 				return
 
 			} else {
-				tmp105731 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-				__e.TailApply(tmp105731, symshen_4yacc__cases)
+				__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4yacc__cases)
 				return
-
 			}
 
 		}
 
 	}, 1)
 
-	tmp105773 := Call(__e, PrimNS1Value(symns2_1set), symshen_4yacc__cases, tmp105728)
+	tmp24294 := Call(__e, PrimNS1Value(symns2_1set), symshen_4yacc__cases, tmp24270)
 
-	_ = tmp105773
+	_ = tmp24294
 
-	tmp105774 := MakeNative(func(__e *ControlFlow) {
+	tmp24295 := MakeNative(func(__e *ControlFlow) {
 		V4770 := __e.Get(1)
 		_ = V4770
-		tmp105798 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24309 := PrimIsPair(V4770)
 
-		tmp105799 := Call(__e, tmp105798, V4770)
+		var ifres24300 Obj
 
-		var ifres105784 Obj
+		if True == tmp24309 {
+			tmp24307 := PrimTail(V4770)
 
-		if True == tmp105799 {
-			tmp105794 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24308 := PrimIsPair(tmp24307)
 
-			tmp105795 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			var ifres24302 Obj
 
-			tmp105796 := Call(__e, tmp105795, V4770)
+			if True == tmp24308 {
+				tmp24304 := PrimTail(V4770)
 
-			tmp105797 := Call(__e, tmp105794, tmp105796)
+				tmp24305 := PrimTail(tmp24304)
 
-			var ifres105786 Obj
+				tmp24306 := PrimEqual(Nil, tmp24305)
 
-			if True == tmp105797 {
-				tmp105788 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				var ifres24303 Obj
 
-				tmp105789 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp105790 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp105791 := Call(__e, tmp105790, V4770)
-
-				tmp105792 := Call(__e, tmp105789, tmp105791)
-
-				tmp105793 := Call(__e, tmp105788, Nil, tmp105792)
-
-				var ifres105787 Obj
-
-				if True == tmp105793 {
-					ifres105787 = True
+				if True == tmp24306 {
+					ifres24303 = True
 
 				} else {
-					ifres105787 = False
+					ifres24303 = False
 
 				}
 
-				ifres105786 = ifres105787
+				ifres24302 = ifres24303
 
 			} else {
-				ifres105786 = False
+				ifres24302 = False
 
 			}
 
-			var ifres105785 Obj
+			var ifres24301 Obj
 
-			if True == ifres105786 {
-				ifres105785 = True
+			if True == ifres24302 {
+				ifres24301 = True
 
 			} else {
-				ifres105785 = False
+				ifres24301 = False
 
 			}
 
-			ifres105784 = ifres105785
+			ifres24300 = ifres24301
 
 		} else {
-			ifres105784 = False
+			ifres24300 = False
 
 		}
 
-		if True == ifres105784 {
-			tmp105777 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
+		if True == ifres24300 {
+			tmp24297 := PrimHead(V4770)
 
-			tmp105778 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			tmp24298 := PrimTail(V4770)
 
-			tmp105779 := Call(__e, tmp105778, V4770)
+			tmp24299 := PrimHead(tmp24298)
 
-			tmp105780 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-			tmp105781 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp105782 := Call(__e, tmp105781, V4770)
-
-			tmp105783 := Call(__e, tmp105780, tmp105782)
-
-			__e.TailApply(tmp105777, tmp105779, symStream, tmp105783)
+			__e.TailApply(PrimNS2Value(symshen_4syntax), tmp24297, symStream, tmp24299)
 			return
 
 		} else {
-			tmp105776 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp105776, symshen_4cc__body)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4cc__body)
 			return
-
 		}
 
 	}, 1)
 
-	tmp105800 := Call(__e, PrimNS1Value(symns2_1set), symshen_4cc__body, tmp105774)
+	tmp24310 := Call(__e, PrimNS1Value(symns2_1set), symshen_4cc__body, tmp24295)
 
-	_ = tmp105800
+	_ = tmp24310
 
-	tmp105801 := MakeNative(func(__e *ControlFlow) {
+	tmp24311 := MakeNative(func(__e *ControlFlow) {
 		V4774 := __e.Get(1)
 		_ = V4774
 		V4775 := __e.Get(2)
 		_ = V4775
 		V4776 := __e.Get(3)
 		_ = V4776
-		tmp105929 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+		tmp24380 := PrimEqual(Nil, V4774)
 
-		tmp105930 := Call(__e, tmp105929, Nil, V4774)
+		var ifres24358 Obj
 
-		var ifres105895 Obj
+		if True == tmp24380 {
+			tmp24379 := PrimIsPair(V4776)
 
-		if True == tmp105930 {
-			tmp105927 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			var ifres24360 Obj
 
-			tmp105928 := Call(__e, tmp105927, V4776)
+			if True == tmp24379 {
+				tmp24377 := PrimHead(V4776)
 
-			var ifres105897 Obj
+				tmp24378 := PrimEqual(symwhere, tmp24377)
 
-			if True == tmp105928 {
-				tmp105923 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				var ifres24362 Obj
 
-				tmp105924 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				if True == tmp24378 {
+					tmp24375 := PrimTail(V4776)
 
-				tmp105925 := Call(__e, tmp105924, V4776)
+					tmp24376 := PrimIsPair(tmp24375)
 
-				tmp105926 := Call(__e, tmp105923, symwhere, tmp105925)
+					var ifres24364 Obj
 
-				var ifres105899 Obj
+					if True == tmp24376 {
+						tmp24372 := PrimTail(V4776)
 
-				if True == tmp105926 {
-					tmp105919 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+						tmp24373 := PrimTail(tmp24372)
 
-					tmp105920 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24374 := PrimIsPair(tmp24373)
 
-					tmp105921 := Call(__e, tmp105920, V4776)
+						var ifres24366 Obj
 
-					tmp105922 := Call(__e, tmp105919, tmp105921)
+						if True == tmp24374 {
+							tmp24368 := PrimTail(V4776)
 
-					var ifres105901 Obj
+							tmp24369 := PrimTail(tmp24368)
 
-					if True == tmp105922 {
-						tmp105913 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+							tmp24370 := PrimTail(tmp24369)
 
-						tmp105914 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							tmp24371 := PrimEqual(Nil, tmp24370)
 
-						tmp105915 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							var ifres24367 Obj
 
-						tmp105916 := Call(__e, tmp105915, V4776)
-
-						tmp105917 := Call(__e, tmp105914, tmp105916)
-
-						tmp105918 := Call(__e, tmp105913, tmp105917)
-
-						var ifres105903 Obj
-
-						if True == tmp105918 {
-							tmp105905 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
-
-							tmp105906 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp105907 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp105908 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp105909 := Call(__e, tmp105908, V4776)
-
-							tmp105910 := Call(__e, tmp105907, tmp105909)
-
-							tmp105911 := Call(__e, tmp105906, tmp105910)
-
-							tmp105912 := Call(__e, tmp105905, Nil, tmp105911)
-
-							var ifres105904 Obj
-
-							if True == tmp105912 {
-								ifres105904 = True
+							if True == tmp24371 {
+								ifres24367 = True
 
 							} else {
-								ifres105904 = False
+								ifres24367 = False
 
 							}
 
-							ifres105903 = ifres105904
+							ifres24366 = ifres24367
 
 						} else {
-							ifres105903 = False
+							ifres24366 = False
 
 						}
 
-						var ifres105902 Obj
+						var ifres24365 Obj
 
-						if True == ifres105903 {
-							ifres105902 = True
+						if True == ifres24366 {
+							ifres24365 = True
 
 						} else {
-							ifres105902 = False
+							ifres24365 = False
 
 						}
 
-						ifres105901 = ifres105902
+						ifres24364 = ifres24365
 
 					} else {
-						ifres105901 = False
+						ifres24364 = False
 
 					}
 
-					var ifres105900 Obj
+					var ifres24363 Obj
 
-					if True == ifres105901 {
-						ifres105900 = True
+					if True == ifres24364 {
+						ifres24363 = True
 
 					} else {
-						ifres105900 = False
+						ifres24363 = False
 
 					}
 
-					ifres105899 = ifres105900
+					ifres24362 = ifres24363
 
 				} else {
-					ifres105899 = False
+					ifres24362 = False
 
 				}
 
-				var ifres105898 Obj
+				var ifres24361 Obj
 
-				if True == ifres105899 {
-					ifres105898 = True
+				if True == ifres24362 {
+					ifres24361 = True
 
 				} else {
-					ifres105898 = False
+					ifres24361 = False
 
 				}
 
-				ifres105897 = ifres105898
+				ifres24360 = ifres24361
 
 			} else {
-				ifres105897 = False
+				ifres24360 = False
 
 			}
 
-			var ifres105896 Obj
+			var ifres24359 Obj
 
-			if True == ifres105897 {
-				ifres105896 = True
+			if True == ifres24360 {
+				ifres24359 = True
 
 			} else {
-				ifres105896 = False
+				ifres24359 = False
 
 			}
 
-			ifres105895 = ifres105896
+			ifres24358 = ifres24359
 
 		} else {
-			ifres105895 = False
+			ifres24358 = False
 
 		}
 
-		if True == ifres105895 {
-			tmp105862 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		if True == ifres24358 {
+			tmp24342 := PrimTail(V4776)
 
-			tmp105863 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24343 := PrimHead(tmp24342)
 
-			tmp105864 := Call(__e, PrimNS1Value(symns2_1value), symshen_4semantics)
+			tmp24344 := Call(__e, PrimNS2Value(symshen_4semantics), tmp24343)
 
-			tmp105865 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			tmp24345 := PrimCons(V4775, Nil)
 
-			tmp105866 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			tmp24346 := PrimCons(symhd, tmp24345)
 
-			tmp105867 := Call(__e, tmp105866, V4776)
+			tmp24347 := PrimTail(V4776)
 
-			tmp105868 := Call(__e, tmp105865, tmp105867)
+			tmp24348 := PrimTail(tmp24347)
 
-			tmp105869 := Call(__e, tmp105864, tmp105868)
+			tmp24349 := PrimHead(tmp24348)
 
-			tmp105870 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24350 := Call(__e, PrimNS2Value(symshen_4semantics), tmp24349)
 
-			tmp105871 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24351 := PrimCons(tmp24350, Nil)
 
-			tmp105872 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24352 := PrimCons(tmp24346, tmp24351)
 
-			tmp105873 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24353 := PrimCons(symshen_4pair, tmp24352)
 
-			tmp105874 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24354 := PrimCons(symfail, Nil)
 
-			tmp105875 := Call(__e, tmp105874, V4775, Nil)
+			tmp24355 := PrimCons(tmp24354, Nil)
 
-			tmp105876 := Call(__e, tmp105873, symhd, tmp105875)
+			tmp24356 := PrimCons(tmp24353, tmp24355)
 
-			tmp105877 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24357 := PrimCons(tmp24344, tmp24356)
 
-			tmp105878 := Call(__e, PrimNS1Value(symns2_1value), symshen_4semantics)
-
-			tmp105879 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-			tmp105880 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp105881 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp105882 := Call(__e, tmp105881, V4776)
-
-			tmp105883 := Call(__e, tmp105880, tmp105882)
-
-			tmp105884 := Call(__e, tmp105879, tmp105883)
-
-			tmp105885 := Call(__e, tmp105878, tmp105884)
-
-			tmp105886 := Call(__e, tmp105877, tmp105885, Nil)
-
-			tmp105887 := Call(__e, tmp105872, tmp105876, tmp105886)
-
-			tmp105888 := Call(__e, tmp105871, symshen_4pair, tmp105887)
-
-			tmp105889 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp105890 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp105891 := Call(__e, tmp105890, symfail, Nil)
-
-			tmp105892 := Call(__e, tmp105889, tmp105891, Nil)
-
-			tmp105893 := Call(__e, tmp105870, tmp105888, tmp105892)
-
-			tmp105894 := Call(__e, tmp105863, tmp105869, tmp105893)
-
-			__e.TailApply(tmp105862, symif, tmp105894)
+			__e.Return(PrimCons(symif, tmp24357))
 			return
 
 		} else {
-			tmp105860 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24341 := PrimEqual(Nil, V4774)
 
-			tmp105861 := Call(__e, tmp105860, Nil, V4774)
+			if True == tmp24341 {
+				tmp24336 := PrimCons(V4775, Nil)
 
-			if True == tmp105861 {
-				tmp105849 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24337 := PrimCons(symhd, tmp24336)
 
-				tmp105850 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24338 := Call(__e, PrimNS2Value(symshen_4semantics), V4776)
 
-				tmp105851 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24339 := PrimCons(tmp24338, Nil)
 
-				tmp105852 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24340 := PrimCons(tmp24337, tmp24339)
 
-				tmp105853 := Call(__e, tmp105852, V4775, Nil)
-
-				tmp105854 := Call(__e, tmp105851, symhd, tmp105853)
-
-				tmp105855 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp105856 := Call(__e, PrimNS1Value(symns2_1value), symshen_4semantics)
-
-				tmp105857 := Call(__e, tmp105856, V4776)
-
-				tmp105858 := Call(__e, tmp105855, tmp105857, Nil)
-
-				tmp105859 := Call(__e, tmp105850, tmp105854, tmp105858)
-
-				__e.TailApply(tmp105849, symshen_4pair, tmp105859)
+				__e.Return(PrimCons(symshen_4pair, tmp24340))
 				return
 
 			} else {
-				tmp105847 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+				tmp24335 := PrimIsPair(V4774)
 
-				tmp105848 := Call(__e, tmp105847, V4774)
+				if True == tmp24335 {
+					tmp24333 := PrimHead(V4774)
 
-				if True == tmp105848 {
-					tmp105843 := Call(__e, PrimNS1Value(symns2_1value), symshen_4grammar__symbol_2)
+					tmp24334 := Call(__e, PrimNS2Value(symshen_4grammar__symbol_2), tmp24333)
 
-					tmp105844 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-					tmp105845 := Call(__e, tmp105844, V4774)
-
-					tmp105846 := Call(__e, tmp105843, tmp105845)
-
-					if True == tmp105846 {
-						tmp105842 := Call(__e, PrimNS1Value(symns2_1value), symshen_4recursive__descent)
-
-						__e.TailApply(tmp105842, V4774, V4775, V4776)
+					if True == tmp24334 {
+						__e.TailApply(PrimNS2Value(symshen_4recursive__descent), V4774, V4775, V4776)
 						return
-
 					} else {
-						tmp105838 := Call(__e, PrimNS1Value(symns2_1value), symvariable_2)
+						tmp24331 := PrimHead(V4774)
 
-						tmp105839 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+						tmp24332 := PrimIsVariable(tmp24331)
 
-						tmp105840 := Call(__e, tmp105839, V4774)
-
-						tmp105841 := Call(__e, tmp105838, tmp105840)
-
-						if True == tmp105841 {
-							tmp105837 := Call(__e, PrimNS1Value(symns2_1value), symshen_4variable_1match)
-
-							__e.TailApply(tmp105837, V4774, V4775, V4776)
+						if True == tmp24332 {
+							__e.TailApply(PrimNS2Value(symshen_4variable_1match), V4774, V4775, V4776)
 							return
-
 						} else {
-							tmp105833 := Call(__e, PrimNS1Value(symns2_1value), symshen_4jump__stream_2)
+							tmp24329 := PrimHead(V4774)
 
-							tmp105834 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+							tmp24330 := Call(__e, PrimNS2Value(symshen_4jump__stream_2), tmp24329)
 
-							tmp105835 := Call(__e, tmp105834, V4774)
-
-							tmp105836 := Call(__e, tmp105833, tmp105835)
-
-							if True == tmp105836 {
-								tmp105832 := Call(__e, PrimNS1Value(symns2_1value), symshen_4jump__stream)
-
-								__e.TailApply(tmp105832, V4774, V4775, V4776)
+							if True == tmp24330 {
+								__e.TailApply(PrimNS2Value(symshen_4jump__stream), V4774, V4775, V4776)
 								return
-
 							} else {
-								tmp105828 := Call(__e, PrimNS1Value(symns2_1value), symshen_4terminal_2)
+								tmp24327 := PrimHead(V4774)
 
-								tmp105829 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+								tmp24328 := Call(__e, PrimNS2Value(symshen_4terminal_2), tmp24327)
 
-								tmp105830 := Call(__e, tmp105829, V4774)
-
-								tmp105831 := Call(__e, tmp105828, tmp105830)
-
-								if True == tmp105831 {
-									tmp105827 := Call(__e, PrimNS1Value(symns2_1value), symshen_4check__stream)
-
-									__e.TailApply(tmp105827, V4774, V4775, V4776)
+								if True == tmp24328 {
+									__e.TailApply(PrimNS2Value(symshen_4check__stream), V4774, V4775, V4776)
 									return
-
 								} else {
-									tmp105823 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+									tmp24325 := PrimHead(V4774)
 
-									tmp105824 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+									tmp24326 := PrimIsPair(tmp24325)
 
-									tmp105825 := Call(__e, tmp105824, V4774)
+									if True == tmp24326 {
+										tmp24322 := PrimHead(V4774)
 
-									tmp105826 := Call(__e, tmp105823, tmp105825)
+										tmp24323 := Call(__e, PrimNS2Value(symshen_4decons), tmp24322)
 
-									if True == tmp105826 {
-										tmp105816 := Call(__e, PrimNS1Value(symns2_1value), symshen_4list_1stream)
+										tmp24324 := PrimTail(V4774)
 
-										tmp105817 := Call(__e, PrimNS1Value(symns2_1value), symshen_4decons)
-
-										tmp105818 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-										tmp105819 := Call(__e, tmp105818, V4774)
-
-										tmp105820 := Call(__e, tmp105817, tmp105819)
-
-										tmp105821 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-										tmp105822 := Call(__e, tmp105821, V4774)
-
-										__e.TailApply(tmp105816, tmp105820, tmp105822, V4775, V4776)
+										__e.TailApply(PrimNS2Value(symshen_4list_1stream), tmp24323, tmp24324, V4775, V4776)
 										return
 
 									} else {
-										tmp105811 := Call(__e, PrimNS1Value(symns2_1value), symsimple_1error)
+										tmp24320 := PrimHead(V4774)
 
-										tmp105812 := Call(__e, PrimNS1Value(symns2_1value), symshen_4app)
+										tmp24321 := Call(__e, PrimNS2Value(symshen_4app), tmp24320, MakeString(" is not legal syntax\n"), symshen_4a)
 
-										tmp105813 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-										tmp105814 := Call(__e, tmp105813, V4774)
-
-										tmp105815 := Call(__e, tmp105812, tmp105814, MakeString(" is not legal syntax\n"), symshen_4a)
-
-										__e.TailApply(tmp105811, tmp105815)
+										__e.Return(PrimSimpleError(tmp24321))
 										return
 
 									}
@@ -1828,11 +1323,8 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 					}
 
 				} else {
-					tmp105805 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-					__e.TailApply(tmp105805, symshen_4syntax)
+					__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4syntax)
 					return
-
 				}
 
 			}
@@ -1841,11 +1333,11 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 3)
 
-	tmp105931 := Call(__e, PrimNS1Value(symns2_1set), symshen_4syntax, tmp105801)
+	tmp24381 := Call(__e, PrimNS1Value(symns2_1set), symshen_4syntax, tmp24311)
 
-	_ = tmp105931
+	_ = tmp24381
 
-	tmp105932 := MakeNative(func(__e *ControlFlow) {
+	tmp24382 := MakeNative(func(__e *ControlFlow) {
 		V4781 := __e.Get(1)
 		_ = V4781
 		V4782 := __e.Get(2)
@@ -1854,519 +1346,375 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 		_ = V4783
 		V4784 := __e.Get(4)
 		_ = V4784
-		tmp105933 := MakeNative(func(__e *ControlFlow) {
+		tmp24383 := MakeNative(func(__e *ControlFlow) {
 			Test := __e.Get(1)
 			_ = Test
-			tmp105934 := MakeNative(func(__e *ControlFlow) {
+			tmp24384 := MakeNative(func(__e *ControlFlow) {
 				Placeholder := __e.Get(1)
 				_ = Placeholder
-				tmp105935 := MakeNative(func(__e *ControlFlow) {
+				tmp24385 := MakeNative(func(__e *ControlFlow) {
 					RunOn := __e.Get(1)
 					_ = RunOn
-					tmp105936 := MakeNative(func(__e *ControlFlow) {
+					tmp24386 := MakeNative(func(__e *ControlFlow) {
 						Action := __e.Get(1)
 						_ = Action
-						tmp105937 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24387 := PrimCons(symfail, Nil)
 
-						tmp105938 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24388 := PrimCons(tmp24387, Nil)
 
-						tmp105939 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24389 := PrimCons(Action, tmp24388)
 
-						tmp105940 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24390 := PrimCons(Test, tmp24389)
 
-						tmp105941 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp105942 := Call(__e, tmp105941, symfail, Nil)
-
-						tmp105943 := Call(__e, tmp105940, tmp105942, Nil)
-
-						tmp105944 := Call(__e, tmp105939, Action, tmp105943)
-
-						tmp105945 := Call(__e, tmp105938, Test, tmp105944)
-
-						__e.TailApply(tmp105937, symif, tmp105945)
+						__e.Return(PrimCons(symif, tmp24390))
 						return
 
 					}, 1)
 
-					tmp105946 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1runon)
+					tmp24391 := PrimCons(V4783, Nil)
 
-					tmp105947 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
+					tmp24392 := PrimCons(symshen_4hdhd, tmp24391)
 
-					tmp105948 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24393 := PrimCons(V4783, Nil)
 
-					tmp105949 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24394 := PrimCons(symshen_4hdtl, tmp24393)
 
-					tmp105950 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24395 := PrimCons(tmp24394, Nil)
 
-					tmp105951 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24396 := PrimCons(tmp24392, tmp24395)
 
-					tmp105952 := Call(__e, tmp105951, V4783, Nil)
+					tmp24397 := PrimCons(symshen_4pair, tmp24396)
 
-					tmp105953 := Call(__e, tmp105950, symshen_4hdhd, tmp105952)
+					tmp24398 := Call(__e, PrimNS2Value(symshen_4syntax), V4781, tmp24397, Placeholder)
 
-					tmp105954 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24399 := Call(__e, PrimNS2Value(symshen_4insert_1runon), RunOn, Placeholder, tmp24398)
 
-					tmp105955 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-					tmp105956 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-					tmp105957 := Call(__e, tmp105956, V4783, Nil)
-
-					tmp105958 := Call(__e, tmp105955, symshen_4hdtl, tmp105957)
-
-					tmp105959 := Call(__e, tmp105954, tmp105958, Nil)
-
-					tmp105960 := Call(__e, tmp105949, tmp105953, tmp105959)
-
-					tmp105961 := Call(__e, tmp105948, symshen_4pair, tmp105960)
-
-					tmp105962 := Call(__e, tmp105947, V4781, tmp105961, Placeholder)
-
-					tmp105963 := Call(__e, tmp105946, RunOn, Placeholder, tmp105962)
-
-					__e.TailApply(tmp105936, tmp105963)
+					__e.TailApply(tmp24386, tmp24399)
 					return
 
 				}, 1)
 
-				tmp105964 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
+				tmp24400 := PrimCons(V4783, Nil)
 
-				tmp105965 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24401 := PrimCons(symshen_4tlhd, tmp24400)
 
-				tmp105966 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24402 := PrimCons(V4783, Nil)
 
-				tmp105967 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24403 := PrimCons(symshen_4hdtl, tmp24402)
 
-				tmp105968 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24404 := PrimCons(tmp24403, Nil)
 
-				tmp105969 := Call(__e, tmp105968, V4783, Nil)
+				tmp24405 := PrimCons(tmp24401, tmp24404)
 
-				tmp105970 := Call(__e, tmp105967, symshen_4tlhd, tmp105969)
+				tmp24406 := PrimCons(symshen_4pair, tmp24405)
 
-				tmp105971 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24407 := Call(__e, PrimNS2Value(symshen_4syntax), V4782, tmp24406, V4784)
 
-				tmp105972 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp105973 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp105974 := Call(__e, tmp105973, V4783, Nil)
-
-				tmp105975 := Call(__e, tmp105972, symshen_4hdtl, tmp105974)
-
-				tmp105976 := Call(__e, tmp105971, tmp105975, Nil)
-
-				tmp105977 := Call(__e, tmp105966, tmp105970, tmp105976)
-
-				tmp105978 := Call(__e, tmp105965, symshen_4pair, tmp105977)
-
-				tmp105979 := Call(__e, tmp105964, V4782, tmp105978, V4784)
-
-				__e.TailApply(tmp105935, tmp105979)
+				__e.TailApply(tmp24385, tmp24407)
 				return
 
 			}, 1)
 
-			tmp105980 := Call(__e, PrimNS1Value(symns2_1value), symgensym)
+			tmp24408 := Call(__e, PrimNS2Value(symgensym), symshen_4place)
 
-			tmp105981 := Call(__e, tmp105980, symshen_4place)
-
-			__e.TailApply(tmp105934, tmp105981)
+			__e.TailApply(tmp24384, tmp24408)
 			return
 
 		}, 1)
 
-		tmp105982 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24409 := PrimCons(V4783, Nil)
 
-		tmp105983 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24410 := PrimCons(symhd, tmp24409)
 
-		tmp105984 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24411 := PrimCons(tmp24410, Nil)
 
-		tmp105985 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24412 := PrimCons(symcons_2, tmp24411)
 
-		tmp105986 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24413 := PrimCons(V4783, Nil)
 
-		tmp105987 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24414 := PrimCons(symshen_4hdhd, tmp24413)
 
-		tmp105988 := Call(__e, tmp105987, V4783, Nil)
+		tmp24415 := PrimCons(tmp24414, Nil)
 
-		tmp105989 := Call(__e, tmp105986, symhd, tmp105988)
+		tmp24416 := PrimCons(symcons_2, tmp24415)
 
-		tmp105990 := Call(__e, tmp105985, tmp105989, Nil)
+		tmp24417 := PrimCons(tmp24416, Nil)
 
-		tmp105991 := Call(__e, tmp105984, symcons_2, tmp105990)
+		tmp24418 := PrimCons(tmp24412, tmp24417)
 
-		tmp105992 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24419 := PrimCons(symand, tmp24418)
 
-		tmp105993 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-		tmp105994 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-		tmp105995 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-		tmp105996 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-		tmp105997 := Call(__e, tmp105996, V4783, Nil)
-
-		tmp105998 := Call(__e, tmp105995, symshen_4hdhd, tmp105997)
-
-		tmp105999 := Call(__e, tmp105994, tmp105998, Nil)
-
-		tmp106000 := Call(__e, tmp105993, symcons_2, tmp105999)
-
-		tmp106001 := Call(__e, tmp105992, tmp106000, Nil)
-
-		tmp106002 := Call(__e, tmp105983, tmp105991, tmp106001)
-
-		tmp106003 := Call(__e, tmp105982, symand, tmp106002)
-
-		__e.TailApply(tmp105933, tmp106003)
+		__e.TailApply(tmp24383, tmp24419)
 		return
 
 	}, 4)
 
-	tmp106004 := Call(__e, PrimNS1Value(symns2_1set), symshen_4list_1stream, tmp105932)
+	tmp24420 := Call(__e, PrimNS1Value(symns2_1set), symshen_4list_1stream, tmp24382)
 
-	_ = tmp106004
+	_ = tmp24420
 
-	tmp106005 := MakeNative(func(__e *ControlFlow) {
+	tmp24421 := MakeNative(func(__e *ControlFlow) {
 		V4786 := __e.Get(1)
 		_ = V4786
-		tmp106098 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24477 := PrimIsPair(V4786)
 
-		tmp106099 := Call(__e, tmp106098, V4786)
+		var ifres24452 Obj
 
-		var ifres106058 Obj
+		if True == tmp24477 {
+			tmp24475 := PrimHead(V4786)
 
-		if True == tmp106099 {
-			tmp106094 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24476 := PrimEqual(symcons, tmp24475)
 
-			tmp106095 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			var ifres24454 Obj
 
-			tmp106096 := Call(__e, tmp106095, V4786)
+			if True == tmp24476 {
+				tmp24473 := PrimTail(V4786)
 
-			tmp106097 := Call(__e, tmp106094, symcons, tmp106096)
+				tmp24474 := PrimIsPair(tmp24473)
 
-			var ifres106060 Obj
+				var ifres24456 Obj
 
-			if True == tmp106097 {
-				tmp106090 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+				if True == tmp24474 {
+					tmp24470 := PrimTail(V4786)
 
-				tmp106091 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+					tmp24471 := PrimTail(tmp24470)
 
-				tmp106092 := Call(__e, tmp106091, V4786)
+					tmp24472 := PrimIsPair(tmp24471)
 
-				tmp106093 := Call(__e, tmp106090, tmp106092)
+					var ifres24458 Obj
 
-				var ifres106062 Obj
+					if True == tmp24472 {
+						tmp24466 := PrimTail(V4786)
 
-				if True == tmp106093 {
-					tmp106084 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+						tmp24467 := PrimTail(tmp24466)
 
-					tmp106085 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24468 := PrimHead(tmp24467)
 
-					tmp106086 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24469 := PrimEqual(Nil, tmp24468)
 
-					tmp106087 := Call(__e, tmp106086, V4786)
+						var ifres24460 Obj
 
-					tmp106088 := Call(__e, tmp106085, tmp106087)
+						if True == tmp24469 {
+							tmp24462 := PrimTail(V4786)
 
-					tmp106089 := Call(__e, tmp106084, tmp106088)
+							tmp24463 := PrimTail(tmp24462)
 
-					var ifres106064 Obj
+							tmp24464 := PrimTail(tmp24463)
 
-					if True == tmp106089 {
-						tmp106076 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+							tmp24465 := PrimEqual(Nil, tmp24464)
 
-						tmp106077 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+							var ifres24461 Obj
 
-						tmp106078 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-						tmp106079 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-						tmp106080 := Call(__e, tmp106079, V4786)
-
-						tmp106081 := Call(__e, tmp106078, tmp106080)
-
-						tmp106082 := Call(__e, tmp106077, tmp106081)
-
-						tmp106083 := Call(__e, tmp106076, Nil, tmp106082)
-
-						var ifres106066 Obj
-
-						if True == tmp106083 {
-							tmp106068 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
-
-							tmp106069 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106070 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106071 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106072 := Call(__e, tmp106071, V4786)
-
-							tmp106073 := Call(__e, tmp106070, tmp106072)
-
-							tmp106074 := Call(__e, tmp106069, tmp106073)
-
-							tmp106075 := Call(__e, tmp106068, Nil, tmp106074)
-
-							var ifres106067 Obj
-
-							if True == tmp106075 {
-								ifres106067 = True
+							if True == tmp24465 {
+								ifres24461 = True
 
 							} else {
-								ifres106067 = False
+								ifres24461 = False
 
 							}
 
-							ifres106066 = ifres106067
+							ifres24460 = ifres24461
 
 						} else {
-							ifres106066 = False
+							ifres24460 = False
 
 						}
 
-						var ifres106065 Obj
+						var ifres24459 Obj
 
-						if True == ifres106066 {
-							ifres106065 = True
+						if True == ifres24460 {
+							ifres24459 = True
 
 						} else {
-							ifres106065 = False
+							ifres24459 = False
 
 						}
 
-						ifres106064 = ifres106065
+						ifres24458 = ifres24459
 
 					} else {
-						ifres106064 = False
+						ifres24458 = False
 
 					}
 
-					var ifres106063 Obj
+					var ifres24457 Obj
 
-					if True == ifres106064 {
-						ifres106063 = True
+					if True == ifres24458 {
+						ifres24457 = True
 
 					} else {
-						ifres106063 = False
+						ifres24457 = False
 
 					}
 
-					ifres106062 = ifres106063
+					ifres24456 = ifres24457
 
 				} else {
-					ifres106062 = False
+					ifres24456 = False
 
 				}
 
-				var ifres106061 Obj
+				var ifres24455 Obj
 
-				if True == ifres106062 {
-					ifres106061 = True
+				if True == ifres24456 {
+					ifres24455 = True
 
 				} else {
-					ifres106061 = False
+					ifres24455 = False
 
 				}
 
-				ifres106060 = ifres106061
+				ifres24454 = ifres24455
 
 			} else {
-				ifres106060 = False
+				ifres24454 = False
 
 			}
 
-			var ifres106059 Obj
+			var ifres24453 Obj
 
-			if True == ifres106060 {
-				ifres106059 = True
+			if True == ifres24454 {
+				ifres24453 = True
 
 			} else {
-				ifres106059 = False
+				ifres24453 = False
 
 			}
 
-			ifres106058 = ifres106059
+			ifres24452 = ifres24453
 
 		} else {
-			ifres106058 = False
+			ifres24452 = False
 
 		}
 
-		if True == ifres106058 {
-			tmp106053 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		if True == ifres24452 {
+			tmp24450 := PrimTail(V4786)
 
-			tmp106054 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			tmp24451 := PrimHead(tmp24450)
 
-			tmp106055 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp106056 := Call(__e, tmp106055, V4786)
-
-			tmp106057 := Call(__e, tmp106054, tmp106056)
-
-			__e.TailApply(tmp106053, tmp106057, Nil)
+			__e.Return(PrimCons(tmp24451, Nil))
 			return
 
 		} else {
-			tmp106051 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24449 := PrimIsPair(V4786)
 
-			tmp106052 := Call(__e, tmp106051, V4786)
+			var ifres24430 Obj
 
-			var ifres106021 Obj
+			if True == tmp24449 {
+				tmp24447 := PrimHead(V4786)
 
-			if True == tmp106052 {
-				tmp106047 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				tmp24448 := PrimEqual(symcons, tmp24447)
 
-				tmp106048 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				var ifres24432 Obj
 
-				tmp106049 := Call(__e, tmp106048, V4786)
+				if True == tmp24448 {
+					tmp24445 := PrimTail(V4786)
 
-				tmp106050 := Call(__e, tmp106047, symcons, tmp106049)
+					tmp24446 := PrimIsPair(tmp24445)
 
-				var ifres106023 Obj
+					var ifres24434 Obj
 
-				if True == tmp106050 {
-					tmp106043 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+					if True == tmp24446 {
+						tmp24442 := PrimTail(V4786)
 
-					tmp106044 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24443 := PrimTail(tmp24442)
 
-					tmp106045 := Call(__e, tmp106044, V4786)
+						tmp24444 := PrimIsPair(tmp24443)
 
-					tmp106046 := Call(__e, tmp106043, tmp106045)
+						var ifres24436 Obj
 
-					var ifres106025 Obj
+						if True == tmp24444 {
+							tmp24438 := PrimTail(V4786)
 
-					if True == tmp106046 {
-						tmp106037 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+							tmp24439 := PrimTail(tmp24438)
 
-						tmp106038 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							tmp24440 := PrimTail(tmp24439)
 
-						tmp106039 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							tmp24441 := PrimEqual(Nil, tmp24440)
 
-						tmp106040 := Call(__e, tmp106039, V4786)
+							var ifres24437 Obj
 
-						tmp106041 := Call(__e, tmp106038, tmp106040)
-
-						tmp106042 := Call(__e, tmp106037, tmp106041)
-
-						var ifres106027 Obj
-
-						if True == tmp106042 {
-							tmp106029 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
-
-							tmp106030 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106031 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106032 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106033 := Call(__e, tmp106032, V4786)
-
-							tmp106034 := Call(__e, tmp106031, tmp106033)
-
-							tmp106035 := Call(__e, tmp106030, tmp106034)
-
-							tmp106036 := Call(__e, tmp106029, Nil, tmp106035)
-
-							var ifres106028 Obj
-
-							if True == tmp106036 {
-								ifres106028 = True
+							if True == tmp24441 {
+								ifres24437 = True
 
 							} else {
-								ifres106028 = False
+								ifres24437 = False
 
 							}
 
-							ifres106027 = ifres106028
+							ifres24436 = ifres24437
 
 						} else {
-							ifres106027 = False
+							ifres24436 = False
 
 						}
 
-						var ifres106026 Obj
+						var ifres24435 Obj
 
-						if True == ifres106027 {
-							ifres106026 = True
+						if True == ifres24436 {
+							ifres24435 = True
 
 						} else {
-							ifres106026 = False
+							ifres24435 = False
 
 						}
 
-						ifres106025 = ifres106026
+						ifres24434 = ifres24435
 
 					} else {
-						ifres106025 = False
+						ifres24434 = False
 
 					}
 
-					var ifres106024 Obj
+					var ifres24433 Obj
 
-					if True == ifres106025 {
-						ifres106024 = True
+					if True == ifres24434 {
+						ifres24433 = True
 
 					} else {
-						ifres106024 = False
+						ifres24433 = False
 
 					}
 
-					ifres106023 = ifres106024
+					ifres24432 = ifres24433
 
 				} else {
-					ifres106023 = False
+					ifres24432 = False
 
 				}
 
-				var ifres106022 Obj
+				var ifres24431 Obj
 
-				if True == ifres106023 {
-					ifres106022 = True
+				if True == ifres24432 {
+					ifres24431 = True
 
 				} else {
-					ifres106022 = False
+					ifres24431 = False
 
 				}
 
-				ifres106021 = ifres106022
+				ifres24430 = ifres24431
 
 			} else {
-				ifres106021 = False
+				ifres24430 = False
 
 			}
 
-			if True == ifres106021 {
-				tmp106008 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			if True == ifres24430 {
+				tmp24424 := PrimTail(V4786)
 
-				tmp106009 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				tmp24425 := PrimHead(tmp24424)
 
-				tmp106010 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24426 := PrimTail(V4786)
 
-				tmp106011 := Call(__e, tmp106010, V4786)
+				tmp24427 := PrimTail(tmp24426)
 
-				tmp106012 := Call(__e, tmp106009, tmp106011)
+				tmp24428 := PrimHead(tmp24427)
 
-				tmp106013 := Call(__e, PrimNS1Value(symns2_1value), symshen_4decons)
+				tmp24429 := Call(__e, PrimNS2Value(symshen_4decons), tmp24428)
 
-				tmp106014 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-				tmp106015 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106016 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106017 := Call(__e, tmp106016, V4786)
-
-				tmp106018 := Call(__e, tmp106015, tmp106017)
-
-				tmp106019 := Call(__e, tmp106014, tmp106018)
-
-				tmp106020 := Call(__e, tmp106013, tmp106019)
-
-				__e.TailApply(tmp106008, tmp106012, tmp106020)
+				__e.Return(PrimCons(tmp24425, tmp24429))
 				return
 
 			} else {
@@ -2378,203 +1726,164 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp106100 := Call(__e, PrimNS1Value(symns2_1set), symshen_4decons, tmp106005)
+	tmp24478 := Call(__e, PrimNS1Value(symns2_1set), symshen_4decons, tmp24421)
 
-	_ = tmp106100
+	_ = tmp24478
 
-	tmp106101 := MakeNative(func(__e *ControlFlow) {
+	tmp24479 := MakeNative(func(__e *ControlFlow) {
 		V4801 := __e.Get(1)
 		_ = V4801
 		V4802 := __e.Get(2)
 		_ = V4802
 		V4803 := __e.Get(3)
 		_ = V4803
-		tmp106149 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24509 := PrimIsPair(V4803)
 
-		tmp106150 := Call(__e, tmp106149, V4803)
+		var ifres24484 Obj
 
-		var ifres106109 Obj
+		if True == tmp24509 {
+			tmp24507 := PrimHead(V4803)
 
-		if True == tmp106150 {
-			tmp106145 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+			tmp24508 := PrimEqual(symshen_4pair, tmp24507)
 
-			tmp106146 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			var ifres24486 Obj
 
-			tmp106147 := Call(__e, tmp106146, V4803)
+			if True == tmp24508 {
+				tmp24505 := PrimTail(V4803)
 
-			tmp106148 := Call(__e, tmp106145, symshen_4pair, tmp106147)
+				tmp24506 := PrimIsPair(tmp24505)
 
-			var ifres106111 Obj
+				var ifres24488 Obj
 
-			if True == tmp106148 {
-				tmp106141 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+				if True == tmp24506 {
+					tmp24502 := PrimTail(V4803)
 
-				tmp106142 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+					tmp24503 := PrimTail(tmp24502)
 
-				tmp106143 := Call(__e, tmp106142, V4803)
+					tmp24504 := PrimIsPair(tmp24503)
 
-				tmp106144 := Call(__e, tmp106141, tmp106143)
+					var ifres24490 Obj
 
-				var ifres106113 Obj
+					if True == tmp24504 {
+						tmp24498 := PrimTail(V4803)
 
-				if True == tmp106144 {
-					tmp106135 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+						tmp24499 := PrimTail(tmp24498)
 
-					tmp106136 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24500 := PrimTail(tmp24499)
 
-					tmp106137 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+						tmp24501 := PrimEqual(Nil, tmp24500)
 
-					tmp106138 := Call(__e, tmp106137, V4803)
+						var ifres24492 Obj
 
-					tmp106139 := Call(__e, tmp106136, tmp106138)
+						if True == tmp24501 {
+							tmp24494 := PrimTail(V4803)
 
-					tmp106140 := Call(__e, tmp106135, tmp106139)
+							tmp24495 := PrimTail(tmp24494)
 
-					var ifres106115 Obj
+							tmp24496 := PrimHead(tmp24495)
 
-					if True == tmp106140 {
-						tmp106127 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+							tmp24497 := PrimEqual(tmp24496, V4802)
 
-						tmp106128 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+							var ifres24493 Obj
 
-						tmp106129 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-						tmp106130 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-						tmp106131 := Call(__e, tmp106130, V4803)
-
-						tmp106132 := Call(__e, tmp106129, tmp106131)
-
-						tmp106133 := Call(__e, tmp106128, tmp106132)
-
-						tmp106134 := Call(__e, tmp106127, Nil, tmp106133)
-
-						var ifres106117 Obj
-
-						if True == tmp106134 {
-							tmp106119 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
-
-							tmp106120 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-							tmp106121 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106122 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-							tmp106123 := Call(__e, tmp106122, V4803)
-
-							tmp106124 := Call(__e, tmp106121, tmp106123)
-
-							tmp106125 := Call(__e, tmp106120, tmp106124)
-
-							tmp106126 := Call(__e, tmp106119, tmp106125, V4802)
-
-							var ifres106118 Obj
-
-							if True == tmp106126 {
-								ifres106118 = True
+							if True == tmp24497 {
+								ifres24493 = True
 
 							} else {
-								ifres106118 = False
+								ifres24493 = False
 
 							}
 
-							ifres106117 = ifres106118
+							ifres24492 = ifres24493
 
 						} else {
-							ifres106117 = False
+							ifres24492 = False
 
 						}
 
-						var ifres106116 Obj
+						var ifres24491 Obj
 
-						if True == ifres106117 {
-							ifres106116 = True
+						if True == ifres24492 {
+							ifres24491 = True
 
 						} else {
-							ifres106116 = False
+							ifres24491 = False
 
 						}
 
-						ifres106115 = ifres106116
+						ifres24490 = ifres24491
 
 					} else {
-						ifres106115 = False
+						ifres24490 = False
 
 					}
 
-					var ifres106114 Obj
+					var ifres24489 Obj
 
-					if True == ifres106115 {
-						ifres106114 = True
+					if True == ifres24490 {
+						ifres24489 = True
 
 					} else {
-						ifres106114 = False
+						ifres24489 = False
 
 					}
 
-					ifres106113 = ifres106114
+					ifres24488 = ifres24489
 
 				} else {
-					ifres106113 = False
+					ifres24488 = False
 
 				}
 
-				var ifres106112 Obj
+				var ifres24487 Obj
 
-				if True == ifres106113 {
-					ifres106112 = True
+				if True == ifres24488 {
+					ifres24487 = True
 
 				} else {
-					ifres106112 = False
+					ifres24487 = False
 
 				}
 
-				ifres106111 = ifres106112
+				ifres24486 = ifres24487
 
 			} else {
-				ifres106111 = False
+				ifres24486 = False
 
 			}
 
-			var ifres106110 Obj
+			var ifres24485 Obj
 
-			if True == ifres106111 {
-				ifres106110 = True
+			if True == ifres24486 {
+				ifres24485 = True
 
 			} else {
-				ifres106110 = False
+				ifres24485 = False
 
 			}
 
-			ifres106109 = ifres106110
+			ifres24484 = ifres24485
 
 		} else {
-			ifres106109 = False
+			ifres24484 = False
 
 		}
 
-		if True == ifres106109 {
+		if True == ifres24484 {
 			__e.Return(V4801)
 			return
 		} else {
-			tmp106107 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24483 := PrimIsPair(V4803)
 
-			tmp106108 := Call(__e, tmp106107, V4803)
-
-			if True == tmp106108 {
-				tmp106104 := Call(__e, PrimNS1Value(symns2_1value), symmap)
-
-				tmp106105 := MakeNative(func(__e *ControlFlow) {
+			if True == tmp24483 {
+				tmp24482 := MakeNative(func(__e *ControlFlow) {
 					Z := __e.Get(1)
 					_ = Z
-					tmp106106 := Call(__e, PrimNS1Value(symns2_1value), symshen_4insert_1runon)
-
-					__e.TailApply(tmp106106, V4801, V4802, Z)
+					__e.TailApply(PrimNS2Value(symshen_4insert_1runon), V4801, V4802, Z)
 					return
-
 				}, 1)
 
-				__e.TailApply(tmp106104, tmp106105, V4803)
+				__e.TailApply(PrimNS2Value(symmap), tmp24482, V4803)
 				return
 
 			} else {
@@ -2586,381 +1895,250 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 3)
 
-	tmp106151 := Call(__e, PrimNS1Value(symns2_1set), symshen_4insert_1runon, tmp106101)
+	tmp24510 := Call(__e, PrimNS1Value(symns2_1set), symshen_4insert_1runon, tmp24479)
 
-	_ = tmp106151
+	_ = tmp24510
 
-	tmp106152 := MakeNative(func(__e *ControlFlow) {
+	tmp24511 := MakeNative(func(__e *ControlFlow) {
 		V4809 := __e.Get(1)
 		_ = V4809
-		tmp106161 := Call(__e, PrimNS1Value(symns2_1value), symnot)
+		tmp24516 := Call(__e, PrimNS2Value(symelement_2), MakeString("."), V4809)
 
-		tmp106162 := Call(__e, PrimNS1Value(symns2_1value), symelement_2)
+		tmp24517 := PrimNot(tmp24516)
 
-		tmp106163 := Call(__e, tmp106162, MakeString("."), V4809)
-
-		tmp106164 := Call(__e, tmp106161, tmp106163)
-
-		if True == tmp106164 {
+		if True == tmp24517 {
 			__e.Return(V4809)
 			return
 		} else {
-			tmp106159 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24515 := PrimIsPair(V4809)
 
-			tmp106160 := Call(__e, tmp106159, V4809)
+			if True == tmp24515 {
+				tmp24514 := PrimTail(V4809)
 
-			if True == tmp106160 {
-				tmp106156 := Call(__e, PrimNS1Value(symns2_1value), symshen_4strip_1pathname)
-
-				tmp106157 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106158 := Call(__e, tmp106157, V4809)
-
-				__e.TailApply(tmp106156, tmp106158)
+				__e.TailApply(PrimNS2Value(symshen_4strip_1pathname), tmp24514)
 				return
 
 			} else {
-				tmp106155 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-				__e.TailApply(tmp106155, symshen_4strip_1pathname)
+				__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4strip_1pathname)
 				return
-
 			}
 
 		}
 
 	}, 1)
 
-	tmp106165 := Call(__e, PrimNS1Value(symns2_1set), symshen_4strip_1pathname, tmp106152)
+	tmp24518 := Call(__e, PrimNS1Value(symns2_1set), symshen_4strip_1pathname, tmp24511)
 
-	_ = tmp106165
+	_ = tmp24518
 
-	tmp106166 := MakeNative(func(__e *ControlFlow) {
+	tmp24519 := MakeNative(func(__e *ControlFlow) {
 		V4813 := __e.Get(1)
 		_ = V4813
 		V4814 := __e.Get(2)
 		_ = V4814
 		V4815 := __e.Get(3)
 		_ = V4815
-		tmp106223 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24549 := PrimIsPair(V4813)
 
-		tmp106224 := Call(__e, tmp106223, V4813)
-
-		if True == tmp106224 {
-			tmp106169 := MakeNative(func(__e *ControlFlow) {
+		if True == tmp24549 {
+			tmp24521 := MakeNative(func(__e *ControlFlow) {
 				Test := __e.Get(1)
 				_ = Test
-				tmp106170 := MakeNative(func(__e *ControlFlow) {
+				tmp24522 := MakeNative(func(__e *ControlFlow) {
 					Action := __e.Get(1)
 					_ = Action
-					tmp106171 := MakeNative(func(__e *ControlFlow) {
+					tmp24523 := MakeNative(func(__e *ControlFlow) {
 						Else := __e.Get(1)
 						_ = Else
-						tmp106172 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24524 := PrimHead(V4813)
 
-						tmp106173 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24525 := Call(__e, PrimNS2Value(symconcat), symParse__, tmp24524)
 
-						tmp106174 := Call(__e, PrimNS1Value(symns2_1value), symconcat)
+						tmp24526 := PrimCons(symfail, Nil)
 
-						tmp106175 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+						tmp24527 := PrimHead(V4813)
 
-						tmp106176 := Call(__e, tmp106175, V4813)
+						tmp24528 := Call(__e, PrimNS2Value(symconcat), symParse__, tmp24527)
 
-						tmp106177 := Call(__e, tmp106174, symParse__, tmp106176)
+						tmp24529 := PrimCons(tmp24528, Nil)
 
-						tmp106178 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24530 := PrimCons(tmp24526, tmp24529)
 
-						tmp106179 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24531 := PrimCons(sym_a, tmp24530)
 
-						tmp106180 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24532 := PrimCons(tmp24531, Nil)
 
-						tmp106181 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24533 := PrimCons(symnot, tmp24532)
 
-						tmp106182 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24534 := PrimCons(Else, Nil)
 
-						tmp106183 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24535 := PrimCons(Action, tmp24534)
 
-						tmp106184 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24536 := PrimCons(tmp24533, tmp24535)
 
-						tmp106185 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24537 := PrimCons(symif, tmp24536)
 
-						tmp106186 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24538 := PrimCons(tmp24537, Nil)
 
-						tmp106187 := Call(__e, tmp106186, symfail, Nil)
+						tmp24539 := PrimCons(Test, tmp24538)
 
-						tmp106188 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24540 := PrimCons(tmp24525, tmp24539)
 
-						tmp106189 := Call(__e, PrimNS1Value(symns2_1value), symconcat)
-
-						tmp106190 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-						tmp106191 := Call(__e, tmp106190, V4813)
-
-						tmp106192 := Call(__e, tmp106189, symParse__, tmp106191)
-
-						tmp106193 := Call(__e, tmp106188, tmp106192, Nil)
-
-						tmp106194 := Call(__e, tmp106185, tmp106187, tmp106193)
-
-						tmp106195 := Call(__e, tmp106184, sym_a, tmp106194)
-
-						tmp106196 := Call(__e, tmp106183, tmp106195, Nil)
-
-						tmp106197 := Call(__e, tmp106182, symnot, tmp106196)
-
-						tmp106198 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp106199 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp106200 := Call(__e, tmp106199, Else, Nil)
-
-						tmp106201 := Call(__e, tmp106198, Action, tmp106200)
-
-						tmp106202 := Call(__e, tmp106181, tmp106197, tmp106201)
-
-						tmp106203 := Call(__e, tmp106180, symif, tmp106202)
-
-						tmp106204 := Call(__e, tmp106179, tmp106203, Nil)
-
-						tmp106205 := Call(__e, tmp106178, Test, tmp106204)
-
-						tmp106206 := Call(__e, tmp106173, tmp106177, tmp106205)
-
-						__e.TailApply(tmp106172, symlet, tmp106206)
+						__e.Return(PrimCons(symlet, tmp24540))
 						return
 
 					}, 1)
 
-					tmp106207 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24541 := PrimCons(symfail, Nil)
 
-					tmp106208 := Call(__e, tmp106207, symfail, Nil)
-
-					__e.TailApply(tmp106171, tmp106208)
+					__e.TailApply(tmp24523, tmp24541)
 					return
 
 				}, 1)
 
-				tmp106209 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
+				tmp24542 := PrimTail(V4813)
 
-				tmp106210 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24543 := PrimHead(V4813)
 
-				tmp106211 := Call(__e, tmp106210, V4813)
+				tmp24544 := Call(__e, PrimNS2Value(symconcat), symParse__, tmp24543)
 
-				tmp106212 := Call(__e, PrimNS1Value(symns2_1value), symconcat)
+				tmp24545 := Call(__e, PrimNS2Value(symshen_4syntax), tmp24542, tmp24544, V4815)
 
-				tmp106213 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-				tmp106214 := Call(__e, tmp106213, V4813)
-
-				tmp106215 := Call(__e, tmp106212, symParse__, tmp106214)
-
-				tmp106216 := Call(__e, tmp106209, tmp106211, tmp106215, V4815)
-
-				__e.TailApply(tmp106170, tmp106216)
+				__e.TailApply(tmp24522, tmp24545)
 				return
 
 			}, 1)
 
-			tmp106217 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24546 := PrimHead(V4813)
 
-			tmp106218 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			tmp24547 := PrimCons(V4814, Nil)
 
-			tmp106219 := Call(__e, tmp106218, V4813)
+			tmp24548 := PrimCons(tmp24546, tmp24547)
 
-			tmp106220 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp106221 := Call(__e, tmp106220, V4814, Nil)
-
-			tmp106222 := Call(__e, tmp106217, tmp106219, tmp106221)
-
-			__e.TailApply(tmp106169, tmp106222)
+			__e.TailApply(tmp24521, tmp24548)
 			return
 
 		} else {
-			tmp106168 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp106168, symshen_4recursive__descent)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4recursive__descent)
 			return
-
 		}
 
 	}, 3)
 
-	tmp106225 := Call(__e, PrimNS1Value(symns2_1set), symshen_4recursive__descent, tmp106166)
+	tmp24550 := Call(__e, PrimNS1Value(symns2_1set), symshen_4recursive__descent, tmp24519)
 
-	_ = tmp106225
+	_ = tmp24550
 
-	tmp106226 := MakeNative(func(__e *ControlFlow) {
+	tmp24551 := MakeNative(func(__e *ControlFlow) {
 		V4819 := __e.Get(1)
 		_ = V4819
 		V4820 := __e.Get(2)
 		_ = V4820
 		V4821 := __e.Get(3)
 		_ = V4821
-		tmp106283 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24581 := PrimIsPair(V4819)
 
-		tmp106284 := Call(__e, tmp106283, V4819)
-
-		if True == tmp106284 {
-			tmp106229 := MakeNative(func(__e *ControlFlow) {
+		if True == tmp24581 {
+			tmp24553 := MakeNative(func(__e *ControlFlow) {
 				Test := __e.Get(1)
 				_ = Test
-				tmp106230 := MakeNative(func(__e *ControlFlow) {
+				tmp24554 := MakeNative(func(__e *ControlFlow) {
 					Action := __e.Get(1)
 					_ = Action
-					tmp106231 := MakeNative(func(__e *ControlFlow) {
+					tmp24555 := MakeNative(func(__e *ControlFlow) {
 						Else := __e.Get(1)
 						_ = Else
-						tmp106232 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24556 := PrimCons(Else, Nil)
 
-						tmp106233 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24557 := PrimCons(Action, tmp24556)
 
-						tmp106234 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24558 := PrimCons(Test, tmp24557)
 
-						tmp106235 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp106236 := Call(__e, tmp106235, Else, Nil)
-
-						tmp106237 := Call(__e, tmp106234, Action, tmp106236)
-
-						tmp106238 := Call(__e, tmp106233, Test, tmp106237)
-
-						__e.TailApply(tmp106232, symif, tmp106238)
+						__e.Return(PrimCons(symif, tmp24558))
 						return
 
 					}, 1)
 
-					tmp106239 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24559 := PrimCons(symfail, Nil)
 
-					tmp106240 := Call(__e, tmp106239, symfail, Nil)
-
-					__e.TailApply(tmp106231, tmp106240)
+					__e.TailApply(tmp24555, tmp24559)
 					return
 
 				}, 1)
 
-				tmp106241 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24560 := PrimHead(V4819)
 
-				tmp106242 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24561 := Call(__e, PrimNS2Value(symconcat), symParse__, tmp24560)
 
-				tmp106243 := Call(__e, PrimNS1Value(symns2_1value), symconcat)
+				tmp24562 := PrimCons(V4820, Nil)
 
-				tmp106244 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+				tmp24563 := PrimCons(symshen_4hdhd, tmp24562)
 
-				tmp106245 := Call(__e, tmp106244, V4819)
+				tmp24564 := PrimTail(V4819)
 
-				tmp106246 := Call(__e, tmp106243, symParse__, tmp106245)
+				tmp24565 := PrimCons(V4820, Nil)
 
-				tmp106247 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24566 := PrimCons(symshen_4tlhd, tmp24565)
 
-				tmp106248 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24567 := PrimCons(V4820, Nil)
 
-				tmp106249 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24568 := PrimCons(symshen_4hdtl, tmp24567)
 
-				tmp106250 := Call(__e, tmp106249, V4820, Nil)
+				tmp24569 := PrimCons(tmp24568, Nil)
 
-				tmp106251 := Call(__e, tmp106248, symshen_4hdhd, tmp106250)
+				tmp24570 := PrimCons(tmp24566, tmp24569)
 
-				tmp106252 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24571 := PrimCons(symshen_4pair, tmp24570)
 
-				tmp106253 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
+				tmp24572 := Call(__e, PrimNS2Value(symshen_4syntax), tmp24564, tmp24571, V4821)
 
-				tmp106254 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24573 := PrimCons(tmp24572, Nil)
 
-				tmp106255 := Call(__e, tmp106254, V4819)
+				tmp24574 := PrimCons(tmp24563, tmp24573)
 
-				tmp106256 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24575 := PrimCons(tmp24561, tmp24574)
 
-				tmp106257 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24576 := PrimCons(symlet, tmp24575)
 
-				tmp106258 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106259 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106260 := Call(__e, tmp106259, V4820, Nil)
-
-				tmp106261 := Call(__e, tmp106258, symshen_4tlhd, tmp106260)
-
-				tmp106262 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106263 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106264 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106265 := Call(__e, tmp106264, V4820, Nil)
-
-				tmp106266 := Call(__e, tmp106263, symshen_4hdtl, tmp106265)
-
-				tmp106267 := Call(__e, tmp106262, tmp106266, Nil)
-
-				tmp106268 := Call(__e, tmp106257, tmp106261, tmp106267)
-
-				tmp106269 := Call(__e, tmp106256, symshen_4pair, tmp106268)
-
-				tmp106270 := Call(__e, tmp106253, tmp106255, tmp106269, V4821)
-
-				tmp106271 := Call(__e, tmp106252, tmp106270, Nil)
-
-				tmp106272 := Call(__e, tmp106247, tmp106251, tmp106271)
-
-				tmp106273 := Call(__e, tmp106242, tmp106246, tmp106272)
-
-				tmp106274 := Call(__e, tmp106241, symlet, tmp106273)
-
-				__e.TailApply(tmp106230, tmp106274)
+				__e.TailApply(tmp24554, tmp24576)
 				return
 
 			}, 1)
 
-			tmp106275 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24577 := PrimCons(V4820, Nil)
 
-			tmp106276 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24578 := PrimCons(symhd, tmp24577)
 
-			tmp106277 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24579 := PrimCons(tmp24578, Nil)
 
-			tmp106278 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24580 := PrimCons(symcons_2, tmp24579)
 
-			tmp106279 := Call(__e, tmp106278, V4820, Nil)
-
-			tmp106280 := Call(__e, tmp106277, symhd, tmp106279)
-
-			tmp106281 := Call(__e, tmp106276, tmp106280, Nil)
-
-			tmp106282 := Call(__e, tmp106275, symcons_2, tmp106281)
-
-			__e.TailApply(tmp106229, tmp106282)
+			__e.TailApply(tmp24553, tmp24580)
 			return
 
 		} else {
-			tmp106228 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp106228, symshen_4variable_1match)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4variable_1match)
 			return
-
 		}
 
 	}, 3)
 
-	tmp106285 := Call(__e, PrimNS1Value(symns2_1set), symshen_4variable_1match, tmp106226)
+	tmp24582 := Call(__e, PrimNS1Value(symns2_1set), symshen_4variable_1match, tmp24551)
 
-	_ = tmp106285
+	_ = tmp24582
 
-	tmp106286 := MakeNative(func(__e *ControlFlow) {
+	tmp24583 := MakeNative(func(__e *ControlFlow) {
 		V4831 := __e.Get(1)
 		_ = V4831
-		tmp106291 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24587 := PrimIsPair(V4831)
 
-		tmp106292 := Call(__e, tmp106291, V4831)
-
-		if True == tmp106292 {
+		if True == tmp24587 {
 			__e.Return(False)
 			return
 		} else {
-			tmp106289 := Call(__e, PrimNS1Value(symns2_1value), symvariable_2)
+			tmp24586 := PrimIsVariable(V4831)
 
-			tmp106290 := Call(__e, tmp106289, V4831)
-
-			if True == tmp106290 {
+			if True == tmp24586 {
 				__e.Return(False)
 				return
 			} else {
@@ -2972,18 +2150,16 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp106293 := Call(__e, PrimNS1Value(symns2_1set), symshen_4terminal_2, tmp106286)
+	tmp24588 := Call(__e, PrimNS1Value(symns2_1set), symshen_4terminal_2, tmp24583)
 
-	_ = tmp106293
+	_ = tmp24588
 
-	tmp106294 := MakeNative(func(__e *ControlFlow) {
+	tmp24589 := MakeNative(func(__e *ControlFlow) {
 		V4837 := __e.Get(1)
 		_ = V4837
-		tmp106296 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+		tmp24591 := PrimEqual(V4837, sym__)
 
-		tmp106297 := Call(__e, tmp106296, V4837, sym__)
-
-		if True == tmp106297 {
+		if True == tmp24591 {
 			__e.Return(True)
 			return
 		} else {
@@ -2993,379 +2169,247 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp106298 := Call(__e, PrimNS1Value(symns2_1set), symshen_4jump__stream_2, tmp106294)
+	tmp24592 := Call(__e, PrimNS1Value(symns2_1set), symshen_4jump__stream_2, tmp24589)
 
-	_ = tmp106298
+	_ = tmp24592
 
-	tmp106299 := MakeNative(func(__e *ControlFlow) {
+	tmp24593 := MakeNative(func(__e *ControlFlow) {
 		V4841 := __e.Get(1)
 		_ = V4841
 		V4842 := __e.Get(2)
 		_ = V4842
 		V4843 := __e.Get(3)
 		_ = V4843
-		tmp106369 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24630 := PrimIsPair(V4841)
 
-		tmp106370 := Call(__e, tmp106369, V4841)
-
-		if True == tmp106370 {
-			tmp106302 := MakeNative(func(__e *ControlFlow) {
+		if True == tmp24630 {
+			tmp24595 := MakeNative(func(__e *ControlFlow) {
 				Test := __e.Get(1)
 				_ = Test
-				tmp106303 := MakeNative(func(__e *ControlFlow) {
+				tmp24596 := MakeNative(func(__e *ControlFlow) {
 					NewStr := __e.Get(1)
 					_ = NewStr
-					tmp106304 := MakeNative(func(__e *ControlFlow) {
+					tmp24597 := MakeNative(func(__e *ControlFlow) {
 						Action := __e.Get(1)
 						_ = Action
-						tmp106305 := MakeNative(func(__e *ControlFlow) {
+						tmp24598 := MakeNative(func(__e *ControlFlow) {
 							Else := __e.Get(1)
 							_ = Else
-							tmp106306 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+							tmp24599 := PrimCons(Else, Nil)
 
-							tmp106307 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+							tmp24600 := PrimCons(Action, tmp24599)
 
-							tmp106308 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+							tmp24601 := PrimCons(Test, tmp24600)
 
-							tmp106309 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-							tmp106310 := Call(__e, tmp106309, Else, Nil)
-
-							tmp106311 := Call(__e, tmp106308, Action, tmp106310)
-
-							tmp106312 := Call(__e, tmp106307, Test, tmp106311)
-
-							__e.TailApply(tmp106306, symif, tmp106312)
+							__e.Return(PrimCons(symif, tmp24601))
 							return
 
 						}, 1)
 
-						tmp106313 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24602 := PrimCons(symfail, Nil)
 
-						tmp106314 := Call(__e, tmp106313, symfail, Nil)
-
-						__e.TailApply(tmp106305, tmp106314)
+						__e.TailApply(tmp24598, tmp24602)
 						return
 
 					}, 1)
 
-					tmp106315 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24603 := PrimCons(V4842, Nil)
 
-					tmp106316 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24604 := PrimCons(symshen_4tlhd, tmp24603)
 
-					tmp106317 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24605 := PrimCons(V4842, Nil)
 
-					tmp106318 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24606 := PrimCons(symshen_4hdtl, tmp24605)
 
-					tmp106319 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24607 := PrimCons(tmp24606, Nil)
 
-					tmp106320 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24608 := PrimCons(tmp24604, tmp24607)
 
-					tmp106321 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24609 := PrimCons(symshen_4pair, tmp24608)
 
-					tmp106322 := Call(__e, tmp106321, V4842, Nil)
+					tmp24610 := PrimTail(V4841)
 
-					tmp106323 := Call(__e, tmp106320, symshen_4tlhd, tmp106322)
+					tmp24611 := Call(__e, PrimNS2Value(symshen_4syntax), tmp24610, NewStr, V4843)
 
-					tmp106324 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24612 := PrimCons(tmp24611, Nil)
 
-					tmp106325 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24613 := PrimCons(tmp24609, tmp24612)
 
-					tmp106326 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24614 := PrimCons(NewStr, tmp24613)
 
-					tmp106327 := Call(__e, tmp106326, V4842, Nil)
+					tmp24615 := PrimCons(symlet, tmp24614)
 
-					tmp106328 := Call(__e, tmp106325, symshen_4hdtl, tmp106327)
-
-					tmp106329 := Call(__e, tmp106324, tmp106328, Nil)
-
-					tmp106330 := Call(__e, tmp106319, tmp106323, tmp106329)
-
-					tmp106331 := Call(__e, tmp106318, symshen_4pair, tmp106330)
-
-					tmp106332 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-					tmp106333 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
-
-					tmp106334 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-					tmp106335 := Call(__e, tmp106334, V4841)
-
-					tmp106336 := Call(__e, tmp106333, tmp106335, NewStr, V4843)
-
-					tmp106337 := Call(__e, tmp106332, tmp106336, Nil)
-
-					tmp106338 := Call(__e, tmp106317, tmp106331, tmp106337)
-
-					tmp106339 := Call(__e, tmp106316, NewStr, tmp106338)
-
-					tmp106340 := Call(__e, tmp106315, symlet, tmp106339)
-
-					__e.TailApply(tmp106304, tmp106340)
+					__e.TailApply(tmp24597, tmp24615)
 					return
 
 				}, 1)
 
-				tmp106341 := Call(__e, PrimNS1Value(symns2_1value), symgensym)
+				tmp24616 := Call(__e, PrimNS2Value(symgensym), symNewStream)
 
-				tmp106342 := Call(__e, tmp106341, symNewStream)
-
-				__e.TailApply(tmp106303, tmp106342)
+				__e.TailApply(tmp24596, tmp24616)
 				return
 
 			}, 1)
 
-			tmp106343 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24617 := PrimCons(V4842, Nil)
 
-			tmp106344 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24618 := PrimCons(symhd, tmp24617)
 
-			tmp106345 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24619 := PrimCons(tmp24618, Nil)
 
-			tmp106346 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24620 := PrimCons(symcons_2, tmp24619)
 
-			tmp106347 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24621 := PrimHead(V4841)
 
-			tmp106348 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24622 := PrimCons(V4842, Nil)
 
-			tmp106349 := Call(__e, tmp106348, V4842, Nil)
+			tmp24623 := PrimCons(symshen_4hdhd, tmp24622)
 
-			tmp106350 := Call(__e, tmp106347, symhd, tmp106349)
+			tmp24624 := PrimCons(tmp24623, Nil)
 
-			tmp106351 := Call(__e, tmp106346, tmp106350, Nil)
+			tmp24625 := PrimCons(tmp24621, tmp24624)
 
-			tmp106352 := Call(__e, tmp106345, symcons_2, tmp106351)
+			tmp24626 := PrimCons(sym_a, tmp24625)
 
-			tmp106353 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24627 := PrimCons(tmp24626, Nil)
 
-			tmp106354 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24628 := PrimCons(tmp24620, tmp24627)
 
-			tmp106355 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24629 := PrimCons(symand, tmp24628)
 
-			tmp106356 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-			tmp106357 := Call(__e, tmp106356, V4841)
-
-			tmp106358 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp106359 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp106360 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp106361 := Call(__e, tmp106360, V4842, Nil)
-
-			tmp106362 := Call(__e, tmp106359, symshen_4hdhd, tmp106361)
-
-			tmp106363 := Call(__e, tmp106358, tmp106362, Nil)
-
-			tmp106364 := Call(__e, tmp106355, tmp106357, tmp106363)
-
-			tmp106365 := Call(__e, tmp106354, sym_a, tmp106364)
-
-			tmp106366 := Call(__e, tmp106353, tmp106365, Nil)
-
-			tmp106367 := Call(__e, tmp106344, tmp106352, tmp106366)
-
-			tmp106368 := Call(__e, tmp106343, symand, tmp106367)
-
-			__e.TailApply(tmp106302, tmp106368)
+			__e.TailApply(tmp24595, tmp24629)
 			return
 
 		} else {
-			tmp106301 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp106301, symshen_4check__stream)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4check__stream)
 			return
-
 		}
 
 	}, 3)
 
-	tmp106371 := Call(__e, PrimNS1Value(symns2_1set), symshen_4check__stream, tmp106299)
+	tmp24631 := Call(__e, PrimNS1Value(symns2_1set), symshen_4check__stream, tmp24593)
 
-	_ = tmp106371
+	_ = tmp24631
 
-	tmp106372 := MakeNative(func(__e *ControlFlow) {
+	tmp24632 := MakeNative(func(__e *ControlFlow) {
 		V4847 := __e.Get(1)
 		_ = V4847
 		V4848 := __e.Get(2)
 		_ = V4848
 		V4849 := __e.Get(3)
 		_ = V4849
-		tmp106413 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24654 := PrimIsPair(V4847)
 
-		tmp106414 := Call(__e, tmp106413, V4847)
-
-		if True == tmp106414 {
-			tmp106375 := MakeNative(func(__e *ControlFlow) {
+		if True == tmp24654 {
+			tmp24634 := MakeNative(func(__e *ControlFlow) {
 				Test := __e.Get(1)
 				_ = Test
-				tmp106376 := MakeNative(func(__e *ControlFlow) {
+				tmp24635 := MakeNative(func(__e *ControlFlow) {
 					Action := __e.Get(1)
 					_ = Action
-					tmp106377 := MakeNative(func(__e *ControlFlow) {
+					tmp24636 := MakeNative(func(__e *ControlFlow) {
 						Else := __e.Get(1)
 						_ = Else
-						tmp106378 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24637 := PrimCons(Else, Nil)
 
-						tmp106379 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24638 := PrimCons(Action, tmp24637)
 
-						tmp106380 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+						tmp24639 := PrimCons(Test, tmp24638)
 
-						tmp106381 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-						tmp106382 := Call(__e, tmp106381, Else, Nil)
-
-						tmp106383 := Call(__e, tmp106380, Action, tmp106382)
-
-						tmp106384 := Call(__e, tmp106379, Test, tmp106383)
-
-						__e.TailApply(tmp106378, symif, tmp106384)
+						__e.Return(PrimCons(symif, tmp24639))
 						return
 
 					}, 1)
 
-					tmp106385 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+					tmp24640 := PrimCons(symfail, Nil)
 
-					tmp106386 := Call(__e, tmp106385, symfail, Nil)
-
-					__e.TailApply(tmp106377, tmp106386)
+					__e.TailApply(tmp24636, tmp24640)
 					return
 
 				}, 1)
 
-				tmp106387 := Call(__e, PrimNS1Value(symns2_1value), symshen_4syntax)
+				tmp24641 := PrimTail(V4847)
 
-				tmp106388 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+				tmp24642 := PrimCons(V4848, Nil)
 
-				tmp106389 := Call(__e, tmp106388, V4847)
+				tmp24643 := PrimCons(symshen_4tlhd, tmp24642)
 
-				tmp106390 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24644 := PrimCons(V4848, Nil)
 
-				tmp106391 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24645 := PrimCons(symshen_4hdtl, tmp24644)
 
-				tmp106392 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24646 := PrimCons(tmp24645, Nil)
 
-				tmp106393 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24647 := PrimCons(tmp24643, tmp24646)
 
-				tmp106394 := Call(__e, tmp106393, V4848, Nil)
+				tmp24648 := PrimCons(symshen_4pair, tmp24647)
 
-				tmp106395 := Call(__e, tmp106392, symshen_4tlhd, tmp106394)
+				tmp24649 := Call(__e, PrimNS2Value(symshen_4syntax), tmp24641, tmp24648, V4849)
 
-				tmp106396 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106397 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106398 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106399 := Call(__e, tmp106398, V4848, Nil)
-
-				tmp106400 := Call(__e, tmp106397, symshen_4hdtl, tmp106399)
-
-				tmp106401 := Call(__e, tmp106396, tmp106400, Nil)
-
-				tmp106402 := Call(__e, tmp106391, tmp106395, tmp106401)
-
-				tmp106403 := Call(__e, tmp106390, symshen_4pair, tmp106402)
-
-				tmp106404 := Call(__e, tmp106387, tmp106389, tmp106403, V4849)
-
-				__e.TailApply(tmp106376, tmp106404)
+				__e.TailApply(tmp24635, tmp24649)
 				return
 
 			}, 1)
 
-			tmp106405 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24650 := PrimCons(V4848, Nil)
 
-			tmp106406 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24651 := PrimCons(symhd, tmp24650)
 
-			tmp106407 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24652 := PrimCons(tmp24651, Nil)
 
-			tmp106408 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24653 := PrimCons(symcons_2, tmp24652)
 
-			tmp106409 := Call(__e, tmp106408, V4848, Nil)
-
-			tmp106410 := Call(__e, tmp106407, symhd, tmp106409)
-
-			tmp106411 := Call(__e, tmp106406, tmp106410, Nil)
-
-			tmp106412 := Call(__e, tmp106405, symcons_2, tmp106411)
-
-			__e.TailApply(tmp106375, tmp106412)
+			__e.TailApply(tmp24634, tmp24653)
 			return
 
 		} else {
-			tmp106374 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp106374, symshen_4jump__stream)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), symshen_4jump__stream)
 			return
-
 		}
 
 	}, 3)
 
-	tmp106415 := Call(__e, PrimNS1Value(symns2_1set), symshen_4jump__stream, tmp106372)
+	tmp24655 := Call(__e, PrimNS1Value(symns2_1set), symshen_4jump__stream, tmp24632)
 
-	_ = tmp106415
+	_ = tmp24655
 
-	tmp106416 := MakeNative(func(__e *ControlFlow) {
+	tmp24656 := MakeNative(func(__e *ControlFlow) {
 		V4851 := __e.Get(1)
 		_ = V4851
-		tmp106436 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+		tmp24667 := PrimEqual(Nil, V4851)
 
-		tmp106437 := Call(__e, tmp106436, Nil, V4851)
-
-		if True == tmp106437 {
+		if True == tmp24667 {
 			__e.Return(Nil)
 			return
 		} else {
-			tmp106434 := Call(__e, PrimNS1Value(symns2_1value), symshen_4grammar__symbol_2)
+			tmp24666 := Call(__e, PrimNS2Value(symshen_4grammar__symbol_2), V4851)
 
-			tmp106435 := Call(__e, tmp106434, V4851)
+			if True == tmp24666 {
+				tmp24664 := Call(__e, PrimNS2Value(symconcat), symParse__, V4851)
 
-			if True == tmp106435 {
-				tmp106429 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+				tmp24665 := PrimCons(tmp24664, Nil)
 
-				tmp106430 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-				tmp106431 := Call(__e, PrimNS1Value(symns2_1value), symconcat)
-
-				tmp106432 := Call(__e, tmp106431, symParse__, V4851)
-
-				tmp106433 := Call(__e, tmp106430, tmp106432, Nil)
-
-				__e.TailApply(tmp106429, symshen_4hdtl, tmp106433)
+				__e.Return(PrimCons(symshen_4hdtl, tmp24665))
 				return
 
 			} else {
-				tmp106427 := Call(__e, PrimNS1Value(symns2_1value), symvariable_2)
+				tmp24663 := PrimIsVariable(V4851)
 
-				tmp106428 := Call(__e, tmp106427, V4851)
-
-				if True == tmp106428 {
-					tmp106426 := Call(__e, PrimNS1Value(symns2_1value), symconcat)
-
-					__e.TailApply(tmp106426, symParse__, V4851)
+				if True == tmp24663 {
+					__e.TailApply(PrimNS2Value(symconcat), symParse__, V4851)
 					return
-
 				} else {
-					tmp106424 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+					tmp24662 := PrimIsPair(V4851)
 
-					tmp106425 := Call(__e, tmp106424, V4851)
-
-					if True == tmp106425 {
-						tmp106421 := Call(__e, PrimNS1Value(symns2_1value), symmap)
-
-						tmp106422 := MakeNative(func(__e *ControlFlow) {
+					if True == tmp24662 {
+						tmp24661 := MakeNative(func(__e *ControlFlow) {
 							Z := __e.Get(1)
 							_ = Z
-							tmp106423 := Call(__e, PrimNS1Value(symns2_1value), symshen_4semantics)
-
-							__e.TailApply(tmp106423, Z)
+							__e.TailApply(PrimNS2Value(symshen_4semantics), Z)
 							return
-
 						}, 1)
 
-						__e.TailApply(tmp106421, tmp106422, V4851)
+						__e.TailApply(PrimNS2Value(symmap), tmp24661, V4851)
 						return
 
 					} else {
@@ -3381,371 +2425,294 @@ var YaccMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 1)
 
-	tmp106438 := Call(__e, PrimNS1Value(symns2_1set), symshen_4semantics, tmp106416)
+	tmp24668 := Call(__e, PrimNS1Value(symns2_1set), symshen_4semantics, tmp24656)
 
-	_ = tmp106438
+	_ = tmp24668
 
-	tmp106439 := MakeNative(func(__e *ControlFlow) {
+	tmp24669 := MakeNative(func(__e *ControlFlow) {
 		V4854 := __e.Get(1)
 		_ = V4854
 		V4855 := __e.Get(2)
 		_ = V4855
-		tmp106440 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		tmp24670 := PrimCons(V4855, Nil)
 
-		tmp106441 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-		tmp106442 := Call(__e, tmp106441, V4855, Nil)
-
-		__e.TailApply(tmp106440, V4854, tmp106442)
+		__e.Return(PrimCons(V4854, tmp24670))
 		return
 
 	}, 2)
 
-	tmp106443 := Call(__e, PrimNS1Value(symns2_1set), symshen_4pair, tmp106439)
+	tmp24671 := Call(__e, PrimNS1Value(symns2_1set), symshen_4pair, tmp24669)
 
-	_ = tmp106443
+	_ = tmp24671
 
-	tmp106444 := MakeNative(func(__e *ControlFlow) {
+	tmp24672 := MakeNative(func(__e *ControlFlow) {
 		V4857 := __e.Get(1)
 		_ = V4857
-		tmp106445 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+		tmp24673 := PrimTail(V4857)
 
-		tmp106446 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-		tmp106447 := Call(__e, tmp106446, V4857)
-
-		__e.TailApply(tmp106445, tmp106447)
+		__e.Return(PrimHead(tmp24673))
 		return
 
 	}, 1)
 
-	tmp106448 := Call(__e, PrimNS1Value(symns2_1set), symshen_4hdtl, tmp106444)
+	tmp24674 := Call(__e, PrimNS1Value(symns2_1set), symshen_4hdtl, tmp24672)
 
-	_ = tmp106448
+	_ = tmp24674
 
-	tmp106449 := MakeNative(func(__e *ControlFlow) {
+	tmp24675 := MakeNative(func(__e *ControlFlow) {
 		V4859 := __e.Get(1)
 		_ = V4859
-		tmp106450 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+		tmp24676 := PrimHead(V4859)
 
-		tmp106451 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-		tmp106452 := Call(__e, tmp106451, V4859)
-
-		__e.TailApply(tmp106450, tmp106452)
+		__e.Return(PrimHead(tmp24676))
 		return
 
 	}, 1)
 
-	tmp106453 := Call(__e, PrimNS1Value(symns2_1set), symshen_4hdhd, tmp106449)
+	tmp24677 := Call(__e, PrimNS1Value(symns2_1set), symshen_4hdhd, tmp24675)
 
-	_ = tmp106453
+	_ = tmp24677
 
-	tmp106454 := MakeNative(func(__e *ControlFlow) {
+	tmp24678 := MakeNative(func(__e *ControlFlow) {
 		V4861 := __e.Get(1)
 		_ = V4861
-		tmp106455 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+		tmp24679 := PrimHead(V4861)
 
-		tmp106456 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-		tmp106457 := Call(__e, tmp106456, V4861)
-
-		__e.TailApply(tmp106455, tmp106457)
+		__e.Return(PrimTail(tmp24679))
 		return
 
 	}, 1)
 
-	tmp106458 := Call(__e, PrimNS1Value(symns2_1set), symshen_4tlhd, tmp106454)
+	tmp24680 := Call(__e, PrimNS1Value(symns2_1set), symshen_4tlhd, tmp24678)
 
-	_ = tmp106458
+	_ = tmp24680
 
-	tmp106459 := MakeNative(func(__e *ControlFlow) {
+	tmp24681 := MakeNative(func(__e *ControlFlow) {
 		V4869 := __e.Get(1)
 		_ = V4869
-		tmp106479 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24693 := PrimIsPair(V4869)
 
-		tmp106480 := Call(__e, tmp106479, V4869)
+		var ifres24684 Obj
 
-		var ifres106465 Obj
+		if True == tmp24693 {
+			tmp24691 := PrimTail(V4869)
 
-		if True == tmp106480 {
-			tmp106475 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24692 := PrimIsPair(tmp24691)
 
-			tmp106476 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			var ifres24686 Obj
 
-			tmp106477 := Call(__e, tmp106476, V4869)
+			if True == tmp24692 {
+				tmp24688 := PrimTail(V4869)
 
-			tmp106478 := Call(__e, tmp106475, tmp106477)
+				tmp24689 := PrimTail(tmp24688)
 
-			var ifres106467 Obj
+				tmp24690 := PrimEqual(Nil, tmp24689)
 
-			if True == tmp106478 {
-				tmp106469 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				var ifres24687 Obj
 
-				tmp106470 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106471 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106472 := Call(__e, tmp106471, V4869)
-
-				tmp106473 := Call(__e, tmp106470, tmp106472)
-
-				tmp106474 := Call(__e, tmp106469, Nil, tmp106473)
-
-				var ifres106468 Obj
-
-				if True == tmp106474 {
-					ifres106468 = True
+				if True == tmp24690 {
+					ifres24687 = True
 
 				} else {
-					ifres106468 = False
+					ifres24687 = False
 
 				}
 
-				ifres106467 = ifres106468
+				ifres24686 = ifres24687
 
 			} else {
-				ifres106467 = False
+				ifres24686 = False
 
 			}
 
-			var ifres106466 Obj
+			var ifres24685 Obj
 
-			if True == ifres106467 {
-				ifres106466 = True
+			if True == ifres24686 {
+				ifres24685 = True
 
 			} else {
-				ifres106466 = False
+				ifres24685 = False
 
 			}
 
-			ifres106465 = ifres106466
+			ifres24684 = ifres24685
 
 		} else {
-			ifres106465 = False
+			ifres24684 = False
 
 		}
 
-		if True == ifres106465 {
-			tmp106462 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+		if True == ifres24684 {
+			tmp24683 := PrimTail(V4869)
 
-			tmp106463 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-			tmp106464 := Call(__e, tmp106463, V4869)
-
-			__e.TailApply(tmp106462, tmp106464)
+			__e.Return(PrimHead(tmp24683))
 			return
 
 		} else {
-			tmp106461 := Call(__e, PrimNS1Value(symns2_1value), symfail)
-
-			__e.TailApply(tmp106461)
+			__e.TailApply(PrimNS2Value(symfail))
 			return
-
 		}
 
 	}, 1)
 
-	tmp106481 := Call(__e, PrimNS1Value(symns2_1set), symshen_4snd_1or_1fail, tmp106459)
+	tmp24694 := Call(__e, PrimNS1Value(symns2_1set), symshen_4snd_1or_1fail, tmp24681)
 
-	_ = tmp106481
+	_ = tmp24694
 
-	tmp106482 := MakeNative(func(__e *ControlFlow) {
+	tmp24695 := MakeNative(func(__e *ControlFlow) {
 		__e.Return(symshen_4fail_b)
 		return
 	}, 0)
 
-	tmp106483 := Call(__e, PrimNS1Value(symns2_1set), symfail, tmp106482)
+	tmp24696 := Call(__e, PrimNS1Value(symns2_1set), symfail, tmp24695)
 
-	_ = tmp106483
+	_ = tmp24696
 
-	tmp106484 := MakeNative(func(__e *ControlFlow) {
+	tmp24697 := MakeNative(func(__e *ControlFlow) {
 		V4877 := __e.Get(1)
 		_ = V4877
-		tmp106506 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24710 := PrimIsPair(V4877)
 
-		tmp106507 := Call(__e, tmp106506, V4877)
+		var ifres24701 Obj
 
-		var ifres106492 Obj
+		if True == tmp24710 {
+			tmp24708 := PrimTail(V4877)
 
-		if True == tmp106507 {
-			tmp106502 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24709 := PrimIsPair(tmp24708)
 
-			tmp106503 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			var ifres24703 Obj
 
-			tmp106504 := Call(__e, tmp106503, V4877)
+			if True == tmp24709 {
+				tmp24705 := PrimTail(V4877)
 
-			tmp106505 := Call(__e, tmp106502, tmp106504)
+				tmp24706 := PrimTail(tmp24705)
 
-			var ifres106494 Obj
+				tmp24707 := PrimEqual(Nil, tmp24706)
 
-			if True == tmp106505 {
-				tmp106496 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				var ifres24704 Obj
 
-				tmp106497 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106498 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106499 := Call(__e, tmp106498, V4877)
-
-				tmp106500 := Call(__e, tmp106497, tmp106499)
-
-				tmp106501 := Call(__e, tmp106496, Nil, tmp106500)
-
-				var ifres106495 Obj
-
-				if True == tmp106501 {
-					ifres106495 = True
+				if True == tmp24707 {
+					ifres24704 = True
 
 				} else {
-					ifres106495 = False
+					ifres24704 = False
 
 				}
 
-				ifres106494 = ifres106495
+				ifres24703 = ifres24704
 
 			} else {
-				ifres106494 = False
+				ifres24703 = False
 
 			}
 
-			var ifres106493 Obj
+			var ifres24702 Obj
 
-			if True == ifres106494 {
-				ifres106493 = True
+			if True == ifres24703 {
+				ifres24702 = True
 
 			} else {
-				ifres106493 = False
+				ifres24702 = False
 
 			}
 
-			ifres106492 = ifres106493
+			ifres24701 = ifres24702
 
 		} else {
-			ifres106492 = False
+			ifres24701 = False
 
 		}
 
-		if True == ifres106492 {
-			tmp106487 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		if True == ifres24701 {
+			tmp24699 := PrimHead(V4877)
 
-			tmp106488 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+			tmp24700 := PrimCons(tmp24699, Nil)
 
-			tmp106489 := Call(__e, PrimNS1Value(symns2_1value), symhd)
-
-			tmp106490 := Call(__e, tmp106489, V4877)
-
-			tmp106491 := Call(__e, tmp106488, tmp106490, Nil)
-
-			__e.TailApply(tmp106487, Nil, tmp106491)
+			__e.Return(PrimCons(Nil, tmp24700))
 			return
 
 		} else {
-			tmp106486 := Call(__e, PrimNS1Value(symns2_1value), symfail)
-
-			__e.TailApply(tmp106486)
+			__e.TailApply(PrimNS2Value(symfail))
 			return
-
 		}
 
 	}, 1)
 
-	tmp106508 := Call(__e, PrimNS1Value(symns2_1set), sym_5_b_6, tmp106484)
+	tmp24711 := Call(__e, PrimNS1Value(symns2_1set), sym_5_b_6, tmp24697)
 
-	_ = tmp106508
+	_ = tmp24711
 
-	tmp106509 := MakeNative(func(__e *ControlFlow) {
+	tmp24712 := MakeNative(func(__e *ControlFlow) {
 		V4883 := __e.Get(1)
 		_ = V4883
-		tmp106531 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+		tmp24725 := PrimIsPair(V4883)
 
-		tmp106532 := Call(__e, tmp106531, V4883)
+		var ifres24716 Obj
 
-		var ifres106517 Obj
+		if True == tmp24725 {
+			tmp24723 := PrimTail(V4883)
 
-		if True == tmp106532 {
-			tmp106527 := Call(__e, PrimNS1Value(symns2_1value), symcons_2)
+			tmp24724 := PrimIsPair(tmp24723)
 
-			tmp106528 := Call(__e, PrimNS1Value(symns2_1value), symtl)
+			var ifres24718 Obj
 
-			tmp106529 := Call(__e, tmp106528, V4883)
+			if True == tmp24724 {
+				tmp24720 := PrimTail(V4883)
 
-			tmp106530 := Call(__e, tmp106527, tmp106529)
+				tmp24721 := PrimTail(tmp24720)
 
-			var ifres106519 Obj
+				tmp24722 := PrimEqual(Nil, tmp24721)
 
-			if True == tmp106530 {
-				tmp106521 := Call(__e, PrimNS1Value(symns2_1value), sym_a)
+				var ifres24719 Obj
 
-				tmp106522 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106523 := Call(__e, PrimNS1Value(symns2_1value), symtl)
-
-				tmp106524 := Call(__e, tmp106523, V4883)
-
-				tmp106525 := Call(__e, tmp106522, tmp106524)
-
-				tmp106526 := Call(__e, tmp106521, Nil, tmp106525)
-
-				var ifres106520 Obj
-
-				if True == tmp106526 {
-					ifres106520 = True
+				if True == tmp24722 {
+					ifres24719 = True
 
 				} else {
-					ifres106520 = False
+					ifres24719 = False
 
 				}
 
-				ifres106519 = ifres106520
+				ifres24718 = ifres24719
 
 			} else {
-				ifres106519 = False
+				ifres24718 = False
 
 			}
 
-			var ifres106518 Obj
+			var ifres24717 Obj
 
-			if True == ifres106519 {
-				ifres106518 = True
+			if True == ifres24718 {
+				ifres24717 = True
 
 			} else {
-				ifres106518 = False
+				ifres24717 = False
 
 			}
 
-			ifres106517 = ifres106518
+			ifres24716 = ifres24717
 
 		} else {
-			ifres106517 = False
+			ifres24716 = False
 
 		}
 
-		if True == ifres106517 {
-			tmp106512 := Call(__e, PrimNS1Value(symns2_1value), symcons)
+		if True == ifres24716 {
+			tmp24714 := PrimHead(V4883)
 
-			tmp106513 := Call(__e, PrimNS1Value(symns2_1value), symhd)
+			tmp24715 := PrimCons(Nil, Nil)
 
-			tmp106514 := Call(__e, tmp106513, V4883)
-
-			tmp106515 := Call(__e, PrimNS1Value(symns2_1value), symcons)
-
-			tmp106516 := Call(__e, tmp106515, Nil, Nil)
-
-			__e.TailApply(tmp106512, tmp106514, tmp106516)
+			__e.Return(PrimCons(tmp24714, tmp24715))
 			return
 
 		} else {
-			tmp106511 := Call(__e, PrimNS1Value(symns2_1value), symshen_4f__error)
-
-			__e.TailApply(tmp106511, sym_5e_6)
+			__e.TailApply(PrimNS2Value(symshen_4f__error), sym_5e_6)
 			return
-
 		}
 
 	}, 1)
 
-	__e.TailApply(PrimNS1Value(symns2_1set), sym_5e_6, tmp106509)
+	__e.TailApply(PrimNS1Value(symns2_1set), sym_5e_6, tmp24712)
 	return
 
 }, 0)

@@ -172,9 +172,18 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 		cg.generateExpr(w, b)
 		fmt.Fprintln(w)
 	case "$global":
-		sym := Car(Cdr(sexp))
+		// ($global ns xx)
+		ns := Cadr(sexp)
+		sym := Car(Cdr(Cdr(sexp)))
 		cg.declare[sym] = struct{}{}
-		fmt.Fprintf(w, "PrimNS1Value(sym%s)", symbolAsVar(sym))
+		switch GetInteger(ns) {
+		case 1:
+			fmt.Fprintf(w, "PrimNS1Value(sym%s)", symbolAsVar(sym))
+		case 2:
+			fmt.Fprintf(w, "PrimNS2Value(sym%s)", symbolAsVar(sym))
+		default:
+			return errors.New("illegeal $global instruction")
+		}
 	case "$const":
 		// (const Number)
 		// (const ())
@@ -186,7 +195,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 	case "lambda":
 		// (lambda (p1 p2 ...) ...)
 		tmp := Car(Cdr(sexp))
-		args := ListToSlice(tmp)
+		args := listToSlice(tmp)
 		fmt.Fprintf(w, "MakeNative(func(__e *ControlFlow) {\n")
 		for i, arg := range args {
 			fmt.Fprintf(w, "%s := __e.Get(%d)\n", symbolAsVar(arg), i+1)
@@ -219,9 +228,17 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 		cg.generateExpr(w, val)
 		fmt.Fprintf(w, ")\nreturn\n")
 	case "call":
-		// ($call f a b c ...)
+		// (call f a b c ...)
+		ok, err := cg.primitiveCallOptimize(w, sexp, false)
+		if err != nil {
+			return err
+		}
+		if ok {
+			return nil
+		}
+
 		fmt.Fprintf(w, "Call(__e, ")
-		args := ListToSlice(Cdr(sexp))
+		args := listToSlice(Cdr(sexp))
 		for i, arg := range args {
 			if i != 0 {
 				fmt.Fprintf(w, ", ")
@@ -236,9 +253,17 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 		}
 		fmt.Fprintf(w, ")\n")
 	case "tailapply":
-		// ($call f a b c ...)
+		// (tailapply f a b c ...)
+		ok, err := cg.primitiveCallOptimize(w, sexp, true)
+		if err != nil {
+			return err
+		}
+		if ok {
+			return nil
+		}
+
 		fmt.Fprintf(w, "__e.TailApply(")
-		args := ListToSlice(Cdr(sexp))
+		args := listToSlice(Cdr(sexp))
 		for i, arg := range args {
 			if i != 0 {
 				fmt.Fprintf(w, ", ")
@@ -257,7 +282,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 		sym := GetSymbol(Car(Cdr(sexp)))
 		prim := Primitives[sym].Name
 		fmt.Fprintf(w, "%s(", prim)
-		args := ListToSlice(Cdr(Cdr(sexp)))
+		args := listToSlice(Cdr(Cdr(sexp)))
 		for i, arg := range args {
 			if i != 0 {
 				fmt.Fprintf(w, ", ")
@@ -271,7 +296,7 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 			}
 		}
 		fmt.Fprintf(w, ")")
-		fmt.Fprintln(w)
+		// fmt.Fprintln(w)
 	case "try-catch":
 		// (try-catch body handle)
 		body := Car(Cdr(sexp))
@@ -322,11 +347,115 @@ func (cg *codeGenerator) generateIfExpr(w io.Writer, a, b, c Obj) error {
 	return nil
 }
 
-func ListToSlice(l Obj) []Obj {
+func listToSlice(l Obj) []Obj {
 	var ret []Obj
 	for PrimIsPair(l) == True {
 		ret = append(ret, Car(l))
 		l = Cdr(l)
 	}
 	return ret
+}
+
+var symGlobal = MakeSymbol("$global")
+var symConst = MakeSymbol("$const")
+
+func (cg *codeGenerator) primitiveCallOptimize(w io.Writer, sexp Obj, tail bool) (bool, error) {
+	// (call ($global ns XX) ...)
+	// (tailapply ($global ns XX) ...)
+	fn := Cadr(sexp)
+	if PrimIsPair(fn) == False || Car(fn) != symGlobal {
+		return false, nil
+	}
+	ns := Cadr(fn)
+	global := Cadr(Cdr(fn))
+	str := GetSymbol(global)
+	args := listToSlice(Cdr(Cdr(sexp)))
+	var primName string
+	switch GetInteger(ns){
+		case 1:
+		prim, ok := Primitives[str]
+		if !ok || prim.Arity != len(args) {
+			return false, nil
+		}
+		primName = prim.Name
+		case 2:
+		prim, ok := shenPrimitive[str]
+		if !ok || prim.Arity != len(args) {
+			return false, nil
+		}
+		primName = prim.Name
+	}
+
+	// ($prim f a b c ...)
+	if tail {
+		fmt.Fprintf(w, "__e.Return(")
+	}
+
+	fmt.Fprintf(w, "%s(", primName)
+	for i, arg := range args {
+		if i != 0 {
+			fmt.Fprintf(w, ", ")
+		}
+		if IsSymbol(arg) {
+			fmt.Fprintf(w, "%s", symbolAsVar(arg))
+		} else {
+			if err := cg.generateExpr(w, arg); err != nil {
+				return true, err
+			}
+		}
+	}
+	fmt.Fprintf(w, ")")
+
+	if tail {
+		fmt.Fprintf(w, ")\nreturn\n")
+	}
+	return true, nil
+}
+
+var shenPrimitive = map[string]struct {
+	Arity int
+	Name  string
+}{
+	"get-time":              {1, "PrimGetTime"},
+	"close":                 {1, "PrimCloseStream"},
+	"open":                  {2, "PrimOpenStream"},
+	"read-byte":             {1, "PrimReadByte"},
+	"write-byte":            {2, "PrimWriteByte"},
+	"absvector?":            {1, "PrimIsVector"},
+	"<-address":             {2, "PrimVectorGet"},
+	"address->":             {3, "PrimVectorSet"},
+	"absvector":             {1, "PrimAbsvector"},
+	"str":                   {1, "PrimStr"},
+	"<=":                    {2, "PrimLessEqual"},
+	">=":                    {2, "PrimGreatEqual"},
+	"<":                     {2, "PrimLessThan"},
+	">":                     {2, "PrimGreatThan"},
+	"error-to-string":       {1, "PrimErrorToString"},
+	"simple-error":          {1, "PrimSimpleError"},
+	"=":                     {2, "PrimEqual"},
+	"-":                     {2, "PrimNumberSubtract"},
+	"*":                     {2, "PrimNumberMultiply"},
+	"/":                     {2, "PrimNumberDivide"},
+	"+":                     {2, "PrimNumberAdd"},
+	"string->n":             {1, "PrimStringToNumber"},
+	"n->string":             {1, "PrimNumberToString"},
+	"number?":               {1, "PrimIsNumber"},
+	"string?":               {1, "PrimIsString"},
+	"pos":                   {2, "PrimPos"},
+	"tlstr":                 {1, "PrimTailString"},
+	"cn":                    {2, "PrimStringConcat"},
+	"intern":                {1, "PrimIntern"},
+	"hd":                    {1, "PrimHead"},
+	"tl":                    {1, "PrimTail"},
+	"cons":                  {2, "PrimCons"},
+	"cons?":                 {1, "PrimIsPair"},
+	"value":                 {1, "PrimNS3Value"},
+	"set":                   {2, "PrimNS3Set"},
+	"not":                   {1, "PrimNot"},
+	"if":                    {3, "PrimIf"},
+	"symbol?":               {1, "PrimIsSymbol"},
+	"read-file-as-bytelist": {1, "PrimReadFileAsByteList"},
+	"read-file-as-string":   {1, "PrimReadFileAsString"},
+	"variable?":             {1, "PrimIsVariable"},
+	"integer?":              {1, "PrimIsInteger"},
 }
