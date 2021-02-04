@@ -11,8 +11,8 @@
 
   env ['or x y] => (kl->cora env ['if x true ['if y true false]])
   env ['and x y] => (kl->cora env ['if x ['if y true false] false])
-  env ['cond [case action]] => (kl->cora env ['if case action ['simple-error "no cond match"]])
-  env ['cond [case action] . more] => (kl->cora env ['if case action ['cond . more]])
+  env ['cond [_case action]] => (kl->cora env ['if _case action ['simple-error "no cond match"]])
+  env ['cond [_case action] . more] => (kl->cora env ['if _case action ['cond . more]])
   env ['freeze body] => ['lambda [] (kl->cora env body)]
 
   env [f . x] => [(parse-app env f) . (map (kl->cora env) x)] where (symbol? f)

@@ -40,6 +40,7 @@ func regist(e *kl.ControlFlow) {
 		ExtensionFeaturesMain,
 		ExtensionLauncherMain,
 		ExtensionFactoriseDefunMain,
+		BuildMain,
 	} {
 		res := kl.Call(e, init)
 		if kl.IsError(res) {
@@ -62,7 +63,7 @@ func main() {
 	gopath := os.Getenv("GOPATH")
 	initFiles := []string{
 		filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/kl", "init.cora"),
-		filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/src", "build.cora"),
+		// filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/src", "build.cora"),
 	}
 	for _, file := range initFiles {
 		if _, err := os.Stat(file); err == nil {
