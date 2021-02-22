@@ -244,7 +244,11 @@
                 curr)))))))
 
 (defmacro match (exp)
-  (match-helper (cadr exp) (cddr exp)))
+  (let value (cadr exp)
+       (if (cons? value)
+           (let val (gensym 'val)
+                (list 'let val value (match-helper val (cddr exp))))
+         (match-helper value (cddr exp)))))
 
 ;; ================ the func macro ======================
 (defun extract-rules1 (input current result)

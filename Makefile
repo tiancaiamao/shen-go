@@ -3,13 +3,13 @@
 all: kl cora shen
 
 kl:
-	go1.16beta1 install github.com/tiancaiamao/shen-go/cmd/kl
+	go install github.com/tiancaiamao/shen-go/cmd/kl
 
 cora:
-	go1.16beta1 install github.com/tiancaiamao/shen-go/cmd/cora
+	go install github.com/tiancaiamao/shen-go/cmd/cora
 
 shen:
-	go1.16beta1 build -o shen github.com/tiancaiamao/shen-go/cmd/shen
+	go build -o shen github.com/tiancaiamao/shen-go/cmd/shen
 
 docker:
 	docker build -t shen-go .
@@ -18,4 +18,4 @@ docker:
 	cp -a /tmp/shen ./shen
 
 test:
-	cd kl; go1.16beta1 test
+	cd kl; go test
