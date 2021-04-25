@@ -14,17 +14,17 @@ type Obj *scmHead
 type scmHead int
 
 const (
-	scmHeadNumber    scmHead = 0
-	scmHeadPair              = 1
-	scmHeadVector            = 2
-	scmHeadNull              = 3
-	scmHeadString            = 4
-	scmHeadSymbol            = 5
-	scmHeadBoolean           = 6
-	scmHeadStream            = 17
-	scmHeadError             = 22
-	scmHeadNative            = 23
-	scmHeadRaw               = 42
+	scmHeadNumber  scmHead = 0
+	scmHeadPair            = 1
+	scmHeadVector          = 2
+	scmHeadNull            = 3
+	scmHeadString          = 4
+	scmHeadSymbol          = 5
+	scmHeadBoolean         = 6
+	scmHeadStream          = 17
+	scmHeadError           = 22
+	scmHeadNative          = 23
+	scmHeadRaw             = 42
 )
 
 type scmNumber struct {
@@ -372,9 +372,8 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-
 func makeClosure(params, body, env Obj) Obj {
-  return cons(symLambda, cons(params, cons(body, env)))
+	return cons(symLambda, cons(params, cons(body, env)))
 }
 
 func isClosure(o Obj) bool {

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
-	"path/filepath"
+	// "path/filepath"
 	"runtime"
 
 	"github.com/tiancaiamao/shen-go/kl"
@@ -60,19 +60,22 @@ func main() {
 	klInit()
 
 	kl.PrimNS1Set(symMacroExpand, kl.Nil)
-	gopath := os.Getenv("GOPATH")
-	initFiles := []string{
-		filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/kl", "init.cora"),
-		// filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/src", "build.cora"),
+	if err := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("cora.init"))); kl.IsError(err) {
+		os.Exit(-1)
 	}
-	for _, file := range initFiles {
-		if _, err := os.Stat(file); err == nil {
-			res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(file))
-			if kl.IsError(res) {
-				os.Exit(-1)
-			}
-		}
-	}
+	// gopath := os.Getenv("GOPATH")
+	// initFiles := []string{
+	// 	filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/kl", "init.cora"),
+	// filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/src", "build.cora"),
+	// }
+	// for _, file := range initFiles {
+	// 	if _, err := os.Stat(file); err == nil {
+	// 		res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(file))
+	// 		if kl.IsError(res) {
+	// 			os.Exit(-1)
+	// 		}
+	// 	}
+	// }
 
 	regist(&e)
 	evalKL(&e, kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))

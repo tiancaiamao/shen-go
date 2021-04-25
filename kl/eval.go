@@ -277,7 +277,6 @@ func envGet(env, sym Obj) Obj {
 	return Nil
 }
 
-
 // envExtend return the new (env, params, args)
 func envExtend(env Obj, params Obj, args []Obj) (Obj, Obj, []Obj) {
 	for params != Nil && len(args) > 0 {

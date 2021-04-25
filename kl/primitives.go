@@ -72,6 +72,7 @@ func init() {
 	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
 	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
 	PrimNS1Set(MakeSymbol("cora.init"), MakeNative(primCoraInit, 0))
+	PrimNS1Set(MakeSymbol("kl.init"), MakeNative(primKLInit, 0))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -768,11 +769,23 @@ func PrimNS3Value(key Obj) Obj {
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
-//go:embed init.cora
+//go:embed init.cora build.cora
 var initFS embed.FS
 
 func primCoraInit(e *ControlFlow) {
 	f, err := initFS.Open("init.cora")
+	if err != nil {
+		e.Return(MakeError(err.Error()))
+		return
+	}
+	defer f.Close()
+	r := NewSexpReader(f, true)
+	res := loadFileFromReader(e, true, r)
+	e.Return(res)
+}
+
+func primKLInit(e *ControlFlow) {
+	f, err := initFS.Open("build.cora")
 	if err != nil {
 		e.Return(MakeError(err.Error()))
 		return

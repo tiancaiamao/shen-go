@@ -371,14 +371,14 @@ func (cg *codeGenerator) primitiveCallOptimize(w io.Writer, sexp Obj, tail bool)
 	str := GetSymbol(global)
 	args := listToSlice(Cdr(Cdr(sexp)))
 	var primName string
-	switch GetInteger(ns){
-		case 1:
+	switch GetInteger(ns) {
+	case 1:
 		prim, ok := Primitives[str]
 		if !ok || prim.Arity != len(args) {
 			return false, nil
 		}
 		primName = prim.Name
-		case 2:
+	case 2:
 		prim, ok := shenPrimitive[str]
 		if !ok || prim.Arity != len(args) {
 			return false, nil
