@@ -3,6 +3,7 @@ package kl
 import (
 	"fmt"
 	"runtime"
+	"unsafe"
 )
 
 type ControlFlowKind int
@@ -210,6 +211,11 @@ func eval(e *ControlFlow) {
 	enableDebug := mustSymbol(symDebug).cora
 	if enableDebug != nil && enableDebug != Nil {
 		fmt.Println("eval === exp:", ObjString(exp))
+	}
+
+	if isFixnum(uintptr(unsafe.Pointer(exp))) {
+		e.Return(exp)
+		return
 	}
 
 	switch *exp {

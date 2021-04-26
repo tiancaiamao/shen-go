@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"syscall"
 	"time"
 	"unsafe"
 )
@@ -75,6 +76,13 @@ type scmNative struct {
 	captured []Obj
 }
 
+func objType(o Obj) scmHead {
+	if isFixnum(uintptr(unsafe.Pointer(o))) {
+		return scmHeadNumber
+	}
+	return *o
+}
+
 func MakeNative(fn func(*ControlFlow), require int, captured ...Obj) Obj {
 	tmp := scmNative{
 		scmHead:  scmHeadNative,
@@ -86,14 +94,14 @@ func MakeNative(fn func(*ControlFlow), require int, captured ...Obj) Obj {
 }
 
 func MustNative(o Obj) *scmNative {
-	if *o != scmHeadNative {
+	if objType(o) != scmHeadNative {
 		panic("mustNative")
 	}
 	return (*scmNative)(unsafe.Pointer(o))
 }
 
 func IsNative(o Obj) bool {
-	return *o == scmHeadNative
+	return objType(o) == scmHeadNative
 }
 
 type scmError struct {
@@ -120,22 +128,22 @@ func MakeError(err string) Obj {
 }
 
 func mustError(o Obj) *scmError {
-	if *o != scmHeadError {
+	if objType(o) != scmHeadError {
 		panic(MakeError("mustError"))
 	}
 	return (*scmError)(unsafe.Pointer(o))
 }
 
 func IsError(o Obj) bool {
-	return *o == scmHeadError
+	return objType(o) == scmHeadError
 }
 
 func IsNumber(o Obj) bool {
-	return *o == scmHeadNumber
+	return objType(o) == scmHeadNumber
 }
 
 func IsSymbol(o Obj) bool {
-	return *o == scmHeadSymbol
+	return objType(o) == scmHeadSymbol
 }
 
 func mustVector(o Obj) []Obj {
@@ -147,7 +155,7 @@ func mustVector(o Obj) []Obj {
 }
 
 func mustString(o Obj) string {
-	if (*o) != scmHeadString {
+	if objType(o) != scmHeadString {
 		panic(MakeError("mustString"))
 	}
 	return (*scmString)(unsafe.Pointer(o)).str
@@ -158,11 +166,11 @@ func fixnum(o Obj) int {
 }
 
 func mustInteger(o Obj) int {
+	if isFixnum(uintptr(unsafe.Pointer(o))) {
+		return fixnum(o)
+	}
 	if (*o) != scmHeadNumber {
 		panic(MakeError("mustNumber"))
-	}
-	if isFixnum(o) {
-		return fixnum(o)
 	}
 
 	f := (*scmNumber)(unsafe.Pointer(o)).val
@@ -170,7 +178,7 @@ func mustInteger(o Obj) int {
 }
 
 func GetInteger(o Obj) int {
-	if isFixnum(o) {
+	if isFixnum(uintptr(unsafe.Pointer(o))) {
 		return fixnum(o)
 	}
 	f := (*scmNumber)(unsafe.Pointer(o)).val
@@ -178,47 +186,49 @@ func GetInteger(o Obj) int {
 }
 
 func mustNumber(o Obj) float64 {
+	if isFixnum(uintptr(unsafe.Pointer(o))) {
+		return float64(fixnum(o))
+	}
 	if (*o) != scmHeadNumber {
 		panic(MakeError("mustNumber"))
-	}
-	if isFixnum(o) {
-		return float64(fixnum(o))
 	}
 	x := (*scmNumber)(unsafe.Pointer(o))
 	return x.val
 }
 
 func mustSymbol(o Obj) *scmSymbol {
-	if (*o) != scmHeadSymbol {
+	if objType(o) != scmHeadSymbol {
 		panic(MakeError("mustSymbol"))
 	}
 	return (*scmSymbol)(unsafe.Pointer(o))
 }
 
 func isSymbol(o Obj) (bool, *scmSymbol) {
-	if *o == scmHeadSymbol {
+	if objType(o) == scmHeadSymbol {
 		return true, (*scmSymbol)(unsafe.Pointer(o))
 	}
 	return false, nil
 }
 
 func mustStream(o Obj) *scmStream {
-	if (*o) != scmHeadStream {
+	if objType(o) != scmHeadStream {
 		panic(MakeError("mustStream"))
 	}
 	return (*scmStream)(unsafe.Pointer(o))
 }
 
 func mustPair(o Obj) *scmPair {
-	if (*o) != scmHeadPair {
-		fmt.Println(ObjString(o))
-		panic(MakeError("mustPair"))
-	}
+	/*
+		if objType(o) != scmHeadPair {
+			fmt.Println(ObjString(o))
+			panic(MakeError("mustPair"))
+		}
+	*/
 	return (*scmPair)(unsafe.Pointer(o))
 }
 
 func isPair(o Obj) (bool, *scmPair) {
-	if (*o) == scmHeadPair {
+	if objType(o) == scmHeadPair {
 		return true, (*scmPair)(unsafe.Pointer(o))
 	}
 	return false, nil
@@ -229,12 +239,10 @@ var uptime time.Time
 var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd Obj
 var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 
-var addrForFixnum [1 << 20]byte
+var fixnumBaseAddr uintptr
+var fixnumEndAddr uintptr
 
-const fixnumCount = 1 << 20
-
-var fixnumBaseAddr = uintptr(unsafe.Pointer(&addrForFixnum[0]))
-var fixnumEndAddr = fixnumBaseAddr + fixnumCount
+const fixnumCount = 1 << 30
 
 type trieNode struct {
 	children [256]*trieNode
@@ -261,6 +269,18 @@ func trieFindOrInsert(str string) *trieNode {
 }
 
 func init() {
+	// Create a mmap area for the memory address of fixnums.
+	data, err := syscall.Mmap(-1, /*fd int*/
+		0,                 /*offset int64*/
+		fixnumCount,       /*length int*/
+		syscall.PROT_READ, /*prot int*/
+		syscall.MAP_ANONYMOUS|syscall.MAP_PRIVATE /*flags int*/)
+	if err != nil {
+		panic(err)
+	}
+	fixnumBaseAddr = uintptr(unsafe.Pointer(&data[0]))
+	fixnumEndAddr = fixnumBaseAddr + fixnumCount
+
 	uptime = time.Now()
 	tmp1 := &scmBoolean{scmHeadBoolean, false}
 	False = Obj(&tmp1.scmHead)
@@ -295,8 +315,7 @@ func MakeInteger(v int) Obj {
 	return makeInteger(v)
 }
 
-func isFixnum(o Obj) bool {
-	v := uintptr(unsafe.Pointer(o))
+func isFixnum(v uintptr) bool {
 	if v >= fixnumBaseAddr && v < fixnumEndAddr {
 		return true
 	}
@@ -326,7 +345,7 @@ func MakeStream(raw interface{}) Obj {
 }
 
 func IsString(o Obj) bool {
-	return *o == scmHeadString
+	return objType(o) == scmHeadString
 }
 
 func GetString(o Obj) string {
@@ -377,7 +396,7 @@ func makeClosure(params, body, env Obj) Obj {
 }
 
 func isClosure(o Obj) bool {
-	return *o == scmHeadPair && car(o) == symLambda
+	return objType(o) == scmHeadPair && car(o) == symLambda
 }
 
 func ObjString(o Obj) string {
@@ -401,6 +420,9 @@ func (o *scmPair) fmt(buf io.Writer, start bool) {
 }
 
 func (o *scmHead) GoString() string {
+	if isFixnum(uintptr(unsafe.Pointer(o))) {
+		return fmt.Sprintf("%d", fixnum(o))
+	}
 	switch *o {
 	case scmHeadNumber:
 		f := mustNumber(o)

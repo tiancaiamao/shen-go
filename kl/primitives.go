@@ -9,6 +9,7 @@ import (
 	"plugin"
 	"runtime"
 	"time"
+	"unsafe"
 )
 
 var Primitives = map[string]struct {
@@ -119,7 +120,7 @@ func PrimTail(o Obj) Obj {
 }
 
 func PrimIsNumber(o Obj) Obj {
-	if *o == scmHeadNumber {
+	if objType(o) == scmHeadNumber {
 		return True
 	}
 	return False
@@ -137,6 +138,10 @@ func PrimNumberToString(o Obj) Obj {
 }
 
 func PrimStr(o Obj) Obj {
+	if isFixnum(uintptr(unsafe.Pointer(o))) {
+		return MakeString(fmt.Sprintf("%d", mustInteger(o)))
+	}
+
 	switch *o {
 	case scmHeadPair:
 		// This is actually a special representation for closure in cora.
@@ -152,9 +157,6 @@ func PrimStr(o Obj) Obj {
 		str := GetSymbol(o)
 		return MakeString(str)
 	case scmHeadNumber:
-		if isFixnum(o) {
-			return MakeString(fmt.Sprintf("%d", mustInteger(o)))
-		}
 		f := mustNumber(o)
 		if !isPreciseInteger(f) {
 			return MakeString(fmt.Sprintf("%f", f))
@@ -307,7 +309,7 @@ func PrimVectorGet(x, y Obj) Obj {
 }
 
 func PrimIsVector(x Obj) Obj {
-	if *x == scmHeadVector {
+	if objType(x) == scmHeadVector {
 		return True
 
 	}
@@ -387,7 +389,7 @@ func PrimGetTime(x Obj) Obj {
 }
 
 func PrimIsString(x Obj) Obj {
-	if *x == scmHeadString {
+	if objType(x) == scmHeadString {
 		return True
 
 	}
@@ -395,7 +397,7 @@ func PrimIsString(x Obj) Obj {
 }
 
 func PrimIsPair(x Obj) Obj {
-	if *x == scmHeadPair {
+	if objType(x) == scmHeadPair {
 		return True
 	}
 	return False
@@ -463,12 +465,12 @@ func PrimReadFileAsString(x Obj) Obj {
 }
 
 func PrimIsInteger(x Obj) Obj {
-	if *x != scmHeadNumber {
-		return False
+	if isFixnum(uintptr(unsafe.Pointer(x))) {
+		return True
 
 	}
-	if isFixnum(x) {
-		return True
+	if *x != scmHeadNumber {
+		return False
 
 	}
 	f := mustNumber(x)

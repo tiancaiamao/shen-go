@@ -2,6 +2,7 @@ package kl
 
 import (
 	"math"
+	"unsafe"
 )
 
 func cadr(o Obj) Obj {
@@ -33,13 +34,13 @@ func equal(x, y Obj) Obj {
 	if x == y {
 		return True
 	}
-	if *x != *y {
+	if isFixnum(uintptr(unsafe.Pointer(x))) || isFixnum(uintptr(unsafe.Pointer(y))) || *x != *y {
 		return False
 	}
 
 	switch *x {
 	case scmHeadNumber:
-		if !isFixnum(x) && !isFixnum(y) {
+		if !isFixnum(uintptr(unsafe.Pointer(x))) && !isFixnum(uintptr(unsafe.Pointer(y))) {
 			if mustNumber(x) == mustNumber(y) {
 				return True
 			}
