@@ -8,7 +8,7 @@ import (
 	"os"
 	"unsafe"
 
-	. "github.com/tiancaiamao/shen-go/kl"
+	. "github.com/tiancaiamao/shen-go/cora"
 )
 
 var makeCodeGenerator = MakeNative(func(e *ControlFlow) {

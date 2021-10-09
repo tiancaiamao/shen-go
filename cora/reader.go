@@ -1,4 +1,4 @@
-package kl
+package cora
 
 import (
 	"bufio"

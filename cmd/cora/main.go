@@ -8,7 +8,7 @@ import (
 	_ "net/http/pprof"
 	"os"
 
-	"github.com/tiancaiamao/shen-go/kl"
+	"github.com/tiancaiamao/shen-go/cora"
 )
 
 var (
@@ -21,7 +21,7 @@ func init() {
 	flag.BoolVar(&quiet, "quiet", false, "donot load init file")
 }
 
-var symMacroExpand = kl.MakeSymbol("macroexpand")
+var symMacroExpand = cora.MakeSymbol("macroexpand")
 
 func main() {
 	flag.Parse()
@@ -30,22 +30,22 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	var e kl.ControlFlow
-	kl.PrimNS1Set(symMacroExpand, kl.Nil)
-	kl.PrimNS1Set(kl.MakeSymbol("make-code-generator"), makeCodeGenerator)
-	kl.PrimNS1Set(kl.MakeSymbol("cg:bc->go"), bcToGo)
+	var e cora.ControlFlow
+	cora.PrimNS1Set(symMacroExpand, cora.Nil)
+	cora.PrimNS1Set(cora.MakeSymbol("make-code-generator"), makeCodeGenerator)
+	cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
 
 	if !quiet {
-		err := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("cora.init")))
-		if kl.IsError(err) {
+		err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init")))
+		if cora.IsError(err) {
 			os.Exit(-1)
 		}
 	}
 	repl(&e)
 }
 
-func repl(e *kl.ControlFlow) {
-	r := kl.NewSexpReader(os.Stdin, true)
+func repl(e *cora.ControlFlow) {
+	r := cora.NewSexpReader(os.Stdin, true)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()
@@ -56,13 +56,13 @@ func repl(e *kl.ControlFlow) {
 			break
 		}
 
-		expand := kl.PrimNS1Value(symMacroExpand)
-		if expand != kl.Nil {
-			sexp = kl.Call(e, expand, sexp)
+		expand := cora.PrimNS1Value(symMacroExpand)
+		if expand != cora.Nil {
+			sexp = cora.Call(e, expand, sexp)
 		}
 		// fmt.Println("after macroexpand = ", kl.ObjString(sexp))
 
-		res := kl.Eval(e, sexp)
-		fmt.Println(kl.ObjString(res))
+		res := cora.Eval(e, sexp)
+		fmt.Println(cora.ObjString(res))
 	}
 }

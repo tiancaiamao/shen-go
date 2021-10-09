@@ -1,4 +1,4 @@
-package kl
+package cora
 
 var Load = MakeNative(func(__e *ControlFlow) {
 	tmp176 := MakeNative(func(__e *ControlFlow) {
