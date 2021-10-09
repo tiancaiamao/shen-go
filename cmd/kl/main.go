@@ -10,7 +10,7 @@ import (
 	// "path/filepath"
 	"runtime"
 
-	"github.com/tiancaiamao/shen-go/kl"
+	"github.com/tiancaiamao/shen-go/cora"
 )
 
 var pprof bool
@@ -26,14 +26,14 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	var e kl.ControlFlow
+	var e cora.ControlFlow
 	klInit()
 
-	kl.PrimNS1Set(symMacroExpand, kl.Nil)
-	if err := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("cora.init"))); kl.IsError(err) {
+	cora.PrimNS1Set(symMacroExpand, cora.Nil)
+	if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init"))); cora.IsError(err) {
 		os.Exit(-1)
 	}
-	if err := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("kl.init"))); kl.IsError(err) {
+	if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("kl.init"))); cora.IsError(err) {
 		os.Exit(-1)
 	}
 	// gopath := os.Getenv("GOPATH")
@@ -51,7 +51,7 @@ func main() {
 	// }
 	// kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString("build.cora"))
 
-	r := kl.NewSexpReader(os.Stdin, false)
+	r := cora.NewSexpReader(os.Stdin, false)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()
@@ -62,14 +62,14 @@ func main() {
 			break
 		}
 		res := evalKL(&e, sexp)
-		fmt.Println(kl.ObjString(res))
+		fmt.Println(cora.ObjString(res))
 	}
 }
 
 var (
-	symMacroExpand = kl.MakeSymbol("macroexpand")
-	symEvalKL      = kl.MakeSymbol("eval-kl")
-	symKLToCora    = kl.MakeSymbol("kl->cora")
+	symMacroExpand = cora.MakeSymbol("macroexpand")
+	symEvalKL      = cora.MakeSymbol("eval-kl")
+	symKLToCora    = cora.MakeSymbol("kl->cora")
 )
 
 var klPrimitives = []struct {
@@ -77,136 +77,136 @@ var klPrimitives = []struct {
 	arity int
 	fn    interface{}
 }{
-	{"get-time", 1, kl.PrimGetTime},
-	{"close", 1, kl.PrimCloseStream},
-	{"open", 2, kl.PrimOpenStream},
-	{"read-byte", 1, kl.PrimReadByte},
-	{"write-byte", 2, kl.PrimWriteByte},
-	{"absvector?", 1, kl.PrimIsVector},
-	{"<-address", 2, kl.PrimVectorGet},
-	{"address->", 3, kl.PrimVectorSet},
-	{"absvector", 1, kl.PrimAbsvector},
-	{"str", 1, kl.PrimStr},
-	{"<=", 2, kl.PrimLessEqual},
-	{">=", 2, kl.PrimGreatEqual},
-	{"<", 2, kl.PrimLessThan},
-	{">", 2, kl.PrimGreatThan},
-	{"error-to-string", 1, kl.PrimErrorToString},
-	{"simple-error", 1, kl.PrimSimpleError},
-	{"=", 2, kl.PrimEqual},
-	{"-", 2, kl.PrimNumberSubtract},
-	{"*", 2, kl.PrimNumberMultiply},
-	{"/", 2, kl.PrimNumberDivide},
-	{"+", 2, kl.PrimNumberAdd},
-	{"string->n", 1, kl.PrimStringToNumber},
-	{"n->string", 1, kl.PrimNumberToString},
-	{"number?", 1, kl.PrimIsNumber},
-	{"string?", 1, kl.PrimIsString},
-	{"pos", 2, kl.PrimPos},
-	{"tlstr", 1, kl.PrimTailString},
-	{"cn", 2, kl.PrimStringConcat},
-	{"intern", 1, kl.PrimIntern},
-	{"hd", 1, kl.PrimHead},
-	{"tl", 1, kl.PrimTail},
-	{"cons", 2, kl.PrimCons},
-	{"cons?", 1, kl.PrimIsPair},
-	{"value", 1, kl.PrimNS3Value},
-	{"set", 2, kl.PrimNS3Set},
-	{"not", 1, kl.PrimNot},
-	{"if", 3, kl.PrimIf},
-	{"symbol?", 1, kl.PrimIsSymbol},
-	{"read-file-as-bytelist", 1, kl.PrimReadFileAsByteList},
-	{"read-file-as-string", 1, kl.PrimReadFileAsString},
+	{"get-time", 1, cora.PrimGetTime},
+	{"close", 1, cora.PrimCloseStream},
+	{"open", 2, cora.PrimOpenStream},
+	{"read-byte", 1, cora.PrimReadByte},
+	{"write-byte", 2, cora.PrimWriteByte},
+	{"absvector?", 1, cora.PrimIsVector},
+	{"<-address", 2, cora.PrimVectorGet},
+	{"address->", 3, cora.PrimVectorSet},
+	{"absvector", 1, cora.PrimAbsvector},
+	{"str", 1, cora.PrimStr},
+	{"<=", 2, cora.PrimLessEqual},
+	{">=", 2, cora.PrimGreatEqual},
+	{"<", 2, cora.PrimLessThan},
+	{">", 2, cora.PrimGreatThan},
+	{"error-to-string", 1, cora.PrimErrorToString},
+	{"simple-error", 1, cora.PrimSimpleError},
+	{"=", 2, cora.PrimEqual},
+	{"-", 2, cora.PrimNumberSubtract},
+	{"*", 2, cora.PrimNumberMultiply},
+	{"/", 2, cora.PrimNumberDivide},
+	{"+", 2, cora.PrimNumberAdd},
+	{"string->n", 1, cora.PrimStringToNumber},
+	{"n->string", 1, cora.PrimNumberToString},
+	{"number?", 1, cora.PrimIsNumber},
+	{"string?", 1, cora.PrimIsString},
+	{"pos", 2, cora.PrimPos},
+	{"tlstr", 1, cora.PrimTailString},
+	{"cn", 2, cora.PrimStringConcat},
+	{"intern", 1, cora.PrimIntern},
+	{"hd", 1, cora.PrimHead},
+	{"tl", 1, cora.PrimTail},
+	{"cons", 2, cora.PrimCons},
+	{"cons?", 1, cora.PrimIsPair},
+	{"value", 1, cora.PrimNS3Value},
+	{"set", 2, cora.PrimNS3Set},
+	{"not", 1, cora.PrimNot},
+	{"if", 3, cora.PrimIf},
+	{"symbol?", 1, cora.PrimIsSymbol},
+	{"read-file-as-bytelist", 1, cora.PrimReadFileAsByteList},
+	{"read-file-as-string", 1, cora.PrimReadFileAsString},
 	{"variable?", 1, PrimIsVariable},
-	{"integer?", 1, kl.PrimIsInteger},
+	{"integer?", 1, cora.PrimIsInteger},
 }
 
 func klInit() {
 	// kl.BindSymbolFunc(kl.MakeSymbol("load-file"), kl.MakeNative(primLoadFile(false), 1))
-	kl.PrimNS1Set(kl.MakeSymbol("ns2-set"), kl.MakePrimitive("ns2-set", 2, kl.PrimNS2Set))
-	kl.PrimNS1Set(kl.MakeSymbol("ns2-value"), kl.MakePrimitive("ns2-value", 1, kl.PrimNS2Value))
+	cora.PrimNS1Set(cora.MakeSymbol("ns2-set"), cora.MakePrimitive("ns2-set", 2, cora.PrimNS2Set))
+	cora.PrimNS1Set(cora.MakeSymbol("ns2-value"), cora.MakePrimitive("ns2-value", 1, cora.PrimNS2Value))
 	for _, item := range klPrimitives {
-		sym := kl.MakeSymbol(item.name)
-		prim := kl.MakePrimitive(item.name, item.arity, item.fn)
-		kl.PrimNS2Set(sym, prim)
+		sym := cora.MakeSymbol(item.name)
+		prim := cora.MakePrimitive(item.name, item.arity, item.fn)
+		cora.PrimNS2Set(sym, prim)
 	}
-	kl.PrimNS2Set(symEvalKL, kl.MakeNative(primEvalKL, 1))
-	kl.PrimNS2Set(kl.MakeSymbol("load-file"), kl.MakeNative(primLoad, 1))
+	cora.PrimNS2Set(symEvalKL, cora.MakeNative(primEvalKL, 1))
+	cora.PrimNS2Set(cora.MakeSymbol("load-file"), cora.MakeNative(primLoad, 1))
 
 	// Overload for primitive set and value.
-	kl.PrimNS3Set(kl.MakeSymbol("*stinput*"), kl.MakeStream(os.Stdin))
-	kl.PrimNS3Set(kl.MakeSymbol("*stoutput*"), kl.MakeStream(os.Stdout))
+	cora.PrimNS3Set(cora.MakeSymbol("*stinput*"), cora.MakeStream(os.Stdin))
+	cora.PrimNS3Set(cora.MakeSymbol("*stoutput*"), cora.MakeStream(os.Stdout))
 	dir, _ := os.Getwd()
-	kl.PrimNS3Set(kl.MakeSymbol("*home-directory*"), kl.MakeString(dir))
-	kl.PrimNS3Set(kl.MakeSymbol("*language*"), kl.MakeString("Go"))
-	kl.PrimNS3Set(kl.MakeSymbol("*implementation*"), kl.MakeString("AOT+interpreter"))
-	kl.PrimNS3Set(kl.MakeSymbol("*relase*"), kl.MakeString(runtime.Version()))
-	kl.PrimNS3Set(kl.MakeSymbol("*os*"), kl.MakeString(runtime.GOOS))
-	kl.PrimNS3Set(kl.MakeSymbol("*porters*"), kl.MakeString("Arthur Mao"))
-	kl.PrimNS3Set(kl.MakeSymbol("*port*"), kl.MakeString("1.0.0-rc1"))
+	cora.PrimNS3Set(cora.MakeSymbol("*home-directory*"), cora.MakeString(dir))
+	cora.PrimNS3Set(cora.MakeSymbol("*language*"), cora.MakeString("Go"))
+	cora.PrimNS3Set(cora.MakeSymbol("*implementation*"), cora.MakeString("AOT+interpreter"))
+	cora.PrimNS3Set(cora.MakeSymbol("*relase*"), cora.MakeString(runtime.Version()))
+	cora.PrimNS3Set(cora.MakeSymbol("*os*"), cora.MakeString(runtime.GOOS))
+	cora.PrimNS3Set(cora.MakeSymbol("*porters*"), cora.MakeString("Arthur Mao"))
+	cora.PrimNS3Set(cora.MakeSymbol("*port*"), cora.MakeString("1.0.0-rc1"))
 }
 
-func primEvalKL(e *kl.ControlFlow) {
+func primEvalKL(e *cora.ControlFlow) {
 	exp1 := e.Get(1)
 	res := evalKL(e, exp1)
 	e.Return(res)
 }
 
-func evalKL(e *kl.ControlFlow, exp kl.Obj) kl.Obj {
-	exp1 := kl.Call(e, kl.PrimNS1Value(symKLToCora), kl.Nil, exp)
+func evalKL(e *cora.ControlFlow, exp cora.Obj) cora.Obj {
+	exp1 := cora.Call(e, cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
 
 	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
-	res := kl.Eval(e, exp1)
+	res := cora.Eval(e, exp1)
 	return res
 }
 
-func primLoad(e *kl.ControlFlow) {
+func primLoad(e *cora.ControlFlow) {
 	file := e.Get(1)
-	if !kl.IsString(file) {
-		e.Return(kl.MakeError("arg1 must be string"))
+	if !cora.IsString(file) {
+		e.Return(cora.MakeError("arg1 must be string"))
 		return
 	}
-	path := kl.GetString(file)
+	path := cora.GetString(file)
 	if _, err := os.Stat(path); err != nil {
-		e.Return(kl.MakeError(err.Error()))
+		e.Return(cora.MakeError(err.Error()))
 		return
 	}
 
 	f, err := os.Open(path)
 	if err != nil {
-		e.Return(kl.MakeError(err.Error()))
+		e.Return(cora.MakeError(err.Error()))
 		return
 	}
 	defer f.Close()
 
-	r := kl.NewSexpReader(f, false)
+	r := cora.NewSexpReader(f, false)
 	for {
 		exp, err := r.Read()
 		if err != nil {
 			if err != io.EOF {
-				e.Return(kl.MakeError(err.Error()))
+				e.Return(cora.MakeError(err.Error()))
 				return
 			}
 			break
 		}
 
 		res := evalKL(e, exp)
-		if kl.IsError(res) {
+		if cora.IsError(res) {
 			e.Return(res)
 			return
 		}
 	}
-	e.Return(kl.MakeSymbol("loaded"))
+	e.Return(cora.MakeSymbol("loaded"))
 }
 
-func PrimIsVariable(x kl.Obj) kl.Obj {
-	if !kl.IsSymbol(x) {
-		return kl.False
+func PrimIsVariable(x cora.Obj) cora.Obj {
+	if !cora.IsSymbol(x) {
+		return cora.False
 	}
 
-	sym := kl.GetSymbol(x)
+	sym := cora.GetSymbol(x)
 	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
-		return kl.False
+		return cora.False
 	}
-	return kl.True
+	return cora.True
 }

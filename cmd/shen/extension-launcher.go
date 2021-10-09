@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/kl"
+import . "github.com/tiancaiamao/shen-go/cora"
 
 var ExtensionLauncherMain = MakeNative(func(__e *ControlFlow) {
 	_ = MakeString("Copyright (c) 2019 Bruno Deferrari.\nBSD 3-Clause License: http://opensource.org/licenses/BSD-3-Clause")

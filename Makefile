@@ -18,4 +18,4 @@ docker:
 	cp -a /tmp/shen ./shen
 
 test:
-	cd kl; go test
+	cd cora; go test

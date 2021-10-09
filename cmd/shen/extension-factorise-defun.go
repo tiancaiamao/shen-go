@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/kl"
+import . "github.com/tiancaiamao/shen-go/cora"
 
 var ExtensionFactoriseDefunMain = MakeNative(func(__e *ControlFlow) {
 	_ = MakeString("Copyright (c) 2012-2019 Bruno Deferrari.  All rights reserved.\nBSD 3-Clause License: http://opensource.org/licenses/BSD-3-Clause")
