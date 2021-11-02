@@ -481,6 +481,14 @@ func PrimIsInteger(x Obj) Obj {
 	return False
 }
 
+func PrimCharStInput(x Obj) Obj {
+	return False
+}
+
+func PrimCharStOutput(x Obj) Obj {
+	return False
+}
+
 var genIdx uint64 = 0
 
 func PrimGenSym(x Obj) Obj {
@@ -703,11 +711,13 @@ func try(e *ControlFlow, f Obj) (res tryResult) {
 				}
 			}
 			// Unexpected panic?
-			var buf [4096]byte
+			var buf [8192]byte
 			n := runtime.Stack(buf[:], false)
-			fmt.Println("Panic:", err)
+			fmt.Println("Unexpected Panic:", err)
 			fmt.Println("Recovered in Try:", ObjString(f))
 			fmt.Println(string(buf[:n]))
+			// throw the panic again...
+			panic(err)
 		}
 	}()
 	val := Call(e, f)

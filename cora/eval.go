@@ -121,7 +121,11 @@ func Eval(e *ControlFlow, exp Obj) (res Obj) {
 		if r := recover(); r != nil {
 			var buf [4096]byte
 			n := runtime.Stack(buf[:], false)
-			fmt.Println("Panic:", r)
+			if err, ok := r.(Obj); ok && IsError(err) {
+				fmt.Println("Panic unhandled err:", ObjString(err))
+			} else {
+				fmt.Println("Panic:", r)
+			}
 			fmt.Println("Recovered in Eval:", ObjString(exp))
 			str := string(buf[:n])
 			// fmt.Println(str)

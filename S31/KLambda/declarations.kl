@@ -1,0 +1,86 @@
+(set shen.*history* ())
+
+(set shen.*tc* false)
+
+(set *property-vector* (vector 20000))
+
+(set *macros* (cons (cons shen.defmacro-macro (lambda X (shen.defmacro-macro X))) (cons (cons shen.timer-macro (lambda X (shen.timer-macro X))) (cons (cons shen.cases-macro (lambda X (shen.cases-macro X))) (cons (cons shen.abs-macro (lambda X (shen.abs-macro X))) (cons (cons shen.put/get-macro (lambda X (shen.put/get-macro X))) (cons (cons shen.datatype-macro (lambda X (shen.datatype-macro X))) (cons (cons shen.let-macro (lambda X (shen.let-macro X))) (cons (cons shen.assoc-macro (lambda X (shen.assoc-macro X))) (cons (cons make-string (lambda X (shen.make-string-macro X))) (cons (cons shen.output-macro (lambda X (shen.output-macro X))) (cons (cons shen.input-macro (lambda X (shen.input-macro X))) (cons (cons shen.error-macro (lambda X (shen.error-macro X))) (cons (cons shen.prolog-macro (lambda X (shen.prolog-macro X))) (cons (cons shen.synonyms-macro (lambda X (shen.synonyms-macro X))) (cons (cons shen.nl-macro (lambda X (shen.nl-macro X))) (cons (cons shen.@s-macro (lambda X (shen.@s-macro X))) (cons (cons defprolog (lambda X (shen.defprolog-macro X))) (cons (cons shen.defcc-macro (lambda X (shen.defcc-macro X))) (cons (cons shen.u!-macro (lambda X (shen.u!-macro X))) ()))))))))))))))))))))
+
+(set shen.*gensym* 0)
+
+(set shen.*tracking* ())
+
+(set shen.*profiled* ())
+
+(set *home-directory* "")
+
+(set shen.*special* (cons @p (cons @s (cons @v (cons cons (cons lambda (cons let (cons where (cons set (cons open (cons input+ (cons type ()))))))))))))
+
+(set shen.*extraspecial* ())
+
+(set shen.*spy* false)
+
+(set shen.*datatypes* ())
+
+(set shen.*alldatatypes* ())
+
+(set shen.*shen-type-theory-enabled?* true)
+
+(set shen.*package* null)
+
+(set shen.*synonyms* ())
+
+(set shen.*system* ())
+
+(set shen.*sigf* ())
+
+(set shen.*occurs* true)
+
+(set shen.*factorise?* false)
+
+(set shen.*maxinferences* 1000000)
+
+(set *maximum-print-sequence-size* 20)
+
+(set shen.*call* 0)
+
+(set shen.*infs* 0)
+
+(set *hush* false)
+
+(set shen.*optimise* false)
+
+(set *version* "31")
+
+(set shen.*step* false)
+
+(set shen.*it* "")
+
+(set shen.*residue* ())
+
+(defun prolog-memory (V1674) (let Bindings (absvector V1674) (let PrintNamed (address-> Bindings 0 shen.print-prolog-vector) (let Ticketed (address-> Bindings 1 2) (let Assign (set shen.*prolog-vector* Ticketed) V1674)))))
+
+(prolog-memory 10000)
+
+(set shen.*loading?* false)
+
+(defun shen.initialise-lambda-tables (V1677) (cond ((= () V1677) ()) ((and (cons? V1677) (cons? (tl V1677))) (let DecArity (put (hd V1677) arity (hd (tl V1677)) (value *property-vector*)) (shen.initialise-arity-table (tl (tl V1677))))) (true (simple-error "implementation error in shen.initialise-arity-table"))))
+
+(defun arity (V1678) (trap-error (get V1678 arity (value *property-vector*)) (lambda E -1)))
+
+(defun shen.initialise-arity-table (V1681) (cond ((= () V1681) ()) ((and (cons? V1681) (cons? (tl V1681))) (let DecArity (put (hd V1681) arity (hd (tl V1681)) (value *property-vector*)) (shen.initialise-arity-table (tl (tl V1681))))) (true (simple-error "implementation error in shen.initialise_arity_table"))))
+
+(shen.initialise-arity-table (cons abort (cons 0 (cons absvector? (cons 1 (cons absvector (cons 1 (cons address-> (cons 3 (cons adjoin (cons 2 (cons and (cons 2 (cons append (cons 2 (cons arity (cons 1 (cons assoc (cons 2 (cons atom? (cons 1 (cons boolean? (cons 1 (cons bootstrap (cons 1 (cons bound? (cons 1 (cons bind (cons 6 (cons call (cons 5 (cons cd (cons 1 (cons compile (cons 2 (cons concat (cons 2 (cons cons (cons 2 (cons cons? (cons 1 (cons cn (cons 2 (cons close (cons 1 (cons declare (cons 2 (cons destroy (cons 1 (cons difference (cons 2 (cons do (cons 2 (cons element? (cons 2 (cons empty? (cons 1 (cons enable-type-theory (cons 1 (cons external (cons 1 (cons error-to-string (cons 1 (cons shen.interror (cons 2 (cons eval (cons 1 (cons eval-kl (cons 1 (cons explode (cons 1 (cons external (cons 1 (cons factorise (cons 1 (cons fail-if (cons 2 (cons fail (cons 0 (cons fix (cons 2 (cons findall (cons 7 (cons fork (cons 5 (cons freeze (cons 1 (cons fresh (cons 0 (cons fst (cons 1 (cons fn (cons 1 (cons function (cons 1 (cons gensym (cons 1 (cons get (cons 3 (cons get-time (cons 1 (cons address-> (cons 3 (cons <-address (cons 2 (cons <-vector (cons 2 (cons > (cons 2 (cons >= (cons 2 (cons = (cons 2 (cons hash (cons 2 (cons hd (cons 1 (cons hdv (cons 1 (cons hdstr (cons 1 (cons head (cons 1 (cons if (cons 3 (cons include (cons 1 (cons in-package (cons 1 (cons integer? (cons 1 (cons internal (cons 1 (cons intern (cons 1 (cons inferences (cons 0 (cons input (cons 1 (cons input+ (cons 2 (cons implementation (cons 0 (cons include-all-but (cons 1 (cons intersection (cons 2 (cons internal (cons 1 (cons it (cons 0 (cons is (cons 6 (cons is! (cons 6 (cons language (cons 0 (cons length (cons 1 (cons limit (cons 1 (cons lineread (cons 1 (cons list (cons 1 (cons load (cons 1 (cons < (cons 2 (cons <= (cons 2 (cons vector (cons 1 (cons macroexpand (cons 1 (cons map (cons 2 (cons mapcan (cons 2 (cons maxinferences (cons 1 (cons nl (cons 1 (cons not (cons 1 (cons nth (cons 2 (cons n->string (cons 1 (cons number? (cons 1 (cons occurs-check (cons 1 (cons occurrences (cons 2 (cons occurs-check (cons 1 (cons open (cons 2 (cons optimise (cons 1 (cons or (cons 2 (cons os (cons 0 (cons package (cons 3 (cons package? (cons 1 (cons port (cons 0 (cons porters (cons 0 (cons pos (cons 2 (cons preclude-all-but (cons 1 (cons print (cons 1 (cons shen.pprint (cons 1 (cons profile (cons 1 (cons shen.print-prolog-vector (cons 1 (cons shen.print-freshterm (cons 1 (cons shen.printF (cons 1 (cons prolog-memory (cons 1 (cons profile-results (cons 1 (cons pr (cons 2 (cons ps (cons 1 (cons preclude (cons 1 (cons preclude-all-but (cons 1 (cons protect (cons 1 (cons put (cons 4 (cons read-file-as-string (cons 1 (cons read-file-as-bytelist (cons 1 (cons read-file (cons 1 (cons read (cons 1 (cons read-byte (cons 1 (cons read-from-string (cons 1 (cons read-from-string-unprocessed (cons 1 (cons shen.read-unit-string (cons 1 (cons receive (cons 1 (cons release (cons 0 (cons remove (cons 2 (cons reverse (cons 1 (cons set (cons 2 (cons simple-error (cons 1 (cons snd (cons 1 (cons specialise (cons 2 (cons spy (cons 1 (cons step (cons 1 (cons stinput (cons 0 (cons stoutput (cons 0 (cons str (cons 1 (cons string->n (cons 1 (cons string->symbol (cons 1 (cons string? (cons 1 (cons subst (cons 3 (cons sum (cons 1 (cons symbol? (cons 1 (cons systemf (cons 1 (cons tail (cons 1 (cons tl (cons 1 (cons tc (cons 1 (cons tc? (cons 0 (cons thaw (cons 1 (cons tlstr (cons 1 (cons track (cons 1 (cons trap-error (cons 2 (cons tuple? (cons 1 (cons type (cons 2 (cons return (cons 5 (cons undefmacro (cons 1 (cons unput (cons 3 (cons unprofile (cons 1 (cons union (cons 2 (cons untrack (cons 1 (cons undefmacro (cons 1 (cons update-lambda-table (cons 2 (cons vector (cons 1 (cons vector? (cons 1 (cons vector-> (cons 3 (cons value (cons 1 (cons variable? (cons 1 (cons var? (cons 5 (cons version (cons 0 (cons when (cons 5 (cons write-byte (cons 2 (cons write-to-file (cons 2 (cons y-or-n? (cons 1 (cons + (cons 2 (cons * (cons 2 (cons / (cons 2 (cons - (cons 2 (cons == (cons 2 (cons <e> (cons 1 (cons shen.<end> (cons 1 (cons <!> (cons 1 (cons @p (cons 2 (cons @v (cons 2 (cons @s (cons 2 ())))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+(defun systemf (V1682) (let External (get shen shen.external-symbols (value *property-vector*)) (let Place (put shen shen.external-symbols (adjoin V1682 External) (value *property-vector*)) V1682)))
+
+(defun adjoin (V1683 V1684) (if (element? V1683 V1684) V1684 (cons V1683 V1684)))
+
+(put shen shen.external-symbols (cons ! (cons } (cons { (cons --> (cons <-- (cons && (cons (intern ":") (cons (intern ";") (cons (intern ":=") (cons (intern ",") (cons _ (cons *language* (cons *implementation* (cons *stinput* (cons *stoutput* (cons *home-directory* (cons *version* (cons *maximum-print-sequence-size* (cons *macros* (cons *os* (cons *release* (cons *property-vector* (cons @v (cons @p (cons @s (cons *port* (cons *porters* (cons *hush* (cons <- (cons -> (cons <e> (cons == (cons = (cons >= (cons > (cons ==> (cons /. (cons <!> (cons shen.<end> (cons $ (cons - (cons / (cons * (cons + (cons <= (cons < (cons >> (cons (vector 0) (cons y-or-n? (cons write-to-file (cons write-byte (cons where (cons when (cons warn (cons version (cons verified (cons variable? (cons var? (cons value (cons vector-> (cons <-vector (cons vector (cons vector? (cons u! (cons update-lambda-table (cons unspecialise (cons untrack (cons unit (cons shen.unix (cons union (cons unput (cons unprofile (cons undefmacro (cons return (cons type (cons tuple? (cons true (cons trap-error (cons track (cons time (cons thaw (cons tc? (cons tc (cons tl (cons tlstr (cons tlv (cons tail (cons systemf (cons synonyms (cons symbol (cons symbol? (cons string->symbol (cons sum (cons subst (cons string? (cons string->n (cons stream (cons string (cons stinput (cons stoutput (cons step (cons spy (cons specialise (cons snd (cons simple-error (cons set (cons save (cons str (cons run (cons reverse (cons remove (cons release (cons read (cons receive (cons read-file (cons read-file-as-bytelist (cons read-file-as-string (cons read-byte (cons read-from-string (cons read-from-string-unprocessed (cons package? (cons put (cons preclude (cons preclude-all-but (cons ps (cons prolog? (cons protect (cons profile-results (cons profile (cons prolog-memory (cons print (cons shen.pprint (cons pr (cons pos (cons porters (cons port (cons package (cons output (cons out (cons os (cons or (cons optimise (cons open (cons occurrences (cons occurs-check (cons n->string (cons number? (cons number (cons null (cons nth (cons not (cons nl (cons mode (cons macroexpand (cons maxinferences (cons mapcan (cons map (cons make-string (cons load (cons loaded (cons list (cons lineread (cons limit (cons length (cons let (cons lazy (cons lambda (cons language (cons is (cons intersection (cons inferences (cons intern (cons integer? (cons input (cons input+ (cons inline (cons include (cons include-all-but (cons it (cons is (cons is! (cons in (cons in-package (cons internal (cons implementation (cons if (cons head (cons hd (cons hdv (cons hdstr (cons hash (cons get (cons get-time (cons gensym (cons fn (cons function (cons fst (cons freeze (cons fresh (cons fork (cons fix (cons file (cons fail (cons fail-if (cons factorise (cons findall (cons false (cons enable-type-theory (cons explode (cons external (cons exception (cons eval-kl (cons eval (cons error-to-string (cons error (cons empty? (cons element? (cons do (cons difference (cons destroy (cons defun (cons define (cons defmacro (cons defcc (cons defprolog (cons declare (cons datatype (cons cn (cons cons? (cons cons (cons cond (cons concat (cons compile (cons cd (cons cases (cons call (cons close (cons bind (cons bound? (cons boolean? (cons boolean (cons bootstrap (cons (intern "bar!") (cons atom? (cons assoc (cons arity (cons append (cons and (cons adjoin (cons <-address (cons address-> (cons absvector? (cons absvector (cons abort ())))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) (value *property-vector*))
+
+(defun shen.lambda-entry (V1685) (let ArityF (arity V1685) (if (or (= ArityF -1) (= ArityF 0)) () (cons V1685 (eval-kl (shen.lambda-function (cons V1685 ()) ArityF))))))
+
+(defun shen.build-lambda-table (V1686) (let LambdaEntries (map (lambda X (shen.lambda-entry X)) V1686) (set shen.*lambdatable* (cons (cons shen.tuple (lambda X (shen.tuple X))) (cons (cons shen.pvar (lambda X (shen.pvar X))) (cons (cons shen.print-prolog-vector (lambda X (shen.print-prolog-vector X))) (cons (cons shen.print-freshterm (lambda X (shen.print-freshterm X))) (cons (cons shen.printF (lambda X (shen.printF X))) LambdaEntries))))))))
+
+(shen.build-lambda-table (external shen))
+
