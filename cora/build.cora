@@ -4,7 +4,7 @@
   env ['if x y z] => ['if (kl->cora env x) (kl->cora env y) (kl->cora env z)]
   env ['do x y] => ['do (kl->cora env x) (kl->cora env y)]
   env ['lambda x y] => ['lambda [x] (kl->cora [x . env] y)]
-
+  env ['type exp _] => (kl->cora env exp)
   env ['defun f x y] => ['ns2-set ['quote f] ['lambda x (kl->cora x y)]]
   env ['let x y z] => [['lambda [x] (kl->cora (cons x env) z)] (kl->cora env y)]
   env ['trap-error body handler] => ['try-catch ['lambda [] (kl->cora env body)] (kl->cora env handler)]

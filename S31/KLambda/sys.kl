@@ -36,8 +36,6 @@
 
 (defun limit (V3376) (<-address V3376 0))
 
-(defun symbol? (V3377) (cond ((or (boolean? V3377) (or (number? V3377) (or (string? V3377) (or (cons? V3377) (or (empty? V3377) (vector? V3377)))))) false) ((element? V3377 (cons { (cons } (cons (intern ":") (cons (intern ";") (cons (intern ",") ())))))) true) (true (trap-error (let String (str V3377) (shen.analyse-symbol? String)) (lambda E false)))))
-
 (defun shen.analyse-symbol? (V3380) (cond ((shen.+string? V3380) (and (shen.alpha? (string->n (hdstr V3380))) (shen.alphanums? (tlstr V3380)))) (true (simple-error "implementation error in shen.analyse-symbol?"))))
 
 (defun shen.alphanums? (V3383) (cond ((= "" V3383) true) ((shen.+string? V3383) (let N (string->n (hdstr V3383)) (and (or (shen.alpha? N) (shen.digit? N)) (shen.alphanums? (tlstr V3383))))) (true (simple-error "implementation error in shen.alphanums?"))))
