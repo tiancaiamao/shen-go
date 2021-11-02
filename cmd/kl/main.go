@@ -7,6 +7,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
+
 	// "path/filepath"
 	"runtime"
 
@@ -119,6 +120,8 @@ var klPrimitives = []struct {
 	{"read-file-as-string", 1, cora.PrimReadFileAsString},
 	{"variable?", 1, PrimIsVariable},
 	{"integer?", 1, cora.PrimIsInteger},
+	{"shen.char-stoutput?", 1, cora.PrimCharStOutput},
+	{"shen.char-stinput?", 1, cora.PrimCharStInput},
 }
 
 func klInit() {
@@ -140,7 +143,7 @@ func klInit() {
 	cora.PrimNS3Set(cora.MakeSymbol("*home-directory*"), cora.MakeString(dir))
 	cora.PrimNS3Set(cora.MakeSymbol("*language*"), cora.MakeString("Go"))
 	cora.PrimNS3Set(cora.MakeSymbol("*implementation*"), cora.MakeString("AOT+interpreter"))
-	cora.PrimNS3Set(cora.MakeSymbol("*relase*"), cora.MakeString(runtime.Version()))
+	cora.PrimNS3Set(cora.MakeSymbol("*release*"), cora.MakeString(runtime.Version()))
 	cora.PrimNS3Set(cora.MakeSymbol("*os*"), cora.MakeString(runtime.GOOS))
 	cora.PrimNS3Set(cora.MakeSymbol("*porters*"), cora.MakeString("Arthur Mao"))
 	cora.PrimNS3Set(cora.MakeSymbol("*port*"), cora.MakeString("1.0.0-rc1"))
