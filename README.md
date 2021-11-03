@@ -31,10 +31,9 @@ This binary has no dependency, you can move it to any where you want.
 ## Testing
 
 ```
-cd shen-sources-shen-22.3/tests
+cd 'S31/Test Programs'
 ../../shen
-(load "README.shen")
-(load "tests.shen")
+(load "runme.shen")
 ```
 ## Learn Shen
 * [Official website of Shen](http://shenlanguage.org/)
