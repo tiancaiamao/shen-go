@@ -20,53 +20,96 @@ var Primitives = map[string]struct {
 	"set":                   {2, PrimNS1Set, "PrimNS1Set"},
 	"car":                   {1, PrimHead, "PrimHead"},
 	"cdr":                   {1, PrimTail, "PrimTail"},
-	"get-time":              {1, PrimGetTime, "PrimGetTime"},
-	"close":                 {1, PrimCloseStream, "PrimCloseStream"},
-	"open":                  {2, PrimOpenStream, "PrimOpenStream"},
-	"read-byte":             {1, PrimReadByte, "PrimReadByte"},
-	"write-byte":            {2, PrimWriteByte, "PrimWriteByte"},
-	"absvector?":            {1, PrimIsVector, "PrimIsVector"},
-	"<-address":             {2, PrimVectorGet, "PrimVectorGet"},
-	"address->":             {3, PrimVectorSet, "PrimVectorSet"},
-	"absvector":             {1, PrimAbsvector, "PrimAbsvector"},
-	"str":                   {1, PrimStr, "PrimStr"},
+	"vector?":            {1, PrimIsVector, "PrimIsVector"},
+	"vector-ref":             {2, PrimVectorGet, "PrimVectorGet"},
+	"vector-set!":             {3, PrimVectorSet, "PrimVectorSet"},
+	"vector":             {1, PrimAbsvector, "PrimAbsvector"},
 	"<=":                    {2, PrimLessEqual, "PrimLessEqual"},
 	">=":                    {2, PrimGreatEqual, "PrimGreatEqual"},
 	"<":                     {2, PrimLessThan, "PrimLessThan"},
 	">":                     {2, PrimGreatThan, "PrimGreatThan"},
-	"error-to-string":       {1, PrimErrorToString, "PrimErrorToString"},
-	"simple-error":          {1, PrimSimpleError, "PrimSimpleError"},
 	"=":                     {2, PrimEqual, "PrimEqual"},
 	"-":                     {2, PrimNumberSubtract, "PrimNumberSubtract"},
 	"*":                     {2, PrimNumberMultiply, "PrimNumberMultiply"},
 	"/":                     {2, PrimNumberDivide, "PrimNumberDivide"},
 	"+":                     {2, PrimNumberAdd, "PrimNumberAdd"},
-	"string->n":             {1, PrimStringToNumber, "PrimStringToNumber"},
-	"n->string":             {1, PrimNumberToString, "PrimNumberToString"},
 	"number?":               {1, PrimIsNumber, "PrimIsNumber"},
 	"string?":               {1, PrimIsString, "PrimIsString"},
 	"pos":                   {2, PrimPos, "PrimPos"},
-	"tlstr":                 {1, PrimTailString, "PrimTailString"},
 	"cn":                    {2, PrimStringConcat, "PrimStringConcat"},
 	"intern":                {1, PrimIntern, "PrimIntern"},
 	"cons":                  {2, PrimCons, "PrimCons"},
 	"cons?":                 {1, PrimIsPair, "PrimIsPair"},
 	"not":                   {1, PrimNot, "PrimNot"},
-	"if":                    {3, PrimIf, "PrimIf"},
 	"symbol?":               {1, PrimIsSymbol, "PrimIsSymbol"},
 	"gensym":                {1, PrimGenSym, "PrimGenSym"},
-	"read-file-as-bytelist": {1, PrimReadFileAsByteList, "PrimReadFileAsByteList"},
-	"read-file-as-string":   {1, PrimReadFileAsString, "PrimReadFileAsString"},
 	"integer?":              {1, PrimIsInteger, "PrimIsInteger"},
+
+	// For KLambda
+	"fn-set":    {2, PrimNS2Set, "PrimFnSet"},
+	"fn":        {1, PrimNS2Value, "PrimNS2Value"},
+	"kl-set":   {2, PrimNS3Set, "PrimNS3Set"},
+	"kl-value": {1, PrimNS3Value, "PrimNS3Value"},
+}
+
+var klPrimitives = []struct {
+	name  string
+	arity int
+	fn    interface{}
+}{
+	{"get-time", 1,  PrimGetTime},
+	{"close", 1,  PrimCloseStream},
+	{"open", 2,  PrimOpenStream},
+	{"read-byte", 1,  PrimReadByte},
+	{"write-byte", 2,  PrimWriteByte},
+	// {"absvector?", 1,  PrimIsVector},
+	// {"<-address", 2,  PrimVectorGet},
+	// {"address->", 3,  PrimVectorSet},
+	// {"absvector", 1,  PrimAbsvector},
+	{"str", 1,  PrimStr},
+	// {"<=", 2,  PrimLessEqual},
+	// {">=", 2,  PrimGreatEqual},
+	// {"<", 2,  PrimLessThan},
+	// {">", 2,  PrimGreatThan},
+	{"error-to-string", 1,  PrimErrorToString},
+	{"simple-error", 1,  PrimSimpleError},
+	// {"=", 2,  PrimEqual},
+	// {"-", 2,  PrimNumberSubtract},
+	// {"*", 2,  PrimNumberMultiply},
+	// {"/", 2,  PrimNumberDivide},
+	// {"+", 2,  PrimNumberAdd},
+	{"string->n", 1,  PrimStringToNumber},
+	{"n->string", 1,  PrimNumberToString},
+	// {"number?", 1,  PrimIsNumber},
+	// {"string?", 1,  PrimIsString},
+	{"pos", 2,  PrimPos},
+	{"tlstr", 1,  PrimTailString},
+	{"cn", 2,  PrimStringConcat},
+	// {"intern", 1,  PrimIntern},
+	// {"hd", 1,  PrimHead},
+	// {"tl", 1,  PrimTail},
+	// {"cons", 2,  PrimCons},
+	// {"cons?", 1,  PrimIsPair},
+	{"value", 1,  PrimNS3Value},
+	{"set", 2,  PrimNS3Set},
+	// {"not", 1,  PrimNot},
+	{"if", 3,  PrimIf},
+	// {"symbol?", 1,  PrimIsSymbol},
+	{"read-file-as-bytelist", 1,  PrimReadFileAsByteList},
+	{"read-file-as-string", 1,  PrimReadFileAsString},
+	// {"variable?", 1, PrimIsVariable},
+	{"integer?", 1,  PrimIsInteger},
+	{"shen.char-stoutput?", 1,  PrimCharStOutput},
+	{"shen.char-stinput?", 1,  PrimCharStInput},
 }
 
 func init() {
+	// Cora primitives
 	for name, item := range Primitives {
 		sym := MakeSymbol(name)
 		prim := MakePrimitive(name, item.Arity, item.fn)
 		PrimNS1Set(sym, prim)
 	}
-
 	PrimNS1Set(MakeSymbol("load"), MakeNative(PrimLoadFile(true), 1))
 	PrimNS1Set(MakeSymbol("load-so"), MakeNative(primLoadSo, 1))
 	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
@@ -74,6 +117,22 @@ func init() {
 	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
 	PrimNS1Set(MakeSymbol("cora.init"), MakeNative(primCoraInit, 0))
 	PrimNS1Set(MakeSymbol("kl.init"), MakeNative(primKLInit, 0))
+
+	// KLambda primitives
+	for _, item := range klPrimitives {
+		sym := MakeSymbol(item.name)
+		prim := MakePrimitive(item.name, item.arity, item.fn)
+		PrimNS2Set(sym, prim)
+	}
+	PrimNS2Set(MakeSymbol("eval-kl"), MakeNative(primEvalKL, 1))
+	PrimNS2Set(MakeSymbol("load-file"), MakeNative(primLoad, 1))
+	// Overload for primitive set and value.
+	PrimNS3Set(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
+	PrimNS3Set(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
+	dir, _ := os.Getwd()
+	PrimNS3Set(MakeSymbol("*home-directory*"), MakeString(dir))
+	PrimNS3Set(MakeSymbol("*release*"), MakeString(runtime.Version()))
+	PrimNS3Set(MakeSymbol("*os*"), MakeString(runtime.GOOS))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -781,7 +840,7 @@ func PrimNS3Value(key Obj) Obj {
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
-//go:embed init.cora build.cora
+//go:embed init.cora kl.cora
 var initFS embed.FS
 
 func primCoraInit(e *ControlFlow) {
@@ -797,7 +856,7 @@ func primCoraInit(e *ControlFlow) {
 }
 
 func primKLInit(e *ControlFlow) {
-	f, err := initFS.Open("build.cora")
+	f, err := initFS.Open("kl.cora")
 	if err != nil {
 		e.Return(MakeError(err.Error()))
 		return
@@ -806,4 +865,69 @@ func primKLInit(e *ControlFlow) {
 	r := NewSexpReader(f, true)
 	res := loadFileFromReader(e, true, r)
 	e.Return(res)
+}
+
+// func PrimIsVariable(x Obj) Obj {
+// 	if !IsSymbol(x) {
+// 		return False
+// 	}
+
+// 	sym := GetSymbol(x)
+// 	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
+// 		return False
+// 	}
+// 	return True
+// }
+
+func primEvalKL(e *ControlFlow) {
+	exp1 := e.Get(1)
+	res := evalKL(e, exp1)
+	e.Return(res)
+}
+
+func evalKL(e *ControlFlow, exp Obj) Obj {
+       exp1 := Call(e, PrimNS1Value(MakeSymbol("kl->cora")), Nil, exp)
+
+       // fmt.Println("evalKL with ===", kl.ObjString(exp1))
+       res := Eval(e, exp1)
+       return res
+}
+
+func primLoad(e * ControlFlow) {
+	file := e.Get(1)
+	if ! IsString(file) {
+		e.Return( MakeError("arg1 must be string"))
+		return
+	}
+	path :=  GetString(file)
+	if _, err := os.Stat(path); err != nil {
+		e.Return( MakeError(err.Error()))
+		return
+	}
+
+	f, err := os.Open(path)
+	if err != nil {
+		e.Return( MakeError(err.Error()))
+		return
+	}
+	defer f.Close()
+
+	r :=  NewSexpReader(f, false)
+	for {
+		exp, err := r.Read()
+		if err != nil {
+			if err != io.EOF {
+				e.Return( MakeError(err.Error()))
+				return
+			}
+			break
+		}
+
+		res := evalKL(e, exp)
+		if  IsError(res) {
+			e.Return(res)
+			return
+		}
+	}
+	e.Return( MakeSymbol("loaded"))
 }

@@ -1,5 +1,5 @@
 (func parse
-      env ['ns2-value ['quote f]] => ['$global 2 f] ;; optimize for shen code gen
+      env ['fn ['quote f]] => ['$global 2 f] ;; optimize for shen code gen
       env x => (if (elem? x env) x ['$global 1 x]) where (symbol? x)
       env x => ['$const x] where (or (number? x) (string? x) (boolean? x) (null? x))
       env ['quote x] => ['$const x]
