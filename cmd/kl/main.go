@@ -54,10 +54,9 @@ var (
 var symKLToCora = cora.MakeSymbol("kl->cora")
 
 func evalKL(e *cora.ControlFlow, exp cora.Obj) cora.Obj {
-       exp1 := cora.Call(e, cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
+	exp1 := cora.Call(e, cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
 
-       // fmt.Println("evalKL with ===", kl.ObjString(exp1))
-       res := cora.Eval(e, exp1)
-       return res
+	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
+	res := cora.Eval(e, exp1)
+	return res
 }
-

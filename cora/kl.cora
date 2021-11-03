@@ -5,9 +5,7 @@
   env ['do x y] => ['do (kl->cora env x) (kl->cora env y)]
   env ['lambda x y] => ['lambda [x] (kl->cora [x . env] y)]
   env ['type exp _] => (kl->cora env exp)
-  env ['defun f x y] => ['fn-set ['quote f] ['lambda x (kl->cora x y)]]
-  env ['value x] => ['kl-value ['quote x]]
-  env ['set x y] => ['kl-set ['quote x] (kl->cora env y)]
+  env ['defun f x y] => [['fn ['quote 'def]] ['quote f] ['lambda x (kl->cora x y)]]
   env ['let x y z] => [['lambda [x] (kl->cora (cons x env) z)] (kl->cora env y)]
   env ['trap-error body handler] => ['try-catch ['lambda [] (kl->cora env body)] (kl->cora env handler)]
 
@@ -31,30 +29,30 @@
        (let res (cons 'begin (map (kl->cora ()) exprs))
 	    (write-sexp-to-file fout res))))
 
+((fn 'set) '*language* "Go")
+((fn 'set) '*implementation* "AOT+interpreter")
+((fn 'set) '*porters* "Arthur Mao")
+((fn 'set) '*port* "1.0.0")
 
-(kl-set '*language* "Go")
-(kl-set '*implementation* "AOT+interpreter")
-(kl-set '*porters* "Arthur Mao")
-(kl-set '*port* "1.0.0")
-(fn-set 'cons cons)
-(fn-set 'cons? cons?)
-(fn-set 'hd car)
-(fn-set 'tl cdr)
-(fn-set 'intern intern)
-(fn-set '= =)
-(fn-set '+ +)
-(fn-set '- -)
-(fn-set '* *)
-(fn-set '/ /)
-(fn-set '<= <=)
-(fn-set '>= >=)
-(fn-set '< <)
-(fn-set '> >)
-(fn-set 'symbol? symbol?)
-(fn-set 'not not)
-(fn-set 'number? number?)
-(fn-set 'string? string?)
-(fn-set 'absvector vector)
-(fn-set 'absvector? vector?)
-(fn-set '<-address vector-ref)
-(fn-set 'address-> vector-set!)
+((fn 'def) 'cons cons)
+((fn 'def) 'cons? cons?)
+((fn 'def) 'hd car)
+((fn 'def) 'tl cdr)
+((fn 'def) 'intern intern)
+((fn 'def) '= =)
+((fn 'def) '+ +)
+((fn 'def) '- -)
+((fn 'def) '* *)
+((fn 'def) '/ /)
+((fn 'def) '<= <=)
+((fn 'def) '>= >=)
+((fn 'def) '< <)
+((fn 'def) '> >)
+((fn 'def) 'symbol? symbol?)
+((fn 'def) 'not not)
+((fn 'def) 'number? number?)
+((fn 'def) 'string? string?)
+((fn 'def) 'absvector vector)
+((fn 'def) 'absvector? vector?)
+((fn 'def) '<-address vector-ref)
+((fn 'def) 'address-> vector-set!)

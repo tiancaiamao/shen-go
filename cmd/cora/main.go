@@ -34,7 +34,6 @@ func main() {
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
 	cora.PrimNS1Set(cora.MakeSymbol("make-code-generator"), makeCodeGenerator)
 	cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
-	cora.PrimNS1Set(cora.MakeSymbol("value"), cora.MakePrimitive("value", 1, cora.PrimNS1Value))
 
 	if !quiet {
 		err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init")))

@@ -17,39 +17,37 @@ var Primitives = map[string]struct {
 	fn    interface{}
 	Name  string
 }{
-	"set":                   {2, PrimNS1Set, "PrimNS1Set"},
-	"car":                   {1, PrimHead, "PrimHead"},
-	"cdr":                   {1, PrimTail, "PrimTail"},
-	"vector?":            {1, PrimIsVector, "PrimIsVector"},
-	"vector-ref":             {2, PrimVectorGet, "PrimVectorGet"},
-	"vector-set!":             {3, PrimVectorSet, "PrimVectorSet"},
-	"vector":             {1, PrimAbsvector, "PrimAbsvector"},
-	"<=":                    {2, PrimLessEqual, "PrimLessEqual"},
-	">=":                    {2, PrimGreatEqual, "PrimGreatEqual"},
-	"<":                     {2, PrimLessThan, "PrimLessThan"},
-	">":                     {2, PrimGreatThan, "PrimGreatThan"},
-	"=":                     {2, PrimEqual, "PrimEqual"},
-	"-":                     {2, PrimNumberSubtract, "PrimNumberSubtract"},
-	"*":                     {2, PrimNumberMultiply, "PrimNumberMultiply"},
-	"/":                     {2, PrimNumberDivide, "PrimNumberDivide"},
-	"+":                     {2, PrimNumberAdd, "PrimNumberAdd"},
-	"number?":               {1, PrimIsNumber, "PrimIsNumber"},
-	"string?":               {1, PrimIsString, "PrimIsString"},
-	"pos":                   {2, PrimPos, "PrimPos"},
-	"cn":                    {2, PrimStringConcat, "PrimStringConcat"},
-	"intern":                {1, PrimIntern, "PrimIntern"},
-	"cons":                  {2, PrimCons, "PrimCons"},
-	"cons?":                 {1, PrimIsPair, "PrimIsPair"},
-	"not":                   {1, PrimNot, "PrimNot"},
-	"symbol?":               {1, PrimIsSymbol, "PrimIsSymbol"},
-	"gensym":                {1, PrimGenSym, "PrimGenSym"},
-	"integer?":              {1, PrimIsInteger, "PrimIsInteger"},
+	"set":         {2, PrimNS1Set, "PrimNS1Set"},
+	"value":       {1, PrimNS1Value, "PrimNS1Value"},
+	"car":         {1, PrimHead, "PrimHead"},
+	"cdr":         {1, PrimTail, "PrimTail"},
+	"vector?":     {1, PrimIsVector, "PrimIsVector"},
+	"vector-ref":  {2, PrimVectorGet, "PrimVectorGet"},
+	"vector-set!": {3, PrimVectorSet, "PrimVectorSet"},
+	"vector":      {1, PrimAbsvector, "PrimAbsvector"},
+	"<=":          {2, PrimLessEqual, "PrimLessEqual"},
+	">=":          {2, PrimGreatEqual, "PrimGreatEqual"},
+	"<":           {2, PrimLessThan, "PrimLessThan"},
+	">":           {2, PrimGreatThan, "PrimGreatThan"},
+	"=":           {2, PrimEqual, "PrimEqual"},
+	"-":           {2, PrimNumberSubtract, "PrimNumberSubtract"},
+	"*":           {2, PrimNumberMultiply, "PrimNumberMultiply"},
+	"/":           {2, PrimNumberDivide, "PrimNumberDivide"},
+	"+":           {2, PrimNumberAdd, "PrimNumberAdd"},
+	"number?":     {1, PrimIsNumber, "PrimIsNumber"},
+	"string?":     {1, PrimIsString, "PrimIsString"},
+	"pos":         {2, PrimPos, "PrimPos"},
+	"cn":          {2, PrimStringConcat, "PrimStringConcat"},
+	"intern":      {1, PrimIntern, "PrimIntern"},
+	"cons":        {2, PrimCons, "PrimCons"},
+	"cons?":       {1, PrimIsPair, "PrimIsPair"},
+	"not":         {1, PrimNot, "PrimNot"},
+	"symbol?":     {1, PrimIsSymbol, "PrimIsSymbol"},
+	"gensym":      {1, PrimGenSym, "PrimGenSym"},
+	"integer?":    {1, PrimIsInteger, "PrimIsInteger"},
 
-	// For KLambda
-	"fn-set":    {2, PrimNS2Set, "PrimFnSet"},
-	"fn":        {1, PrimNS2Value, "PrimNS2Value"},
-	"kl-set":   {2, PrimNS3Set, "PrimNS3Set"},
-	"kl-value": {1, PrimNS3Value, "PrimNS3Value"},
+	// The only special primitive required to support KLambda
+	"fn": {1, PrimNS2Value, "PrimNS2Value"},
 }
 
 var klPrimitives = []struct {
@@ -57,50 +55,51 @@ var klPrimitives = []struct {
 	arity int
 	fn    interface{}
 }{
-	{"get-time", 1,  PrimGetTime},
-	{"close", 1,  PrimCloseStream},
-	{"open", 2,  PrimOpenStream},
-	{"read-byte", 1,  PrimReadByte},
-	{"write-byte", 2,  PrimWriteByte},
+	{"get-time", 1, PrimGetTime},
+	{"close", 1, PrimCloseStream},
+	{"open", 2, PrimOpenStream},
+	{"read-byte", 1, PrimReadByte},
+	{"write-byte", 2, PrimWriteByte},
 	// {"absvector?", 1,  PrimIsVector},
 	// {"<-address", 2,  PrimVectorGet},
 	// {"address->", 3,  PrimVectorSet},
 	// {"absvector", 1,  PrimAbsvector},
-	{"str", 1,  PrimStr},
+	{"str", 1, PrimStr},
 	// {"<=", 2,  PrimLessEqual},
 	// {">=", 2,  PrimGreatEqual},
 	// {"<", 2,  PrimLessThan},
 	// {">", 2,  PrimGreatThan},
-	{"error-to-string", 1,  PrimErrorToString},
-	{"simple-error", 1,  PrimSimpleError},
+	{"error-to-string", 1, PrimErrorToString},
+	{"simple-error", 1, PrimSimpleError},
 	// {"=", 2,  PrimEqual},
 	// {"-", 2,  PrimNumberSubtract},
 	// {"*", 2,  PrimNumberMultiply},
 	// {"/", 2,  PrimNumberDivide},
 	// {"+", 2,  PrimNumberAdd},
-	{"string->n", 1,  PrimStringToNumber},
-	{"n->string", 1,  PrimNumberToString},
+	{"string->n", 1, PrimStringToNumber},
+	{"n->string", 1, PrimNumberToString},
 	// {"number?", 1,  PrimIsNumber},
 	// {"string?", 1,  PrimIsString},
-	{"pos", 2,  PrimPos},
-	{"tlstr", 1,  PrimTailString},
-	{"cn", 2,  PrimStringConcat},
+	{"pos", 2, PrimPos},
+	{"tlstr", 1, PrimTailString},
+	{"cn", 2, PrimStringConcat},
 	// {"intern", 1,  PrimIntern},
 	// {"hd", 1,  PrimHead},
 	// {"tl", 1,  PrimTail},
 	// {"cons", 2,  PrimCons},
 	// {"cons?", 1,  PrimIsPair},
-	{"value", 1,  PrimNS3Value},
-	{"set", 2,  PrimNS3Set},
+	{"value", 1, PrimNS3Value},
+	{"set", 2, PrimNS3Set},
+	{"def", 2, PrimNS2Set}, // defun in klambda is compiled to def
 	// {"not", 1,  PrimNot},
-	{"if", 3,  PrimIf},
+	{"if", 3, PrimIf},
 	// {"symbol?", 1,  PrimIsSymbol},
-	{"read-file-as-bytelist", 1,  PrimReadFileAsByteList},
-	{"read-file-as-string", 1,  PrimReadFileAsString},
+	{"read-file-as-bytelist", 1, PrimReadFileAsByteList},
+	{"read-file-as-string", 1, PrimReadFileAsString},
 	// {"variable?", 1, PrimIsVariable},
-	{"integer?", 1,  PrimIsInteger},
-	{"shen.char-stoutput?", 1,  PrimCharStOutput},
-	{"shen.char-stinput?", 1,  PrimCharStInput},
+	{"integer?", 1, PrimIsInteger},
+	{"shen.char-stoutput?", 1, PrimCharStOutput},
+	{"shen.char-stinput?", 1, PrimCharStInput},
 }
 
 func init() {
@@ -886,48 +885,48 @@ func primEvalKL(e *ControlFlow) {
 }
 
 func evalKL(e *ControlFlow, exp Obj) Obj {
-       exp1 := Call(e, PrimNS1Value(MakeSymbol("kl->cora")), Nil, exp)
+	exp1 := Call(e, PrimNS1Value(MakeSymbol("kl->cora")), Nil, exp)
 
-       // fmt.Println("evalKL with ===", kl.ObjString(exp1))
-       res := Eval(e, exp1)
-       return res
+	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
+	res := Eval(e, exp1)
+	return res
 }
 
-func primLoad(e * ControlFlow) {
+func primLoad(e *ControlFlow) {
 	file := e.Get(1)
-	if ! IsString(file) {
-		e.Return( MakeError("arg1 must be string"))
+	if !IsString(file) {
+		e.Return(MakeError("arg1 must be string"))
 		return
 	}
-	path :=  GetString(file)
+	path := GetString(file)
 	if _, err := os.Stat(path); err != nil {
-		e.Return( MakeError(err.Error()))
+		e.Return(MakeError(err.Error()))
 		return
 	}
 
 	f, err := os.Open(path)
 	if err != nil {
-		e.Return( MakeError(err.Error()))
+		e.Return(MakeError(err.Error()))
 		return
 	}
 	defer f.Close()
 
-	r :=  NewSexpReader(f, false)
+	r := NewSexpReader(f, false)
 	for {
 		exp, err := r.Read()
 		if err != nil {
 			if err != io.EOF {
-				e.Return( MakeError(err.Error()))
+				e.Return(MakeError(err.Error()))
 				return
 			}
 			break
 		}
 
 		res := evalKL(e, exp)
-		if  IsError(res) {
+		if IsError(res) {
 			e.Return(res)
 			return
 		}
 	}
-	e.Return( MakeSymbol("loaded"))
+	e.Return(MakeSymbol("loaded"))
 }
