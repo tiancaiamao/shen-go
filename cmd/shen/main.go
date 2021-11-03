@@ -21,26 +21,21 @@ func init() {
 
 func regist(e *cora.ControlFlow) {
 	for _, init := range []cora.Obj{
-		TopLevelMain,
-		DictMain,
-		CoreMain,
+		KLMain,
 		SysMain,
-		SequentMain,
-		YaccMain,
-		ReaderMain,
-		PrologMain,
-		TrackMain,
-		LoadMain,
 		WriterMain,
-		MacrosMain,
+		CoreMain,
+		ReaderMain,
 		DeclarationsMain,
+		TopLevelMain,
+		MacrosMain,
+		LoadMain,
+		PrologMain,
+		SequentMain,
+		TrackMain,
 		TStarMain,
+		YaccMain,
 		TypesMain,
-		InitMain,
-		ExtensionFeaturesMain,
-		ExtensionLauncherMain,
-		ExtensionFactoriseDefunMain,
-		BuildMain,
 	} {
 		res := cora.Call(e, init)
 		if cora.IsError(res) {
@@ -63,23 +58,9 @@ func main() {
 	if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init"))); cora.IsError(err) {
 		os.Exit(-1)
 	}
-	// gopath := os.Getenv("GOPATH")
-	// initFiles := []string{
-	// 	filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/kl", "init.cora"),
-	// filepath.Join(gopath, "src/github.com/tiancaiamao/shen-go/src", "build.cora"),
-	// }
-	// for _, file := range initFiles {
-	// 	if _, err := os.Stat(file); err == nil {
-	// 		res := kl.Call(&e, kl.PrimNS1Value(kl.MakeSymbol("load")), kl.MakeString(file))
-	// 		if kl.IsError(res) {
-	// 			os.Exit(-1)
-	// 		}
-	// 	}
-	// }
 
 	regist(&e)
-	evalKL(&e, cora.Cons(cora.MakeSymbol("shen.initialise"), cora.Nil))
-	evalKL(&e, cora.Cons(cora.MakeSymbol("shen.repl"), cora.Nil))
+	evalKL(&e, cora.Cons(cora.MakeSymbol("shen.shen"), cora.Nil))
 	// r := kl.NewSexpReader(os.Stdin, false)
 	// for i := 0; ; i++ {
 	// 	fmt.Printf("%d #> ", i)

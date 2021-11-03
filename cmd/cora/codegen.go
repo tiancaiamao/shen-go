@@ -62,7 +62,7 @@ type codeGenerator struct {
 
 func (cg *codeGenerator) HandleBody(f io.Reader, export string, out io.Writer) error {
 	fmt.Fprintf(out, "package main\n\n")
-	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
+	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/cora\"\n\n")
 	fmt.Fprintf(out, `var %s = MakeNative(func(__e *ControlFlow) {
 `, export)
 	r := NewSexpReader(f, false)

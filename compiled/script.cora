@@ -1,0 +1,94 @@
+;; test load kl to run shen.shen
+;; ./kl
+(load-file "../KLambda/sys.kl")
+(load-file "../KLambda/writer.kl")
+(load-file "../KLambda/core.kl")
+(load-file "../KLambda/reader.kl")
+(load-file "../KLambda/declarations.kl")
+(load-file "../KLambda/toplevel.kl")
+(load-file "../KLambda/macros.kl")
+(load-file "../KLambda/load.kl" )
+(load-file "../KLambda/prolog.kl")
+(load-file "../KLambda/sequent.kl")
+(load-file "../KLambda/track.kl")
+(load-file "../KLambda/t-star.kl")
+(load-file "../KLambda/yacc.kl")
+(load-file "../KLambda/types.kl")
+
+
+;; generate cora from kl
+;; ./cora
+;; (load "cora/kl.cora")
+(compile-file "sys.kl" "sys.cora")
+(compile-file "writer.kl" "writer.cora")
+(compile-file "core.kl" "core.cora")
+(compile-file "reader.kl" "reader.cora")
+(compile-file "declarations.kl" "declarations.cora")
+(compile-file "toplevel.kl" "toplevel.cora")
+(compile-file "macros.kl" "macros.cora")
+(compile-file "load.kl"  "load.cora")
+(compile-file "prolog.kl" "prolog.cora")
+(compile-file "sequent.kl" "sequent.cora")
+(compile-file "track.kl" "track.cora")
+(compile-file "t-star.kl" "t-star.cora")
+(compile-file "yacc.kl" "yacc.cora")
+(compile-file "types.kl" "types.cora")
+
+
+;; test load the generated cora to run shen
+;; ./cora
+(load "../../compiled/sys.cora")
+(load "../../compiled/writer.cora")
+(load "../../compiled/core.cora")
+(load "../../compiled/reader.cora")
+(load "../../compiled/declarations.cora")
+(load "../../compiled/toplevel.cora")
+(load "../../compiled/macros.cora")
+(load "../../compiled/load.cora" )
+(load "../../compiled/prolog.cora")
+(load "../../compiled/sequent.cora")
+(load "../../compiled/track.cora")
+(load "../../compiled/t-star.cora")
+(load "../../compiled/yacc.cora")
+(load "../../compiled/types.cora")
+;; ((fn 'shen.shen))
+
+;; generate bytecode from cora
+;; ./cora
+;; (load "src/compiler.cora")
+(compile-file "sys.cora" "sys.bc")
+(compile-file "writer.cora" "writer.bc")
+(compile-file "core.cora" "core.bc")
+(compile-file "reader.cora" "reader.bc")
+(compile-file "declarations.cora" "declarations.bc")
+(compile-file "toplevel.cora" "toplevel.bc")
+(compile-file "macros.cora" "macros.bc")
+(compile-file "load.cora"  "load.bc")
+(compile-file "prolog.cora" "prolog.bc")
+(compile-file "sequent.cora" "sequent.bc")
+(compile-file "track.cora" "track.bc")
+(compile-file "t-star.cora" "t-star.bc")
+(compile-file "yacc.cora" "yacc.bc")
+(compile-file "types.cora" "types.bc")
+
+(compile-file "src/kl.cora" "kl.bc")
+
+;; generate go file from bytecode
+;; ./cora
+(let cg (make-code-generator)
+     (begin
+      (cg:bc->go cg "SysMain" false "sys.bc" "sys.go")
+      (cg:bc->go cg "WriterMain" false "writer.bc" "writer.go")
+      (cg:bc->go cg "CoreMain" false "core.bc" "core.go")
+      (cg:bc->go cg "ReaderMain" false "reader.bc" "reader.go")
+      (cg:bc->go cg "DeclarationsMain" false "declarations.bc" "declarations.go")
+      (cg:bc->go cg "TopLevelMain" false "toplevel.bc" "toplevel.go")
+      (cg:bc->go cg "MacrosMain" false "macros.bc" "macros.go")
+      (cg:bc->go cg "LoadMain" false "load.bc" "load.go")
+      (cg:bc->go cg "PrologMain" false "prolog.bc" "prolog.go")
+      (cg:bc->go cg "SequentMain" false "sequent.bc" "sequent.go")
+      (cg:bc->go cg "TrackMain" false "track.bc" "track.go")
+      (cg:bc->go cg "TStarMain" false "t-star.bc" "t-star.go")
+      (cg:bc->go cg "YaccMain" false "yacc.bc" "yacc.go")
+      (cg:bc->go cg "TypesMain" false "types.bc" "types.go")
+      (cg:bc->go cg "KLMain" true "kl.bc" "kl.go")))
