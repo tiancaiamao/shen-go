@@ -33,6 +33,7 @@ const (
 
 type scmPrimitive struct {
 	scmHead
+	params int
 	fn func(args ...Obj) Obj
 }
 
@@ -445,6 +446,7 @@ func MakeClosure(code func(), env *Env, nargs int, mark map[int]struct{}) Obj {
 		// 	data: make([]Obj, numArgs),
 		// },
 		// numArgs: nargs,
+		params: nargs,
 		mark: mark,
 	}
 	return &tmp.scmHead
@@ -452,7 +454,7 @@ func MakeClosure(code func(), env *Env, nargs int, mark map[int]struct{}) Obj {
 
 func MakeCurry(origin Obj, upvalue []Obj, params int) Obj {
 	tmp := scmCurry{
-		scmHead: scmHeadClosure,
+		scmHead: scmHeadCurry,
 		origin: origin,
 		upvalue: upvalue,
 		params: params,
@@ -535,6 +537,8 @@ func (o *scmHead) GoString() string {
 		return "#closure"
 	case scmHeadPrimitive:
 		return "#prim"
+	case scmHeadCurry:
+		return "#curry"
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }

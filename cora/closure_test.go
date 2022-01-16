@@ -12,6 +12,7 @@ func primitive(fn func(args ...Obj) Obj, nargs int) Obj {
 	tmp := scmPrimitive{
 		scmHead: scmHeadPrimitive,
 		fn: fn,
+		params: nargs,
 	}
 	return Obj(&tmp.scmHead)
 }
@@ -46,6 +47,9 @@ func myset(args ...Obj) Obj {
 }
 
 func TestXXX(t *testing.T) {
+	exp := `((((lambda (x y z)
+   y)) 1 2) 3)`
+
 // 	exp := `(do (set (quote f)
 // (lambda (x)
 //  (lambda (z w)
@@ -60,14 +64,14 @@ func TestXXX(t *testing.T) {
 //     (if (= i 1)
 //         1
 //         (+ (fib (- i 1)) (fib (- i 2)))))))
-// (fib 3))`
+// (fib 10))`
 	
-	exp := `(do (set (quote sum)
-(lambda (r i)
-  (if (= i 0)
-      r
-      (sum (+ r 1) (- i 1)))))
-(sum 0 5000000))`
+// 	exp := `(do (set (quote sum)
+// (lambda (r i)
+//   (if (= i 0)
+//       r
+//       (sum (+ r 1) (- i 1)))))
+// (sum 0 5000000))`
 
 	// exp := `(+ (do 1 (do 2 3)) 4)`
 
