@@ -25,8 +25,31 @@ const (
 	scmHeadStream          = 17
 	scmHeadError           = 22
 	scmHeadNative          = 23
+	scmHeadClosure = 24
+	scmHeadPrimitive = 25
+	scmHeadCurry = 26
 	scmHeadRaw             = 42
 )
+
+type scmPrimitive struct {
+	scmHead
+	fn func(args ...Obj) Obj
+}
+
+type scmClosure struct {
+	scmHead
+	code func()
+	env *Env
+	mark map[int]struct{}
+	params int
+}
+
+type scmCurry struct {
+	scmHead
+	origin Obj
+	upvalue []Obj
+	params int
+}
 
 type scmNumber struct {
 	scmHead
@@ -217,6 +240,27 @@ func mustStream(o Obj) *scmStream {
 	return (*scmStream)(unsafe.Pointer(o))
 }
 
+func mustClosure(o Obj) *scmClosure {
+	if objType(o) != scmHeadClosure {
+		panic(MakeError("mustClosure"))
+	}
+	return (*scmClosure)(unsafe.Pointer(o))
+}
+
+func mustCurry(o Obj) *scmCurry {
+	if objType(o) != scmHeadCurry {
+		panic(MakeError("mustCurry"))
+	}
+	return (*scmCurry)(unsafe.Pointer(o))
+}
+
+func mustPrimitive(o Obj) *scmPrimitive {
+	if objType(o) != scmHeadPrimitive {
+		panic(MakeError("mustPrimitive"))
+	}
+	return (*scmPrimitive)(unsafe.Pointer(o))
+}
+
 func mustPair(o Obj) *scmPair {
 	/*
 		if objType(o) != scmHeadPair {
@@ -391,6 +435,31 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
+func MakeClosure(code func(), env *Env, nargs int, mark map[int]struct{}) Obj {
+	tmp := scmClosure{
+		scmHead: scmHeadClosure,
+		code: code,
+		env: env,
+		// env: &Env {
+		// 	parent: env,
+		// 	data: make([]Obj, numArgs),
+		// },
+		// numArgs: nargs,
+		mark: mark,
+	}
+	return &tmp.scmHead
+}
+
+func MakeCurry(origin Obj, upvalue []Obj, params int) Obj {
+	tmp := scmCurry{
+		scmHead: scmHeadClosure,
+		origin: origin,
+		upvalue: upvalue,
+		params: params,
+	}
+	return &tmp.scmHead
+}
+
 func makeClosure(params, body, env Obj) Obj {
 	return cons(symLambda, cons(params, cons(body, env)))
 }
@@ -462,6 +531,10 @@ func (o *scmHead) GoString() string {
 			return fmt.Sprintf("#primitive(%s)", prim.name)
 		}
 		return "#native"
+	case scmHeadClosure:
+		return "#closure"
+	case scmHeadPrimitive:
+		return "#prim"
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }
