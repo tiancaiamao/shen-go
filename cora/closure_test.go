@@ -47,8 +47,11 @@ func myset(args ...Obj) Obj {
 }
 
 func TestXXX(t *testing.T) {
-	exp := `((((lambda (x y z)
-   y)) 1 2) 3)`
+	exp := `((lambda (x) (lambda (y z) (+ x z)))
+1 2 3)`
+
+   // 	exp := `((((lambda (x y z)
+   // y)) 1 2) 3)`
 
 // 	exp := `(do (set (quote f)
 // (lambda (x)

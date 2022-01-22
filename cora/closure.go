@@ -1,7 +1,7 @@
 package cora
 
 import (
-	"fmt"
+	// "fmt"
 )
 
 func ceval(exp Obj) Obj {
@@ -187,6 +187,7 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 			stack = append(stack, val)
 		}
 
+	again:
 		f := stack[sp]
 		required := getRequired(f)
 		provided := len(stack[sp+1:])
@@ -196,16 +197,30 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 			copy(upvalues, stack[sp+1:])
 			val = MakeCurry(f, upvalues, required - provided)
 		} else if required < provided {
-			panic("required < provided?")
+			// Prepare a new stack for calling...
+			saveSP1 := sp
+			sp = len(stack)
+			for i:=saveSP1; i<saveSP1+1+required; i++ {
+				stack = append(stack, stack[i])
+			}
+			// Make the call
+			myCall()
+			// Recover the stack
+			stack[saveSP1] = val
+			pos :=saveSP1+1
+			i := saveSP1+1+required
+			for ; i<saveSP1+1+provided;  {
+				stack[pos] = stack[i]
+				i++
+				pos++
+			}
+			stack = stack[:pos]
+			sp = saveSP1
+			
+			goto again
 		} else {
-
-retry:
-			switch *f {
-			case scmHeadPrimitive:
-				priv := mustPrimitive(f)
-				val = priv.fn(stack[sp+1:]...)
-
-			case scmHeadClosure:
+			if tail && *f == scmHeadClosure {
+				// Special logic ...
 				clo := mustClosure(f)
 				saveEnv := env
 				env = &Env{
@@ -222,36 +237,18 @@ retry:
 					}
 				}
 
-				if tail {
-					pc = func() {
-						exec(clo.code)
-						// clo.code()
-						env = saveEnv
-						sp = saveSP
-						stack = stack[:saveSP]
-						return
-					}
-					return
-				} else {
+				pc = func() {
 					exec(clo.code)
+					// clo.code()
 					env = saveEnv
+					sp = saveSP
+					stack = stack[:saveSP]
+					return
 				}
+				return
+			} 
 
-			case scmHeadCurry:
-				curry := mustCurry(f)
-				saved := append([]Obj{}, stack[sp+1:]...)
-				stack = stack[:sp]
-				stack = append(stack, curry.origin)
-				stack = append(stack, curry.upvalue...)
-				stack = append(stack, saved...)
-				f = stack[sp]
-				goto retry
-
-			default:
-				panic("invalid call operation on:" + ObjString(f))
-			}
-
-
+			myCall()
 		}
 
 		if tail {
@@ -263,18 +260,71 @@ retry:
 	}
 }
 
-func printStack() {
-	for i:=0; i<len(stack); i++ {
-		if i > 0 {
-			fmt.Print(" ")
+func myCall() {
+	f := stack[sp]
+	switch *f {
+	case scmHeadPrimitive:
+		priv := mustPrimitive(f)
+		val = priv.fn(stack[sp+1:]...)
+
+	case scmHeadClosure:
+		clo := mustClosure(f)
+		saveEnv := env
+		env = &Env{
+			parent: clo.env,
+			data: stack[sp+1:],
 		}
-		if i == sp {
-			fmt.Print(" | ")
+
+		// Some of the data is used by the body (marked),
+		// They need persistent, should be heap referenced! 
+		if len(clo.mark) > 0 {
+			env.heap = make(map[int]Obj, len(clo.mark))
+			for idx := range clo.mark {
+				env.heap[idx] = env.data[idx]
+			}
 		}
-		fmt.Printf("%s", ObjString(stack[i]))
+
+		// if tail {
+		// 	pc = func() {
+		// 		exec(clo.code)
+		// 		// clo.code()
+		// 		env = saveEnv
+		// 		sp = saveSP
+		// 		stack = stack[:saveSP]
+		// 		return
+		// 	}
+		// 	return
+		// } else {
+		exec(clo.code)
+		env = saveEnv
+		// }
+
+	case scmHeadCurry:
+		curry := mustCurry(f)
+		saved := append([]Obj{}, stack[sp+1:]...)
+		stack = stack[:sp]
+		stack = append(stack, curry.origin)
+		stack = append(stack, curry.upvalue...)
+		stack = append(stack, saved...)
+		f = stack[sp]
+		myCall()
+	default:
+		panic("invalid call operation on:" + ObjString(f))
 	}
-	fmt.Println()
 }
+
+// func printStack() {
+// 	for i:=0; i<len(stack); i++ {
+// 		if i > 0 {
+// 			fmt.Print(" ")
+// 		}
+// 		if i == sp {
+// 			fmt.Print(" | ")
+// 		}
+// 		fmt.Printf("%s", ObjString(stack[i]))
+// 	}
+// 	fmt.Println()
+// }
 
 func exec(f func()) {
 	pc = f
