@@ -1,18 +1,18 @@
 package cora
 
 import (
-	"strings"
-	"testing"
 	"fmt"
 	"io"
+	"strings"
+	"testing"
 	// "unsafe"
 )
 
 func primitive(fn func(args ...Obj) Obj, nargs int) Obj {
 	tmp := scmPrimitive{
 		scmHead: scmHeadPrimitive,
-		fn: fn,
-		params: nargs,
+		fn:      fn,
+		params:  nargs,
 	}
 	return Obj(&tmp.scmHead)
 }
@@ -47,34 +47,34 @@ func myset(args ...Obj) Obj {
 }
 
 func TestXXX(t *testing.T) {
-	exp := `((lambda (x) (lambda (y z) (+ x z)))
-1 2 3)`
+	// exp := `((lambda (x) (lambda (y z) (+ x z)))
+	// 1 2 3)`
 
-   // 	exp := `((((lambda (x y z)
-   // y)) 1 2) 3)`
+	// 	exp := `((((lambda (x y z)
+	// y)) 1 2) 3)`
 
-// 	exp := `(do (set (quote f)
-// (lambda (x)
-//  (lambda (z w)
-//    (lambda (y)
-//       z))))
-// (((f 1) 2 3) 4))`
-	
-// 	exp := `(do (set (quote fib)
-// (lambda (i)
-// (if (= i 0)
-//     1
-//     (if (= i 1)
-//         1
-//         (+ (fib (- i 1)) (fib (- i 2)))))))
-// (fib 10))`
-	
-// 	exp := `(do (set (quote sum)
-// (lambda (r i)
-//   (if (= i 0)
-//       r
-//       (sum (+ r 1) (- i 1)))))
-// (sum 0 5000000))`
+	// 	exp := `(do (set (quote f)
+	// (lambda (x)
+	//  (lambda (z w)
+	//    (lambda (y)
+	//       z))))
+	// (((f 1) 2 3) 4))`
+
+	// 	exp := `(do (set (quote fib)
+	// (lambda (i)
+	// (if (= i 0)
+	//     1
+	//     (if (= i 1)
+	//         1
+	//         (+ (fib (- i 1)) (fib (- i 2)))))))
+	// (fib 10))`
+
+	// 	exp := `(do (set (quote sum)
+	// (lambda (r i)
+	//   (if (= i 0)
+	//       r
+	//       (sum (+ r 1) (- i 1)))))
+	// (sum 0 5000000))`
 
 	// exp := `(+ (do 1 (do 2 3)) 4)`
 
@@ -85,12 +85,14 @@ func TestXXX(t *testing.T) {
 	// exp := `((lambda (x y z) z) 1 2 3)`
 	// exp := `(do 1 2)`
 	// exp := `(+ 3 7)`
+	// exp := `((+ 1) 2)`
+	exp := `(((+) 1) 2)`
 
-	PrimNS1Set(MakeSymbol("set"), primitive(myset, 2))
-	PrimNS1Set(MakeSymbol("+"), primitive(myadd, 2))
-	PrimNS1Set(MakeSymbol("*"), primitive(mymul, 2))
-	PrimNS1Set(MakeSymbol("-"), primitive(mysub, 2))
-	PrimNS1Set(MakeSymbol("="), primitive(myeq, 2))
+	// PrimNS1Set(MakeSymbol("set"), primitive(myset, 2))
+	// PrimNS1Set(MakeSymbol("+"), primitive(myadd, 2))
+	// PrimNS1Set(MakeSymbol("*"), primitive(mymul, 2))
+	// PrimNS1Set(MakeSymbol("-"), primitive(mysub, 2))
+	// PrimNS1Set(MakeSymbol("="), primitive(myeq, 2))
 
 	r := NewSexpReader(strings.NewReader(exp), true)
 	sexp, err := r.Read()
@@ -98,7 +100,6 @@ func TestXXX(t *testing.T) {
 		panic(err)
 	}
 	fmt.Println("input is:", ObjString(sexp))
-	res := ceval(sexp)
+	res := Neval(sexp)
 	fmt.Println("output is:", ObjString(res))
 }
-

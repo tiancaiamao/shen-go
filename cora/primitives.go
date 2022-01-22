@@ -582,6 +582,17 @@ func loadFile(e *ControlFlow, extended bool, file string) Obj {
 	return MakeString(file)
 }
 
+func macroExpand(sexp Obj) Obj {
+	expand := mustSymbol(symMacroExpand).cora
+	if expand != Nil {
+		// sexp = cora.Call(e, expand, sexp)
+
+		tmp := Cons(symMacroExpand, Cons(Cons(symQuote, Cons(sexp, Nil)), Nil))
+		sexp = Neval(tmp)
+	}
+	return sexp
+}
+
 func loadFileFromReader(e *ControlFlow, extended bool, r *SexpReader) Obj {
 	for {
 		exp, err := r.Read()
@@ -594,13 +605,15 @@ func loadFileFromReader(e *ControlFlow, extended bool, r *SexpReader) Obj {
 
 		// Macro expand for cora.
 		if extended {
-			expand := mustSymbol(symMacroExpand).cora
-			if expand != Nil {
-				exp = Call(e, expand, exp)
-			}
+			// expand := mustSymbol(symMacroExpand).cora
+			// if expand != Nil {
+			// 	exp = Call(e, expand, exp)
+			// }
+			exp = macroExpand(exp)
 		}
 
-		res := evalExp(e, exp, Nil)
+		res := Neval(exp)
+		// res := evalExp(e, exp, Nil)
 		if *res == scmHeadError {
 			return res
 		}

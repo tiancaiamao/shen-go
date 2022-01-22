@@ -15,41 +15,41 @@ type Obj *scmHead
 type scmHead int
 
 const (
-	scmHeadNumber  scmHead = 0
-	scmHeadPair            = 1
-	scmHeadVector          = 2
-	scmHeadNull            = 3
-	scmHeadString          = 4
-	scmHeadSymbol          = 5
-	scmHeadBoolean         = 6
-	scmHeadStream          = 17
-	scmHeadError           = 22
-	scmHeadNative          = 23
-	scmHeadClosure = 24
-	scmHeadPrimitive = 25
-	scmHeadCurry = 26
-	scmHeadRaw             = 42
+	scmHeadNumber    scmHead = 0
+	scmHeadPair              = 1
+	scmHeadVector            = 2
+	scmHeadNull              = 3
+	scmHeadString            = 4
+	scmHeadSymbol            = 5
+	scmHeadBoolean           = 6
+	scmHeadStream            = 17
+	scmHeadError             = 22
+	scmHeadNative            = 23
+	scmHeadClosure           = 24
+	// scmHeadPrimitive         = 25
+	scmHeadCurry             = 26
+	scmHeadRaw               = 42
 )
 
-type scmPrimitive struct {
-	scmHead
-	params int
-	fn func(args ...Obj) Obj
-}
+// type scmPrimitive struct {
+// 	scmHead
+// 	params int
+// 	fn     func(args ...Obj) Obj
+// }
 
 type scmClosure struct {
 	scmHead
-	code func()
-	env *Env
-	mark map[int]struct{}
+	code   func()
+	env    *Env
+	mark   map[int]struct{}
 	params int
 }
 
 type scmCurry struct {
 	scmHead
-	origin Obj
+	origin  Obj
 	upvalue []Obj
-	params int
+	params  int
 }
 
 type scmNumber struct {
@@ -255,12 +255,12 @@ func mustCurry(o Obj) *scmCurry {
 	return (*scmCurry)(unsafe.Pointer(o))
 }
 
-func mustPrimitive(o Obj) *scmPrimitive {
-	if objType(o) != scmHeadPrimitive {
-		panic(MakeError("mustPrimitive"))
-	}
-	return (*scmPrimitive)(unsafe.Pointer(o))
-}
+// func mustPrimitive(o Obj) *scmPrimitive {
+// 	if objType(o) != scmHeadPrimitive {
+// 		panic(MakeError("mustPrimitive"))
+// 	}
+// 	return (*scmPrimitive)(unsafe.Pointer(o))
+// }
 
 func mustPair(o Obj) *scmPair {
 	/*
@@ -439,15 +439,15 @@ func MakeSymbol(s string) Obj {
 func MakeClosure(code func(), env *Env, nargs int, mark map[int]struct{}) Obj {
 	tmp := scmClosure{
 		scmHead: scmHeadClosure,
-		code: code,
-		env: env,
+		code:    code,
+		env:     env,
 		// env: &Env {
 		// 	parent: env,
 		// 	data: make([]Obj, numArgs),
 		// },
 		// numArgs: nargs,
 		params: nargs,
-		mark: mark,
+		mark:   mark,
 	}
 	return &tmp.scmHead
 }
@@ -455,9 +455,9 @@ func MakeClosure(code func(), env *Env, nargs int, mark map[int]struct{}) Obj {
 func MakeCurry(origin Obj, upvalue []Obj, params int) Obj {
 	tmp := scmCurry{
 		scmHead: scmHeadCurry,
-		origin: origin,
+		origin:  origin,
 		upvalue: upvalue,
-		params: params,
+		params:  params,
 	}
 	return &tmp.scmHead
 }
@@ -535,8 +535,8 @@ func (o *scmHead) GoString() string {
 		return "#native"
 	case scmHeadClosure:
 		return "#closure"
-	case scmHeadPrimitive:
-		return "#prim"
+	// case scmHeadPrimitive:
+	// 	return "#prim"
 	case scmHeadCurry:
 		return "#curry"
 	}
