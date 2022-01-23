@@ -181,21 +181,23 @@ func getRequired(o Obj) int {
 	panic("not implemented" + ObjString(o))
 }
 
-func prepareCall(insts []func()) int {
-	saveSP := sp
+func prepareCall(insts []func()) {
+	// Save SP
+	stack = append(stack, MakeInteger(sp))
 	sp = len(stack)
 	for _, inst := range insts {
 		exec(inst)
 		stack = append(stack, val)
 	}
-	return saveSP
+	return
 }
 
-func recoverCall(tail bool, saveSP int) {
+func recoverCall(tail bool) {
+	saveSP := mustInteger(stack[sp-1])
 	if tail {
 		stack = stack[:saveSP]
 	} else {
-		stack = stack[:sp]
+		stack = stack[:sp-1]
 	}
 	sp = saveSP
 }
@@ -205,7 +207,7 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 		// printTabs()
 		// fmt.Println("call:", debugStr, "sp==", sp, "len(stack)==", len(stack))
 		// printStack()
-		saveSP := prepareCall(insts)
+		prepareCall(insts)
 
 	again:
 		f := stack[sp]
@@ -216,19 +218,20 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 			upvalues := make([]Obj, provided)
 			copy(upvalues, stack[sp+1:])
 			val = MakeCurry(f, upvalues, required-provided)
-			recoverCall(tail, saveSP)
+			recoverCall(tail)
 			return
 		}
 
 		if required < provided {
 			// Prepare a new stack for calling...
 			saveSP1 := sp
+			stack = append(stack, MakeInteger(saveSP1))
 			sp = len(stack)
 			for i := saveSP1; i < saveSP1+1+required; i++ {
 				stack = append(stack, stack[i])
 			}
 			// Make the call
-			myCall()
+			myCall(false)
 			// Recover the stack
 			stack[saveSP1] = val
 			pos := saveSP1 + 1
@@ -245,41 +248,39 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 		}
 
 		if tail && *f == scmHeadClosure {
-			// Special logic ...
-			clo := mustClosure(f)
-			saveEnv := env
-			env = &Env{
-				parent: clo.env,
-				data:   stack[sp+1:],
-			}
-
-			// Some of the data is used by the body (marked),
-			// They need persistent, should be heap referenced!
-			if len(clo.mark) > 0 {
-				env.heap = make(map[int]Obj, len(clo.mark))
-				for idx := range clo.mark {
-					env.heap[idx] = env.data[idx]
-				}
-			}
-
-			pc = func() {
-				exec(clo.code)
-				// clo.code()
-				env = saveEnv
-				sp = saveSP
-				stack = stack[:saveSP]
-				return
-			}
+			pc = myTailCall
 			return
 		}
 
-		myCall()
-
-		recoverCall(tail, saveSP)
+		myCall(tail)
 	}
 }
 
-func myCall() {
+func myTailCall() {
+	f := stack[sp]
+	clo := mustClosure(f)
+	saveEnv := env
+	env = &Env{
+		parent: clo.env,
+		data:   stack[sp+1:],
+	}
+
+	// Some of the data is used by the body (marked),
+	// They need persistent, should be heap referenced!
+	if len(clo.mark) > 0 {
+		env.heap = make(map[int]Obj, len(clo.mark))
+		for idx := range clo.mark {
+			env.heap[idx] = env.data[idx]
+		}
+	}
+
+	exec(clo.code)
+	env = saveEnv
+	recoverCall(true)
+}
+
+func myCall(tail bool) {
+retry:
 	f := stack[sp]
 	switch *f {
 
@@ -291,10 +292,6 @@ func myCall() {
 		ctl.pos = sp
 		fn.fn(&ctl)
 		val = ctl.Get(0)
-
-	// case scmHeadPrimitive:
-	// 	priv := mustPrimitive(f)
-	// 	val = priv.fn(stack[sp+1:]...)
 
 	case scmHeadClosure:
 		clo := mustClosure(f)
@@ -324,10 +321,14 @@ func myCall() {
 		stack = append(stack, curry.upvalue...)
 		stack = append(stack, saved...)
 		f = stack[sp]
-		myCall()
+		// myCall(tail)
+		// return
+		goto retry
 	default:
 		panic("invalid call operation on:" + ObjString(f))
 	}
+
+	recoverCall(tail)
 }
 
 // func printStack() {
