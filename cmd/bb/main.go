@@ -39,15 +39,15 @@ func main() {
 
 	var e cora.ControlFlow
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
-	cora.PrimNS1Set(cora.MakeSymbol("make-code-generator"), makeCodeGenerator)
-	cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
+	// cora.PrimNS1Set(cora.MakeSymbol("make-code-generator"), makeCodeGenerator)
+	// cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
 
-	if !quiet {
-		err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init")))
-		if cora.IsError(err) {
-			os.Exit(-1)
-		}
-	}
+	// if !quiet {
+	// 	err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init")))
+	// 	if cora.IsError(err) {
+	// 		os.Exit(-1)
+	// 	}
+	// }
 
 	if evalStr != "" {
 		sexp, err := readStringAsSexp(evalStr)
@@ -78,10 +78,7 @@ func readStringAsSexp(str string) (cora.Obj, error) {
 func macroExpand(sexp cora.Obj) cora.Obj {
 	expand := cora.PrimNS1Value(symMacroExpand)
 	if expand != cora.Nil {
-		// sexp = cora.Call(e, expand, sexp)
-
-		tmp := cora.Cons(symMacroExpand, cora.Cons(cora.Cons(symQuote, cora.Cons(sexp, cora.Nil)), cora.Nil))
-		sexp = cora.Neval(tmp)
+		sexp = cora.NCall(expand, sexp)
 	}
 	return sexp
 }

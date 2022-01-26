@@ -26,16 +26,9 @@ const (
 	scmHeadError           = 22
 	scmHeadNative          = 23
 	scmHeadClosure         = 24
-	// scmHeadPrimitive         = 25
-	scmHeadCurry = 26
+	scmHeadCurry = 25
 	scmHeadRaw   = 42
 )
-
-// type scmPrimitive struct {
-// 	scmHead
-// 	params int
-// 	fn     func(args ...Obj) Obj
-// }
 
 type scmClosure struct {
 	scmHead
@@ -255,13 +248,6 @@ func mustCurry(o Obj) *scmCurry {
 	return (*scmCurry)(unsafe.Pointer(o))
 }
 
-// func mustPrimitive(o Obj) *scmPrimitive {
-// 	if objType(o) != scmHeadPrimitive {
-// 		panic(MakeError("mustPrimitive"))
-// 	}
-// 	return (*scmPrimitive)(unsafe.Pointer(o))
-// }
-
 func mustPair(o Obj) *scmPair {
 	/*
 		if objType(o) != scmHeadPair {
@@ -441,11 +427,6 @@ func MakeClosure(code func(env *Env), env *Env, nargs int, mark map[int]struct{}
 		scmHead: scmHeadClosure,
 		code:    code,
 		env:     env,
-		// env: &Env {
-		// 	parent: env,
-		// 	data: make([]Obj, numArgs),
-		// },
-		// numArgs: nargs,
 		params: nargs,
 		mark:   mark,
 	}
@@ -535,8 +516,6 @@ func (o *scmHead) GoString() string {
 		return "#native"
 	case scmHeadClosure:
 		return "#closure"
-	// case scmHeadPrimitive:
-	// 	return "#prim"
 	case scmHeadCurry:
 		return "#curry"
 	}

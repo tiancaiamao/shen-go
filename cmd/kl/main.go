@@ -26,10 +26,10 @@ func main() {
 
 	var e cora.ControlFlow
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
-	if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init"))); cora.IsError(err) {
+	if err := cora.NCall(cora.PrimNS1Value(cora.MakeSymbol("cora.init"))); cora.IsError(err) {
 		os.Exit(-1)
 	}
-	if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("kl.init"))); cora.IsError(err) {
+	if err := cora.NCall(cora.PrimNS1Value(cora.MakeSymbol("kl.init"))); cora.IsError(err) {
 		os.Exit(-1)
 	}
 	r := cora.NewSexpReader(os.Stdin, false)
@@ -54,9 +54,9 @@ var (
 var symKLToCora = cora.MakeSymbol("kl->cora")
 
 func evalKL(e *cora.ControlFlow, exp cora.Obj) cora.Obj {
-	exp1 := cora.Call(e, cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
+	exp1 := cora.NCall(cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
 
 	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
-	res := cora.Eval(e, exp1)
+	res := cora.Neval(exp1)
 	return res
 }

@@ -193,13 +193,22 @@ func prepareCall(env *Env, insts []func(*Env)) int {
 	return saveSP
 }
 
-func recoverCall(tail bool, saveSP int) {
-	if tail {
-		stack = stack[:saveSP]
-	} else {
-		stack = stack[:sp]
-	}
+func recoverCall(saveSP int) {
+	stack = stack[:sp]
 	sp = saveSP
+}
+
+func NCall(f Obj, args ...Obj) Obj {
+	saveSP := sp
+	sp = len(stack)
+	stack = append(stack, f)
+	for _, arg := range args {
+		stack = append(stack, arg)
+	}
+
+	myCall(nil)
+	recoverCall(saveSP)
+	return val
 }
 
 func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) {
@@ -218,7 +227,7 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 			upvalues := make([]Obj, provided)
 			copy(upvalues, stack[sp+1:])
 			val = MakeCurry(f, upvalues, required-provided)
-			recoverCall(tail, saveSP)
+			recoverCall(saveSP)
 			return
 		}
 
@@ -275,7 +284,7 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 		}
 
 		myCall(env)
-		recoverCall(tail, saveSP)
+		recoverCall(saveSP)
 	}
 }
 
