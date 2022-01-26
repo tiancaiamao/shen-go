@@ -1,7 +1,7 @@
 package cora
 
 import (
-	// "fmt"
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -40,7 +40,7 @@ func TestTryCatch(t *testing.T) {
 	var kl ControlFlow
 	Call(&kl, Load)
 	// (trap-error (+ 2 (simple-error "xxx")) (lambda X (error-to-string X)))
-	exp := `(try-catch (lambda () (+ 2 (simple-error "xxx"))) (lambda (X) (error-to-string X)))`
+	exp := `(try-catch (lambda () (+ 2 ((fn (quote simple-error)) "xxx"))) (lambda (X) ((fn (quote error-to-string)) X)))`
 	r := NewSexpReader(strings.NewReader(exp), false)
 	sexp, err := r.Read()
 	if err != nil {
@@ -48,6 +48,7 @@ func TestTryCatch(t *testing.T) {
 	}
 	res := Eval(&kl, sexp)
 	if mustString(res) != "xxx" {
+		fmt.Println(ObjString(res))
 		t.Fail()
 	}
 

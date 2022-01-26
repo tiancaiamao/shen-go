@@ -3,7 +3,7 @@ package cora
 var Load = MakeNative(func(__e *ControlFlow) {
 	tmp176 := MakeNative(func(__e *ControlFlow) {
 		tmp177 := MakeNative(func(__e *ControlFlow) {
-			tmp178 := Call(__e, PrimNS1Value(symsimple_1error), MakeString("xxx"))
+			tmp178 := Call(__e, PrimNS2Value(symsimple_1error), MakeString("xxx"))
 
 			__e.TailApply(PrimNS1Value(sym_7), MakeNumber(2), tmp178)
 			return
