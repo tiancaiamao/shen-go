@@ -26,8 +26,8 @@ const (
 	scmHeadError           = 22
 	scmHeadNative          = 23
 	scmHeadClosure         = 24
-	scmHeadCurry = 25
-	scmHeadRaw   = 42
+	scmHeadCurry           = 25
+	scmHeadRaw             = 42
 )
 
 type scmClosure struct {
@@ -427,8 +427,8 @@ func MakeClosure(code func(env *Env), env *Env, nargs int, mark map[int]struct{}
 		scmHead: scmHeadClosure,
 		code:    code,
 		env:     env,
-		params: nargs,
-		mark:   mark,
+		params:  nargs,
+		mark:    mark,
 	}
 	return &tmp.scmHead
 }

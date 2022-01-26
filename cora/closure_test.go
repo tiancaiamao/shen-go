@@ -136,7 +136,7 @@ func TestXXX(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			res :=evalString(c.input)
+			res := evalString(c.input)
 			if ObjString(res) != c.output {
 				fmt.Println("input is:", c.input)
 				fmt.Println("output is:", ObjString(res))
@@ -145,7 +145,6 @@ func TestXXX(t *testing.T) {
 		})
 	}
 }
-
 
 func TestYYY(t *testing.T) {
 	evalString("(set 'return (lambda (x) (lambda (k) (k x))))")
