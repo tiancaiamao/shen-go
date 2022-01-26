@@ -127,11 +127,11 @@ func genIfInst(a, b, c func(*Env)) func(*Env) {
 func genDoInst(op1, op2 func(env *Env), tail bool) func(env *Env) {
 	return func(env *Env) {
 		op1(env)
-		// if tail {
-		// 	globalEnv = env
-		// 	pc = op2
-		// 	return
-		// }
+		if tail {
+			globalEnv = env
+			pc = op2
+			return
+		}
 		op2(env)
 	}
 }
@@ -225,7 +225,6 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 		if required < provided {
 			// Prepare a new stack for calling...
 			saveSP1 := sp
-			stack = append(stack, MakeInteger(saveSP1))
 			sp = len(stack)
 			for i := saveSP1; i < saveSP1+1+required; i++ {
 				stack = append(stack, stack[i])
@@ -234,14 +233,14 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 			myCall(env)
 			// Recover the stack
 			stack[saveSP1] = val
-			pos := saveSP1 + 1
-			i := saveSP1 + 1 + required
-			for i < saveSP1+1+provided {
-				stack[pos] = stack[i]
-				i++
-				pos++
+			to := saveSP1 + 1
+			from := saveSP1 + 1 + required
+			for from < saveSP1+1+provided {
+				stack[to] = stack[from]
+				from++
+				to++
 			}
-			stack = stack[:pos]
+			stack = stack[:to]
 			sp = saveSP1
 
 			goto again
@@ -253,6 +252,7 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 				clo := mustClosure(f)
 
 				copy(stack[saveSP:saveSP+len(insts)], stack[sp:])
+				stack = stack[:saveSP+len(insts)]
 				sp = saveSP
 				env = &Env{
 					parent: clo.env,
@@ -307,7 +307,6 @@ retry:
 
 	case scmHeadClosure:
 		clo := mustClosure(f)
-		saveEnv := env
 		env = &Env{
 			parent: clo.env,
 			data:   stack[sp+1:],
@@ -322,8 +321,8 @@ retry:
 			}
 		}
 
-		clo.code(env)
-		env = saveEnv
+		globalEnv = env
+		run(clo.code)
 
 	case scmHeadCurry:
 		curry := mustCurry(f)

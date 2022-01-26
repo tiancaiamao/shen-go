@@ -136,17 +136,31 @@ func TestXXX(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			r := NewSexpReader(strings.NewReader(c.input), true)
-			sexp, err := r.Read()
-			if err != nil && err != io.EOF {
-				panic(err)
-			}
-			res := Neval(sexp)
+			res :=evalString(c.input)
 			if ObjString(res) != c.output {
-				fmt.Println("input is:", ObjString(sexp))
+				fmt.Println("input is:", c.input)
 				fmt.Println("output is:", ObjString(res))
 				t.Fail()
 			}
 		})
 	}
+}
+
+
+func TestYYY(t *testing.T) {
+	evalString("(set 'return (lambda (x) (lambda (k) (k x))))")
+	evalString("(set 'add1 (lambda (n) (return (+ n 1))))")
+	res := evalString("(add1 4 (lambda (x) x))")
+	if res != MakeInteger(5) {
+		t.Fail()
+	}
+}
+
+func evalString(exp string) Obj {
+	r := NewSexpReader(strings.NewReader(exp), true)
+	sexp, err := r.Read()
+	if err != nil && err != io.EOF {
+		panic(err)
+	}
+	return Neval(sexp)
 }
