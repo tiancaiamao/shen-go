@@ -15,20 +15,20 @@ type Obj *scmHead
 type scmHead int
 
 const (
-	scmHeadNumber    scmHead = 0
-	scmHeadPair              = 1
-	scmHeadVector            = 2
-	scmHeadNull              = 3
-	scmHeadString            = 4
-	scmHeadSymbol            = 5
-	scmHeadBoolean           = 6
-	scmHeadStream            = 17
-	scmHeadError             = 22
-	scmHeadNative            = 23
-	scmHeadClosure           = 24
+	scmHeadNumber  scmHead = 0
+	scmHeadPair            = 1
+	scmHeadVector          = 2
+	scmHeadNull            = 3
+	scmHeadString          = 4
+	scmHeadSymbol          = 5
+	scmHeadBoolean         = 6
+	scmHeadStream          = 17
+	scmHeadError           = 22
+	scmHeadNative          = 23
+	scmHeadClosure         = 24
 	// scmHeadPrimitive         = 25
-	scmHeadCurry             = 26
-	scmHeadRaw               = 42
+	scmHeadCurry = 26
+	scmHeadRaw   = 42
 )
 
 // type scmPrimitive struct {
@@ -39,7 +39,7 @@ const (
 
 type scmClosure struct {
 	scmHead
-	code   func()
+	code   func(env *Env)
 	env    *Env
 	mark   map[int]struct{}
 	params int
@@ -436,7 +436,7 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-func MakeClosure(code func(), env *Env, nargs int, mark map[int]struct{}) Obj {
+func MakeClosure(code func(env *Env), env *Env, nargs int, mark map[int]struct{}) Obj {
 	tmp := scmClosure{
 		scmHead: scmHeadClosure,
 		code:    code,

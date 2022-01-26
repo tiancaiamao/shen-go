@@ -6,7 +6,7 @@ import (
 
 func Neval(exp Obj) Obj {
 	c := compile(exp, nil, true)
-	exec(c)
+	run(c)
 	return val
 }
 
@@ -36,7 +36,7 @@ func (env *compileEnv) findVariable(s Obj) (m int, n int, e *compileEnv) {
 	return // closure variable
 }
 
-func compile(exp Obj, env *compileEnv, tail bool) func() {
+func compile(exp Obj, env *compileEnv, tail bool) func(env *Env) {
 	switch *exp {
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull:
 		return genConstInst(exp)
@@ -70,7 +70,7 @@ func compile(exp Obj, env *compileEnv, tail bool) func() {
 		case symDo: // (do A A)
 			x := compile(car(tl), env, false)
 			y := compile(cadr(tl), env, tail)
-			return genDoInst(x, y)
+			return genDoInst(x, y, tail)
 		case symLambda: // (lambda (x y) x)
 			args := car(tl)
 			body := cadr(tl)
@@ -87,11 +87,10 @@ func compile(exp Obj, env *compileEnv, tail bool) func() {
 		}
 	}
 
-	var cached [5]func()
+	var cached [5]func(*Env)
 	insts := cached[:0]
 	debugStr := ObjString(exp)
 	for *exp == scmHeadPair {
-		// fmt.Println("compiling...", ObjString(car(exp)))
 		inst := compile(car(exp), env, false)
 		insts = append(insts, inst)
 		exp = cdr(exp)
@@ -105,41 +104,46 @@ type Env struct {
 	heap   map[int]Obj
 }
 
-func genConstInst(v Obj) func() {
-	return func() {
+func genConstInst(v Obj) func(env *Env) {
+	return func(env *Env) {
 		val = v
 	}
 }
 
-func genIfInst(a, b, c func()) func() {
-	return func() {
-		exec(a)
+func genIfInst(a, b, c func(*Env)) func(*Env) {
+	return func(env *Env) {
+		a(env)
 		switch val {
 		case True:
-			pc = b
+			b(env)
 		case False:
-			pc = c
+			c(env)
 		default:
 			panic("test branch for if must be a boolean")
 		}
 	}
 }
 
-func genDoInst(op1, op2 func()) func() {
-	return func() {
-		op1()
-		pc = op2
+func genDoInst(op1, op2 func(env *Env), tail bool) func(env *Env) {
+	return func(env *Env) {
+		op1(env)
+		// if tail {
+		// 	globalEnv = env
+		// 	pc = op2
+		// 	return
+		// }
+		op2(env)
 	}
 }
 
-func genLocalRefInst(idx int) func() {
-	return func() {
+func genLocalRefInst(idx int) func(*Env) {
+	return func(env *Env) {
 		val = env.data[idx]
 	}
 }
 
-func genClosureRefInst(m, n int) func() {
-	return func() {
+func genClosureRefInst(m, n int) func(*Env) {
+	return func(env *Env) {
 		e := env
 		for i := 0; i < m; i++ {
 			e = e.parent
@@ -148,9 +152,8 @@ func genClosureRefInst(m, n int) func() {
 	}
 }
 
-func genGlobalRefInst(sym Obj) func() {
-	return func() {
-		// fmt.Println("run here global ref")
+func genGlobalRefInst(sym Obj) func(*Env) {
+	return func(env *Env) {
 		s := mustSymbol(sym)
 		if s.cora == nil {
 			fmt.Println("NOT DEFINED")
@@ -160,8 +163,8 @@ func genGlobalRefInst(sym Obj) func() {
 	}
 }
 
-func genClosureInst(op func(), nargs int, mark map[int]struct{}) func() {
-	return func() {
+func genClosureInst(op func(*Env), nargs int, mark map[int]struct{}) func(*Env) {
+	return func(env *Env) {
 		val = MakeClosure(op, env, nargs, mark)
 	}
 }
@@ -172,8 +175,6 @@ func getRequired(o Obj) int {
 		return mustClosure(o).params
 	case scmHeadCurry:
 		return mustCurry(o).params
-	// case scmHeadPrimitive:
-	// 	return mustPrimitive(o).params
 	case scmHeadNative:
 		n := MustNative(o)
 		return n.require - len(n.captured)
@@ -181,33 +182,32 @@ func getRequired(o Obj) int {
 	panic("not implemented" + ObjString(o))
 }
 
-func prepareCall(insts []func()) {
+func prepareCall(env *Env, insts []func(*Env)) int {
 	// Save SP
-	stack = append(stack, MakeInteger(sp))
+	saveSP := sp
 	sp = len(stack)
 	for _, inst := range insts {
-		exec(inst)
+		inst(env)
 		stack = append(stack, val)
 	}
-	return
+	return saveSP
 }
 
-func recoverCall(tail bool) {
-	saveSP := mustInteger(stack[sp-1])
+func recoverCall(tail bool, saveSP int) {
 	if tail {
 		stack = stack[:saveSP]
 	} else {
-		stack = stack[:sp-1]
+		stack = stack[:sp]
 	}
 	sp = saveSP
 }
 
-func genCallInst(insts []func(), debugStr string, tail bool) func() {
-	return func() {
+func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) {
+	return func(env *Env) {
 		// printTabs()
+		saveSP := prepareCall(env, insts)
 		// fmt.Println("call:", debugStr, "sp==", sp, "len(stack)==", len(stack))
 		// printStack()
-		prepareCall(insts)
 
 	again:
 		f := stack[sp]
@@ -218,7 +218,7 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 			upvalues := make([]Obj, provided)
 			copy(upvalues, stack[sp+1:])
 			val = MakeCurry(f, upvalues, required-provided)
-			recoverCall(tail)
+			recoverCall(tail, saveSP)
 			return
 		}
 
@@ -231,7 +231,7 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 				stack = append(stack, stack[i])
 			}
 			// Make the call
-			myCall(false)
+			myCall(env)
 			// Recover the stack
 			stack[saveSP1] = val
 			pos := saveSP1 + 1
@@ -247,39 +247,51 @@ func genCallInst(insts []func(), debugStr string, tail bool) func() {
 			goto again
 		}
 
-		if tail && *f == scmHeadClosure {
-			pc = myTailCall
-			return
+		if tail {
+			f := stack[sp]
+			if *f == scmHeadClosure {
+				clo := mustClosure(f)
+
+				copy(stack[saveSP:saveSP+len(insts)], stack[sp:])
+				sp = saveSP
+				env = &Env{
+					parent: clo.env,
+					data:   stack[sp+1:],
+				}
+
+				// Some of the data is used by the body (marked),
+				// They need persistent, should be heap referenced!
+				if len(clo.mark) > 0 {
+					env.heap = make(map[int]Obj, len(clo.mark))
+					for idx := range clo.mark {
+						env.heap[idx] = env.data[idx]
+					}
+				}
+
+				pc = clo.code
+				globalEnv = env
+				return
+			}
 		}
 
-		myCall(tail)
+		myCall(env)
+		recoverCall(tail, saveSP)
 	}
 }
 
-func myTailCall() {
-	f := stack[sp]
-	clo := mustClosure(f)
-	saveEnv := env
-	env = &Env{
-		parent: clo.env,
-		data:   stack[sp+1:],
+func run(code func(*Env)) {
+	pc = code
+	for pc != nil {
+		tmp := pc
+		pc = nil
+		tmp(globalEnv)
 	}
-
-	// Some of the data is used by the body (marked),
-	// They need persistent, should be heap referenced!
-	if len(clo.mark) > 0 {
-		env.heap = make(map[int]Obj, len(clo.mark))
-		for idx := range clo.mark {
-			env.heap[idx] = env.data[idx]
-		}
-	}
-
-	exec(clo.code)
-	env = saveEnv
-	recoverCall(true)
 }
 
-func myCall(tail bool) {
+var globalEnv *Env
+var pc func(*Env)
+
+func myCall(env *Env) {
 retry:
 	f := stack[sp]
 	switch *f {
@@ -310,7 +322,7 @@ retry:
 			}
 		}
 
-		exec(clo.code)
+		clo.code(env)
 		env = saveEnv
 
 	case scmHeadCurry:
@@ -321,40 +333,25 @@ retry:
 		stack = append(stack, curry.upvalue...)
 		stack = append(stack, saved...)
 		f = stack[sp]
-		// myCall(tail)
-		// return
 		goto retry
 	default:
 		panic("invalid call operation on:" + ObjString(f))
 	}
-
-	recoverCall(tail)
 }
 
-// func printStack() {
-// 	for i:=0; i<len(stack); i++ {
-// 		if i > 0 {
-// 			fmt.Print(" ")
-// 		}
-// 		if i == sp {
-// 			fmt.Print(" | ")
-// 		}
-// 		fmt.Printf("%s", ObjString(stack[i]))
-// 	}
-// 	fmt.Println()
-// }
-
-func exec(f func()) {
-	pc = f
-	for pc != nil {
-		tmp := pc
-		pc = nil
-		tmp()
+func printStack() {
+	for i := 0; i < len(stack); i++ {
+		if i > 0 {
+			fmt.Print(" ")
+		}
+		if i == sp {
+			fmt.Print(" | ")
+		}
+		fmt.Printf("%s", ObjString(stack[i]))
 	}
+	fmt.Println()
 }
 
-var env *Env
 var val Obj
 var sp int
 var stack []Obj
-var pc func()
