@@ -36,8 +36,8 @@ func main() {
 	cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
 
 	if !quiet {
-		err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init")))
-		if cora.IsError(err) {
+		cora.CoraInit(&e, false)
+		if cora.IsError(e.Get(0)) {
 			os.Exit(-1)
 		}
 	}
