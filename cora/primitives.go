@@ -57,14 +57,11 @@ func init() {
 		prim := MakePrimitive(name, item.Arity, item.fn)
 		PrimNS1Set(sym, prim)
 	}
-	PrimNS1Set(MakeSymbol("load"), MakeNative(PrimLoadFile(), 1))
+	PrimNS1Set(MakeSymbol("load"), MakeNative(PrimLoadFile(false), 1))
 	PrimNS1Set(MakeSymbol("load-so"), MakeNative(primLoadSo, 1))
 	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
 	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
-	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(primTryCatch, 2))
-	PrimNS1Set(MakeSymbol("cora.init"), MakeNative(primCoraInit, 0))
-
-	klInit()
+	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(PrimTryCatch(false), 2))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -408,15 +405,19 @@ func PrimGenSym(x Obj) Obj {
 	return MakeSymbol(str)
 }
 
-func PrimLoadFile() func(e *ControlFlow) {
+func PrimLoadFile(test bool) func(e *ControlFlow) {
 	return func(e *ControlFlow) {
+		var evaluator Evaluator = controlFlowAsEvaluator{e}
+		if test {
+			evaluator = closureEvaluator{}
+		}
 		path := mustString(e.Get(1))
-		res := loadFile(e, true, path)
+		res := loadFile(evaluator, true, path)
 		e.Return(res)
 	}
 }
 
-func loadFile(e *ControlFlow, extended bool, file string) Obj {
+func loadFile(e Evaluator, extended bool, file string) Obj {
 	if _, err := os.Stat(file); err != nil {
 		return MakeError(err.Error())
 	}
@@ -434,7 +435,38 @@ func loadFile(e *ControlFlow, extended bool, file string) Obj {
 	return MakeString(file)
 }
 
-func loadFileFromReader(e *ControlFlow, extended bool, r *SexpReader) Obj {
+type Evaluator interface {
+	Eval(exp Obj) Obj
+	Call(f Obj, args ...Obj) Obj
+}
+
+var _ Evaluator = controlFlowAsEvaluator{}
+
+type controlFlowAsEvaluator struct {
+	*ControlFlow
+}
+
+func (c controlFlowAsEvaluator) Eval(exp Obj) Obj {
+	return Eval(c.ControlFlow, exp)
+}
+
+func (c controlFlowAsEvaluator) Call(f Obj, args ...Obj) Obj {
+	return Call(c.ControlFlow, f, args...)
+}
+
+var _ Evaluator = closureEvaluator{}
+
+type closureEvaluator struct{}
+
+func (closureEvaluator) Eval(exp Obj) Obj {
+	return Neval(exp)
+}
+
+func (closureEvaluator) Call(f Obj, args ...Obj) Obj {
+	return NCall(f, args...)
+}
+
+func loadFileFromReader(e Evaluator, extended bool, r *SexpReader) Obj {
 	for {
 		exp, err := r.Read()
 		if err != nil {
@@ -448,11 +480,11 @@ func loadFileFromReader(e *ControlFlow, extended bool, r *SexpReader) Obj {
 		if extended {
 			expand := mustSymbol(symMacroExpand).cora
 			if expand != Nil {
-				exp = Call(e, expand, exp)
+				exp = e.Call(expand, exp)
 			}
 		}
 
-		res := evalExp(e, exp, Nil)
+		res := e.Eval(exp)
 		if *res == scmHeadError {
 			return res
 		}
@@ -635,18 +667,65 @@ func try(e *ControlFlow, f Obj) (res tryResult) {
 	return
 }
 
+func try1(e *ControlFlow, f Obj) (res tryResult) {
+	saveSP := sp
+	// savePos := e.pos
+	defer func() {
+		if err := recover(); err != nil {
+			if val, ok := err.(Obj); ok {
+				if IsError(val) {
+					// Don't forget to recover the calling stack!
+					// e.pos = savePos
+					// e.data = e.data[:e.pos]
+					sp = saveSP
+					stack = stack[:sp]
+					res = tryResult{e: e, data: val}
+					return
+				}
+			}
+			// Unexpected panic?
+			var buf [8192]byte
+			n := runtime.Stack(buf[:], false)
+			fmt.Println("Unexpected Panic:", err)
+			fmt.Println("Recovered in Try:", ObjString(f))
+			fmt.Println(string(buf[:n]))
+			// throw the panic again...
+			panic(err)
+		}
+	}()
+	// val := Call(e, f)
+	val := NCall(f)
+	res = tryResult{e: e, data: val}
+	return
+}
+
 func (t tryResult) Catch(f Obj) Obj {
+
 	if IsError(t.data) {
 		return Call(t.e, f, t.data)
 	}
 	return t.data
 }
 
-func primTryCatch(e *ControlFlow) {
-	exp := e.Get(1)
-	act := e.Get(2)
-	res := try(e, exp).Catch(act)
-	e.Return(res)
+func (t tryResult) Catch1(f Obj) Obj {
+	if IsError(t.data) {
+		return NCall(f, t.data)
+	}
+	return t.data
+}
+
+func PrimTryCatch(test bool) func(e *ControlFlow) {
+	return func(e *ControlFlow) {
+		exp := e.Get(1)
+		act := e.Get(2)
+		var res Obj
+		if test {
+			res = try1(e, exp).Catch1(act)
+		} else {
+			res = try(e, exp).Catch(act)
+		}
+		e.Return(res)
+	}
 }
 
 func PrimNS1Set(key, val Obj) Obj {
@@ -694,7 +773,11 @@ func PrimNS3Value(key Obj) Obj {
 //go:embed init.cora kl.cora
 var initFS embed.FS
 
-func primCoraInit(e *ControlFlow) {
+func CoraInit(e *ControlFlow, test bool) {
+	var evaluator Evaluator = controlFlowAsEvaluator{e}
+	if test {
+		evaluator = closureEvaluator{}
+	}
 	f, err := initFS.Open("init.cora")
 	if err != nil {
 		e.Return(MakeError(err.Error()))
@@ -702,7 +785,7 @@ func primCoraInit(e *ControlFlow) {
 	}
 	defer f.Close()
 	r := NewSexpReader(f, true)
-	res := loadFileFromReader(e, true, r)
+	res := loadFileFromReader(evaluator, true, r)
 	e.Return(res)
 }
 

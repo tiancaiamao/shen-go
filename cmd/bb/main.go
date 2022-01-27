@@ -37,17 +37,20 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
+	// Override the 'load' function
+	cora.PrimNS1Set(cora.MakeSymbol("load"), cora.MakeNative(cora.PrimLoadFile(true), 1))
+
 	var e cora.ControlFlow
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
 	// cora.PrimNS1Set(cora.MakeSymbol("make-code-generator"), makeCodeGenerator)
 	// cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
 
-	// if !quiet {
-	// 	err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init")))
-	// 	if cora.IsError(err) {
-	// 		os.Exit(-1)
-	// 	}
-	// }
+	if !quiet {
+		cora.CoraInit(&e, true)
+		if cora.IsError(e.Get(0)) {
+			os.Exit(-1)
+		}
+	}
 
 	if evalStr != "" {
 		sexp, err := readStringAsSexp(evalStr)

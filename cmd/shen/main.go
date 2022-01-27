@@ -52,12 +52,23 @@ func main() {
 	}
 
 	var e cora.ControlFlow
-	klInit()
+	// klInit()
 
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
-	if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init"))); cora.IsError(err) {
+	cora.CoraInit(&e, false)
+	if cora.IsError(e.Get(0)) {
 		os.Exit(-1)
 	}
+
+	cora.KLInit(&e, false)
+	if cora.IsError(e.Get(0)) {
+		os.Exit(-1)
+	}
+	cora.PrimNS2Set(symEvalKL, cora.MakeNative(primEvalKL, 1))
+
+	// if err := cora.Call(&e, cora.PrimNS1Value(cora.MakeSymbol("cora.init"))); cora.IsError(err) {
+	// 	os.Exit(-1)
+	// }
 
 	regist(&e)
 	evalKL(&e, cora.Cons(cora.MakeSymbol("shen.shen"), cora.Nil))
