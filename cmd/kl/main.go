@@ -29,6 +29,7 @@ func main() {
 
 	cora.CoraInit(&e, true)
 	cora.KLInit(&e, true)
+	cora.PrimNS1Set(cora.MakeSymbol("try-catch"), cora.MakeNative(cora.PrimTryCatch(true), 2))
 
 	r := cora.NewSexpReader(os.Stdin, false)
 	for i := 0; ; i++ {
