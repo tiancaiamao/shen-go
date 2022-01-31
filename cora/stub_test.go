@@ -38,6 +38,7 @@ func TestPartialApply(t *testing.T) {
 
 func TestTryCatch(t *testing.T) {
 	var kl ControlFlow
+	klInit0(&kl)
 	Call(&kl, Load)
 	// (trap-error (+ 2 (simple-error "xxx")) (lambda X (error-to-string X)))
 	exp := `(try-catch (lambda () (+ 2 ((fn (quote simple-error)) "xxx"))) (lambda (X) ((fn (quote error-to-string)) X)))`
