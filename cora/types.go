@@ -32,9 +32,9 @@ const (
 
 type scmClosure struct {
 	scmHead
-	code   func(env *Env)
-	env    *Env
-	mark   map[int]struct{}
+	code   func(env Env)
+	env    Env
+	mark   map[int][]Obj
 	params int
 }
 
@@ -422,7 +422,7 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-func MakeClosure(code func(env *Env), env *Env, nargs int, mark map[int]struct{}) Obj {
+func MakeClosure(code func(env Env), env Env, nargs int, mark map[int][]Obj) Obj {
 	tmp := scmClosure{
 		scmHead: scmHeadClosure,
 		code:    code,
