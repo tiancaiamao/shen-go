@@ -5,7 +5,7 @@ import (
 )
 
 func Neval(exp Obj) Obj {
-	c := compile(exp, nil, true)
+	c := compile(exp, nil, true, nil)
 	run(c)
 	stack = stack[:sp]
 	return val
@@ -14,12 +14,10 @@ func Neval(exp Obj) Obj {
 type compileEnv struct {
 	parent *compileEnv
 	args   Obj
-	// mark is the refered variable, i.e closure value
-	mark map[int]struct{}
 }
 
-func (env *compileEnv) findVariable(s Obj) (m int, n int, e *compileEnv) {
-	e = env
+func (env *compileEnv) findVariable(s Obj) (m int, n int) {
+	e := env
 	for e != nil {
 		n = 0
 		for args := e.args; args != Nil; args = cdr(args) {
@@ -37,18 +35,23 @@ func (env *compileEnv) findVariable(s Obj) (m int, n int, e *compileEnv) {
 	return // closure variable
 }
 
-func compile(exp Obj, env *compileEnv, tail bool) func(env Env) {
+type posRef struct {
+	up int
+	offset int
+}
+
+func compile(exp Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(env Env) {
 	switch *exp {
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull:
 		return genConstInst(exp)
 	case scmHeadSymbol:
-		m, n, e1 := env.findVariable(exp)
+		m, n := env.findVariable(exp)
 		if m == 0 {
 			// local[0] is the closure object, the real args begins from i+1
 			return genLocalRefInst(n+1)
 		}
 		if m > 0 {
-			e1.mark[n] = struct{}{}
+			freeVars[exp] = posRef{up: m, offset: n}
 			return genClosureRefInst(m, n)
 		}
 
@@ -63,14 +66,14 @@ func compile(exp Obj, env *compileEnv, tail bool) func(env Env) {
 			return genConstInst(car(tl))
 		case symIf: // (if a b c)
 			if listLength(pair.cdr) == 3 {
-				x := compile(car(tl), env, false)
-				y := compile(cadr(tl), env, tail)
-				z := compile(caddr(tl), env, tail)
+				x := compile(car(tl), env, false, freeVars)
+				y := compile(cadr(tl), env, tail, freeVars)
+				z := compile(caddr(tl), env, tail, freeVars)
 				return genIfInst(x, y, z)
 			} // if may also be a function for partial apply
 		case symDo: // (do A A)
-			x := compile(car(tl), env, false)
-			y := compile(cadr(tl), env, tail)
+			x := compile(car(tl), env, false, freeVars)
+			y := compile(cadr(tl), env, tail, freeVars)
 			return genDoInst(x, y, tail)
 		case symLambda: // (lambda (x y) x)
 			args := car(tl)
@@ -78,11 +81,21 @@ func compile(exp Obj, env *compileEnv, tail bool) func(env Env) {
 			env1 := &compileEnv{
 				parent: env,
 				args:   args,
-				mark:   make(map[int]struct{}),
 			}
-			op := compile(body, env1, true)
+
+			collectFVs := make(map[Obj]posRef)
+			op := compile(body, env1, true, collectFVs)
 			nargs := listLength(args)
-			return genMakeClosureInst(op, nargs, env1.mark)
+
+			for v, p := range collectFVs {
+				if p.up != 1 {
+					// Collect to freeVars and delete from this one.
+					freeVars[v] = posRef{up: p.up-1, offset: p.offset}
+					delete(collectFVs, v)
+				}
+			}
+
+			return genMakeClosureInst(op, nargs, collectFVs)
 		}
 	}
 
@@ -90,7 +103,7 @@ func compile(exp Obj, env *compileEnv, tail bool) func(env Env) {
 	insts := cached[:0]
 	debugStr := ObjString(exp)
 	for *exp == scmHeadPair {
-		inst := compile(car(exp), env, false)
+		inst := compile(car(exp), env, false, freeVars)
 		insts = append(insts, inst)
 		exp = cdr(exp)
 	}
@@ -140,7 +153,7 @@ func genLocalRefInst(idx int) func(Env) {
 func genClosureRefInst(m, n int) func(Env) {
 	return func(env Env) {
 		clo := mustClosure(env[0])
-		for i:=0; i<m; i++{
+		for i:=1; i<m; i++{
 			clo = clo.parent
 		}
 		val = clo.freeVars[n]
@@ -158,7 +171,7 @@ func genGlobalRefInst(sym Obj) func(Env) {
 	}
 }
 
-func genMakeClosureInst(op func(Env), nargs int, mark map[int]struct{}) func(Env) {
+func genMakeClosureInst(op func(Env), nargs int, mark map[Obj]posRef) func(Env) {
 	return func(env Env) {
 		var parent *scmClosure
 		if len(env) > 0 {
@@ -169,9 +182,12 @@ func genMakeClosureInst(op func(Env), nargs int, mark map[int]struct{}) func(Env
 		// Save some variables into the closure
 		// Because they are free variables.
 		freeVars := make(map[int]Obj)
-		for k, _ := range mark {
+		for _, p := range mark {
+			if p.up != 1 {
+				panic("should never here")
+			}
+			k := p.offset
 			freeVars[k] = env[k+1]
-			fmt.Println("... free var ==", k, ObjString(freeVars[k]))
 		}
 		val = MakeClosure(op, env, nargs, parent, freeVars)
 	}
@@ -221,10 +237,9 @@ func NCall(f Obj, args ...Obj) Obj {
 
 func genCallInst(insts []func(env Env), debugStr string, tail bool) func(Env) {
 	return func(env Env) {
-		// printTabs()
 		saveSP := prepareCall(env, insts)
-		fmt.Println("call:", debugStr, "sp==", sp, "len(stack)==", len(stack))
-		printStack()
+		// fmt.Println("call:", debugStr, "sp==", sp, "len(stack)==", len(stack))
+		// printStack()
 
 	again:
 
