@@ -101,13 +101,12 @@ func compile(exp Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(
 
 	var cached [5]func(Env)
 	insts := cached[:0]
-	debugStr := ObjString(exp)
 	for *exp == scmHeadPair {
 		inst := compile(car(exp), env, false, freeVars)
 		insts = append(insts, inst)
 		exp = cdr(exp)
 	}
-	return genCallInst(insts, debugStr, tail)
+	return genCallInst(insts, exp, tail)
 }
 
 type Env []Obj
@@ -235,7 +234,7 @@ func NCall(f Obj, args ...Obj) Obj {
 	return val
 }
 
-func genCallInst(insts []func(env Env), debugStr string, tail bool) func(Env) {
+func genCallInst(insts []func(env Env), debugExp Obj, tail bool) func(Env) {
 	return func(env Env) {
 		saveSP := prepareCall(env, insts)
 		// fmt.Println("call:", debugStr, "sp==", sp, "len(stack)==", len(stack))
@@ -289,14 +288,6 @@ func genCallInst(insts []func(env Env), debugStr string, tail bool) func(Env) {
 				sp = saveSP
 				env = stack[sp:]
 
-				// Some of the data is used by the body (marked),
-				// They need persistent, should be heap referenced!
-				// if len(clo.mark) > 0 {
-				// 	for k, addr := range clo.mark {
-				// 		*addr = env[k]
-				// 	}
-				// }
-
 				pc = clo.code
 				globalEnv = env
 				return
@@ -319,6 +310,7 @@ func run(code func(Env)) {
 
 var globalEnv Env
 var pc func(Env)
+var ctl ControlFlow
 
 func myCall(env Env) {
 retry:
@@ -327,7 +319,6 @@ retry:
 
 	case scmHeadNative:
 		fn := MustNative(f)
-		var ctl ControlFlow
 		ctl.kind = ControlFlowApply
 		ctl.data = stack
 		ctl.pos = sp
@@ -337,14 +328,6 @@ retry:
 	case scmHeadClosure:
 		clo := mustClosure(f)
 		env = stack[sp:]
-
-		// Some of the data is used by the body (marked),
-		// They need persistent, should be heap referenced!
-		// if len(clo.mark) > 0 {
-		// 	for k, v := range clo.mark {
-		// 		v[0] = env[k]
-		// 	}
-		// }
 
 		globalEnv = env
 		run(clo.code)
