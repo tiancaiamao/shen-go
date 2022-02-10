@@ -36,12 +36,20 @@ func main() {
 	cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
 
 	if !quiet {
-		cora.CoraInit(&e, false)
+		cora.CoraInit(&e, true)
 		if cora.IsError(e.Get(0)) {
 			os.Exit(-1)
 		}
 	}
 	repl(&e)
+}
+
+func macroExpand(sexp cora.Obj) cora.Obj {
+	expand := cora.PrimNS1Value(symMacroExpand)
+	if expand != cora.Nil {
+		sexp = cora.NCall(expand, sexp)
+	}
+	return sexp
 }
 
 func repl(e *cora.ControlFlow) {
@@ -56,13 +64,10 @@ func repl(e *cora.ControlFlow) {
 			break
 		}
 
-		expand := cora.PrimNS1Value(symMacroExpand)
-		if expand != cora.Nil {
-			sexp = cora.Call(e, expand, sexp)
-		}
+		sexp = macroExpand(sexp)
 		// fmt.Println("after macroexpand = ", cora.ObjString(sexp))
 
-		res := cora.Eval(e, sexp)
+		res := cora.Neval(sexp)
 		fmt.Println(cora.ObjString(res))
 	}
 }

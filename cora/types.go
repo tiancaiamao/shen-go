@@ -32,10 +32,11 @@ const (
 
 type scmClosure struct {
 	scmHead
-	code   func(env *Env)
-	env    *Env
-	mark   map[int]struct{}
+	code   func(env Env)
 	params int
+
+	parent *scmClosure
+	freeVars map[int]Obj
 }
 
 type scmCurry struct {
@@ -422,13 +423,13 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-func MakeClosure(code func(env *Env), env *Env, nargs int, mark map[int]struct{}) Obj {
+func MakeClosure(code func(env Env), env Env, nargs int, parent *scmClosure, freeVars map[int]Obj) Obj {
 	tmp := scmClosure{
 		scmHead: scmHeadClosure,
 		code:    code,
-		env:     env,
 		params:  nargs,
-		mark:    mark,
+		parent: parent,
+		freeVars:    freeVars,
 	}
 	return &tmp.scmHead
 }

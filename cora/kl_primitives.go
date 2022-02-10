@@ -61,6 +61,11 @@ var klPrimitives = []struct {
 }
 
 func KLInit(e *ControlFlow, test bool) {
+	klInit0(e)
+	primKLInit(e, test)
+}
+
+func klInit0(e *ControlFlow) {
 	// KLambda primitives
 	for _, item := range klPrimitives {
 		sym := MakeSymbol(item.name)
@@ -77,8 +82,6 @@ func KLInit(e *ControlFlow, test bool) {
 	PrimNS3Set(MakeSymbol("*release*"), MakeString(runtime.Version()))
 	PrimNS3Set(MakeSymbol("*os*"), MakeString(runtime.GOOS))
 	// PrimNS1Set(MakeSymbol("kl.init"), MakeNative(primKLInit, 0))
-
-	primKLInit(e, test)
 }
 
 func PrimStr(o Obj) Obj {

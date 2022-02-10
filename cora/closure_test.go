@@ -142,6 +142,14 @@ func TestXXX(t *testing.T) {
 				fmt.Println("output is:", ObjString(res))
 				t.Fail()
 			}
+			if sp != 0 {
+				fmt.Println("unexpected sp after evaluation:", sp)
+				t.Fail()
+			}
+			if len(stack) != 0 {
+				fmt.Println("unexpected stack after evaluation:", len(stack))
+				t.Fail()
+			}
 		})
 	}
 }

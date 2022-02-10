@@ -5,20 +5,19 @@ import (
 )
 
 func Neval(exp Obj) Obj {
-	c := compile(exp, nil, true)
+	c := compile(exp, nil, true, nil)
 	run(c)
+	stack = stack[:sp]
 	return val
 }
 
 type compileEnv struct {
 	parent *compileEnv
 	args   Obj
-	// mark is the refered variable, i.e closure value
-	mark map[int]struct{}
 }
 
-func (env *compileEnv) findVariable(s Obj) (m int, n int, e *compileEnv) {
-	e = env
+func (env *compileEnv) findVariable(s Obj) (m int, n int) {
+	e := env
 	for e != nil {
 		n = 0
 		for args := e.args; args != Nil; args = cdr(args) {
@@ -36,18 +35,23 @@ func (env *compileEnv) findVariable(s Obj) (m int, n int, e *compileEnv) {
 	return // closure variable
 }
 
-func compile(exp Obj, env *compileEnv, tail bool) func(env *Env) {
+type posRef struct {
+	up     int
+	offset int
+}
+
+func compile(exp Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(env Env) {
 	switch *exp {
 	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull:
 		return genConstInst(exp)
 	case scmHeadSymbol:
-		m, n, e1 := env.findVariable(exp)
+		m, n := env.findVariable(exp)
 		if m == 0 {
-			// 需要把闭包变量收集起来
-			return genLocalRefInst(n)
+			// local[0] is the closure object, the real args begins from i+1
+			return genLocalRefInst(n + 1)
 		}
 		if m > 0 {
-			e1.mark[n] = struct{}{}
+			freeVars[exp] = posRef{up: m, offset: n}
 			return genClosureRefInst(m, n)
 		}
 
@@ -62,56 +66,59 @@ func compile(exp Obj, env *compileEnv, tail bool) func(env *Env) {
 			return genConstInst(car(tl))
 		case symIf: // (if a b c)
 			if listLength(pair.cdr) == 3 {
-				x := compile(car(tl), env, false)
-				y := compile(cadr(tl), env, tail)
-				z := compile(caddr(tl), env, tail)
+				x := compile(car(tl), env, false, freeVars)
+				y := compile(cadr(tl), env, tail, freeVars)
+				z := compile(caddr(tl), env, tail, freeVars)
 				return genIfInst(x, y, z)
 			} // if may also be a function for partial apply
 		case symDo: // (do A A)
-			x := compile(car(tl), env, false)
-			y := compile(cadr(tl), env, tail)
+			x := compile(car(tl), env, false, freeVars)
+			y := compile(cadr(tl), env, tail, freeVars)
 			return genDoInst(x, y, tail)
 		case symLambda: // (lambda (x y) x)
 			args := car(tl)
 			body := cadr(tl)
-			// compile body 的时候，把 body 里面的闭包变量全部收集起来
-			// 然后用于构造 closure 的闭包变量
 			env1 := &compileEnv{
 				parent: env,
 				args:   args,
-				mark:   make(map[int]struct{}),
 			}
-			op := compile(body, env1, true)
+
+			collectFVs := make(map[Obj]posRef)
+			op := compile(body, env1, true, collectFVs)
 			nargs := listLength(args)
-			return genClosureInst(op, nargs, env1.mark)
+
+			for v, p := range collectFVs {
+				if p.up != 1 {
+					// Collect to freeVars and delete from this one.
+					freeVars[v] = posRef{up: p.up - 1, offset: p.offset}
+					delete(collectFVs, v)
+				}
+			}
+
+			return genMakeClosureInst(op, nargs, collectFVs)
 		}
 	}
 
-	var cached [5]func(*Env)
+	var cached [5]func(Env)
 	insts := cached[:0]
-	debugStr := ObjString(exp)
 	for *exp == scmHeadPair {
-		inst := compile(car(exp), env, false)
+		inst := compile(car(exp), env, false, freeVars)
 		insts = append(insts, inst)
 		exp = cdr(exp)
 	}
-	return genCallInst(insts, debugStr, tail)
+	return genCallInst(insts, exp, tail)
 }
 
-type Env struct {
-	parent *Env
-	data   []Obj
-	heap   map[int]Obj
-}
+type Env []Obj
 
-func genConstInst(v Obj) func(env *Env) {
-	return func(env *Env) {
+func genConstInst(v Obj) func(env Env) {
+	return func(env Env) {
 		val = v
 	}
 }
 
-func genIfInst(a, b, c func(*Env)) func(*Env) {
-	return func(env *Env) {
+func genIfInst(a, b, c func(Env)) func(Env) {
+	return func(env Env) {
 		a(env)
 		switch val {
 		case True:
@@ -124,8 +131,8 @@ func genIfInst(a, b, c func(*Env)) func(*Env) {
 	}
 }
 
-func genDoInst(op1, op2 func(env *Env), tail bool) func(env *Env) {
-	return func(env *Env) {
+func genDoInst(op1, op2 func(env Env), tail bool) func(env Env) {
+	return func(env Env) {
 		op1(env)
 		if tail {
 			globalEnv = env
@@ -136,24 +143,24 @@ func genDoInst(op1, op2 func(env *Env), tail bool) func(env *Env) {
 	}
 }
 
-func genLocalRefInst(idx int) func(*Env) {
-	return func(env *Env) {
-		val = env.data[idx]
+func genLocalRefInst(idx int) func(Env) {
+	return func(env Env) {
+		val = env[idx]
 	}
 }
 
-func genClosureRefInst(m, n int) func(*Env) {
-	return func(env *Env) {
-		e := env
-		for i := 0; i < m; i++ {
-			e = e.parent
+func genClosureRefInst(m, n int) func(Env) {
+	return func(env Env) {
+		clo := mustClosure(env[0])
+		for i := 1; i < m; i++ {
+			clo = clo.parent
 		}
-		val = e.heap[n]
+		val = clo.freeVars[n]
 	}
 }
 
-func genGlobalRefInst(sym Obj) func(*Env) {
-	return func(env *Env) {
+func genGlobalRefInst(sym Obj) func(Env) {
+	return func(env Env) {
 		s := mustSymbol(sym)
 		if s.cora == nil {
 			fmt.Println("NOT DEFINED")
@@ -163,9 +170,25 @@ func genGlobalRefInst(sym Obj) func(*Env) {
 	}
 }
 
-func genClosureInst(op func(*Env), nargs int, mark map[int]struct{}) func(*Env) {
-	return func(env *Env) {
-		val = MakeClosure(op, env, nargs, mark)
+func genMakeClosureInst(op func(Env), nargs int, mark map[Obj]posRef) func(Env) {
+	return func(env Env) {
+		var parent *scmClosure
+		if len(env) > 0 {
+			if *env[0] == scmHeadClosure {
+				parent = mustClosure(env[0])
+			}
+		}
+		// Save some variables into the closure
+		// Because they are free variables.
+		freeVars := make(map[int]Obj)
+		for _, p := range mark {
+			if p.up != 1 {
+				panic("should never here")
+			}
+			k := p.offset
+			freeVars[k] = env[k+1]
+		}
+		val = MakeClosure(op, env, nargs, parent, freeVars)
 	}
 }
 
@@ -182,7 +205,7 @@ func getRequired(o Obj) int {
 	panic("not implemented" + ObjString(o))
 }
 
-func prepareCall(env *Env, insts []func(*Env)) int {
+func prepareCall(env Env, insts []func(Env)) int {
 	// Save SP
 	saveSP := sp
 	sp = len(stack)
@@ -211,14 +234,14 @@ func NCall(f Obj, args ...Obj) Obj {
 	return val
 }
 
-func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) {
-	return func(env *Env) {
-		// printTabs()
+func genCallInst(insts []func(env Env), debugExp Obj, tail bool) func(Env) {
+	return func(env Env) {
 		saveSP := prepareCall(env, insts)
 		// fmt.Println("call:", debugStr, "sp==", sp, "len(stack)==", len(stack))
 		// printStack()
 
 	again:
+
 		f := stack[sp]
 		required := getRequired(f)
 		provided := len(stack[sp+1:])
@@ -259,23 +282,11 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 			f := stack[sp]
 			if *f == scmHeadClosure {
 				clo := mustClosure(f)
-
-				copy(stack[saveSP:saveSP+len(insts)], stack[sp:])
-				stack = stack[:saveSP+len(insts)]
+				nargs := len(stack[sp:])
+				copy(stack[saveSP:saveSP+nargs], stack[sp:])
+				stack = stack[:saveSP+nargs]
 				sp = saveSP
-				env = &Env{
-					parent: clo.env,
-					data:   stack[sp+1:],
-				}
-
-				// Some of the data is used by the body (marked),
-				// They need persistent, should be heap referenced!
-				if len(clo.mark) > 0 {
-					env.heap = make(map[int]Obj, len(clo.mark))
-					for idx := range clo.mark {
-						env.heap[idx] = env.data[idx]
-					}
-				}
+				env = stack[sp:]
 
 				pc = clo.code
 				globalEnv = env
@@ -288,7 +299,7 @@ func genCallInst(insts []func(env *Env), debugStr string, tail bool) func(*Env) 
 	}
 }
 
-func run(code func(*Env)) {
+func run(code func(Env)) {
 	pc = code
 	for pc != nil {
 		tmp := pc
@@ -297,17 +308,17 @@ func run(code func(*Env)) {
 	}
 }
 
-var globalEnv *Env
-var pc func(*Env)
+var globalEnv Env
+var pc func(Env)
+var ctl ControlFlow
 
-func myCall(env *Env) {
+func myCall(env Env) {
 retry:
 	f := stack[sp]
 	switch *f {
 
 	case scmHeadNative:
 		fn := MustNative(f)
-		var ctl ControlFlow
 		ctl.kind = ControlFlowApply
 		ctl.data = stack
 		ctl.pos = sp
@@ -316,19 +327,7 @@ retry:
 
 	case scmHeadClosure:
 		clo := mustClosure(f)
-		env = &Env{
-			parent: clo.env,
-			data:   stack[sp+1:],
-		}
-
-		// Some of the data is used by the body (marked),
-		// They need persistent, should be heap referenced!
-		if len(clo.mark) > 0 {
-			env.heap = make(map[int]Obj, len(clo.mark))
-			for idx := range clo.mark {
-				env.heap[idx] = env.data[idx]
-			}
-		}
+		env = stack[sp:]
 
 		globalEnv = env
 		run(clo.code)
