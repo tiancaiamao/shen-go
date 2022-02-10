@@ -36,7 +36,7 @@ func (env *compileEnv) findVariable(s Obj) (m int, n int) {
 }
 
 type posRef struct {
-	up int
+	up     int
 	offset int
 }
 
@@ -48,7 +48,7 @@ func compile(exp Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(
 		m, n := env.findVariable(exp)
 		if m == 0 {
 			// local[0] is the closure object, the real args begins from i+1
-			return genLocalRefInst(n+1)
+			return genLocalRefInst(n + 1)
 		}
 		if m > 0 {
 			freeVars[exp] = posRef{up: m, offset: n}
@@ -90,7 +90,7 @@ func compile(exp Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(
 			for v, p := range collectFVs {
 				if p.up != 1 {
 					// Collect to freeVars and delete from this one.
-					freeVars[v] = posRef{up: p.up-1, offset: p.offset}
+					freeVars[v] = posRef{up: p.up - 1, offset: p.offset}
 					delete(collectFVs, v)
 				}
 			}
@@ -152,7 +152,7 @@ func genLocalRefInst(idx int) func(Env) {
 func genClosureRefInst(m, n int) func(Env) {
 	return func(env Env) {
 		clo := mustClosure(env[0])
-		for i:=1; i<m; i++{
+		for i := 1; i < m; i++ {
 			clo = clo.parent
 		}
 		val = clo.freeVars[n]
