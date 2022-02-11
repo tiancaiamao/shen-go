@@ -788,15 +788,3 @@ func CoraInit(e *ControlFlow, test bool) {
 	res := loadFileFromReader(evaluator, true, r)
 	e.Return(res)
 }
-
-// func PrimIsVariable(x Obj) Obj {
-// 	if !IsSymbol(x) {
-// 		return False
-// 	}
-
-// 	sym := GetSymbol(x)
-// 	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
-// 		return False
-// 	}
-// 	return True
-// }

@@ -35,7 +35,7 @@ type scmClosure struct {
 	code   func(env Env)
 	params int
 
-	parent *scmClosure
+	parent   *scmClosure
 	freeVars map[int]Obj
 }
 
@@ -425,11 +425,11 @@ func MakeSymbol(s string) Obj {
 
 func MakeClosure(code func(env Env), env Env, nargs int, parent *scmClosure, freeVars map[int]Obj) Obj {
 	tmp := scmClosure{
-		scmHead: scmHeadClosure,
-		code:    code,
-		params:  nargs,
-		parent: parent,
-		freeVars:    freeVars,
+		scmHead:  scmHeadClosure,
+		code:     code,
+		params:   nargs,
+		parent:   parent,
+		freeVars: freeVars,
 	}
 	return &tmp.scmHead
 }
