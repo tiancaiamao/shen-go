@@ -1,11 +1,13 @@
-package cora
+package klambda
 
 import (
+	"embed"
 	"fmt"
 	"io"
 	"os"
 	"runtime"
-	"unsafe"
+
+	. "github.com/tiancaiamao/shen-go/cora"
 )
 
 var klPrimitives = []struct {
@@ -60,7 +62,7 @@ var klPrimitives = []struct {
 	{"shen.char-stinput?", 1, PrimCharStInput},
 }
 
-func KLInit(e *ControlFlow, test bool) {
+func Init(e *ControlFlow, test bool) {
 	klInit0(e)
 	primKLInit(e, test)
 }
@@ -81,76 +83,30 @@ func klInit0(e *ControlFlow) {
 	PrimNS3Set(MakeSymbol("*home-directory*"), MakeString(dir))
 	PrimNS3Set(MakeSymbol("*release*"), MakeString(runtime.Version()))
 	PrimNS3Set(MakeSymbol("*os*"), MakeString(runtime.GOOS))
-	// PrimNS1Set(MakeSymbol("kl.init"), MakeNative(primKLInit, 0))
 }
 
-func PrimStr(o Obj) Obj {
-	if isFixnum(uintptr(unsafe.Pointer(o))) {
-		return MakeString(fmt.Sprintf("%d", mustInteger(o)))
+//go:embed kl.cora
+var initFS embed.FS
+
+func primKLInit(e *ControlFlow, test bool) {
+	var evaluator Evaluator = ControlFlowAsEvaluator{e}
+	if test {
+		evaluator = DefaultEvaluator()
 	}
-
-	switch *o {
-	case scmHeadPair:
-		// This is actually a special representation for closure in cora.
-		// To make shen happy ...
-		if car(o) == symLambda {
-			return MakeString("#<closure >")
-		}
-		// Pair may contain recursive list.
-		panic(MakeError("can't str pair object"))
-	case scmHeadNull:
-		return MakeString("()")
-	case scmHeadSymbol:
-		str := GetSymbol(o)
-		return MakeString(str)
-	case scmHeadNumber:
-		f := mustNumber(o)
-		if !isPreciseInteger(f) {
-			return MakeString(fmt.Sprintf("%f", f))
-		}
-		return MakeString(fmt.Sprintf("%d", int(f)))
-	case scmHeadString:
-		return MakeString(fmt.Sprintf(`"%s"`, mustString(o)))
-	case scmHeadBoolean:
-		if o == True {
-			return MakeString("true")
-		} else if o == False {
-			return MakeString("false")
-		}
-	case scmHeadError:
-		err := mustError(o)
-		return MakeString("#<err " + err.err + ">")
-	case scmHeadStream:
-		return MakeString("#<stream >")
-	case scmHeadRaw:
-		return MakeString("#<raw >")
-	case scmHeadNative:
-		n := MustNative(o)
-		if len(n.name) > 0 {
-			return MakeString(fmt.Sprintf("#<primitive %s>", n.name))
-		} else {
-			return MakeString(fmt.Sprintf("#<native %v>", *n))
-		}
-	default:
-		return MakeString("PrimStr unknown")
-
+	f, err := initFS.Open("kl.cora")
+	if err != nil {
+		e.Return(MakeError(err.Error()))
+		return
 	}
-	return MakeString("wrong input, the object is not atom ...")
-}
-
-func PrimSimpleError(o Obj) Obj {
-	str := mustString(o)
-	panic(MakeError(str))
-}
-
-func PrimErrorToString(o Obj) Obj {
-	err := mustError(o)
-	return MakeString(err.err)
+	defer f.Close()
+	r := NewSexpReader(f, true)
+	res := LoadFileFromReader(evaluator, true, r)
+	e.Return(res)
 }
 
 func PrimPos(x, y Obj) Obj {
-	s := []rune(mustString(x))
-	n := mustInteger(y)
+	s := []rune(GetString(x))
+	n := GetInteger(y)
 	if n >= len(s) {
 		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
 	}
@@ -223,22 +179,6 @@ func evalKL(e *ControlFlow, exp Obj) Obj {
 	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
 	res := Neval(exp1)
 	return res
-}
-
-func primKLInit(e *ControlFlow, test bool) {
-	var evaluator Evaluator = controlFlowAsEvaluator{e}
-	if test {
-		evaluator = closureEvaluator{}
-	}
-	f, err := initFS.Open("kl.cora")
-	if err != nil {
-		e.Return(MakeError(err.Error()))
-		return
-	}
-	defer f.Close()
-	r := NewSexpReader(f, true)
-	res := loadFileFromReader(evaluator, true, r)
-	e.Return(res)
 }
 
 // func PrimIsVariable(x Obj) Obj {

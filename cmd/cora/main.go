@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/tiancaiamao/shen-go/cora"
-	"github.com/tiancaiamao/shen-go/cora/lib"
+	"github.com/tiancaiamao/shen-go/lib/babashka"
 )
 
 var (
@@ -47,10 +47,10 @@ func main() {
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
 	cora.PrimNS1Set(cora.MakeSymbol("make-code-generator"), makeCodeGenerator)
 	cora.PrimNS1Set(cora.MakeSymbol("cg:bc->go"), bcToGo)
-	lib.Regist()
+	babashka.Init()
 
 	if !quiet {
-		cora.CoraInit(&e, true)
+		cora.Init(&e, true)
 		if cora.IsError(e.Get(0)) {
 			os.Exit(-1)
 		}

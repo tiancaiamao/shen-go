@@ -1,4 +1,4 @@
-package lib
+package babashka
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ func primDisplay(x Obj) Obj {
 	return Nil
 }
 
-func Regist() {
+func Init() {
 	PrimNS1Set(MakeSymbol("strlen"), MakePrimitive("strlen", 1, primStrlen))
 	PrimNS1Set(MakeSymbol("display"), MakePrimitive("display", 1, primDisplay))
 }

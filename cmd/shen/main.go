@@ -11,6 +11,7 @@ import (
 	"runtime"
 
 	"github.com/tiancaiamao/shen-go/cora"
+	"github.com/tiancaiamao/shen-go/lib/klambda"
 )
 
 var pprof bool
@@ -55,12 +56,12 @@ func main() {
 	// klInit()
 
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
-	cora.CoraInit(&e, false)
+	cora.Init(&e, false)
 	if cora.IsError(e.Get(0)) {
 		os.Exit(-1)
 	}
 
-	cora.KLInit(&e, false)
+	klambda.Init(&e, false)
 	if cora.IsError(e.Get(0)) {
 		os.Exit(-1)
 	}

@@ -14,6 +14,6 @@ func TestIntegration(t *testing.T) {
 	}))
 	PrimNS1Set(symMacroExpand, Nil)
 
-	CoraInit(&e, false)
+	Init(&e, false)
 	Call(&e, PrimNS1Value(MakeSymbol("load")), MakeString("issue_25.cora"))
 }
