@@ -145,7 +145,7 @@ func MakeError(err string) Obj {
 	return &tmp.scmHead
 }
 
-func mustError(o Obj) *scmError {
+func MustError(o Obj) *scmError {
 	if objType(o) != scmHeadError {
 		panic(MakeError("mustError"))
 	}
@@ -181,6 +181,10 @@ func mustString(o Obj) string {
 
 func fixnum(o Obj) int {
 	return int(uintptr(unsafe.Pointer(o)) - fixnumBaseAddr)
+}
+
+func MustInteger(o Obj) int {
+	return mustInteger(o)
 }
 
 func mustInteger(o Obj) int {
@@ -347,6 +351,10 @@ func MakeInteger(v int) Obj {
 	return makeInteger(v)
 }
 
+func IsFixnum(v uintptr) bool {
+	return isFixnum(v)
+}
+
 func isFixnum(v uintptr) bool {
 	if v >= fixnumBaseAddr && v < fixnumEndAddr {
 		return true
@@ -504,7 +512,7 @@ func (o *scmHead) GoString() string {
 			return fmt.Sprintf("Boolean(something wrong)")
 		}
 	case scmHeadError:
-		return fmt.Sprintf("Error(%s)", mustError(o).err)
+		return fmt.Sprintf("Error(%s)", MustError(o).err)
 	case scmHeadStream:
 		return "#stream"
 	case scmHeadRaw:

@@ -36,7 +36,6 @@ var Primitives = map[string]struct {
 	"+":           {2, PrimNumberAdd, "PrimNumberAdd"},
 	"number?":     {1, PrimIsNumber, "PrimIsNumber"},
 	"string?":     {1, PrimIsString, "PrimIsString"},
-	"pos":         {2, PrimPos, "PrimPos"},
 	"cn":          {2, PrimStringConcat, "PrimStringConcat"},
 	"intern":      {1, PrimIntern, "PrimIntern"},
 	"cons":        {2, PrimCons, "PrimCons"},
@@ -407,7 +406,7 @@ func PrimGenSym(x Obj) Obj {
 
 func PrimLoadFile(test bool) func(e *ControlFlow) {
 	return func(e *ControlFlow) {
-		var evaluator Evaluator = controlFlowAsEvaluator{e}
+		var evaluator Evaluator = ControlFlowAsEvaluator{e}
 		if test {
 			evaluator = closureEvaluator{}
 		}
@@ -428,7 +427,7 @@ func loadFile(e Evaluator, extended bool, file string) Obj {
 	}
 	defer f.Close()
 	r := NewSexpReader(f, extended)
-	res := loadFileFromReader(e, extended, r)
+	res := LoadFileFromReader(e, extended, r)
 	if IsError(res) {
 		return res
 	}
@@ -440,17 +439,17 @@ type Evaluator interface {
 	Call(f Obj, args ...Obj) Obj
 }
 
-var _ Evaluator = controlFlowAsEvaluator{}
+var _ Evaluator = ControlFlowAsEvaluator{}
 
-type controlFlowAsEvaluator struct {
+type ControlFlowAsEvaluator struct {
 	*ControlFlow
 }
 
-func (c controlFlowAsEvaluator) Eval(exp Obj) Obj {
+func (c ControlFlowAsEvaluator) Eval(exp Obj) Obj {
 	return Eval(c.ControlFlow, exp)
 }
 
-func (c controlFlowAsEvaluator) Call(f Obj, args ...Obj) Obj {
+func (c ControlFlowAsEvaluator) Call(f Obj, args ...Obj) Obj {
 	return Call(c.ControlFlow, f, args...)
 }
 
@@ -466,7 +465,11 @@ func (closureEvaluator) Call(f Obj, args ...Obj) Obj {
 	return NCall(f, args...)
 }
 
-func loadFileFromReader(e Evaluator, extended bool, r *SexpReader) Obj {
+func DefaultEvaluator() closureEvaluator {
+	return closureEvaluator{}
+}
+
+func LoadFileFromReader(e Evaluator, extended bool, r *SexpReader) Obj {
 	for {
 		exp, err := r.Read()
 		if err != nil {
@@ -770,11 +773,84 @@ func PrimNS3Value(key Obj) Obj {
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
-//go:embed init.cora kl.cora
+func PrimStr(o Obj) Obj {
+	if IsFixnum(uintptr(unsafe.Pointer(o))) {
+		return MakeString(fmt.Sprintf("%d", MustInteger(o)))
+	}
+
+	switch *o {
+	case scmHeadPair:
+		// This is actually a special representation for closure in cora.
+		// To make shen happy ...
+		if Car(o) == symLambda {
+			return MakeString("#<closure >")
+		}
+		// Pair may contain recursive list.
+		panic(MakeError("can't str pair object"))
+	case scmHeadNull:
+		return MakeString("()")
+	case scmHeadSymbol:
+		str := GetSymbol(o)
+		return MakeString(str)
+	case scmHeadNumber:
+		f := mustNumber(o)
+		if !isPreciseInteger(f) {
+			return MakeString(fmt.Sprintf("%f", f))
+		}
+		return MakeString(fmt.Sprintf("%d", int(f)))
+	case scmHeadString:
+		return MakeString(fmt.Sprintf(`"%s"`, mustString(o)))
+	case scmHeadBoolean:
+		if o == True {
+			return MakeString("true")
+		} else if o == False {
+			return MakeString("false")
+		}
+	case scmHeadError:
+		err := MustError(o)
+		return MakeString("#<err " + err.err + ">")
+	case scmHeadStream:
+		return MakeString("#<stream >")
+	case scmHeadRaw:
+		return MakeString("#<raw >")
+	case scmHeadNative:
+		n := MustNative(o)
+		if len(n.name) > 0 {
+			return MakeString(fmt.Sprintf("#<primitive %s>", n.name))
+		} else {
+			return MakeString(fmt.Sprintf("#<native %v>", *n))
+		}
+	default:
+		return MakeString("PrimStr unknown")
+
+	}
+	return MakeString("wrong input, the object is not atom ...")
+}
+
+func PrimErrorToString(o Obj) Obj {
+	err := MustError(o)
+	return MakeString(err.err)
+}
+
+func PrimSimpleError(o Obj) Obj {
+	str := GetString(o)
+	panic(MakeError(str))
+}
+
+func PrimPos(x, y Obj) Obj {
+	s := []rune(GetString(x))
+	n := GetInteger(y)
+	if n >= len(s) {
+		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
+	}
+	return MakeString(string([]rune(s)[n]))
+}
+
+//go:embed init.cora
 var initFS embed.FS
 
-func CoraInit(e *ControlFlow, test bool) {
-	var evaluator Evaluator = controlFlowAsEvaluator{e}
+func Init(e *ControlFlow, test bool) {
+	var evaluator Evaluator = ControlFlowAsEvaluator{e}
 	if test {
 		evaluator = closureEvaluator{}
 	}
@@ -785,6 +861,6 @@ func CoraInit(e *ControlFlow, test bool) {
 	}
 	defer f.Close()
 	r := NewSexpReader(f, true)
-	res := loadFileFromReader(evaluator, true, r)
+	res := LoadFileFromReader(evaluator, true, r)
 	e.Return(res)
 }

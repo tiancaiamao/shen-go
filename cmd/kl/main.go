@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/tiancaiamao/shen-go/cora"
+	"github.com/tiancaiamao/shen-go/lib/klambda"
 )
 
 var pprof bool
@@ -27,8 +28,8 @@ func main() {
 	var e cora.ControlFlow
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
 
-	cora.CoraInit(&e, true)
-	cora.KLInit(&e, true)
+	cora.Init(&e, true)
+	klambda.Init(&e, true)
 	cora.PrimNS1Set(cora.MakeSymbol("try-catch"), cora.MakeNative(cora.PrimTryCatch(true), 2))
 
 	r := cora.NewSexpReader(os.Stdin, false)

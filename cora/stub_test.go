@@ -38,10 +38,12 @@ func TestPartialApply(t *testing.T) {
 
 func TestTryCatch(t *testing.T) {
 	var kl ControlFlow
-	klInit0(&kl)
+	// klInit0(&kl)
+	PrimNS1Set(MakeSymbol("error-to-string"), MakePrimitive("error-to-string", 1, PrimErrorToString))
+	PrimNS1Set(MakeSymbol("simple-error"), MakePrimitive("simple-error", 1, PrimSimpleError))
 	Call(&kl, Load)
 	// (trap-error (+ 2 (simple-error "xxx")) (lambda X (error-to-string X)))
-	exp := `(try-catch (lambda () (+ 2 ((fn (quote simple-error)) "xxx"))) (lambda (X) ((fn (quote error-to-string)) X)))`
+	exp := `(try-catch (lambda () (+ 2 (simple-error "xxx"))) (lambda (X) (error-to-string X)))`
 	r := NewSexpReader(strings.NewReader(exp), false)
 	sexp, err := r.Read()
 	if err != nil {
