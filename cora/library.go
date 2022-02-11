@@ -21,6 +21,10 @@ func cadddr(o Obj) Obj {
 	return car(cdr(cdr(cdr(o))))
 }
 
+func Reverse(o Obj) Obj {
+	return reverse(o)
+}
+
 func reverse(o Obj) Obj {
 	ret := Nil
 	for o != Nil {
