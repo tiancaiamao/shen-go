@@ -2,12 +2,11 @@ package klambda
 
 import (
 	"embed"
-	"fmt"
 	"io"
 	"os"
 	"runtime"
 
-	. "github.com/tiancaiamao/shen-go/cora"
+	. "github.com/tiancaiamao/cora/cora_go"
 )
 
 var klPrimitives = []struct {
@@ -62,7 +61,7 @@ var klPrimitives = []struct {
 	{"shen.char-stinput?", 1, PrimCharStInput},
 }
 
-func Init(e *ControlFlow, test bool) {
+func KLInit(e *ControlFlow, test bool) {
 	klInit0(e)
 	primKLInit(e, test)
 }
@@ -104,14 +103,14 @@ func primKLInit(e *ControlFlow, test bool) {
 	e.Return(res)
 }
 
-func PrimPos(x, y Obj) Obj {
-	s := []rune(GetString(x))
-	n := GetInteger(y)
-	if n >= len(s) {
-		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
-	}
-	return MakeString(string([]rune(s)[n]))
-}
+// func PrimPos(x, y Obj) Obj {
+// 	s := []rune(GetString(x))
+// 	n := GetInteger(y)
+// 	if n >= len(s) {
+// 		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
+// 	}
+// 	return MakeString(string([]rune(s)[n]))
+// }
 
 func PrimCharStInput(x Obj) Obj {
 	return False

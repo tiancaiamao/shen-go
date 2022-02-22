@@ -8,8 +8,8 @@ import (
 	_ "net/http/pprof"
 	"os"
 
-	"github.com/tiancaiamao/shen-go/cora"
-	"github.com/tiancaiamao/shen-go/lib/klambda"
+	"github.com/tiancaiamao/shen-go/klambda"
+	"github.com/tiancaiamao/cora/cora_go"
 )
 
 var pprof bool
@@ -29,7 +29,7 @@ func main() {
 	cora.PrimNS1Set(symMacroExpand, cora.Nil)
 
 	cora.Init(&e, true)
-	klambda.Init(&e, true)
+	klambda.KLInit(&e, true)
 	cora.PrimNS2Set(cora.MakeSymbol("try-catch"), cora.MakeNative(cora.PrimTryCatch(true), 2))
 
 	r := cora.NewSexpReader(os.Stdin, false)
@@ -42,7 +42,7 @@ func main() {
 			}
 			break
 		}
-		res := cora.EvalKL(sexp)
+		res := klambda.EvalKL(sexp)
 		fmt.Println(cora.ObjString(res))
 	}
 }
