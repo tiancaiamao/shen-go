@@ -151,7 +151,7 @@ func primLoad(e *ControlFlow) {
 			break
 		}
 
-		res := evalKL(e, exp)
+		res := EvalKL(exp)
 		if IsError(res) {
 			e.Return(res)
 			return
@@ -161,24 +161,9 @@ func primLoad(e *ControlFlow) {
 }
 
 func primEvalKL(e *ControlFlow) {
-	exp1 := e.Get(1)
-	res := evalKL(e, exp1)
+	exp := e.Get(1)
+	res := EvalKL(exp)
 	e.Return(res)
-}
-
-func evalKL(e *ControlFlow, exp Obj) Obj {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("evalKL panic:", ObjString(exp))
-			panic(r)
-		}
-	}()
-	// exp1 := Call(e, PrimNS1Value(MakeSymbol("kl->cora")), Nil, exp)
-	exp1 := NCall(PrimNS1Value(MakeSymbol("kl->cora")), Nil, exp)
-
-	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
-	res := Neval(exp1)
-	return res
 }
 
 // func PrimIsVariable(x Obj) Obj {

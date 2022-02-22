@@ -272,7 +272,7 @@ func isPair(o Obj) (bool, *scmPair) {
 
 var True, False, Nil, undefined Obj
 var uptime time.Time
-var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd Obj
+var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd, symType Obj
 var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 
 var fixnumBaseAddr uintptr
@@ -336,12 +336,24 @@ func init() {
 	symFreeze = MakeSymbol("freeze")
 	symLet = MakeSymbol("let")
 	symAnd = MakeSymbol("and")
+	symType = MakeSymbol("type")
 	symOr = MakeSymbol("or")
 	symIf = MakeSymbol("if")
 	symCond = MakeSymbol("cond")
 	symTrapError = MakeSymbol("trap-error")
 	symDo = MakeSymbol("do")
 	symMacroExpand = MakeSymbol("macroexpand")
+
+	klMacro = map[Obj]func(obj Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(env Env){
+		symType:      compileTypeMacro,
+		symDefun:     compileDefunMacro,
+		symFreeze:    compileFreezeMacro,
+		symLet:       compileLetMacro,
+		symCond:      compileCondMacro,
+		symAnd:       compileAndMacro,
+		symOr:        compileOrMacro,
+		symTrapError: compileTrapErrorMacro,
+	}
 }
 
 func MakeInteger(v int) Obj {
