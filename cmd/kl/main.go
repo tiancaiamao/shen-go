@@ -30,7 +30,7 @@ func main() {
 
 	cora.Init(&e, true)
 	klambda.Init(&e, true)
-	cora.PrimNS1Set(cora.MakeSymbol("try-catch"), cora.MakeNative(cora.PrimTryCatch(true), 2))
+	cora.PrimNS2Set(cora.MakeSymbol("try-catch"), cora.MakeNative(cora.PrimTryCatch(true), 2))
 
 	r := cora.NewSexpReader(os.Stdin, false)
 	for i := 0; ; i++ {
@@ -42,7 +42,7 @@ func main() {
 			}
 			break
 		}
-		res := evalKL(&e, sexp)
+		res := cora.EvalKL(sexp)
 		fmt.Println(cora.ObjString(res))
 	}
 }
@@ -50,14 +50,3 @@ func main() {
 var (
 	symMacroExpand = cora.MakeSymbol("macroexpand")
 )
-
-var symKLToCora = cora.MakeSymbol("kl->cora")
-
-func evalKL(e *cora.ControlFlow, exp cora.Obj) cora.Obj {
-	// exp1 := cora.Call(e, cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
-	exp1 := cora.NCall(cora.PrimNS1Value(symKLToCora), cora.Nil, exp)
-
-	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
-	res := cora.Neval(exp1)
-	return res
-}
