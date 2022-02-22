@@ -10,8 +10,8 @@ import (
 	// "path/filepath"
 	"runtime"
 
-	"github.com/tiancaiamao/shen-go/cora"
-	"github.com/tiancaiamao/shen-go/lib/klambda"
+	"github.com/tiancaiamao/cora/cora_go"
+	"github.com/tiancaiamao/shen-go/klambda"
 )
 
 var pprof bool
@@ -61,7 +61,7 @@ func main() {
 		os.Exit(-1)
 	}
 
-	klambda.Init(&e, false)
+	klambda.KLInit(&e, false)
 	if cora.IsError(e.Get(0)) {
 		os.Exit(-1)
 	}

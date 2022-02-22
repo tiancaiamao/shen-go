@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/cora"
+import . "github.com/tiancaiamao/cora/cora_go"
 
 var PrologMain = MakeNative(func(__e *ControlFlow) {
 	tmp8641 := MakeNative(func(__e *ControlFlow) {

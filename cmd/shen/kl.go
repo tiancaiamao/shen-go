@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/cora"
+import . "github.com/tiancaiamao/cora/cora_go"
 
 var KLMain = MakeNative(func(__e *ControlFlow) {
 	tmp152 := MakeNative(func(__e *ControlFlow) {
