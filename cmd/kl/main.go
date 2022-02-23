@@ -9,7 +9,6 @@ import (
 	"os"
 
 	"github.com/tiancaiamao/shen-go/klambda"
-	"github.com/tiancaiamao/cora/cora_go"
 )
 
 var pprof bool
@@ -25,14 +24,14 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	var e cora.ControlFlow
-	cora.PrimNS1Set(symMacroExpand, cora.Nil)
+	var e klambda.ControlFlow
+	// klambda.PrimNS1Set(symMacroExpand, klambda.Nil)
 
-	cora.Init(&e, true)
-	klambda.KLInit(&e, true)
-	cora.PrimNS2Set(cora.MakeSymbol("try-catch"), cora.MakeNative(cora.PrimTryCatch(true), 2))
+	// klambda.Init(&e, true)
+	// klambda.KLInit(&e, true)
+	// klambda.PrimNS2Set(klambda.MakeSymbol("try-catch"), klambda.MakeNative(klambda.PrimTryCatch(true), 2))
 
-	r := cora.NewSexpReader(os.Stdin, false)
+	r := klambda.NewSexpReader(os.Stdin, false)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()
@@ -42,11 +41,11 @@ func main() {
 			}
 			break
 		}
-		res := klambda.EvalKL(sexp)
-		fmt.Println(cora.ObjString(res))
+		res := e.Eval(sexp)
+		fmt.Println(klambda.ObjString(res))
 	}
 }
 
 var (
-	symMacroExpand = cora.MakeSymbol("macroexpand")
+	symMacroExpand = klambda.MakeSymbol("macroexpand")
 )

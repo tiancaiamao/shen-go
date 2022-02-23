@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/cora/cora_go"
+import . "github.com/tiancaiamao/shen-go/klambda"
 
 var SequentMain = MakeNative(func(__e *ControlFlow) {
 	tmp10464 := MakeNative(func(__e *ControlFlow) {
