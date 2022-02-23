@@ -1,4 +1,4 @@
-package cora
+package klambda
 
 import (
 	"io"

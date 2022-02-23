@@ -1,7 +1,7 @@
-package cora
+package klambda
 
 import (
-	"embed"
+	// "embed"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -12,55 +12,132 @@ import (
 	"unsafe"
 )
 
-var Primitives = map[string]struct {
-	Arity int
-	fn    interface{}
-	Name  string
-}{
-	"set":         {2, PrimNS1Set, "PrimNS1Set"},
-	"value":       {1, PrimNS1Value, "PrimNS1Value"},
-	"car":         {1, PrimHead, "PrimHead"},
-	"cdr":         {1, PrimTail, "PrimTail"},
-	"vector?":     {1, PrimIsVector, "PrimIsVector"},
-	"vector-ref":  {2, PrimVectorGet, "PrimVectorGet"},
-	"vector-set!": {3, PrimVectorSet, "PrimVectorSet"},
-	"vector":      {1, PrimAbsvector, "PrimAbsvector"},
-	"<=":          {2, PrimLessEqual, "PrimLessEqual"},
-	">=":          {2, PrimGreatEqual, "PrimGreatEqual"},
-	"<":           {2, PrimLessThan, "PrimLessThan"},
-	">":           {2, PrimGreatThan, "PrimGreatThan"},
-	"=":           {2, PrimEqual, "PrimEqual"},
-	"-":           {2, PrimNumberSubtract, "PrimNumberSubtract"},
-	"*":           {2, PrimNumberMultiply, "PrimNumberMultiply"},
-	"/":           {2, PrimNumberDivide, "PrimNumberDivide"},
-	"+":           {2, PrimNumberAdd, "PrimNumberAdd"},
-	"number?":     {1, PrimIsNumber, "PrimIsNumber"},
-	"string?":     {1, PrimIsString, "PrimIsString"},
-	"cn":          {2, PrimStringConcat, "PrimStringConcat"},
-	"intern":      {1, PrimIntern, "PrimIntern"},
-	"cons":        {2, PrimCons, "PrimCons"},
-	"cons?":       {1, PrimIsPair, "PrimIsPair"},
-	"not":         {1, PrimNot, "PrimNot"},
-	"symbol?":     {1, PrimIsSymbol, "PrimIsSymbol"},
-	"gensym":      {1, PrimGenSym, "PrimGenSym"},
-	"integer?":    {1, PrimIsInteger, "PrimIsInteger"},
 
-	// The only special primitive required to support KLambda
-	"fn": {1, PrimNS2Value, "PrimNS2Value"},
+var klPrimitives = []struct {
+	name  string
+	arity int
+	fn    interface{}
+}{
+	{"get-time", 1,  PrimGetTime},
+	{"close", 1,  PrimCloseStream},
+	{"open", 2,  PrimOpenStream},
+	{"read-byte", 1,  PrimReadByte},
+	{"write-byte", 2,  PrimWriteByte},
+	{"absvector?", 1,  PrimIsVector},
+	{"<-address", 2,  PrimVectorGet},
+	{"address->", 3,  PrimVectorSet},
+	{"absvector", 1,  PrimAbsvector},
+	{"str", 1,  PrimStr},
+	{"<=", 2,  PrimLessEqual},
+	{">=", 2,  PrimGreatEqual},
+	{"<", 2,  PrimLessThan},
+	{">", 2,  PrimGreatThan},
+	{"error-to-string", 1,  PrimErrorToString},
+	{"simple-error", 1,  PrimSimpleError},
+	{"=", 2,  PrimEqual},
+	{"-", 2,  PrimNumberSubtract},
+	{"*", 2,  PrimNumberMultiply},
+	{"/", 2,  PrimNumberDivide},
+	{"+", 2,  PrimNumberAdd},
+	{"string->n", 1,  PrimStringToNumber},
+	{"n->string", 1,  PrimNumberToString},
+	{"number?", 1,  PrimIsNumber},
+	{"string?", 1,  PrimIsString},
+	{"pos", 2,  PrimPos},
+	{"tlstr", 1,  PrimTailString},
+	{"cn", 2,  PrimStringConcat},
+	{"intern", 1,  PrimIntern},
+	{"hd", 1,  PrimHead},
+	{"tl", 1,  PrimTail},
+	{"cons", 2,  PrimCons},
+	{"cons?", 1,  PrimIsPair},
+	{"value", 1,  PrimNS3Value},
+	{"set", 2,  PrimNS3Set},
+	{"not", 1,  PrimNot},
+	{"if", 3,  PrimIf},
+	{"symbol?", 1,  PrimIsSymbol},
+	{"read-file-as-bytelist", 1,  PrimReadFileAsByteList},
+	{"read-file-as-string", 1,  PrimReadFileAsString},
+	{"variable?", 1, PrimIsVariable},
+	{"integer?", 1,  PrimIsInteger},
+	{"shen.char-stoutput?", 1, PrimCharStOutput},
+	{"shen.char-stinput?", 1, PrimCharStInput},
+}
+
+func PrimCharStInput(x Obj) Obj {
+	return False
+}
+
+func PrimCharStOutput(x Obj) Obj {
+	return False
+}
+
+func PrimLoad(e *ControlFlow) {
+	file := e.Get(1)
+	if !IsString(file) {
+		e.Return(MakeError("arg1 must be string"))
+		return
+	}
+	path := GetString(file)
+	if _, err := os.Stat(path); err != nil {
+		e.Return(MakeError(err.Error()))
+		return
+	}
+
+	f, err := os.Open(path)
+	if err != nil {
+		e.Return(MakeError(err.Error()))
+		return
+	}
+	defer f.Close()
+
+	r := NewSexpReader(f, false)
+	for {
+		exp, err := r.Read()
+		if err != nil {
+			if err != io.EOF {
+				e.Return(MakeError(err.Error()))
+				return
+			}
+			break
+		}
+
+		res := e.Eval(exp)
+		if IsError(res) {
+			e.Return(res)
+			return
+		}
+	}
+	e.Return(MakeSymbol("loaded"))
+}
+
+func PrimEvalKL(e *ControlFlow) {
+	exp := e.Get(1)
+	res := e.Eval(exp)
+	e.Return(res)
 }
 
 func init() {
-	// Cora primitives
-	for name, item := range Primitives {
-		sym := MakeSymbol(name)
-		prim := MakePrimitive(name, item.Arity, item.fn)
-		PrimNS1Set(sym, prim)
+	PrimNS2Set(MakeSymbol("try-catch"), MakeNative(PrimTryCatch(false), 2))
+	PrimNS2Set(MakeSymbol("load-file"), MakeNative(PrimLoad, 1))
+
+	for _, item := range klPrimitives {
+		sym := MakeSymbol(item.name)
+		Prim := MakePrimitive(item.name, item.arity, item.fn)
+		PrimNS2Set(sym, Prim)
 	}
-	PrimNS1Set(MakeSymbol("load"), MakeNative(PrimLoadFile(false), 1))
-	PrimNS1Set(MakeSymbol("load-so"), MakeNative(primLoadSo, 1))
-	PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
-	PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
-	PrimNS1Set(MakeSymbol("try-catch"), MakeNative(PrimTryCatch(false), 2))
+	PrimNS2Set(MakeSymbol("eval-kl"), MakeNative(PrimEvalKL, 1))
+	// Overload for Primitive set and value.
+	PrimNS3Set(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
+	PrimNS3Set(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
+	dir, _ := os.Getwd()
+	PrimNS3Set(MakeSymbol("*home-directory*"), MakeString(dir))
+	PrimNS3Set(MakeSymbol("*release*"), MakeString(runtime.Version()))
+	PrimNS3Set(MakeSymbol("*os*"), MakeString(runtime.GOOS))
+	PrimNS3Set(MakeSymbol("*language*"), MakeString("Go"))
+	PrimNS3Set(MakeSymbol("*implementation*"), MakeString("AOT+closure"))
+	PrimNS3Set(MakeSymbol("*porters*"), MakeString("Author Mao"))
+	PrimNS3Set(MakeSymbol("*port*"), MakeString("1.0.0"))
 }
 
 func PrimNumberAdd(x, y Obj) Obj {
@@ -404,19 +481,15 @@ func PrimGenSym(x Obj) Obj {
 	return MakeSymbol(str)
 }
 
-func PrimLoadFile(test bool) func(e *ControlFlow) {
+func PrimLoadFile() func(e *ControlFlow) {
 	return func(e *ControlFlow) {
-		var evaluator Evaluator = ControlFlowAsEvaluator{e}
-		if test {
-			evaluator = closureEvaluator{}
-		}
 		path := mustString(e.Get(1))
-		res := loadFile(evaluator, true, path)
+		res := loadFile(true, path)
 		e.Return(res)
 	}
 }
 
-func loadFile(e Evaluator, extended bool, file string) Obj {
+func loadFile(extended bool, file string) Obj {
 	if _, err := os.Stat(file); err != nil {
 		return MakeError(err.Error())
 	}
@@ -427,49 +500,15 @@ func loadFile(e Evaluator, extended bool, file string) Obj {
 	}
 	defer f.Close()
 	r := NewSexpReader(f, extended)
-	res := LoadFileFromReader(e, extended, r)
+	res := loadFileFromReader(extended, r)
 	if IsError(res) {
 		return res
 	}
 	return MakeString(file)
 }
 
-type Evaluator interface {
-	Eval(exp Obj) Obj
-	Call(f Obj, args ...Obj) Obj
-}
-
-var _ Evaluator = ControlFlowAsEvaluator{}
-
-type ControlFlowAsEvaluator struct {
-	*ControlFlow
-}
-
-func (c ControlFlowAsEvaluator) Eval(exp Obj) Obj {
-	return Eval(c.ControlFlow, exp)
-}
-
-func (c ControlFlowAsEvaluator) Call(f Obj, args ...Obj) Obj {
-	return Call(c.ControlFlow, f, args...)
-}
-
-var _ Evaluator = closureEvaluator{}
-
-type closureEvaluator struct{}
-
-func (closureEvaluator) Eval(exp Obj) Obj {
-	return Neval(exp)
-}
-
-func (closureEvaluator) Call(f Obj, args ...Obj) Obj {
-	return NCall(f, args...)
-}
-
-func DefaultEvaluator() closureEvaluator {
-	return closureEvaluator{}
-}
-
-func LoadFileFromReader(e Evaluator, extended bool, r *SexpReader) Obj {
+func loadFileFromReader(extended bool, r *SexpReader) Obj {
+	var ctx ControlFlow
 	for {
 		exp, err := r.Read()
 		if err != nil {
@@ -483,11 +522,11 @@ func LoadFileFromReader(e Evaluator, extended bool, r *SexpReader) Obj {
 		if extended {
 			expand := mustSymbol(symMacroExpand).cora
 			if expand != Nil {
-				exp = e.Call(expand, exp)
+				exp = ctx.Call(expand, exp)
 			}
 		}
 
-		res := e.Eval(exp)
+		res := ctx.Eval(exp)
 		if *res == scmHeadError {
 			return res
 		}
@@ -495,7 +534,7 @@ func LoadFileFromReader(e Evaluator, extended bool, r *SexpReader) Obj {
 	return Nil
 }
 
-func primLoadSo(e *ControlFlow) {
+func PrimLoadSo(e *ControlFlow) {
 	pluginPath := GetString(e.Get(1))
 	p, err := plugin.Open(pluginPath)
 	if err != nil {
@@ -524,7 +563,8 @@ func primLoadSo(e *ControlFlow) {
 		return
 	}
 
-	res := Call(e, *f)
+	var ctx ControlFlow
+	res := ctx.Call(*f)
 	e.Return(res)
 }
 
@@ -643,36 +683,7 @@ type tryResult struct {
 }
 
 func try(e *ControlFlow, f Obj) (res tryResult) {
-	savePos := e.pos
-	defer func() {
-		if err := recover(); err != nil {
-			if val, ok := err.(Obj); ok {
-				if IsError(val) {
-					// Don't forget to recover the calling stack!
-					e.pos = savePos
-					e.data = e.data[:e.pos]
-					res = tryResult{e: e, data: val}
-					return
-				}
-			}
-			// Unexpected panic?
-			var buf [8192]byte
-			n := runtime.Stack(buf[:], false)
-			fmt.Println("Unexpected Panic:", err)
-			fmt.Println("Recovered in Try:", ObjString(f))
-			fmt.Println(string(buf[:n]))
-			// throw the panic again...
-			panic(err)
-		}
-	}()
-	val := Call(e, f)
-	res = tryResult{e: e, data: val}
-	return
-}
-
-func try1(e *ControlFlow, f Obj) (res tryResult) {
-	saveSP := sp
-	// savePos := e.pos
+	saveSP := e.pos
 	defer func() {
 		if err := recover(); err != nil {
 			if val, ok := err.(Obj); ok {
@@ -680,8 +691,8 @@ func try1(e *ControlFlow, f Obj) (res tryResult) {
 					// Don't forget to recover the calling stack!
 					// e.pos = savePos
 					// e.data = e.data[:e.pos]
-					sp = saveSP
-					stack = stack[:sp]
+					e.pos = saveSP
+					e.stack = e.stack[:e.pos]
 					res = tryResult{e: e, data: val}
 					return
 				}
@@ -696,23 +707,21 @@ func try1(e *ControlFlow, f Obj) (res tryResult) {
 			panic(err)
 		}
 	}()
-	// val := Call(e, f)
-	val := NCall(f)
+	val := e.Call(f)
 	res = tryResult{e: e, data: val}
 	return
 }
 
 func (t tryResult) Catch(f Obj) Obj {
-
 	if IsError(t.data) {
-		return Call(t.e, f, t.data)
+		return t.e.Call(f, t.data)
 	}
 	return t.data
 }
 
 func (t tryResult) Catch1(f Obj) Obj {
 	if IsError(t.data) {
-		return NCall(f, t.data)
+		return t.e.Call(f, t.data)
 	}
 	return t.data
 }
@@ -722,11 +731,7 @@ func PrimTryCatch(test bool) func(e *ControlFlow) {
 		exp := e.Get(1)
 		act := e.Get(2)
 		var res Obj
-		if test {
-			res = try1(e, exp).Catch1(act)
-		} else {
-			res = try(e, exp).Catch(act)
-		}
+		res = try(e, exp).Catch1(act)
 		e.Return(res)
 	}
 }
@@ -762,6 +767,7 @@ func PrimNS2Value(key Obj) Obj {
 	if sym.function != nil {
 		return sym.function
 	}
+	fmt.Println("variable not bound", sym.str)
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
@@ -770,6 +776,7 @@ func PrimNS3Value(key Obj) Obj {
 	if sym.value != nil {
 		return sym.value
 	}
+	fmt.Println("variable not bound", sym.str)
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 
@@ -816,7 +823,7 @@ func PrimStr(o Obj) Obj {
 	case scmHeadNative:
 		n := MustNative(o)
 		if len(n.name) > 0 {
-			return MakeString(fmt.Sprintf("#<primitive %s>", n.name))
+			return MakeString(fmt.Sprintf("#<Primitive %s>", n.name))
 		} else {
 			return MakeString(fmt.Sprintf("#<native %v>", *n))
 		}
@@ -846,21 +853,14 @@ func PrimPos(x, y Obj) Obj {
 	return MakeString(string([]rune(s)[n]))
 }
 
-//go:embed init.cora
-var initFS embed.FS
+func PrimIsVariable(x Obj) Obj {
+	if !IsSymbol(x) {
+		return False
+	}
 
-func Init(e *ControlFlow, test bool) {
-	var evaluator Evaluator = ControlFlowAsEvaluator{e}
-	if test {
-		evaluator = closureEvaluator{}
+	sym := GetSymbol(x)
+	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
+		return False
 	}
-	f, err := initFS.Open("init.cora")
-	if err != nil {
-		e.Return(MakeError(err.Error()))
-		return
-	}
-	defer f.Close()
-	r := NewSexpReader(f, true)
-	res := LoadFileFromReader(evaluator, true, r)
-	e.Return(res)
+	return True
 }

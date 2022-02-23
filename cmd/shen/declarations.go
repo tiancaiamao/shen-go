@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/cora"
+import . "github.com/tiancaiamao/shen-go/klambda"
 
 var DeclarationsMain = MakeNative(func(__e *ControlFlow) {
 	tmp5976 := PrimNS3Set(symshen_4_dhistory_d, Nil)

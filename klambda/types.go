@@ -1,4 +1,4 @@
-package cora
+package klambda
 
 import (
 	"bytes"
@@ -32,7 +32,7 @@ const (
 
 type scmClosure struct {
 	scmHead
-	code   func(env Env)
+	code   inst
 	params int
 
 	parent   *scmClosure
@@ -164,6 +164,10 @@ func IsSymbol(o Obj) bool {
 	return objType(o) == scmHeadSymbol
 }
 
+func IsVector(o Obj) bool {
+	return objType(o) == scmHeadVector
+}
+
 func mustVector(o Obj) []Obj {
 	if (*o) != scmHeadVector {
 		panic(MakeError("mustVector"))
@@ -272,8 +276,19 @@ func isPair(o Obj) (bool, *scmPair) {
 
 var True, False, Nil, undefined Obj
 var uptime time.Time
-var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd, symType Obj
-var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
+var symMacroExpand Obj
+var symType Obj
+var symDefun Obj
+var symFreeze Obj
+var symLet Obj
+var symCond Obj
+var symAnd Obj
+var symOr Obj
+var symIf Obj
+var symLambda Obj
+var symTrapError Obj
+var symDo Obj
+var symQuote Obj
 
 var fixnumBaseAddr uintptr
 var fixnumEndAddr uintptr
@@ -304,6 +319,9 @@ func trieFindOrInsert(str string) *trieNode {
 	return p
 }
 
+
+var klMacro map[Obj]func(cc *Compiler, obj Obj, env *Env, tail bool) inst
+
 func init() {
 	// Create a mmap area for the memory address of fixnums.
 	data, err := syscall.Mmap(-1, /*fd int*/
@@ -333,27 +351,33 @@ func init() {
 	symQuote = MakeSymbol("quote")
 	symDefun = MakeSymbol("defun")
 	symLambda = MakeSymbol("lambda")
-	symFreeze = MakeSymbol("freeze")
 	symLet = MakeSymbol("let")
-	symAnd = MakeSymbol("and")
-	symType = MakeSymbol("type")
-	symOr = MakeSymbol("or")
 	symIf = MakeSymbol("if")
-	symCond = MakeSymbol("cond")
-	symTrapError = MakeSymbol("trap-error")
 	symDo = MakeSymbol("do")
 	symMacroExpand = MakeSymbol("macroexpand")
 
-	klMacro = map[Obj]func(obj Obj, env *compileEnv, tail bool, freeVars map[Obj]posRef) func(env Env){
-		symType:      compileTypeMacro,
-		symDefun:     compileDefunMacro,
-		symFreeze:    compileFreezeMacro,
-		symLet:       compileLetMacro,
-		symCond:      compileCondMacro,
-		symAnd:       compileAndMacro,
-		symOr:        compileOrMacro,
-		symTrapError: compileTrapErrorMacro,
-	}
+	symType = MakeSymbol("type")
+	symDefun = MakeSymbol("defun")
+	symFreeze = MakeSymbol("freeze")
+	symLet = MakeSymbol("let")
+	symCond = MakeSymbol("cond")
+	symAnd = MakeSymbol("and")
+	symOr = MakeSymbol("or")
+	symIf = MakeSymbol("if")
+	symLambda = MakeSymbol("lambda")
+	symTrapError = MakeSymbol("trap-error")
+	symDo = MakeSymbol("do")
+
+	klMacro = map[Obj]func(cc *Compiler, obj Obj, env *Env, tail bool) inst {
+		symDefun: compileDefunMacro,
+			symCond: compileCondMacro,
+			symAnd: compileAndMacro,
+			symOr: compileOrMacro,
+			symTrapError: compileTrapErrorMacro,
+			symFreeze: compileFreezeMacro,
+			symLet: compileLetMacro,
+			symType: compileTypeMacro,
+		}
 }
 
 func MakeInteger(v int) Obj {
@@ -443,7 +467,7 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-func MakeClosure(code func(env Env), env Env, nargs int, parent *scmClosure, freeVars map[int]Obj) Obj {
+func MakeClosure(code inst, ebp, esp int, nargs int, parent *scmClosure, freeVars map[int]Obj) Obj {
 	tmp := scmClosure{
 		scmHead:  scmHeadClosure,
 		code:     code,

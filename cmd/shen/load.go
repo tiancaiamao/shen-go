@@ -1,6 +1,6 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/cora"
+import . "github.com/tiancaiamao/shen-go/klambda"
 
 var LoadMain = MakeNative(func(__e *ControlFlow) {
 	tmp8189 := MakeNative(func(__e *ControlFlow) {

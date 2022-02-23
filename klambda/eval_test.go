@@ -1,4 +1,4 @@
-package cora
+package klambda
 
 import (
 	"fmt"
@@ -16,47 +16,44 @@ func TestXXX(t *testing.T) {
 	cases := []testCase{
 		testCase{
 			name:   "curry-partial",
-			input:  `((lambda (x) (lambda (y z) (+ x z))) 1 2 3)`,
+			input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
 			output: "4",
 		},
 
 		testCase{
 			name:   "curry",
-			input:  `((((lambda (x y z) y)) 1 2) 3)`,
+			input:  `(do (defun f (x y z) y) ((f 1 2) 3))`,
 			output: "2",
 		},
 
 		testCase{
 			name: "curry1",
-			input: `(do (set (quote f)
-		(lambda (x)
-		 (lambda (z w)
-		   (lambda (y)
-		      z))))
+			input: `(do (defun f (x)
+		 (do (defun ignore (z w)
+		   (lambda y
+		      z)) (ignore)))
 		(((f 1) 2 3) 4))`,
 			output: "2",
 		},
 
 		testCase{
 			name: "fib10",
-			input: `(do (set (quote fib)
-	(lambda (i)
+			input: `(do (defun fib (i)
 	(if (= i 0)
 	    1
 	    (if (= i 1)
 		1
-		(+ (fib (- i 1)) (fib (- i 2)))))))
+		(+ (fib (- i 1)) (fib (- i 2))))))
 	(fib 10))`,
 			output: "89",
 		},
 
 		testCase{
 			name: "proper tail call",
-			input: `(do (set (quote sum)
-	(lambda (r i)
+			input: `(do (defun sum (r i)
 	  (if (= i 0)
 	      r
-	      (sum (+ r 1) (- i 1)))))
+	      (sum (+ r 1) (- i 1))))
 	(sum 0 5000000))`,
 			output: "5000000",
 		},
@@ -75,25 +72,25 @@ func TestXXX(t *testing.T) {
 
 		testCase{
 			name:   "do in tail call",
-			input:  `((lambda (x y z) (do 1 (do 2 z))) 1 2 3)`,
+			input:  `(do (defun f (x y z) (do 1 (do 2 z))) (f 1 2 3))`,
 			output: "3",
 		},
 
 		testCase{
 			name:   "basic func call",
-			input:  `(do (set (quote id) (lambda (x) x)) (id (do 1 (do 2 42))))`,
+			input:  `(do (defun id (x) x) (id (do 1 (do 2 42))))`,
 			output: "42",
 		},
 
 		testCase{
 			name:   "identify function",
-			input:  `(do (set (quote id) (lambda (x) x)) (id 42))`,
+			input:  `(do (defun id (x) x) (id 42))`,
 			output: "42",
 		},
 
 		testCase{
 			name:   "basic set",
-			input:  `(do (set (quote x) 42) x)`,
+			input:  `(do (set x 42) (value x))`,
 			output: "42",
 		},
 
@@ -105,7 +102,7 @@ func TestXXX(t *testing.T) {
 
 		testCase{
 			name:   "basic lambda",
-			input:  `((lambda (x y z) z) 1 2 3)`,
+			input:  `((lambda x (lambda y (lambda z z))) 1 2 3)`,
 			output: "3",
 		},
 
@@ -134,20 +131,21 @@ func TestXXX(t *testing.T) {
 		},
 	}
 
+	var ctx ControlFlow
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			res := evalString(c.input)
+			res := evalString(&ctx, c.input)
 			if ObjString(res) != c.output {
 				fmt.Println("input is:", c.input)
 				fmt.Println("output is:", ObjString(res))
 				t.Fail()
 			}
-			if sp != 0 {
-				fmt.Println("unexpected sp after evaluation:", sp)
+			if ctx.pos != 0 {
+				fmt.Println("unexpected sp after evaluation:", ctx.pos)
 				t.Fail()
 			}
-			if len(stack) != 0 {
-				fmt.Println("unexpected stack after evaluation:", len(stack))
+			if len(ctx.stack) != 0 {
+				fmt.Println("unexpected stack after evaluation:", len(ctx.stack))
 				t.Fail()
 			}
 		})
@@ -155,19 +153,20 @@ func TestXXX(t *testing.T) {
 }
 
 func TestYYY(t *testing.T) {
-	evalString("(set 'return (lambda (x) (lambda (k) (k x))))")
-	evalString("(set 'add1 (lambda (n) (return (+ n 1))))")
-	res := evalString("(add1 4 (lambda (x) x))")
+	var ctx ControlFlow
+	evalString(&ctx, "(defun return (x) (lambda k (k x)))")
+	evalString(&ctx, "(defun add1 (n) (return (+ n 1)))")
+	res := evalString(&ctx, "(add1 4 (lambda x x))")
 	if res != MakeInteger(5) {
 		t.Fail()
 	}
 }
 
-func evalString(exp string) Obj {
+func evalString(ctx *ControlFlow, exp string) Obj {
 	r := NewSexpReader(strings.NewReader(exp), true)
 	sexp, err := r.Read()
 	if err != nil && err != io.EOF {
 		panic(err)
 	}
-	return Neval(sexp)
+	return ctx.Eval(sexp)
 }

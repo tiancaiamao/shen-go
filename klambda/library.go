@@ -1,4 +1,4 @@
-package cora
+package klambda
 
 import (
 	"math"
@@ -9,8 +9,8 @@ func cadr(o Obj) Obj {
 	return car(cdr(o))
 }
 
-func caddr(o Obj) Obj {
-	return car(cdr(cdr(o)))
+func caddr(exp Obj) Obj {
+	return Car(Cdr(Cdr(exp)))
 }
 
 func cdddr(o Obj) Obj {
@@ -21,9 +21,9 @@ func cadddr(o Obj) Obj {
 	return car(cdr(cdr(cdr(o))))
 }
 
-func Reverse(o Obj) Obj {
-	return reverse(o)
-}
+// func Reverse(o Obj) Obj {
+// 	return reverse(o)
+// }
 
 func reverse(o Obj) Obj {
 	ret := Nil
@@ -119,9 +119,9 @@ func listLength(l Obj) int {
 	return count
 }
 
-func Cadr(o Obj) Obj {
-	return cadr(o)
-}
+// func Cadr(o Obj) Obj {
+// 	return cadr(o)
+// }
 
 func Car(o Obj) Obj {
 	return car(o)
@@ -133,6 +133,13 @@ func Cdr(o Obj) Obj {
 
 func Cons(x, y Obj) Obj {
 	return cons(x, y)
+}
+
+func IsCons(x Obj) bool {
+	if objType(x) == scmHeadPair {
+		return true
+	}
+	return false
 }
 
 // isInteger determinate whether a float64 is actually a precise integer.
