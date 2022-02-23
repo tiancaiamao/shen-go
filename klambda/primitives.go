@@ -64,34 +64,6 @@ var klPrimitives = []struct {
 	{"shen.char-stinput?", 1, PrimCharStInput},
 }
 
-// //go:embed kl.cora
-// var initFS embed.FS
-
-// func PrimKLInit(e *ControlFlow, test bool) {
-// 	var evaluator Evaluator = ControlFlowAsEvaluator{e}
-// 	if test {
-// 		evaluator = DefaultEvaluator()
-// 	}
-// 	f, err := initFS.Open("kl.cora")
-// 	if err != nil {
-// 		e.Return(MakeError(err.Error()))
-// 		return
-// 	}
-// 	defer f.Close()
-// 	r := NewSexpReader(f, true)
-// 	res := LoadFileFromReader(evaluator, true, r)
-// 	e.Return(res)
-// }
-
-// func PrimPos(x, y Obj) Obj {
-// 	s := []rune(GetString(x))
-// 	n := GetInteger(y)
-// 	if n >= len(s) {
-// 		panic(MakeError(fmt.Sprintf("%d is not valid index for %s", n, string(s))))
-// 	}
-// 	return MakeString(string([]rune(s)[n]))
-// }
-
 func PrimCharStInput(x Obj) Obj {
 	return False
 }
@@ -145,65 +117,7 @@ func PrimEvalKL(e *ControlFlow) {
 	e.Return(res)
 }
 
-// func PrimIsVariable(x Obj) Obj {
-// 	if !IsSymbol(x) {
-// 		return False
-// 	}
-
-// 	sym := GetSymbol(x)
-// 	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
-// 		return False
-// 	}
-// 	return True
-// }
-
-// var Primitives = map[string]struct {
-// 	Arity int
-// 	fn    interface{}
-// 	Name  string
-// }{
-// 	"set":         {2, PrimNS1Set, "PrimNS1Set"},
-// 	"value":       {1, PrimNS1Value, "PrimNS1Value"},
-// 	"car":         {1, PrimHead, "PrimHead"},
-// 	"cdr":         {1, PrimTail, "PrimTail"},
-// 	"vector?":     {1, PrimIsVector, "PrimIsVector"},
-// 	"vector-ref":  {2, PrimVectorGet, "PrimVectorGet"},
-// 	"vector-set!": {3, PrimVectorSet, "PrimVectorSet"},
-// 	"vector":      {1, PrimAbsvector, "PrimAbsvector"},
-// 	"<=":          {2, PrimLessEqual, "PrimLessEqual"},
-// 	">=":          {2, PrimGreatEqual, "PrimGreatEqual"},
-// 	"<":           {2, PrimLessThan, "PrimLessThan"},
-// 	">":           {2, PrimGreatThan, "PrimGreatThan"},
-// 	"=":           {2, PrimEqual, "PrimEqual"},
-// 	"-":           {2, PrimNumberSubtract, "PrimNumberSubtract"},
-// 	"*":           {2, PrimNumberMultiply, "PrimNumberMultiply"},
-// 	"/":           {2, PrimNumberDivide, "PrimNumberDivide"},
-// 	"+":           {2, PrimNumberAdd, "PrimNumberAdd"},
-// 	"number?":     {1, PrimIsNumber, "PrimIsNumber"},
-// 	"string?":     {1, PrimIsString, "PrimIsString"},
-// 	"cn":          {2, PrimStringConcat, "PrimStringConcat"},
-// 	"intern":      {1, PrimIntern, "PrimIntern"},
-// 	"cons":        {2, PrimCons, "PrimCons"},
-// 	"cons?":       {1, PrimIsPair, "PrimIsPair"},
-// 	"not":         {1, PrimNot, "PrimNot"},
-// 	"symbol?":     {1, PrimIsSymbol, "PrimIsSymbol"},
-// 	"gensym":      {1, PrimGenSym, "PrimGenSym"},
-// 	"integer?":    {1, PrimIsInteger, "PrimIsInteger"},
-
-// 	// The only special Primitive required to support KLambda
-// 	"fn": {1, PrimNS2Value, "PrimNS2Value"},
-// }
-
 func init() {
-	// for name, item := range Primitives {
-	// 	sym := MakeSymbol(name)
-	// 	Prim := MakePrimitive(name, item.Arity, item.fn)
-	// 	PrimNS1Set(sym, Prim)
-	// }
-	// PrimNS1Set(MakeSymbol("load"), MakeNative(PrimLoadFile(), 1))
-	// PrimNS1Set(MakeSymbol("load-so"), MakeNative(PrimLoadSo, 1))
-	// PrimNS1Set(MakeSymbol("read-file-as-sexp"), MakeNative(readFileAsSexp, 2))
-	// PrimNS1Set(MakeSymbol("write-sexp-to-file"), MakeNative(writeSexpToFile, 2))
 	PrimNS2Set(MakeSymbol("try-catch"), MakeNative(PrimTryCatch(false), 2))
 	PrimNS2Set(MakeSymbol("load-file"), MakeNative(PrimLoad, 1))
 
@@ -768,36 +682,7 @@ type tryResult struct {
 	data Obj
 }
 
-// // func try(e *ControlFlow, f Obj) (res tryResult) {
-// // 	savePos := e.pos
-// // 	defer func() {
-// // 		if err := recover(); err != nil {
-// // 			if val, ok := err.(Obj); ok {
-// // 				if IsError(val) {
-// // 					// Don't forget to recover the calling stack!
-// // 					e.pos = savePos
-// // 					e.data = e.data[:e.pos]
-// // 					res = tryResult{e: e, data: val}
-// // 					return
-// // 				}
-// // 			}
-// // 			// Unexpected panic?
-// // 			var buf [8192]byte
-// // 			n := runtime.Stack(buf[:], false)
-// // 			fmt.Println("Unexpected Panic:", err)
-// // 			fmt.Println("Recovered in Try:", ObjString(f))
-// // 			fmt.Println(string(buf[:n]))
-// // 			// throw the panic again...
-// // 			panic(err)
-// // 		}
-// // 	}()
-// // 	var ctx ControlFlow
-// // 	val := ctx.Call(f)
-// // 	res = tryResult{e: e, data: val}
-// // 	return
-// // }
-
-func try1(e *ControlFlow, f Obj) (res tryResult) {
+func try(e *ControlFlow, f Obj) (res tryResult) {
 	saveSP := e.pos
 	defer func() {
 		if err := recover(); err != nil {
@@ -846,7 +731,7 @@ func PrimTryCatch(test bool) func(e *ControlFlow) {
 		exp := e.Get(1)
 		act := e.Get(2)
 		var res Obj
-		res = try1(e, exp).Catch1(act)
+		res = try(e, exp).Catch1(act)
 		e.Return(res)
 	}
 }
@@ -882,6 +767,7 @@ func PrimNS2Value(key Obj) Obj {
 	if sym.function != nil {
 		return sym.function
 	}
+	fmt.Println("variable not bound", sym.str)
 	panic(MakeError(fmt.Sprintf("variable %s not bound", sym.str)))
 }
 

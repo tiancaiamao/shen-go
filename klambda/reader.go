@@ -99,10 +99,6 @@ func (r *SexpReader) readListMacro() (Obj, error) {
 	return cons(hd, reverse(tmp)), nil
 }
 
-// func RconsForm(o Obj) Obj {
-// 	return rconsForm(o)
-// }
-
 func rconsForm(o Obj) Obj {
 	if *o == scmHeadPair {
 		return cons(MakeSymbol("cons"),

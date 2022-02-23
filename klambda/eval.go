@@ -117,6 +117,10 @@ func apply(ctl *ControlFlow) {
 
 var symDebug = MakeSymbol("*debug-eval*")
 
+func Eval(ctx *ControlFlow, exp Obj) Obj {
+	return ctx.Eval(exp)
+}
+
 func (ctx *ControlFlow) Eval(exp Obj) Obj {
 	var cc Compiler
 	c := cc.compile(exp, nil, true)
@@ -441,6 +445,11 @@ func getRequired(o Obj) int {
 func recoverCall(ctx *ControlFlow, saveSP int) {
 	ctx.stack = ctx.stack[:ctx.pos]
 	ctx.pos = saveSP
+}
+
+
+func Call(ctx *ControlFlow, f Obj, args ...Obj) Obj {
+	return ctx.Call(f, args...)
 }
 
 func (ctx *ControlFlow) Call(f Obj, args ...Obj) Obj {

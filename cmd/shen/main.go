@@ -55,23 +55,23 @@ func main() {
 	// klInit()
 
 	klambda.PrimNS1Set(symMacroExpand, klambda.Nil)
-	klambda.Init(&e, false)
-	if klambda.IsError(e.Get(0)) {
-		os.Exit(-1)
-	}
+	// klambda.Init(&e, false)
+	// if klambda.IsError(e.Get(0)) {
+	// 	os.Exit(-1)
+	// }
 
-	klambda.KLInit(&e, false)
-	if klambda.IsError(e.Get(0)) {
-		os.Exit(-1)
-	}
-	klambda.PrimNS2Set(symEvalKL, klambda.MakeNative(primEvalKL, 1))
+	// klambda.KLInit(&e, false)
+	// if klambda.IsError(e.Get(0)) {
+	// 	os.Exit(-1)
+	// }
+	// klambda.PrimNS2Set(symEvalKL, klambda.MakeNative(primEvalKL, 1))
 
 	// if err := klambda.Call(&e, klambda.PrimNS1Value(klambda.MakeSymbol("klambda.init"))); klambda.IsError(err) {
 	// 	os.Exit(-1)
 	// }
 
 	regist(&e)
-	evalKL(&e, klambda.Cons(klambda.MakeSymbol("shen.shen"), klambda.Nil))
+	e.Eval(klambda.Cons(klambda.MakeSymbol("shen.shen"), klambda.Nil))
 	// r := kl.NewSexpReader(os.Stdin, false)
 	// for i := 0; ; i++ {
 	// 	fmt.Printf("%d #> ", i)
@@ -138,7 +138,7 @@ var klPrimitives = []struct {
 	{"symbol?", 1, klambda.PrimIsSymbol},
 	{"read-file-as-bytelist", 1, klambda.PrimReadFileAsByteList},
 	{"read-file-as-string", 1, klambda.PrimReadFileAsString},
-	{"variable?", 1, PrimIsVariable},
+	{"variable?", 1, klambda.PrimIsVariable},
 	{"integer?", 1, klambda.PrimIsInteger},
 }
 
@@ -169,17 +169,17 @@ func klInit() {
 
 func primEvalKL(e *klambda.ControlFlow) {
 	exp1 := e.Get(1)
-	res := evalKL(e, exp1)
+	res := e.Eval(exp1)
 	e.Return(res)
 }
 
-func evalKL(e *klambda.ControlFlow, exp klambda.Obj) klambda.Obj {
-	exp1 := klambda.Call(e, klambda.PrimNS1Value(symKLToKlambda), klambda.Nil, exp)
+// func evalKL(e *klambda.ControlFlow, exp klambda.Obj) klambda.Obj {
+// 	exp1 := klambda.Call(e, klambda.PrimNS1Value(symKLToKlambda), klambda.Nil, exp)
 
-	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
-	res := klambda.Eval(e, exp1)
-	return res
-}
+// 	// fmt.Println("evalKL with ===", kl.ObjString(exp1))
+// 	res := klambda.Eval(e, exp1)
+// 	return res
+// }
 
 func primLoad(e *klambda.ControlFlow) {
 	file := e.Get(1)
@@ -211,7 +211,7 @@ func primLoad(e *klambda.ControlFlow) {
 			break
 		}
 
-		res := evalKL(e, exp)
+		res := e.Eval(exp)
 		if klambda.IsError(res) {
 			e.Return(res)
 			return
@@ -220,14 +220,14 @@ func primLoad(e *klambda.ControlFlow) {
 	e.Return(klambda.MakeSymbol("loaded"))
 }
 
-func PrimIsVariable(x klambda.Obj) klambda.Obj {
-	if !klambda.IsSymbol(x) {
-		return klambda.False
-	}
+// func PrimIsVariable(x klambda.Obj) klambda.Obj {
+// 	if !klambda.IsSymbol(x) {
+// 		return klambda.False
+// 	}
 
-	sym := klambda.GetSymbol(x)
-	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
-		return klambda.False
-	}
-	return klambda.True
-}
+// 	sym := klambda.GetSymbol(x)
+// 	if len(sym) == 0 || sym[0] < 'A' || sym[0] > 'Z' {
+// 		return klambda.False
+// 	}
+// 	return klambda.True
+// }
