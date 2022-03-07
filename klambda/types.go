@@ -37,6 +37,7 @@ type scmClosure struct {
 
 	parent   *scmClosure
 	freeVars map[int]Obj
+	nlocal   int
 }
 
 type scmCurry struct {
@@ -319,7 +320,6 @@ func trieFindOrInsert(str string) *trieNode {
 	return p
 }
 
-
 var klMacro map[Obj]func(cc *Compiler, obj Obj, env *Env, tail bool) inst
 
 func init() {
@@ -368,16 +368,16 @@ func init() {
 	symTrapError = MakeSymbol("trap-error")
 	symDo = MakeSymbol("do")
 
-	klMacro = map[Obj]func(cc *Compiler, obj Obj, env *Env, tail bool) inst {
-		symDefun: compileDefunMacro,
-			symCond: compileCondMacro,
-			symAnd: compileAndMacro,
-			symOr: compileOrMacro,
-			symTrapError: compileTrapErrorMacro,
-			symFreeze: compileFreezeMacro,
-			symLet: compileLetMacro,
-			symType: compileTypeMacro,
-		}
+	klMacro = map[Obj]func(cc *Compiler, obj Obj, env *Env, tail bool) inst{
+		symDefun:     compileDefunMacro,
+		symCond:      compileCondMacro,
+		symAnd:       compileAndMacro,
+		symOr:        compileOrMacro,
+		symTrapError: compileTrapErrorMacro,
+		symFreeze:    compileFreezeMacro,
+		// symLet: compileLetMacro,
+		symType: compileTypeMacro,
+	}
 }
 
 func MakeInteger(v int) Obj {
@@ -467,13 +467,14 @@ func MakeSymbol(s string) Obj {
 	return &p.value.scmHead
 }
 
-func MakeClosure(code inst, ebp, esp int, nargs int, parent *scmClosure, freeVars map[int]Obj) Obj {
+func MakeClosure(code inst, ebp, esp int, nargs int, parent *scmClosure, freeVars map[int]Obj, nlocal int) Obj {
 	tmp := scmClosure{
 		scmHead:  scmHeadClosure,
 		code:     code,
 		params:   nargs,
 		parent:   parent,
 		freeVars: freeVars,
+		nlocal:   nlocal,
 	}
 	return &tmp.scmHead
 }

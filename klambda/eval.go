@@ -23,10 +23,10 @@ type ControlFlow struct {
 	// Most of the time, an array is sufficient. But when eval expression like
 	// (f (g1 h) (g2 n) ...), the stack is used to store the temporary arguments
 	stack []Obj
-	pos  int
+	pos   int
 
-	val   Obj
-	pc    inst
+	val Obj
+	pc  inst
 }
 
 func (ctl *ControlFlow) TailApply(f Obj, args ...Obj) {
@@ -122,8 +122,25 @@ func Eval(ctx *ControlFlow, exp Obj) Obj {
 }
 
 func (ctx *ControlFlow) Eval(exp Obj) Obj {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("eval error ==", ObjString(exp))
+			panic(r)
+		}
+	}()
 	var cc Compiler
-	c := cc.compile(exp, nil, true)
+	env := &Env{
+		parent: nil,
+		args:   Nil,
+	}
+	c := cc.compile(exp, env, true)
+	if cc.local > 0 {
+		// Special handle for top level (let x v ...) expression
+		ctx.stack = append(ctx.stack, Nil) // Dummy closure
+		for i := 0; i < cc.local; i++ {    // Reserve space for local variables
+			ctx.stack = append(ctx.stack, Nil)
+		}
+	}
 	run(ctx, c)
 	ctx.stack = ctx.stack[:ctx.pos]
 	return ctx.val
@@ -137,13 +154,20 @@ type Env struct {
 func (env *Env) findVariable(s Obj) (m int, n int) {
 	e := env
 	for e != nil {
-		n = 0
+		n = -1
+		idx := 0
 		for args := e.args; args != Nil; args = cdr(args) {
 			if car(args) == s {
-				return // local variable
+				n = idx
+				// return // local variable
 			}
-			n++
+			// n++
+			idx++
 		}
+		if n >= 0 {
+			return
+		}
+
 		m = m + 1
 		e = e.parent
 	}
@@ -158,8 +182,9 @@ type posRef struct {
 	Offset int
 }
 
-type Compiler struct{
+type Compiler struct {
 	freeVars []posRef
+	local    int
 }
 
 func (cc *Compiler) compile(exp Obj, env *Env, tail bool) inst {
@@ -195,10 +220,27 @@ func (cc *Compiler) compile(exp Obj, env *Env, tail bool) inst {
 			x := cc.compile(car(tl), env, false)
 			y := cc.compile(cadr(tl), env, tail)
 			return genDoInst(x, y, tail)
-		case symLambda: // (lambda (x y) x)
-			args := Cons(car(tl), Nil)
+		case symLambda: // (lambda X X)
+			args := Nil
+			if car(tl) != Nil {
+				args = Cons(car(tl), args)
+			}
 			body := cadr(tl)
 			return cc.compileLambda(args, body, env)
+		case symLet: // (let a b c)
+			val := cc.compile(cadr(tl), env, false)
+			// Actually, the compile Env of the body is *not* changed!
+			// fmt.Println("before ... and args ===", ObjString(env.args))
+			env1 := &Env{
+				parent: env.parent,
+				args:   listAppend(env.args, cons(car(tl), Nil)), // cons(car(tl), env.args),
+			}
+			// fmt.Println("compile let body env ==", ObjString(env1.args))
+			cc.local++
+			body := caddr(tl)
+			op := cc.compile(body, env1, tail)
+			idx := listLength(env.args)
+			return genLetInst(val, op, idx)
 		}
 	}
 
@@ -239,7 +281,7 @@ func (cc *Compiler) compileLambda(args, body Obj, env *Env) inst {
 			cc.freeVars = append(cc.freeVars, posRef{Up: p.Up - 1, Offset: p.Offset})
 		}
 	}
-	return genMakeClosureInst(op, nargs, collectFVs)
+	return genMakeClosureInst(op, nargs, collectFVs, cc1.local)
 }
 
 func (cc *Compiler) compileSymbolInCall(exp Obj, env *Env, tail bool) inst {
@@ -255,7 +297,7 @@ func (cc *Compiler) compileSymbolInCall(exp Obj, env *Env, tail bool) inst {
 	return genKLGlobalRefInst(exp)
 }
 
-func  compileOrMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
+func compileOrMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
 	// (or x y) => (if x true (if y true false))
 	x := Car(exp)
 	y := cadr(exp)
@@ -264,7 +306,7 @@ func  compileOrMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
 	return cc.compile(exp, env, tail)
 }
 
-func  compileAndMacro(cc *Compiler,exp Obj, env *Env, tail bool) inst {
+func compileAndMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
 	// (and x y) => (if x (if y true false) false)
 	x := Car(exp)
 	y := cadr(exp)
@@ -317,7 +359,7 @@ func genKLGlobalSetInst(fName Obj, f inst) inst {
 	}
 }
 
-func  compileLetMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
+func compileLetMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
 	// (let x y z) => ((lambda x z) y)
 	x := Car(exp)
 	y := cadr(exp)
@@ -338,10 +380,11 @@ func compileTrapErrorMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
 	handler := Cdr(exp)
 	action := Cons(symLambda, Cons(Nil, Cons(body, Nil)))
 	exp = Cons(MakeSymbol("try-catch"), Cons(action, handler))
+	// fmt.Println("after rewrite trap get ===", ObjString(exp))
 	return cc.compile(exp, env, tail)
 }
 
-func  compileTypeMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
+func compileTypeMacro(cc *Compiler, exp Obj, env *Env, tail bool) inst {
 	// (type exp _) => exp
 	return cc.compile(Car(exp), env, tail)
 }
@@ -404,7 +447,18 @@ func genGlobalRefInst(sym Obj) inst {
 	}
 }
 
-func genMakeClosureInst(op func(ctx *ControlFlow, ebp, esp int), nargs int, mark []posRef) func(ctx *ControlFlow, ebp, esp int) {
+func genLetInst(arg, body inst, idx int) inst {
+	// fmt.Println("gen the idx ===", idx)
+	return func(ctx *ControlFlow, ebp, esp int) {
+		arg(ctx, ebp, esp)
+		// fmt.Println("eval the idx ===", idx, ObjString(ctx.val), ebp, esp, "len(stack) == ", len(ctx.stack))
+
+		ctx.stack[1+ebp+idx] = ctx.val
+		body(ctx, ebp, esp)
+	}
+}
+
+func genMakeClosureInst(op inst, nargs int, mark []posRef, nlocal int) inst {
 	return func(ctx *ControlFlow, ebp, esp int) {
 		var parent *scmClosure
 		if esp > ebp {
@@ -425,7 +479,7 @@ func genMakeClosureInst(op func(ctx *ControlFlow, ebp, esp int), nargs int, mark
 				freeVars[k] = ctx.stack[ebp+k+1]
 			}
 		}
-		ctx.val = MakeClosure(op, ebp, esp, nargs, parent, freeVars)
+		ctx.val = MakeClosure(op, ebp, esp, nargs, parent, freeVars, nlocal)
 	}
 }
 
@@ -446,7 +500,6 @@ func recoverCall(ctx *ControlFlow, saveSP int) {
 	ctx.stack = ctx.stack[:ctx.pos]
 	ctx.pos = saveSP
 }
-
 
 func Call(ctx *ControlFlow, f Obj, args ...Obj) Obj {
 	return ctx.Call(f, args...)
@@ -520,6 +573,12 @@ func genCallInst(insts []inst, debugExp Obj, tail bool) inst {
 					nargs := len(ctx.stack[ctx.pos:])
 					copy(ctx.stack[saveSP:saveSP+nargs], ctx.stack[ctx.pos:])
 					ctx.stack = ctx.stack[:saveSP+nargs]
+					if clo.nlocal > 0 {
+						for i := 0; i < clo.nlocal; i++ {
+							ctx.stack = append(ctx.stack, Nil)
+						}
+					}
+					// fmt.Println(".... in tail call ", clo.nlocal, ctx.stack)
 					ctx.pos = saveSP
 					ctx.pc = clo.code
 					return
@@ -554,6 +613,12 @@ retry:
 
 	case scmHeadClosure:
 		clo := mustClosure(f)
+		if clo.nlocal > 0 {
+			for i := 0; i < clo.nlocal; i++ {
+				ctx.stack = append(ctx.stack, Nil)
+			}
+			// fmt.Println(".... in call ", clo.nlocal, ctx.stack)
+		}
 		run(ctx, clo.code)
 
 	case scmHeadCurry:

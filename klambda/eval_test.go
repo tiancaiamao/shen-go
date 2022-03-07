@@ -7,13 +7,33 @@ import (
 	"testing"
 )
 
-func TestXXX(t *testing.T) {
+func TestBasic(t *testing.T) {
 	type testCase struct {
 		name   string
 		input  string
 		output string
 	}
 	cases := []testCase{
+		testCase{
+			name: "let-variable-shadow",
+			input: `(do (defun f (a b)
+					   (let a 3 a)) (f 4 5))`,
+			output: "3",
+		},
+		testCase{
+			name: "let variable shadow",
+			input: `(let Result 123
+     (let Result 456
+	  (if (= Result 456)
+	      true
+	      Result)))`,
+			output: "true",
+		},
+		testCase{
+			name:   "trap-let",
+			input:  "(trap-error (let X 666 42) (lambda E (cons --> (cons A ()))))",
+			output: "42",
+		},
 		testCase{
 			name:   "curry-partial",
 			input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,

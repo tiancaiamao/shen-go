@@ -34,16 +34,16 @@ func reverse(o Obj) Obj {
 	return ret
 }
 
-// func listAppend(l1, l2 Obj) Obj {
-// 	res := Nil
-// 	for ; l1 != Nil; l1 = cdr(l1) {
-// 		res = cons(car(l1), res)
-// 	}
-// 	for ; l2 != Nil; l2 = cdr(l2) {
-// 		res = cons(car(l2), res)
-// 	}
-// 	return reverse(res)
-// }
+func listAppend(l1, l2 Obj) Obj {
+	res := Nil
+	for ; l1 != Nil; l1 = cdr(l1) {
+		res = cons(car(l1), res)
+	}
+	for ; l2 != Nil; l2 = cdr(l2) {
+		res = cons(car(l2), res)
+	}
+	return reverse(res)
+}
 
 func equal(x, y Obj) Obj {
 	if x == y {
