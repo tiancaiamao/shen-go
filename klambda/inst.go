@@ -28,6 +28,7 @@ type constInst struct {
 
 func (v constInst) Exec(ctx *ControlFlow, ebp, esp int) {
 	ctx.val = v.val
+	ctx.pc = nil
 }
 
 type ifInst struct {
@@ -36,37 +37,39 @@ type ifInst struct {
 	c inst
 }
 
+func (i *ifInst) Exec(ctx *ControlFlow, ebp, esp int) {
+	for ctx.pc = i.a; ctx.pc != nil; {
+		ctx.pc.Exec(ctx, ebp, esp)
+	}
+
+	switch ctx.val {
+	case True:
+		ctx.pc = i.b
+	case False:
+		ctx.pc = i.c
+	default:
+		panic("test branch for if must be a boolean")
+	}
+}
+
 type doInst struct {
-	op1 inst
-	op2 inst
+	op1  inst
+	op2  inst
 	tail bool
 }
 
 func (d *doInst) Exec(ctx *ControlFlow, ebp, esp int) {
-	d.op1.Exec(ctx, ebp, esp)
-	if d.tail {
-		ctx.pc = d.op2
-		return
+	for ctx.pc = d.op1; ctx.pc != nil; {
+		ctx.pc.Exec(ctx, ebp, esp)
 	}
-	d.op2.Exec(ctx, ebp, esp)
-}
-
-func (i *ifInst) Exec(ctx *ControlFlow, ebp, esp int) {
-	i.a.Exec(ctx, ebp, esp)
-	switch ctx.val {
-	case True:
-		i.b.Exec(ctx, ebp, esp)
-	case False:
-		i.c.Exec(ctx, ebp, esp)
-	default:
-		panic("test branch for if must be a boolean")
-	}
+	ctx.pc = d.op2
 }
 
 type localRefInst int
 
 func (idx localRefInst) Exec(ctx *ControlFlow, ebp, esp int) {
 	ctx.val = ctx.stack[ebp+int(idx)]
+	ctx.pc = nil
 }
 
 type closureRefInst struct {
@@ -80,6 +83,7 @@ func (c closureRefInst) Exec(ctx *ControlFlow, ebp, esp int) {
 		clo = clo.parent
 	}
 	ctx.val = clo.freeVars[c.n]
+	ctx.pc = nil
 }
 
 type globalRefInst struct {
@@ -93,6 +97,7 @@ func (g globalRefInst) Exec(ctx *ControlFlow, ebp, esp int) {
 		panic("undefined symbol:" + s.str)
 	}
 	ctx.val = s.cora
+	ctx.pc = nil
 }
 
 type klGlobalRefInst struct {
@@ -106,27 +111,28 @@ func (ref klGlobalRefInst) Exec(ctx *ControlFlow, ebp, esp int) {
 		panic("undefined symbol:" + s.str)
 	}
 	ctx.val = s.function
+	ctx.pc = nil
 }
 
-
 type letInst struct {
-	arg inst
+	arg  inst
 	body inst
-	idx int
+	idx  int
 }
 
 func (l letInst) Exec(ctx *ControlFlow, ebp, esp int) {
-	l.arg.Exec(ctx, ebp, esp)
-	// fmt.Println("eval the idx ===", idx, ObjString(ctx.val), ebp, esp, "len(stack) == ", len(ctx.stack))
+	for ctx.pc = l.arg; ctx.pc != nil; {
+		ctx.pc.Exec(ctx, ebp, esp)
+	}
 
 	ctx.stack[1+ebp+l.idx] = ctx.val
-	l.body.Exec(ctx, ebp, esp)
+	ctx.pc = l.body
 }
 
 type makeClosureInst struct {
-	op inst
-	nargs int
-	mark []posRef
+	op     inst
+	nargs  int
+	mark   []posRef
 	nlocal int
 }
 
@@ -151,19 +157,22 @@ func (m *makeClosureInst) Exec(ctx *ControlFlow, ebp, esp int) {
 		}
 	}
 	ctx.val = MakeClosure(m.op, ebp, esp, m.nargs, parent, freeVars, m.nlocal)
+	ctx.pc = nil
 }
 
 type callInst struct {
-	insts []inst
+	insts    []inst
 	debugExp Obj
-	tail bool
+	tail     bool
 }
 
 func (c *callInst) Exec(ctx *ControlFlow, ebp, esp int) {
 	saveSP := ctx.pos
 	ctx.pos = len(ctx.stack)
 	for _, inst := range c.insts {
-		inst.Exec(ctx, ebp, esp)
+		for ctx.pc = inst; ctx.pc != nil; {
+			ctx.pc.Exec(ctx, ebp, esp)
+		}
 		ctx.stack = append(ctx.stack, ctx.val)
 	}
 again:
@@ -205,23 +214,20 @@ again:
 	}
 
 	if required == provided {
-		if c.tail {
-			f := ctx.stack[ctx.pos]
-			if *f == scmHeadClosure {
-				clo := mustClosure(f)
-				nargs := len(ctx.stack[ctx.pos:])
-				copy(ctx.stack[saveSP:saveSP+nargs], ctx.stack[ctx.pos:])
-				ctx.stack = ctx.stack[:saveSP+nargs]
-				if clo.nlocal > 0 {
-					for i := 0; i < clo.nlocal; i++ {
-						ctx.stack = append(ctx.stack, Nil)
-					}
+		if c.tail && *f == scmHeadClosure {
+			clo := mustClosure(f)
+			nargs := len(ctx.stack[ctx.pos:])
+			copy(ctx.stack[saveSP:saveSP+nargs], ctx.stack[ctx.pos:])
+			ctx.stack = ctx.stack[:saveSP+nargs]
+			if clo.nlocal > 0 {
+				for i := 0; i < clo.nlocal; i++ {
+					ctx.stack = append(ctx.stack, Nil)
 				}
-				// fmt.Println(".... in tail call ", clo.nlocal, ctx.stack)
-				ctx.pos = saveSP
-				ctx.pc = clo.code
-				return
 			}
+			// fmt.Println(".... in tail call ", clo.nlocal, ctx.stack)
+			ctx.pos = saveSP
+			ctx.pc = clo.code
+			return
 		}
 
 		myCall(ctx)
@@ -231,12 +237,16 @@ again:
 
 type klGlobalSetInst struct {
 	name Obj
-	f inst
+	f    inst
 }
 
 func (s klGlobalSetInst) Exec(ctx *ControlFlow, ebp, esp int) {
-	s.f.Exec(ctx, ebp, esp)
+	for ctx.pc = s.f; ctx.pc != nil; {
+		ctx.pc.Exec(ctx, ebp, esp)
+	}
+
 	ctx.val = PrimNS2Set(s.name, ctx.val)
+	ctx.pc = nil
 }
 
 func genConstInst(v Obj) inst {
@@ -318,15 +328,6 @@ func genKLGlobalSetInst(fName Obj, f inst) inst {
 	return klGlobalSetInst{fName, f}
 }
 
-func run(ctx *ControlFlow, code inst) {
-	ctx.pc = code
-	for ctx.pc != nil {
-		tmp := ctx.pc
-		ctx.pc = nil
-		tmp.Exec(ctx, ctx.pos, len(ctx.stack))
-	}
-}
-
 func myCall(ctx *ControlFlow) {
 retry:
 	f := ctx.stack[ctx.pos]
@@ -346,7 +347,10 @@ retry:
 			}
 			// fmt.Println(".... in call ", clo.nlocal, ctx.stack)
 		}
-		run(ctx, clo.code)
+
+		for ctx.pc = clo.code; ctx.pc != nil; {
+			ctx.pc.Exec(ctx, ctx.pos, len(ctx.stack))
+		}
 
 	case scmHeadCurry:
 		curry := mustCurry(f)

@@ -116,16 +116,16 @@ func apply(ctl *ControlFlow) {
 var symDebug = MakeSymbol("*debug-eval*")
 
 func Eval(ctx *ControlFlow, exp Obj) Obj {
+	// defer func() {
+	// 	if r := recover(); r != nil {
+	// 		fmt.Println("eval error ==", ObjString(exp))
+	// 		panic(r)
+	// 	}
+	// }()
 	return ctx.Eval(exp)
 }
 
 func (ctx *ControlFlow) Eval(exp Obj) Obj {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("eval error ==", ObjString(exp))
-			panic(r)
-		}
-	}()
 	var cc Compiler
 	env := &Env{
 		parent: nil,
@@ -139,7 +139,9 @@ func (ctx *ControlFlow) Eval(exp Obj) Obj {
 			ctx.stack = append(ctx.stack, Nil)
 		}
 	}
-	run(ctx, c)
+	for ctx.pc = c; ctx.pc != nil; {
+		ctx.pc.Exec(ctx, ctx.pos, len(ctx.stack))
+	}
 	ctx.stack = ctx.stack[:ctx.pos]
 	return ctx.val
 }
