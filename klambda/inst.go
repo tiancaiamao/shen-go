@@ -18,7 +18,7 @@ var _ inst = &callInst{}
 type inst interface {
 	Exec(ctx *ControlFlow, ebp, esp int)
 	// TODO: String()  print out the struct for debugging
-	// TODO: GenGoCode()  generate to go code
+	GenGoCode(gen *GoCodeGenerator) int
 	// TODO: GenCCode()   generate C code
 }
 
@@ -51,6 +51,7 @@ func (i *ifInst) Exec(ctx *ControlFlow, ebp, esp int) {
 		panic("test branch for if must be a boolean")
 	}
 }
+
 
 type doInst struct {
 	op1  inst

@@ -175,7 +175,7 @@ func TestBasic(t *testing.T) {
 	}
 }
 
-func TestYYY(t *testing.T) {
+func TestIssue25(t *testing.T) {
 	var ctx ControlFlow
 	evalString(&ctx, "(defun return (x) (lambda k (k x)))")
 	evalString(&ctx, "(defun add1 (n) (return (+ n 1)))")
