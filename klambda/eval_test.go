@@ -20,6 +20,7 @@ func TestBasic(t *testing.T) {
 					   (let a 3 a)) (f 4 5))`,
 			output: "3",
 		},
+
 		testCase{
 			name: "let variable shadow",
 			input: `(let Result 123
@@ -29,11 +30,13 @@ func TestBasic(t *testing.T) {
 	      Result)))`,
 			output: "true",
 		},
+
 		testCase{
 			name:   "trap-let",
 			input:  "(trap-error (let X 666 42) (lambda E (cons --> (cons A ()))))",
 			output: "42",
 		},
+
 		testCase{
 			name:   "curry-partial",
 			input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
