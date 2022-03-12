@@ -1,8 +1,8 @@
 package klambda
 
 import (
-	"fmt"
 	"bytes"
+	"fmt"
 )
 
 type GoCodeGenerator struct {
@@ -34,7 +34,9 @@ func (i *ifInst) GenGoCode(g *GoCodeGenerator) int {
 	fmt.Fprintf(g, "_reg%d = _reg%d\n", vRes, vThen)
 	fmt.Fprintf(g, "case False:\n")
 	vElse := i.c.GenGoCode(g)
-	fmt.Fprintf(g, "_reg%d = _reg%d\n", vRes, vElse)
+	if vElse > 0 {
+		fmt.Fprintf(g, "_reg%d = _reg%d\n", vRes, vElse)
+	}
 	fmt.Fprintf(g, "default:\n")
 	fmt.Fprintf(g, `	panic("if test branch not boolean")
 `)
@@ -44,13 +46,17 @@ func (i *ifInst) GenGoCode(g *GoCodeGenerator) int {
 
 func (i *doInst) GenGoCode(g *GoCodeGenerator) int {
 	res := i.op1.GenGoCode(g)
-	fmt.Fprintf(g, "_ = _reg%d", res)
+	fmt.Fprintf(g, "_ = _reg%d\n", res)
 	return i.op2.GenGoCode(g)
 }
 
 func (idx localRefInst) GenGoCode(g *GoCodeGenerator) int {
 	res := g.newReg()
-	fmt.Fprintf(g, "_reg%d = ctx.stack[%d]\n", res, idx)
+	if idx.isLetVar {
+		fmt.Fprintf(g, "_reg%d := _letV%d\n", res, idx.int)
+	} else {
+		fmt.Fprintf(g, "_reg%d := ctx.Get(%d)\n", res, idx.int)
+	}
 	return res
 }
 
@@ -64,31 +70,31 @@ func (i constInst) GenGoCode(g *GoCodeGenerator) int {
 		str := GetString(c)
 		fmt.Fprintf(g, "_reg%d := MakeString(%#v)\n", res, str)
 	case IsSymbol(c):
-		fmt.Fprintf(g, "_reg%d := sym%s\n", res, symbolAsVar(c))
+		// fmt.Fprintf(g, "_reg%d := sym%s\n", res, symbolAsVar(c))
+		fmt.Fprintf(g, "_reg%d := MakeSymbol(%q)\n", res, ObjString(c))
 	case c == Nil:
-		fmt.Fprintf(g, "_reg%d := Nil", res)
+		fmt.Fprintf(g, "_reg%d := Nil\n", res)
 	case c == True:
-		fmt.Fprintf(g, "_reg%d := True", res)
+		fmt.Fprintf(g, "_reg%d := True\n", res)
 	case c == False:
-		fmt.Fprintf(g, "_reg%d := False", res)
+		fmt.Fprintf(g, "_reg%d := False\n", res)
 	default:
 		panic("unknown $const instruct")
 	}
 	return res
 }
 
-
 func (i closureRefInst) GenGoCode(g *GoCodeGenerator) int {
 	fmt.Fprintf(g, "TODO: closureRefInst(%d, %d)\n", i.m, i.n)
 	return g.cur
 }
 
-func (i globalRefInst)  GenGoCode(g *GoCodeGenerator) int {
+func (i globalRefInst) GenGoCode(g *GoCodeGenerator) int {
 	fmt.Fprintf(g, "TODO: globalRef\n")
 	return 0
 }
 
-func (i klGlobalRefInst)  GenGoCode(g *GoCodeGenerator) int {
+func (i klGlobalRefInst) GenGoCode(g *GoCodeGenerator) int {
 	res := g.newReg()
 	fmt.Fprintf(g, "_reg%d := PrimNS2Value(MakeSymbol(%q))\n", res, ObjString(i.sym))
 	return res
@@ -96,15 +102,18 @@ func (i klGlobalRefInst)  GenGoCode(g *GoCodeGenerator) int {
 
 func (l letInst) GenGoCode(g *GoCodeGenerator) int {
 	res := l.arg.GenGoCode(g)
-	fmt.Fprintf(g, "ctx.stack[ebp + %d] = _reg%d\n", l.idx, res)
+	fmt.Fprintf(g, "_letV%d := _reg%d\n", l.idx+1, res)
+	fmt.Fprintf(g, "_ = _letV%d\n", l.idx+1)
 	return l.body.GenGoCode(g)
 }
 
 func (l *makeClosureInst) GenGoCode(g *GoCodeGenerator) int {
 	res := g.newReg()
-	fmt.Fprintf(g, "_reg%d := MakeNative(func (ctx *ControlFlow, ebp, esp int) {\n", res)
+	fmt.Fprintf(g, "_reg%d := MakeNative(func (ctx *ControlFlow) {\n", res)
 	tmp := l.op.GenGoCode(g)
-	fmt.Fprintf(g, "ctx.val = _reg%d\n", tmp)
+	if tmp > 0 {
+		fmt.Fprintf(g, "ctx.Return(_reg%d)\n", tmp)
+	}
 	fmt.Fprintf(g, "}")
 	fmt.Fprintf(g, ", %d", l.nargs)
 	if len(l.mark) > 0 {
@@ -117,17 +126,23 @@ func (l *makeClosureInst) GenGoCode(g *GoCodeGenerator) int {
 
 func (l klGlobalSetInst) GenGoCode(g *GoCodeGenerator) int {
 	res := l.f.GenGoCode(g)
-	fmt.Fprintf(g, "PrimNS2Set(%s, _reg%d)\n", symbolAsVar(l.name), res)
+	fmt.Fprintf(g, "PrimNS2Set(MakeSymbol(%q), _reg%d)\n", ObjString(l.name), res)
 	return res
 }
 
 func (l callInst) GenGoCode(g *GoCodeGenerator) int {
 	regs := make([]int, len(l.insts))
-	for i:=0; i<len(l.insts); i++ {
+	for i := 0; i < len(l.insts); i++ {
 		regs[i] = l.insts[i].GenGoCode(g)
 	}
+
 	res := g.newReg()
-	fmt.Fprintf(g, "_reg%d := ctx.Call(", res)
+	if l.tail {
+		fmt.Fprintf(g, "ctx.TailApply(")
+	} else {
+		fmt.Fprintf(g, "_reg%d := ctx.Call(", res)
+	}
+
 	for i, reg := range regs {
 		if i == 0 {
 			fmt.Fprintf(g, "_reg%d", reg)
@@ -136,6 +151,12 @@ func (l callInst) GenGoCode(g *GoCodeGenerator) int {
 		}
 	}
 	fmt.Fprintf(g, ")\n")
+
+	if l.tail {
+		fmt.Fprintln(g, "return")
+		return -1
+	} 
+
 	return res
 }
 

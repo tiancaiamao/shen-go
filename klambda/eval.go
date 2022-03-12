@@ -149,6 +149,8 @@ func (ctx *ControlFlow) Eval(exp Obj) Obj {
 type Env struct {
 	parent *Env
 	args   Obj
+	// Note, args may contain the local variable, so len(args) > nargs
+	nargs int
 }
 
 func (env *Env) findVariable(s Obj) (m int, n int) {
@@ -195,7 +197,8 @@ func (cc *Compiler) compile(exp Obj, env *Env, tail bool) inst {
 		m, n := env.findVariable(exp)
 		if m == 0 {
 			// local[0] is the closure object, the real args begins from i+1
-			return genLocalRefInst(n + 1)
+			isLetVar := (env.nargs != 0) && n >= env.nargs
+			return genLocalRefInst(n + 1, isLetVar)
 		}
 		if m > 0 {
 			cc.freeVars = append(cc.freeVars, posRef{Up: m, Offset: n})
@@ -234,6 +237,7 @@ func (cc *Compiler) compile(exp Obj, env *Env, tail bool) inst {
 			env1 := &Env{
 				parent: env.parent,
 				args:   listAppend(env.args, cons(car(tl), Nil)), // cons(car(tl), env.args),
+				nargs: listLength(env.args),
 			}
 			// fmt.Println("compile let body env ==", ObjString(env1.args))
 			cc.local++
@@ -288,7 +292,8 @@ func (cc *Compiler) compileSymbolInCall(exp Obj, env *Env, tail bool) inst {
 	m, n := env.findVariable(exp)
 	if m == 0 {
 		// local[0] is the closure object, the real args begins from i+1
-		return genLocalRefInst(n + 1)
+		isLetVar := (env.nargs != 0) && n >= env.nargs
+		return genLocalRefInst(n + 1, isLetVar)
 	}
 	if m > 0 {
 		cc.freeVars = append(cc.freeVars, posRef{Up: m, Offset: n})

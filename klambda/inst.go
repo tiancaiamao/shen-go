@@ -7,7 +7,7 @@ import (
 var _ inst = constInst{}
 var _ inst = &ifInst{}
 var _ inst = &doInst{}
-var _ inst = localRefInst(0)
+var _ inst = localRefInst{}
 var _ inst = closureRefInst{}
 var _ inst = globalRefInst{}
 var _ inst = klGlobalRefInst{}
@@ -52,7 +52,6 @@ func (i *ifInst) Exec(ctx *ControlFlow, ebp, esp int) {
 	}
 }
 
-
 type doInst struct {
 	op1  inst
 	op2  inst
@@ -66,10 +65,13 @@ func (d *doInst) Exec(ctx *ControlFlow, ebp, esp int) {
 	ctx.pc = d.op2
 }
 
-type localRefInst int
+type localRefInst struct {
+	int
+	isLetVar bool
+}
 
-func (idx localRefInst) Exec(ctx *ControlFlow, ebp, esp int) {
-	ctx.val = ctx.stack[ebp+int(idx)]
+func (l localRefInst) Exec(ctx *ControlFlow, ebp, esp int) {
+	ctx.val = ctx.stack[ebp+l.int]
 	ctx.pc = nil
 }
 
@@ -262,8 +264,8 @@ func genDoInst(op1, op2 inst, tail bool) inst {
 	return &doInst{op1, op2, tail}
 }
 
-func genLocalRefInst(idx int) inst {
-	return localRefInst(idx)
+func genLocalRefInst(idx int, isLetVar bool) inst {
+	return localRefInst{idx, isLetVar}
 }
 
 func genClosureRefInst(m, n int) inst {
@@ -335,10 +337,11 @@ retry:
 	switch *f {
 
 	case scmHeadNative:
-		fn := MustNative(f)
+		// fn := MustNative(f)
+		// fn.fn(ctx)
+
 		ctx.kind = controlFlowApply
-		fn.fn(ctx)
-		ctx.val = ctx.Get(0)
+		ctx.val = trampoline(ctx)
 
 	case scmHeadClosure:
 		clo := mustClosure(f)
