@@ -37,27 +37,27 @@ func TestBasic(t *testing.T) {
 			output: "42",
 		},
 
-		testCase{
-			name:   "curry-partial",
-			input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
-			output: "4",
-		},
+		// testCase{
+		// 	name:   "curry-partial",
+		// 	input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
+		// 	output: "4",
+		// },
 
-		testCase{
-			name:   "curry",
-			input:  `(do (defun f (x y z) y) ((f 1 2) 3))`,
-			output: "2",
-		},
+		// testCase{
+		// 	name:   "curry",
+		// 	input:  `(do (defun f (x y z) y) ((f 1 2) 3))`,
+		// 	output: "2",
+		// },
 
-		testCase{
-			name: "curry1",
-			input: `(do (defun f (x)
-		 (do (defun ignore (z w)
-		   (lambda y
-		      z)) (ignore)))
-		(((f 1) 2 3) 4))`,
-			output: "2",
-		},
+		// testCase{
+		// 	name: "curry1",
+		// 	input: `(do (defun f (x)
+		//  (do (defun ignore (z w)
+		//    (lambda y
+		//       z)) (ignore)))
+		// (((f 1) 2 3) 4))`,
+		// 	output: "2",
+		// },
 
 		testCase{
 			name: "fib10",
@@ -87,11 +87,11 @@ func TestBasic(t *testing.T) {
 			output: "7",
 		},
 
-		testCase{
-			name:   "partial primitive",
-			input:  `(+ (+ (+ 1 2) 3) 4)`,
-			output: "10",
-		},
+		// testCase{
+		// 	name:   "partial primitive",
+		// 	input:  `(+ (+ (+ 1 2) 3) 4)`,
+		// 	output: "10",
+		// },
 
 		testCase{
 			name:   "do in tail call",
@@ -123,11 +123,11 @@ func TestBasic(t *testing.T) {
 			output: "1",
 		},
 
-		testCase{
-			name:   "basic lambda",
-			input:  `((lambda x (lambda y (lambda z z))) 1 2 3)`,
-			output: "3",
-		},
+		// testCase{
+		// 	name:   "basic lambda",
+		// 	input:  `((lambda x (lambda y (lambda z z))) 1 2 3)`,
+		// 	output: "3",
+		// },
 
 		testCase{
 			name:   "basic do",
@@ -141,17 +141,17 @@ func TestBasic(t *testing.T) {
 			output: "10",
 		},
 
-		testCase{
-			name:   "partial primitive1",
-			input:  `((+ 1) 2)`,
-			output: "3",
-		},
+		// testCase{
+		// 	name:   "partial primitive1",
+		// 	input:  `((+ 1) 2)`,
+		// 	output: "3",
+		// },
 
-		testCase{
-			name:   "partial primitive2",
-			input:  `(((+) 1) 2)`,
-			output: "3",
-		},
+		// testCase{
+		// 	name:   "partial primitive2",
+		// 	input:  `(((+) 1) 2)`,
+		// 	output: "3",
+		// },
 	}
 
 	var ctx ControlFlow
@@ -175,15 +175,15 @@ func TestBasic(t *testing.T) {
 	}
 }
 
-func TestYYY(t *testing.T) {
-	var ctx ControlFlow
-	evalString(&ctx, "(defun return (x) (lambda k (k x)))")
-	evalString(&ctx, "(defun add1 (n) (return (+ n 1)))")
-	res := evalString(&ctx, "(add1 4 (lambda x x))")
-	if res != MakeInteger(5) {
-		t.Fail()
-	}
-}
+// func TestYYY(t *testing.T) {
+// 	var ctx ControlFlow
+// 	evalString(&ctx, "(defun return (x) (lambda k (k x)))")
+// 	evalString(&ctx, "(defun add1 (n) (return (+ n 1)))")
+// 	res := evalString(&ctx, "(add1 4 (lambda x x))")
+// 	if res != MakeInteger(5) {
+// 		t.Fail()
+// 	}
+// }
 
 func evalString(ctx *ControlFlow, exp string) Obj {
 	r := NewSexpReader(strings.NewReader(exp), true)

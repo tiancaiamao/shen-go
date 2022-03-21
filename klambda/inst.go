@@ -175,64 +175,26 @@ func (c *callInst) Exec(ctx *ControlFlow, ebp, esp int) {
 		}
 		ctx.stack = append(ctx.stack, ctx.val)
 	}
-again:
 
 	f := ctx.stack[ctx.pos]
-	required := getRequired(f)
-	provided := len(ctx.stack[ctx.pos+1:])
-
-	if required < provided {
-		// Prepare a new stack for calling...
-		saveSP1 := ctx.pos
-		ctx.pos = len(ctx.stack)
-		for i := saveSP1; i < saveSP1+1+required; i++ {
-			ctx.stack = append(ctx.stack, ctx.stack[i])
+	if c.tail && *f == scmHeadClosure {
+		clo := mustClosure(f)
+		nargs := len(ctx.stack[ctx.pos:])
+		copy(ctx.stack[saveSP:saveSP+nargs], ctx.stack[ctx.pos:])
+		ctx.stack = ctx.stack[:saveSP+nargs]
+		if clo.nlocal > 0 {
+			for i := 0; i < clo.nlocal; i++ {
+				ctx.stack = append(ctx.stack, Nil)
+			}
 		}
-		// Make the call
-		myCall(ctx)
-		// Recover the stack
-		ctx.stack[saveSP1] = ctx.val
-		to := saveSP1 + 1
-		from := saveSP1 + 1 + required
-		for from < saveSP1+1+provided {
-			ctx.stack[to] = ctx.stack[from]
-			from++
-			to++
-		}
-		ctx.stack = ctx.stack[:to]
-		ctx.pos = saveSP1
-
-		goto again
-	}
-
-	if required > provided {
-		upvalues := make([]Obj, provided)
-		copy(upvalues, ctx.stack[ctx.pos+1:])
-		ctx.val = MakeCurry(f, upvalues, required-provided)
-		recoverCall(ctx, saveSP)
+		// fmt.Println(".... in tail call ", clo.nlocal, ctx.stack)
+		ctx.pos = saveSP
+		ctx.pc = clo.code
 		return
 	}
 
-	if required == provided {
-		if c.tail && *f == scmHeadClosure {
-			clo := mustClosure(f)
-			nargs := len(ctx.stack[ctx.pos:])
-			copy(ctx.stack[saveSP:saveSP+nargs], ctx.stack[ctx.pos:])
-			ctx.stack = ctx.stack[:saveSP+nargs]
-			if clo.nlocal > 0 {
-				for i := 0; i < clo.nlocal; i++ {
-					ctx.stack = append(ctx.stack, Nil)
-				}
-			}
-			// fmt.Println(".... in tail call ", clo.nlocal, ctx.stack)
-			ctx.pos = saveSP
-			ctx.pc = clo.code
-			return
-		}
-
-		myCall(ctx)
-		recoverCall(ctx, saveSP)
-	}
+	myCall(ctx)
+	recoverCall(ctx, saveSP)
 }
 
 type klGlobalSetInst struct {
@@ -281,19 +243,6 @@ func genMakeClosureInst(op inst, nargs int, mark []posRef, nlocal int) inst {
 	return &makeClosureInst{op, nargs, mark, nlocal}
 }
 
-func getRequired(o Obj) int {
-	switch *o {
-	case scmHeadClosure:
-		return mustClosure(o).params
-	case scmHeadCurry:
-		return mustCurry(o).params
-	case scmHeadNative:
-		n := MustNative(o)
-		return n.require - len(n.captured)
-	}
-	panic("not implemented" + ObjString(o))
-}
-
 func recoverCall(ctx *ControlFlow, saveSP int) {
 	ctx.stack = ctx.stack[:ctx.pos]
 	ctx.pos = saveSP
@@ -329,7 +278,6 @@ func genKLGlobalSetInst(fName Obj, f inst) inst {
 }
 
 func myCall(ctx *ControlFlow) {
-retry:
 	f := ctx.stack[ctx.pos]
 	switch *f {
 
@@ -352,15 +300,6 @@ retry:
 			ctx.pc.Exec(ctx, ctx.pos, len(ctx.stack))
 		}
 
-	case scmHeadCurry:
-		curry := mustCurry(f)
-		saved := append([]Obj{}, ctx.stack[ctx.pos+1:]...)
-		ctx.stack = ctx.stack[:ctx.pos]
-		ctx.stack = append(ctx.stack, curry.origin)
-		ctx.stack = append(ctx.stack, curry.upvalue...)
-		ctx.stack = append(ctx.stack, saved...)
-		f = ctx.stack[ctx.pos]
-		goto retry
 	default:
 		panic("invalid call operation on:" + ObjString(f))
 	}
