@@ -313,7 +313,7 @@ func init() {
 		0,                 /*offset int64*/
 		fixnumCount,       /*length int*/
 		syscall.PROT_READ, /*prot int*/
-		syscall.MAP_ANONYMOUS|syscall.MAP_PRIVATE /*flags int*/)
+		syscall.MAP_ANON|syscall.MAP_PRIVATE /*flags int*/)
 	if err != nil {
 		panic(err)
 	}
