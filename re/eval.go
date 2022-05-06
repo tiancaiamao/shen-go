@@ -1,8 +1,8 @@
 package re
 
 import (
-	"fmt"
 	"bytes"
+//	"fmt"
 	"math"
 	"strconv"
 )
@@ -162,12 +162,12 @@ func New() *VM {
 		Stack: savedStackFrame{
 			stackFrame: stackFrame{
 				base: s.base,
-				pos:0,
+				pos:  0,
 			},
 		},
-		Code:  nil,
+		Code: nil,
 	})
-	return &VM {
+	return &VM{
 		stack: &s,
 	}
 }
@@ -182,7 +182,7 @@ type Frame interface {
 
 type stackFrame struct {
 	base []Obj
-	pos int
+	pos  int
 }
 
 type savedStackFrame struct {
@@ -192,16 +192,16 @@ type savedStackFrame struct {
 
 func (s *stackFrame) Get(idx int) Obj {
 	if idx >= 0 {
-		return s.base[s.pos + idx]
+		return s.base[s.pos+idx]
 	}
-	return s.base[len(s.base) + idx]
+	return s.base[len(s.base)+idx]
 }
 
 func (s *stackFrame) Set(idx int, v Obj) {
 	if idx >= 0 {
-		s.base[s.pos + idx] = v
+		s.base[s.pos+idx] = v
 	} else {
-		s.base[len(s.base) + idx] = v
+		s.base[len(s.base)+idx] = v
 	}
 }
 
@@ -260,7 +260,7 @@ func (c InstrConst) Exec(vm *VM) {
 }
 
 type InstrGlobalRef struct {
-	sym *Symbol
+	sym  *Symbol
 	Next Instr
 }
 
@@ -298,7 +298,7 @@ type InstrLocalRef struct {
 }
 
 func (i InstrLocalRef) Exec(vm *VM) {
-	v := vm.stack.Get(i.Idx+2)
+	v := vm.stack.Get(i.Idx + 2)
 	vm.push(v)
 	vm.pc = i.Next
 }
@@ -338,37 +338,37 @@ type InstrCall struct {
 func (c InstrCall) Exec(vm *VM) {
 	fn := vm.stack.Get(-c.size)
 	raw := fn.(*Closure)
-		code := raw.Code
-		if c.Next == nil { // Jump
-			// Reuse the old stack.
-			for i:=0; i<c.size; i++ {
-				arg := vm.stack.Get(-c.size + i)
-				vm.stack.Set(i+1, arg)
-			}
-			vm.stack.Resize(c.size + 1)
-		} else { // Call
-			sf := vm.stack.(*stackFrame)
-			newStack := &stackFrame{
-				base: sf.base,
-				pos: len(sf.base) - c.size - 1,
-			}
-			// Save the stack.
-			// Save the Next instr, after the call, the function return to here.
-			cc := Continuation{
-				Stack: savedStackFrame{
-					stackFrame: stackFrame{
-						base: sf.base,
-						pos: sf.pos,
-					},
-					size: newStack.pos,
-				},
-				Code:  c.Next,
-			}
-			newStack.Set(-c.size - 1,  cc)
-			// change current pc to the callee
-			vm.stack = newStack
+	code := raw.Code
+	if c.Next == nil { // Jump
+		// Reuse the old stack.
+		for i := 0; i < c.size; i++ {
+			arg := vm.stack.Get(-c.size + i)
+			vm.stack.Set(i+1, arg)
 		}
-		vm.pc = code
+		vm.stack.Resize(c.size + 1)
+	} else { // Call
+		sf := vm.stack.(*stackFrame)
+		newStack := &stackFrame{
+			base: sf.base,
+			pos:  len(sf.base) - c.size - 1,
+		}
+		// Save the stack.
+		// Save the Next instr, after the call, the function return to here.
+		cc := Continuation{
+			Stack: savedStackFrame{
+				stackFrame: stackFrame{
+					base: sf.base,
+					pos:  sf.pos,
+				},
+				size: newStack.pos,
+			},
+			Code: c.Next,
+		}
+		newStack.Set(-c.size-1, cc)
+		// change current pc to the callee
+		vm.stack = newStack
+	}
+	vm.pc = code
 }
 
 type InstrPrimitive struct {
@@ -376,24 +376,24 @@ type InstrPrimitive struct {
 	Next Instr
 }
 
-func (c InstrPrimitive) Exec(vm *VM) {	
-		raw := c.prim
-		// Execute the primitive	
-		raw.Exec(vm)
-		if c.Next == nil { // Jump
-			val := vm.stack.Get(-1)
-			cc := vm.stack.Get(0)
-			// Return to the previous saved continuation.
-			cont := cc.(Continuation)
-			vm.stack = &stackFrame{
-				base: cont.Stack.base[:cont.Stack.size],
-				pos: cont.Stack.pos,
-			}
-			vm.push(val)
-			vm.pc = cont.Code
-		} else { // Call
-			vm.pc = c.Next
+func (c InstrPrimitive) Exec(vm *VM) {
+	raw := c.prim
+	// Execute the primitive
+	raw.Exec(vm)
+	if c.Next == nil { // Jump
+		val := vm.stack.Get(-1)
+		cc := vm.stack.Get(0)
+		// Return to the previous saved continuation.
+		cont := cc.(Continuation)
+		vm.stack = &stackFrame{
+			base: cont.Stack.base[:cont.Stack.size],
+			pos:  cont.Stack.pos,
 		}
+		vm.push(val)
+		vm.pc = cont.Code
+	} else { // Call
+		vm.pc = c.Next
+	}
 }
 
 // =====================================
@@ -453,7 +453,7 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 	switch raw.car {
 	case symQuote:
 		return InstrConst{
-			Val: car(raw.cdr),
+			Val:  car(raw.cdr),
 			Next: cont,
 		}
 	case symIf:
@@ -493,31 +493,31 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 func compileCall(exp Obj, env *Env, cont Instr) Instr {
 	if sym, ok := car(exp).(*Symbol); ok {
 		switch sym.str {
-			case "+":
-				return compileList(cdr(exp), env, InstrPrimitive{
-					prim: primAdd,
-					Next: cont,
-				})
-			case "-":
-				return compileList(cdr(exp), env, InstrPrimitive{
-					prim: primSub,
-					Next: cont,
-				})
-			case "=":
-				return compileList(cdr(exp), env, InstrPrimitive{
-					prim: primEQ,
-					Next: cont,					
-				})			
-			case "set":
-				return compileList(cdr(exp), env, InstrPrimitive{
-					prim: primSet,
-					Next: cont,					
-				})			
-			case "value":
-				return compileList(cdr(exp), env, InstrPrimitive{
-					prim: primValue,
-					Next: cont,				
-				})
+		case "+":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primAdd,
+				Next: cont,
+			})
+		case "-":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primSub,
+				Next: cont,
+			})
+		case "=":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primEQ,
+				Next: cont,
+			})
+		case "set":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primSet,
+				Next: cont,
+			})
+		case "value":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primValue,
+				Next: cont,
+			})
 		}
 	}
 	size := listLength(exp)
@@ -581,10 +581,10 @@ func listLength(l Obj) int {
 func eval(vm *VM, exp Obj) Obj {
 	var env *Env
 	code := compile(exp, env, nil)
-	fmt.Printf("the code is: %#v\n", code)
+	//	fmt.Printf("the code is: %#v\n", code)
 	vm.run(code)
 	ret := vm.stack.Get(-1)
-//	vm.stack = vm.stack[:0]
+	//	vm.stack = vm.stack[:0]
 	return ret
 }
 
@@ -623,7 +623,7 @@ var primSub = &Primitive{
 
 var primEQ = &Primitive{
 	Exec: func(vm *VM) {
-		x  := vm.pop()
+		x := vm.pop()
 		y := vm.pop()
 		if x == y {
 			vm.push(True)

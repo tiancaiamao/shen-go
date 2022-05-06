@@ -1,14 +1,14 @@
 package re
 
 import (
-	"testing"
-	"strings"
 	"fmt"
 	"io"
+	"strings"
+	"testing"
 )
 
 func TestCompile(t *testing.T) {
-	vm := New()	
+	vm := New()
 	// input := "42"
 	// input := `"hello world"`
 	// input := "(if false 23 42)"
@@ -22,27 +22,27 @@ func TestCompile(t *testing.T) {
 	// input := `(+ (do 1 (do 2 3)) 4)`
 	input := `(do (set (quote f) (lambda (x y z) (do 1 (do 2 z)))) (f 1 2 3))`
 
-/*	input := `(do (set (quote fib) (lambda (i)
-	(if (= i 0)
-	    1
-	    (if (= i 1)
-		1
-		(+ (fib (- i 1)) (fib (- i 2)))))))
-	(fib 10))`
+	/*	input := `(do (set (quote fib) (lambda (i)
+		(if (= i 0)
+		    1
+		    (if (= i 1)
+			1
+			(+ (fib (- i 1)) (fib (- i 2)))))))
+		(fib 10))`
 
-	input := `(do (set (quote sum) (lambda (r i)
-	  (if (= i 0)
-	      r
-	      (sum (+ r 1) (- i 1)))))
-	(sum 0 5000000))`
-*/	
-	
+		input := `(do (set (quote sum) (lambda (r i)
+		  (if (= i 0)
+		      r
+		      (sum (+ r 1) (- i 1)))))
+		(sum 0 5000000))`
+	*/
+
 	r := NewSexpReader(strings.NewReader(input), false)
 	sexp, err := r.Read()
 	if err != nil && err != io.EOF {
 		t.Error("read error", err)
 	}
-	
+
 	res := eval(vm, sexp)
 	fmt.Println(res)
 }
