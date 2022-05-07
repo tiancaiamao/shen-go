@@ -1,9 +1,9 @@
 package re
 
 import (
-	"bytes"
-	//	"fmt"
 	"bufio"
+	"bytes"
+	"fmt"
 	"io"
 	"math"
 	"strconv"
@@ -73,6 +73,7 @@ var Nil Obj = nilObj{}
 type Symbol struct {
 	str string
 	val Obj
+	fn  Obj
 }
 
 func (s *Symbol) String() string {
@@ -81,14 +82,34 @@ func (s *Symbol) String() string {
 
 var symbolMap = make(map[string]*Symbol)
 
-var symIf, symDo, symLambda Obj
-var symQuote Obj
+var symIf, symDo, symLambda, symDefun Obj
+var symCond, symAnd, symOr, symLet, symType, symFreeze, symTrapError Obj
+
+// var symQuote Obj
+
+var klMacro map[Obj]func(obj Obj, env *Env, cont Instr) Instr
 
 func init() {
 	symIf = MakeSymbol("if")
 	symDo = MakeSymbol("do")
 	symLambda = MakeSymbol("lambda")
-	symQuote = MakeSymbol("quote")
+	// symQuote = MakeSymbol("quote")
+	symDefun = MakeSymbol("defun")
+	symCond = MakeSymbol("cond")
+	symAnd = MakeSymbol("and")
+	symOr = MakeSymbol("or")
+	symTrapError = MakeSymbol("trap-error")
+
+	klMacro = map[Obj]func(obj Obj, env *Env, cont Instr) Instr{
+		symDefun: compileDefunMacro,
+		symCond:      compileCondMacro,
+		symAnd:       compileAndMacro,
+		symOr:        compileOrMacro,
+		symTrapError: compileTrapErrorMacro,
+		symFreeze:    compileFreezeMacro,
+		symLet: compileLetMacro,
+		symType: compileTypeMacro,
+	}
 }
 
 func MakeSymbol(str string) *Symbol {
@@ -189,10 +210,6 @@ func (r *SexpReader) Read() (Obj, error) {
 				}
 			}
 			return r.Read()
-		case rune('\''):
-			return r.readQuoteMacro()
-		case rune('['):
-			return r.readListMacro()
 		}
 	}
 
@@ -216,34 +233,6 @@ func (r *SexpReader) Read() (Obj, error) {
 	}
 
 	return tokenToObj(string(r.buf)), err
-}
-
-func (r *SexpReader) readQuoteMacro() (Obj, error) {
-	obj, err := r.Read()
-	if err != nil {
-		return obj, err
-	}
-	return cons(symQuote, cons(obj, Nil)), nil
-}
-
-func (r *SexpReader) readListMacro() (Obj, error) {
-	hd := MakeSymbol("list")
-	tmp := Nil
-	b, err := peekFirstRune(r.reader)
-	for err == nil && b != ']' {
-		if b == '.' {
-			hd = MakeSymbol("list-rest")
-		} else {
-			r.reader.UnreadRune()
-		}
-		var obj Obj
-		obj, err = r.Read()
-		if err == nil {
-			tmp = cons(obj, tmp)
-			b, err = peekFirstRune(r.reader)
-		}
-	}
-	return cons(hd, reverse(tmp)), nil
 }
 
 func (r *SexpReader) readString() (Obj, error) {
@@ -432,10 +421,10 @@ type InstrGlobalRef struct {
 }
 
 func (i InstrGlobalRef) Exec(vm *VM) {
-	if i.sym.val == nil {
-		panic("undefined value for symbol" + i.sym.str)
+	if i.sym.fn == nil {
+		panic("undefined fn for symbol:" + i.sym.str)
 	}
-	vm.push(i.sym.val)
+	vm.push(i.sym.fn)
 	vm.pc = i.Next
 }
 
@@ -445,8 +434,9 @@ type InstrSet struct {
 }
 
 func (s InstrSet) Exec(vm *VM) {
-	v := vm.pop()
-	s.Sym.(*Symbol).val = v
+	f := vm.pop()
+	s.Sym.(*Symbol).fn = f
+	vm.push(s.Sym)
 	vm.pc = s.Next
 }
 
@@ -610,19 +600,26 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 			// Closure value
 		}
 		// Global variable
-		return InstrGlobalRef{
-			sym:  raw,
+		/*
+			return InstrGlobalRef{
+				sym:  raw,
+				Next: cont,
+			}
+		*/
+		return InstrConst{
+			Val:  raw,
 			Next: cont,
 		}
 	}
 
 	raw := exp.(*Cons)
-	switch raw.car {
-	case symQuote:
-		return InstrConst{
-			Val:  car(raw.cdr),
-			Next: cont,
+	if _, ok := raw.car.(*Symbol); ok {
+		if fn, ok := klMacro[raw.car]; ok {
+			return fn(cdr(exp), env, cont)
 		}
+	}
+
+	switch raw.car {
 	case symIf:
 		thenCont := compile(cadr(raw.cdr), env, cont)
 		elseCont := compile(caddr(raw.cdr), env, cont)
@@ -641,20 +638,23 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 			parent: env,
 			args:   args,
 		}
-		code := compile(body, newEnv, InstrPrimitive{
-			prim: primIdentify,
-		})
-		return InstrConst{
-			Val: &Closure{
-				Required: listLength(args),
-				Code:     code,
-			},
-			Next: cont,
-		}
-		// case symLet:
+		return compileLambda(args, body, newEnv, cont)
 	}
 
 	return compileCall(exp, env, cont)
+}
+
+func compileLambda(args, body Obj, env *Env, cont Instr) Instr {
+	code := compile(body, env, InstrPrimitive{
+		prim: primIdentify,
+	})
+	return InstrConst{
+		Val: &Closure{
+			Required: listLength(args),
+			Code:     code,
+		},
+		Next: cont,
+	}
 }
 
 func compileCall(exp Obj, env *Env, cont Instr) Instr {
@@ -685,6 +685,17 @@ func compileCall(exp Obj, env *Env, cont Instr) Instr {
 				prim: primValue,
 				Next: cont,
 			})
+		default:
+			size := listLength(exp)
+			return InstrPrepareCall{
+				next: InstrGlobalRef{
+					sym: sym,
+					Next: compileList(cdr(exp), env, InstrCall{
+						size: size,
+						Next: cont,
+					}),
+				},
+			}
 		}
 	}
 	size := listLength(exp)
@@ -701,6 +712,86 @@ func compileList(exp Obj, env *Env, cont Instr) Instr {
 		return cont
 	}
 	return compile(car(exp), env, compileList(cdr(exp), env, cont))
+}
+
+func compileDefunMacro(exp Obj, env *Env, cont Instr) Instr {
+	// (defun f (x y) ..) => ((fn 'set) (quote f) (lambda (x y) ...))
+	fName := car(exp)
+	args := cadr(exp)
+	body := caddr(exp)
+	newEnv := &Env{
+		parent: env,
+		args:   args,
+	}
+	return compileLambda(args, body, newEnv, InstrSet{
+		Sym:  fName,
+		Next: cont,
+	})
+}
+
+func compileOrMacro(exp Obj, env *Env, cont Instr) Instr {
+	// (or x y) => (if x true (if y true false))
+	x := car(exp)
+	y := cadr(exp)
+	tmp := cons(symIf, cons(y, cons(True, cons(False, Nil))))
+	exp = cons(symIf, cons(x, cons(True, cons(tmp, Nil))))
+	return compile(exp, env, cont)
+}
+
+func compileAndMacro(exp Obj, env *Env, cont Instr) Instr {
+	// (and x y) => (if x (if y true false) false)
+	x := car(exp)
+	y := cadr(exp)
+	tmp := cons(symIf, cons(y, cons(True, cons(False, Nil))))
+	exp = cons(symIf, cons(x, cons(tmp, cons(False, Nil))))
+	return compile(exp, env, cont)
+}
+
+func compileCondMacro(exp Obj, env *Env, cont Instr) Instr {
+	exp = compileCondMacroHelp(exp)
+	return compile(exp, env, cont)
+}
+
+func compileCondMacroHelp(exp Obj) Obj {
+	// (cond (x y) ...)
+	if exp == Nil {
+		return cons(MakeSymbol("simple-error"), cons(String("no cond match"), Nil))
+	}
+	xy := car(exp)
+	x := car(xy)
+	y := cadr(xy)
+	tmp := compileCondMacroHelp(cdr(exp))
+	return cons(symIf, cons(x, cons(y, cons(tmp, Nil))))
+}
+
+func compileLetMacro(exp Obj, env *Env, cont Instr) Instr {
+	// (let x y z) => ((lambda x z) y)
+	x := car(exp)
+	y := cadr(exp)
+	z := cdr(cdr(exp))
+	fn := cons(symLambda, cons(x, z))
+	exp = cons(fn, cons(y, Nil))
+	return compile(exp, env, cont)
+}
+
+func compileFreezeMacro( exp Obj, env *Env, cont Instr) Instr {
+	// (freeze body) => (lambda () body)
+	return compileLambda(Nil, car(exp), env, cont)
+}
+
+func compileTrapErrorMacro(exp Obj, env *Env, cont Instr) Instr {
+	// (trap-error body handler) => (try-catch (lambda () body) handler)
+	body := car(exp)
+	handler := cdr(exp)
+	action := cons(symLambda, cons(Nil, cons(body, Nil)))
+	exp = cons(MakeSymbol("try-catch"), cons(action, handler))
+	// fmt.Println("after rewrite trap get ===", ObjString(exp))
+	return compile(exp, env, cont)
+}
+
+func compileTypeMacro(exp Obj, env *Env, cont Instr) Instr {
+	// (type exp _) => exp
+	return compile(car(exp), env, cont)
 }
 
 // ==================================
@@ -745,10 +836,14 @@ func listLength(l Obj) int {
 	return count
 }
 
+func (vm *VM) Eval(exp Obj) Obj {
+	return eval(vm, exp)
+}
+
 func eval(vm *VM, exp Obj) Obj {
 	var env *Env
 	code := compile(exp, env, nil)
-	//	fmt.Printf("the code is: %#v\n", code)
+	fmt.Printf("the code is: %#v\n", code)
 	vm.run(code)
 	ret := vm.stack.Get(-1)
 	//	vm.stack = vm.stack[:0]
