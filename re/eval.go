@@ -95,6 +95,7 @@ func init() {
 	symLambda = MakeSymbol("lambda")
 	// symQuote = MakeSymbol("quote")
 	symDefun = MakeSymbol("defun")
+	symLet = MakeSymbol("let")
 	symCond = MakeSymbol("cond")
 	symAnd = MakeSymbol("and")
 	symOr = MakeSymbol("or")
@@ -633,6 +634,9 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 		})
 	case symLambda:
 		args := car(raw.cdr)
+		if _, ok := args.(*Symbol); ok {
+			args = cons(args, Nil)
+		}
 		body := cadr(raw.cdr)
 		newEnv := &Env{
 			parent: env,
@@ -673,6 +677,16 @@ func compileCall(exp Obj, env *Env, cont Instr) Instr {
 		case "=":
 			return compileList(cdr(exp), env, InstrPrimitive{
 				prim: primEQ,
+				Next: cont,
+			})
+		case "*":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primMul,
+				Next: cont,
+			})
+		case "/":
+			return compileList(cdr(exp), env, InstrPrimitive{
+				prim: primDiv,
 				Next: cont,
 			})
 		case "set":
@@ -882,6 +896,23 @@ var primSub = &Primitive{
 		vm.push(Integer(y - x))
 	},
 }
+
+var primMul = &Primitive {
+	Exec: func(vm *VM) {
+		x := vm.pop().(Integer)
+		y := vm.pop().(Integer)
+		vm.push(Integer(x * y))
+	},
+}
+
+var primDiv = &Primitive {
+	Exec: func(vm *VM) {
+		x := vm.pop().(Integer)
+		y := vm.pop().(Integer)
+		vm.push(Integer(y / x))
+	},
+}
+
 
 var primEQ = &Primitive{
 	Exec: func(vm *VM) {
