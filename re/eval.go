@@ -87,7 +87,7 @@ var symCond, symAnd, symOr, symLet, symType, symFreeze, symTrapError Obj
 
 // var symQuote Obj
 
-var klMacro map[Obj]func(obj Obj, env *Env, cont Instr) Instr
+var klMacro map[Obj]func(*Compiler, Obj, *Env, Instr) Instr
 
 func init() {
 	symIf = MakeSymbol("if")
@@ -101,15 +101,15 @@ func init() {
 	symOr = MakeSymbol("or")
 	symTrapError = MakeSymbol("trap-error")
 
-	klMacro = map[Obj]func(obj Obj, env *Env, cont Instr) Instr{
-		symDefun: compileDefunMacro,
+	klMacro = map[Obj]func(*Compiler, Obj, *Env, Instr) Instr{
+		symDefun:     compileDefunMacro,
 		symCond:      compileCondMacro,
 		symAnd:       compileAndMacro,
 		symOr:        compileOrMacro,
 		symTrapError: compileTrapErrorMacro,
 		symFreeze:    compileFreezeMacro,
-		symLet: compileLetMacro,
-		symType: compileTypeMacro,
+		symLet:       compileLetMacro,
+		symType:      compileTypeMacro,
 	}
 }
 
@@ -148,7 +148,7 @@ func (c *Cons) String() string {
 type Closure struct {
 	Required int
 	Code     Instr
-	Data     []Obj // The closure value
+	Slot     []Obj // The closure value
 }
 
 func (c *Closure) String() string {
@@ -314,15 +314,6 @@ type VM struct {
 
 func New() *VM {
 	var s stackFrame
-	s.Push(Continuation{
-		Stack: savedStackFrame{
-			stackFrame: stackFrame{
-				base: s.base,
-				pos:  0,
-			},
-		},
-		Code: nil,
-	})
 	return &VM{
 		stack: &s,
 	}
@@ -388,6 +379,19 @@ func (vm *VM) pop() Obj {
 }
 
 func (vm *VM) run(code Instr) {
+	sf := vm.stack.(*stackFrame)
+	cc := Continuation{
+		Stack: savedStackFrame{
+			stackFrame: stackFrame{
+				base: sf.base,
+				pos:  sf.pos,
+			},
+			size: sf.pos,
+		},
+		Code: nil,
+	}
+	vm.push(cc)
+
 	for vm.pc = code; vm.pc != nil; {
 		vm.pc.Exec(vm)
 	}
@@ -396,11 +400,13 @@ func (vm *VM) run(code Instr) {
 var _ Instr = InstrConst{}
 var _ Instr = InstrIf{}
 var _ Instr = InstrLocalRef{}
+var _ Instr = InstrClosureRef{}
 var _ Instr = InstrGlobalRef{}
 var _ Instr = InstrCall{}
 var _ Instr = InstrDo{}
 var _ Instr = InstrPrimitive{}
 var _ Instr = InstrSet{}
+var _ Instr = InstrMakeClosure{}
 
 type Instr interface {
 	Exec(*VM)
@@ -461,6 +467,18 @@ func (i InstrLocalRef) Exec(vm *VM) {
 	vm.pc = i.Next
 }
 
+type InstrClosureRef struct {
+	Idx  int
+	Next Instr
+}
+
+func (i InstrClosureRef) Exec(vm *VM) {
+	tmp := vm.stack.Get(1)
+	self := tmp.(*Closure)
+	vm.push(self.Slot[i.Idx])
+	vm.pc = i.Next
+}
+
 type InstrIf struct {
 	Then Instr
 	Else Instr
@@ -476,6 +494,30 @@ func (i InstrIf) Exec(vm *VM) {
 	default:
 		panic("if instr accept only true and false")
 	}
+}
+
+type InstrMakeClosure struct {
+	closed   []pos
+	code     Instr
+	required int
+	Next     Instr
+}
+
+func (i InstrMakeClosure) Exec(vm *VM) {
+	var slot []Obj
+	if len(i.closed) > 0 {
+		slot = make([]Obj, len(i.closed))
+		for i, pos := range i.closed {
+			slot[i] = getClosureValueFromEnv(vm.stack, pos.m, pos.n)
+			fmt.Println("slot i =", i, slot[i], pos.m, pos.n)
+		}
+	}
+	vm.push(&Closure{
+		Required: i.required,
+		Code:     i.code,
+		Slot:     slot,
+	})
+	vm.pc = i.Next
 }
 
 type InstrPrepareCall struct {
@@ -582,7 +624,16 @@ func (env *Env) findVariable(s Obj) (m int, n int) {
 	return // closure variable
 }
 
-func compile(exp Obj, env *Env, cont Instr) Instr {
+type pos struct {
+	m int
+	n int
+}
+
+type Compiler struct {
+	closed []pos
+}
+
+func (c *Compiler) compile(exp Obj, env *Env, cont Instr) Instr {
 	switch raw := exp.(type) {
 	case nilObj, booleanObj, Integer, String, Float64:
 		return InstrConst{
@@ -599,6 +650,11 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 		}
 		if m > 0 {
 			// Closure value
+			c.closed = append(c.closed, pos{m, n})
+			return InstrClosureRef{
+				Idx:  len(c.closed) - 1,
+				Next: cont,
+			}
 		}
 		// Global variable
 		/*
@@ -616,21 +672,21 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 	raw := exp.(*Cons)
 	if _, ok := raw.car.(*Symbol); ok {
 		if fn, ok := klMacro[raw.car]; ok {
-			return fn(cdr(exp), env, cont)
+			return fn(c, cdr(exp), env, cont)
 		}
 	}
 
 	switch raw.car {
 	case symIf:
-		thenCont := compile(cadr(raw.cdr), env, cont)
-		elseCont := compile(caddr(raw.cdr), env, cont)
-		return compile(car(raw.cdr), env, InstrIf{
+		thenCont := c.compile(cadr(raw.cdr), env, cont)
+		elseCont := c.compile(caddr(raw.cdr), env, cont)
+		return c.compile(car(raw.cdr), env, InstrIf{
 			Then: thenCont,
 			Else: elseCont,
 		})
 	case symDo:
-		return compile(cadr(raw), env, InstrDo{
-			Next: compile(caddr(raw), env, cont),
+		return c.compile(cadr(raw), env, InstrDo{
+			Next: c.compile(caddr(raw), env, cont),
 		})
 	case symLambda:
 		args := car(raw.cdr)
@@ -645,57 +701,65 @@ func compile(exp Obj, env *Env, cont Instr) Instr {
 		return compileLambda(args, body, newEnv, cont)
 	}
 
-	return compileCall(exp, env, cont)
+	return c.compileCall(exp, env, cont)
 }
 
 func compileLambda(args, body Obj, env *Env, cont Instr) Instr {
-	code := compile(body, env, InstrPrimitive{
+	var c Compiler
+	code := c.compile(body, env, InstrPrimitive{
 		prim: primIdentify,
 	})
-	return InstrConst{
-		Val: &Closure{
-			Required: listLength(args),
-			Code:     code,
-		},
-		Next: cont,
+	return InstrMakeClosure{
+		closed:   c.closed,
+		code:     code,
+		required: listLength(args),
+		Next:     cont,
 	}
 }
 
-func compileCall(exp Obj, env *Env, cont Instr) Instr {
+func getClosureValueFromEnv(f Frame, m int, n int) Obj {
+	for ; m > 1; m = m - 1 {
+		k := f.Get(0).(Continuation)
+		f = &k.Stack.stackFrame
+	}
+	return f.Get(n + 2)
+}
+
+func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
 	if sym, ok := car(exp).(*Symbol); ok {
 		switch sym.str {
 		case "+":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primAdd,
 				Next: cont,
 			})
 		case "-":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primSub,
 				Next: cont,
 			})
 		case "=":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primEQ,
 				Next: cont,
 			})
 		case "*":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primMul,
 				Next: cont,
 			})
 		case "/":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primDiv,
 				Next: cont,
 			})
 		case "set":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primSet,
 				Next: cont,
 			})
 		case "value":
-			return compileList(cdr(exp), env, InstrPrimitive{
+			return c.compileList(cdr(exp), env, InstrPrimitive{
 				prim: primValue,
 				Next: cont,
 			})
@@ -704,7 +768,7 @@ func compileCall(exp Obj, env *Env, cont Instr) Instr {
 			return InstrPrepareCall{
 				next: InstrGlobalRef{
 					sym: sym,
-					Next: compileList(cdr(exp), env, InstrCall{
+					Next: c.compileList(cdr(exp), env, InstrCall{
 						size: size,
 						Next: cont,
 					}),
@@ -714,21 +778,21 @@ func compileCall(exp Obj, env *Env, cont Instr) Instr {
 	}
 	size := listLength(exp)
 	return InstrPrepareCall{
-		next: compileList(exp, env, InstrCall{
+		next: c.compileList(exp, env, InstrCall{
 			size: size,
 			Next: cont,
 		}),
 	}
 }
 
-func compileList(exp Obj, env *Env, cont Instr) Instr {
+func (c *Compiler) compileList(exp Obj, env *Env, cont Instr) Instr {
 	if exp == Nil {
 		return cont
 	}
-	return compile(car(exp), env, compileList(cdr(exp), env, cont))
+	return c.compile(car(exp), env, c.compileList(cdr(exp), env, cont))
 }
 
-func compileDefunMacro(exp Obj, env *Env, cont Instr) Instr {
+func compileDefunMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (defun f (x y) ..) => ((fn 'set) (quote f) (lambda (x y) ...))
 	fName := car(exp)
 	args := cadr(exp)
@@ -743,30 +807,30 @@ func compileDefunMacro(exp Obj, env *Env, cont Instr) Instr {
 	})
 }
 
-func compileOrMacro(exp Obj, env *Env, cont Instr) Instr {
+func compileOrMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (or x y) => (if x true (if y true false))
 	x := car(exp)
 	y := cadr(exp)
 	tmp := cons(symIf, cons(y, cons(True, cons(False, Nil))))
 	exp = cons(symIf, cons(x, cons(True, cons(tmp, Nil))))
-	return compile(exp, env, cont)
+	return c.compile(exp, env, cont)
 }
 
-func compileAndMacro(exp Obj, env *Env, cont Instr) Instr {
+func compileAndMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (and x y) => (if x (if y true false) false)
 	x := car(exp)
 	y := cadr(exp)
 	tmp := cons(symIf, cons(y, cons(True, cons(False, Nil))))
 	exp = cons(symIf, cons(x, cons(tmp, cons(False, Nil))))
-	return compile(exp, env, cont)
+	return c.compile(exp, env, cont)
 }
 
-func compileCondMacro(exp Obj, env *Env, cont Instr) Instr {
-	exp = compileCondMacroHelp(exp)
-	return compile(exp, env, cont)
+func compileCondMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
+	exp = compileCondMacroHelp(c, exp)
+	return c.compile(exp, env, cont)
 }
 
-func compileCondMacroHelp(exp Obj) Obj {
+func compileCondMacroHelp(c *Compiler, exp Obj) Obj {
 	// (cond (x y) ...)
 	if exp == Nil {
 		return cons(MakeSymbol("simple-error"), cons(String("no cond match"), Nil))
@@ -774,38 +838,38 @@ func compileCondMacroHelp(exp Obj) Obj {
 	xy := car(exp)
 	x := car(xy)
 	y := cadr(xy)
-	tmp := compileCondMacroHelp(cdr(exp))
+	tmp := compileCondMacroHelp(c, cdr(exp))
 	return cons(symIf, cons(x, cons(y, cons(tmp, Nil))))
 }
 
-func compileLetMacro(exp Obj, env *Env, cont Instr) Instr {
+func compileLetMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (let x y z) => ((lambda x z) y)
 	x := car(exp)
 	y := cadr(exp)
 	z := cdr(cdr(exp))
 	fn := cons(symLambda, cons(x, z))
 	exp = cons(fn, cons(y, Nil))
-	return compile(exp, env, cont)
+	return c.compile(exp, env, cont)
 }
 
-func compileFreezeMacro( exp Obj, env *Env, cont Instr) Instr {
+func compileFreezeMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (freeze body) => (lambda () body)
 	return compileLambda(Nil, car(exp), env, cont)
 }
 
-func compileTrapErrorMacro(exp Obj, env *Env, cont Instr) Instr {
+func compileTrapErrorMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (trap-error body handler) => (try-catch (lambda () body) handler)
 	body := car(exp)
 	handler := cdr(exp)
 	action := cons(symLambda, cons(Nil, cons(body, Nil)))
 	exp = cons(MakeSymbol("try-catch"), cons(action, handler))
 	// fmt.Println("after rewrite trap get ===", ObjString(exp))
-	return compile(exp, env, cont)
+	return c.compile(exp, env, cont)
 }
 
-func compileTypeMacro(exp Obj, env *Env, cont Instr) Instr {
+func compileTypeMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (type exp _) => exp
-	return compile(car(exp), env, cont)
+	return c.compile(car(exp), env, cont)
 }
 
 // ==================================
@@ -855,12 +919,12 @@ func (vm *VM) Eval(exp Obj) Obj {
 }
 
 func eval(vm *VM, exp Obj) Obj {
+	var c Compiler
 	var env *Env
-	code := compile(exp, env, nil)
-	fmt.Printf("the code is: %#v\n", code)
+	code := c.compile(exp, env, nil)
+	//	fmt.Printf("the code is: %#v\n", code)
 	vm.run(code)
-	ret := vm.stack.Get(-1)
-	//	vm.stack = vm.stack[:0]
+	ret := vm.pop()
 	return ret
 }
 
@@ -897,7 +961,7 @@ var primSub = &Primitive{
 	},
 }
 
-var primMul = &Primitive {
+var primMul = &Primitive{
 	Exec: func(vm *VM) {
 		x := vm.pop().(Integer)
 		y := vm.pop().(Integer)
@@ -905,14 +969,13 @@ var primMul = &Primitive {
 	},
 }
 
-var primDiv = &Primitive {
+var primDiv = &Primitive{
 	Exec: func(vm *VM) {
 		x := vm.pop().(Integer)
 		y := vm.pop().(Integer)
 		vm.push(Integer(y / x))
 	},
 }
-
 
 var primEQ = &Primitive{
 	Exec: func(vm *VM) {
