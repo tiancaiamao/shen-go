@@ -3,7 +3,7 @@ package re
 import (
 	"bufio"
 	"bytes"
-	"fmt"
+	// "fmt"
 	"io"
 	"math"
 	"strconv"
@@ -509,7 +509,7 @@ func (i InstrMakeClosure) Exec(vm *VM) {
 		slot = make([]Obj, len(i.closed))
 		for i, pos := range i.closed {
 			slot[i] = getClosureValueFromEnv(vm.stack, pos.m, pos.n)
-			fmt.Println("slot i =", i, slot[i], pos.m, pos.n)
+			// fmt.Println("slot i =", i, slot[i], pos.m, pos.n)
 		}
 	}
 	vm.push(&Closure{
@@ -641,32 +641,7 @@ func (c *Compiler) compile(exp Obj, env *Env, cont Instr) Instr {
 			Next: cont,
 		}
 	case *Symbol:
-		m, n := env.findVariable(exp)
-		if m == 0 {
-			return InstrLocalRef{
-				Idx:  n,
-				Next: cont,
-			}
-		}
-		if m > 0 {
-			// Closure value
-			c.closed = append(c.closed, pos{m, n})
-			return InstrClosureRef{
-				Idx:  len(c.closed) - 1,
-				Next: cont,
-			}
-		}
-		// Global variable
-		/*
-			return InstrGlobalRef{
-				sym:  raw,
-				Next: cont,
-			}
-		*/
-		return InstrConst{
-			Val:  raw,
-			Next: cont,
-		}
+		return c.compileSymbol(raw, env, false, cont)
 	}
 
 	raw := exp.(*Cons)
@@ -702,6 +677,36 @@ func (c *Compiler) compile(exp Obj, env *Env, cont Instr) Instr {
 	}
 
 	return c.compileCall(exp, env, cont)
+}
+
+func (c *Compiler) compileSymbol(exp *Symbol, env *Env, isCall bool, cont Instr) Instr {
+	m, n := env.findVariable(exp)
+	if m == 0 {
+		return InstrLocalRef{
+			Idx:  n,
+			Next: cont,
+		}
+	}
+	if m > 0 {
+		// Closure value
+		c.closed = append(c.closed, pos{m, n})
+		return InstrClosureRef{
+			Idx:  len(c.closed) - 1,
+			Next: cont,
+		}
+	}
+	// Global variable
+	if isCall {
+		return InstrGlobalRef{
+			sym:  exp,
+			Next: cont,
+		}
+	}
+
+	return InstrConst{
+		Val:  exp,
+		Next: cont,
+	}
 }
 
 func compileLambda(args, body Obj, env *Env, cont Instr) Instr {
@@ -766,13 +771,11 @@ func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
 		default:
 			size := listLength(exp)
 			return InstrPrepareCall{
-				next: InstrGlobalRef{
-					sym: sym,
-					Next: c.compileList(cdr(exp), env, InstrCall{
+				next: c.compileSymbol(sym, env, true,
+					c.compileList(cdr(exp), env, InstrCall{
 						size: size,
 						Next: cont,
-					}),
-				},
+					})),
 			}
 		}
 	}

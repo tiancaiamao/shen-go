@@ -193,7 +193,9 @@ func TestIssue25(t *testing.T) {
 	ctx := New()
 	evalString(ctx, "(defun return (x) (lambda k (k x)))")
 	evalString(ctx, "(defun add1 (n) (return (+ n 1)))")
-	res := evalString(ctx, "(add1 4 (lambda x x))")
+	// res := evalString(ctx, "(add1 4 (lambda x x))")
+	// Due to partial is not supported
+	res := evalString(ctx, "((add1 4) (lambda x x))")
 	if res != Integer(5) {
 		t.Fail()
 	}
