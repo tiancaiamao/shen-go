@@ -209,3 +209,14 @@ func evalString(ctx *VM, exp string) Obj {
 	}
 	return ctx.Eval(sexp)
 }
+
+func TestTry(t *testing.T) {
+	ctx := New()
+	res := evalString(ctx, `(try (lambda (cc handler)
+		(+ 4 (throw 42 cc handler)))
+	(lambda (x k)
+		(k 66)))`)
+	if res != Integer(70) {
+		t.Fail()
+	}
+}

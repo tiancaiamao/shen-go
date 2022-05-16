@@ -1,12 +1,12 @@
 package klambda
 
 import (
+	"fmt"
+	"io"
 	"os"
 	"os/exec"
-	"io"
-	"fmt"
-	"testing"
 	"strings"
+	"testing"
 )
 
 const part0 = `package main
@@ -40,7 +40,6 @@ func TestCodeGen(t *testing.T) {
 			var g GoCodeGenerator
 			res := insts.GenGoCode(&g)
 
-			
 			f, err := os.CreateTemp("", "code_gen_*.go")
 			if err != nil {
 				t.Error(err)

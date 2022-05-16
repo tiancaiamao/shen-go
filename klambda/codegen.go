@@ -155,7 +155,7 @@ func (l callInst) GenGoCode(g *GoCodeGenerator) int {
 	if l.tail {
 		fmt.Fprintln(g, "return")
 		return -1
-	} 
+	}
 
 	return res
 }

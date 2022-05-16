@@ -91,7 +91,7 @@ func main() {
 var (
 	symMacroExpand = klambda.MakeSymbol("macroexpand")
 	symEvalKL      = klambda.MakeSymbol("eval-kl")
-	symKLToKlambda    = klambda.MakeSymbol("kl->klambda")
+	symKLToKlambda = klambda.MakeSymbol("kl->klambda")
 )
 
 // var klPrimitives = []struct {

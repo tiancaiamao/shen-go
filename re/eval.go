@@ -3,7 +3,7 @@ package re
 import (
 	"bufio"
 	"bytes"
-	// "fmt"
+	//	"fmt"
 	"io"
 	"math"
 	"strconv"
@@ -111,6 +111,19 @@ func init() {
 		symLet:       compileLetMacro,
 		symType:      compileTypeMacro,
 	}
+
+	symTry := MakeSymbol("try")
+	symTry.fn = &Closure{
+		Required: 2,
+		Code:     instrFunc(instrForTry),
+		Slot:     nil,
+	}
+	symThrow := MakeSymbol("throw")
+	symThrow.fn = &Closure{
+		Required: 3,
+		Code:     instrFunc(instrForThrow),
+		Slot:     nil,
+	}
 }
 
 func MakeSymbol(str string) *Symbol {
@@ -156,7 +169,7 @@ func (c *Closure) String() string {
 }
 
 type Continuation struct {
-	Stack savedStackFrame
+	Stack stackFrame
 	Code  Instr
 }
 
@@ -309,65 +322,50 @@ func tokenToObj(str string) Obj {
 
 type VM struct {
 	pc    Instr
-	stack Frame
+	stack stackFrame
 }
 
 func New() *VM {
-	var s stackFrame
+	var initializeStack [2048]Obj
 	return &VM{
-		stack: &s,
+		stack: stackFrame{
+			underlying: &initializeStack,
+		},
 	}
-}
-
-type Frame interface {
-	Get(idx int) Obj
-	Set(idx int, v Obj)
-	Push(Obj)
-	Pop() Obj
-	Resize(n int)
 }
 
 type stackFrame struct {
-	base []Obj
-	pos  int
+	underlying *[2048]Obj
+	base       int
+	pos        int
 }
 
-type savedStackFrame struct {
-	stackFrame
-	size int
+func (sf *stackFrame) Push(o Obj) {
+	sf.underlying[sf.pos] = o
+	sf.pos++
 }
 
-func (s *stackFrame) Get(idx int) Obj {
+func (sf *stackFrame) Get(idx int) Obj {
 	if idx >= 0 {
-		return s.base[s.pos+idx]
+		return sf.underlying[sf.base+idx]
 	}
-	return s.base[len(s.base)+idx]
+	return sf.underlying[sf.pos+idx]
 }
 
-func (s *stackFrame) Set(idx int, v Obj) {
-	if idx >= 0 {
-		s.base[s.pos+idx] = v
-	} else {
-		s.base[len(s.base)+idx] = v
+func (sf *stackFrame) Set(idx int, v Obj) {
+	sf.underlying[sf.base+idx] = v
+}
+
+func (sf *stackFrame) Pop() Obj {
+	if sf.pos <= sf.base {
+		panic("pop empty stack")
 	}
+	sf.pos--
+	return sf.underlying[sf.pos]
 }
 
-func (s *stackFrame) Resize(n int) {
-	s.base = s.base[:n]
-}
-
-func (s *stackFrame) Push(o Obj) {
-	s.base = append(s.base, o)
-}
-
-func (s *stackFrame) Pop() Obj {
-	tos := len(s.base) - 1
-	if tos >= len(s.base) {
-		panic("pop() empty stack")
-	}
-	res := s.base[tos]
-	s.base = s.base[:tos]
-	return res
+func (sf *stackFrame) Resize(n int) {
+	sf.pos = sf.base + n
 }
 
 func (vm *VM) push(v Obj) {
@@ -379,16 +377,9 @@ func (vm *VM) pop() Obj {
 }
 
 func (vm *VM) run(code Instr) {
-	sf := vm.stack.(*stackFrame)
 	cc := Continuation{
-		Stack: savedStackFrame{
-			stackFrame: stackFrame{
-				base: sf.base,
-				pos:  sf.pos,
-			},
-			size: sf.pos,
-		},
-		Code: nil,
+		Stack: vm.stack,
+		Code:  nil,
 	}
 	vm.push(cc)
 
@@ -399,12 +390,12 @@ func (vm *VM) run(code Instr) {
 
 var _ Instr = InstrConst{}
 var _ Instr = InstrIf{}
+var _ Instr = InstrDo{}
 var _ Instr = InstrLocalRef{}
 var _ Instr = InstrClosureRef{}
 var _ Instr = InstrGlobalRef{}
-var _ Instr = InstrCall{}
-var _ Instr = InstrDo{}
 var _ Instr = InstrPrimitive{}
+var _ Instr = InstrCall{}
 var _ Instr = InstrSet{}
 var _ Instr = InstrMakeClosure{}
 
@@ -508,7 +499,7 @@ func (i InstrMakeClosure) Exec(vm *VM) {
 	if len(i.closed) > 0 {
 		slot = make([]Obj, len(i.closed))
 		for i, pos := range i.closed {
-			slot[i] = getClosureValueFromEnv(vm.stack, pos.m, pos.n)
+			slot[i] = getClosureValueFromEnv(&vm.stack, pos.m, pos.n)
 			// fmt.Println("slot i =", i, slot[i], pos.m, pos.n)
 		}
 	}
@@ -547,27 +538,23 @@ func (c InstrCall) Exec(vm *VM) {
 		}
 		vm.stack.Resize(c.size + 1)
 	} else { // Call
-		sf := vm.stack.(*stackFrame)
-		newStack := &stackFrame{
-			base: sf.base,
-			pos:  len(sf.base) - c.size - 1,
-		}
-		// Save the stack.
-		// Save the Next instr, after the call, the function return to here.
+		newStackBase := vm.stack.pos - c.size - 1
+		// Save the old stack and save the Next instr.
+		//  After the call, the function return to here.
 		cc := Continuation{
-			Stack: savedStackFrame{
-				stackFrame: stackFrame{
-					base: sf.base,
-					pos:  sf.pos,
-				},
-				size: newStack.pos,
+			Stack: stackFrame{
+				underlying: vm.stack.underlying,
+				base:       vm.stack.base,
+				pos:        newStackBase,
 			},
 			Code: c.Next,
 		}
-		newStack.Set(-c.size-1, cc)
-		// change current pc to the callee
-		vm.stack = newStack
+
+		// Change to the new stack.
+		vm.stack.base = newStackBase
+		vm.stack.Set(0, cc)
 	}
+	// change current pc to the callee
 	vm.pc = code
 }
 
@@ -585,10 +572,7 @@ func (c InstrPrimitive) Exec(vm *VM) {
 		cc := vm.stack.Get(0)
 		// Return to the previous saved continuation.
 		cont := cc.(Continuation)
-		vm.stack = &stackFrame{
-			base: cont.Stack.base[:cont.Stack.size],
-			pos:  cont.Stack.pos,
-		}
+		vm.stack = cont.Stack
 		vm.push(val)
 		vm.pc = cont.Code
 	} else { // Call
@@ -709,11 +693,13 @@ func (c *Compiler) compileSymbol(exp *Symbol, env *Env, isCall bool, cont Instr)
 	}
 }
 
+var identity = InstrPrimitive{
+	prim: primIdentify,
+}
+
 func compileLambda(args, body Obj, env *Env, cont Instr) Instr {
 	var c Compiler
-	code := c.compile(body, env, InstrPrimitive{
-		prim: primIdentify,
-	})
+	code := c.compile(body, env, identity)
 	return InstrMakeClosure{
 		closed:   c.closed,
 		code:     code,
@@ -722,10 +708,10 @@ func compileLambda(args, body Obj, env *Env, cont Instr) Instr {
 	}
 }
 
-func getClosureValueFromEnv(f Frame, m int, n int) Obj {
+func getClosureValueFromEnv(f *stackFrame, m int, n int) Obj {
 	for ; m > 1; m = m - 1 {
 		k := f.Get(0).(Continuation)
-		f = &k.Stack.stackFrame
+		f = &k.Stack
 	}
 	return f.Get(n + 2)
 }
@@ -770,6 +756,9 @@ func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
 			})
 		default:
 			size := listLength(exp)
+			if cont == identity {
+				cont = nil
+			}
 			return InstrPrepareCall{
 				next: c.compileSymbol(sym, env, true,
 					c.compileList(cdr(exp), env, InstrCall{
@@ -923,8 +912,7 @@ func (vm *VM) Eval(exp Obj) Obj {
 
 func eval(vm *VM, exp Obj) Obj {
 	var c Compiler
-	var env *Env
-	code := c.compile(exp, env, nil)
+	code := c.compile(exp, nil, nil)
 	//	fmt.Printf("the code is: %#v\n", code)
 	vm.run(code)
 	ret := vm.pop()
@@ -995,4 +983,85 @@ var primEQ = &Primitive{
 var primIdentify = &Primitive{
 	Exec: func(vm *VM) {
 	},
+}
+
+/*
+(defun try (thunk handler)
+	(capture (lambda (cc)
+				// cc and handler is available in thunk
+				(thunk)))))
+*/
+
+type instrFunc func(vm *VM)
+
+func (f instrFunc) Exec(vm *VM) {
+	f(vm)
+}
+
+func instrForTry(vm *VM) {
+	cc := vm.stack.Get(0)
+	// self :=  vm.stack.Get(1) the 'try' closure itself.
+	thunk := vm.stack.Get(2).(*Closure)
+	handler := vm.stack.Get(3)
+
+	// Create a new heap allocated frame.
+	var arr [2048]Obj
+	newStack := stackFrame{
+		underlying: &arr,
+	}
+
+	// Prepare the call for the chunk.
+	newStack.Push(cc)      // saved return address
+	newStack.Push(thunk)   // callee: the chunk itself
+	newStack.Push(cc)      // cc as the first argument for thunk
+	newStack.Push(handler) // handler as the second parameter for thunk
+
+	// Call the chunk, cc and handler is passed as the parameter.
+	vm.stack = newStack
+	vm.pc = thunk.Code
+}
+
+/*
+(defun throw (cc handler v)
+	(capture (lambda (cc1)
+				(let k (make-special-closure cc1)
+					// throw longjump to the old cc
+					// and then call  the handler
+					(do (long-jump cc)
+						(handler k v))))
+*/
+
+type savedContAsClosure Continuation
+
+func (s savedContAsClosure) Exec(vm *VM) {
+	val := vm.stack.Get(2)
+	vm.stack = s.Stack
+	vm.pc = s.Code
+	vm.push(val)
+}
+
+func instrForThrow(vm *VM) {
+	cc := vm.stack.Get(0).(Continuation)
+	v := vm.stack.Get(2)
+	oldCC := vm.stack.Get(3).(Continuation)
+	handler := vm.stack.Get(4).(*Closure)
+
+	// Wrap the current stack into a closure.
+	fn := &Closure{
+		Required: 1,
+		Code:     savedContAsClosure(cc),
+	}
+
+	// Long jump to the call site of 'try'.
+	vm.stack = oldCC.Stack
+
+	// New stack.
+	vm.stack.base = vm.stack.pos
+
+	// Call the handler function.
+	vm.push(oldCC)
+	vm.push(handler)
+	vm.push(v)
+	vm.push(fn)
+	vm.pc = handler.Code
 }
