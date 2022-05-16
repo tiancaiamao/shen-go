@@ -150,6 +150,12 @@ var basicCases = []testCase{
 		input:  `(+ 3 7)`,
 		output: "10",
 	},
+
+	testCase{
+		name:   "constant",
+		input:  "42",
+		output: "42",
+	},
 	/*
 		testCase{
 			name:   "partial primitive1",
@@ -175,16 +181,14 @@ func TestBasic(t *testing.T) {
 				fmt.Println("output is:", res.String())
 				t.Fail()
 			}
-			/*
-				if ctx.pos != 0 {
-					fmt.Println("unexpected sp after evaluation:", ctx.pos)
-					t.Fail()
-				}
-				if len(ctx.stack) != 0 {
-					fmt.Println("unexpected stack after evaluation:", len(ctx.stack))
-					t.Fail()
-				}
-			*/
+			if ctx.stack.pos != 0 {
+				fmt.Println("unexpected sp after evaluation:", ctx.stack.pos)
+				t.Fail()
+			}
+			if ctx.stack.base != 0 {
+				fmt.Println("unexpected stack after evaluation:", ctx.stack.base)
+				t.Fail()
+			}
 		})
 	}
 }
@@ -210,7 +214,7 @@ func evalString(ctx *VM, exp string) Obj {
 	return ctx.Eval(sexp)
 }
 
-func TestTry(t *testing.T) {
+func TestTryThrow(t *testing.T) {
 	ctx := New()
 	res := evalString(ctx, `(try (lambda (cc handler)
 		(+ 4 (throw 42 cc handler)))
@@ -219,4 +223,9 @@ func TestTry(t *testing.T) {
 	if res != Integer(70) {
 		t.Fail()
 	}
+}
+
+func TestEvalKL(t *testing.T) {
+	ctx := New()
+	evalString(ctx, "(eval-kl (cons + (cons 1 (cons 2 ()))))")
 }

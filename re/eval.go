@@ -1,13 +1,13 @@
 package re
 
 import (
-	"bufio"
 	"bytes"
 	//	"fmt"
 	"io"
 	"math"
 	"strconv"
-	"unicode"
+
+	"time"
 )
 
 // =======================================
@@ -83,13 +83,15 @@ func (s *Symbol) String() string {
 var symbolMap = make(map[string]*Symbol)
 
 var symIf, symDo, symLambda, symDefun Obj
-var symCond, symAnd, symOr, symLet, symType, symFreeze, symTrapError Obj
+var symCond, symAnd, symOr, symLet, symType, symFreeze, symTrapError, symSimpleError Obj
+var uptime time.Time
 
 // var symQuote Obj
 
 var klMacro map[Obj]func(*Compiler, Obj, *Env, Instr) Instr
 
 func init() {
+	uptime = time.Now()
 	symIf = MakeSymbol("if")
 	symDo = MakeSymbol("do")
 	symLambda = MakeSymbol("lambda")
@@ -100,16 +102,18 @@ func init() {
 	symAnd = MakeSymbol("and")
 	symOr = MakeSymbol("or")
 	symTrapError = MakeSymbol("trap-error")
+	symSimpleError = MakeSymbol("simple-error")
 
 	klMacro = map[Obj]func(*Compiler, Obj, *Env, Instr) Instr{
-		symDefun:     compileDefunMacro,
-		symCond:      compileCondMacro,
-		symAnd:       compileAndMacro,
-		symOr:        compileOrMacro,
-		symTrapError: compileTrapErrorMacro,
-		symFreeze:    compileFreezeMacro,
-		symLet:       compileLetMacro,
-		symType:      compileTypeMacro,
+		symDefun:       compileDefunMacro,
+		symCond:        compileCondMacro,
+		symAnd:         compileAndMacro,
+		symOr:          compileOrMacro,
+		symTrapError:   compileTrapErrorMacro,
+		symSimpleError: compileSimpleErrorMacro,
+		symFreeze:      compileFreezeMacro,
+		symLet:         compileLetMacro,
+		symType:        compileTypeMacro,
 	}
 
 	symTry := MakeSymbol("try")
@@ -165,7 +169,29 @@ type Closure struct {
 }
 
 func (c *Closure) String() string {
-	return "#closure"
+	return "#0closure"
+}
+
+type Stream struct {
+	io.ReadWriter
+}
+
+func (s Stream) String() string {
+	return "#stream"
+}
+
+type Error struct {
+	error
+}
+
+func (err Error) String() string {
+	return err.Error()
+}
+
+type Vector []Obj
+
+func (v Vector) String() string {
+	return "#vector"
 }
 
 type Continuation struct {
@@ -183,137 +209,6 @@ type Primitive struct {
 
 func (c *Primitive) String() string {
 	return "#primitive"
-}
-
-// =======================================
-// 	S-Exp Reader
-// =======================================
-
-type SexpReader struct {
-	reader *bufio.Reader
-	buf    []rune
-	// 'extended' reader is used by cora, which handles reader macro ' and [,
-	// and expect ; as comment
-	extended bool
-}
-
-func NewSexpReader(r io.Reader, extended bool) *SexpReader {
-	return &SexpReader{
-		reader:   bufio.NewReader(r),
-		extended: extended,
-	}
-}
-
-func (r *SexpReader) Read() (Obj, error) {
-	b, err := peekFirstRune(r.reader)
-	if err != nil {
-		return Nil, err
-	}
-
-	if r.extended {
-		switch b {
-		case rune(';'):
-			b, _, err = r.reader.ReadRune()
-			if err != nil {
-				return Nil, err
-			}
-			for b != '\n' {
-				b, _, err = r.reader.ReadRune()
-				if err != nil {
-					return Nil, err
-				}
-			}
-			return r.Read()
-		}
-	}
-
-	switch b {
-	case rune('('):
-		return r.readSexp()
-	case rune('"'):
-		return r.readString()
-	}
-
-	r.resetBuf()
-	r.appendBuf(b)
-	b, _, err = r.reader.ReadRune()
-	for err == nil {
-		if r.notSymbolChar(b) {
-			r.reader.UnreadRune()
-			break
-		}
-		r.appendBuf(b)
-		b, _, err = r.reader.ReadRune()
-	}
-
-	return tokenToObj(string(r.buf)), err
-}
-
-func (r *SexpReader) readString() (Obj, error) {
-	r.resetBuf()
-	b, _, err := r.reader.ReadRune()
-	for err == nil && b != rune('"') {
-		r.appendBuf(b)
-		b, _, err = r.reader.ReadRune()
-	}
-	return String(r.buf), err
-}
-
-func (r *SexpReader) readSexp() (Obj, error) {
-	ret := Nil
-	b, err := peekFirstRune(r.reader)
-	for err == nil && b != ')' {
-		var obj Obj
-		r.reader.UnreadRune()
-		obj, err = r.Read()
-		if err == nil {
-			ret = cons(obj, ret)
-			b, err = peekFirstRune(r.reader)
-		}
-	}
-	return reverse(ret), err
-}
-
-func (r *SexpReader) resetBuf() {
-	r.buf = r.buf[:0]
-}
-
-func (r *SexpReader) appendBuf(b rune) {
-	r.buf = append(r.buf, b)
-}
-
-func peekFirstRune(r *bufio.Reader) (rune, error) {
-	b, _, err := r.ReadRune()
-	for err == nil && unicode.IsSpace(b) {
-		b, _, err = r.ReadRune()
-	}
-	return b, err
-}
-
-func (r *SexpReader) notSymbolChar(c rune) bool {
-	if unicode.IsSpace(c) {
-		return true
-	}
-	switch c {
-	case '(', '"', ')':
-		return true
-	case '[', ']':
-		return r.extended
-	}
-	return false
-}
-
-func tokenToObj(str string) Obj {
-	switch str {
-	case "true":
-		return True
-	case "false":
-		return False
-	}
-	if v, err := strconv.ParseFloat(str, 64); err == nil {
-		return MakeNumber(v)
-	}
-	return MakeSymbol(str)
 }
 
 // =======================================
@@ -376,11 +271,20 @@ func (vm *VM) pop() Obj {
 	return vm.stack.Pop()
 }
 
+func (vm *VM) Return(x Obj) {
+	cc := vm.stack.Get(0)
+	cont := cc.(Continuation)
+	vm.stack = cont.Stack
+	vm.push(x)
+	vm.pc = cont.Code
+}
+
 func (vm *VM) run(code Instr) {
 	cc := Continuation{
 		Stack: vm.stack,
 		Code:  nil,
 	}
+	vm.stack.base = vm.stack.pos
 	vm.push(cc)
 
 	for vm.pc = code; vm.pc != nil; {
@@ -569,12 +473,7 @@ func (c InstrPrimitive) Exec(vm *VM) {
 	raw.Exec(vm)
 	if c.Next == nil { // Jump
 		val := vm.stack.Get(-1)
-		cc := vm.stack.Get(0)
-		// Return to the previous saved continuation.
-		cont := cc.(Continuation)
-		vm.stack = cont.Stack
-		vm.push(val)
-		vm.pc = cont.Code
+		vm.Return(val)
 	} else { // Call
 		vm.pc = c.Next
 	}
@@ -849,19 +748,25 @@ func compileFreezeMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	return compileLambda(Nil, car(exp), env, cont)
 }
 
-func compileTrapErrorMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
-	// (trap-error body handler) => (try-catch (lambda () body) handler)
-	body := car(exp)
-	handler := cdr(exp)
-	action := cons(symLambda, cons(Nil, cons(body, Nil)))
-	exp = cons(MakeSymbol("try-catch"), cons(action, handler))
-	// fmt.Println("after rewrite trap get ===", ObjString(exp))
-	return c.compile(exp, env, cont)
-}
-
 func compileTypeMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (type exp _) => exp
 	return c.compile(car(exp), env, cont)
+}
+
+func compileTrapErrorMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
+	// (trap-error body handler) => (try (lambda (#cc #handler) body) handler)
+	body := car(exp)
+	handler := cdr(exp)
+	action := cons(symLambda, cons(cons(MakeSymbol("#cc"), cons(MakeSymbol("#handler"), Nil)), cons(body, Nil)))
+	exp = cons(MakeSymbol("try"), cons(action, handler))
+	return c.compile(exp, env, cont)
+}
+
+func compileSimpleErrorMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
+	// (simple-error v) => (throw v #cc #handler)
+	v := car(exp)
+	exp = cons(MakeSymbol("throw"), cons(v, cons(MakeSymbol("#cc"), cons(MakeSymbol("#handler"), Nil))))
+	return c.compile(exp, env, cont)
 }
 
 // ==================================
@@ -912,7 +817,7 @@ func (vm *VM) Eval(exp Obj) Obj {
 
 func eval(vm *VM, exp Obj) Obj {
 	var c Compiler
-	code := c.compile(exp, nil, nil)
+	code := c.compile(exp, nil, identity)
 	//	fmt.Printf("the code is: %#v\n", code)
 	vm.run(code)
 	ret := vm.pop()
