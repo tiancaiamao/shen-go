@@ -58,6 +58,8 @@ var klPrimitives = []struct {
 	{"read-file-as-string", 1, PrimReadFileAsString},
 	{"variable?", 1, PrimIsVariable},
 	{"integer?", 1, PrimIsInteger},
+	{"eval-kl", 1, primEvalKL},
+	{"load-file", 1, primLoadFile},
 	{"shen.char-stoutput?", 1, PrimCharStOutput},
 	{"shen.char-stinput?", 1, PrimCharStInput},
 }
@@ -70,22 +72,22 @@ func PrimCharStOutput(x Obj) Obj {
 	return False
 }
 
-/*
-func PrimLoad(e *VM) {
-	file := e.Get(1)
-	if !IsString(file) {
-		e.Return(MakeError("arg1 must be string"))
+func primLoadFile(e *VM) {
+	file := e.stack.Get(2)
+	tmp, ok := file.(String)
+	if !ok {
+		panic("arg1 must be string")
 		return
 	}
-	path := GetString(file)
+	path := string(tmp)
 	if _, err := os.Stat(path); err != nil {
-		e.Return(MakeError(err.Error()))
+		panic(err.Error())
 		return
 	}
 
 	f, err := os.Open(path)
 	if err != nil {
-		e.Return(MakeError(err.Error()))
+		panic(err.Error())
 		return
 	}
 	defer f.Close()
@@ -95,21 +97,19 @@ func PrimLoad(e *VM) {
 		exp, err := r.Read()
 		if err != nil {
 			if err != io.EOF {
-				e.Return(MakeError(err.Error()))
+				panic(err.Error())
 				return
 			}
 			break
 		}
 
 		res := e.Eval(exp)
-		if IsError(res) {
-			e.Return(res)
-			return
+		if x, ok := res.(Error); ok {
+			panic(x)
 		}
 	}
 	e.Return(MakeSymbol("loaded"))
 }
-*/
 
 /*
 func PrimNS3Value(key Obj) Obj {
@@ -126,20 +126,9 @@ func PrimNS3Value(key Obj) Obj {
 */
 
 func init() {
-	//	PrimNS2Set(MakeSymbol("try-catch"), MakeNative(PrimTryCatch(false), 2))
-	//	PrimNS2Set(MakeSymbol("load-file"), MakeNative(PrimLoad, 1))
-
 	for _, item := range klPrimitives {
 		sym := MakeSymbol(item.name)
 		sym.fn = MakePrimitive(item.name, item.arity, item.fn)
-	}
-	MakeSymbol("eval-kl").fn = &Closure{
-		Required: 1,
-		Code: instrFunc(func(vm *VM) {
-			exp := vm.stack.Get(2)
-			res := eval(vm, exp)
-			vm.Return(res)
-		}),
 	}
 	// Overload for Primitive set and value.
 	MakeSymbol("*stinput*").val = Stream{os.Stdin}
@@ -179,6 +168,12 @@ func PrimNumberDivide(x, y Obj) Obj {
 	return MakeNumber(x1 / y1)
 }
 */
+
+func primEvalKL(vm *VM) {
+	exp := vm.stack.Get(2)
+	res := eval(vm, exp)
+	vm.Return(res)
+}
 
 func PrimIntern(o Obj) Obj {
 	str := o.(String)
@@ -587,77 +582,51 @@ func writeSexpToFile(e *VM) {
 }
 */
 
-func wrapf1(f func(Obj) Obj) *Closure {
-	return &Closure{
-		Required: 1,
-		Code: instrFunc(func(e *VM) {
-			tmp := e.stack.Get(2)
-			res := f(tmp)
-			e.Return(res)
-		}),
-	}
+type wrapf1 func(Obj) Obj
+
+func (f wrapf1) Exec(e *VM) {
+	tmp := e.stack.Get(2)
+	res := f(tmp)
+	e.Return(res)
 }
 
-func wrapf2(f func(x, y Obj) Obj) *Closure {
-	return &Closure{
-		Required: 2,
-		Code: instrFunc(func(e *VM) {
-			tmp1 := e.stack.Get(2)
-			tmp2 := e.stack.Get(3)
-			res := f(tmp1, tmp2)
-			e.Return(res)
-		}),
-	}
+type wrapf2 func(x, y Obj) Obj
+
+func (f wrapf2) Exec(e *VM) {
+	tmp1 := e.stack.Get(2)
+	tmp2 := e.stack.Get(3)
+	res := f(tmp1, tmp2)
+	e.Return(res)
 }
 
-func wrapf3(f func(x, y, z Obj) Obj) *Closure {
-	return &Closure{
-		Required: 3,
-		Code: instrFunc(func(e *VM) {
-			tmp1 := e.stack.Get(2)
-			tmp2 := e.stack.Get(3)
-			tmp3 := e.stack.Get(4)
-			res := f(tmp1, tmp2, tmp3)
-			e.Return(res)
-		}),
-	}
-}
+type wrapf3 func(x, y, z Obj) Obj
 
-func wrapf4(f func(x, y, z Obj) Obj) *Closure {
-	return &Closure{
-		Required: 4,
-		Code: instrFunc(func(e *VM) {
-			tmp1 := e.stack.Get(2)
-			tmp2 := e.stack.Get(3)
-			tmp3 := e.stack.Get(4)
-			res := f(tmp1, tmp2, tmp3)
-			e.Return(res)
-		}),
-	}
+func (f wrapf3) Exec(e *VM) {
+	tmp1 := e.stack.Get(2)
+	tmp2 := e.stack.Get(3)
+	tmp3 := e.stack.Get(4)
+	res := f(tmp1, tmp2, tmp3)
+	e.Return(res)
 }
 
 func MakePrimitive(name string, arity int, f interface{}) *Closure {
-	switch arity {
-	case 1:
-		raw, ok := f.(func(Obj) Obj)
-		if !ok {
-			panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
-		}
-		return wrapf1(raw)
-	case 2:
-		raw, ok := f.(func(x, y Obj) Obj)
-		if !ok {
-			panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
-		}
-		return wrapf2(raw)
-	case 3:
-		raw, ok := f.(func(x, y, z Obj) Obj)
-		if !ok {
-			panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
-		}
-		return wrapf3(raw)
+	var code Instr
+	switch raw := f.(type) {
+	case func(vm *VM):
+		code = instrFunc(raw)
+	case (func(Obj) Obj):
+		code = wrapf1(raw)
+	case (func(x, y Obj) Obj):
+		code = wrapf2(raw)
+	case (func(x, y, z Obj) Obj):
+		code = wrapf3(raw)
+	default:
+		panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
 	}
-	panic(fmt.Sprintf("MakePrimitive %s failed: %#v", name, f))
+	return &Closure{
+		Required: arity,
+		Code:     code,
+	}
 }
 
 func PrimStr(o Obj) Obj {

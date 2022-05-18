@@ -14,6 +14,19 @@ import (
 //          Object representation
 // =======================================
 
+var _ Obj = Integer(0)
+var _ Obj = Float64(0.0)
+var _ Obj = String("")
+var _ Obj = True
+var _ Obj = False
+var _ Obj = Nil
+var _ Obj = &Symbol{}
+var _ Obj = &Closure{}
+var _ Obj = &Cons{}
+var _ Obj = Vector{}
+var _ Obj = Stream{}
+var _ Obj = Error{}
+
 type Obj interface {
 	String() string
 }
