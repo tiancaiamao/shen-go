@@ -229,3 +229,22 @@ func TestEvalKL(t *testing.T) {
 	ctx := New()
 	evalString(ctx, "(eval-kl (cons + (cons 1 (cons 2 ()))))")
 }
+
+func TestXXX(t *testing.T) {
+	r := NewSexpReader(strings.NewReader("((lambda (x) (if x (+ 4 7) 42)) true)"), true)
+	sexp, err := r.Read()
+	if err != nil && err != io.EOF {
+		panic(err)
+	}
+
+	// vm := New()
+	// xx := evalString(vm,"((lambda (x) (if x (+ 4 7) 42)) true)")
+	// fmt.Println(xx.String(), "!!!")
+
+
+	var c Compiler
+	code := c.compile(sexp, nil, identity)
+	fmt.Printf("%#v\n", code)
+
+	instrGenC(code)
+}

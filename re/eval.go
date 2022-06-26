@@ -69,7 +69,14 @@ func MakeNumber(f float64) Obj {
 type booleanObj bool
 
 func (b booleanObj) String() string {
-	return strconv.FormatBool(bool(b))
+	switch b {
+	case True:
+		return "true"
+	case False:
+		return "false"
+	default:
+		panic("bool type error")
+	}
 }
 
 var True = booleanObj(true)
@@ -231,6 +238,7 @@ func (c *Primitive) String() string {
 type VM struct {
 	pc    Instr
 	stack stackFrame
+	val   Obj
 }
 
 func New() *VM {
@@ -287,8 +295,8 @@ func (vm *VM) pop() Obj {
 func (vm *VM) Return(x Obj) {
 	cc := vm.stack.Get(0)
 	cont := cc.(Continuation)
+	vm.val = x
 	vm.stack = cont.Stack
-	vm.push(x)
 	vm.pc = cont.Code
 }
 
@@ -308,6 +316,7 @@ func (vm *VM) run(code Instr) {
 var _ Instr = InstrConst{}
 var _ Instr = InstrIf{}
 var _ Instr = InstrDo{}
+var _ Instr = InstrPush{}
 var _ Instr = InstrLocalRef{}
 var _ Instr = InstrClosureRef{}
 var _ Instr = InstrGlobalRef{}
@@ -326,7 +335,7 @@ type InstrConst struct {
 }
 
 func (c InstrConst) Exec(vm *VM) {
-	vm.push(c.Val)
+	vm.val = c.Val
 	vm.pc = c.Next
 }
 
@@ -339,7 +348,7 @@ func (i InstrGlobalRef) Exec(vm *VM) {
 	if i.sym.fn == nil {
 		panic("undefined fn for symbol:" + i.sym.str)
 	}
-	vm.push(i.sym.fn)
+	vm.val = i.sym.fn
 	vm.pc = i.Next
 }
 
@@ -349,9 +358,9 @@ type InstrSet struct {
 }
 
 func (s InstrSet) Exec(vm *VM) {
-	f := vm.pop()
+	f := vm.val
 	s.Sym.(*Symbol).fn = f
-	vm.push(s.Sym)
+	vm.val = s.Sym
 	vm.pc = s.Next
 }
 
@@ -360,7 +369,15 @@ type InstrDo struct {
 }
 
 func (i InstrDo) Exec(vm *VM) {
-	vm.pop()
+	vm.pc = i.Next
+}
+
+type InstrPush struct {
+	Next Instr
+}
+
+func (i InstrPush) Exec(vm *VM) {
+	vm.push(vm.val)
 	vm.pc = i.Next
 }
 
@@ -371,7 +388,7 @@ type InstrLocalRef struct {
 
 func (i InstrLocalRef) Exec(vm *VM) {
 	v := vm.stack.Get(i.Idx + 2)
-	vm.push(v)
+	vm.val = v
 	vm.pc = i.Next
 }
 
@@ -383,7 +400,7 @@ type InstrClosureRef struct {
 func (i InstrClosureRef) Exec(vm *VM) {
 	tmp := vm.stack.Get(1)
 	self := tmp.(*Closure)
-	vm.push(self.Slot[i.Idx])
+	vm.val = self.Slot[i.Idx]
 	vm.pc = i.Next
 }
 
@@ -393,8 +410,7 @@ type InstrIf struct {
 }
 
 func (i InstrIf) Exec(vm *VM) {
-	v := vm.pop()
-	switch v {
+	switch vm.val {
 	case True:
 		vm.pc = i.Then
 	case False:
@@ -420,11 +436,11 @@ func (i InstrMakeClosure) Exec(vm *VM) {
 			// fmt.Println("slot i =", i, slot[i], pos.m, pos.n)
 		}
 	}
-	vm.push(&Closure{
+	vm.val = &Closure{
 		Required: i.required,
 		Code:     i.code,
 		Slot:     slot,
-	})
+	}
 	vm.pc = i.Next
 }
 
@@ -434,7 +450,7 @@ type InstrPrepareCall struct {
 
 func (c InstrPrepareCall) Exec(vm *VM) {
 	// This slot is reserved for continuation
-	vm.stack.Push(Nil)
+	vm.push(Nil)
 	vm.pc = c.next
 }
 
@@ -485,8 +501,7 @@ func (c InstrPrimitive) Exec(vm *VM) {
 	// Execute the primitive
 	raw.Exec(vm)
 	if c.Next == nil { // Jump
-		val := vm.stack.Get(-1)
-		vm.Return(val)
+		vm.Return(vm.val)
 	} else { // Call
 		vm.pc = c.Next
 	}
@@ -672,11 +687,12 @@ func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
 				cont = nil
 			}
 			return InstrPrepareCall{
-				next: c.compileSymbol(sym, env, true,
-					c.compileList(cdr(exp), env, InstrCall{
+				next: c.compileSymbol(sym, env, true, InstrPush{
+					Next: c.compileList(cdr(exp), env, InstrCall{
 						size: size,
 						Next: cont,
-					})),
+					}),
+				}),
 			}
 		}
 	}
@@ -693,7 +709,9 @@ func (c *Compiler) compileList(exp Obj, env *Env, cont Instr) Instr {
 	if exp == Nil {
 		return cont
 	}
-	return c.compile(car(exp), env, c.compileList(cdr(exp), env, cont))
+	return c.compile(car(exp), env, InstrPush{
+		Next: c.compileList(cdr(exp), env, cont),
+	})
 }
 
 func compileDefunMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
@@ -833,7 +851,7 @@ func eval(vm *VM, exp Obj) Obj {
 	code := c.compile(exp, nil, identity)
 	//	fmt.Printf("the code is: %#v\n", code)
 	vm.run(code)
-	ret := vm.pop()
+	ret := vm.val
 	return ret
 }
 
@@ -842,7 +860,7 @@ var primSet = &Primitive{
 		val := vm.pop()
 		key := vm.pop()
 		key.(*Symbol).val = val
-		vm.push(val)
+		vm.val = val
 	},
 }
 
@@ -850,7 +868,7 @@ var primValue = &Primitive{
 	Exec: func(vm *VM) {
 		key := vm.pop()
 		val := key.(*Symbol).val
-		vm.push(val)
+		vm.val = val
 	},
 }
 
@@ -858,7 +876,7 @@ var primAdd = &Primitive{
 	Exec: func(vm *VM) {
 		x := vm.pop().(Integer)
 		y := vm.pop().(Integer)
-		vm.push(Integer(x + y))
+		vm.val = Integer(x + y)
 	},
 }
 
@@ -866,7 +884,7 @@ var primSub = &Primitive{
 	Exec: func(vm *VM) {
 		x := vm.pop().(Integer)
 		y := vm.pop().(Integer)
-		vm.push(Integer(y - x))
+		vm.val = Integer(y - x)
 	},
 }
 
@@ -874,7 +892,7 @@ var primMul = &Primitive{
 	Exec: func(vm *VM) {
 		x := vm.pop().(Integer)
 		y := vm.pop().(Integer)
-		vm.push(Integer(x * y))
+		vm.val = Integer(x * y)
 	},
 }
 
@@ -882,7 +900,7 @@ var primDiv = &Primitive{
 	Exec: func(vm *VM) {
 		x := vm.pop().(Integer)
 		y := vm.pop().(Integer)
-		vm.push(Integer(y / x))
+		vm.val = Integer(y / x)
 	},
 }
 
@@ -891,9 +909,9 @@ var primEQ = &Primitive{
 		x := vm.pop()
 		y := vm.pop()
 		if x == y {
-			vm.push(True)
+			vm.val = True
 		} else {
-			vm.push(False)
+			vm.val = False
 		}
 	},
 }
@@ -955,7 +973,7 @@ func (s savedContAsClosure) Exec(vm *VM) {
 	val := vm.stack.Get(2)
 	vm.stack = s.Stack
 	vm.pc = s.Code
-	vm.push(val)
+	vm.val = val
 }
 
 func instrForThrow(vm *VM) {
