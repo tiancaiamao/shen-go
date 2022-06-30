@@ -31,35 +31,33 @@ var basicCases = []testCase{
 		output: "true",
 	},
 
-	/*
-		testCase{
-			name:   "trap-let",
-			input:  "(trap-error (let X 666 42) (lambda E (cons --> (cons A ()))))",
-			output: "42",
-		},
+	testCase{
+		name:   "curry",
+		input:  `(do (defun f (x y z) y) ((f 1 2) 3))`,
+		output: "2",
+	},
 
-		testCase{
-			name:   "curry-partial",
-			input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
-			output: "4",
-		},
+	testCase{
+		name:   "curry-partial",
+		input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
+		output: "4",
+	},
 
-		testCase{
-			name:   "curry",
-			input:  `(do (defun f (x y z) y) ((f 1 2) 3))`,
-			output: "2",
-		},
+	// testCase{
+	// 	name:   "trap-let",
+	// 	input:  "(trap-error (let X 666 42) (lambda E (cons --> (cons A ()))))",
+	// 	output: "42",
+	// },
 
-		testCase{
-			name: "curry1",
-			input: `(do (defun f (x)
+	testCase{
+		name: "curry1",
+		input: `(do (defun f (x)
 			 (do (defun ignore (z w)
 			   (lambda y
 			      z)) (ignore)))
 			(((f 1) 2 3) 4))`,
-			output: "2",
-		},
-	*/
+		output: "2",
+	},
 
 	testCase{
 		name: "fib10",
@@ -102,6 +100,12 @@ var basicCases = []testCase{
 	},
 
 	testCase{
+		name:   "closure value",
+		input:  "((((lambda x (lambda y (lambda z (+ x z)))) 1) 2) 3)",
+		output: "4",
+	},
+
+	testCase{
 		name:   "basic func call",
 		input:  `(do (defun id (x) x) (id (do 1 (do 2 42))))`,
 		output: "42",
@@ -125,13 +129,11 @@ var basicCases = []testCase{
 		output: "1",
 	},
 
-	/*
-		testCase{
-			name:   "curry lambda",
-			input:  `((lambda x (lambda y (lambda z z))) 1 2 3)`,
-			output: "3",
-		},
-	*/
+	testCase{
+		name:   "curry lambda",
+		input:  `((lambda x (lambda y (lambda z z))) 1 2 3)`,
+		output: "3",
+	},
 
 	testCase{
 		name:   "basic lambda",
@@ -197,9 +199,9 @@ func TestIssue25(t *testing.T) {
 	ctx := New()
 	evalString(ctx, "(defun return (x) (lambda k (k x)))")
 	evalString(ctx, "(defun add1 (n) (return (+ n 1)))")
-	// res := evalString(ctx, "(add1 4 (lambda x x))")
+	res := evalString(ctx, "(add1 4 (lambda x x))")
 	// Due to partial is not supported
-	res := evalString(ctx, "((add1 4) (lambda x x))")
+	// res := evalString(ctx, "((add1 4) (lambda x x))")
 	if res != Integer(5) {
 		t.Fail()
 	}
@@ -238,9 +240,14 @@ func TestXXX(t *testing.T) {
 	}
 
 	// vm := New()
-	// xx := evalString(vm,"((lambda (x) (if x (+ 4 7) 42)) true)")
+	// xx := evalString(vm,"((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)")
+	// xx := evalString(vm,"(do (defun f (a b) b) (f 3))")
+	// xx := evalString(vm, `(do (defun f (x)
+	// 		 (do (defun ignore (z w)
+	// 		   (lambda y
+	// 		      z)) (ignore)))
+	// 		(((f 1) 2 3) 4))`)
 	// fmt.Println(xx.String(), "!!!")
-
 
 	var c Compiler
 	code := c.compile(sexp, nil, identity)

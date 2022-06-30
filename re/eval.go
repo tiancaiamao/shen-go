@@ -2,7 +2,7 @@ package re
 
 import (
 	"bytes"
-	//	"fmt"
+	// "fmt"
 	"io"
 	"math"
 	"strconv"
@@ -185,11 +185,21 @@ func (c *Cons) String() string {
 type Closure struct {
 	Required int
 	Code     Instr
-	Slot     []Obj // The closure value
+	Parent   *Closure
+	Slot     map[int]Obj
 }
 
 func (c *Closure) String() string {
 	return "#0closure"
+}
+
+type Curry struct {
+	Required int
+	Closed   []Obj
+}
+
+func (c *Curry) String() string {
+	return "#0curry"
 }
 
 type Stream struct {
@@ -224,7 +234,8 @@ func (c Continuation) String() string {
 }
 
 type Primitive struct {
-	Exec func(vm *VM)
+	Exec     func(vm *VM)
+	Required int
 }
 
 func (c *Primitive) String() string {
@@ -393,14 +404,19 @@ func (i InstrLocalRef) Exec(vm *VM) {
 }
 
 type InstrClosureRef struct {
+	Up   int
 	Idx  int
 	Next Instr
 }
 
 func (i InstrClosureRef) Exec(vm *VM) {
 	tmp := vm.stack.Get(1)
-	self := tmp.(*Closure)
-	vm.val = self.Slot[i.Idx]
+	clo := tmp.(*Closure)
+	for v := i.Up; v > 0; v-- {
+		clo = clo.Parent
+	}
+
+	vm.val = clo.Slot[i.Idx]
 	vm.pc = i.Next
 }
 
@@ -421,25 +437,29 @@ func (i InstrIf) Exec(vm *VM) {
 }
 
 type InstrMakeClosure struct {
-	closed   []pos
+	closed   []int
 	code     Instr
 	required int
 	Next     Instr
 }
 
 func (i InstrMakeClosure) Exec(vm *VM) {
-	var slot []Obj
+	var parent *Closure
+	if raw, ok := vm.stack.Get(1).(*Closure); ok {
+		parent = raw
+	}
+	var slot map[int]Obj
 	if len(i.closed) > 0 {
-		slot = make([]Obj, len(i.closed))
-		for i, pos := range i.closed {
-			slot[i] = getClosureValueFromEnv(&vm.stack, pos.m, pos.n)
-			// fmt.Println("slot i =", i, slot[i], pos.m, pos.n)
+		slot = make(map[int]Obj, len(i.closed))
+		for _, off := range i.closed {
+			slot[off] = vm.stack.Get(off + 2)
 		}
 	}
 	vm.val = &Closure{
 		Required: i.required,
 		Code:     i.code,
 		Slot:     slot,
+		Parent:   parent,
 	}
 	vm.pc = i.Next
 }
@@ -461,9 +481,55 @@ type InstrCall struct {
 
 func (c InstrCall) Exec(vm *VM) {
 	fn := vm.stack.Get(-c.size)
-	raw := fn.(*Closure)
+	switch raw := fn.(type) {
+	case *Closure:
+		c.callClosure(vm, raw)
+	case *Curry:
+		c.callCurry(vm, raw)
+	default:
+		panic("can't call " + fn.String())
+	}
+}
+
+func (c InstrCall) callCurry(vm *VM, curry *Curry) {
+	tmp := append(curry.Closed, vm.stack.underlying[vm.stack.pos-c.size+1:vm.stack.pos]...)
+	vm.stack.pos = vm.stack.pos - c.size
+	for _, v := range tmp {
+		vm.stack.Push(v)
+	}
+	c1 := InstrCall{
+		size: len(tmp),
+		Next: c.Next,
+	}
+	vm.pc = c1
+}
+
+func (c InstrCall) callClosure(vm *VM, clo *Closure) {
+	argc := c.size - 1
+	switch {
+	case argc == clo.Required:
+		c.callClosureHotPath(vm, clo)
+	case argc < clo.Required:
+		vm.val = &Curry{
+			Required: clo.Required - argc,
+			Closed:   append([]Obj{}, vm.stack.underlying[vm.stack.pos-c.size:vm.stack.pos]...),
+		}
+		vm.stack.Resize(vm.stack.pos - c.size - 1)
+		if c.Next == nil {
+			panic("call closure")
+		} else {
+			vm.pc = c.Next
+		}
+	case argc > clo.Required:
+		c.callClosurePartial(vm, clo)
+	}
+}
+
+func (c InstrCall) callClosureHotPath(vm *VM, raw *Closure) {
 	code := raw.Code
-	if c.Next == nil { // Jump
+	if c.Next == nil {
+		panic("now never here?")
+	} else if c.Next == identity { // Jump
 		// Reuse the old stack.
 		for i := 0; i < c.size; i++ {
 			arg := vm.stack.Get(-c.size + i)
@@ -491,13 +557,55 @@ func (c InstrCall) Exec(vm *VM) {
 	vm.pc = code
 }
 
+func (c InstrCall) callClosurePartial(vm *VM, clo *Closure) {
+	// prepare a new stack for call
+	cc := Continuation{
+		Stack: vm.stack,
+		Code:  nil,
+	}
+	newBase := vm.stack.pos
+	vm.push(cc)
+	for i := 0; i < clo.Required+1; i++ {
+		vm.push(vm.stack.Get(i + 2))
+	}
+	vm.stack.base = newBase
+
+	// Call partial
+	for vm.pc = clo.Code; vm.pc != nil; {
+		vm.pc.Exec(vm)
+	}
+
+	// Handle the remain call
+	vm.stack.Set(2, vm.val)
+	for i := 0; i < c.size-1-clo.Required; i++ {
+		vm.stack.Set(i+3, vm.stack.Get(i+3+clo.Required))
+	}
+	vm.stack.Resize(c.size - clo.Required + 2)
+
+	c1 := InstrCall{
+		size: c.size - clo.Required,
+		Next: c.Next,
+	}
+	vm.pc = c1
+}
+
 type InstrPrimitive struct {
+	size int
 	prim *Primitive
 	Next Instr
 }
 
 func (c InstrPrimitive) Exec(vm *VM) {
 	raw := c.prim
+	// argc := c.size - 1
+	// if argc < raw.Required {
+	// 	vm.Return(&Curry{
+	// 		Required: raw.Required - argc,
+	// 		Closed:   append([]Obj{}, vm.stack.underlying[vm.stack.pos-c.size:vm.stack.pos]...),
+	// 	})
+	// 	return
+	// }
+
 	// Execute the primitive
 	raw.Exec(vm)
 	if c.Next == nil { // Jump
@@ -584,7 +692,7 @@ func (c *Compiler) compile(exp Obj, env *Env, cont Instr) Instr {
 			parent: env,
 			args:   args,
 		}
-		return compileLambda(args, body, newEnv, cont)
+		return c.compileLambda(args, body, newEnv, cont)
 	}
 
 	return c.compileCall(exp, env, cont)
@@ -602,7 +710,8 @@ func (c *Compiler) compileSymbol(exp *Symbol, env *Env, isCall bool, cont Instr)
 		// Closure value
 		c.closed = append(c.closed, pos{m, n})
 		return InstrClosureRef{
-			Idx:  len(c.closed) - 1,
+			Up:   m - 1,
+			Idx:  n,
 			Next: cont,
 		}
 	}
@@ -624,23 +733,23 @@ var identity = InstrPrimitive{
 	prim: primIdentify,
 }
 
-func compileLambda(args, body Obj, env *Env, cont Instr) Instr {
-	var c Compiler
-	code := c.compile(body, env, identity)
+func (c *Compiler) compileLambda(args, body Obj, env *Env, cont Instr) Instr {
+	var c1 Compiler
+	code := c1.compile(body, env, identity)
+	closed := make([]int, 0, len(c1.closed))
+	for _, p := range c1.closed {
+		if p.m == 1 {
+			closed = append(closed, p.n)
+		} else {
+			c.closed = append(c.closed, pos{p.m - 1, p.n})
+		}
+	}
 	return InstrMakeClosure{
-		closed:   c.closed,
+		closed:   closed,
 		code:     code,
 		required: listLength(args),
 		Next:     cont,
 	}
-}
-
-func getClosureValueFromEnv(f *stackFrame, m int, n int) Obj {
-	for ; m > 1; m = m - 1 {
-		k := f.Get(0).(Continuation)
-		f = &k.Stack
-	}
-	return f.Get(n + 2)
 }
 
 func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
@@ -648,44 +757,51 @@ func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
 		switch sym.str {
 		case "+":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primAdd,
 				Next: cont,
 			})
 		case "-":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primSub,
 				Next: cont,
 			})
 		case "=":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primEQ,
 				Next: cont,
 			})
 		case "*":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primMul,
 				Next: cont,
 			})
 		case "/":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primDiv,
 				Next: cont,
 			})
 		case "set":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primSet,
 				Next: cont,
 			})
 		case "value":
 			return c.compileList(cdr(exp), env, InstrPrimitive{
+				size: listLength(exp),
 				prim: primValue,
 				Next: cont,
 			})
 		default:
 			size := listLength(exp)
-			if cont == identity {
-				cont = nil
-			}
+			// if cont == identity {
+			// 	cont = nil
+			// }
 			return InstrPrepareCall{
 				next: c.compileSymbol(sym, env, true, InstrPush{
 					Next: c.compileList(cdr(exp), env, InstrCall{
@@ -723,7 +839,7 @@ func compileDefunMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 		parent: env,
 		args:   args,
 	}
-	return compileLambda(args, body, newEnv, InstrSet{
+	return c.compileLambda(args, body, newEnv, InstrSet{
 		Sym:  fName,
 		Next: cont,
 	})
@@ -776,7 +892,7 @@ func compileLetMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 
 func compileFreezeMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
 	// (freeze body) => (lambda () body)
-	return compileLambda(Nil, car(exp), env, cont)
+	return c.compileLambda(Nil, car(exp), env, cont)
 }
 
 func compileTypeMacro(c *Compiler, exp Obj, env *Env, cont Instr) Instr {
@@ -862,6 +978,7 @@ var primSet = &Primitive{
 		key.(*Symbol).val = val
 		vm.val = val
 	},
+	Required: 2,
 }
 
 var primValue = &Primitive{
@@ -870,6 +987,7 @@ var primValue = &Primitive{
 		val := key.(*Symbol).val
 		vm.val = val
 	},
+	Required: 1,
 }
 
 var primAdd = &Primitive{
@@ -878,6 +996,7 @@ var primAdd = &Primitive{
 		y := vm.pop().(Integer)
 		vm.val = Integer(x + y)
 	},
+	Required: 2,
 }
 
 var primSub = &Primitive{
@@ -886,6 +1005,7 @@ var primSub = &Primitive{
 		y := vm.pop().(Integer)
 		vm.val = Integer(y - x)
 	},
+	Required: 2,
 }
 
 var primMul = &Primitive{
@@ -894,6 +1014,7 @@ var primMul = &Primitive{
 		y := vm.pop().(Integer)
 		vm.val = Integer(x * y)
 	},
+	Required: 2,
 }
 
 var primDiv = &Primitive{
@@ -902,6 +1023,7 @@ var primDiv = &Primitive{
 		y := vm.pop().(Integer)
 		vm.val = Integer(y / x)
 	},
+	Required: 2,
 }
 
 var primEQ = &Primitive{
@@ -914,11 +1036,13 @@ var primEQ = &Primitive{
 			vm.val = False
 		}
 	},
+	Required: 2,
 }
 
 var primIdentify = &Primitive{
 	Exec: func(vm *VM) {
 	},
+	Required: 1,
 }
 
 /*
