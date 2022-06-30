@@ -158,19 +158,18 @@ var basicCases = []testCase{
 		input:  "42",
 		output: "42",
 	},
-	/*
-		testCase{
-			name:   "partial primitive1",
-			input:  `((+ 1) 2)`,
-			output: "3",
-		},
 
-		testCase{
-			name:   "partial primitive2",
-			input:  `(((+) 1) 2)`,
-			output: "3",
-		},
-	*/
+	testCase{
+		name:   "partial primitive1",
+		input:  `((+ 1) 2)`,
+		output: "3",
+	},
+
+	testCase{
+		name:   "partial primitive2",
+		input:  `(((+) 1) 2)`,
+		output: "3",
+	},
 }
 
 func TestBasic(t *testing.T) {
@@ -238,16 +237,6 @@ func TestXXX(t *testing.T) {
 	if err != nil && err != io.EOF {
 		panic(err)
 	}
-
-	// vm := New()
-	// xx := evalString(vm,"((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)")
-	// xx := evalString(vm,"(do (defun f (a b) b) (f 3))")
-	// xx := evalString(vm, `(do (defun f (x)
-	// 		 (do (defun ignore (z w)
-	// 		   (lambda y
-	// 		      z)) (ignore)))
-	// 		(((f 1) 2 3) 4))`)
-	// fmt.Println(xx.String(), "!!!")
 
 	var c Compiler
 	code := c.compile(sexp, nil, identity)

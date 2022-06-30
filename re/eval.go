@@ -196,6 +196,7 @@ func (c *Closure) String() string {
 type Curry struct {
 	Required int
 	Closed   []Obj
+	Prim     *Primitive
 }
 
 func (c *Curry) String() string {
@@ -497,11 +498,19 @@ func (c InstrCall) callCurry(vm *VM, curry *Curry) {
 	for _, v := range tmp {
 		vm.stack.Push(v)
 	}
-	c1 := InstrCall{
-		size: len(tmp),
-		Next: c.Next,
+
+	if curry.Prim != nil {
+		vm.pc = InstrPrimitive{
+			size: len(tmp),
+			prim: curry.Prim,
+			Next: c.Next,
+		}
+	} else {
+		vm.pc = InstrCall{
+			size: len(tmp),
+			Next: c.Next,
+		}
 	}
-	vm.pc = c1
 }
 
 func (c InstrCall) callClosure(vm *VM, clo *Closure) {
@@ -597,17 +606,19 @@ type InstrPrimitive struct {
 
 func (c InstrPrimitive) Exec(vm *VM) {
 	raw := c.prim
-	// argc := c.size - 1
-	// if argc < raw.Required {
-	// 	vm.Return(&Curry{
-	// 		Required: raw.Required - argc,
-	// 		Closed:   append([]Obj{}, vm.stack.underlying[vm.stack.pos-c.size:vm.stack.pos]...),
-	// 	})
-	// 	return
-	// }
+	if c.size == raw.Required || c == identity {
+		// Execute the primitive
+		raw.Exec(vm)
+	} else if c.size < raw.Required {
+		vm.val = &Curry{
+			Required: raw.Required - c.size,
+			Closed:   append([]Obj{}, vm.stack.underlying[vm.stack.pos-c.size:vm.stack.pos]...),
+			Prim:     c.prim,
+		}
+	} else {
+		panic("call primitive argc not match")
+	}
 
-	// Execute the primitive
-	raw.Exec(vm)
 	if c.Next == nil { // Jump
 		vm.Return(vm.val)
 	} else { // Call
@@ -754,57 +765,55 @@ func (c *Compiler) compileLambda(args, body Obj, env *Env, cont Instr) Instr {
 
 func (c *Compiler) compileCall(exp Obj, env *Env, cont Instr) Instr {
 	if sym, ok := car(exp).(*Symbol); ok {
+		remain := cdr(exp)
 		switch sym.str {
 		case "+":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primAdd,
 				Next: cont,
 			})
 		case "-":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primSub,
 				Next: cont,
 			})
 		case "=":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primEQ,
 				Next: cont,
 			})
 		case "*":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primMul,
 				Next: cont,
 			})
 		case "/":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primDiv,
 				Next: cont,
 			})
 		case "set":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primSet,
 				Next: cont,
 			})
 		case "value":
-			return c.compileList(cdr(exp), env, InstrPrimitive{
-				size: listLength(exp),
+			return c.compileList(remain, env, InstrPrimitive{
+				size: listLength(remain),
 				prim: primValue,
 				Next: cont,
 			})
 		default:
 			size := listLength(exp)
-			// if cont == identity {
-			// 	cont = nil
-			// }
 			return InstrPrepareCall{
 				next: c.compileSymbol(sym, env, true, InstrPush{
-					Next: c.compileList(cdr(exp), env, InstrCall{
+					Next: c.compileList(remain, env, InstrCall{
 						size: size,
 						Next: cont,
 					}),
