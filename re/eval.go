@@ -327,7 +327,7 @@ func (vm *VM) run(code Instr) {
 
 var _ Instr = InstrConst{}
 var _ Instr = InstrIf{}
-var _ Instr = InstrDo{}
+var _ Instr = InstrNop{}
 var _ Instr = InstrPush{}
 var _ Instr = InstrLocalRef{}
 var _ Instr = InstrClosureRef{}
@@ -336,9 +336,16 @@ var _ Instr = InstrPrimitive{}
 var _ Instr = InstrCall{}
 var _ Instr = InstrSet{}
 var _ Instr = InstrMakeClosure{}
+var _ Instr = InstrExit{}
 
 type Instr interface {
 	Exec(*VM)
+}
+
+type InstrExit struct {}
+
+func (_ InstrExit) Exec(vm *VM) {
+	vm.Return(vm.val)
 }
 
 type InstrConst struct {
@@ -376,11 +383,11 @@ func (s InstrSet) Exec(vm *VM) {
 	vm.pc = s.Next
 }
 
-type InstrDo struct {
+type InstrNop struct {
 	Next Instr
 }
 
-func (i InstrDo) Exec(vm *VM) {
+func (i InstrNop) Exec(vm *VM) {
 	vm.pc = i.Next
 }
 
@@ -517,7 +524,7 @@ func (c InstrCall) callClosure(vm *VM, clo *Closure) {
 	argc := c.size - 1
 	switch {
 	case argc == clo.Required:
-		c.callClosureHotPath(vm, clo)
+		c.callClosureNormal(vm, clo)
 	case argc < clo.Required:
 		vm.val = &Curry{
 			Required: clo.Required - argc,
@@ -534,7 +541,7 @@ func (c InstrCall) callClosure(vm *VM, clo *Closure) {
 	}
 }
 
-func (c InstrCall) callClosureHotPath(vm *VM, raw *Closure) {
+func (c InstrCall) callClosureNormal(vm *VM, raw *Closure) {
 	code := raw.Code
 	if c.Next == nil {
 		panic("now never here?")
@@ -606,7 +613,7 @@ type InstrPrimitive struct {
 
 func (c InstrPrimitive) Exec(vm *VM) {
 	raw := c.prim
-	if c.size == raw.Required || c == identity {
+	if c.size == raw.Required {
 		// Execute the primitive
 		raw.Exec(vm)
 	} else if c.size < raw.Required {
@@ -690,7 +697,7 @@ func (c *Compiler) compile(exp Obj, env *Env, cont Instr) Instr {
 			Else: elseCont,
 		})
 	case symDo:
-		return c.compile(cadr(raw), env, InstrDo{
+		return c.compile(cadr(raw), env, InstrNop{
 			Next: c.compile(caddr(raw), env, cont),
 		})
 	case symLambda:
@@ -740,9 +747,7 @@ func (c *Compiler) compileSymbol(exp *Symbol, env *Env, isCall bool, cont Instr)
 	}
 }
 
-var identity = InstrPrimitive{
-	prim: primIdentify,
-}
+var identity = InstrExit{}
 
 func (c *Compiler) compileLambda(args, body Obj, env *Env, cont Instr) Instr {
 	var c1 Compiler
