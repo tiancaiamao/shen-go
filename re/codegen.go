@@ -1,122 +1,165 @@
 package re
 
 import (
+	"os"
+	"bytes"
+	"io"
 	"fmt"
 )
 
-func instrGenC(i Instr) {
-	gen, ok := i.(interface{ GenC() })
+type CodeGen struct {
+	globals []io.ReadWriter
+	label int
+}
+
+func (cg *CodeGen) getLabel() int {
+	ret := cg.label
+	cg.label++
+	return ret
+}
+
+func (cg *CodeGen) GenC(i Instr) {
+	var to bytes.Buffer
+	instrGenC(i, cg, &to)
+
+	for _, out := range cg.globals {
+		io.Copy(os.Stdout, out)
+		fmt.Println()
+	}
+
+	fmt.Printf("void entry(struct VM *vm) {\n")
+	io.Copy(os.Stdout, &to)
+	fmt.Printf("}\n")
+}
+
+func instrGenC(i Instr, cg *CodeGen, to io.Writer) {
+	gen, ok := i.(interface{ GenC(*CodeGen, io.Writer) })
 	if !ok {
 		fmt.Println("unknown instruct")
 		panic(i)
 	}
-	gen.GenC()
+	gen.GenC(cg, to)
 }
 
-func (c InstrPush) GenC() {
-	fmt.Printf("push(vm, vm.val);\n")
-	instrGenC(c.Next)
+func (c InstrPush) GenC(cg *CodeGen, to io.Writer) {
+	fmt.Fprintf(to, "push(vm, vm->val);\n")
+	instrGenC(c.Next, cg, to)
 }
 
-func (c InstrConst) GenC() {
+func (c InstrConst) GenC(cg *CodeGen, to io.Writer) {
 	// fmt.Println("// InstrConst")
 	switch raw := c.Val.(type) {
 	case nilObj:
-		fmt.Printf("vm.val = Nil;\n")
+		fmt.Fprintf(to, "vm->val = Nil;\n")
 	case booleanObj:
 		if c.Val == True {
-			fmt.Printf("vm.val = True;\n")
+			fmt.Fprintf(to, "vm->val = True;\n")
 		} else if c.Val == False {
-			fmt.Printf("vm.val = False;\n")
+			fmt.Fprintf(to, "vm->val = False;\n")
 		}
 	case Integer:
-		fmt.Printf("vm.val = makeNumber(%d);\n", raw)
+		fmt.Fprintf(to, "vm->val = makeNumber(%d);\n", raw)
 	case Float64:
-		fmt.Printf("TODO InstrConst\n")
+		fmt.Fprintf(to, "TODO InstrConst\n")
 	case String:
-		fmt.Printf("vm.val = makeString(\"%s\"));\n", raw)
+		fmt.Fprintf(to, "vm->val = makeString(\"%s\"));\n", raw)
 	case *Symbol:
-		fmt.Printf("vm.val = makeSymbol(\"%s\"));\n", raw)
+		fmt.Fprintf(to, "vm->val = makeSymbol(\"%s\"));\n", raw)
 	default:
-		fmt.Printf("InstrConst unsupport type\n")
+		fmt.Fprintf(to, "InstrConst unsupport type\n")
 	}
-	instrGenC(c.Next)
+	instrGenC(c.Next, cg, to)
 }
 
-func (i InstrNop) GenC() {
+func (i InstrNop) GenC(cg *CodeGen, to io.Writer) {
 	// nop
-	fmt.Printf("vm.val = NULL; // nop\n")
-	instrGenC(i.Next)
+	fmt.Fprintf(to, "vm->val = NULL; // nop\n")
+	instrGenC(i.Next, cg, to)
 }
 
-func (i InstrLocalRef) GenC() {
+func (i InstrLocalRef) GenC(cg *CodeGen, to io.Writer) {
 	// fmt.Println("// InstrLocalRef")
-	fmt.Printf("vm.val = vmGet(vm, %d);\n", i.Idx+2)
-	instrGenC(i.Next)
+	fmt.Fprintf(to, "vm->val = vmGet(vm, %d);\n", i.Idx+2)
+	instrGenC(i.Next, cg, to)
 }
 
-func (i InstrGlobalRef) GenC() {
+func (i InstrGlobalRef) GenC(cg *CodeGen, to io.Writer) {
 	// fmt.Println("// InstrGlobalRef")
-	fmt.Printf("vm.val = symbolFn(%s);\n", i.sym)
-	instrGenC(i.Next)
+	fmt.Fprintf(to, "vm->val = symbolFn(%s);\n", i.sym)
+	instrGenC(i.Next, cg, to)
 }
 
-func (i InstrIf) GenC() {
+func (i InstrIf) GenC(cg *CodeGen, to io.Writer) {
 	// fmt.Println("// InstrIf")
-	fmt.Printf("if (vm.val == True) {\n")
+	fmt.Fprintf(to, "if (vm->val == True) {\n")
 
-	instrGenC(i.Then)
+	instrGenC(i.Then, cg, to)
 
-	fmt.Printf("} else if (vm.val == False) {\n")
+	fmt.Fprintf(to, "} else if (vm->val == False) {\n")
 
-	instrGenC(i.Else)
+	instrGenC(i.Else, cg, to)
 
-	fmt.Printf("} else {\n")
-	fmt.Printf("perror(\"if only accept true or false\");\n")
-	fmt.Printf("}\n")
+	fmt.Fprintf(to, "} else {\n")
+	fmt.Fprintf(to, "perror(\"if only accept true or false\");\n")
+	fmt.Fprintf(to, "}\n")
 }
 
-func (i InstrPrepareCall) GenC() {
+func (i InstrPrepareCall) GenC(cg *CodeGen, to io.Writer) {
 	// fmt.Println("// InstrPrepareCall")
-	fmt.Printf("push(vm, Nil);\n")
-	instrGenC(i.next)
+	fmt.Fprintf(to, "push(vm, Nil);\n")
+	instrGenC(i.next, cg, to)
 }
 
-func (c InstrCall) GenC() {
+func (c InstrCall) GenC(cg *CodeGen, to io.Writer) {
 	if c.Next == nil { // Jump
 		for i := 0; i < c.size; i++ {
-			fmt.Printf("Obj arg = get(vm, %d);\n", -c.size+i)
-			fmt.Printf("vmSet(vm, %d, arg);\n", i+1)
+			fmt.Fprintf(to, "Obj arg = get(vm, %d);\n", -c.size+i)
+			fmt.Fprintf(to, "vmSet(vm, %d, arg);\n", i+1)
 		}
-		fmt.Printf("vmResize(vm, %d);\n", c.size+1)
-		fmt.Printf("vm->pc = code;\n")
+		fmt.Fprintf(to, "vmResize(vm, %d);\n", c.size+1)
+		fmt.Fprintf(to, "vm->pc = code;\n")
 	} else { // Call
-		fmt.Printf("void fn_yy(struct VM *vm) {\n")
-		instrGenC(c.Next)
-		fmt.Printf("}\n")
-		fmt.Printf("instrCall(vm, %d, fn_yy);\n", c.size)
+		label := cg.getLabel()
+		var global bytes.Buffer
+		fmt.Fprintf(&global, "void fn_label_%d(struct VM *vm) {\n", label)
+		instrGenC(c.Next, cg, &global)
+		fmt.Fprintf(&global, "}\n")
+		cg.globals = append(cg.globals, &global)
+
+		fmt.Fprintf(to, "instrCall(vm, %d, fn_label_%d);\n", c.size, label)
 	}
 }
 
-func (i InstrPrimitive) GenC() {
+func (i InstrPrimitive) GenC(cg *CodeGen, to io.Writer) {
 	// fmt.Println("// InstrPrimitive")
-	fmt.Printf("primitiveXX();\n")
+	fmt.Fprintf(to, "prim%s(vm);\n", i.prim.Name)
 	if i.Next == nil { // Jump
-		fmt.Printf("vmReturn(vm, vm.val);\n")
+		fmt.Fprintf(to, "vmReturn(vm, vm->val);\n")
 	} else { // Call
-		instrGenC(i.Next)
+		instrGenC(i.Next, cg, to)
 	}
 }
 
-func (i InstrMakeClosure) GenC() {
-	fmt.Printf("// move this to global definition section\n")
-	fmt.Printf("void fn_xx(struct VM *vm) {\n")
-	instrGenC(i.code)
-	fmt.Printf("}\n")
-	fmt.Printf("vm.val = makeClosure(%d, fn_xx, NULL);\n", i.required)
-	instrGenC(i.Next)
+func (i InstrMakeClosure) GenC(cg *CodeGen, to io.Writer) {
+	var global bytes.Buffer
+	label := cg.getLabel()
+	fmt.Fprintf(&global, "void fn_label_%d(struct VM *vm) {\n", label)
+	instrGenC(i.code, cg, &global)
+	fmt.Fprintf(&global, "}\n")
+	cg.globals = append(cg.globals, &global)
+
+	fmt.Fprintf(to, "vm->val = makeClosure(%d, fn_label_%d, NULL);\n", i.required, label)
+	instrGenC(i.Next, cg, to)
 }
 
-func (i InstrExit) GenC() {
-	fmt.Printf("vmReturn(vm, vm.val);\n")
+func (i InstrExit) GenC(cg *CodeGen, to io.Writer) {
+	fmt.Fprintf(to, "vmReturn(vm, vm->val);\n")
+}
+
+func (i InstrClosureRef) GenC(cg *CodeGen, to io.Writer) {
+	panic("TODO: instr closure ref")
+}
+
+func (i InstrSet) GenC(cg *CodeGen, to io.Writer) {
+	panic("TODO: instr closure ref")
 }

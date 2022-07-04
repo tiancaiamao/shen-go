@@ -237,6 +237,7 @@ func (c Continuation) String() string {
 type Primitive struct {
 	Exec     func(vm *VM)
 	Required int
+	Name string
 }
 
 func (c *Primitive) String() string {
@@ -993,6 +994,7 @@ var primSet = &Primitive{
 		vm.val = val
 	},
 	Required: 2,
+	Name: "Set",
 }
 
 var primValue = &Primitive{
@@ -1002,6 +1004,7 @@ var primValue = &Primitive{
 		vm.val = val
 	},
 	Required: 1,
+	Name: "Value",
 }
 
 var primAdd = &Primitive{
@@ -1011,6 +1014,7 @@ var primAdd = &Primitive{
 		vm.val = Integer(x + y)
 	},
 	Required: 2,
+	Name: "Add",
 }
 
 var primSub = &Primitive{
@@ -1020,6 +1024,7 @@ var primSub = &Primitive{
 		vm.val = Integer(y - x)
 	},
 	Required: 2,
+	Name: "Sub",
 }
 
 var primMul = &Primitive{
@@ -1029,6 +1034,7 @@ var primMul = &Primitive{
 		vm.val = Integer(x * y)
 	},
 	Required: 2,
+	Name: "Mul",
 }
 
 var primDiv = &Primitive{
@@ -1038,6 +1044,7 @@ var primDiv = &Primitive{
 		vm.val = Integer(y / x)
 	},
 	Required: 2,
+	Name: "Div",
 }
 
 var primEQ = &Primitive{
@@ -1051,12 +1058,7 @@ var primEQ = &Primitive{
 		}
 	},
 	Required: 2,
-}
-
-var primIdentify = &Primitive{
-	Exec: func(vm *VM) {
-	},
-	Required: 1,
+	Name: "EQ",
 }
 
 /*

@@ -242,5 +242,6 @@ func TestXXX(t *testing.T) {
 	code := c.compile(sexp, nil, identity)
 	fmt.Printf("%#v\n", code)
 
-	instrGenC(code)
+	var cg CodeGen
+	cg.GenC(code)
 }
