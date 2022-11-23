@@ -1,0 +1,30 @@
+(defun f () (+ 1 (trap-error (+ 2 (simple-error "xxx")) (lambda e 2))))
+
+(defun recur (n)
+  (if (= n 0)
+      n
+    (recur (- n 1))))
+
+(defun fact0 (sum n)
+  (if (= n 0)
+      sum
+    (fact0 (* sum n) (- n 1))))
+
+(defun fact (n)
+  (fact0 1 n))
+
+(defun reverse-help (res l)
+  (if (= l ())
+      res
+    (reverse-help (cons (hd l) res) (tl l))))
+
+(defun reverse (l)
+    (reverse-help () l))
+
+(defun map-help (res f l)
+  (if (cons? l)
+      (map-help (cons (f (hd l)) res) f (tl l))
+    (reverse res)))
+
+(defun map (f l)
+  (map-help () f l))

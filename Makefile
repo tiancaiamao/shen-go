@@ -15,4 +15,5 @@ docker:
 	cp -a /tmp/shen ./shen
 
 test:
-	cd klambda; go test
+	cd kl; go test -v
+

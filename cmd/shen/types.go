@@ -1,50 +1,50 @@
 package main
 
-import . "github.com/tiancaiamao/shen-go/klambda"
+import . "github.com/tiancaiamao/shen-go/kl"
 
 var TypesMain = MakeNative(func(__e *ControlFlow) {
-	tmp16527 := MakeNative(func(__e *ControlFlow) {
+	tmp17505 := MakeNative(func(__e *ControlFlow) {
 		V4662 := __e.Get(1)
 		_ = V4662
 		V4663 := __e.Get(2)
 		_ = V4663
-		tmp16528 := MakeNative(func(__e *ControlFlow) {
+		tmp17506 := MakeNative(func(__e *ControlFlow) {
 			Rectify := __e.Get(1)
 			_ = Rectify
-			tmp16529 := MakeNative(func(__e *ControlFlow) {
+			tmp17507 := MakeNative(func(__e *ControlFlow) {
 				Variant_2 := __e.Get(1)
 				_ = Variant_2
-				tmp16530 := MakeNative(func(__e *ControlFlow) {
+				tmp17508 := MakeNative(func(__e *ControlFlow) {
 					Abstraction := __e.Get(1)
 					_ = Abstraction
-					tmp16531 := MakeNative(func(__e *ControlFlow) {
+					tmp17509 := MakeNative(func(__e *ControlFlow) {
 						UpDate := __e.Get(1)
 						_ = UpDate
 						__e.Return(V4662)
 						return
 					}, 1)
 
-					tmp16532 := PrimNS3Value(symshen_4_dsigf_d)
+					tmp17510 := PrimValue(symshen_4_dsigf_d)
 
-					tmp16533 := Call(__e, PrimNS2Value(symshen_4assoc_1_6), V4662, Abstraction, tmp16532)
+					tmp17511 := Call(__e, PrimFunc(symshen_4assoc_1_6), V4662, Abstraction, tmp17510)
 
-					tmp16534 := PrimNS3Set(symshen_4_dsigf_d, tmp16533)
+					tmp17512 := PrimSet(symshen_4_dsigf_d, tmp17511)
 
-					__e.TailApply(tmp16531, tmp16534)
+					__e.TailApply(tmp17509, tmp17512)
 					return
 
 				}, 1)
 
-				tmp16535 := Call(__e, PrimNS2Value(symshen_4prolog_1abstraction), V4663)
+				tmp17513 := Call(__e, PrimFunc(symshen_4prolog_1abstraction), V4663)
 
-				tmp16536 := Call(__e, PrimNS2Value(symeval_1kl), tmp16535)
+				tmp17514 := Call(__e, PrimFunc(symeval_1kl), tmp17513)
 
-				__e.TailApply(tmp16530, tmp16536)
+				__e.TailApply(tmp17508, tmp17514)
 				return
 
 			}, 1)
 
-			tmp16537 := MakeNative(func(__e *ControlFlow) {
+			tmp17515 := MakeNative(func(__e *ControlFlow) {
 				V4624 := __e.Get(1)
 				_ = V4624
 				__e.Return(MakeNative(func(__e *ControlFlow) {
@@ -56,19 +56,19 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 						__e.Return(MakeNative(func(__e *ControlFlow) {
 							C4627 := __e.Get(1)
 							_ = C4627
-							tmp16538 := Call(__e, PrimNS2Value(symshen_4incinfs))
+							tmp17516 := Call(__e, PrimFunc(symshen_4incinfs))
 
-							_ = tmp16538
+							_ = tmp17516
 
-							tmp16539 := Call(__e, PrimNS2Value(symshen_4deref), V4662, V4624)
+							tmp17517 := Call(__e, PrimFunc(symshen_4deref), V4662, V4624)
 
-							tmp16540 := Call(__e, PrimNS2Value(symreceive), tmp16539)
+							tmp17518 := Call(__e, PrimFunc(symreceive), tmp17517)
 
-							tmp16541 := Call(__e, PrimNS2Value(symshen_4deref), Rectify, V4624)
+							tmp17519 := Call(__e, PrimFunc(symshen_4deref), Rectify, V4624)
 
-							tmp16542 := Call(__e, PrimNS2Value(symreceive), tmp16541)
+							tmp17520 := Call(__e, PrimFunc(symreceive), tmp17519)
 
-							__e.TailApply(PrimNS2Value(symshen_4variancy), tmp16540, tmp16542, V4624, L4625, K4626, C4627)
+							__e.TailApply(PrimFunc(symshen_4variancy), tmp17518, tmp17520, V4624, L4625, K4626, C4627)
 							return
 
 						}, 1))
@@ -79,44 +79,44 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 				return
 			}, 1)
 
-			tmp16543 := Call(__e, PrimNS2Value(symshen_4reset_1prolog_1vector))
+			tmp17521 := Call(__e, PrimFunc(symshen_4reset_1prolog_1vector))
 
-			tmp16544 := Call(__e, tmp16537, tmp16543)
+			tmp17522 := Call(__e, tmp17515, tmp17521)
 
-			tmp16545 := Call(__e, PrimNS2Value(symvector), MakeNumber(0))
+			tmp17523 := Call(__e, PrimFunc(symvector), MakeNumber(0))
 
-			tmp16546 := Call(__e, PrimNS2Value(sym_8v), MakeNumber(0), tmp16545)
+			tmp17524 := Call(__e, PrimFunc(sym_8v), MakeNumber(0), tmp17523)
 
-			tmp16547 := Call(__e, PrimNS2Value(sym_8v), True, tmp16546)
+			tmp17525 := Call(__e, PrimFunc(sym_8v), True, tmp17524)
 
-			tmp16548 := Call(__e, tmp16544, tmp16547)
+			tmp17526 := Call(__e, tmp17522, tmp17525)
 
-			tmp16549 := Call(__e, tmp16548, MakeNumber(0))
+			tmp17527 := Call(__e, tmp17526, MakeNumber(0))
 
-			tmp16550 := MakeNative(func(__e *ControlFlow) {
+			tmp17528 := MakeNative(func(__e *ControlFlow) {
 				__e.Return(True)
 				return
 			}, 0)
 
-			tmp16551 := Call(__e, tmp16549, tmp16550)
+			tmp17529 := Call(__e, tmp17527, tmp17528)
 
-			__e.TailApply(tmp16529, tmp16551)
+			__e.TailApply(tmp17507, tmp17529)
 			return
 
 		}, 1)
 
-		tmp16552 := Call(__e, PrimNS2Value(symshen_4rectify_1type), V4663)
+		tmp17530 := Call(__e, PrimFunc(symshen_4rectify_1type), V4663)
 
-		__e.TailApply(tmp16528, tmp16552)
+		__e.TailApply(tmp17506, tmp17530)
 		return
 
 	}, 2)
 
-	tmp16553 := Call(__e, PrimNS2Value(symdef), symdeclare, tmp16527)
+	tmp17531 := Call(__e, ns2_1set, symdeclare, tmp17505)
 
-	_ = tmp16553
+	_ = tmp17531
 
-	tmp16554 := MakeNative(func(__e *ControlFlow) {
+	tmp17532 := MakeNative(func(__e *ControlFlow) {
 		V4664 := __e.Get(1)
 		_ = V4664
 		V4665 := __e.Get(2)
@@ -129,31 +129,31 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 		_ = V4668
 		V4669 := __e.Get(6)
 		_ = V4669
-		tmp16561 := Call(__e, PrimNS2Value(symshen_4unlocked_2), V4667)
+		tmp17539 := Call(__e, PrimFunc(symshen_4unlocked_2), V4667)
 
-		if True == tmp16561 {
-			tmp16556 := MakeNative(func(__e *ControlFlow) {
+		if True == tmp17539 {
+			tmp17533 := MakeNative(func(__e *ControlFlow) {
 				A := __e.Get(1)
 				_ = A
-				tmp16557 := Call(__e, PrimNS2Value(symshen_4incinfs))
+				tmp17534 := Call(__e, PrimFunc(symshen_4incinfs))
 
-				_ = tmp16557
+				_ = tmp17534
 
-				tmp16558 := MakeNative(func(__e *ControlFlow) {
-					__e.TailApply(PrimNS2Value(symshen_4variants_2), V4664, A, V4665, V4666, V4667, V4668, V4669)
+				tmp17535 := MakeNative(func(__e *ControlFlow) {
+					__e.TailApply(PrimFunc(symshen_4variants_2), V4664, A, V4665, V4666, V4667, V4668, V4669)
 					return
 				}, 0)
 
-				tmp16559 := Call(__e, PrimNS2Value(symshen_4system_1S_1h), V4664, A, Nil, V4666, V4667, V4668, tmp16558)
+				tmp17536 := Call(__e, PrimFunc(symshen_4system_1S_1h), V4664, A, Nil, V4666, V4667, V4668, tmp17535)
 
-				__e.TailApply(PrimNS2Value(symshen_4gc), V4666, tmp16559)
+				__e.TailApply(PrimFunc(symshen_4gc), V4666, tmp17536)
 				return
 
 			}, 1)
 
-			tmp16560 := Call(__e, PrimNS2Value(symshen_4newpv), V4666)
+			tmp17537 := Call(__e, PrimFunc(symshen_4newpv), V4666)
 
-			__e.TailApply(tmp16556, tmp16560)
+			__e.TailApply(tmp17533, tmp17537)
 			return
 
 		} else {
@@ -163,11 +163,11 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 
 	}, 6)
 
-	tmp16562 := Call(__e, PrimNS2Value(symdef), symshen_4variancy, tmp16554)
+	tmp17540 := Call(__e, ns2_1set, symshen_4variancy, tmp17532)
 
-	_ = tmp16562
+	_ = tmp17540
 
-	tmp16563 := MakeNative(func(__e *ControlFlow) {
+	tmp17541 := MakeNative(func(__e *ControlFlow) {
 		V4670 := __e.Get(1)
 		_ = V4670
 		V4671 := __e.Get(2)
@@ -182,28 +182,28 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 		_ = V4675
 		V4676 := __e.Get(7)
 		_ = V4676
-		tmp16564 := MakeNative(func(__e *ControlFlow) {
+		tmp17542 := MakeNative(func(__e *ControlFlow) {
 			K4637 := __e.Get(1)
 			_ = K4637
-			tmp16565 := MakeNative(func(__e *ControlFlow) {
+			tmp17543 := MakeNative(func(__e *ControlFlow) {
 				C4642 := __e.Get(1)
 				_ = C4642
-				tmp16589 := PrimEqual(C4642, False)
+				tmp17567 := PrimEqual(C4642, False)
 
-				if True == tmp16589 {
-					tmp16567 := MakeNative(func(__e *ControlFlow) {
+				if True == tmp17567 {
+					tmp17544 := MakeNative(func(__e *ControlFlow) {
 						C4645 := __e.Get(1)
 						_ = C4645
-						tmp16584 := PrimEqual(C4645, False)
+						tmp17561 := PrimEqual(C4645, False)
 
-						if True == tmp16584 {
-							tmp16569 := MakeNative(func(__e *ControlFlow) {
+						if True == tmp17561 {
+							tmp17545 := MakeNative(func(__e *ControlFlow) {
 								C4646 := __e.Get(1)
 								_ = C4646
-								tmp16571 := PrimEqual(C4646, False)
+								tmp17547 := PrimEqual(C4646, False)
 
-								if True == tmp16571 {
-									__e.TailApply(PrimNS2Value(symshen_4unlock), V4674, K4637)
+								if True == tmp17547 {
+									__e.TailApply(PrimFunc(symshen_4unlock), V4674, K4637)
 									return
 								} else {
 									__e.Return(C4646)
@@ -212,47 +212,47 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 
 							}, 1)
 
-							tmp16583 := Call(__e, PrimNS2Value(symshen_4unlocked_2), V4674)
+							tmp17559 := Call(__e, PrimFunc(symshen_4unlocked_2), V4674)
 
-							var ifres16572 Obj
+							var ifres17548 Obj
 
-							if True == tmp16583 {
-								tmp16573 := MakeNative(func(__e *ControlFlow) {
+							if True == tmp17559 {
+								tmp17549 := MakeNative(func(__e *ControlFlow) {
 									Warning := __e.Get(1)
 									_ = Warning
-									tmp16574 := Call(__e, PrimNS2Value(symshen_4incinfs))
+									tmp17550 := Call(__e, PrimFunc(symshen_4incinfs))
 
-									_ = tmp16574
+									_ = tmp17550
 
-									tmp16575 := Call(__e, PrimNS2Value(symshen_4deref), V4670, V4673)
+									tmp17551 := Call(__e, PrimFunc(symshen_4deref), V4670, V4673)
 
-									tmp16576 := Call(__e, PrimNS2Value(symshen_4app), tmp16575, MakeString(" may create errors\n"), symshen_4a)
+									tmp17552 := Call(__e, PrimFunc(symshen_4app), tmp17551, MakeString(" may create errors\n"), symshen_4a)
 
-									tmp16577 := PrimStringConcat(MakeString("warning: changing the type of "), tmp16576)
+									tmp17553 := PrimStringConcat(MakeString("warning: changing the type of "), tmp17552)
 
-									tmp16578 := Call(__e, PrimNS2Value(symstoutput))
+									tmp17554 := Call(__e, PrimFunc(symstoutput))
 
-									tmp16579 := Call(__e, PrimNS2Value(sympr), tmp16577, tmp16578)
+									tmp17555 := Call(__e, PrimFunc(sympr), tmp17553, tmp17554)
 
-									tmp16580 := Call(__e, PrimNS2Value(symis), Warning, tmp16579, V4673, V4674, K4637, V4676)
+									tmp17556 := Call(__e, PrimFunc(symis), Warning, tmp17555, V4673, V4674, K4637, V4676)
 
-									__e.TailApply(PrimNS2Value(symshen_4gc), V4673, tmp16580)
+									__e.TailApply(PrimFunc(symshen_4gc), V4673, tmp17556)
 									return
 
 								}, 1)
 
-								tmp16581 := Call(__e, PrimNS2Value(symshen_4newpv), V4673)
+								tmp17557 := Call(__e, PrimFunc(symshen_4newpv), V4673)
 
-								tmp16582 := Call(__e, tmp16573, tmp16581)
+								tmp17558 := Call(__e, tmp17549, tmp17557)
 
-								ifres16572 = tmp16582
+								ifres17548 = tmp17558
 
 							} else {
-								ifres16572 = False
+								ifres17548 = False
 
 							}
 
-							__e.TailApply(tmp16569, ifres16572)
+							__e.TailApply(tmp17545, ifres17548)
 							return
 
 						} else {
@@ -262,25 +262,25 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 
 					}, 1)
 
-					tmp16588 := Call(__e, PrimNS2Value(symshen_4unlocked_2), V4674)
+					tmp17565 := Call(__e, PrimFunc(symshen_4unlocked_2), V4674)
 
-					var ifres16585 Obj
+					var ifres17562 Obj
 
-					if True == tmp16588 {
-						tmp16586 := Call(__e, PrimNS2Value(symshen_4incinfs))
+					if True == tmp17565 {
+						tmp17563 := Call(__e, PrimFunc(symshen_4incinfs))
 
-						_ = tmp16586
+						_ = tmp17563
 
-						tmp16587 := Call(__e, PrimNS2Value(symis_b), V4671, V4672, V4673, V4674, K4637, V4676)
+						tmp17564 := Call(__e, PrimFunc(symis_b), V4671, V4672, V4673, V4674, K4637, V4676)
 
-						ifres16585 = tmp16587
+						ifres17562 = tmp17564
 
 					} else {
-						ifres16585 = False
+						ifres17562 = False
 
 					}
 
-					__e.TailApply(tmp16567, ifres16585)
+					__e.TailApply(tmp17544, ifres17562)
 					return
 
 				} else {
@@ -290,27 +290,27 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 
 			}, 1)
 
-			tmp16601 := Call(__e, PrimNS2Value(symshen_4unlocked_2), V4674)
+			tmp17579 := Call(__e, PrimFunc(symshen_4unlocked_2), V4674)
 
-			var ifres16590 Obj
+			var ifres17568 Obj
 
-			if True == tmp16601 {
-				tmp16591 := MakeNative(func(__e *ControlFlow) {
+			if True == tmp17579 {
+				tmp17569 := MakeNative(func(__e *ControlFlow) {
 					Tm4643 := __e.Get(1)
 					_ = Tm4643
-					tmp16592 := MakeNative(func(__e *ControlFlow) {
+					tmp17570 := MakeNative(func(__e *ControlFlow) {
 						GoTo4644 := __e.Get(1)
 						_ = GoTo4644
-						tmp16596 := PrimEqual(Tm4643, symsymbol)
+						tmp17574 := PrimEqual(Tm4643, symsymbol)
 
-						if True == tmp16596 {
-							__e.TailApply(PrimNS2Value(symthaw), GoTo4644)
+						if True == tmp17574 {
+							__e.TailApply(PrimFunc(symthaw), GoTo4644)
 							return
 						} else {
-							tmp16595 := Call(__e, PrimNS2Value(symshen_4pvar_2), Tm4643)
+							tmp17572 := Call(__e, PrimFunc(symshen_4pvar_2), Tm4643)
 
-							if True == tmp16595 {
-								__e.TailApply(PrimNS2Value(symshen_4bind_b), Tm4643, symsymbol, V4673, GoTo4644)
+							if True == tmp17572 {
+								__e.TailApply(PrimFunc(symshen_4bind_b), Tm4643, symsymbol, V4673, GoTo4644)
 								return
 							} else {
 								__e.Return(False)
@@ -321,2524 +321,3385 @@ var TypesMain = MakeNative(func(__e *ControlFlow) {
 
 					}, 1)
 
-					tmp16597 := MakeNative(func(__e *ControlFlow) {
-						tmp16598 := Call(__e, PrimNS2Value(symshen_4incinfs))
+					tmp17575 := MakeNative(func(__e *ControlFlow) {
+						tmp17576 := Call(__e, PrimFunc(symshen_4incinfs))
 
-						_ = tmp16598
+						_ = tmp17576
 
-						__e.TailApply(PrimNS2Value(symshen_4cut), V4673, V4674, K4637, V4676)
+						__e.TailApply(PrimFunc(symshen_4cut), V4673, V4674, K4637, V4676)
 						return
 
 					}, 0)
 
-					__e.TailApply(tmp16592, tmp16597)
+					__e.TailApply(tmp17570, tmp17575)
 					return
 
 				}, 1)
 
-				tmp16599 := Call(__e, PrimNS2Value(symshen_4lazyderef), V4671, V4673)
+				tmp17577 := Call(__e, PrimFunc(symshen_4lazyderef), V4671, V4673)
 
-				tmp16600 := Call(__e, tmp16591, tmp16599)
+				tmp17578 := Call(__e, tmp17569, tmp17577)
 
-				ifres16590 = tmp16600
+				ifres17568 = tmp17578
 
 			} else {
-				ifres16590 = False
+				ifres17568 = False
 
 			}
 
-			__e.TailApply(tmp16565, ifres16590)
+			__e.TailApply(tmp17543, ifres17568)
 			return
 
 		}, 1)
 
-		tmp16602 := PrimNumberAdd(V4675, MakeNumber(1))
+		tmp17580 := PrimNumberAdd(V4675, MakeNumber(1))
 
-		__e.TailApply(tmp16564, tmp16602)
+		__e.TailApply(tmp17542, tmp17580)
 		return
 
 	}, 7)
 
-	tmp16603 := Call(__e, PrimNS2Value(symdef), symshen_4variants_2, tmp16563)
+	tmp17581 := Call(__e, ns2_1set, symshen_4variants_2, tmp17541)
 
-	_ = tmp16603
+	_ = tmp17581
 
-	tmp16604 := MakeNative(func(__e *ControlFlow) {
+	tmp17582 := MakeNative(func(__e *ControlFlow) {
 		V4677 := __e.Get(1)
 		_ = V4677
-		tmp16605 := MakeNative(func(__e *ControlFlow) {
+		tmp17583 := MakeNative(func(__e *ControlFlow) {
 			Bindings := __e.Get(1)
 			_ = Bindings
-			tmp16606 := MakeNative(func(__e *ControlFlow) {
+			tmp17584 := MakeNative(func(__e *ControlFlow) {
 				Lock := __e.Get(1)
 				_ = Lock
-				tmp16607 := MakeNative(func(__e *ControlFlow) {
+				tmp17585 := MakeNative(func(__e *ControlFlow) {
 					Key := __e.Get(1)
 					_ = Key
-					tmp16608 := MakeNative(func(__e *ControlFlow) {
+					tmp17586 := MakeNative(func(__e *ControlFlow) {
 						Continuation := __e.Get(1)
 						_ = Continuation
-						tmp16609 := MakeNative(func(__e *ControlFlow) {
+						tmp17587 := MakeNative(func(__e *ControlFlow) {
 							V := __e.Get(1)
 							_ = V
-							tmp16610 := MakeNative(func(__e *ControlFlow) {
+							tmp17588 := MakeNative(func(__e *ControlFlow) {
 								Vs := __e.Get(1)
 								_ = Vs
-								tmp16611 := Call(__e, PrimNS2Value(symshen_4rcons__form), V4677)
+								tmp17589 := Call(__e, PrimFunc(symshen_4rcons__form), V4677)
 
-								tmp16612 := PrimCons(Continuation, Nil)
+								tmp17590 := PrimCons(Continuation, Nil)
 
-								tmp16613 := PrimCons(Key, tmp16612)
+								tmp17591 := PrimCons(Key, tmp17590)
 
-								tmp16614 := PrimCons(Lock, tmp16613)
+								tmp17592 := PrimCons(Lock, tmp17591)
 
-								tmp16615 := PrimCons(Bindings, tmp16614)
+								tmp17593 := PrimCons(Bindings, tmp17592)
 
-								tmp16616 := PrimCons(tmp16611, tmp16615)
+								tmp17594 := PrimCons(tmp17589, tmp17593)
 
-								tmp16617 := PrimCons(V, tmp16616)
+								tmp17595 := PrimCons(V, tmp17594)
 
-								tmp16618 := PrimCons(symis_b, tmp16617)
+								tmp17596 := PrimCons(symis_b, tmp17595)
 
-								tmp16619 := Call(__e, PrimNS2Value(symshen_4stpart), Vs, tmp16618, Bindings)
+								tmp17597 := Call(__e, PrimFunc(symshen_4stpart), Vs, tmp17596, Bindings)
 
-								tmp16620 := PrimCons(tmp16619, Nil)
+								tmp17598 := PrimCons(tmp17597, Nil)
 
-								tmp16621 := PrimCons(Continuation, tmp16620)
+								tmp17599 := PrimCons(Continuation, tmp17598)
 
-								tmp16622 := PrimCons(symlambda, tmp16621)
+								tmp17600 := PrimCons(symlambda, tmp17599)
 
-								tmp16623 := PrimCons(tmp16622, Nil)
+								tmp17601 := PrimCons(tmp17600, Nil)
 
-								tmp16624 := PrimCons(Key, tmp16623)
+								tmp17602 := PrimCons(Key, tmp17601)
 
-								tmp16625 := PrimCons(symlambda, tmp16624)
+								tmp17603 := PrimCons(symlambda, tmp17602)
 
-								tmp16626 := PrimCons(tmp16625, Nil)
+								tmp17604 := PrimCons(tmp17603, Nil)
 
-								tmp16627 := PrimCons(Lock, tmp16626)
+								tmp17605 := PrimCons(Lock, tmp17604)
 
-								tmp16628 := PrimCons(symlambda, tmp16627)
+								tmp17606 := PrimCons(symlambda, tmp17605)
 
-								tmp16629 := PrimCons(tmp16628, Nil)
+								tmp17607 := PrimCons(tmp17606, Nil)
 
-								tmp16630 := PrimCons(Bindings, tmp16629)
+								tmp17608 := PrimCons(Bindings, tmp17607)
 
-								tmp16631 := PrimCons(symlambda, tmp16630)
+								tmp17609 := PrimCons(symlambda, tmp17608)
 
-								tmp16632 := PrimCons(tmp16631, Nil)
+								tmp17610 := PrimCons(tmp17609, Nil)
 
-								tmp16633 := PrimCons(V, tmp16632)
+								tmp17611 := PrimCons(V, tmp17610)
 
-								__e.Return(PrimCons(symlambda, tmp16633))
+								__e.Return(PrimCons(symlambda, tmp17611))
 								return
 
 							}, 1)
 
-							tmp16634 := Call(__e, PrimNS2Value(symshen_4extract_1vars), V4677)
+							tmp17612 := Call(__e, PrimFunc(symshen_4extract_1vars), V4677)
 
-							__e.TailApply(tmp16610, tmp16634)
+							__e.TailApply(tmp17588, tmp17612)
 							return
 
 						}, 1)
 
-						tmp16635 := Call(__e, PrimNS2Value(symprotect), symV)
+						tmp17613 := Call(__e, PrimFunc(symprotect), symV)
 
-						tmp16636 := Call(__e, PrimNS2Value(symgensym), tmp16635)
+						tmp17614 := Call(__e, PrimFunc(symgensym), tmp17613)
 
-						__e.TailApply(tmp16609, tmp16636)
+						__e.TailApply(tmp17587, tmp17614)
 						return
 
 					}, 1)
 
-					tmp16637 := Call(__e, PrimNS2Value(symprotect), symC)
+					tmp17615 := Call(__e, PrimFunc(symprotect), symC)
 
-					tmp16638 := Call(__e, PrimNS2Value(symgensym), tmp16637)
+					tmp17616 := Call(__e, PrimFunc(symgensym), tmp17615)
 
-					__e.TailApply(tmp16608, tmp16638)
+					__e.TailApply(tmp17586, tmp17616)
 					return
 
 				}, 1)
 
-				tmp16639 := Call(__e, PrimNS2Value(symprotect), symKey)
+				tmp17617 := Call(__e, PrimFunc(symprotect), symKey)
 
-				tmp16640 := Call(__e, PrimNS2Value(symgensym), tmp16639)
+				tmp17618 := Call(__e, PrimFunc(symgensym), tmp17617)
 
-				__e.TailApply(tmp16607, tmp16640)
+				__e.TailApply(tmp17585, tmp17618)
 				return
 
 			}, 1)
 
-			tmp16641 := Call(__e, PrimNS2Value(symprotect), symL)
+			tmp17619 := Call(__e, PrimFunc(symprotect), symL)
 
-			tmp16642 := Call(__e, PrimNS2Value(symgensym), tmp16641)
+			tmp17620 := Call(__e, PrimFunc(symgensym), tmp17619)
 
-			__e.TailApply(tmp16606, tmp16642)
+			__e.TailApply(tmp17584, tmp17620)
 			return
 
 		}, 1)
 
-		tmp16643 := Call(__e, PrimNS2Value(symprotect), symB)
+		tmp17621 := Call(__e, PrimFunc(symprotect), symB)
 
-		tmp16644 := Call(__e, PrimNS2Value(symgensym), tmp16643)
+		tmp17622 := Call(__e, PrimFunc(symgensym), tmp17621)
 
-		__e.TailApply(tmp16605, tmp16644)
+		__e.TailApply(tmp17583, tmp17622)
 		return
 
 	}, 1)
 
-	tmp16645 := Call(__e, PrimNS2Value(symdef), symshen_4prolog_1abstraction, tmp16604)
+	tmp17623 := Call(__e, ns2_1set, symshen_4prolog_1abstraction, tmp17582)
 
-	_ = tmp16645
+	_ = tmp17623
 
-	tmp16646 := MakeNative(func(__e *ControlFlow) {
+	tmp17624 := MakeNative(func(__e *ControlFlow) {
 		V4678 := __e.Get(1)
 		_ = V4678
 		__e.Return(V4678)
 		return
 	}, 1)
 
-	tmp16647 := Call(__e, PrimNS2Value(symdef), symshen_4demod, tmp16646)
+	tmp17625 := Call(__e, ns2_1set, symshen_4demod, tmp17624)
 
-	_ = tmp16647
+	_ = tmp17625
 
-	tmp16648 := PrimCons(symA, Nil)
+	tmp17626 := PrimCons(symA, Nil)
 
-	tmp16649 := PrimCons(sym_1_1_6, tmp16648)
+	tmp17627 := PrimCons(sym_1_1_6, tmp17626)
 
-	tmp16650 := Call(__e, PrimNS2Value(symdeclare), symabort, tmp16649)
+	tmp17628 := Call(__e, PrimFunc(symdeclare), symabort, tmp17627)
 
-	_ = tmp16650
+	_ = tmp17628
 
-	tmp16651 := PrimCons(symboolean, Nil)
+	tmp17629 := PrimCons(symboolean, Nil)
 
-	tmp16652 := PrimCons(sym_1_1_6, tmp16651)
+	tmp17630 := PrimCons(sym_1_1_6, tmp17629)
 
-	tmp16653 := PrimCons(symA, tmp16652)
+	tmp17631 := PrimCons(symA, tmp17630)
 
-	tmp16654 := Call(__e, PrimNS2Value(symdeclare), symabsvector_2, tmp16653)
+	tmp17632 := Call(__e, PrimFunc(symdeclare), symabsvector_2, tmp17631)
 
-	_ = tmp16654
+	_ = tmp17632
 
-	tmp16655 := PrimCons(symA, Nil)
+	tmp17633 := PrimCons(symA, Nil)
 
-	tmp16656 := PrimCons(symlist, tmp16655)
+	tmp17634 := PrimCons(symlist, tmp17633)
 
-	tmp16657 := PrimCons(symA, Nil)
+	tmp17635 := PrimCons(symA, Nil)
 
-	tmp16658 := PrimCons(symlist, tmp16657)
+	tmp17636 := PrimCons(symlist, tmp17635)
 
-	tmp16659 := PrimCons(tmp16658, Nil)
+	tmp17637 := PrimCons(tmp17636, Nil)
 
-	tmp16660 := PrimCons(sym_1_1_6, tmp16659)
+	tmp17638 := PrimCons(sym_1_1_6, tmp17637)
 
-	tmp16661 := PrimCons(tmp16656, tmp16660)
+	tmp17639 := PrimCons(tmp17634, tmp17638)
 
-	tmp16662 := PrimCons(tmp16661, Nil)
+	tmp17640 := PrimCons(tmp17639, Nil)
 
-	tmp16663 := PrimCons(sym_1_1_6, tmp16662)
+	tmp17641 := PrimCons(sym_1_1_6, tmp17640)
 
-	tmp16664 := PrimCons(symA, tmp16663)
+	tmp17642 := PrimCons(symA, tmp17641)
 
-	tmp16665 := Call(__e, PrimNS2Value(symdeclare), symadjoin, tmp16664)
+	tmp17643 := Call(__e, PrimFunc(symdeclare), symadjoin, tmp17642)
 
-	_ = tmp16665
+	_ = tmp17643
 
-	tmp16666 := PrimCons(symboolean, Nil)
+	tmp17644 := PrimCons(symboolean, Nil)
 
-	tmp16667 := PrimCons(sym_1_1_6, tmp16666)
+	tmp17645 := PrimCons(sym_1_1_6, tmp17644)
 
-	tmp16668 := PrimCons(symboolean, tmp16667)
+	tmp17646 := PrimCons(symboolean, tmp17645)
 
-	tmp16669 := PrimCons(tmp16668, Nil)
+	tmp17647 := PrimCons(tmp17646, Nil)
 
-	tmp16670 := PrimCons(sym_1_1_6, tmp16669)
+	tmp17648 := PrimCons(sym_1_1_6, tmp17647)
 
-	tmp16671 := PrimCons(symboolean, tmp16670)
+	tmp17649 := PrimCons(symboolean, tmp17648)
 
-	tmp16672 := Call(__e, PrimNS2Value(symdeclare), symand, tmp16671)
+	tmp17650 := Call(__e, PrimFunc(symdeclare), symand, tmp17649)
 
-	_ = tmp16672
+	_ = tmp17650
 
-	tmp16673 := PrimCons(symstring, Nil)
+	tmp17651 := PrimCons(symstring, Nil)
 
-	tmp16674 := PrimCons(sym_1_1_6, tmp16673)
+	tmp17652 := PrimCons(sym_1_1_6, tmp17651)
 
-	tmp16675 := PrimCons(symsymbol, tmp16674)
+	tmp17653 := PrimCons(symsymbol, tmp17652)
 
-	tmp16676 := PrimCons(tmp16675, Nil)
+	tmp17654 := PrimCons(tmp17653, Nil)
 
-	tmp16677 := PrimCons(sym_1_1_6, tmp16676)
+	tmp17655 := PrimCons(sym_1_1_6, tmp17654)
 
-	tmp16678 := PrimCons(symstring, tmp16677)
+	tmp17656 := PrimCons(symstring, tmp17655)
 
-	tmp16679 := PrimCons(tmp16678, Nil)
+	tmp17657 := PrimCons(tmp17656, Nil)
 
-	tmp16680 := PrimCons(sym_1_1_6, tmp16679)
+	tmp17658 := PrimCons(sym_1_1_6, tmp17657)
 
-	tmp16681 := PrimCons(symA, tmp16680)
+	tmp17659 := PrimCons(symA, tmp17658)
 
-	tmp16682 := Call(__e, PrimNS2Value(symdeclare), symshen_4app, tmp16681)
+	tmp17660 := Call(__e, PrimFunc(symdeclare), symshen_4app, tmp17659)
 
-	_ = tmp16682
+	_ = tmp17660
 
-	tmp16683 := PrimCons(symA, Nil)
+	tmp17661 := PrimCons(symA, Nil)
 
-	tmp16684 := PrimCons(symlist, tmp16683)
+	tmp17662 := PrimCons(symlist, tmp17661)
 
-	tmp16685 := PrimCons(symA, Nil)
+	tmp17663 := PrimCons(symA, Nil)
 
-	tmp16686 := PrimCons(symlist, tmp16685)
+	tmp17664 := PrimCons(symlist, tmp17663)
 
-	tmp16687 := PrimCons(symA, Nil)
+	tmp17665 := PrimCons(symA, Nil)
 
-	tmp16688 := PrimCons(symlist, tmp16687)
+	tmp17666 := PrimCons(symlist, tmp17665)
 
-	tmp16689 := PrimCons(tmp16688, Nil)
+	tmp17667 := PrimCons(tmp17666, Nil)
 
-	tmp16690 := PrimCons(sym_1_1_6, tmp16689)
+	tmp17668 := PrimCons(sym_1_1_6, tmp17667)
 
-	tmp16691 := PrimCons(tmp16686, tmp16690)
+	tmp17669 := PrimCons(tmp17664, tmp17668)
 
-	tmp16692 := PrimCons(tmp16691, Nil)
+	tmp17670 := PrimCons(tmp17669, Nil)
 
-	tmp16693 := PrimCons(sym_1_1_6, tmp16692)
+	tmp17671 := PrimCons(sym_1_1_6, tmp17670)
 
-	tmp16694 := PrimCons(tmp16684, tmp16693)
+	tmp17672 := PrimCons(tmp17662, tmp17671)
 
-	tmp16695 := Call(__e, PrimNS2Value(symdeclare), symappend, tmp16694)
+	tmp17673 := Call(__e, PrimFunc(symdeclare), symappend, tmp17672)
 
-	_ = tmp16695
+	_ = tmp17673
 
-	tmp16696 := PrimCons(symnumber, Nil)
+	tmp17674 := PrimCons(symnumber, Nil)
 
-	tmp16697 := PrimCons(sym_1_1_6, tmp16696)
+	tmp17675 := PrimCons(sym_1_1_6, tmp17674)
 
-	tmp16698 := PrimCons(symA, tmp16697)
+	tmp17676 := PrimCons(symA, tmp17675)
 
-	tmp16699 := Call(__e, PrimNS2Value(symdeclare), symarity, tmp16698)
+	tmp17677 := Call(__e, PrimFunc(symdeclare), symarity, tmp17676)
 
-	_ = tmp16699
+	_ = tmp17677
 
-	tmp16700 := PrimCons(symA, Nil)
+	tmp17678 := PrimCons(symA, Nil)
 
-	tmp16701 := PrimCons(symlist, tmp16700)
+	tmp17679 := PrimCons(symlist, tmp17678)
 
-	tmp16702 := PrimCons(tmp16701, Nil)
+	tmp17680 := PrimCons(tmp17679, Nil)
 
-	tmp16703 := PrimCons(symlist, tmp16702)
+	tmp17681 := PrimCons(symlist, tmp17680)
 
-	tmp16704 := PrimCons(symA, Nil)
+	tmp17682 := PrimCons(symA, Nil)
 
-	tmp16705 := PrimCons(symlist, tmp16704)
+	tmp17683 := PrimCons(symlist, tmp17682)
 
-	tmp16706 := PrimCons(tmp16705, Nil)
+	tmp17684 := PrimCons(tmp17683, Nil)
 
-	tmp16707 := PrimCons(sym_1_1_6, tmp16706)
+	tmp17685 := PrimCons(sym_1_1_6, tmp17684)
 
-	tmp16708 := PrimCons(tmp16703, tmp16707)
+	tmp17686 := PrimCons(tmp17681, tmp17685)
 
-	tmp16709 := PrimCons(tmp16708, Nil)
+	tmp17687 := PrimCons(tmp17686, Nil)
 
-	tmp16710 := PrimCons(sym_1_1_6, tmp16709)
+	tmp17688 := PrimCons(sym_1_1_6, tmp17687)
 
-	tmp16711 := PrimCons(symA, tmp16710)
+	tmp17689 := PrimCons(symA, tmp17688)
 
-	tmp16712 := Call(__e, PrimNS2Value(symdeclare), symassoc, tmp16711)
+	tmp17690 := Call(__e, PrimFunc(symdeclare), symassoc, tmp17689)
 
-	_ = tmp16712
+	_ = tmp17690
 
-	tmp16713 := PrimCons(symboolean, Nil)
+	tmp17691 := PrimCons(symboolean, Nil)
 
-	tmp16714 := PrimCons(sym_1_1_6, tmp16713)
+	tmp17692 := PrimCons(sym_1_1_6, tmp17691)
 
-	tmp16715 := PrimCons(symA, tmp16714)
+	tmp17693 := PrimCons(symA, tmp17692)
 
-	tmp16716 := Call(__e, PrimNS2Value(symdeclare), symatom_2, tmp16715)
+	tmp17694 := Call(__e, PrimFunc(symdeclare), symatom_2, tmp17693)
 
-	_ = tmp16716
+	_ = tmp17694
 
-	tmp16717 := PrimCons(symboolean, Nil)
+	tmp17695 := PrimCons(symboolean, Nil)
 
-	tmp16718 := PrimCons(sym_1_1_6, tmp16717)
+	tmp17696 := PrimCons(sym_1_1_6, tmp17695)
 
-	tmp16719 := PrimCons(symA, tmp16718)
+	tmp17697 := PrimCons(symA, tmp17696)
 
-	tmp16720 := Call(__e, PrimNS2Value(symdeclare), symboolean_2, tmp16719)
+	tmp17698 := Call(__e, PrimFunc(symdeclare), symboolean_2, tmp17697)
 
-	_ = tmp16720
+	_ = tmp17698
 
-	tmp16721 := PrimCons(symstring, Nil)
+	tmp17699 := PrimCons(symstring, Nil)
 
-	tmp16722 := PrimCons(sym_1_1_6, tmp16721)
+	tmp17700 := PrimCons(sym_1_1_6, tmp17699)
 
-	tmp16723 := PrimCons(symstring, tmp16722)
+	tmp17701 := PrimCons(symstring, tmp17700)
 
-	tmp16724 := Call(__e, PrimNS2Value(symdeclare), symbootstrap, tmp16723)
+	tmp17702 := Call(__e, PrimFunc(symdeclare), symbootstrap, tmp17701)
 
-	_ = tmp16724
+	_ = tmp17702
 
-	tmp16725 := PrimCons(symboolean, Nil)
+	tmp17703 := PrimCons(symboolean, Nil)
 
-	tmp16726 := PrimCons(sym_1_1_6, tmp16725)
+	tmp17704 := PrimCons(sym_1_1_6, tmp17703)
 
-	tmp16727 := PrimCons(symsymbol, tmp16726)
+	tmp17705 := PrimCons(symsymbol, tmp17704)
 
-	tmp16728 := Call(__e, PrimNS2Value(symdeclare), symbound_2, tmp16727)
+	tmp17706 := Call(__e, PrimFunc(symdeclare), symbound_2, tmp17705)
 
-	_ = tmp16728
+	_ = tmp17706
 
-	tmp16729 := PrimCons(symstring, Nil)
+	tmp17707 := PrimCons(symstring, Nil)
 
-	tmp16730 := PrimCons(sym_1_1_6, tmp16729)
+	tmp17708 := PrimCons(sym_1_1_6, tmp17707)
 
-	tmp16731 := PrimCons(symstring, tmp16730)
+	tmp17709 := PrimCons(symstring, tmp17708)
 
-	tmp16732 := Call(__e, PrimNS2Value(symdeclare), symcd, tmp16731)
+	tmp17710 := Call(__e, PrimFunc(symdeclare), symcd, tmp17709)
 
-	_ = tmp16732
+	_ = tmp17710
 
-	tmp16733 := PrimCons(symA, Nil)
+	tmp17711 := PrimCons(symA, Nil)
 
-	tmp16734 := PrimCons(symstream, tmp16733)
+	tmp17712 := PrimCons(symstream, tmp17711)
 
-	tmp16735 := PrimCons(symB, Nil)
+	tmp17713 := PrimCons(symB, Nil)
 
-	tmp16736 := PrimCons(symlist, tmp16735)
+	tmp17714 := PrimCons(symlist, tmp17713)
 
-	tmp16737 := PrimCons(tmp16736, Nil)
+	tmp17715 := PrimCons(tmp17714, Nil)
 
-	tmp16738 := PrimCons(sym_1_1_6, tmp16737)
+	tmp17716 := PrimCons(sym_1_1_6, tmp17715)
 
-	tmp16739 := PrimCons(tmp16734, tmp16738)
+	tmp17717 := PrimCons(tmp17712, tmp17716)
 
-	tmp16740 := Call(__e, PrimNS2Value(symdeclare), symclose, tmp16739)
+	tmp17718 := Call(__e, PrimFunc(symdeclare), symclose, tmp17717)
 
-	_ = tmp16740
+	_ = tmp17718
 
-	tmp16741 := PrimCons(symstring, Nil)
+	tmp17719 := PrimCons(symstring, Nil)
 
-	tmp16742 := PrimCons(sym_1_1_6, tmp16741)
+	tmp17720 := PrimCons(sym_1_1_6, tmp17719)
 
-	tmp16743 := PrimCons(symstring, tmp16742)
+	tmp17721 := PrimCons(symstring, tmp17720)
 
-	tmp16744 := PrimCons(tmp16743, Nil)
+	tmp17722 := PrimCons(tmp17721, Nil)
 
-	tmp16745 := PrimCons(sym_1_1_6, tmp16744)
+	tmp17723 := PrimCons(sym_1_1_6, tmp17722)
 
-	tmp16746 := PrimCons(symstring, tmp16745)
+	tmp17724 := PrimCons(symstring, tmp17723)
 
-	tmp16747 := Call(__e, PrimNS2Value(symdeclare), symcn, tmp16746)
+	tmp17725 := Call(__e, PrimFunc(symdeclare), symcn, tmp17724)
 
-	_ = tmp16747
+	_ = tmp17725
 
-	tmp16748 := PrimCons(symA, Nil)
+	tmp17726 := PrimCons(symA, Nil)
 
-	tmp16749 := PrimCons(symlist, tmp16748)
+	tmp17727 := PrimCons(symlist, tmp17726)
 
-	tmp16750 := PrimCons(symB, Nil)
+	tmp17728 := PrimCons(symB, Nil)
 
-	tmp16751 := PrimCons(tmp16749, tmp16750)
+	tmp17729 := PrimCons(tmp17727, tmp17728)
 
-	tmp16752 := PrimCons(symstr, tmp16751)
+	tmp17730 := PrimCons(symstr, tmp17729)
 
-	tmp16753 := PrimCons(symA, Nil)
+	tmp17731 := PrimCons(symA, Nil)
 
-	tmp16754 := PrimCons(symlist, tmp16753)
+	tmp17732 := PrimCons(symlist, tmp17731)
 
-	tmp16755 := PrimCons(symC, Nil)
+	tmp17733 := PrimCons(symC, Nil)
 
-	tmp16756 := PrimCons(tmp16754, tmp16755)
+	tmp17734 := PrimCons(tmp17732, tmp17733)
 
-	tmp16757 := PrimCons(symstr, tmp16756)
+	tmp17735 := PrimCons(symstr, tmp17734)
 
-	tmp16758 := PrimCons(tmp16757, Nil)
+	tmp17736 := PrimCons(tmp17735, Nil)
 
-	tmp16759 := PrimCons(sym_1_1_6, tmp16758)
+	tmp17737 := PrimCons(sym_1_1_6, tmp17736)
 
-	tmp16760 := PrimCons(tmp16752, tmp16759)
+	tmp17738 := PrimCons(tmp17730, tmp17737)
 
-	tmp16761 := PrimCons(symA, Nil)
+	tmp17739 := PrimCons(symA, Nil)
 
-	tmp16762 := PrimCons(symlist, tmp16761)
+	tmp17740 := PrimCons(symlist, tmp17739)
 
-	tmp16763 := PrimCons(symC, Nil)
+	tmp17741 := PrimCons(symC, Nil)
 
-	tmp16764 := PrimCons(sym_1_1_6, tmp16763)
+	tmp17742 := PrimCons(sym_1_1_6, tmp17741)
 
-	tmp16765 := PrimCons(tmp16762, tmp16764)
+	tmp17743 := PrimCons(tmp17740, tmp17742)
 
-	tmp16766 := PrimCons(tmp16765, Nil)
+	tmp17744 := PrimCons(tmp17743, Nil)
 
-	tmp16767 := PrimCons(sym_1_1_6, tmp16766)
+	tmp17745 := PrimCons(sym_1_1_6, tmp17744)
 
-	tmp16768 := PrimCons(tmp16760, tmp16767)
+	tmp17746 := PrimCons(tmp17738, tmp17745)
 
-	tmp16769 := Call(__e, PrimNS2Value(symdeclare), symcompile, tmp16768)
+	tmp17747 := Call(__e, PrimFunc(symdeclare), symcompile, tmp17746)
 
-	_ = tmp16769
+	_ = tmp17747
 
-	tmp16770 := PrimCons(symboolean, Nil)
+	tmp17748 := PrimCons(symboolean, Nil)
 
-	tmp16771 := PrimCons(sym_1_1_6, tmp16770)
+	tmp17749 := PrimCons(sym_1_1_6, tmp17748)
 
-	tmp16772 := PrimCons(symA, tmp16771)
+	tmp17750 := PrimCons(symA, tmp17749)
 
-	tmp16773 := Call(__e, PrimNS2Value(symdeclare), symcons_2, tmp16772)
+	tmp17751 := Call(__e, PrimFunc(symdeclare), symcons_2, tmp17750)
 
-	_ = tmp16773
+	_ = tmp17751
 
-	tmp16774 := PrimCons(symB, Nil)
+	tmp17752 := PrimCons(symB, Nil)
 
-	tmp16775 := PrimCons(sym_1_1_6, tmp16774)
+	tmp17753 := PrimCons(sym_1_1_6, tmp17752)
 
-	tmp16776 := PrimCons(symA, tmp16775)
+	tmp17754 := PrimCons(symA, tmp17753)
 
-	tmp16777 := PrimCons(symsymbol, Nil)
+	tmp17755 := PrimCons(symsymbol, Nil)
 
-	tmp16778 := PrimCons(sym_1_1_6, tmp16777)
+	tmp17756 := PrimCons(sym_1_1_6, tmp17755)
 
-	tmp16779 := PrimCons(tmp16776, tmp16778)
+	tmp17757 := PrimCons(tmp17754, tmp17756)
 
-	tmp16780 := Call(__e, PrimNS2Value(symdeclare), symdestroy, tmp16779)
+	tmp17758 := Call(__e, PrimFunc(symdeclare), symdestroy, tmp17757)
 
-	_ = tmp16780
+	_ = tmp17758
 
-	tmp16781 := PrimCons(symA, Nil)
+	tmp17759 := PrimCons(symA, Nil)
 
-	tmp16782 := PrimCons(symlist, tmp16781)
+	tmp17760 := PrimCons(symlist, tmp17759)
 
-	tmp16783 := PrimCons(symA, Nil)
+	tmp17761 := PrimCons(symA, Nil)
 
-	tmp16784 := PrimCons(symlist, tmp16783)
+	tmp17762 := PrimCons(symlist, tmp17761)
 
-	tmp16785 := PrimCons(symA, Nil)
+	tmp17763 := PrimCons(symA, Nil)
 
-	tmp16786 := PrimCons(symlist, tmp16785)
+	tmp17764 := PrimCons(symlist, tmp17763)
 
-	tmp16787 := PrimCons(tmp16786, Nil)
+	tmp17765 := PrimCons(tmp17764, Nil)
 
-	tmp16788 := PrimCons(sym_1_1_6, tmp16787)
+	tmp17766 := PrimCons(sym_1_1_6, tmp17765)
 
-	tmp16789 := PrimCons(tmp16784, tmp16788)
+	tmp17767 := PrimCons(tmp17762, tmp17766)
 
-	tmp16790 := PrimCons(tmp16789, Nil)
+	tmp17768 := PrimCons(tmp17767, Nil)
 
-	tmp16791 := PrimCons(sym_1_1_6, tmp16790)
+	tmp17769 := PrimCons(sym_1_1_6, tmp17768)
 
-	tmp16792 := PrimCons(tmp16782, tmp16791)
+	tmp17770 := PrimCons(tmp17760, tmp17769)
 
-	tmp16793 := Call(__e, PrimNS2Value(symdeclare), symdifference, tmp16792)
+	tmp17771 := Call(__e, PrimFunc(symdeclare), symdifference, tmp17770)
 
-	_ = tmp16793
+	_ = tmp17771
 
-	tmp16794 := PrimCons(symB, Nil)
+	tmp17772 := PrimCons(symB, Nil)
 
-	tmp16795 := PrimCons(sym_1_1_6, tmp16794)
+	tmp17773 := PrimCons(sym_1_1_6, tmp17772)
 
-	tmp16796 := PrimCons(symB, tmp16795)
+	tmp17774 := PrimCons(symB, tmp17773)
 
-	tmp16797 := PrimCons(tmp16796, Nil)
+	tmp17775 := PrimCons(tmp17774, Nil)
 
-	tmp16798 := PrimCons(sym_1_1_6, tmp16797)
+	tmp17776 := PrimCons(sym_1_1_6, tmp17775)
 
-	tmp16799 := PrimCons(symA, tmp16798)
+	tmp17777 := PrimCons(symA, tmp17776)
 
-	tmp16800 := Call(__e, PrimNS2Value(symdeclare), symdo, tmp16799)
+	tmp17778 := Call(__e, PrimFunc(symdeclare), symdo, tmp17777)
 
-	_ = tmp16800
+	_ = tmp17778
 
-	tmp16801 := PrimCons(symA, Nil)
+	tmp17779 := PrimCons(symA, Nil)
 
-	tmp16802 := PrimCons(symlist, tmp16801)
+	tmp17780 := PrimCons(symlist, tmp17779)
 
-	tmp16803 := PrimCons(symB, Nil)
+	tmp17781 := PrimCons(symB, Nil)
 
-	tmp16804 := PrimCons(tmp16802, tmp16803)
+	tmp17782 := PrimCons(tmp17780, tmp17781)
 
-	tmp16805 := PrimCons(symstr, tmp16804)
+	tmp17783 := PrimCons(symstr, tmp17782)
 
-	tmp16806 := PrimCons(symA, Nil)
+	tmp17784 := PrimCons(symA, Nil)
 
-	tmp16807 := PrimCons(symlist, tmp16806)
+	tmp17785 := PrimCons(symlist, tmp17784)
 
-	tmp16808 := PrimCons(symC, Nil)
+	tmp17786 := PrimCons(symC, Nil)
 
-	tmp16809 := PrimCons(symlist, tmp16808)
+	tmp17787 := PrimCons(symlist, tmp17786)
 
-	tmp16810 := PrimCons(tmp16809, Nil)
+	tmp17788 := PrimCons(tmp17787, Nil)
 
-	tmp16811 := PrimCons(tmp16807, tmp16810)
+	tmp17789 := PrimCons(tmp17785, tmp17788)
 
-	tmp16812 := PrimCons(symstr, tmp16811)
+	tmp17790 := PrimCons(symstr, tmp17789)
 
-	tmp16813 := PrimCons(tmp16812, Nil)
+	tmp17791 := PrimCons(tmp17790, Nil)
 
-	tmp16814 := PrimCons(sym_1_1_6, tmp16813)
+	tmp17792 := PrimCons(sym_1_1_6, tmp17791)
 
-	tmp16815 := PrimCons(tmp16805, tmp16814)
+	tmp17793 := PrimCons(tmp17783, tmp17792)
 
-	tmp16816 := Call(__e, PrimNS2Value(symdeclare), sym_5e_6, tmp16815)
+	tmp17794 := Call(__e, PrimFunc(symdeclare), sym_5e_6, tmp17793)
 
-	_ = tmp16816
+	_ = tmp17794
 
-	tmp16817 := PrimCons(symA, Nil)
+	tmp17795 := PrimCons(symA, Nil)
 
-	tmp16818 := PrimCons(symlist, tmp16817)
+	tmp17796 := PrimCons(symlist, tmp17795)
 
-	tmp16819 := PrimCons(symB, Nil)
+	tmp17797 := PrimCons(symB, Nil)
 
-	tmp16820 := PrimCons(tmp16818, tmp16819)
+	tmp17798 := PrimCons(tmp17796, tmp17797)
 
-	tmp16821 := PrimCons(symstr, tmp16820)
+	tmp17799 := PrimCons(symstr, tmp17798)
 
-	tmp16822 := PrimCons(symA, Nil)
+	tmp17800 := PrimCons(symA, Nil)
 
-	tmp16823 := PrimCons(symlist, tmp16822)
+	tmp17801 := PrimCons(symlist, tmp17800)
 
-	tmp16824 := PrimCons(symA, Nil)
+	tmp17802 := PrimCons(symA, Nil)
 
-	tmp16825 := PrimCons(symlist, tmp16824)
+	tmp17803 := PrimCons(symlist, tmp17802)
 
-	tmp16826 := PrimCons(tmp16825, Nil)
+	tmp17804 := PrimCons(tmp17803, Nil)
 
-	tmp16827 := PrimCons(tmp16823, tmp16826)
+	tmp17805 := PrimCons(tmp17801, tmp17804)
 
-	tmp16828 := PrimCons(symstr, tmp16827)
+	tmp17806 := PrimCons(symstr, tmp17805)
 
-	tmp16829 := PrimCons(tmp16828, Nil)
+	tmp17807 := PrimCons(tmp17806, Nil)
 
-	tmp16830 := PrimCons(sym_1_1_6, tmp16829)
+	tmp17808 := PrimCons(sym_1_1_6, tmp17807)
 
-	tmp16831 := PrimCons(tmp16821, tmp16830)
+	tmp17809 := PrimCons(tmp17799, tmp17808)
 
-	tmp16832 := Call(__e, PrimNS2Value(symdeclare), sym_5_b_6, tmp16831)
+	tmp17810 := Call(__e, PrimFunc(symdeclare), sym_5_b_6, tmp17809)
 
-	_ = tmp16832
+	_ = tmp17810
 
-	tmp16833 := PrimCons(symA, Nil)
+	tmp17811 := PrimCons(symA, Nil)
 
-	tmp16834 := PrimCons(symlist, tmp16833)
+	tmp17812 := PrimCons(symlist, tmp17811)
 
-	tmp16835 := PrimCons(symB, Nil)
+	tmp17813 := PrimCons(symB, Nil)
 
-	tmp16836 := PrimCons(tmp16834, tmp16835)
+	tmp17814 := PrimCons(tmp17812, tmp17813)
 
-	tmp16837 := PrimCons(symstr, tmp16836)
+	tmp17815 := PrimCons(symstr, tmp17814)
 
-	tmp16838 := PrimCons(symA, Nil)
+	tmp17816 := PrimCons(symA, Nil)
 
-	tmp16839 := PrimCons(symlist, tmp16838)
+	tmp17817 := PrimCons(symlist, tmp17816)
 
-	tmp16840 := PrimCons(symB, Nil)
+	tmp17818 := PrimCons(symB, Nil)
 
-	tmp16841 := PrimCons(tmp16839, tmp16840)
+	tmp17819 := PrimCons(tmp17817, tmp17818)
 
-	tmp16842 := PrimCons(symstr, tmp16841)
+	tmp17820 := PrimCons(symstr, tmp17819)
 
-	tmp16843 := PrimCons(tmp16842, Nil)
+	tmp17821 := PrimCons(tmp17820, Nil)
 
-	tmp16844 := PrimCons(sym_1_1_6, tmp16843)
+	tmp17822 := PrimCons(sym_1_1_6, tmp17821)
 
-	tmp16845 := PrimCons(tmp16837, tmp16844)
+	tmp17823 := PrimCons(tmp17815, tmp17822)
 
-	tmp16846 := Call(__e, PrimNS2Value(symdeclare), symshen_4_5end_6, tmp16845)
+	tmp17824 := Call(__e, PrimFunc(symdeclare), symshen_4_5end_6, tmp17823)
 
-	_ = tmp16846
+	_ = tmp17824
 
-	tmp16847 := PrimCons(symA, Nil)
+	tmp17825 := PrimCons(symA, Nil)
 
-	tmp16848 := PrimCons(symlist, tmp16847)
+	tmp17826 := PrimCons(symlist, tmp17825)
 
-	tmp16849 := PrimCons(symB, Nil)
+	tmp17827 := PrimCons(symB, Nil)
 
-	tmp16850 := PrimCons(tmp16848, tmp16849)
+	tmp17828 := PrimCons(tmp17826, tmp17827)
 
-	tmp16851 := PrimCons(symstr, tmp16850)
+	tmp17829 := PrimCons(symstr, tmp17828)
 
-	tmp16852 := PrimCons(symboolean, Nil)
+	tmp17830 := PrimCons(symboolean, Nil)
 
-	tmp16853 := PrimCons(sym_1_1_6, tmp16852)
+	tmp17831 := PrimCons(sym_1_1_6, tmp17830)
 
-	tmp16854 := PrimCons(symA, tmp16853)
+	tmp17832 := PrimCons(symA, tmp17831)
 
-	tmp16855 := PrimCons(tmp16854, Nil)
+	tmp17833 := PrimCons(tmp17832, Nil)
 
-	tmp16856 := PrimCons(sym_1_1_6, tmp16855)
+	tmp17834 := PrimCons(sym_1_1_6, tmp17833)
 
-	tmp16857 := PrimCons(tmp16851, tmp16856)
+	tmp17835 := PrimCons(tmp17829, tmp17834)
 
-	tmp16858 := Call(__e, PrimNS2Value(symdeclare), symshen_4_ahd_2, tmp16857)
+	tmp17836 := Call(__e, PrimFunc(symdeclare), symshen_4_ahd_2, tmp17835)
 
-	_ = tmp16858
+	_ = tmp17836
 
-	tmp16859 := PrimCons(symA, Nil)
+	tmp17837 := PrimCons(symA, Nil)
 
-	tmp16860 := PrimCons(symlist, tmp16859)
+	tmp17838 := PrimCons(symlist, tmp17837)
 
-	tmp16861 := PrimCons(symB, Nil)
+	tmp17839 := PrimCons(symB, Nil)
 
-	tmp16862 := PrimCons(tmp16860, tmp16861)
+	tmp17840 := PrimCons(tmp17838, tmp17839)
 
-	tmp16863 := PrimCons(symstr, tmp16862)
+	tmp17841 := PrimCons(symstr, tmp17840)
 
-	tmp16864 := PrimCons(symA, Nil)
+	tmp17842 := PrimCons(symA, Nil)
 
-	tmp16865 := PrimCons(sym_1_1_6, tmp16864)
+	tmp17843 := PrimCons(sym_1_1_6, tmp17842)
 
-	tmp16866 := PrimCons(tmp16863, tmp16865)
+	tmp17844 := PrimCons(tmp17841, tmp17843)
 
-	tmp16867 := Call(__e, PrimNS2Value(symdeclare), symshen_4hds, tmp16866)
+	tmp17845 := Call(__e, PrimFunc(symdeclare), symshen_4hds, tmp17844)
 
-	_ = tmp16867
+	_ = tmp17845
 
-	tmp16868 := PrimCons(symA, Nil)
+	tmp17846 := PrimCons(symA, Nil)
 
-	tmp16869 := PrimCons(symlist, tmp16868)
+	tmp17847 := PrimCons(symlist, tmp17846)
 
-	tmp16870 := PrimCons(symB, Nil)
+	tmp17848 := PrimCons(symB, Nil)
 
-	tmp16871 := PrimCons(tmp16869, tmp16870)
+	tmp17849 := PrimCons(tmp17847, tmp17848)
 
-	tmp16872 := PrimCons(symstr, tmp16871)
+	tmp17850 := PrimCons(symstr, tmp17849)
 
-	tmp16873 := PrimCons(symA, Nil)
+	tmp17851 := PrimCons(symA, Nil)
 
-	tmp16874 := PrimCons(symlist, tmp16873)
+	tmp17852 := PrimCons(symlist, tmp17851)
 
-	tmp16875 := PrimCons(symB, Nil)
+	tmp17853 := PrimCons(symB, Nil)
 
-	tmp16876 := PrimCons(tmp16874, tmp16875)
+	tmp17854 := PrimCons(tmp17852, tmp17853)
 
-	tmp16877 := PrimCons(symstr, tmp16876)
+	tmp17855 := PrimCons(symstr, tmp17854)
 
-	tmp16878 := PrimCons(tmp16877, Nil)
+	tmp17856 := PrimCons(tmp17855, Nil)
 
-	tmp16879 := PrimCons(sym_1_1_6, tmp16878)
+	tmp17857 := PrimCons(sym_1_1_6, tmp17856)
 
-	tmp16880 := PrimCons(tmp16872, tmp16879)
+	tmp17858 := PrimCons(tmp17850, tmp17857)
 
-	tmp16881 := Call(__e, PrimNS2Value(symdeclare), symshen_4tls, tmp16880)
+	tmp17859 := Call(__e, PrimFunc(symdeclare), symshen_4tls, tmp17858)
 
-	_ = tmp16881
+	_ = tmp17859
 
-	tmp16882 := PrimCons(symA, Nil)
+	tmp17860 := PrimCons(symA, Nil)
 
-	tmp16883 := PrimCons(symlist, tmp16882)
+	tmp17861 := PrimCons(symlist, tmp17860)
 
-	tmp16884 := PrimCons(symB, Nil)
+	tmp17862 := PrimCons(symB, Nil)
 
-	tmp16885 := PrimCons(tmp16883, tmp16884)
+	tmp17863 := PrimCons(tmp17861, tmp17862)
 
-	tmp16886 := PrimCons(symstr, tmp16885)
+	tmp17864 := PrimCons(symstr, tmp17863)
 
-	tmp16887 := PrimCons(symboolean, Nil)
+	tmp17865 := PrimCons(symboolean, Nil)
 
-	tmp16888 := PrimCons(sym_1_1_6, tmp16887)
+	tmp17866 := PrimCons(sym_1_1_6, tmp17865)
 
-	tmp16889 := PrimCons(tmp16886, tmp16888)
+	tmp17867 := PrimCons(tmp17864, tmp17866)
 
-	tmp16890 := Call(__e, PrimNS2Value(symdeclare), symshen_4parse_1failure_2, tmp16889)
+	tmp17868 := Call(__e, PrimFunc(symdeclare), symshen_4parse_1failure_2, tmp17867)
 
-	_ = tmp16890
+	_ = tmp17868
 
-	tmp16891 := PrimCons(symA, Nil)
+	tmp17869 := PrimCons(symA, Nil)
 
-	tmp16892 := PrimCons(symlist, tmp16891)
+	tmp17870 := PrimCons(symlist, tmp17869)
 
-	tmp16893 := PrimCons(symB, Nil)
+	tmp17871 := PrimCons(symB, Nil)
 
-	tmp16894 := PrimCons(tmp16892, tmp16893)
+	tmp17872 := PrimCons(tmp17870, tmp17871)
 
-	tmp16895 := PrimCons(symstr, tmp16894)
+	tmp17873 := PrimCons(symstr, tmp17872)
 
-	tmp16896 := PrimCons(tmp16895, Nil)
+	tmp17874 := PrimCons(tmp17873, Nil)
 
-	tmp16897 := PrimCons(sym_1_1_6, tmp16896)
+	tmp17875 := PrimCons(sym_1_1_6, tmp17874)
 
-	tmp16898 := Call(__e, PrimNS2Value(symdeclare), symshen_4parse_1failure, tmp16897)
+	tmp17876 := Call(__e, PrimFunc(symdeclare), symshen_4parse_1failure, tmp17875)
 
-	_ = tmp16898
+	_ = tmp17876
 
-	tmp16899 := PrimCons(symA, Nil)
+	tmp17877 := PrimCons(symA, Nil)
 
-	tmp16900 := PrimCons(symlist, tmp16899)
+	tmp17878 := PrimCons(symlist, tmp17877)
 
-	tmp16901 := PrimCons(symB, Nil)
+	tmp17879 := PrimCons(symB, Nil)
 
-	tmp16902 := PrimCons(tmp16900, tmp16901)
+	tmp17880 := PrimCons(tmp17878, tmp17879)
 
-	tmp16903 := PrimCons(symstr, tmp16902)
+	tmp17881 := PrimCons(symstr, tmp17880)
 
-	tmp16904 := PrimCons(symB, Nil)
+	tmp17882 := PrimCons(symB, Nil)
 
-	tmp16905 := PrimCons(sym_1_1_6, tmp16904)
+	tmp17883 := PrimCons(sym_1_1_6, tmp17882)
 
-	tmp16906 := PrimCons(tmp16903, tmp16905)
+	tmp17884 := PrimCons(tmp17881, tmp17883)
 
-	tmp16907 := Call(__e, PrimNS2Value(symdeclare), symshen_4_5_1out, tmp16906)
+	tmp17885 := Call(__e, PrimFunc(symdeclare), symshen_4_5_1out, tmp17884)
 
-	_ = tmp16907
+	_ = tmp17885
 
-	tmp16908 := PrimCons(symA, Nil)
+	tmp17886 := PrimCons(symA, Nil)
 
-	tmp16909 := PrimCons(symlist, tmp16908)
+	tmp17887 := PrimCons(symlist, tmp17886)
 
-	tmp16910 := PrimCons(symB, Nil)
+	tmp17888 := PrimCons(symB, Nil)
 
-	tmp16911 := PrimCons(tmp16909, tmp16910)
+	tmp17889 := PrimCons(tmp17887, tmp17888)
 
-	tmp16912 := PrimCons(symstr, tmp16911)
+	tmp17890 := PrimCons(symstr, tmp17889)
 
-	tmp16913 := PrimCons(symA, Nil)
+	tmp17891 := PrimCons(symA, Nil)
 
-	tmp16914 := PrimCons(symlist, tmp16913)
+	tmp17892 := PrimCons(symlist, tmp17891)
 
-	tmp16915 := PrimCons(tmp16914, Nil)
+	tmp17893 := PrimCons(tmp17892, Nil)
 
-	tmp16916 := PrimCons(sym_1_1_6, tmp16915)
+	tmp17894 := PrimCons(sym_1_1_6, tmp17893)
 
-	tmp16917 := PrimCons(tmp16912, tmp16916)
+	tmp17895 := PrimCons(tmp17890, tmp17894)
 
-	tmp16918 := Call(__e, PrimNS2Value(symdeclare), symshen_4in_1_6, tmp16917)
+	tmp17896 := Call(__e, PrimFunc(symdeclare), symshen_4in_1_6, tmp17895)
 
-	_ = tmp16918
+	_ = tmp17896
 
-	tmp16919 := PrimCons(symA, Nil)
+	tmp17897 := PrimCons(symA, Nil)
 
-	tmp16920 := PrimCons(symlist, tmp16919)
+	tmp17898 := PrimCons(symlist, tmp17897)
 
-	tmp16921 := PrimCons(symB, Nil)
+	tmp17899 := PrimCons(symB, Nil)
 
-	tmp16922 := PrimCons(tmp16920, tmp16921)
+	tmp17900 := PrimCons(tmp17898, tmp17899)
 
-	tmp16923 := PrimCons(symstr, tmp16922)
+	tmp17901 := PrimCons(symstr, tmp17900)
 
-	tmp16924 := PrimCons(symboolean, Nil)
+	tmp17902 := PrimCons(symboolean, Nil)
 
-	tmp16925 := PrimCons(sym_1_1_6, tmp16924)
+	tmp17903 := PrimCons(sym_1_1_6, tmp17902)
 
-	tmp16926 := PrimCons(tmp16923, tmp16925)
+	tmp17904 := PrimCons(tmp17901, tmp17903)
 
-	tmp16927 := Call(__e, PrimNS2Value(symdeclare), symshen_4non_1empty_1stream_2, tmp16926)
+	tmp17905 := Call(__e, PrimFunc(symdeclare), symshen_4non_1empty_1stream_2, tmp17904)
 
-	_ = tmp16927
+	_ = tmp17905
 
-	tmp16928 := PrimCons(symA, Nil)
+	tmp17906 := PrimCons(symA, Nil)
 
-	tmp16929 := PrimCons(symlist, tmp16928)
+	tmp17907 := PrimCons(symlist, tmp17906)
 
-	tmp16930 := PrimCons(symA, Nil)
+	tmp17908 := PrimCons(symA, Nil)
 
-	tmp16931 := PrimCons(symlist, tmp16930)
+	tmp17909 := PrimCons(symlist, tmp17908)
 
-	tmp16932 := PrimCons(symB, Nil)
+	tmp17910 := PrimCons(symB, Nil)
 
-	tmp16933 := PrimCons(tmp16931, tmp16932)
+	tmp17911 := PrimCons(tmp17909, tmp17910)
 
-	tmp16934 := PrimCons(symstr, tmp16933)
+	tmp17912 := PrimCons(symstr, tmp17911)
 
-	tmp16935 := PrimCons(tmp16934, Nil)
+	tmp17913 := PrimCons(tmp17912, Nil)
 
-	tmp16936 := PrimCons(sym_1_1_6, tmp16935)
+	tmp17914 := PrimCons(sym_1_1_6, tmp17913)
 
-	tmp16937 := PrimCons(symB, tmp16936)
+	tmp17915 := PrimCons(symB, tmp17914)
 
-	tmp16938 := PrimCons(tmp16937, Nil)
+	tmp17916 := PrimCons(tmp17915, Nil)
 
-	tmp16939 := PrimCons(sym_1_1_6, tmp16938)
+	tmp17917 := PrimCons(sym_1_1_6, tmp17916)
 
-	tmp16940 := PrimCons(tmp16929, tmp16939)
+	tmp17918 := PrimCons(tmp17907, tmp17917)
 
-	tmp16941 := Call(__e, PrimNS2Value(symdeclare), symshen_4comb, tmp16940)
+	tmp17919 := Call(__e, PrimFunc(symdeclare), symshen_4comb, tmp17918)
 
-	_ = tmp16941
+	_ = tmp17919
 
-	tmp16942 := PrimCons(symB, Nil)
+	tmp17920 := PrimCons(symB, Nil)
 
-	tmp16943 := PrimCons(symA, tmp16942)
+	tmp17921 := PrimCons(symA, tmp17920)
 
-	tmp16944 := PrimCons(symstr, tmp16943)
+	tmp17922 := PrimCons(symstr, tmp17921)
 
-	tmp16945 := PrimCons(symD, Nil)
+	tmp17923 := PrimCons(symD, Nil)
 
-	tmp16946 := PrimCons(symC, tmp16945)
+	tmp17924 := PrimCons(symC, tmp17923)
 
-	tmp16947 := PrimCons(symstr, tmp16946)
+	tmp17925 := PrimCons(symstr, tmp17924)
 
-	tmp16948 := PrimCons(symD, Nil)
+	tmp17926 := PrimCons(symD, Nil)
 
-	tmp16949 := PrimCons(symC, tmp16948)
+	tmp17927 := PrimCons(symC, tmp17926)
 
-	tmp16950 := PrimCons(symstr, tmp16949)
+	tmp17928 := PrimCons(symstr, tmp17927)
 
-	tmp16951 := PrimCons(tmp16950, Nil)
+	tmp17929 := PrimCons(tmp17928, Nil)
 
-	tmp16952 := PrimCons(symA, tmp16951)
+	tmp17930 := PrimCons(symA, tmp17929)
 
-	tmp16953 := PrimCons(symstr, tmp16952)
+	tmp17931 := PrimCons(symstr, tmp17930)
 
-	tmp16954 := PrimCons(tmp16953, Nil)
+	tmp17932 := PrimCons(tmp17931, Nil)
 
-	tmp16955 := PrimCons(sym_1_1_6, tmp16954)
+	tmp17933 := PrimCons(sym_1_1_6, tmp17932)
 
-	tmp16956 := PrimCons(tmp16947, tmp16955)
+	tmp17934 := PrimCons(tmp17925, tmp17933)
 
-	tmp16957 := PrimCons(tmp16956, Nil)
+	tmp17935 := PrimCons(tmp17934, Nil)
 
-	tmp16958 := PrimCons(sym_1_1_6, tmp16957)
+	tmp17936 := PrimCons(sym_1_1_6, tmp17935)
 
-	tmp16959 := PrimCons(tmp16944, tmp16958)
+	tmp17937 := PrimCons(tmp17922, tmp17936)
 
-	tmp16960 := Call(__e, PrimNS2Value(symdeclare), symshen_4headstream, tmp16959)
+	tmp17938 := Call(__e, PrimFunc(symdeclare), symshen_4headstream, tmp17937)
 
-	_ = tmp16960
+	_ = tmp17938
 
-	tmp16961 := PrimCons(symA, Nil)
+	tmp17939 := PrimCons(symA, Nil)
 
-	tmp16962 := PrimCons(symlist, tmp16961)
+	tmp17940 := PrimCons(symlist, tmp17939)
 
-	tmp16963 := PrimCons(symB, Nil)
+	tmp17941 := PrimCons(symB, Nil)
 
-	tmp16964 := PrimCons(tmp16962, tmp16963)
+	tmp17942 := PrimCons(tmp17940, tmp17941)
 
-	tmp16965 := PrimCons(symstr, tmp16964)
+	tmp17943 := PrimCons(symstr, tmp17942)
 
-	tmp16966 := PrimCons(symA, Nil)
+	tmp17944 := PrimCons(symA, Nil)
 
-	tmp16967 := PrimCons(symlist, tmp16966)
+	tmp17945 := PrimCons(symlist, tmp17944)
 
-	tmp16968 := PrimCons(symB, Nil)
+	tmp17946 := PrimCons(symB, Nil)
 
-	tmp16969 := PrimCons(tmp16967, tmp16968)
+	tmp17947 := PrimCons(tmp17945, tmp17946)
 
-	tmp16970 := PrimCons(symstr, tmp16969)
+	tmp17948 := PrimCons(symstr, tmp17947)
 
-	tmp16971 := PrimCons(tmp16970, Nil)
+	tmp17949 := PrimCons(tmp17948, Nil)
 
-	tmp16972 := PrimCons(sym_1_1_6, tmp16971)
+	tmp17950 := PrimCons(sym_1_1_6, tmp17949)
 
-	tmp16973 := PrimCons(tmp16965, tmp16972)
+	tmp17951 := PrimCons(tmp17943, tmp17950)
 
-	tmp16974 := Call(__e, PrimNS2Value(symdeclare), symshen_4tlstream, tmp16973)
+	tmp17952 := Call(__e, PrimFunc(symdeclare), symshen_4tlstream, tmp17951)
 
-	_ = tmp16974
+	_ = tmp17952
 
-	tmp16975 := PrimCons(symA, Nil)
+	tmp17953 := PrimCons(symA, Nil)
 
-	tmp16976 := PrimCons(symlist, tmp16975)
+	tmp17954 := PrimCons(symlist, tmp17953)
 
-	tmp16977 := PrimCons(symboolean, Nil)
+	tmp17955 := PrimCons(symboolean, Nil)
 
-	tmp16978 := PrimCons(sym_1_1_6, tmp16977)
+	tmp17956 := PrimCons(sym_1_1_6, tmp17955)
 
-	tmp16979 := PrimCons(tmp16976, tmp16978)
+	tmp17957 := PrimCons(tmp17954, tmp17956)
 
-	tmp16980 := PrimCons(tmp16979, Nil)
+	tmp17958 := PrimCons(tmp17957, Nil)
 
-	tmp16981 := PrimCons(sym_1_1_6, tmp16980)
+	tmp17959 := PrimCons(sym_1_1_6, tmp17958)
 
-	tmp16982 := PrimCons(symA, tmp16981)
+	tmp17960 := PrimCons(symA, tmp17959)
 
-	tmp16983 := Call(__e, PrimNS2Value(symdeclare), symelement_2, tmp16982)
+	tmp17961 := Call(__e, PrimFunc(symdeclare), symelement_2, tmp17960)
 
-	_ = tmp16983
+	_ = tmp17961
 
-	tmp16984 := PrimCons(symboolean, Nil)
+	tmp17962 := PrimCons(symboolean, Nil)
 
-	tmp16985 := PrimCons(sym_1_1_6, tmp16984)
+	tmp17963 := PrimCons(sym_1_1_6, tmp17962)
 
-	tmp16986 := PrimCons(symA, tmp16985)
+	tmp17964 := PrimCons(symA, tmp17963)
 
-	tmp16987 := Call(__e, PrimNS2Value(symdeclare), symempty_2, tmp16986)
+	tmp17965 := Call(__e, PrimFunc(symdeclare), symempty_2, tmp17964)
 
-	_ = tmp16987
+	_ = tmp17965
 
-	tmp16988 := PrimCons(symboolean, Nil)
+	tmp17966 := PrimCons(symboolean, Nil)
 
-	tmp16989 := PrimCons(sym_1_1_6, tmp16988)
+	tmp17967 := PrimCons(sym_1_1_6, tmp17966)
 
-	tmp16990 := PrimCons(symsymbol, tmp16989)
+	tmp17968 := PrimCons(symsymbol, tmp17967)
 
-	tmp16991 := Call(__e, PrimNS2Value(symdeclare), symenable_1type_1theory, tmp16990)
+	tmp17969 := Call(__e, PrimFunc(symdeclare), symenable_1type_1theory, tmp17968)
 
-	_ = tmp16991
+	_ = tmp17969
 
-	tmp16992 := PrimCons(symsymbol, Nil)
+	tmp17970 := PrimCons(symsymbol, Nil)
 
-	tmp16993 := PrimCons(symlist, tmp16992)
+	tmp17971 := PrimCons(symlist, tmp17970)
 
-	tmp16994 := PrimCons(tmp16993, Nil)
+	tmp17972 := PrimCons(tmp17971, Nil)
 
-	tmp16995 := PrimCons(sym_1_1_6, tmp16994)
+	tmp17973 := PrimCons(sym_1_1_6, tmp17972)
 
-	tmp16996 := PrimCons(symsymbol, tmp16995)
+	tmp17974 := PrimCons(symsymbol, tmp17973)
 
-	tmp16997 := Call(__e, PrimNS2Value(symdeclare), symexternal, tmp16996)
+	tmp17975 := Call(__e, PrimFunc(symdeclare), symexternal, tmp17974)
 
-	_ = tmp16997
+	_ = tmp17975
 
-	tmp16998 := PrimCons(symstring, Nil)
+	tmp17976 := PrimCons(symstring, Nil)
 
-	tmp16999 := PrimCons(sym_1_1_6, tmp16998)
+	tmp17977 := PrimCons(sym_1_1_6, tmp17976)
 
-	tmp17000 := PrimCons(symexception, tmp16999)
+	tmp17978 := PrimCons(symexception, tmp17977)
 
-	tmp17001 := Call(__e, PrimNS2Value(symdeclare), symerror_1to_1string, tmp17000)
+	tmp17979 := Call(__e, PrimFunc(symdeclare), symerror_1to_1string, tmp17978)
 
-	_ = tmp17001
+	_ = tmp17979
 
-	tmp17002 := PrimCons(symstring, Nil)
+	tmp17980 := PrimCons(symstring, Nil)
 
-	tmp17003 := PrimCons(symlist, tmp17002)
+	tmp17981 := PrimCons(symlist, tmp17980)
 
-	tmp17004 := PrimCons(tmp17003, Nil)
+	tmp17982 := PrimCons(tmp17981, Nil)
 
-	tmp17005 := PrimCons(sym_1_1_6, tmp17004)
+	tmp17983 := PrimCons(sym_1_1_6, tmp17982)
 
-	tmp17006 := PrimCons(symA, tmp17005)
+	tmp17984 := PrimCons(symA, tmp17983)
 
-	tmp17007 := Call(__e, PrimNS2Value(symdeclare), symexplode, tmp17006)
+	tmp17985 := Call(__e, PrimFunc(symdeclare), symexplode, tmp17984)
 
-	_ = tmp17007
+	_ = tmp17985
 
-	tmp17008 := PrimCons(symsymbol, Nil)
+	tmp17986 := PrimCons(symsymbol, Nil)
 
-	tmp17009 := PrimCons(sym_1_1_6, tmp17008)
+	tmp17987 := PrimCons(sym_1_1_6, tmp17986)
 
-	tmp17010 := PrimCons(symsymbol, tmp17009)
+	tmp17988 := PrimCons(symsymbol, tmp17987)
 
-	tmp17011 := Call(__e, PrimNS2Value(symdeclare), symfactorise, tmp17010)
+	tmp17989 := Call(__e, PrimFunc(symdeclare), symfactorise, tmp17988)
 
-	_ = tmp17011
+	_ = tmp17989
 
-	tmp17012 := PrimCons(symsymbol, Nil)
+	tmp17990 := PrimCons(symsymbol, Nil)
 
-	tmp17013 := PrimCons(sym_1_1_6, tmp17012)
+	tmp17991 := PrimCons(sym_1_1_6, tmp17990)
 
-	tmp17014 := Call(__e, PrimNS2Value(symdeclare), symfail, tmp17013)
+	tmp17992 := Call(__e, PrimFunc(symdeclare), symfail, tmp17991)
 
-	_ = tmp17014
+	_ = tmp17992
 
-	tmp17015 := PrimCons(symA, Nil)
+	tmp17993 := PrimCons(symA, Nil)
 
-	tmp17016 := PrimCons(sym_1_1_6, tmp17015)
+	tmp17994 := PrimCons(sym_1_1_6, tmp17993)
 
-	tmp17017 := PrimCons(symA, tmp17016)
+	tmp17995 := PrimCons(symA, tmp17994)
 
-	tmp17018 := PrimCons(symA, Nil)
+	tmp17996 := PrimCons(symA, Nil)
 
-	tmp17019 := PrimCons(sym_1_1_6, tmp17018)
+	tmp17997 := PrimCons(sym_1_1_6, tmp17996)
 
-	tmp17020 := PrimCons(symA, tmp17019)
+	tmp17998 := PrimCons(symA, tmp17997)
 
-	tmp17021 := PrimCons(tmp17020, Nil)
+	tmp17999 := PrimCons(tmp17998, Nil)
 
-	tmp17022 := PrimCons(sym_1_1_6, tmp17021)
+	tmp18000 := PrimCons(sym_1_1_6, tmp17999)
 
-	tmp17023 := PrimCons(tmp17017, tmp17022)
+	tmp18001 := PrimCons(tmp17995, tmp18000)
 
-	tmp17024 := Call(__e, PrimNS2Value(symdeclare), symfix, tmp17023)
+	tmp18002 := Call(__e, PrimFunc(symdeclare), symfix, tmp18001)
 
-	_ = tmp17024
+	_ = tmp18002
 
-	tmp17025 := PrimCons(symA, Nil)
+	tmp18003 := PrimCons(symA, Nil)
 
-	tmp17026 := PrimCons(symlazy, tmp17025)
+	tmp18004 := PrimCons(symlazy, tmp18003)
 
-	tmp17027 := PrimCons(tmp17026, Nil)
+	tmp18005 := PrimCons(tmp18004, Nil)
 
-	tmp17028 := PrimCons(sym_1_1_6, tmp17027)
+	tmp18006 := PrimCons(sym_1_1_6, tmp18005)
 
-	tmp17029 := PrimCons(symA, tmp17028)
+	tmp18007 := PrimCons(symA, tmp18006)
 
-	tmp17030 := Call(__e, PrimNS2Value(symdeclare), symfreeze, tmp17029)
+	tmp18008 := Call(__e, PrimFunc(symdeclare), symfreeze, tmp18007)
 
-	_ = tmp17030
+	_ = tmp18008
 
-	tmp17031 := PrimCons(symB, Nil)
+	tmp18009 := PrimCons(symB, Nil)
 
-	tmp17032 := PrimCons(sym_d, tmp17031)
+	tmp18010 := PrimCons(sym_d, tmp18009)
 
-	tmp17033 := PrimCons(symA, tmp17032)
+	tmp18011 := PrimCons(symA, tmp18010)
 
-	tmp17034 := PrimCons(symA, Nil)
+	tmp18012 := PrimCons(symA, Nil)
 
-	tmp17035 := PrimCons(sym_1_1_6, tmp17034)
+	tmp18013 := PrimCons(sym_1_1_6, tmp18012)
 
-	tmp17036 := PrimCons(tmp17033, tmp17035)
+	tmp18014 := PrimCons(tmp18011, tmp18013)
 
-	tmp17037 := Call(__e, PrimNS2Value(symdeclare), symfst, tmp17036)
+	tmp18015 := Call(__e, PrimFunc(symdeclare), symfst, tmp18014)
 
-	_ = tmp17037
+	_ = tmp18015
 
-	tmp17038 := PrimCons(symsymbol, Nil)
+	tmp18016 := PrimCons(symsymbol, Nil)
 
-	tmp17039 := PrimCons(sym_1_1_6, tmp17038)
+	tmp18017 := PrimCons(sym_1_1_6, tmp18016)
 
-	tmp17040 := PrimCons(symsymbol, tmp17039)
+	tmp18018 := PrimCons(symsymbol, tmp18017)
 
-	tmp17041 := Call(__e, PrimNS2Value(symdeclare), symgensym, tmp17040)
+	tmp18019 := Call(__e, PrimFunc(symdeclare), symgensym, tmp18018)
 
-	_ = tmp17041
+	_ = tmp18019
 
-	tmp17042 := PrimCons(symA, Nil)
+	tmp18020 := PrimCons(symA, Nil)
 
-	tmp17043 := PrimCons(symvector, tmp17042)
+	tmp18021 := PrimCons(symvector, tmp18020)
 
-	tmp17044 := PrimCons(symA, Nil)
+	tmp18022 := PrimCons(symA, Nil)
 
-	tmp17045 := PrimCons(sym_1_1_6, tmp17044)
+	tmp18023 := PrimCons(sym_1_1_6, tmp18022)
 
-	tmp17046 := PrimCons(symnumber, tmp17045)
+	tmp18024 := PrimCons(symnumber, tmp18023)
 
-	tmp17047 := PrimCons(tmp17046, Nil)
+	tmp18025 := PrimCons(tmp18024, Nil)
 
-	tmp17048 := PrimCons(sym_1_1_6, tmp17047)
+	tmp18026 := PrimCons(sym_1_1_6, tmp18025)
 
-	tmp17049 := PrimCons(tmp17043, tmp17048)
+	tmp18027 := PrimCons(tmp18021, tmp18026)
 
-	tmp17050 := Call(__e, PrimNS2Value(symdeclare), sym_5_1vector, tmp17049)
+	tmp18028 := Call(__e, PrimFunc(symdeclare), sym_5_1vector, tmp18027)
 
-	_ = tmp17050
+	_ = tmp18028
 
-	tmp17051 := PrimCons(symA, Nil)
+	tmp18029 := PrimCons(symA, Nil)
 
-	tmp17052 := PrimCons(symvector, tmp17051)
+	tmp18030 := PrimCons(symvector, tmp18029)
 
-	tmp17053 := PrimCons(symA, Nil)
+	tmp18031 := PrimCons(symA, Nil)
 
-	tmp17054 := PrimCons(symvector, tmp17053)
+	tmp18032 := PrimCons(symvector, tmp18031)
 
-	tmp17055 := PrimCons(tmp17054, Nil)
+	tmp18033 := PrimCons(tmp18032, Nil)
 
-	tmp17056 := PrimCons(sym_1_1_6, tmp17055)
+	tmp18034 := PrimCons(sym_1_1_6, tmp18033)
 
-	tmp17057 := PrimCons(symA, tmp17056)
+	tmp18035 := PrimCons(symA, tmp18034)
 
-	tmp17058 := PrimCons(tmp17057, Nil)
+	tmp18036 := PrimCons(tmp18035, Nil)
 
-	tmp17059 := PrimCons(sym_1_1_6, tmp17058)
+	tmp18037 := PrimCons(sym_1_1_6, tmp18036)
 
-	tmp17060 := PrimCons(symnumber, tmp17059)
+	tmp18038 := PrimCons(symnumber, tmp18037)
 
-	tmp17061 := PrimCons(tmp17060, Nil)
+	tmp18039 := PrimCons(tmp18038, Nil)
 
-	tmp17062 := PrimCons(sym_1_1_6, tmp17061)
+	tmp18040 := PrimCons(sym_1_1_6, tmp18039)
 
-	tmp17063 := PrimCons(tmp17052, tmp17062)
+	tmp18041 := PrimCons(tmp18030, tmp18040)
 
-	tmp17064 := Call(__e, PrimNS2Value(symdeclare), symvector_1_6, tmp17063)
+	tmp18042 := Call(__e, PrimFunc(symdeclare), symvector_1_6, tmp18041)
 
-	_ = tmp17064
+	_ = tmp18042
 
-	tmp17065 := PrimCons(symA, Nil)
+	tmp18043 := PrimCons(symA, Nil)
 
-	tmp17066 := PrimCons(symvector, tmp17065)
+	tmp18044 := PrimCons(symvector, tmp18043)
 
-	tmp17067 := PrimCons(tmp17066, Nil)
+	tmp18045 := PrimCons(tmp18044, Nil)
 
-	tmp17068 := PrimCons(sym_1_1_6, tmp17067)
+	tmp18046 := PrimCons(sym_1_1_6, tmp18045)
 
-	tmp17069 := PrimCons(symnumber, tmp17068)
+	tmp18047 := PrimCons(symnumber, tmp18046)
 
-	tmp17070 := Call(__e, PrimNS2Value(symdeclare), symvector, tmp17069)
+	tmp18048 := Call(__e, PrimFunc(symdeclare), symvector, tmp18047)
 
-	_ = tmp17070
+	_ = tmp18048
 
-	tmp17071 := PrimCons(symnumber, Nil)
+	tmp18049 := PrimCons(symnumber, Nil)
 
-	tmp17072 := PrimCons(sym_1_1_6, tmp17071)
+	tmp18050 := PrimCons(sym_1_1_6, tmp18049)
 
-	tmp17073 := PrimCons(symsymbol, tmp17072)
+	tmp18051 := PrimCons(symsymbol, tmp18050)
 
-	tmp17074 := Call(__e, PrimNS2Value(symdeclare), symget_1time, tmp17073)
+	tmp18052 := Call(__e, PrimFunc(symdeclare), symget_1time, tmp18051)
 
-	_ = tmp17074
+	_ = tmp18052
 
-	tmp17075 := PrimCons(symnumber, Nil)
+	tmp18053 := PrimCons(symnumber, Nil)
 
-	tmp17076 := PrimCons(sym_1_1_6, tmp17075)
+	tmp18054 := PrimCons(sym_1_1_6, tmp18053)
 
-	tmp17077 := PrimCons(symnumber, tmp17076)
+	tmp18055 := PrimCons(symnumber, tmp18054)
 
-	tmp17078 := PrimCons(tmp17077, Nil)
+	tmp18056 := PrimCons(tmp18055, Nil)
 
-	tmp17079 := PrimCons(sym_1_1_6, tmp17078)
+	tmp18057 := PrimCons(sym_1_1_6, tmp18056)
 
-	tmp17080 := PrimCons(symA, tmp17079)
+	tmp18058 := PrimCons(symA, tmp18057)
 
-	tmp17081 := Call(__e, PrimNS2Value(symdeclare), symhash, tmp17080)
+	tmp18059 := Call(__e, PrimFunc(symdeclare), symhash, tmp18058)
 
-	_ = tmp17081
+	_ = tmp18059
 
-	tmp17082 := PrimCons(symA, Nil)
+	tmp18060 := PrimCons(symA, Nil)
 
-	tmp17083 := PrimCons(symlist, tmp17082)
+	tmp18061 := PrimCons(symlist, tmp18060)
 
-	tmp17084 := PrimCons(symA, Nil)
+	tmp18062 := PrimCons(symA, Nil)
 
-	tmp17085 := PrimCons(sym_1_1_6, tmp17084)
+	tmp18063 := PrimCons(sym_1_1_6, tmp18062)
 
-	tmp17086 := PrimCons(tmp17083, tmp17085)
+	tmp18064 := PrimCons(tmp18061, tmp18063)
 
-	tmp17087 := Call(__e, PrimNS2Value(symdeclare), symhead, tmp17086)
+	tmp18065 := Call(__e, PrimFunc(symdeclare), symhead, tmp18064)
 
-	_ = tmp17087
+	_ = tmp18065
 
-	tmp17088 := PrimCons(symA, Nil)
+	tmp18066 := PrimCons(symA, Nil)
 
-	tmp17089 := PrimCons(symvector, tmp17088)
+	tmp18067 := PrimCons(symvector, tmp18066)
 
-	tmp17090 := PrimCons(symA, Nil)
+	tmp18068 := PrimCons(symA, Nil)
 
-	tmp17091 := PrimCons(sym_1_1_6, tmp17090)
+	tmp18069 := PrimCons(sym_1_1_6, tmp18068)
 
-	tmp17092 := PrimCons(tmp17089, tmp17091)
+	tmp18070 := PrimCons(tmp18067, tmp18069)
 
-	tmp17093 := Call(__e, PrimNS2Value(symdeclare), symhdv, tmp17092)
+	tmp18071 := Call(__e, PrimFunc(symdeclare), symhdv, tmp18070)
 
-	_ = tmp17093
+	_ = tmp18071
 
-	tmp17094 := PrimCons(symstring, Nil)
+	tmp18072 := PrimCons(symstring, Nil)
 
-	tmp17095 := PrimCons(sym_1_1_6, tmp17094)
+	tmp18073 := PrimCons(sym_1_1_6, tmp18072)
 
-	tmp17096 := PrimCons(symstring, tmp17095)
+	tmp18074 := PrimCons(symstring, tmp18073)
 
-	tmp17097 := Call(__e, PrimNS2Value(symdeclare), symhdstr, tmp17096)
+	tmp18075 := Call(__e, PrimFunc(symdeclare), symhdstr, tmp18074)
 
-	_ = tmp17097
+	_ = tmp18075
 
-	tmp17098 := PrimCons(symA, Nil)
+	tmp18076 := PrimCons(symA, Nil)
 
-	tmp17099 := PrimCons(sym_1_1_6, tmp17098)
+	tmp18077 := PrimCons(sym_1_1_6, tmp18076)
 
-	tmp17100 := PrimCons(symA, tmp17099)
+	tmp18078 := PrimCons(symA, tmp18077)
 
-	tmp17101 := PrimCons(tmp17100, Nil)
+	tmp18079 := PrimCons(tmp18078, Nil)
 
-	tmp17102 := PrimCons(sym_1_1_6, tmp17101)
+	tmp18080 := PrimCons(sym_1_1_6, tmp18079)
 
-	tmp17103 := PrimCons(symA, tmp17102)
+	tmp18081 := PrimCons(symA, tmp18080)
 
-	tmp17104 := PrimCons(tmp17103, Nil)
+	tmp18082 := PrimCons(tmp18081, Nil)
 
-	tmp17105 := PrimCons(sym_1_1_6, tmp17104)
+	tmp18083 := PrimCons(sym_1_1_6, tmp18082)
 
-	tmp17106 := PrimCons(symboolean, tmp17105)
+	tmp18084 := PrimCons(symboolean, tmp18083)
 
-	tmp17107 := Call(__e, PrimNS2Value(symdeclare), symif, tmp17106)
+	tmp18085 := Call(__e, PrimFunc(symdeclare), symif, tmp18084)
 
-	_ = tmp17107
+	_ = tmp18085
 
-	tmp17108 := PrimCons(symsymbol, Nil)
+	tmp18086 := PrimCons(symsymbol, Nil)
 
-	tmp17109 := PrimCons(sym_1_1_6, tmp17108)
+	tmp18087 := PrimCons(sym_1_1_6, tmp18086)
 
-	tmp17110 := PrimCons(symsymbol, tmp17109)
+	tmp18088 := PrimCons(symsymbol, tmp18087)
 
-	tmp17111 := Call(__e, PrimNS2Value(symdeclare), symin_1package, tmp17110)
+	tmp18089 := Call(__e, PrimFunc(symdeclare), symin_1package, tmp18088)
 
-	_ = tmp17111
+	_ = tmp18089
 
-	tmp17112 := PrimCons(symstring, Nil)
+	tmp18090 := PrimCons(symstring, Nil)
 
-	tmp17113 := PrimCons(sym_1_1_6, tmp17112)
+	tmp18091 := PrimCons(sym_1_1_6, tmp18090)
 
-	tmp17114 := Call(__e, PrimNS2Value(symdeclare), symit, tmp17113)
+	tmp18092 := Call(__e, PrimFunc(symdeclare), symit, tmp18091)
 
-	_ = tmp17114
+	_ = tmp18092
 
-	tmp17115 := PrimCons(symstring, Nil)
+	tmp18093 := PrimCons(symstring, Nil)
 
-	tmp17116 := PrimCons(sym_1_1_6, tmp17115)
+	tmp18094 := PrimCons(sym_1_1_6, tmp18093)
 
-	tmp17117 := Call(__e, PrimNS2Value(symdeclare), symimplementation, tmp17116)
+	tmp18095 := Call(__e, PrimFunc(symdeclare), symimplementation, tmp18094)
 
-	_ = tmp17117
+	_ = tmp18095
 
-	tmp17118 := PrimCons(symsymbol, Nil)
+	tmp18096 := PrimCons(symsymbol, Nil)
 
-	tmp17119 := PrimCons(symlist, tmp17118)
+	tmp18097 := PrimCons(symlist, tmp18096)
 
-	tmp17120 := PrimCons(symsymbol, Nil)
+	tmp18098 := PrimCons(symsymbol, Nil)
 
-	tmp17121 := PrimCons(symlist, tmp17120)
+	tmp18099 := PrimCons(symlist, tmp18098)
 
-	tmp17122 := PrimCons(tmp17121, Nil)
+	tmp18100 := PrimCons(tmp18099, Nil)
 
-	tmp17123 := PrimCons(sym_1_1_6, tmp17122)
+	tmp18101 := PrimCons(sym_1_1_6, tmp18100)
 
-	tmp17124 := PrimCons(tmp17119, tmp17123)
+	tmp18102 := PrimCons(tmp18097, tmp18101)
 
-	tmp17125 := Call(__e, PrimNS2Value(symdeclare), syminclude, tmp17124)
+	tmp18103 := Call(__e, PrimFunc(symdeclare), syminclude, tmp18102)
 
-	_ = tmp17125
+	_ = tmp18103
 
-	tmp17126 := PrimCons(symsymbol, Nil)
+	tmp18104 := PrimCons(symsymbol, Nil)
 
-	tmp17127 := PrimCons(symlist, tmp17126)
+	tmp18105 := PrimCons(symlist, tmp18104)
 
-	tmp17128 := PrimCons(symsymbol, Nil)
+	tmp18106 := PrimCons(symsymbol, Nil)
 
-	tmp17129 := PrimCons(symlist, tmp17128)
+	tmp18107 := PrimCons(symlist, tmp18106)
 
-	tmp17130 := PrimCons(tmp17129, Nil)
+	tmp18108 := PrimCons(tmp18107, Nil)
 
-	tmp17131 := PrimCons(sym_1_1_6, tmp17130)
+	tmp18109 := PrimCons(sym_1_1_6, tmp18108)
 
-	tmp17132 := PrimCons(tmp17127, tmp17131)
+	tmp18110 := PrimCons(tmp18105, tmp18109)
 
-	tmp17133 := Call(__e, PrimNS2Value(symdeclare), syminclude_1all_1but, tmp17132)
+	tmp18111 := Call(__e, PrimFunc(symdeclare), syminclude_1all_1but, tmp18110)
 
-	_ = tmp17133
+	_ = tmp18111
 
-	tmp17134 := PrimCons(symnumber, Nil)
+	tmp18112 := PrimCons(symnumber, Nil)
 
-	tmp17135 := PrimCons(sym_1_1_6, tmp17134)
+	tmp18113 := PrimCons(sym_1_1_6, tmp18112)
 
-	tmp17136 := Call(__e, PrimNS2Value(symdeclare), syminferences, tmp17135)
+	tmp18114 := Call(__e, PrimFunc(symdeclare), syminferences, tmp18113)
 
-	_ = tmp17136
+	_ = tmp18114
 
-	tmp17137 := PrimCons(symstring, Nil)
+	tmp18115 := PrimCons(symstring, Nil)
 
-	tmp17138 := PrimCons(sym_1_1_6, tmp17137)
+	tmp18116 := PrimCons(sym_1_1_6, tmp18115)
 
-	tmp17139 := PrimCons(symstring, tmp17138)
+	tmp18117 := PrimCons(symstring, tmp18116)
 
-	tmp17140 := PrimCons(tmp17139, Nil)
+	tmp18118 := PrimCons(tmp18117, Nil)
 
-	tmp17141 := PrimCons(sym_1_1_6, tmp17140)
+	tmp18119 := PrimCons(sym_1_1_6, tmp18118)
 
-	tmp17142 := PrimCons(symA, tmp17141)
+	tmp18120 := PrimCons(symA, tmp18119)
 
-	tmp17143 := Call(__e, PrimNS2Value(symdeclare), symshen_4insert, tmp17142)
+	tmp18121 := Call(__e, PrimFunc(symdeclare), symshen_4insert, tmp18120)
 
-	_ = tmp17143
+	_ = tmp18121
 
-	tmp17144 := PrimCons(symboolean, Nil)
+	tmp18122 := PrimCons(symboolean, Nil)
 
-	tmp17145 := PrimCons(sym_1_1_6, tmp17144)
+	tmp18123 := PrimCons(sym_1_1_6, tmp18122)
 
-	tmp17146 := PrimCons(symA, tmp17145)
+	tmp18124 := PrimCons(symA, tmp18123)
 
-	tmp17147 := Call(__e, PrimNS2Value(symdeclare), syminteger_2, tmp17146)
+	tmp18125 := Call(__e, PrimFunc(symdeclare), syminteger_2, tmp18124)
 
-	_ = tmp17147
+	_ = tmp18125
 
-	tmp17148 := PrimCons(symsymbol, Nil)
+	tmp18126 := PrimCons(symsymbol, Nil)
 
-	tmp17149 := PrimCons(symlist, tmp17148)
+	tmp18127 := PrimCons(symlist, tmp18126)
 
-	tmp17150 := PrimCons(tmp17149, Nil)
+	tmp18128 := PrimCons(tmp18127, Nil)
 
-	tmp17151 := PrimCons(sym_1_1_6, tmp17150)
+	tmp18129 := PrimCons(sym_1_1_6, tmp18128)
 
-	tmp17152 := PrimCons(symsymbol, tmp17151)
+	tmp18130 := PrimCons(symsymbol, tmp18129)
 
-	tmp17153 := Call(__e, PrimNS2Value(symdeclare), syminternal, tmp17152)
+	tmp18131 := Call(__e, PrimFunc(symdeclare), syminternal, tmp18130)
 
-	_ = tmp17153
+	_ = tmp18131
 
-	tmp17154 := PrimCons(symA, Nil)
+	tmp18132 := PrimCons(symA, Nil)
 
-	tmp17155 := PrimCons(symlist, tmp17154)
+	tmp18133 := PrimCons(symlist, tmp18132)
 
-	tmp17156 := PrimCons(symA, Nil)
+	tmp18134 := PrimCons(symA, Nil)
 
-	tmp17157 := PrimCons(symlist, tmp17156)
+	tmp18135 := PrimCons(symlist, tmp18134)
 
-	tmp17158 := PrimCons(symA, Nil)
+	tmp18136 := PrimCons(symA, Nil)
 
-	tmp17159 := PrimCons(symlist, tmp17158)
+	tmp18137 := PrimCons(symlist, tmp18136)
 
-	tmp17160 := PrimCons(tmp17159, Nil)
+	tmp18138 := PrimCons(tmp18137, Nil)
 
-	tmp17161 := PrimCons(sym_1_1_6, tmp17160)
+	tmp18139 := PrimCons(sym_1_1_6, tmp18138)
 
-	tmp17162 := PrimCons(tmp17157, tmp17161)
+	tmp18140 := PrimCons(tmp18135, tmp18139)
 
-	tmp17163 := PrimCons(tmp17162, Nil)
+	tmp18141 := PrimCons(tmp18140, Nil)
 
-	tmp17164 := PrimCons(sym_1_1_6, tmp17163)
+	tmp18142 := PrimCons(sym_1_1_6, tmp18141)
 
-	tmp17165 := PrimCons(tmp17155, tmp17164)
+	tmp18143 := PrimCons(tmp18133, tmp18142)
 
-	tmp17166 := Call(__e, PrimNS2Value(symdeclare), symintersection, tmp17165)
+	tmp18144 := Call(__e, PrimFunc(symdeclare), symintersection, tmp18143)
 
-	_ = tmp17166
+	_ = tmp18144
 
-	tmp17167 := PrimCons(symstring, Nil)
+	tmp18145 := PrimCons(symstring, Nil)
 
-	tmp17168 := PrimCons(sym_1_1_6, tmp17167)
+	tmp18146 := PrimCons(sym_1_1_6, tmp18145)
 
-	tmp17169 := Call(__e, PrimNS2Value(symdeclare), symlanguage, tmp17168)
+	tmp18147 := Call(__e, PrimFunc(symdeclare), symlanguage, tmp18146)
 
-	_ = tmp17169
+	_ = tmp18147
 
-	tmp17170 := PrimCons(symA, Nil)
+	tmp18148 := PrimCons(symA, Nil)
 
-	tmp17171 := PrimCons(symlist, tmp17170)
+	tmp18149 := PrimCons(symlist, tmp18148)
 
-	tmp17172 := PrimCons(symnumber, Nil)
+	tmp18150 := PrimCons(symnumber, Nil)
 
-	tmp17173 := PrimCons(sym_1_1_6, tmp17172)
+	tmp18151 := PrimCons(sym_1_1_6, tmp18150)
 
-	tmp17174 := PrimCons(tmp17171, tmp17173)
+	tmp18152 := PrimCons(tmp18149, tmp18151)
 
-	tmp17175 := Call(__e, PrimNS2Value(symdeclare), symlength, tmp17174)
+	tmp18153 := Call(__e, PrimFunc(symdeclare), symlength, tmp18152)
 
-	_ = tmp17175
+	_ = tmp18153
 
-	tmp17176 := PrimCons(symA, Nil)
+	tmp18154 := PrimCons(symA, Nil)
 
-	tmp17177 := PrimCons(symvector, tmp17176)
+	tmp18155 := PrimCons(symvector, tmp18154)
 
-	tmp17178 := PrimCons(symnumber, Nil)
+	tmp18156 := PrimCons(symnumber, Nil)
 
-	tmp17179 := PrimCons(sym_1_1_6, tmp17178)
+	tmp18157 := PrimCons(sym_1_1_6, tmp18156)
 
-	tmp17180 := PrimCons(tmp17177, tmp17179)
+	tmp18158 := PrimCons(tmp18155, tmp18157)
 
-	tmp17181 := Call(__e, PrimNS2Value(symdeclare), symlimit, tmp17180)
+	tmp18159 := Call(__e, PrimFunc(symdeclare), symlimit, tmp18158)
 
-	_ = tmp17181
+	_ = tmp18159
 
-	tmp17182 := PrimCons(symin, Nil)
+	tmp18160 := PrimCons(symin, Nil)
 
-	tmp17183 := PrimCons(symstream, tmp17182)
+	tmp18161 := PrimCons(symstream, tmp18160)
 
-	tmp17184 := PrimCons(symunit, Nil)
+	tmp18162 := PrimCons(symunit, Nil)
 
-	tmp17185 := PrimCons(symlist, tmp17184)
+	tmp18163 := PrimCons(symlist, tmp18162)
 
-	tmp17186 := PrimCons(tmp17185, Nil)
+	tmp18164 := PrimCons(tmp18163, Nil)
 
-	tmp17187 := PrimCons(sym_1_1_6, tmp17186)
+	tmp18165 := PrimCons(sym_1_1_6, tmp18164)
 
-	tmp17188 := PrimCons(tmp17183, tmp17187)
+	tmp18166 := PrimCons(tmp18161, tmp18165)
 
-	tmp17189 := Call(__e, PrimNS2Value(symdeclare), symlineread, tmp17188)
+	tmp18167 := Call(__e, PrimFunc(symdeclare), symlineread, tmp18166)
 
-	_ = tmp17189
+	_ = tmp18167
 
-	tmp17190 := PrimCons(symsymbol, Nil)
+	tmp18168 := PrimCons(symsymbol, Nil)
 
-	tmp17191 := PrimCons(sym_1_1_6, tmp17190)
+	tmp18169 := PrimCons(sym_1_1_6, tmp18168)
 
-	tmp17192 := PrimCons(symstring, tmp17191)
+	tmp18170 := PrimCons(symstring, tmp18169)
 
-	tmp17193 := Call(__e, PrimNS2Value(symdeclare), symload, tmp17192)
+	tmp18171 := Call(__e, PrimFunc(symdeclare), symload, tmp18170)
 
-	_ = tmp17193
+	_ = tmp18171
 
-	tmp17194 := PrimCons(symB, Nil)
+	tmp18172 := PrimCons(symB, Nil)
 
-	tmp17195 := PrimCons(sym_1_1_6, tmp17194)
+	tmp18173 := PrimCons(sym_1_1_6, tmp18172)
 
-	tmp17196 := PrimCons(symA, tmp17195)
+	tmp18174 := PrimCons(symA, tmp18173)
 
-	tmp17197 := PrimCons(symA, Nil)
+	tmp18175 := PrimCons(symA, Nil)
 
-	tmp17198 := PrimCons(symlist, tmp17197)
+	tmp18176 := PrimCons(symlist, tmp18175)
 
-	tmp17199 := PrimCons(symB, Nil)
+	tmp18177 := PrimCons(symB, Nil)
 
-	tmp17200 := PrimCons(symlist, tmp17199)
+	tmp18178 := PrimCons(symlist, tmp18177)
 
-	tmp17201 := PrimCons(tmp17200, Nil)
+	tmp18179 := PrimCons(tmp18178, Nil)
 
-	tmp17202 := PrimCons(sym_1_1_6, tmp17201)
+	tmp18180 := PrimCons(sym_1_1_6, tmp18179)
 
-	tmp17203 := PrimCons(tmp17198, tmp17202)
+	tmp18181 := PrimCons(tmp18176, tmp18180)
 
-	tmp17204 := PrimCons(tmp17203, Nil)
+	tmp18182 := PrimCons(tmp18181, Nil)
 
-	tmp17205 := PrimCons(sym_1_1_6, tmp17204)
+	tmp18183 := PrimCons(sym_1_1_6, tmp18182)
 
-	tmp17206 := PrimCons(tmp17196, tmp17205)
+	tmp18184 := PrimCons(tmp18174, tmp18183)
 
-	tmp17207 := Call(__e, PrimNS2Value(symdeclare), symmap, tmp17206)
+	tmp18185 := Call(__e, PrimFunc(symdeclare), symmap, tmp18184)
 
-	_ = tmp17207
+	_ = tmp18185
 
-	tmp17208 := PrimCons(symB, Nil)
+	tmp18186 := PrimCons(symB, Nil)
 
-	tmp17209 := PrimCons(symlist, tmp17208)
+	tmp18187 := PrimCons(symlist, tmp18186)
 
-	tmp17210 := PrimCons(tmp17209, Nil)
+	tmp18188 := PrimCons(tmp18187, Nil)
 
-	tmp17211 := PrimCons(sym_1_1_6, tmp17210)
+	tmp18189 := PrimCons(sym_1_1_6, tmp18188)
 
-	tmp17212 := PrimCons(symA, tmp17211)
+	tmp18190 := PrimCons(symA, tmp18189)
 
-	tmp17213 := PrimCons(symA, Nil)
+	tmp18191 := PrimCons(symA, Nil)
 
-	tmp17214 := PrimCons(symlist, tmp17213)
+	tmp18192 := PrimCons(symlist, tmp18191)
 
-	tmp17215 := PrimCons(symB, Nil)
+	tmp18193 := PrimCons(symB, Nil)
 
-	tmp17216 := PrimCons(symlist, tmp17215)
+	tmp18194 := PrimCons(symlist, tmp18193)
 
-	tmp17217 := PrimCons(tmp17216, Nil)
+	tmp18195 := PrimCons(tmp18194, Nil)
 
-	tmp17218 := PrimCons(sym_1_1_6, tmp17217)
+	tmp18196 := PrimCons(sym_1_1_6, tmp18195)
 
-	tmp17219 := PrimCons(tmp17214, tmp17218)
+	tmp18197 := PrimCons(tmp18192, tmp18196)
 
-	tmp17220 := PrimCons(tmp17219, Nil)
+	tmp18198 := PrimCons(tmp18197, Nil)
 
-	tmp17221 := PrimCons(sym_1_1_6, tmp17220)
+	tmp18199 := PrimCons(sym_1_1_6, tmp18198)
 
-	tmp17222 := PrimCons(tmp17212, tmp17221)
+	tmp18200 := PrimCons(tmp18190, tmp18199)
 
-	tmp17223 := Call(__e, PrimNS2Value(symdeclare), symmapcan, tmp17222)
+	tmp18201 := Call(__e, PrimFunc(symdeclare), symmapcan, tmp18200)
 
-	_ = tmp17223
+	_ = tmp18201
 
-	tmp17224 := PrimCons(symnumber, Nil)
+	tmp18202 := PrimCons(symnumber, Nil)
 
-	tmp17225 := PrimCons(sym_1_1_6, tmp17224)
+	tmp18203 := PrimCons(sym_1_1_6, tmp18202)
 
-	tmp17226 := PrimCons(symnumber, tmp17225)
+	tmp18204 := PrimCons(symnumber, tmp18203)
 
-	tmp17227 := Call(__e, PrimNS2Value(symdeclare), symmaxinferences, tmp17226)
+	tmp18205 := Call(__e, PrimFunc(symdeclare), symmaxinferences, tmp18204)
 
-	_ = tmp17227
+	_ = tmp18205
 
-	tmp17228 := PrimCons(symstring, Nil)
+	tmp18206 := PrimCons(symstring, Nil)
 
-	tmp17229 := PrimCons(sym_1_1_6, tmp17228)
+	tmp18207 := PrimCons(sym_1_1_6, tmp18206)
 
-	tmp17230 := PrimCons(symnumber, tmp17229)
+	tmp18208 := PrimCons(symnumber, tmp18207)
 
-	tmp17231 := Call(__e, PrimNS2Value(symdeclare), symn_1_6string, tmp17230)
+	tmp18209 := Call(__e, PrimFunc(symdeclare), symn_1_6string, tmp18208)
 
-	_ = tmp17231
+	_ = tmp18209
 
-	tmp17232 := PrimCons(symnumber, Nil)
+	tmp18210 := PrimCons(symnumber, Nil)
 
-	tmp17233 := PrimCons(sym_1_1_6, tmp17232)
+	tmp18211 := PrimCons(sym_1_1_6, tmp18210)
 
-	tmp17234 := PrimCons(symnumber, tmp17233)
+	tmp18212 := PrimCons(symnumber, tmp18211)
 
-	tmp17235 := Call(__e, PrimNS2Value(symdeclare), symnl, tmp17234)
+	tmp18213 := Call(__e, PrimFunc(symdeclare), symnl, tmp18212)
 
-	_ = tmp17235
+	_ = tmp18213
 
-	tmp17236 := PrimCons(symboolean, Nil)
+	tmp18214 := PrimCons(symboolean, Nil)
 
-	tmp17237 := PrimCons(sym_1_1_6, tmp17236)
+	tmp18215 := PrimCons(sym_1_1_6, tmp18214)
 
-	tmp17238 := PrimCons(symboolean, tmp17237)
+	tmp18216 := PrimCons(symboolean, tmp18215)
 
-	tmp17239 := Call(__e, PrimNS2Value(symdeclare), symnot, tmp17238)
+	tmp18217 := Call(__e, PrimFunc(symdeclare), symnot, tmp18216)
 
-	_ = tmp17239
+	_ = tmp18217
 
-	tmp17240 := PrimCons(symA, Nil)
+	tmp18218 := PrimCons(symA, Nil)
 
-	tmp17241 := PrimCons(symlist, tmp17240)
+	tmp18219 := PrimCons(symlist, tmp18218)
 
-	tmp17242 := PrimCons(symA, Nil)
+	tmp18220 := PrimCons(symA, Nil)
 
-	tmp17243 := PrimCons(sym_1_1_6, tmp17242)
+	tmp18221 := PrimCons(sym_1_1_6, tmp18220)
 
-	tmp17244 := PrimCons(tmp17241, tmp17243)
+	tmp18222 := PrimCons(tmp18219, tmp18221)
 
-	tmp17245 := PrimCons(tmp17244, Nil)
+	tmp18223 := PrimCons(tmp18222, Nil)
 
-	tmp17246 := PrimCons(sym_1_1_6, tmp17245)
+	tmp18224 := PrimCons(sym_1_1_6, tmp18223)
 
-	tmp17247 := PrimCons(symnumber, tmp17246)
+	tmp18225 := PrimCons(symnumber, tmp18224)
 
-	tmp17248 := Call(__e, PrimNS2Value(symdeclare), symnth, tmp17247)
+	tmp18226 := Call(__e, PrimFunc(symdeclare), symnth, tmp18225)
 
-	_ = tmp17248
+	_ = tmp18226
 
-	tmp17249 := PrimCons(symboolean, Nil)
+	tmp18227 := PrimCons(symboolean, Nil)
 
-	tmp17250 := PrimCons(sym_1_1_6, tmp17249)
+	tmp18228 := PrimCons(sym_1_1_6, tmp18227)
 
-	tmp17251 := PrimCons(symA, tmp17250)
+	tmp18229 := PrimCons(symA, tmp18228)
 
-	tmp17252 := Call(__e, PrimNS2Value(symdeclare), symnumber_2, tmp17251)
+	tmp18230 := Call(__e, PrimFunc(symdeclare), symnumber_2, tmp18229)
 
-	_ = tmp17252
+	_ = tmp18230
 
-	tmp17253 := PrimCons(symnumber, Nil)
+	tmp18231 := PrimCons(symnumber, Nil)
 
-	tmp17254 := PrimCons(sym_1_1_6, tmp17253)
+	tmp18232 := PrimCons(sym_1_1_6, tmp18231)
 
-	tmp17255 := PrimCons(symB, tmp17254)
+	tmp18233 := PrimCons(symB, tmp18232)
 
-	tmp17256 := PrimCons(tmp17255, Nil)
+	tmp18234 := PrimCons(tmp18233, Nil)
 
-	tmp17257 := PrimCons(sym_1_1_6, tmp17256)
+	tmp18235 := PrimCons(sym_1_1_6, tmp18234)
 
-	tmp17258 := PrimCons(symA, tmp17257)
+	tmp18236 := PrimCons(symA, tmp18235)
 
-	tmp17259 := Call(__e, PrimNS2Value(symdeclare), symoccurrences, tmp17258)
+	tmp18237 := Call(__e, PrimFunc(symdeclare), symoccurrences, tmp18236)
 
-	_ = tmp17259
+	_ = tmp18237
 
-	tmp17260 := PrimCons(symboolean, Nil)
+	tmp18238 := PrimCons(symboolean, Nil)
 
-	tmp17261 := PrimCons(sym_1_1_6, tmp17260)
+	tmp18239 := PrimCons(sym_1_1_6, tmp18238)
 
-	tmp17262 := PrimCons(symsymbol, tmp17261)
+	tmp18240 := PrimCons(symsymbol, tmp18239)
 
-	tmp17263 := Call(__e, PrimNS2Value(symdeclare), symoccurs_1check, tmp17262)
+	tmp18241 := Call(__e, PrimFunc(symdeclare), symoccurs_1check, tmp18240)
 
-	_ = tmp17263
+	_ = tmp18241
 
-	tmp17264 := PrimCons(symboolean, Nil)
+	tmp18242 := PrimCons(symboolean, Nil)
 
-	tmp17265 := PrimCons(sym_1_1_6, tmp17264)
+	tmp18243 := PrimCons(sym_1_1_6, tmp18242)
 
-	tmp17266 := PrimCons(symsymbol, tmp17265)
+	tmp18244 := PrimCons(symsymbol, tmp18243)
 
-	tmp17267 := Call(__e, PrimNS2Value(symdeclare), symoptimise, tmp17266)
+	tmp18245 := Call(__e, PrimFunc(symdeclare), symoptimise, tmp18244)
 
-	_ = tmp17267
+	_ = tmp18245
 
-	tmp17268 := PrimCons(symboolean, Nil)
+	tmp18246 := PrimCons(symboolean, Nil)
 
-	tmp17269 := PrimCons(sym_1_1_6, tmp17268)
+	tmp18247 := PrimCons(sym_1_1_6, tmp18246)
 
-	tmp17270 := PrimCons(symboolean, tmp17269)
+	tmp18248 := PrimCons(symboolean, tmp18247)
 
-	tmp17271 := PrimCons(tmp17270, Nil)
+	tmp18249 := PrimCons(tmp18248, Nil)
 
-	tmp17272 := PrimCons(sym_1_1_6, tmp17271)
+	tmp18250 := PrimCons(sym_1_1_6, tmp18249)
 
-	tmp17273 := PrimCons(symboolean, tmp17272)
+	tmp18251 := PrimCons(symboolean, tmp18250)
 
-	tmp17274 := Call(__e, PrimNS2Value(symdeclare), symor, tmp17273)
+	tmp18252 := Call(__e, PrimFunc(symdeclare), symor, tmp18251)
 
-	_ = tmp17274
+	_ = tmp18252
 
-	tmp17275 := PrimCons(symstring, Nil)
+	tmp18253 := PrimCons(symstring, Nil)
 
-	tmp17276 := PrimCons(sym_1_1_6, tmp17275)
+	tmp18254 := PrimCons(sym_1_1_6, tmp18253)
 
-	tmp17277 := Call(__e, PrimNS2Value(symdeclare), symos, tmp17276)
+	tmp18255 := Call(__e, PrimFunc(symdeclare), symos, tmp18254)
 
-	_ = tmp17277
+	_ = tmp18255
 
-	tmp17278 := PrimCons(symboolean, Nil)
+	tmp18256 := PrimCons(symboolean, Nil)
 
-	tmp17279 := PrimCons(sym_1_1_6, tmp17278)
+	tmp18257 := PrimCons(sym_1_1_6, tmp18256)
 
-	tmp17280 := PrimCons(symsymbol, tmp17279)
+	tmp18258 := PrimCons(symsymbol, tmp18257)
 
-	tmp17281 := Call(__e, PrimNS2Value(symdeclare), sympackage_2, tmp17280)
+	tmp18259 := Call(__e, PrimFunc(symdeclare), sympackage_2, tmp18258)
 
-	_ = tmp17281
+	_ = tmp18259
 
-	tmp17282 := PrimCons(symstring, Nil)
+	tmp18260 := PrimCons(symstring, Nil)
 
-	tmp17283 := PrimCons(sym_1_1_6, tmp17282)
+	tmp18261 := PrimCons(sym_1_1_6, tmp18260)
 
-	tmp17284 := Call(__e, PrimNS2Value(symdeclare), symport, tmp17283)
+	tmp18262 := Call(__e, PrimFunc(symdeclare), symport, tmp18261)
 
-	_ = tmp17284
+	_ = tmp18262
 
-	tmp17285 := PrimCons(symstring, Nil)
+	tmp18263 := PrimCons(symstring, Nil)
 
-	tmp17286 := PrimCons(sym_1_1_6, tmp17285)
+	tmp18264 := PrimCons(sym_1_1_6, tmp18263)
 
-	tmp17287 := Call(__e, PrimNS2Value(symdeclare), symporters, tmp17286)
+	tmp18265 := Call(__e, PrimFunc(symdeclare), symporters, tmp18264)
 
-	_ = tmp17287
+	_ = tmp18265
 
-	tmp17288 := PrimCons(symstring, Nil)
+	tmp18266 := PrimCons(symstring, Nil)
 
-	tmp17289 := PrimCons(sym_1_1_6, tmp17288)
+	tmp18267 := PrimCons(sym_1_1_6, tmp18266)
 
-	tmp17290 := PrimCons(symnumber, tmp17289)
+	tmp18268 := PrimCons(symnumber, tmp18267)
 
-	tmp17291 := PrimCons(tmp17290, Nil)
+	tmp18269 := PrimCons(tmp18268, Nil)
 
-	tmp17292 := PrimCons(sym_1_1_6, tmp17291)
+	tmp18270 := PrimCons(sym_1_1_6, tmp18269)
 
-	tmp17293 := PrimCons(symstring, tmp17292)
+	tmp18271 := PrimCons(symstring, tmp18270)
 
-	tmp17294 := Call(__e, PrimNS2Value(symdeclare), sympos, tmp17293)
+	tmp18272 := Call(__e, PrimFunc(symdeclare), sympos, tmp18271)
 
-	_ = tmp17294
+	_ = tmp18272
 
-	tmp17295 := PrimCons(symout, Nil)
+	tmp18273 := PrimCons(symout, Nil)
 
-	tmp17296 := PrimCons(symstream, tmp17295)
+	tmp18274 := PrimCons(symstream, tmp18273)
 
-	tmp17297 := PrimCons(symstring, Nil)
+	tmp18275 := PrimCons(symstring, Nil)
 
-	tmp17298 := PrimCons(sym_1_1_6, tmp17297)
+	tmp18276 := PrimCons(sym_1_1_6, tmp18275)
 
-	tmp17299 := PrimCons(tmp17296, tmp17298)
+	tmp18277 := PrimCons(tmp18274, tmp18276)
 
-	tmp17300 := PrimCons(tmp17299, Nil)
+	tmp18278 := PrimCons(tmp18277, Nil)
 
-	tmp17301 := PrimCons(sym_1_1_6, tmp17300)
+	tmp18279 := PrimCons(sym_1_1_6, tmp18278)
 
-	tmp17302 := PrimCons(symstring, tmp17301)
+	tmp18280 := PrimCons(symstring, tmp18279)
 
-	tmp17303 := Call(__e, PrimNS2Value(symdeclare), sympr, tmp17302)
+	tmp18281 := Call(__e, PrimFunc(symdeclare), sympr, tmp18280)
 
-	_ = tmp17303
+	_ = tmp18281
 
-	tmp17304 := PrimCons(symA, Nil)
+	tmp18282 := PrimCons(symA, Nil)
 
-	tmp17305 := PrimCons(sym_1_1_6, tmp17304)
+	tmp18283 := PrimCons(sym_1_1_6, tmp18282)
 
-	tmp17306 := PrimCons(symA, tmp17305)
+	tmp18284 := PrimCons(symA, tmp18283)
 
-	tmp17307 := Call(__e, PrimNS2Value(symdeclare), symprint, tmp17306)
+	tmp18285 := Call(__e, PrimFunc(symdeclare), symprint, tmp18284)
 
-	_ = tmp17307
+	_ = tmp18285
 
-	tmp17308 := PrimCons(symsymbol, Nil)
+	tmp18286 := PrimCons(symsymbol, Nil)
 
-	tmp17309 := PrimCons(sym_1_1_6, tmp17308)
+	tmp18287 := PrimCons(sym_1_1_6, tmp18286)
 
-	tmp17310 := PrimCons(symsymbol, tmp17309)
+	tmp18288 := PrimCons(symsymbol, tmp18287)
 
-	tmp17311 := Call(__e, PrimNS2Value(symdeclare), symprofile, tmp17310)
+	tmp18289 := Call(__e, PrimFunc(symdeclare), symprofile, tmp18288)
 
-	_ = tmp17311
+	_ = tmp18289
 
-	tmp17312 := PrimCons(symsymbol, Nil)
+	tmp18290 := PrimCons(symsymbol, Nil)
 
-	tmp17313 := PrimCons(symlist, tmp17312)
+	tmp18291 := PrimCons(symlist, tmp18290)
 
-	tmp17314 := PrimCons(symsymbol, Nil)
+	tmp18292 := PrimCons(symsymbol, Nil)
 
-	tmp17315 := PrimCons(symlist, tmp17314)
+	tmp18293 := PrimCons(symlist, tmp18292)
 
-	tmp17316 := PrimCons(tmp17315, Nil)
+	tmp18294 := PrimCons(tmp18293, Nil)
 
-	tmp17317 := PrimCons(sym_1_1_6, tmp17316)
+	tmp18295 := PrimCons(sym_1_1_6, tmp18294)
 
-	tmp17318 := PrimCons(tmp17313, tmp17317)
+	tmp18296 := PrimCons(tmp18291, tmp18295)
 
-	tmp17319 := Call(__e, PrimNS2Value(symdeclare), sympreclude, tmp17318)
+	tmp18297 := Call(__e, PrimFunc(symdeclare), sympreclude, tmp18296)
 
-	_ = tmp17319
+	_ = tmp18297
 
-	tmp17320 := PrimCons(symstring, Nil)
+	tmp18298 := PrimCons(symstring, Nil)
 
-	tmp17321 := PrimCons(sym_1_1_6, tmp17320)
+	tmp18299 := PrimCons(sym_1_1_6, tmp18298)
 
-	tmp17322 := PrimCons(symstring, tmp17321)
+	tmp18300 := PrimCons(symstring, tmp18299)
 
-	tmp17323 := Call(__e, PrimNS2Value(symdeclare), symshen_4proc_1nl, tmp17322)
+	tmp18301 := Call(__e, PrimFunc(symdeclare), symshen_4proc_1nl, tmp18300)
 
-	_ = tmp17323
+	_ = tmp18301
 
-	tmp17324 := PrimCons(symnumber, Nil)
+	tmp18302 := PrimCons(symnumber, Nil)
 
-	tmp17325 := PrimCons(sym_d, tmp17324)
+	tmp18303 := PrimCons(sym_d, tmp18302)
 
-	tmp17326 := PrimCons(symsymbol, tmp17325)
+	tmp18304 := PrimCons(symsymbol, tmp18303)
 
-	tmp17327 := PrimCons(tmp17326, Nil)
+	tmp18305 := PrimCons(tmp18304, Nil)
 
-	tmp17328 := PrimCons(sym_1_1_6, tmp17327)
+	tmp18306 := PrimCons(sym_1_1_6, tmp18305)
 
-	tmp17329 := PrimCons(symsymbol, tmp17328)
+	tmp18307 := PrimCons(symsymbol, tmp18306)
 
-	tmp17330 := Call(__e, PrimNS2Value(symdeclare), symprofile_1results, tmp17329)
+	tmp18308 := Call(__e, PrimFunc(symdeclare), symprofile_1results, tmp18307)
 
-	_ = tmp17330
+	_ = tmp18308
 
-	tmp17331 := PrimCons(symA, Nil)
+	tmp18309 := PrimCons(symA, Nil)
 
-	tmp17332 := PrimCons(sym_1_1_6, tmp17331)
+	tmp18310 := PrimCons(sym_1_1_6, tmp18309)
 
-	tmp17333 := PrimCons(symA, tmp17332)
+	tmp18311 := PrimCons(symA, tmp18310)
 
-	tmp17334 := Call(__e, PrimNS2Value(symdeclare), symprotect, tmp17333)
+	tmp18312 := Call(__e, PrimFunc(symdeclare), symprotect, tmp18311)
 
-	_ = tmp17334
+	_ = tmp18312
 
-	tmp17335 := PrimCons(symsymbol, Nil)
+	tmp18313 := PrimCons(symsymbol, Nil)
 
-	tmp17336 := PrimCons(symlist, tmp17335)
+	tmp18314 := PrimCons(symlist, tmp18313)
 
-	tmp17337 := PrimCons(symsymbol, Nil)
+	tmp18315 := PrimCons(symsymbol, Nil)
 
-	tmp17338 := PrimCons(symlist, tmp17337)
+	tmp18316 := PrimCons(symlist, tmp18315)
 
-	tmp17339 := PrimCons(tmp17338, Nil)
+	tmp18317 := PrimCons(tmp18316, Nil)
 
-	tmp17340 := PrimCons(sym_1_1_6, tmp17339)
+	tmp18318 := PrimCons(sym_1_1_6, tmp18317)
 
-	tmp17341 := PrimCons(tmp17336, tmp17340)
+	tmp18319 := PrimCons(tmp18314, tmp18318)
 
-	tmp17342 := Call(__e, PrimNS2Value(symdeclare), sympreclude_1all_1but, tmp17341)
+	tmp18320 := Call(__e, PrimFunc(symdeclare), sympreclude_1all_1but, tmp18319)
 
-	_ = tmp17342
+	_ = tmp18320
 
-	tmp17343 := PrimCons(symout, Nil)
+	tmp18321 := PrimCons(symout, Nil)
 
-	tmp17344 := PrimCons(symstream, tmp17343)
+	tmp18322 := PrimCons(symstream, tmp18321)
 
-	tmp17345 := PrimCons(symstring, Nil)
+	tmp18323 := PrimCons(symstring, Nil)
 
-	tmp17346 := PrimCons(sym_1_1_6, tmp17345)
+	tmp18324 := PrimCons(sym_1_1_6, tmp18323)
 
-	tmp17347 := PrimCons(tmp17344, tmp17346)
+	tmp18325 := PrimCons(tmp18322, tmp18324)
 
-	tmp17348 := PrimCons(tmp17347, Nil)
+	tmp18326 := PrimCons(tmp18325, Nil)
 
-	tmp17349 := PrimCons(sym_1_1_6, tmp17348)
+	tmp18327 := PrimCons(sym_1_1_6, tmp18326)
 
-	tmp17350 := PrimCons(symstring, tmp17349)
+	tmp18328 := PrimCons(symstring, tmp18327)
 
-	tmp17351 := Call(__e, PrimNS2Value(symdeclare), symshen_4prhush, tmp17350)
+	tmp18329 := Call(__e, PrimFunc(symdeclare), symshen_4prhush, tmp18328)
 
-	_ = tmp17351
+	_ = tmp18329
 
-	tmp17352 := PrimCons(symnumber, Nil)
+	tmp18330 := PrimCons(symnumber, Nil)
 
-	tmp17353 := PrimCons(sym_1_1_6, tmp17352)
+	tmp18331 := PrimCons(sym_1_1_6, tmp18330)
 
-	tmp17354 := PrimCons(symnumber, tmp17353)
+	tmp18332 := PrimCons(symnumber, tmp18331)
 
-	tmp17355 := Call(__e, PrimNS2Value(symdeclare), symprolog_1memory, tmp17354)
+	tmp18333 := Call(__e, PrimFunc(symdeclare), symprolog_1memory, tmp18332)
 
-	_ = tmp17355
+	_ = tmp18333
 
-	tmp17356 := PrimCons(symunit, Nil)
+	tmp18334 := PrimCons(symunit, Nil)
 
-	tmp17357 := PrimCons(symlist, tmp17356)
+	tmp18335 := PrimCons(symlist, tmp18334)
 
-	tmp17358 := PrimCons(tmp17357, Nil)
+	tmp18336 := PrimCons(tmp18335, Nil)
 
-	tmp17359 := PrimCons(sym_1_1_6, tmp17358)
+	tmp18337 := PrimCons(sym_1_1_6, tmp18336)
 
-	tmp17360 := PrimCons(symsymbol, tmp17359)
+	tmp18338 := PrimCons(symsymbol, tmp18337)
 
-	tmp17361 := Call(__e, PrimNS2Value(symdeclare), symps, tmp17360)
+	tmp18339 := Call(__e, PrimFunc(symdeclare), symps, tmp18338)
 
-	_ = tmp17361
+	_ = tmp18339
 
-	tmp17362 := PrimCons(symin, Nil)
+	tmp18340 := PrimCons(symin, Nil)
 
-	tmp17363 := PrimCons(symstream, tmp17362)
+	tmp18341 := PrimCons(symstream, tmp18340)
 
-	tmp17364 := PrimCons(symunit, Nil)
+	tmp18342 := PrimCons(symunit, Nil)
 
-	tmp17365 := PrimCons(sym_1_1_6, tmp17364)
+	tmp18343 := PrimCons(sym_1_1_6, tmp18342)
 
-	tmp17366 := PrimCons(tmp17363, tmp17365)
+	tmp18344 := PrimCons(tmp18341, tmp18343)
 
-	tmp17367 := Call(__e, PrimNS2Value(symdeclare), symread, tmp17366)
+	tmp18345 := Call(__e, PrimFunc(symdeclare), symread, tmp18344)
 
-	_ = tmp17367
+	_ = tmp18345
 
-	tmp17368 := PrimCons(symin, Nil)
+	tmp18346 := PrimCons(symin, Nil)
 
-	tmp17369 := PrimCons(symstream, tmp17368)
+	tmp18347 := PrimCons(symstream, tmp18346)
 
-	tmp17370 := PrimCons(symnumber, Nil)
+	tmp18348 := PrimCons(symnumber, Nil)
 
-	tmp17371 := PrimCons(sym_1_1_6, tmp17370)
+	tmp18349 := PrimCons(sym_1_1_6, tmp18348)
 
-	tmp17372 := PrimCons(tmp17369, tmp17371)
+	tmp18350 := PrimCons(tmp18347, tmp18349)
 
-	tmp17373 := Call(__e, PrimNS2Value(symdeclare), symread_1byte, tmp17372)
+	tmp18351 := Call(__e, PrimFunc(symdeclare), symread_1byte, tmp18350)
 
-	_ = tmp17373
+	_ = tmp18351
 
-	tmp17374 := PrimCons(symnumber, Nil)
+	tmp18352 := PrimCons(symnumber, Nil)
 
-	tmp17375 := PrimCons(symlist, tmp17374)
+	tmp18353 := PrimCons(symlist, tmp18352)
 
-	tmp17376 := PrimCons(tmp17375, Nil)
+	tmp18354 := PrimCons(tmp18353, Nil)
 
-	tmp17377 := PrimCons(sym_1_1_6, tmp17376)
+	tmp18355 := PrimCons(sym_1_1_6, tmp18354)
 
-	tmp17378 := PrimCons(symstring, tmp17377)
+	tmp18356 := PrimCons(symstring, tmp18355)
 
-	tmp17379 := Call(__e, PrimNS2Value(symdeclare), symread_1file_1as_1bytelist, tmp17378)
+	tmp18357 := Call(__e, PrimFunc(symdeclare), symread_1file_1as_1bytelist, tmp18356)
 
-	_ = tmp17379
+	_ = tmp18357
 
-	tmp17380 := PrimCons(symstring, Nil)
+	tmp18358 := PrimCons(symstring, Nil)
 
-	tmp17381 := PrimCons(sym_1_1_6, tmp17380)
+	tmp18359 := PrimCons(sym_1_1_6, tmp18358)
 
-	tmp17382 := PrimCons(symstring, tmp17381)
+	tmp18360 := PrimCons(symstring, tmp18359)
 
-	tmp17383 := Call(__e, PrimNS2Value(symdeclare), symread_1file_1as_1string, tmp17382)
+	tmp18361 := Call(__e, PrimFunc(symdeclare), symread_1file_1as_1string, tmp18360)
 
-	_ = tmp17383
+	_ = tmp18361
 
-	tmp17384 := PrimCons(symunit, Nil)
+	tmp18362 := PrimCons(symunit, Nil)
 
-	tmp17385 := PrimCons(symlist, tmp17384)
+	tmp18363 := PrimCons(symlist, tmp18362)
 
-	tmp17386 := PrimCons(tmp17385, Nil)
+	tmp18364 := PrimCons(tmp18363, Nil)
 
-	tmp17387 := PrimCons(sym_1_1_6, tmp17386)
+	tmp18365 := PrimCons(sym_1_1_6, tmp18364)
 
-	tmp17388 := PrimCons(symstring, tmp17387)
+	tmp18366 := PrimCons(symstring, tmp18365)
 
-	tmp17389 := Call(__e, PrimNS2Value(symdeclare), symread_1file, tmp17388)
+	tmp18367 := Call(__e, PrimFunc(symdeclare), symread_1file, tmp18366)
 
-	_ = tmp17389
+	_ = tmp18367
 
-	tmp17390 := PrimCons(symunit, Nil)
+	tmp18368 := PrimCons(symunit, Nil)
 
-	tmp17391 := PrimCons(symlist, tmp17390)
+	tmp18369 := PrimCons(symlist, tmp18368)
 
-	tmp17392 := PrimCons(tmp17391, Nil)
+	tmp18370 := PrimCons(tmp18369, Nil)
 
-	tmp17393 := PrimCons(sym_1_1_6, tmp17392)
+	tmp18371 := PrimCons(sym_1_1_6, tmp18370)
 
-	tmp17394 := PrimCons(symstring, tmp17393)
+	tmp18372 := PrimCons(symstring, tmp18371)
 
-	tmp17395 := Call(__e, PrimNS2Value(symdeclare), symread_1from_1string, tmp17394)
+	tmp18373 := Call(__e, PrimFunc(symdeclare), symread_1from_1string, tmp18372)
 
-	_ = tmp17395
+	_ = tmp18373
 
-	tmp17396 := PrimCons(symunit, Nil)
+	tmp18374 := PrimCons(symunit, Nil)
 
-	tmp17397 := PrimCons(symlist, tmp17396)
+	tmp18375 := PrimCons(symlist, tmp18374)
 
-	tmp17398 := PrimCons(tmp17397, Nil)
+	tmp18376 := PrimCons(tmp18375, Nil)
 
-	tmp17399 := PrimCons(sym_1_1_6, tmp17398)
+	tmp18377 := PrimCons(sym_1_1_6, tmp18376)
 
-	tmp17400 := PrimCons(symstring, tmp17399)
+	tmp18378 := PrimCons(symstring, tmp18377)
 
-	tmp17401 := Call(__e, PrimNS2Value(symdeclare), symread_1from_1string_1unprocessed, tmp17400)
+	tmp18379 := Call(__e, PrimFunc(symdeclare), symread_1from_1string_1unprocessed, tmp18378)
 
-	_ = tmp17401
+	_ = tmp18379
 
-	tmp17402 := PrimCons(symstring, Nil)
+	tmp18380 := PrimCons(symstring, Nil)
 
-	tmp17403 := PrimCons(sym_1_1_6, tmp17402)
+	tmp18381 := PrimCons(sym_1_1_6, tmp18380)
 
-	tmp17404 := Call(__e, PrimNS2Value(symdeclare), symrelease, tmp17403)
+	tmp18382 := Call(__e, PrimFunc(symdeclare), symrelease, tmp18381)
 
-	_ = tmp17404
+	_ = tmp18382
 
-	tmp17405 := PrimCons(symA, Nil)
+	tmp18383 := PrimCons(symA, Nil)
 
-	tmp17406 := PrimCons(symlist, tmp17405)
+	tmp18384 := PrimCons(symlist, tmp18383)
 
-	tmp17407 := PrimCons(symA, Nil)
+	tmp18385 := PrimCons(symA, Nil)
 
-	tmp17408 := PrimCons(symlist, tmp17407)
+	tmp18386 := PrimCons(symlist, tmp18385)
 
-	tmp17409 := PrimCons(tmp17408, Nil)
+	tmp18387 := PrimCons(tmp18386, Nil)
 
-	tmp17410 := PrimCons(sym_1_1_6, tmp17409)
+	tmp18388 := PrimCons(sym_1_1_6, tmp18387)
 
-	tmp17411 := PrimCons(tmp17406, tmp17410)
+	tmp18389 := PrimCons(tmp18384, tmp18388)
 
-	tmp17412 := PrimCons(tmp17411, Nil)
+	tmp18390 := PrimCons(tmp18389, Nil)
 
-	tmp17413 := PrimCons(sym_1_1_6, tmp17412)
+	tmp18391 := PrimCons(sym_1_1_6, tmp18390)
 
-	tmp17414 := PrimCons(symA, tmp17413)
+	tmp18392 := PrimCons(symA, tmp18391)
 
-	tmp17415 := Call(__e, PrimNS2Value(symdeclare), symremove, tmp17414)
+	tmp18393 := Call(__e, PrimFunc(symdeclare), symremove, tmp18392)
 
-	_ = tmp17415
+	_ = tmp18393
 
-	tmp17416 := PrimCons(symA, Nil)
+	tmp18394 := PrimCons(symA, Nil)
 
-	tmp17417 := PrimCons(symlist, tmp17416)
+	tmp18395 := PrimCons(symlist, tmp18394)
 
-	tmp17418 := PrimCons(symA, Nil)
+	tmp18396 := PrimCons(symA, Nil)
 
-	tmp17419 := PrimCons(symlist, tmp17418)
+	tmp18397 := PrimCons(symlist, tmp18396)
 
-	tmp17420 := PrimCons(tmp17419, Nil)
+	tmp18398 := PrimCons(tmp18397, Nil)
 
-	tmp17421 := PrimCons(sym_1_1_6, tmp17420)
+	tmp18399 := PrimCons(sym_1_1_6, tmp18398)
 
-	tmp17422 := PrimCons(tmp17417, tmp17421)
+	tmp18400 := PrimCons(tmp18395, tmp18399)
 
-	tmp17423 := Call(__e, PrimNS2Value(symdeclare), symreverse, tmp17422)
+	tmp18401 := Call(__e, PrimFunc(symdeclare), symreverse, tmp18400)
 
-	_ = tmp17423
+	_ = tmp18401
 
-	tmp17424 := PrimCons(symA, Nil)
+	tmp18402 := PrimCons(symA, Nil)
 
-	tmp17425 := PrimCons(sym_1_1_6, tmp17424)
+	tmp18403 := PrimCons(sym_1_1_6, tmp18402)
 
-	tmp17426 := PrimCons(symstring, tmp17425)
+	tmp18404 := PrimCons(symstring, tmp18403)
 
-	tmp17427 := Call(__e, PrimNS2Value(symdeclare), symsimple_1error, tmp17426)
+	tmp18405 := Call(__e, PrimFunc(symdeclare), symsimple_1error, tmp18404)
 
-	_ = tmp17427
+	_ = tmp18405
 
-	tmp17428 := PrimCons(symB, Nil)
+	tmp18406 := PrimCons(symB, Nil)
 
-	tmp17429 := PrimCons(sym_d, tmp17428)
+	tmp18407 := PrimCons(sym_d, tmp18406)
 
-	tmp17430 := PrimCons(symA, tmp17429)
+	tmp18408 := PrimCons(symA, tmp18407)
 
-	tmp17431 := PrimCons(symB, Nil)
+	tmp18409 := PrimCons(symB, Nil)
 
-	tmp17432 := PrimCons(sym_1_1_6, tmp17431)
+	tmp18410 := PrimCons(sym_1_1_6, tmp18409)
 
-	tmp17433 := PrimCons(tmp17430, tmp17432)
+	tmp18411 := PrimCons(tmp18408, tmp18410)
 
-	tmp17434 := Call(__e, PrimNS2Value(symdeclare), symsnd, tmp17433)
+	tmp18412 := Call(__e, PrimFunc(symdeclare), symsnd, tmp18411)
 
-	_ = tmp17434
+	_ = tmp18412
 
-	tmp17435 := PrimCons(symsymbol, Nil)
+	tmp18413 := PrimCons(symsymbol, Nil)
 
-	tmp17436 := PrimCons(sym_1_1_6, tmp17435)
+	tmp18414 := PrimCons(sym_1_1_6, tmp18413)
 
-	tmp17437 := PrimCons(symnumber, tmp17436)
+	tmp18415 := PrimCons(symnumber, tmp18414)
 
-	tmp17438 := PrimCons(tmp17437, Nil)
+	tmp18416 := PrimCons(tmp18415, Nil)
 
-	tmp17439 := PrimCons(sym_1_1_6, tmp17438)
+	tmp18417 := PrimCons(sym_1_1_6, tmp18416)
 
-	tmp17440 := PrimCons(symsymbol, tmp17439)
+	tmp18418 := PrimCons(symsymbol, tmp18417)
 
-	tmp17441 := Call(__e, PrimNS2Value(symdeclare), symspecialise, tmp17440)
+	tmp18419 := Call(__e, PrimFunc(symdeclare), symspecialise, tmp18418)
 
-	_ = tmp17441
+	_ = tmp18419
 
-	tmp17442 := PrimCons(symboolean, Nil)
+	tmp18420 := PrimCons(symboolean, Nil)
 
-	tmp17443 := PrimCons(sym_1_1_6, tmp17442)
+	tmp18421 := PrimCons(sym_1_1_6, tmp18420)
 
-	tmp17444 := PrimCons(symsymbol, tmp17443)
+	tmp18422 := PrimCons(symsymbol, tmp18421)
 
-	tmp17445 := Call(__e, PrimNS2Value(symdeclare), symspy, tmp17444)
+	tmp18423 := Call(__e, PrimFunc(symdeclare), symspy, tmp18422)
 
-	_ = tmp17445
+	_ = tmp18423
 
-	tmp17446 := PrimCons(symboolean, Nil)
+	tmp18424 := PrimCons(symboolean, Nil)
 
-	tmp17447 := PrimCons(sym_1_1_6, tmp17446)
+	tmp18425 := PrimCons(sym_1_1_6, tmp18424)
 
-	tmp17448 := PrimCons(symsymbol, tmp17447)
+	tmp18426 := PrimCons(symsymbol, tmp18425)
 
-	tmp17449 := Call(__e, PrimNS2Value(symdeclare), symstep, tmp17448)
+	tmp18427 := Call(__e, PrimFunc(symdeclare), symstep, tmp18426)
 
-	_ = tmp17449
+	_ = tmp18427
 
-	tmp17450 := PrimCons(symin, Nil)
+	tmp18428 := PrimCons(symin, Nil)
 
-	tmp17451 := PrimCons(symstream, tmp17450)
+	tmp18429 := PrimCons(symstream, tmp18428)
 
-	tmp17452 := PrimCons(tmp17451, Nil)
+	tmp18430 := PrimCons(tmp18429, Nil)
 
-	tmp17453 := PrimCons(sym_1_1_6, tmp17452)
+	tmp18431 := PrimCons(sym_1_1_6, tmp18430)
 
-	tmp17454 := Call(__e, PrimNS2Value(symdeclare), symstinput, tmp17453)
+	tmp18432 := Call(__e, PrimFunc(symdeclare), symstinput, tmp18431)
 
-	_ = tmp17454
+	_ = tmp18432
 
-	tmp17455 := PrimCons(symout, Nil)
+	tmp18433 := PrimCons(symout, Nil)
 
-	tmp17456 := PrimCons(symstream, tmp17455)
+	tmp18434 := PrimCons(symstream, tmp18433)
 
-	tmp17457 := PrimCons(tmp17456, Nil)
+	tmp18435 := PrimCons(tmp18434, Nil)
 
-	tmp17458 := PrimCons(sym_1_1_6, tmp17457)
+	tmp18436 := PrimCons(sym_1_1_6, tmp18435)
 
-	tmp17459 := Call(__e, PrimNS2Value(symdeclare), symstoutput, tmp17458)
+	tmp18437 := Call(__e, PrimFunc(symdeclare), symstoutput, tmp18436)
 
-	_ = tmp17459
+	_ = tmp18437
 
-	tmp17460 := PrimCons(symboolean, Nil)
+	tmp18438 := PrimCons(symboolean, Nil)
 
-	tmp17461 := PrimCons(sym_1_1_6, tmp17460)
+	tmp18439 := PrimCons(sym_1_1_6, tmp18438)
 
-	tmp17462 := PrimCons(symA, tmp17461)
+	tmp18440 := PrimCons(symA, tmp18439)
 
-	tmp17463 := Call(__e, PrimNS2Value(symdeclare), symstring_2, tmp17462)
+	tmp18441 := Call(__e, PrimFunc(symdeclare), symstring_2, tmp18440)
 
-	_ = tmp17463
+	_ = tmp18441
 
-	tmp17464 := PrimCons(symstring, Nil)
+	tmp18442 := PrimCons(symstring, Nil)
 
-	tmp17465 := PrimCons(sym_1_1_6, tmp17464)
+	tmp18443 := PrimCons(sym_1_1_6, tmp18442)
 
-	tmp17466 := PrimCons(symA, tmp17465)
+	tmp18444 := PrimCons(symA, tmp18443)
 
-	tmp17467 := Call(__e, PrimNS2Value(symdeclare), symstr, tmp17466)
+	tmp18445 := Call(__e, PrimFunc(symdeclare), symstr, tmp18444)
 
-	_ = tmp17467
+	_ = tmp18445
 
-	tmp17468 := PrimCons(symnumber, Nil)
+	tmp18446 := PrimCons(symnumber, Nil)
 
-	tmp17469 := PrimCons(sym_1_1_6, tmp17468)
+	tmp18447 := PrimCons(sym_1_1_6, tmp18446)
 
-	tmp17470 := PrimCons(symstring, tmp17469)
+	tmp18448 := PrimCons(symstring, tmp18447)
 
-	tmp17471 := Call(__e, PrimNS2Value(symdeclare), symstring_1_6n, tmp17470)
+	tmp18449 := Call(__e, PrimFunc(symdeclare), symstring_1_6n, tmp18448)
 
-	_ = tmp17471
+	_ = tmp18449
 
-	tmp17472 := PrimCons(symsymbol, Nil)
+	tmp18450 := PrimCons(symsymbol, Nil)
 
-	tmp17473 := PrimCons(sym_1_1_6, tmp17472)
+	tmp18451 := PrimCons(sym_1_1_6, tmp18450)
 
-	tmp17474 := PrimCons(symstring, tmp17473)
+	tmp18452 := PrimCons(symstring, tmp18451)
 
-	tmp17475 := Call(__e, PrimNS2Value(symdeclare), symstring_1_6symbol, tmp17474)
+	tmp18453 := Call(__e, PrimFunc(symdeclare), symstring_1_6symbol, tmp18452)
 
-	_ = tmp17475
+	_ = tmp18453
 
-	tmp17476 := PrimCons(symnumber, Nil)
+	tmp18454 := PrimCons(symnumber, Nil)
 
-	tmp17477 := PrimCons(symlist, tmp17476)
+	tmp18455 := PrimCons(symlist, tmp18454)
 
-	tmp17478 := PrimCons(symnumber, Nil)
+	tmp18456 := PrimCons(symnumber, Nil)
 
-	tmp17479 := PrimCons(sym_1_1_6, tmp17478)
+	tmp18457 := PrimCons(sym_1_1_6, tmp18456)
 
-	tmp17480 := PrimCons(tmp17477, tmp17479)
+	tmp18458 := PrimCons(tmp18455, tmp18457)
 
-	tmp17481 := Call(__e, PrimNS2Value(symdeclare), symsum, tmp17480)
+	tmp18459 := Call(__e, PrimFunc(symdeclare), symsum, tmp18458)
 
-	_ = tmp17481
+	_ = tmp18459
 
-	tmp17482 := PrimCons(symboolean, Nil)
+	tmp18460 := PrimCons(symboolean, Nil)
 
-	tmp17483 := PrimCons(sym_1_1_6, tmp17482)
+	tmp18461 := PrimCons(sym_1_1_6, tmp18460)
 
-	tmp17484 := PrimCons(symA, tmp17483)
+	tmp18462 := PrimCons(symA, tmp18461)
 
-	tmp17485 := Call(__e, PrimNS2Value(symdeclare), symsymbol_2, tmp17484)
+	tmp18463 := Call(__e, PrimFunc(symdeclare), symsymbol_2, tmp18462)
 
-	_ = tmp17485
+	_ = tmp18463
 
-	tmp17486 := PrimCons(symsymbol, Nil)
+	tmp18464 := PrimCons(symsymbol, Nil)
 
-	tmp17487 := PrimCons(sym_1_1_6, tmp17486)
+	tmp18465 := PrimCons(sym_1_1_6, tmp18464)
 
-	tmp17488 := PrimCons(symsymbol, tmp17487)
+	tmp18466 := PrimCons(symsymbol, tmp18465)
 
-	tmp17489 := Call(__e, PrimNS2Value(symdeclare), symsystemf, tmp17488)
+	tmp18467 := Call(__e, PrimFunc(symdeclare), symsystemf, tmp18466)
 
-	_ = tmp17489
+	_ = tmp18467
 
-	tmp17490 := PrimCons(symA, Nil)
+	tmp18468 := PrimCons(symA, Nil)
 
-	tmp17491 := PrimCons(symlist, tmp17490)
+	tmp18469 := PrimCons(symlist, tmp18468)
 
-	tmp17492 := PrimCons(symA, Nil)
+	tmp18470 := PrimCons(symA, Nil)
 
-	tmp17493 := PrimCons(symlist, tmp17492)
+	tmp18471 := PrimCons(symlist, tmp18470)
 
-	tmp17494 := PrimCons(tmp17493, Nil)
+	tmp18472 := PrimCons(tmp18471, Nil)
 
-	tmp17495 := PrimCons(sym_1_1_6, tmp17494)
+	tmp18473 := PrimCons(sym_1_1_6, tmp18472)
 
-	tmp17496 := PrimCons(tmp17491, tmp17495)
+	tmp18474 := PrimCons(tmp18469, tmp18473)
 
-	tmp17497 := Call(__e, PrimNS2Value(symdeclare), symtail, tmp17496)
+	tmp18475 := Call(__e, PrimFunc(symdeclare), symtail, tmp18474)
 
-	_ = tmp17497
+	_ = tmp18475
 
-	tmp17498 := PrimCons(symstring, Nil)
+	tmp18476 := PrimCons(symstring, Nil)
 
-	tmp17499 := PrimCons(sym_1_1_6, tmp17498)
+	tmp18477 := PrimCons(sym_1_1_6, tmp18476)
 
-	tmp17500 := PrimCons(symstring, tmp17499)
+	tmp18478 := PrimCons(symstring, tmp18477)
 
-	tmp17501 := Call(__e, PrimNS2Value(symdeclare), symtlstr, tmp17500)
+	tmp18479 := Call(__e, PrimFunc(symdeclare), symtlstr, tmp18478)
 
-	_ = tmp17501
+	_ = tmp18479
 
-	tmp17502 := PrimCons(symA, Nil)
+	tmp18480 := PrimCons(symA, Nil)
 
-	tmp17503 := PrimCons(symvector, tmp17502)
+	tmp18481 := PrimCons(symvector, tmp18480)
 
-	tmp17504 := PrimCons(symA, Nil)
+	tmp18482 := PrimCons(symA, Nil)
 
-	tmp17505 := PrimCons(symvector, tmp17504)
+	tmp18483 := PrimCons(symvector, tmp18482)
 
-	tmp17506 := PrimCons(tmp17505, Nil)
+	tmp18484 := PrimCons(tmp18483, Nil)
 
-	tmp17507 := PrimCons(sym_1_1_6, tmp17506)
+	tmp18485 := PrimCons(sym_1_1_6, tmp18484)
 
-	tmp17508 := PrimCons(tmp17503, tmp17507)
+	tmp18486 := PrimCons(tmp18481, tmp18485)
 
-	tmp17509 := Call(__e, PrimNS2Value(symdeclare), symtlv, tmp17508)
+	tmp18487 := Call(__e, PrimFunc(symdeclare), symtlv, tmp18486)
 
-	_ = tmp17509
+	_ = tmp18487
 
-	tmp17510 := PrimCons(symboolean, Nil)
+	tmp18488 := PrimCons(symboolean, Nil)
 
-	tmp17511 := PrimCons(sym_1_1_6, tmp17510)
+	tmp18489 := PrimCons(sym_1_1_6, tmp18488)
 
-	tmp17512 := PrimCons(symsymbol, tmp17511)
+	tmp18490 := PrimCons(symsymbol, tmp18489)
 
-	tmp17513 := Call(__e, PrimNS2Value(symdeclare), symtc, tmp17512)
+	tmp18491 := Call(__e, PrimFunc(symdeclare), symtc, tmp18490)
 
-	_ = tmp17513
+	_ = tmp18491
 
-	tmp17514 := PrimCons(symboolean, Nil)
+	tmp18492 := PrimCons(symboolean, Nil)
 
-	tmp17515 := PrimCons(sym_1_1_6, tmp17514)
+	tmp18493 := PrimCons(sym_1_1_6, tmp18492)
 
-	tmp17516 := Call(__e, PrimNS2Value(symdeclare), symtc_2, tmp17515)
+	tmp18494 := Call(__e, PrimFunc(symdeclare), symtc_2, tmp18493)
 
-	_ = tmp17516
+	_ = tmp18494
 
-	tmp17517 := PrimCons(symA, Nil)
+	tmp18495 := PrimCons(symA, Nil)
 
-	tmp17518 := PrimCons(symlazy, tmp17517)
+	tmp18496 := PrimCons(symlazy, tmp18495)
 
-	tmp17519 := PrimCons(symA, Nil)
+	tmp18497 := PrimCons(symA, Nil)
 
-	tmp17520 := PrimCons(sym_1_1_6, tmp17519)
+	tmp18498 := PrimCons(sym_1_1_6, tmp18497)
 
-	tmp17521 := PrimCons(tmp17518, tmp17520)
+	tmp18499 := PrimCons(tmp18496, tmp18498)
 
-	tmp17522 := Call(__e, PrimNS2Value(symdeclare), symthaw, tmp17521)
+	tmp18500 := Call(__e, PrimFunc(symdeclare), symthaw, tmp18499)
 
-	_ = tmp17522
+	_ = tmp18500
 
-	tmp17523 := PrimCons(symsymbol, Nil)
+	tmp18501 := PrimCons(symsymbol, Nil)
 
-	tmp17524 := PrimCons(sym_1_1_6, tmp17523)
+	tmp18502 := PrimCons(sym_1_1_6, tmp18501)
 
-	tmp17525 := PrimCons(symsymbol, tmp17524)
+	tmp18503 := PrimCons(symsymbol, tmp18502)
 
-	tmp17526 := Call(__e, PrimNS2Value(symdeclare), symtrack, tmp17525)
+	tmp18504 := Call(__e, PrimFunc(symdeclare), symtrack, tmp18503)
 
-	_ = tmp17526
+	_ = tmp18504
 
-	tmp17527 := PrimCons(symA, Nil)
+	tmp18505 := PrimCons(symA, Nil)
 
-	tmp17528 := PrimCons(sym_1_1_6, tmp17527)
+	tmp18506 := PrimCons(sym_1_1_6, tmp18505)
 
-	tmp17529 := PrimCons(symexception, tmp17528)
+	tmp18507 := PrimCons(symexception, tmp18506)
 
-	tmp17530 := PrimCons(symA, Nil)
+	tmp18508 := PrimCons(symA, Nil)
 
-	tmp17531 := PrimCons(sym_1_1_6, tmp17530)
+	tmp18509 := PrimCons(sym_1_1_6, tmp18508)
 
-	tmp17532 := PrimCons(tmp17529, tmp17531)
+	tmp18510 := PrimCons(tmp18507, tmp18509)
 
-	tmp17533 := PrimCons(tmp17532, Nil)
+	tmp18511 := PrimCons(tmp18510, Nil)
 
-	tmp17534 := PrimCons(sym_1_1_6, tmp17533)
+	tmp18512 := PrimCons(sym_1_1_6, tmp18511)
 
-	tmp17535 := PrimCons(symA, tmp17534)
+	tmp18513 := PrimCons(symA, tmp18512)
 
-	tmp17536 := Call(__e, PrimNS2Value(symdeclare), symtrap_1error, tmp17535)
+	tmp18514 := Call(__e, PrimFunc(symdeclare), symtrap_1error, tmp18513)
 
-	_ = tmp17536
+	_ = tmp18514
 
-	tmp17537 := PrimCons(symboolean, Nil)
+	tmp18515 := PrimCons(symboolean, Nil)
 
-	tmp17538 := PrimCons(sym_1_1_6, tmp17537)
+	tmp18516 := PrimCons(sym_1_1_6, tmp18515)
 
-	tmp17539 := PrimCons(symA, tmp17538)
+	tmp18517 := PrimCons(symA, tmp18516)
 
-	tmp17540 := Call(__e, PrimNS2Value(symdeclare), symtuple_2, tmp17539)
+	tmp18518 := Call(__e, PrimFunc(symdeclare), symtuple_2, tmp18517)
 
-	_ = tmp17540
+	_ = tmp18518
 
-	tmp17541 := PrimCons(symsymbol, Nil)
+	tmp18519 := PrimCons(symsymbol, Nil)
 
-	tmp17542 := PrimCons(sym_1_1_6, tmp17541)
+	tmp18520 := PrimCons(sym_1_1_6, tmp18519)
 
-	tmp17543 := PrimCons(symsymbol, tmp17542)
+	tmp18521 := PrimCons(symsymbol, tmp18520)
 
-	tmp17544 := Call(__e, PrimNS2Value(symdeclare), symundefmacro, tmp17543)
+	tmp18522 := Call(__e, PrimFunc(symdeclare), symundefmacro, tmp18521)
 
-	_ = tmp17544
+	_ = tmp18522
 
-	tmp17545 := PrimCons(symA, Nil)
+	tmp18523 := PrimCons(symA, Nil)
 
-	tmp17546 := PrimCons(symlist, tmp17545)
+	tmp18524 := PrimCons(symlist, tmp18523)
 
-	tmp17547 := PrimCons(symA, Nil)
+	tmp18525 := PrimCons(symA, Nil)
 
-	tmp17548 := PrimCons(symlist, tmp17547)
+	tmp18526 := PrimCons(symlist, tmp18525)
 
-	tmp17549 := PrimCons(symA, Nil)
+	tmp18527 := PrimCons(symA, Nil)
 
-	tmp17550 := PrimCons(symlist, tmp17549)
+	tmp18528 := PrimCons(symlist, tmp18527)
 
-	tmp17551 := PrimCons(tmp17550, Nil)
+	tmp18529 := PrimCons(tmp18528, Nil)
 
-	tmp17552 := PrimCons(sym_1_1_6, tmp17551)
+	tmp18530 := PrimCons(sym_1_1_6, tmp18529)
 
-	tmp17553 := PrimCons(tmp17548, tmp17552)
+	tmp18531 := PrimCons(tmp18526, tmp18530)
 
-	tmp17554 := PrimCons(tmp17553, Nil)
+	tmp18532 := PrimCons(tmp18531, Nil)
 
-	tmp17555 := PrimCons(sym_1_1_6, tmp17554)
+	tmp18533 := PrimCons(sym_1_1_6, tmp18532)
 
-	tmp17556 := PrimCons(tmp17546, tmp17555)
+	tmp18534 := PrimCons(tmp18524, tmp18533)
 
-	tmp17557 := Call(__e, PrimNS2Value(symdeclare), symunion, tmp17556)
+	tmp18535 := Call(__e, PrimFunc(symdeclare), symunion, tmp18534)
 
-	_ = tmp17557
+	_ = tmp18535
 
-	tmp17558 := PrimCons(symsymbol, Nil)
+	tmp18536 := PrimCons(symsymbol, Nil)
 
-	tmp17559 := PrimCons(sym_1_1_6, tmp17558)
+	tmp18537 := PrimCons(sym_1_1_6, tmp18536)
 
-	tmp17560 := PrimCons(symsymbol, tmp17559)
+	tmp18538 := PrimCons(symsymbol, tmp18537)
 
-	tmp17561 := Call(__e, PrimNS2Value(symdeclare), symunprofile, tmp17560)
+	tmp18539 := Call(__e, PrimFunc(symdeclare), symunprofile, tmp18538)
 
-	_ = tmp17561
+	_ = tmp18539
 
-	tmp17562 := PrimCons(symsymbol, Nil)
+	tmp18540 := PrimCons(symsymbol, Nil)
 
-	tmp17563 := PrimCons(sym_1_1_6, tmp17562)
+	tmp18541 := PrimCons(sym_1_1_6, tmp18540)
 
-	tmp17564 := PrimCons(symsymbol, tmp17563)
+	tmp18542 := PrimCons(symsymbol, tmp18541)
 
-	tmp17565 := Call(__e, PrimNS2Value(symdeclare), symuntrack, tmp17564)
+	tmp18543 := Call(__e, PrimFunc(symdeclare), symuntrack, tmp18542)
 
-	_ = tmp17565
+	_ = tmp18543
 
-	tmp17566 := PrimCons(symboolean, Nil)
+	tmp18544 := PrimCons(symboolean, Nil)
 
-	tmp17567 := PrimCons(sym_1_1_6, tmp17566)
+	tmp18545 := PrimCons(sym_1_1_6, tmp18544)
 
-	tmp17568 := PrimCons(symA, tmp17567)
+	tmp18546 := PrimCons(symA, tmp18545)
 
-	tmp17569 := Call(__e, PrimNS2Value(symdeclare), symvariable_2, tmp17568)
+	tmp18547 := Call(__e, PrimFunc(symdeclare), symvariable_2, tmp18546)
 
-	_ = tmp17569
+	_ = tmp18547
 
-	tmp17570 := PrimCons(symboolean, Nil)
+	tmp18548 := PrimCons(symboolean, Nil)
 
-	tmp17571 := PrimCons(sym_1_1_6, tmp17570)
+	tmp18549 := PrimCons(sym_1_1_6, tmp18548)
 
-	tmp17572 := PrimCons(symA, tmp17571)
+	tmp18550 := PrimCons(symA, tmp18549)
 
-	tmp17573 := Call(__e, PrimNS2Value(symdeclare), symvector_2, tmp17572)
+	tmp18551 := Call(__e, PrimFunc(symdeclare), symvector_2, tmp18550)
 
-	_ = tmp17573
+	_ = tmp18551
 
-	tmp17574 := PrimCons(symstring, Nil)
+	tmp18552 := PrimCons(symstring, Nil)
 
-	tmp17575 := PrimCons(sym_1_1_6, tmp17574)
+	tmp18553 := PrimCons(sym_1_1_6, tmp18552)
 
-	tmp17576 := Call(__e, PrimNS2Value(symdeclare), symversion, tmp17575)
+	tmp18554 := Call(__e, PrimFunc(symdeclare), symversion, tmp18553)
 
-	_ = tmp17576
+	_ = tmp18554
 
-	tmp17577 := PrimCons(symA, Nil)
+	tmp18555 := PrimCons(symA, Nil)
 
-	tmp17578 := PrimCons(sym_1_1_6, tmp17577)
+	tmp18556 := PrimCons(sym_1_1_6, tmp18555)
 
-	tmp17579 := PrimCons(symA, tmp17578)
+	tmp18557 := PrimCons(symA, tmp18556)
 
-	tmp17580 := PrimCons(tmp17579, Nil)
+	tmp18558 := PrimCons(tmp18557, Nil)
 
-	tmp17581 := PrimCons(sym_1_1_6, tmp17580)
+	tmp18559 := PrimCons(sym_1_1_6, tmp18558)
 
-	tmp17582 := PrimCons(symstring, tmp17581)
+	tmp18560 := PrimCons(symstring, tmp18559)
 
-	tmp17583 := Call(__e, PrimNS2Value(symdeclare), symwrite_1to_1file, tmp17582)
+	tmp18561 := Call(__e, PrimFunc(symdeclare), symwrite_1to_1file, tmp18560)
 
-	_ = tmp17583
+	_ = tmp18561
 
-	tmp17584 := PrimCons(symout, Nil)
+	tmp18562 := PrimCons(symout, Nil)
 
-	tmp17585 := PrimCons(symstream, tmp17584)
+	tmp18563 := PrimCons(symstream, tmp18562)
 
-	tmp17586 := PrimCons(symnumber, Nil)
+	tmp18564 := PrimCons(symnumber, Nil)
 
-	tmp17587 := PrimCons(sym_1_1_6, tmp17586)
+	tmp18565 := PrimCons(sym_1_1_6, tmp18564)
 
-	tmp17588 := PrimCons(tmp17585, tmp17587)
+	tmp18566 := PrimCons(tmp18563, tmp18565)
 
-	tmp17589 := PrimCons(tmp17588, Nil)
+	tmp18567 := PrimCons(tmp18566, Nil)
 
-	tmp17590 := PrimCons(sym_1_1_6, tmp17589)
+	tmp18568 := PrimCons(sym_1_1_6, tmp18567)
 
-	tmp17591 := PrimCons(symnumber, tmp17590)
+	tmp18569 := PrimCons(symnumber, tmp18568)
 
-	tmp17592 := Call(__e, PrimNS2Value(symdeclare), symwrite_1byte, tmp17591)
+	tmp18570 := Call(__e, PrimFunc(symdeclare), symwrite_1byte, tmp18569)
 
-	_ = tmp17592
+	_ = tmp18570
 
-	tmp17593 := PrimCons(symboolean, Nil)
+	tmp18571 := PrimCons(symboolean, Nil)
 
-	tmp17594 := PrimCons(sym_1_1_6, tmp17593)
+	tmp18572 := PrimCons(sym_1_1_6, tmp18571)
 
-	tmp17595 := PrimCons(symstring, tmp17594)
+	tmp18573 := PrimCons(symstring, tmp18572)
 
-	tmp17596 := Call(__e, PrimNS2Value(symdeclare), symy_1or_1n_2, tmp17595)
+	tmp18574 := Call(__e, PrimFunc(symdeclare), symy_1or_1n_2, tmp18573)
 
-	_ = tmp17596
+	_ = tmp18574
 
-	tmp17597 := PrimCons(symboolean, Nil)
+	tmp18575 := PrimCons(symboolean, Nil)
 
-	tmp17598 := PrimCons(sym_1_1_6, tmp17597)
+	tmp18576 := PrimCons(sym_1_1_6, tmp18575)
 
-	tmp17599 := PrimCons(symnumber, tmp17598)
+	tmp18577 := PrimCons(symnumber, tmp18576)
 
-	tmp17600 := PrimCons(tmp17599, Nil)
+	tmp18578 := PrimCons(tmp18577, Nil)
 
-	tmp17601 := PrimCons(sym_1_1_6, tmp17600)
+	tmp18579 := PrimCons(sym_1_1_6, tmp18578)
 
-	tmp17602 := PrimCons(symnumber, tmp17601)
+	tmp18580 := PrimCons(symnumber, tmp18579)
 
-	tmp17603 := Call(__e, PrimNS2Value(symdeclare), sym_6, tmp17602)
+	tmp18581 := Call(__e, PrimFunc(symdeclare), sym_6, tmp18580)
 
-	_ = tmp17603
+	_ = tmp18581
 
-	tmp17604 := PrimCons(symboolean, Nil)
+	tmp18582 := PrimCons(symboolean, Nil)
 
-	tmp17605 := PrimCons(sym_1_1_6, tmp17604)
+	tmp18583 := PrimCons(sym_1_1_6, tmp18582)
 
-	tmp17606 := PrimCons(symnumber, tmp17605)
+	tmp18584 := PrimCons(symnumber, tmp18583)
 
-	tmp17607 := PrimCons(tmp17606, Nil)
+	tmp18585 := PrimCons(tmp18584, Nil)
 
-	tmp17608 := PrimCons(sym_1_1_6, tmp17607)
+	tmp18586 := PrimCons(sym_1_1_6, tmp18585)
 
-	tmp17609 := PrimCons(symnumber, tmp17608)
+	tmp18587 := PrimCons(symnumber, tmp18586)
 
-	tmp17610 := Call(__e, PrimNS2Value(symdeclare), sym_5, tmp17609)
+	tmp18588 := Call(__e, PrimFunc(symdeclare), sym_5, tmp18587)
 
-	_ = tmp17610
+	_ = tmp18588
 
-	tmp17611 := PrimCons(symboolean, Nil)
+	tmp18589 := PrimCons(symboolean, Nil)
 
-	tmp17612 := PrimCons(sym_1_1_6, tmp17611)
+	tmp18590 := PrimCons(sym_1_1_6, tmp18589)
 
-	tmp17613 := PrimCons(symnumber, tmp17612)
+	tmp18591 := PrimCons(symnumber, tmp18590)
 
-	tmp17614 := PrimCons(tmp17613, Nil)
+	tmp18592 := PrimCons(tmp18591, Nil)
 
-	tmp17615 := PrimCons(sym_1_1_6, tmp17614)
+	tmp18593 := PrimCons(sym_1_1_6, tmp18592)
 
-	tmp17616 := PrimCons(symnumber, tmp17615)
+	tmp18594 := PrimCons(symnumber, tmp18593)
 
-	tmp17617 := Call(__e, PrimNS2Value(symdeclare), sym_6_a, tmp17616)
+	tmp18595 := Call(__e, PrimFunc(symdeclare), sym_6_a, tmp18594)
 
-	_ = tmp17617
+	_ = tmp18595
 
-	tmp17618 := PrimCons(symboolean, Nil)
+	tmp18596 := PrimCons(symboolean, Nil)
 
-	tmp17619 := PrimCons(sym_1_1_6, tmp17618)
+	tmp18597 := PrimCons(sym_1_1_6, tmp18596)
 
-	tmp17620 := PrimCons(symnumber, tmp17619)
+	tmp18598 := PrimCons(symnumber, tmp18597)
 
-	tmp17621 := PrimCons(tmp17620, Nil)
+	tmp18599 := PrimCons(tmp18598, Nil)
 
-	tmp17622 := PrimCons(sym_1_1_6, tmp17621)
+	tmp18600 := PrimCons(sym_1_1_6, tmp18599)
 
-	tmp17623 := PrimCons(symnumber, tmp17622)
+	tmp18601 := PrimCons(symnumber, tmp18600)
 
-	tmp17624 := Call(__e, PrimNS2Value(symdeclare), sym_5_a, tmp17623)
+	tmp18602 := Call(__e, PrimFunc(symdeclare), sym_5_a, tmp18601)
 
-	_ = tmp17624
+	_ = tmp18602
 
-	tmp17625 := PrimCons(symboolean, Nil)
+	tmp18603 := PrimCons(symboolean, Nil)
 
-	tmp17626 := PrimCons(sym_1_1_6, tmp17625)
+	tmp18604 := PrimCons(sym_1_1_6, tmp18603)
 
-	tmp17627 := PrimCons(symA, tmp17626)
+	tmp18605 := PrimCons(symA, tmp18604)
 
-	tmp17628 := PrimCons(tmp17627, Nil)
+	tmp18606 := PrimCons(tmp18605, Nil)
 
-	tmp17629 := PrimCons(sym_1_1_6, tmp17628)
+	tmp18607 := PrimCons(sym_1_1_6, tmp18606)
 
-	tmp17630 := PrimCons(symA, tmp17629)
+	tmp18608 := PrimCons(symA, tmp18607)
 
-	tmp17631 := Call(__e, PrimNS2Value(symdeclare), sym_a, tmp17630)
+	tmp18609 := Call(__e, PrimFunc(symdeclare), sym_a, tmp18608)
 
-	_ = tmp17631
+	_ = tmp18609
 
-	tmp17632 := PrimCons(symnumber, Nil)
+	tmp18610 := PrimCons(symnumber, Nil)
 
-	tmp17633 := PrimCons(sym_1_1_6, tmp17632)
+	tmp18611 := PrimCons(sym_1_1_6, tmp18610)
 
-	tmp17634 := PrimCons(symnumber, tmp17633)
+	tmp18612 := PrimCons(symnumber, tmp18611)
 
-	tmp17635 := PrimCons(tmp17634, Nil)
+	tmp18613 := PrimCons(tmp18612, Nil)
 
-	tmp17636 := PrimCons(sym_1_1_6, tmp17635)
+	tmp18614 := PrimCons(sym_1_1_6, tmp18613)
 
-	tmp17637 := PrimCons(symnumber, tmp17636)
+	tmp18615 := PrimCons(symnumber, tmp18614)
 
-	tmp17638 := Call(__e, PrimNS2Value(symdeclare), sym_7, tmp17637)
+	tmp18616 := Call(__e, PrimFunc(symdeclare), sym_7, tmp18615)
 
-	_ = tmp17638
+	_ = tmp18616
 
-	tmp17639 := PrimCons(symnumber, Nil)
+	tmp18617 := PrimCons(symnumber, Nil)
 
-	tmp17640 := PrimCons(sym_1_1_6, tmp17639)
+	tmp18618 := PrimCons(sym_1_1_6, tmp18617)
 
-	tmp17641 := PrimCons(symnumber, tmp17640)
+	tmp18619 := PrimCons(symnumber, tmp18618)
 
-	tmp17642 := PrimCons(tmp17641, Nil)
+	tmp18620 := PrimCons(tmp18619, Nil)
 
-	tmp17643 := PrimCons(sym_1_1_6, tmp17642)
+	tmp18621 := PrimCons(sym_1_1_6, tmp18620)
 
-	tmp17644 := PrimCons(symnumber, tmp17643)
+	tmp18622 := PrimCons(symnumber, tmp18621)
 
-	tmp17645 := Call(__e, PrimNS2Value(symdeclare), sym_c, tmp17644)
+	tmp18623 := Call(__e, PrimFunc(symdeclare), sym_c, tmp18622)
 
-	_ = tmp17645
+	_ = tmp18623
 
-	tmp17646 := PrimCons(symnumber, Nil)
+	tmp18624 := PrimCons(symnumber, Nil)
 
-	tmp17647 := PrimCons(sym_1_1_6, tmp17646)
+	tmp18625 := PrimCons(sym_1_1_6, tmp18624)
 
-	tmp17648 := PrimCons(symnumber, tmp17647)
+	tmp18626 := PrimCons(symnumber, tmp18625)
 
-	tmp17649 := PrimCons(tmp17648, Nil)
+	tmp18627 := PrimCons(tmp18626, Nil)
 
-	tmp17650 := PrimCons(sym_1_1_6, tmp17649)
+	tmp18628 := PrimCons(sym_1_1_6, tmp18627)
 
-	tmp17651 := PrimCons(symnumber, tmp17650)
+	tmp18629 := PrimCons(symnumber, tmp18628)
 
-	tmp17652 := Call(__e, PrimNS2Value(symdeclare), sym_1, tmp17651)
+	tmp18630 := Call(__e, PrimFunc(symdeclare), sym_1, tmp18629)
 
-	_ = tmp17652
+	_ = tmp18630
 
-	tmp17653 := PrimCons(symnumber, Nil)
+	tmp18631 := PrimCons(symnumber, Nil)
 
-	tmp17654 := PrimCons(sym_1_1_6, tmp17653)
+	tmp18632 := PrimCons(sym_1_1_6, tmp18631)
 
-	tmp17655 := PrimCons(symnumber, tmp17654)
+	tmp18633 := PrimCons(symnumber, tmp18632)
 
-	tmp17656 := PrimCons(tmp17655, Nil)
+	tmp18634 := PrimCons(tmp18633, Nil)
 
-	tmp17657 := PrimCons(sym_1_1_6, tmp17656)
+	tmp18635 := PrimCons(sym_1_1_6, tmp18634)
 
-	tmp17658 := PrimCons(symnumber, tmp17657)
+	tmp18636 := PrimCons(symnumber, tmp18635)
 
-	tmp17659 := Call(__e, PrimNS2Value(symdeclare), sym_d, tmp17658)
+	tmp18637 := Call(__e, PrimFunc(symdeclare), sym_d, tmp18636)
 
-	_ = tmp17659
+	_ = tmp18637
 
-	tmp17660 := PrimCons(symboolean, Nil)
+	tmp18638 := PrimCons(symboolean, Nil)
 
-	tmp17661 := PrimCons(sym_1_1_6, tmp17660)
+	tmp18639 := PrimCons(sym_1_1_6, tmp18638)
 
-	tmp17662 := PrimCons(symB, tmp17661)
+	tmp18640 := PrimCons(symB, tmp18639)
 
-	tmp17663 := PrimCons(tmp17662, Nil)
+	tmp18641 := PrimCons(tmp18640, Nil)
 
-	tmp17664 := PrimCons(sym_1_1_6, tmp17663)
+	tmp18642 := PrimCons(sym_1_1_6, tmp18641)
 
-	tmp17665 := PrimCons(symA, tmp17664)
+	tmp18643 := PrimCons(symA, tmp18642)
 
-	__e.TailApply(PrimNS2Value(symdeclare), sym_a_a, tmp17665)
+	__e.TailApply(PrimFunc(symdeclare), sym_a_a, tmp18643)
 	return
 
 }, 0)
+
+var sym_dos_d = MakeSymbol("*os*")
+var sym_dport_d = MakeSymbol("*port*")
+var symcompile = MakeSymbol("compile")
+var sym_i = MakeSymbol("{")
+var symshen_4lowercase_2 = MakeSymbol("shen.lowercase?")
+var symhead = MakeSymbol("head")
+var symshen_4_5digits_6 = MakeSymbol("shen.<digits>")
+var symshen_4internal_2 = MakeSymbol("shen.internal?")
+var symshen_4_5body_6 = MakeSymbol("shen.<body>")
+var symshen_4_1null_1 = MakeSymbol("shen.-null-")
+var symshen_4ticket_1number = MakeSymbol("shen.ticket-number")
+var symelement_2 = MakeSymbol("element?")
+var symshen_4explode_1h = MakeSymbol("shen.explode-h")
+var symshen_4_5times_6 = MakeSymbol("shen.<times>")
+var symshen_4_1m = MakeSymbol("shen.-m")
+var symshen_4prolog_1parameters = MakeSymbol("shen.prolog-parameters")
+var symshen_4_5syntax_1item_6 = MakeSymbol("shen.<syntax-item>")
+var symabsvector_2 = MakeSymbol("absvector?")
+var symshen_4optimise_1typing = MakeSymbol("shen.optimise-typing")
+var symshen_4u_b_1macro = MakeSymbol("shen.u!-macro")
+var symis = MakeSymbol("is")
+var symshen_4c_1rule_1_6shen = MakeSymbol("shen.c-rule->shen")
+var symimplementation = MakeSymbol("implementation")
+var symshen_4insert = MakeSymbol("shen.insert")
+var symshen_4choicepoint = MakeSymbol("shen.choicepoint")
+var symshen_4sng_2 = MakeSymbol("shen.sng?")
+var symshen_4tabulate_1passive = MakeSymbol("shen.tabulate-passive")
+var symshen_4_5define_6 = MakeSymbol("shen.<define>")
+var symshen_4_5yaccsig_6 = MakeSymbol("shen.<yaccsig>")
+var symshen_4selectors = MakeSymbol("shen.selectors")
+var symshen_4update_1history = MakeSymbol("shen.update-history")
+var symshen_4_dgensym_d = MakeSymbol("shen.*gensym*")
+var symshen_4_dit_d = MakeSymbol("shen.*it*")
+var symshen_4freshterm_2 = MakeSymbol("shen.freshterm?")
+var symshen_4_5backslash_6 = MakeSymbol("shen.<backslash>")
+var symshen_4_5hash_6 = MakeSymbol("shen.<hash>")
+var symshen_4shen = MakeSymbol("shen.shen")
+var symshen_4bindv = MakeSymbol("shen.bindv")
+var symshen_4freshen_1sig = MakeSymbol("shen.freshen-sig")
+var symshen_4out_1of_1bounds = MakeSymbol("shen.out-of-bounds")
+var symdefun = MakeSymbol("defun")
+var symshen_4interror = MakeSymbol("shen.interror")
+var symshen_4pretty_1type = MakeSymbol("shen.pretty-type")
+var symshen_4output_1track = MakeSymbol("shen.output-track")
+var symshen_4_5syntax_6 = MakeSymbol("shen.<syntax>")
+var symintersection = MakeSymbol("intersection")
+var symshen_4_dalldatatypes_d = MakeSymbol("shen.*alldatatypes*")
+var symshen_4wildcard_2 = MakeSymbol("shen.wildcard?")
+var symarity = MakeSymbol("arity")
+var sym_5_1_1 = MakeSymbol("<--")
+var symshen_4yacc_1_6shen = MakeSymbol("shen.yacc->shen")
+var symshen_4then = MakeSymbol("shen.then")
+var symread_1file_1as_1string = MakeSymbol("read-file-as-string")
+var symvector_2 = MakeSymbol("vector?")
+var symprint = MakeSymbol("print")
+var sym_c_4 = MakeSymbol("/.")
+var symshen_4pui_1h = MakeSymbol("shen.pui-h")
+var symshen_4macroexpand_1h = MakeSymbol("shen.macroexpand-h")
+var symshen_4bind_b = MakeSymbol("shen.bind!")
+var symshen_4search = MakeSymbol("shen.search")
+var symshen_4line = MakeSymbol("shen.line")
+var symV = MakeSymbol("V")
+var symshen_4beta = MakeSymbol("shen.beta")
+var symshen_4abs_1macro = MakeSymbol("shen.abs-macro")
+var symshen_4unwind = MakeSymbol("shen.unwind")
+var symshen_4s = MakeSymbol("shen.s")
+var symshen_4_5digit_6 = MakeSymbol("shen.<digit>")
+var symshen_4overbind = MakeSymbol("shen.overbind")
+var symshen_4_5s_1exprs2_6 = MakeSymbol("shen.<s-exprs2>")
+var symshen_4modh = MakeSymbol("shen.modh")
+var symFinish = MakeSymbol("Finish")
+var sym_b = MakeSymbol("!")
+var sympackage_2 = MakeSymbol("package?")
+var symshen_4write_1string = MakeSymbol("shen.write-string")
+var symshen_4p_1hyps = MakeSymbol("shen.p-hyps")
+var symshen_4yacc_1semantics = MakeSymbol("shen.yacc-semantics")
+var symshen_4prolog_1abstraction = MakeSymbol("shen.prolog-abstraction")
+var sym_1 = MakeSymbol("-")
+var symcond = MakeSymbol("cond")
+var symshen_4_5shortnatters_6 = MakeSymbol("shen.<shortnatters>")
+var symshen_4_5bterm_6 = MakeSymbol("shen.<bterm>")
+var symshen_4my_1read_1byte = MakeSymbol("shen.my-read-byte")
+var symshen_4pause_1for_1user = MakeSymbol("shen.pause-for-user")
+var symshen_4_5packagename_6 = MakeSymbol("shen.<packagename>")
+var symfst = MakeSymbol("fst")
+var symread_1file_1as_1bytelist = MakeSymbol("read-file-as-bytelist")
+var symshen_4demode = MakeSymbol("shen.demode")
+var symshen_4split_1cases = MakeSymbol("shen.split-cases")
+var symshen_4openlock = MakeSymbol("shen.openlock")
+var symshen_4external_1symbols = MakeSymbol("shen.external-symbols")
+var symshen_4insert_1h = MakeSymbol("shen.insert-h")
+var symoccurs_1check = MakeSymbol("occurs-check")
+var symvector_1_6 = MakeSymbol("vector->")
+var symshen_4shendef_1_6kldef = MakeSymbol("shen.shendef->kldef")
+var symshen_4nchars = MakeSymbol("shen.nchars")
+var symshen_4_dcall_d = MakeSymbol("shen.*call*")
+var symshen_4lock = MakeSymbol("shen.lock")
+var symshen_4deref = MakeSymbol("shen.deref")
+var symout = MakeSymbol("out")
+var symshen_4inline_2 = MakeSymbol("shen.inline?")
+var symshen_4tracked_2 = MakeSymbol("shen.tracked?")
+var symshen_4profiled_2 = MakeSymbol("shen.profiled?")
+var symwrite_1to_1file = MakeSymbol("write-to-file")
+var symin = MakeSymbol("in")
+var symshen_4_5formulae_6 = MakeSymbol("shen.<formulae>")
+var symoptimise = MakeSymbol("optimise")
+var symshen_4pprint = MakeSymbol("shen.pprint")
+var symclose = MakeSymbol("close")
+var symrun = MakeSymbol("run")
+var symwarn = MakeSymbol("warn")
+var symshen_4lazyderef = MakeSymbol("shen.lazyderef")
+var symshen_4deref_1forked_1literals = MakeSymbol("shen.deref-forked-literals")
+var symshen_4_5dbl_6 = MakeSymbol("shen.<dbl>")
+var symshen_4return_2 = MakeSymbol("shen.return?")
+var symshen_4find_1arity = MakeSymbol("shen.find-arity")
+var symshen_4datatype_1macro = MakeSymbol("shen.datatype-macro")
+var symvalue = MakeSymbol("value")
+var sym_5 = MakeSymbol("<")
+var symmode = MakeSymbol("mode")
+var symshen_4op2 = MakeSymbol("shen.op2")
+var symshen_4load_1help = MakeSymbol("shen.load-help")
+var symtrack = MakeSymbol("track")
+var symunit = MakeSymbol("unit")
+var symshen_4reverse_1help = MakeSymbol("shen.reverse-help")
+var symshen_4list_1_6str = MakeSymbol("shen.list->str")
+var symshen_4str_1_6str = MakeSymbol("shen.str->str")
+var symshen_4_5rules_6 = MakeSymbol("shen.<rules>")
+var symshen_4_dprolog_1vector_d = MakeSymbol("shen.*prolog-vector*")
+var sym_d = MakeSymbol("*")
+var symshen_4_5defprolog_6 = MakeSymbol("shen.<defprolog>")
+var symshen_4horn_1clause_1procedure = MakeSymbol("shen.horn-clause-procedure")
+var symshen_4intern_1in_1package = MakeSymbol("shen.intern-in-package")
+var symshen_4_dsynonyms_d = MakeSymbol("shen.*synonyms*")
+var symshen_4lzy_a_b = MakeSymbol("shen.lzy=!")
+var symshen_4shen_1_6kl = MakeSymbol("shen.shen->kl")
+var symshen_4_5atom_6 = MakeSymbol("shen.<atom>")
+var symstring = MakeSymbol("string")
+var symshen_4typetable = MakeSymbol("shen.typetable")
+var symshen_4cons_1case_1minus = MakeSymbol("shen.cons-case-minus")
+var symshen_4posint_2 = MakeSymbol("shen.posint?")
+var symshen_4choicepoint_b = MakeSymbol("shen.choicepoint!")
+var symshen_4_5plus_6 = MakeSymbol("shen.<plus>")
+var symshen_4assumetypes = MakeSymbol("shen.assumetypes")
+var symshen_4_5packagenames_6 = MakeSymbol("shen.<packagenames>")
+var symshen_4make_1string_1macro = MakeSymbol("shen.make-string-macro")
+var symfork = MakeSymbol("fork")
+var symshen_4unassoc = MakeSymbol("shen.unassoc")
+var symlambda = MakeSymbol("lambda")
+var symwhen = MakeSymbol("when")
+var symshen_4sng_1h_2 = MakeSymbol("shen.sng-h?")
+var syminternal = MakeSymbol("internal")
+var symshen_4_5bar_6 = MakeSymbol("shen.<bar>")
+var symboolean = MakeSymbol("boolean")
+var symshen_4curry = MakeSymbol("shen.curry")
+var symC = MakeSymbol("C")
+var symdifference = MakeSymbol("difference")
+var syminteger_2 = MakeSymbol("integer?")
+var sym_dversion_d = MakeSymbol("*version*")
+var symshen_4string_1_6byte = MakeSymbol("shen.string->byte")
+var symshen_4output_1macro = MakeSymbol("shen.output-macro")
+var symload = MakeSymbol("load")
+var symshen_4remove_1datatypes = MakeSymbol("shen.remove-datatypes")
+var symstinput = MakeSymbol("stinput")
+var symshen_4skip = MakeSymbol("shen.skip")
+var symatom_2 = MakeSymbol("atom?")
+var symread_1file = MakeSymbol("read-file")
+var symshen_4gc = MakeSymbol("shen.gc")
+var symshen_4_5prems_6 = MakeSymbol("shen.<prems>")
+var symconcat = MakeSymbol("concat")
+var symshen_4_5number_6 = MakeSymbol("shen.<number>")
+var symshen_4_5notdbq_6 = MakeSymbol("shen.<notdbq>")
+var symshen_4input_1track = MakeSymbol("shen.input-track")
+var sym_dmacros_d = MakeSymbol("*macros*")
+var symshen_4_5expr_6 = MakeSymbol("shen.<expr>")
+var symshen_4syntax_1item_2 = MakeSymbol("shen.syntax-item?")
+var symshen_4_dspy_d = MakeSymbol("shen.*spy*")
+var symshen_4combine_1c_1code = MakeSymbol("shen.combine-c-code")
+var symshen_4package_1symbols = MakeSymbol("shen.package-symbols")
+var symuntrack = MakeSymbol("untrack")
+var symshen_4compile_1head = MakeSymbol("shen.compile-head")
+var symshen_4compile_1premise = MakeSymbol("shen.compile-premise")
+var symshen_4colon_1equal_2 = MakeSymbol("shen.colon-equal?")
+var sym_dstinput_d = MakeSymbol("*stinput*")
+var symshen_4compute_1fraction_1h = MakeSymbol("shen.compute-fraction-h")
+var sympackage = MakeSymbol("package")
+var symshen_4peek_1history = MakeSymbol("shen.peek-history")
+var symshen_4_5wildcard_6 = MakeSymbol("shen.<wildcard>")
+var symshen_4profile_1func = MakeSymbol("shen.profile-func")
+var symshen_4magless = MakeSymbol("shen.magless")
+var symshen_4_7string_2 = MakeSymbol("shen.+string?")
+var symshen_4_5clauses_6 = MakeSymbol("shen.<clauses>")
+var symand = MakeSymbol("and")
+var symshen_4loading_2 = MakeSymbol("shen.loading?")
+var sym_c = MakeSymbol("/")
+var symshen_4_5head_6 = MakeSymbol("shen.<head>")
+var symshen_4optimise_1passive_1h = MakeSymbol("shen.optimise-passive-h")
+var symshen_4_5rsb_6 = MakeSymbol("shen.<rsb>")
+var symshen_4process_1application = MakeSymbol("shen.process-application")
+var symX = MakeSymbol("X")
+var symshen_4goals = MakeSymbol("shen.goals")
+var symshen_4variancy = MakeSymbol("shen.variancy")
+var symshen_4lr_1rule = MakeSymbol("shen.lr-rule")
+var symshen_4type_1theory_1enabled_2 = MakeSymbol("shen.type-theory-enabled?")
+var symshen_4prodbutzero = MakeSymbol("shen.prodbutzero")
+var symshen_4cases_1macro = MakeSymbol("shen.cases-macro")
+var symshen_4initialise_1lambda_1tables = MakeSymbol("shen.initialise-lambda-tables")
+var symloaded = MakeSymbol("loaded")
+var symshen_4app = MakeSymbol("shen.app")
+var symshen_4read_1loop = MakeSymbol("shen.read-loop")
+var symbootstrap = MakeSymbol("bootstrap")
+var symshen_4ok = MakeSymbol("shen.ok")
+var symremove = MakeSymbol("remove")
+var symshen_4char_1stoutput_2 = MakeSymbol("shen.char-stoutput?")
+var symshen_4package_1user_1input = MakeSymbol("shen.package-user-input")
+var symshen_4semicolon_2 = MakeSymbol("shen.semicolon?")
+var symshen_4maxseq = MakeSymbol("shen.maxseq")
+var symif = MakeSymbol("if")
+var symshen_4prtl = MakeSymbol("shen.prtl")
+var symshen_4source = MakeSymbol("shen.source")
+var symshen_4non_1empty_1stream_2 = MakeSymbol("shen.non-empty-stream?")
+var symshen_4find_1types = MakeSymbol("shen.find-types")
+var symhdstr = MakeSymbol("hdstr")
+var sym_dimplementation_d = MakeSymbol("*implementation*")
+var symshen_4abs = MakeSymbol("shen.abs")
+var symshen_4comb = MakeSymbol("shen.comb")
+var symshen_4_5name_6 = MakeSymbol("shen.<name>")
+var symshen_4search_1user_1datatypes = MakeSymbol("shen.search-user-datatypes")
+var symshen_4wildcardcode = MakeSymbol("shen.wildcardcode")
+var symshen_4_5stop_6 = MakeSymbol("shen.<stop>")
+var sym_a_a_6 = MakeSymbol("==>")
+var symshen_4record_1macro = MakeSymbol("shen.record-macro")
+var symshen_4tuple = MakeSymbol("shen.tuple")
+var symResult = MakeSymbol("Result")
+var symshen_4_5datatype_6 = MakeSymbol("shen.<datatype>")
+var symshen_4get_1profile = MakeSymbol("shen.get-profile")
+var symshen_4lchh = MakeSymbol("shen.lchh")
+var symshen_4cut = MakeSymbol("shen.cut")
+var symshen_4print_1residue = MakeSymbol("shen.print-residue")
+var symlineread = MakeSymbol("lineread")
+var symtime = MakeSymbol("time")
+var symshen_4_dsize_1prolog_1vector_d = MakeSymbol("shen.*size-prolog-vector*")
+var symshen_4dbl_1h_2 = MakeSymbol("shen.dbl-h?")
+var symempty_2 = MakeSymbol("empty?")
+var symshen_4vector_1_6str = MakeSymbol("shen.vector->str")
+var sym__ = MakeSymbol("_")
+var symshen_4_5comment_6 = MakeSymbol("shen.<comment>")
+var symshen_4demod = MakeSymbol("shen.demod")
+var symshen_4klfile = MakeSymbol("shen.klfile")
+var symshen_4maxinfexceeded_2 = MakeSymbol("shen.maxinfexceeded?")
+var symshen_4prterm = MakeSymbol("shen.prterm")
+var symcd = MakeSymbol("cd")
+var symlength = MakeSymbol("length")
+var symshen_4read_1file_1as_1bytelist_1help = MakeSymbol("shen.read-file-as-bytelist-help")
+var symshen_4_5s_1exprs1_6 = MakeSymbol("shen.<s-exprs1>")
+var symshen_4linearise = MakeSymbol("shen.linearise")
+var symshen_4use_1history = MakeSymbol("shen.use-history")
+var symshen_4_dinfs_d = MakeSymbol("shen.*infs*")
+var symshen_4record_1it = MakeSymbol("shen.record-it")
+var symSynCons = MakeSymbol("SynCons")
+var symos = MakeSymbol("os")
+var symshen_4goto = MakeSymbol("shen.goto")
+var symmapcan = MakeSymbol("mapcan")
+var symshen_4_5conc_6 = MakeSymbol("shen.<conc>")
+var symsum = MakeSymbol("sum")
+var symis_b = MakeSymbol("is!")
+var sym_e = MakeSymbol("&")
+var symshen_4analyse_1variable_2 = MakeSymbol("shen.analyse-variable?")
+var sym_dporters_d = MakeSymbol("*porters*")
+var symcn = MakeSymbol("cn")
+var symshen_4_dloading_2_d = MakeSymbol("shen.*loading?*")
+var symstep = MakeSymbol("step")
+var symshen_4lookupsig = MakeSymbol("shen.lookupsig")
+var symappend = MakeSymbol("append")
+var symstoutput = MakeSymbol("stoutput")
+var sym_dstoutput_d = MakeSymbol("*stoutput*")
+var symshen_4op = MakeSymbol("shen.op")
+var symshen_4print_1prolog_1vector = MakeSymbol("shen.print-prolog-vector")
+var symshen_4prompt = MakeSymbol("shen.prompt")
+var symget = MakeSymbol("get")
+var symshen_4_5lsb_6 = MakeSymbol("shen.<lsb>")
+var symshen_4variablecode = MakeSymbol("shen.variablecode")
+var symunput = MakeSymbol("unput")
+var symshen_4write_1chars = MakeSymbol("shen.write-chars")
+var symshen_4tls = MakeSymbol("shen.tls")
+var symshen_4curry_1type = MakeSymbol("shen.curry-type")
+var symshen_4let_b = MakeSymbol("shen.let!")
+var sym_5_1vector = MakeSymbol("<-vector")
+var symshen_4monotype = MakeSymbol("shen.monotype")
+var symshen_4update_1assoc = MakeSymbol("shen.update-assoc")
+var symshen_4_5hterm1_6 = MakeSymbol("shen.<hterm1>")
+var symshen_4invoke = MakeSymbol("shen.invoke")
+var symassoc = MakeSymbol("assoc")
+var symlet = MakeSymbol("let")
+var symshen_4cond_1form = MakeSymbol("shen.cond-form")
+var symshen_4add_1sexpr = MakeSymbol("shen.add-sexpr")
+var symnl = MakeSymbol("nl")
+var sym_5e_6 = MakeSymbol("<e>")
+var symshen_4intern_1type = MakeSymbol("shen.intern-type")
+var sym_7 = MakeSymbol("+")
+var symshen_4branch = MakeSymbol("shen.branch")
+var symundefmacro = MakeSymbol("undefmacro")
+var symshen_4pvar_2 = MakeSymbol("shen.pvar?")
+var symeval = MakeSymbol("eval")
+var symshen_4_5return_6 = MakeSymbol("shen.<return>")
+var symshen_4incinfs = MakeSymbol("shen.incinfs")
+var symfail = MakeSymbol("fail")
+var symversion = MakeSymbol("version")
+var symshen_4f = MakeSymbol("shen.f")
+var symshen_4type_1F = MakeSymbol("shen.type-F")
+var symshen_4atom_1case_1minus = MakeSymbol("shen.atom-case-minus")
+var symshen_4t_d_1integrity = MakeSymbol("shen.t*-integrity")
+var symshen_4_5lcurly_6 = MakeSymbol("shen.<lcurly>")
+var symshen_4hascut_2 = MakeSymbol("shen.hascut?")
+var symshen_4_5minus_6 = MakeSymbol("shen.<minus>")
+var symMessage = MakeSymbol("Message")
+var symshen_4change_1pointer_1value = MakeSymbol("shen.change-pointer-value")
+var symerror = MakeSymbol("error")
+var symshen_4string_1match = MakeSymbol("shen.string-match")
+var symshen_4deref_1terms = MakeSymbol("shen.deref-terms")
+var symshen_4findall_1h = MakeSymbol("shen.findall-h")
+var symshen_4rules_1_6prolog = MakeSymbol("shen.rules->prolog")
+var symshen_4_5e_1number_6 = MakeSymbol("shen.<e-number>")
+var symsynonyms = MakeSymbol("synonyms")
+var symshen_4timer_1macro = MakeSymbol("shen.timer-macro")
+var symshen_4_8s_1macro = MakeSymbol("shen.@s-macro")
+var symsymbol = MakeSymbol("symbol")
+var symshen_4_dfactorise_2_d = MakeSymbol("shen.*factorise?*")
+var sym_6 = MakeSymbol(">")
+var symshen_4_5clause_6 = MakeSymbol("shen.<clause>")
+var symRecord = MakeSymbol("Record")
+var symshen_4_5rule_6 = MakeSymbol("shen.<rule>")
+var symshen_4vector_1dereference = MakeSymbol("shen.vector-dereference")
+var symshen_4_5rcurly_6 = MakeSymbol("shen.<rcurly>")
+var symshen_4_5lowE_6 = MakeSymbol("shen.<lowE>")
+var symshen_4unwind_1types = MakeSymbol("shen.unwind-types")
+var symshen_4_5datatype_1rules_6 = MakeSymbol("shen.<datatype-rules>")
+var symshen_4_dspecial_d = MakeSymbol("shen.*special*")
+var symshen_4assoc_1_6 = MakeSymbol("shen.assoc->")
+var symshen_4unlock = MakeSymbol("shen.unlock")
+var symTm = MakeSymbol("Tm")
+var symshen_4hashkey = MakeSymbol("shen.hashkey")
+var symshen_4pvar = MakeSymbol("shen.pvar")
+var symshen_4op_1test = MakeSymbol("shen.op-test")
+var symshen_4_dresidue_d = MakeSymbol("shen.*residue*")
+var symrelease = MakeSymbol("release")
+var symfreeze = MakeSymbol("freeze")
+var symshen_4_7vector_2 = MakeSymbol("shen.+vector?")
+var symshen_4_dstep_d = MakeSymbol("shen.*step*")
+var symshen_4autocomplete = MakeSymbol("shen.autocomplete")
+var symshen_4_5alpha_6 = MakeSymbol("shen.<alpha>")
+var symshen_4in_1_6 = MakeSymbol("shen.in->")
+var symcons_2 = MakeSymbol("cons?")
+var symshen_4i_1failed_b = MakeSymbol("shen.i-failed!")
+var symshen_4show_1p = MakeSymbol("shen.show-p")
+var symshen_4yacc_1syntax = MakeSymbol("shen.yacc-syntax")
+var symthaw = MakeSymbol("thaw")
+var symtlv = MakeSymbol("tlv")
+var symshen_4map_1h = MakeSymbol("shen.map-h")
+var symshen_4printF = MakeSymbol("shen.printF")
+var symshen_4_5fraction_6 = MakeSymbol("shen.<fraction>")
+var symshen_4compile_1body = MakeSymbol("shen.compile-body")
+var symshen_4arg_1_6str = MakeSymbol("shen.arg->str")
+var symwhere = MakeSymbol("where")
+var symshen_4find_1free_1vars = MakeSymbol("shen.find-free-vars")
+var symshen_4make_1prolog_1variable = MakeSymbol("shen.make-prolog-variable")
+var symP = MakeSymbol("P")
+var symps = MakeSymbol("ps")
+var symshen_4rfas_1h = MakeSymbol("shen.rfas-h")
+var symshen_4internal_1to_1P_2 = MakeSymbol("shen.internal-to-P?")
+var symnumber_2 = MakeSymbol("number?")
+var symshen_4compile_1side_1condition = MakeSymbol("shen.compile-side-condition")
+var symshen_4recursive_1string_1match = MakeSymbol("shen.recursive-string-match")
+var symshen_4compile_1premise_1h = MakeSymbol("shen.compile-premise-h")
+var symshen_4_5c_1rules_6 = MakeSymbol("shen.<c-rules>")
+var symshen_4_5singleline_6 = MakeSymbol("shen.<singleline>")
+var symshen = MakeSymbol("shen")
+var symshen_4profile_1help = MakeSymbol("shen.profile-help")
+var symshen_4assoc_1macro = MakeSymbol("shen.assoc-macro")
+var symvar_2 = MakeSymbol("var?")
+var symfindall = MakeSymbol("findall")
+var symcall = MakeSymbol("call")
+var symexplode = MakeSymbol("explode")
+var symmap = MakeSymbol("map")
+var symshen_4_5comma_6 = MakeSymbol("shen.<comma>")
+var symshen_4process_1after_1type = MakeSymbol("shen.process-after-type")
+var symspy = MakeSymbol("spy")
+var symshen_4fn_1print = MakeSymbol("shen.fn-print")
+var symshen_4_5pattern_6 = MakeSymbol("shen.<pattern>")
+var symshen_4newpv = MakeSymbol("shen.newpv")
+var symshen_4compile_1consequent = MakeSymbol("shen.compile-consequent")
+var symshen_4fillvector = MakeSymbol("shen.fillvector")
+var symshen_4non_1application_2 = MakeSymbol("shen.non-application?")
+var symshen_4internal_1symbols = MakeSymbol("shen.internal-symbols")
+var symshen_4_5returns_6 = MakeSymbol("shen.<returns>")
+var symshen_4compile_1search_1procedure = MakeSymbol("shen.compile-search-procedure")
+var symy_1or_1n_2 = MakeSymbol("y-or-n?")
+var symshen_4t_d_1correct = MakeSymbol("shen.t*-correct")
+var symshen_4rep_1X = MakeSymbol("shen.rep-X")
+var sym_a = MakeSymbol("=")
+var symshen_4_5log10_6 = MakeSymbol("shen.<log10>")
+var symshen_4fix_1help = MakeSymbol("shen.fix-help")
+var symshen_4record_1external = MakeSymbol("shen.record-external")
+var symStart = MakeSymbol("Start")
+var symexception = MakeSymbol("exception")
+var symshen_4tame = MakeSymbol("shen.tame")
+var symshen_4iter_1list = MakeSymbol("shen.iter-list")
+var symshen_4tlstream = MakeSymbol("shen.tlstream")
+var symshen_4call_1prolog = MakeSymbol("shen.call-prolog")
+var symshen_4this_1symbol_1is_1unbound = MakeSymbol("shen.this-symbol-is-unbound")
+var symstring_1_6n = MakeSymbol("string->n")
+var symshen_4coll_1formulae = MakeSymbol("shen.coll-formulae")
+var symshen_4prolog_1track = MakeSymbol("shen.prolog-track")
+var symshen_4mkstr = MakeSymbol("shen.mkstr")
+var symshen_4dbl_2 = MakeSymbol("shen.dbl?")
+var symprotect = MakeSymbol("protect")
+var sympreclude_1all_1but = MakeSymbol("preclude-all-but")
+var sym_6_a = MakeSymbol(">=")
+var symshen_4write_1kl = MakeSymbol("shen.write-kl")
+var symshen_4goto_1h = MakeSymbol("shen.goto-h")
+var sym_5_1 = MakeSymbol("<-")
+var symshen_4_5integer_6 = MakeSymbol("shen.<integer>")
+var symshen_4write_1kl_1h = MakeSymbol("shen.write-kl-h")
+var symshen_4conscode = MakeSymbol("shen.conscode")
+var symshen_4deref_1calls = MakeSymbol("shen.deref-calls")
+var symshen_4atom_1case_1plus = MakeSymbol("shen.atom-case-plus")
+var symshen_4key_1in_1sequent_1calculus_2 = MakeSymbol("shen.key-in-sequent-calculus?")
+var symshen_4_5rule_d_6 = MakeSymbol("shen.<rule*>")
+var symshen_4headstream = MakeSymbol("shen.headstream")
+var symhdv = MakeSymbol("hdv")
+var symdo = MakeSymbol("do")
+var symshen_4free_1variable_2 = MakeSymbol("shen.free-variable?")
+var symmake_1string = MakeSymbol("make-string")
+var symshen_4loop = MakeSymbol("shen.loop")
+var symshen_4passive_2 = MakeSymbol("shen.passive?")
+var symshen_4_5end_6 = MakeSymbol("shen.<end>")
+var symhd = MakeSymbol("hd")
+var syminclude = MakeSymbol("include")
+var symget_1time = MakeSymbol("get-time")
+var symoutput = MakeSymbol("output")
+var symshen_4received = MakeSymbol("shen.received")
+var symshen_4expt = MakeSymbol("shen.expt")
+var symdefine = MakeSymbol("define")
+var symshen_4_5pattern2_6 = MakeSymbol("shen.<pattern2>")
+var symshen_4find_1arities = MakeSymbol("shen.find-arities")
+var symstr = MakeSymbol("str")
+var symshen_4join = MakeSymbol("shen.join")
+var symshen_4non_1terminal_2 = MakeSymbol("shen.non-terminal?")
+var symshen_4update_1lambdatable = MakeSymbol("shen.update-lambdatable")
+var symshen_4nl_1macro = MakeSymbol("shen.nl-macro")
+var symshen_4show_1datatypes = MakeSymbol("shen.show-datatypes")
+var symread = MakeSymbol("read")
+var symshen_4typecheck = MakeSymbol("shen.typecheck")
+var symL = MakeSymbol("L")
+var symshen_4_5ass_6 = MakeSymbol("shen.<ass>")
+var symshen_4_5iscolon_6 = MakeSymbol("shen.<iscolon>")
+var symadjoin = MakeSymbol("adjoin")
+var symshen_4print_1vector_2 = MakeSymbol("shen.print-vector?")
+var sym_j = MakeSymbol("}")
+var sympreclude = MakeSymbol("preclude")
+var symor = MakeSymbol("or")
+var symshen_4_5packagechar_6 = MakeSymbol("shen.<packagechar>")
+var symshen_4rpted_2 = MakeSymbol("shen.rpted?")
+var symit = MakeSymbol("it")
+var sym_5_1address = MakeSymbol("<-address")
+var symshen_4passive = MakeSymbol("shen.passive")
+var symerror_1to_1string = MakeSymbol("error-to-string")
+var symshen_4else = MakeSymbol("shen.else")
+var symshen_4undefined_1f_2 = MakeSymbol("shen.undefined-f?")
+var symshen_4lambda_1entry = MakeSymbol("shen.lambda-entry")
+var symshen_4proc_1nl = MakeSymbol("shen.proc-nl")
+var symshen_4triple_1stack = MakeSymbol("shen.triple-stack")
+var symshen_4_5shortnatter_6 = MakeSymbol("shen.<shortnatter>")
+var symshen_4remove_1if_1unused = MakeSymbol("shen.remove-if-unused")
+var symshen_4_5rules_d_6 = MakeSymbol("shen.<rules*>")
+var symdatatype = MakeSymbol("datatype")
+var symexternal = MakeSymbol("external")
+var symshen_4_5pattern1_6 = MakeSymbol("shen.<pattern1>")
+var symshen_4_5signature_6 = MakeSymbol("shen.<signature>")
+var symcons = MakeSymbol("cons")
+var symshen_4free_1variable_1error_1message = MakeSymbol("shen.free-variable-error-message")
+var symshen_4parameters = MakeSymbol("shen.parameters")
+var symshen_4_5semicolon_6 = MakeSymbol("shen.<semicolon>")
+var symdeclare = MakeSymbol("declare")
+var symshen_4free_1var_1chk = MakeSymbol("shen.free-var-chk")
+var symshen_4overapplication_2 = MakeSymbol("shen.overapplication?")
+var symshen_4error_1macro = MakeSymbol("shen.error-macro")
+var symread_1byte = MakeSymbol("read-byte")
+var symshen_4prolog_1arity_1check = MakeSymbol("shen.prolog-arity-check")
+var symbind = MakeSymbol("bind")
+var symshen_4_5type_6 = MakeSymbol("shen.<type>")
+var symshen_4show = MakeSymbol("shen.show")
+var symshen_4shen_1call_2 = MakeSymbol("shen.shen-call?")
+var symshen_4input_1macro = MakeSymbol("shen.input-macro")
+var symshen_4_dprofiled_d = MakeSymbol("shen.*profiled*")
+var symshen_4foundit_b = MakeSymbol("shen.foundit!")
+var symshen_4spaces = MakeSymbol("shen.spaces")
+var symshen_4procedure_1call = MakeSymbol("shen.procedure-call")
+var symnumber = MakeSymbol("number")
+var symshen_4_5single_6 = MakeSymbol("shen.<single>")
+var syminput = MakeSymbol("input")
+var symsimple_1error = MakeSymbol("simple-error")
+var symn_1_6string = MakeSymbol("n->string")
+var symshen_4_5s_1exprs_6 = MakeSymbol("shen.<s-exprs>")
+var symshen_4eval_1and_1print = MakeSymbol("shen.eval-and-print")
+var symshen_4correct = MakeSymbol("shen.correct")
+var symParse = MakeSymbol("Parse")
+var symeval_1kl = MakeSymbol("eval-kl")
+var symshen_4extraspecial_2 = MakeSymbol("shen.extraspecial?")
+var symshen_4make_1uppercase = MakeSymbol("shen.make-uppercase")
+var symshen_4_5non_1terminal_2_6 = MakeSymbol("shen.<non-terminal?>")
+var symshen_4_dpackage_d = MakeSymbol("shen.*package*")
+var symshen_4store_1arity = MakeSymbol("shen.store-arity")
+var symshen_4constructor_2 = MakeSymbol("shen.constructor?")
+var symvariable_2 = MakeSymbol("variable?")
+var symshen_4_dsystem_d = MakeSymbol("shen.*system*")
+var symshen_4remove_1h = MakeSymbol("shen.remove-h")
+var symshen_4prhush = MakeSymbol("shen.prhush")
+var symshen_4_5hterm_6 = MakeSymbol("shen.<hterm>")
+var symshen_4length_1h = MakeSymbol("shen.length-h")
+var symshen_4funexstring = MakeSymbol("shen.funexstring")
+var symshen_4factorise_1code = MakeSymbol("shen.factorise-code")
+var symY = MakeSymbol("Y")
+var symreceive = MakeSymbol("receive")
+var symlazy = MakeSymbol("lazy")
+var symshen_4_8v_1help = MakeSymbol("shen.@v-help")
+var symshen_4multiples = MakeSymbol("shen.multiples")
+var sym_a_a = MakeSymbol("==")
+var symshen_4check_1byte = MakeSymbol("shen.check-byte")
+var symshen_4put_1profile = MakeSymbol("shen.put-profile")
+var symshen_4t_d_1rules = MakeSymbol("shen.t*-rules")
+var symlanguage = MakeSymbol("language")
+var symshen_4parse_1failure = MakeSymbol("shen.parse-failure")
+var symshen_4whitespace_2 = MakeSymbol("shen.whitespace?")
+var symshen_4_5alphanums_6 = MakeSymbol("shen.<alphanums>")
+var symshen_4freeze_1literals = MakeSymbol("shen.freeze-literals")
+var symshen_4c_1rules_1_6shen = MakeSymbol("shen.c-rules->shen")
+var symKey = MakeSymbol("Key")
+var symshen_4nothing_1doing_2 = MakeSymbol("shen.nothing-doing?")
+var symunprofile = MakeSymbol("unprofile")
+var symshen_4prolog_1vector_1size = MakeSymbol("shen.prolog-vector-size")
+var symshen_4system_1S_1h = MakeSymbol("shen.system-S-h")
+var symshen_4_5control_6 = MakeSymbol("shen.<control>")
+var symfile = MakeSymbol("file")
+var symshen_4walk = MakeSymbol("shen.walk")
+var symshen_4_5sng_6 = MakeSymbol("shen.<sng>")
+var symshen_4_5double_6 = MakeSymbol("shen.<double>")
+var symshen_4linearise_1h = MakeSymbol("shen.linearise-h")
+var symshen_4application_2 = MakeSymbol("shen.application?")
+var symprofile = MakeSymbol("profile")
+var symshen_4rule_1_6clause = MakeSymbol("shen.rule->clause")
+var symshen_4_5whitespace_6 = MakeSymbol("shen.<whitespace>")
+var symshen_4_doptimise_d = MakeSymbol("shen.*optimise*")
+var symtrap_1error = MakeSymbol("trap-error")
+var symsystemf = MakeSymbol("systemf")
+var symshen_4_5longnatter_6 = MakeSymbol("shen.<longnatter>")
+var symshen_4terminalcode = MakeSymbol("shen.terminalcode")
+var symshen_4f_1error = MakeSymbol("shen.f-error")
+var symshen_4_5_1out = MakeSymbol("shen.<-out")
+var symFreeze = MakeSymbol("Freeze")
+var symtl = MakeSymbol("tl")
+var symshen_4vertical = MakeSymbol("shen.vertical")
+var symshen_4let_1macro = MakeSymbol("shen.let-macro")
+var symoccurrences = MakeSymbol("occurrences")
+var sym_dlanguage_d = MakeSymbol("*language*")
+var symdefmacro = MakeSymbol("defmacro")
+var symshen_4compile_1synonyms = MakeSymbol("shen.compile-synonyms")
+var symshen_4hdstream = MakeSymbol("shen.hdstream")
+var symshen_4misc_2 = MakeSymbol("shen.misc?")
+var symshen_4hds = MakeSymbol("shen.hds")
+var symshen_4initialise_1arity_1table = MakeSymbol("shen.initialise-arity-table")
+var symshen_4linearise_1clause = MakeSymbol("shen.linearise-clause")
+var symshen_4cons_1case_1plus = MakeSymbol("shen.cons-case-plus")
+var symshen_4_5side_6 = MakeSymbol("shen.<side>")
+var symshen_4_5iscomma_6 = MakeSymbol("shen.<iscomma>")
+var symshen_4compile_1premises = MakeSymbol("shen.compile-premises")
+var symshen_4shen_1_6kl_1h = MakeSymbol("shen.shen->kl-h")
+var sym_3 = MakeSymbol("$")
+var symshen_4prolog_1macro = MakeSymbol("shen.prolog-macro")
+var symabsvector = MakeSymbol("absvector")
+var symTime = MakeSymbol("Time")
+var symshen_4prolog_1keyword_2 = MakeSymbol("shen.prolog-keyword?")
+var symread_1from_1string = MakeSymbol("read-from-string")
+var symshen_4work_1through = MakeSymbol("shen.work-through")
+var symshen_4no_1action = MakeSymbol("shen.no-action")
+var symupdate_1lambda_1table = MakeSymbol("update-lambda-table")
+var symshen_4parse_1failure_2 = MakeSymbol("shen.parse-failure?")
+var symshen_4constructor_1error = MakeSymbol("shen.constructor-error")
+var symshen_4horizontal = MakeSymbol("shen.horizontal")
+var symshen_4rectify_1type = MakeSymbol("shen.rectify-type")
+var symprolog_1memory = MakeSymbol("prolog-memory")
+var symshen_4_5patterns_6 = MakeSymbol("shen.<patterns>")
+var symshen_4_5strcontents_6 = MakeSymbol("shen.<strcontents>")
+var symshen_4check_1eval_1and_1print = MakeSymbol("shen.check-eval-and-print")
+var symshen_4_5literal_6 = MakeSymbol("shen.<literal>")
+var symshen_4internal_1to_1shen_2 = MakeSymbol("shen.internal-to-shen?")
+var symshen_4_5colon_1equal_6 = MakeSymbol("shen.<colon-equal>")
+var symnull = MakeSymbol("null")
+var symshen_4fbound_2 = MakeSymbol("shen.fbound?")
+var symstring_2 = MakeSymbol("string?")
+var symshen_4initialise__environment = MakeSymbol("shen.initialise_environment")
+var symshen_4terpri_1or_1read_1char = MakeSymbol("shen.terpri-or-read-char")
+var symshen_4parsed_2 = MakeSymbol("shen.parsed?")
+var symshen_4lowercase_1symbol_2 = MakeSymbol("shen.lowercase-symbol?")
+var symshen_4process_1applications = MakeSymbol("shen.process-applications")
+var symshen_4kl_1body = MakeSymbol("shen.kl-body")
+var symshen_4credits = MakeSymbol("shen.credits")
+var symshen_4_5sc_6 = MakeSymbol("shen.<sc>")
+var symshen_4freshen_1rule = MakeSymbol("shen.freshen-rule")
+var symtc_2 = MakeSymbol("tc?")
+var symshen_4freshterm = MakeSymbol("shen.freshterm")
+var symshen_4defcc_1macro = MakeSymbol("shen.defcc-macro")
+var symshen_4reset_1prolog_1vector = MakeSymbol("shen.reset-prolog-vector")
+var symshen_4pac_1h = MakeSymbol("shen.pac-h")
+var symB = MakeSymbol("B")
+var symsymbol_2 = MakeSymbol("symbol?")
+var symnth = MakeSymbol("nth")
+var symmaxinferences = MakeSymbol("maxinferences")
+var symshen_4insert_1l = MakeSymbol("shen.insert-l")
+var symshen_4shendef_1_6kldef_1h = MakeSymbol("shen.shendef->kldef-h")
+var symset = MakeSymbol("set")
+var symshen_4_doccurs_d = MakeSymbol("shen.*occurs*")
+var syminferences = MakeSymbol("inferences")
+var symshen_4_dextraspecial_d = MakeSymbol("shen.*extraspecial*")
+var symshen_4locked_2 = MakeSymbol("shen.locked?")
+var symshen_4signal_1def = MakeSymbol("shen.signal-def")
+var sympr = MakeSymbol("pr")
+var symabort = MakeSymbol("abort")
+var symshen_4lambda_1function = MakeSymbol("shen.lambda-function")
+var symshen_4defprolog_1macro = MakeSymbol("shen.defprolog-macro")
+var symshen_4synonyms_1h = MakeSymbol("shen.synonyms-h")
+var symtuple_2 = MakeSymbol("tuple?")
+var symshen_4unpackage = MakeSymbol("shen.unpackage")
+var symintern = MakeSymbol("intern")
+var symshen_4compile_1prolog = MakeSymbol("shen.compile-prolog")
+var sym_drelease_d = MakeSymbol("*release*")
+var symshen_4special_2 = MakeSymbol("shen.special?")
+var symshen_4list_2 = MakeSymbol("shen.list?")
+var symcases = MakeSymbol("cases")
+var symshen_4read_1evaluate_1print = MakeSymbol("shen.read-evaluate-print")
+var symshen_4compile_1assumptions = MakeSymbol("shen.compile-assumptions")
+var symshen_4recursively_1print = MakeSymbol("shen.recursively-print")
+var symfail_1if = MakeSymbol("fail-if")
+var symporters = MakeSymbol("porters")
+var syminput_7 = MakeSymbol("input+")
+var symshen_4_5sym_6 = MakeSymbol("shen.<sym>")
+var symD = MakeSymbol("D")
+var symshen_4digit_2 = MakeSymbol("shen.digit?")
+var symdestroy = MakeSymbol("destroy")
+var symshen_4build_1lambda_1table = MakeSymbol("shen.build-lambda-table")
+var symshen_4lzy_a = MakeSymbol("shen.lzy=")
+var symshen_4by_1hypothesis = MakeSymbol("shen.by-hypothesis")
+var symshen_4unlocked_2 = MakeSymbol("shen.unlocked?")
+var symshen_4sigxrules = MakeSymbol("shen.sigxrules")
+var symshen_4objectcode = MakeSymbol("shen.objectcode")
+var symshen_4ccons_2 = MakeSymbol("shen.ccons?")
+var symunspecialise = MakeSymbol("unspecialise")
+var symshen_4_5whitespaces_6 = MakeSymbol("shen.<whitespaces>")
+var sym_4_4_4 = MakeSymbol("...")
+var symshen_4_7m = MakeSymbol("shen.+m")
+var symshen_4head_1foundit_b = MakeSymbol("shen.head-foundit!")
+var symshen_4t_d_1rule = MakeSymbol("shen.t*-rule")
+var symshen_4_ddatatypes_d = MakeSymbol("shen.*datatypes*")
+var syminclude_1all_1but = MakeSymbol("include-all-but")
+var symshen_4continue = MakeSymbol("shen.continue")
+var symshen_4_5bterms_6 = MakeSymbol("shen.<bterms>")
+var symshen_4cons_1form_1no_1modes = MakeSymbol("shen.cons-form-no-modes")
+var symshen_4show_1assumptions = MakeSymbol("shen.show-assumptions")
+var symshen_4sysfunc_2 = MakeSymbol("shen.sysfunc?")
+var symopen = MakeSymbol("open")
+var symshen_4t_d = MakeSymbol("shen.t*")
+var symshen_4use_1type_1info = MakeSymbol("shen.use-type-info")
+var symshen_4a = MakeSymbol("shen.a")
+var symshen_4mod = MakeSymbol("shen.mod")
+var symshen_4mkstr_1l = MakeSymbol("shen.mkstr-l")
+var symshen_4r = MakeSymbol("shen.r")
+var symPrevious = MakeSymbol("Previous")
+var symsubst = MakeSymbol("subst")
+var symshen_4system_1S = MakeSymbol("shen.system-S")
+var symshen_4choicepoint_2 = MakeSymbol("shen.choicepoint?")
+var symshen_4prolog_1fbody = MakeSymbol("shen.prolog-fbody")
+var symS = MakeSymbol("S")
+var symshen_4decons = MakeSymbol("shen.decons")
+var symmacroexpand = MakeSymbol("macroexpand")
+var symshen_4fn_1call_2 = MakeSymbol("shen.fn-call?")
+var symA = MakeSymbol("A")
+var sym_8p = MakeSymbol("@p")
+var symshen_4_5numeral_6 = MakeSymbol("shen.<numeral>")
+var symshen_4fn_1call = MakeSymbol("shen.fn-call")
+var symshen_4_dtracking_d = MakeSymbol("shen.*tracking*")
+var symu_b = MakeSymbol("u!")
+var sym_dproperty_1vector_d = MakeSymbol("*property-vector*")
+var symnot = MakeSymbol("not")
+var symshen_4_ahd_2 = MakeSymbol("shen.=hd?")
+var symshen_4evaluate_1lineread = MakeSymbol("shen.evaluate-lineread")
+var sym_8v = MakeSymbol("@v")
+var symshen_4string_1_6bytes = MakeSymbol("shen.string->bytes")
+var symshen_4_5colon_6 = MakeSymbol("shen.<colon>")
+var symshen_4insert_1prolog_1variables = MakeSymbol("shen.insert-prolog-variables")
+var symNews = MakeSymbol("News")
+var symshen_4_dtc_d = MakeSymbol("shen.*tc*")
+var symtc = MakeSymbol("tc")
+var symshen_4_5equal_6 = MakeSymbol("shen.<equal>")
+var symshen_4variants_2 = MakeSymbol("shen.variants?")
+var sym_8s = MakeSymbol("@s")
+var symshen_4factor_1cn = MakeSymbol("shen.factor-cn")
+var sympos = MakeSymbol("pos")
+var symshen_4rcons__form = MakeSymbol("shen.rcons_form")
+var symlist = MakeSymbol("list")
+var symshen_4tuple_1up = MakeSymbol("shen.tuple-up")
+var symshen_4_5sides_6 = MakeSymbol("shen.<sides>")
+var symshen_4vector_1parameter = MakeSymbol("shen.vector-parameter")
+var symput = MakeSymbol("put")
+var symstream = MakeSymbol("stream")
+var symlimit = MakeSymbol("limit")
+var symshen_4remove_1pointer = MakeSymbol("shen.remove-pointer")
+var symshen_4synonyms_1macro = MakeSymbol("shen.synonyms-macro")
+var sym_1_1_6 = MakeSymbol("-->")
+var symshen_4function_1calls = MakeSymbol("shen.function-calls")
+var symshen_4analyse_1symbol_2 = MakeSymbol("shen.analyse-symbol?")
+var symshen_4cons_1form = MakeSymbol("shen.cons-form")
+var symshen_4mu_1h = MakeSymbol("shen.mu-h")
+var symshen_4fits_2 = MakeSymbol("shen.fits?")
+var symshen_4stpart = MakeSymbol("shen.stpart")
+var symshen_4demodulate = MakeSymbol("shen.demodulate")
+var symshen_4_5non_1terminal_1name_6 = MakeSymbol("shen.<non-terminal-name>")
+var symbar_b = MakeSymbol("bar!")
+var symshen_4lch = MakeSymbol("shen.lch")
+var symshen_4_dsigf_d = MakeSymbol("shen.*sigf*")
+var symshen_4simple_1curry = MakeSymbol("shen.simple-curry")
+var symreturn = MakeSymbol("return")
+var symprofile_1results = MakeSymbol("profile-results")
+var symshen_4pushsemantics = MakeSymbol("shen.pushsemantics")
+var sym_dhush_d = MakeSymbol("*hush*")
+var symtlstr = MakeSymbol("tlstr")
+var symshen_4primitive = MakeSymbol("shen.primitive")
+var symshen_4_5rrb_6 = MakeSymbol("shen.<rrb>")
+var symshen_4remember_1datatype = MakeSymbol("shen.remember-datatype")
+var symshen_4_5c_1rule_6 = MakeSymbol("shen.<c-rule>")
+var symshen_4copyfromvector = MakeSymbol("shen.copyfromvector")
+var symshen_4_5str_6 = MakeSymbol("shen.<str>")
+var symshen_4compile_1to_1kl = MakeSymbol("shen.compile-to-kl")
+var symsnd = MakeSymbol("snd")
+var symshen_4integer_1test_2 = MakeSymbol("shen.integer-test?")
+var symsave = MakeSymbol("save")
+var symunion = MakeSymbol("union")
+var symshen_4char_1stinput_2 = MakeSymbol("shen.char-stinput?")
+var symboolean_2 = MakeSymbol("boolean?")
+var symtail = MakeSymbol("tail")
+var symin_1package = MakeSymbol("in-package")
+var symshen_4print_1freshterm = MakeSymbol("shen.print-freshterm")
+var symshen_4insert_1tracking_1code = MakeSymbol("shen.insert-tracking-code")
+var symshen_4_5yacc_6 = MakeSymbol("shen.<yacc>")
+var symreverse = MakeSymbol("reverse")
+var symshen_4atom_1_6str = MakeSymbol("shen.atom->str")
+var symshen_4zero_1place_2 = MakeSymbol("shen.zero-place?")
+var syminline = MakeSymbol("inline")
+var symshen_4_5lrb_6 = MakeSymbol("shen.<lrb>")
+var symshen_4nextticket = MakeSymbol("shen.nextticket")
+var symshen_4alpha_2 = MakeSymbol("shen.alpha?")
+var sym_1_6 = MakeSymbol("->")
+var symshen_4execute_1store_1arity = MakeSymbol("shen.execute-store-arity")
+var symshen_4_5dbq_6 = MakeSymbol("shen.<dbq>")
+var symshen_4_5prem_6 = MakeSymbol("shen.<prem>")
+var symshen_4_dmaxinferences_d = MakeSymbol("shen.*maxinferences*")
+var symport = MakeSymbol("port")
+var symshen_4_dshen_1type_1theory_1enabled_2_d = MakeSymbol("shen.*shen-type-theory-enabled?*")
+var symshen_4scan_1body = MakeSymbol("shen.scan-body")
+var symshen_4try_1parse = MakeSymbol("shen.try-parse")
+var symK = MakeSymbol("K")
+var symshen_4eos = MakeSymbol("shen.eos")
+var symdefcc = MakeSymbol("defcc")
+var symshen_4_5simple_1pattern_6 = MakeSymbol("shen.<simple-pattern>")
+var symshen_4occurs_2 = MakeSymbol("shen.occurs?")
+var symshen_4cons_1form_1with_1modes = MakeSymbol("shen.cons-form-with-modes")
+var symshen_4_5sig_drules_6 = MakeSymbol("shen.<sig*rules>")
+var symshen_4read_1unit_1string = MakeSymbol("shen.read-unit-string")
+var symshen_4_5strc_6 = MakeSymbol("shen.<strc>")
+var sym_5_a = MakeSymbol("<=")
+var symbound_2 = MakeSymbol("bound?")
+var symshen_4op1 = MakeSymbol("shen.op1")
+var symfactorise = MakeSymbol("factorise")
+var symshen_4_5alphanum_6 = MakeSymbol("shen.<alphanum>")
+var sym_6_6 = MakeSymbol(">>")
+var symshen_4toplevel_1forms = MakeSymbol("shen.toplevel-forms")
+var symfresh = MakeSymbol("fresh")
+var symprolog_2 = MakeSymbol("prolog?")
+var symshen_4compile_1side_1conditions = MakeSymbol("shen.compile-side-conditions")
+var symshen_4uppercase_2 = MakeSymbol("shen.uppercase?")
+var symfix = MakeSymbol("fix")
+var sym_5_b_6 = MakeSymbol("<!>")
+var symshen_4packaged_2 = MakeSymbol("shen.packaged?")
+var symshen_4sigf = MakeSymbol("shen.sigf")
+var symstring_1_6symbol = MakeSymbol("string->symbol")
+var symenable_1type_1theory = MakeSymbol("enable-type-theory")
+var symshen_4_5hterm2_6 = MakeSymbol("shen.<hterm2>")
+var symshen_4compile_1assumption = MakeSymbol("shen.compile-assumption")
+var symshen_4keep_1looking = MakeSymbol("shen.keep-looking")
+var symshen_4compute_1E = MakeSymbol("shen.compute-E")
+var symshen_4type_1error = MakeSymbol("shen.type-error")
+var symshen_4track_1function = MakeSymbol("shen.track-function")
+var symshen_4non_1terminalcode = MakeSymbol("shen.non-terminalcode")
+var symfn = MakeSymbol("fn")
+var symshen_4put_cget_1macro = MakeSymbol("shen.put/get-macro")
+var symshen_4alphanums_2 = MakeSymbol("shen.alphanums?")
+var symtype = MakeSymbol("type")
+var symshen_4extract_1vars = MakeSymbol("shen.extract-vars")
+var symshen_4str_1_6bytes = MakeSymbol("shen.str->bytes")
+var symshen_4bytes_1_6string = MakeSymbol("shen.bytes->string")
+var symGoTo = MakeSymbol("GoTo")
+var symshen_4iter_1vector = MakeSymbol("shen.iter-vector")
+var symshen_4string_1prefix_2 = MakeSymbol("shen.string-prefix?")
+var symshen_4variable_1case = MakeSymbol("shen.variable-case")
+var symshen_4freshen_1type = MakeSymbol("shen.freshen-type")
+var symshen_4tlv_1help = MakeSymbol("shen.tlv-help")
+var symshen_4compute_1fraction = MakeSymbol("shen.compute-fraction")
+var symread_1from_1string_1unprocessed = MakeSymbol("read-from-string-unprocessed")
+var symshen_4unpackage_emacroexpand = MakeSymbol("shen.unpackage&macroexpand")
+var symshen_4decrement_1ticket = MakeSymbol("shen.decrement-ticket")
+var symshen_4optimise_1passive = MakeSymbol("shen.optimise-passive")
+var symspecialise = MakeSymbol("specialise")
+var symshen_4body_1foundit_b = MakeSymbol("shen.body-foundit!")
+var symshen_4t = MakeSymbol("shen.t")
+var symshen_4special_1case = MakeSymbol("shen.special-case")
+var symshen_4_5lowC_6 = MakeSymbol("shen.<lowC>")
+var symshen_4freshen = MakeSymbol("shen.freshen")
+var sym_dhome_1directory_d = MakeSymbol("*home-directory*")
+var symshen_4mkstr_1r = MakeSymbol("shen.mkstr-r")
+var symshen_4process_1sexprs = MakeSymbol("shen.process-sexprs")
+var symshen_4_5multiline_6 = MakeSymbol("shen.<multiline>")
+var symshen_4defmacro_1macro = MakeSymbol("shen.defmacro-macro")
+var symshen_4byte_1_6digit = MakeSymbol("shen.byte->digit")
+var symdefprolog = MakeSymbol("defprolog")
+var symaddress_1_6 = MakeSymbol("address->")
+var symvector = MakeSymbol("vector")
+var symhash = MakeSymbol("hash")
+var sym_dmaximum_1print_1sequence_1size_d = MakeSymbol("*maximum-print-sequence-size*")
+var symshen_4record_1kl = MakeSymbol("shen.record-kl")
+var symshen_4arity_1chk = MakeSymbol("shen.arity-chk")
+var symshen_4_5constructor_6 = MakeSymbol("shen.<constructor>")
+var symshen_4_5formula_6 = MakeSymbol("shen.<formula>")
+var symshen_4l_1rules = MakeSymbol("shen.l-rules")
+var symshen_4_dhistory_d = MakeSymbol("shen.*history*")
+var symwrite_1byte = MakeSymbol("write-byte")
+var symshen_4_5semantics_6 = MakeSymbol("shen.<semantics>")
+var symgensym = MakeSymbol("gensym")
+var symshen_4_5float_6 = MakeSymbol("shen.<float>")
+var symfunction = MakeSymbol("function")
+var symshen_4nvars = MakeSymbol("shen.nvars")
+var symshen_4rectify_1test = MakeSymbol("shen.rectify-test")
+var symverified = MakeSymbol("verified")
+var symshen_4_5datatype_1rule_6 = MakeSymbol("shen.<datatype-rule>")
+var symshen_4t_d_1rule_1h = MakeSymbol("shen.t*-rule-h")
+var symshen_4record_1and_1evaluate = MakeSymbol("shen.record-and-evaluate")
+var symshen_4compute_1integer = MakeSymbol("shen.compute-integer")
+var symshen_4compute_1integer_1h = MakeSymbol("shen.compute-integer-h")
+var symshen_4partial_1application_d_2 = MakeSymbol("shen.partial-application*?")
+var symshen_4unix = MakeSymbol("shen.unix")
+var sym_e_e = MakeSymbol("&&")
+var symshen_4_dlambdatable_d = MakeSymbol("shen.*lambdatable*")
+var symshen_4process_1yacc_1semantics = MakeSymbol("shen.process-yacc-semantics")
