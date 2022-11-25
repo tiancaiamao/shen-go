@@ -244,9 +244,8 @@ var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd Obj
 var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 var symType Obj
 
-var addrForFixnum [1 << 20]byte
-
 const fixnumCount = 1 << 20
+var addrForFixnum [fixnumCount]byte
 
 var fixnumBaseAddr = uintptr(unsafe.Pointer(&addrForFixnum[0]))
 var fixnumEndAddr = fixnumBaseAddr + fixnumCount

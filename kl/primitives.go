@@ -16,8 +16,6 @@ var klPrimitives = []struct {
 	fn    interface{}
 }{
 	// &scmNative{scmHead: scmHeadNative, name: "type", require: 2, fn: PrimTypeFunc},
-	{"load-file", 1, primLoadFile},
-	{"eval-kl", 1, primEvalKL},
 	{"get-time", 1, PrimGetTime},
 	{"close", 1, PrimCloseStream},
 	{"open", 2, PrimOpenStream},
@@ -72,6 +70,9 @@ func init() {
 	}
 
 	// Overload for primitive set and value.
+	BindSymbolFunc(MakeSymbol("eval-kl"), MakeNative(primEvalKL, 1))
+	BindSymbolFunc(MakeSymbol("load-file"), MakeNative(primLoadFile, 1))
+
 	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
 	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
 	dir, _ := os.Getwd()
