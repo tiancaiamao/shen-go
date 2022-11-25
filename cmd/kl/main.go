@@ -25,11 +25,6 @@ func main() {
 	}
 
 	var ctl kl.ControlFlow
-	// klambda.PrimNS1Set(symMacroExpand, klambda.Nil)
-	// klambda.Init(&e, true)
-	// klambda.KLInit(&e, true)
-	// klambda.PrimNS2Set(klambda.MakeSymbol("try-catch"), klambda.MakeNative(klambda.PrimTryCatch(true), 2))
-
 	kl.BindSymbolFunc(kl.MakeSymbol("bc->go"), bcToGo)
 	kl.BindSymbolFunc(kl.MakeSymbol("make-code-generator"), makeCodeGenerator)
 
@@ -47,7 +42,3 @@ func main() {
 		fmt.Println(kl.ObjString(res))
 	}
 }
-
-// var (
-// 	symMacroExpand = klambda.MakeSymbol("macroexpand")
-// )

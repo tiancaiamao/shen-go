@@ -268,31 +268,6 @@ func (cg *codeGenerator) generateExpr(w io.Writer, sexp Obj) error {
 			}
 		}
 		fmt.Fprintf(w, ")\nreturn\n")
-	// case "$prim":
-	// 	// ($prim f a b c ...)
-	// 	sym := GetSymbol(Car(Cdr(sexp)))
-	// 	prim := Primitives[sym].Name
-	// 	fmt.Fprintf(w, "%s(", prim)
-	// 	args := ListToSlice(Cdr(Cdr(sexp)))
-	// 	for i, arg := range args {
-	// 		if i != 0 {
-	// 			fmt.Fprintf(w, ", ")
-	// 		}
-	// 		if IsSymbol(arg) {
-	// 			fmt.Fprintf(w, "%s", symbolAsVar(arg))
-	// 		} else {
-	// 			if err := cg.generateExpr(w, arg); err != nil {
-	// 				return err
-	// 			}
-	// 		}
-	// 	}
-	// 	fmt.Fprintf(w, ")")
-	// 	fmt.Fprintln(w)
-	// case "try-catch":
-	// 	// (try-catch body handle)
-	// 	body := Car(Cdr(sexp))
-	// 	handle := Car(Cdr(Cdr(sexp)))
-	// 	fmt.Fprintf(w, "Try(__e, %s).Catch(%s)", symbolAsVar(body), symbolAsVar(handle))
 	default:
 		return fmt.Errorf("unknown instruct: %s\n", kind)
 	}

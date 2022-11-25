@@ -151,12 +151,6 @@ func isPreciseInteger(f float64) bool {
 	return (bits << uint(12+exp)) == 0
 }
 
-// func CoraSet(key, val Obj) {
-// 	sym := mustSymbol(key)
-// 	sym.cora = val
-// 	return
-// }
-
 func BindSymbolFunc(sym Obj, f Obj) {
 	mustSymbol(sym).function = f
 }

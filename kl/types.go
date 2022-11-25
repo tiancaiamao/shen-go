@@ -108,10 +108,12 @@ type scmError struct {
 
 // MakeRaw makes a struct into a raw object.
 // Usage:
-// type T struct {
-//    scmHead int
-//    ... // xxx
-// }
+//
+//	type T struct {
+//	   scmHead int
+//	   ... // xxx
+//	}
+//
 // tmp := &T{}
 // raw := MakeRaw(&tmp.scmHead)
 func MakeRaw(scmHead *int) Obj {
