@@ -36,12 +36,6 @@ func TestIntern(t *testing.T) {
 	}
 }
 
-// func TestListAllPrimName(t *testing.T) {
-// 	for _, prim := range AllPrimitives {
-// 		fmt.Printf(" %s", prim.Name)
-// 	}
-// }
-
 func TestStr(t *testing.T) {
 	// str primitive prints the viewable format of a object.
 	// shen symbol? defun rely on this function contain non-alpha chars.

@@ -30,19 +30,133 @@ This binary has no dependency, you can move it to any where you want.
 
 ## Testing
 
+1. Run unit test:
+
 ```
+make test
+```
+
+2. Test the `klambda` implementation:
+
+```
+make kl
+cd 'S31/Test Programs'
+kl
+(load-file "../KLambda/toplevel.kl")
+(load-file "../KLambda/core.kl")
+(load-file "../KLambda/sys.kl")
+(load-file "../KLambda/sequent.kl")
+(load-file "../KLambda/yacc.kl")
+(load-file "../KLambda/reader.kl")
+(load-file "../KLambda/prolog.kl")
+(load-file "../KLambda/track.kl")
+(load-file "../KLambda/load.kl")
+(load-file "../KLambda/writer.kl")
+(load-file "../KLambda/macros.kl")
+(load-file "../KLambda/declarations.kl")
+(load-file "../KLambda/t-star.kl")
+(load-file "../KLambda/types.kl")
+(shen.shen)
+(load "runme.shen")
+```
+
+3. Test the `shen` binary:
+
+
+```
+make shen
 cd 'S31/Test Programs'
 ../../shen
 (load "runme.shen")
 ```
+
+## How to bootstrap
+
+`kl` implement a simple klambda interpreter in Go, which can be used to bootstrap `shen`
+
+```
+;; mkdir -p compiled
+;; cd compiled
+;; kl
+(load-file "../S31/KLambda/toplevel.kl")
+(load-file "../S31/KLambda/core.kl")
+(load-file "../S31/KLambda/sys.kl")
+(load-file "../S31/KLambda/sequent.kl")
+(load-file "../S31/KLambda/yacc.kl")
+(load-file "../S31/KLambda/reader.kl")
+(load-file "../S31/KLambda/prolog.kl")
+(load-file "../S31/KLambda/track.kl")
+(load-file "../S31/KLambda/load.kl")
+(load-file "../S31/KLambda/writer.kl")
+(load-file "../S31/KLambda/macros.kl")
+(load-file "../S31/KLambda/declarations.kl")
+(load-file "../S31/KLambda/t-star.kl")
+(load-file "../S31/KLambda/types.kl")
+(shen.shen)
+```
+
+`shen` source files is generated from the `.kl` files. The full transformation path is Shen -> KL -> IR -> Go.
+
+The file `src/compiler.shen` is a transpiler from KL to an intermediate representation(IR), load it:
+
+```
+(load "../src/compiler.shen")
+```
+
+Compile the klambda to the intermediate representation:
+
+```
+(set *maximum-print-sequence-size* 100000)
+(compile-file "../S31/KLambda/sys.kl" "sys.tmp")
+(compile-file "../S31/KLambda/writer.kl" "writer.tmp")
+(compile-file "../S31/KLambda/core.kl" "core.tmp")
+(compile-file "../S31/KLambda/reader.kl" "reader.tmp")
+(compile-file "../S31/KLambda/declarations.kl" "declarations.tmp")
+(compile-file "../S31/KLambda/toplevel.kl" "toplevel.tmp")
+(compile-file "../S31/KLambda/macros.kl" "macros.tmp")
+(compile-file "../S31/KLambda/load.kl"  "load.tmp")
+(compile-file "../S31/KLambda/prolog.kl" "prolog.tmp")
+(compile-file "../S31/KLambda/sequent.kl" "sequent.tmp")
+(compile-file "../S31/KLambda/track.kl" "track.tmp")
+(compile-file "../S31/KLambda/t-star.kl" "t-star.tmp")
+(compile-file "../S31/KLambda/yacc.kl" "yacc.tmp")
+(compile-file "../S31/KLambda/types.kl" "types.tmp")
+```
+
+And generate the Go files from the intermediate representation:
+
+```
+(put bc->go arity 5)
+(let Cg (make-code-generator)
+     (do
+      (bc->go Cg "SysMain" false "sys.tmp" "../cmd/shen/sys.go")
+      (bc->go Cg "WriterMain" false "writer.tmp" "../cmd/shen/writer.go")
+      (bc->go Cg "CoreMain" false "core.tmp" "../cmd/shen/core.go")
+      (bc->go Cg "ReaderMain" false "reader.tmp" "../cmd/shen/reader.go")
+      (bc->go Cg "DeclarationsMain" false "declarations.tmp" "../cmd/shen/declarations.go")
+      (bc->go Cg "TopLevelMain" false "toplevel.tmp" "../cmd/shen/toplevel.go")
+      (bc->go Cg "MacrosMain" false "macros.tmp" "../cmd/shen/macros.go")
+      (bc->go Cg "LoadMain" false "load.tmp" "../cmd/shen/load.go")
+      (bc->go Cg "PrologMain" false "prolog.tmp" "../cmd/shen/prolog.go")
+      (bc->go Cg "SequentMain" false "sequent.tmp" "../cmd/shen/sequent.go")
+      (bc->go Cg "TrackMain" false "track.tmp" "../cmd/shen/track.go")
+      (bc->go Cg "TStarMain" false "t-star.tmp" "../cmd/shen/t-star.go")
+      (bc->go Cg "YaccMain" false "yacc.tmp" "../cmd/shen/yacc.go")
+      (bc->go Cg "TypesMain" true "types.tmp" "../cmd/shen/types.go")))
+```
+
+Now the shen source files are available, built it:
+
+```
+make shen
+```
+
+
 ## Learn Shen
 * [Official website of Shen](http://shenlanguage.org/)
-* [The Shen OS Kernel Manual](http://shenlanguage.org/learn-shen/index.html)
-* [The Official Shen Standard](http://www.shenlanguage.org/learn-shen/shendoc.htm)
 * [Shen Community Wiki](https://github.com/Shen-Language/wiki/wiki)
-* [The Book of Shen: third edition](https://www.amazon.co.uk/Book-Shen-Third-Mark-Tarver/dp/1784562130)
 
 ## License
 
 - Shen, Copyright © 2010-2015 Mark Tarver - [License](http://www.shenlanguage.org/license.pdf).
-- shen-go, Copyright © 2017-2020 Arthur Mao under [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause).
+- shen-go, Copyright © 2017-2022 Arthur Mao under [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause).

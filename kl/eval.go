@@ -401,37 +401,6 @@ func evalFunction(e *ControlFlow, fn Obj, env Obj) Obj {
 	panic(fmt.Sprintf("can't apply non function: %#v", (*scmHead)(fn)))
 }
 
-// func (e *KLambda) BootstrapShen() {
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/toplevel.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/dict.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/core.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/sys.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/sequent.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/yacc.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/reader.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/prolog.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/track.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/load.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/writer.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/macros.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/declarations.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/t-star.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/types.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/init.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/extension-features.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/extension-launcher.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/extension-factorise-defun.kl")
-// 	e.LoadFile("shen-sources-shen-22.3/klambda/extension-programmable-pattern-matching.kl")
-
-// 	// override
-// 	e.Override()
-// }
-
-// func (e *KLambda) Override() {
-// 	isSymbol := MakePrimitive("symbol?", 1, PrimIsSymbol)
-// 	BindSymbolFunc(MakeSymbol("symbol?"), isSymbol)
-// }
-
 func (e *ControlFlow) Global(key Obj) Obj {
 	sym := mustSymbol(key)
 	if sym.function != nil {
