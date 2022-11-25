@@ -8,7 +8,7 @@ import (
 	_ "net/http/pprof"
 	"os"
 
-	"github.com/tiancaiamao/shen-go/klambda"
+	"github.com/tiancaiamao/shen-go/kl"
 )
 
 var pprof bool
@@ -24,14 +24,16 @@ func main() {
 		go http.ListenAndServe(":8080", nil)
 	}
 
-	var e klambda.ControlFlow
+	var ctl kl.ControlFlow
 	// klambda.PrimNS1Set(symMacroExpand, klambda.Nil)
-
 	// klambda.Init(&e, true)
 	// klambda.KLInit(&e, true)
 	// klambda.PrimNS2Set(klambda.MakeSymbol("try-catch"), klambda.MakeNative(klambda.PrimTryCatch(true), 2))
 
-	r := klambda.NewSexpReader(os.Stdin, false)
+	kl.BindSymbolFunc(kl.MakeSymbol("bc->go"), bcToGo)
+	kl.BindSymbolFunc(kl.MakeSymbol("make-code-generator"), makeCodeGenerator)
+
+	r := kl.NewSexpReader(os.Stdin, false)
 	for i := 0; ; i++ {
 		fmt.Printf("%d #> ", i)
 		sexp, err := r.Read()
@@ -41,11 +43,11 @@ func main() {
 			}
 			break
 		}
-		res := e.Eval(sexp)
-		fmt.Println(klambda.ObjString(res))
+		res := kl.Eval(&ctl, sexp)
+		fmt.Println(kl.ObjString(res))
 	}
 }
 
-var (
-	symMacroExpand = klambda.MakeSymbol("macroexpand")
-)
+// var (
+// 	symMacroExpand = klambda.MakeSymbol("macroexpand")
+// )
