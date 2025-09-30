@@ -20,6 +20,12 @@ Make sure you have [Go installed](https://golang.org/doc/install).
 make shen
 ```
 
+or for windows
+
+```
+make shen-exe
+```
+
 ## Running
 
 ```
