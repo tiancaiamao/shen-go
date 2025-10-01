@@ -48,21 +48,7 @@ make test
 make kl
 cd 'S31/Test Programs'
 kl
-(load-file "../KLambda/toplevel.kl")
-(load-file "../KLambda/core.kl")
-(load-file "../KLambda/sys.kl")
-(load-file "../KLambda/sequent.kl")
-(load-file "../KLambda/yacc.kl")
-(load-file "../KLambda/reader.kl")
-(load-file "../KLambda/prolog.kl")
-(load-file "../KLambda/track.kl")
-(load-file "../KLambda/load.kl")
-(load-file "../KLambda/writer.kl")
-(load-file "../KLambda/macros.kl")
-(load-file "../KLambda/declarations.kl")
-(load-file "../KLambda/t-star.kl")
-(load-file "../KLambda/types.kl")
-(shen.shen)
+(load-file "../../cmd/kl/runtests.kl")
 (load "runme.shen")
 ```
 
