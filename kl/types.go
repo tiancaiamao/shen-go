@@ -168,7 +168,7 @@ func mustString(o Obj) string {
 }
 
 func fixnum(o Obj) int {
-	return int(uintptr(unsafe.Pointer(o)) - fixnumBaseAddr)
+	return int(uintptr(unsafe.Pointer(o)) - uintptr(fixnumBaseAddr))
 }
 
 func mustInteger(o Obj) int {
@@ -245,10 +245,11 @@ var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 var symType Obj
 
 const fixnumCount = 1 << 20
+
 var addrForFixnum [fixnumCount]byte
 
-var fixnumBaseAddr = uintptr(unsafe.Pointer(&addrForFixnum[0]))
-var fixnumEndAddr = fixnumBaseAddr + fixnumCount
+var fixnumBaseAddr = unsafe.Pointer(&addrForFixnum[0])
+var fixnumEndAddr = unsafe.Add(fixnumBaseAddr, fixnumCount)
 
 type trieNode struct {
 	children [256]*trieNode
@@ -305,14 +306,14 @@ func init() {
 
 func MakeInteger(v int) Obj {
 	if v >= 0 && v < fixnumCount {
-		return Obj(unsafe.Pointer(fixnumBaseAddr + uintptr(v)))
+		return Obj(unsafe.Pointer(unsafe.Add(fixnumBaseAddr, v)))
 	}
 	return makeInteger(v)
 }
 
 func isFixnum(o Obj) bool {
 	v := uintptr(unsafe.Pointer(o))
-	if v >= fixnumBaseAddr && v < fixnumEndAddr {
+	if v >= uintptr(fixnumBaseAddr) && v < uintptr(fixnumEndAddr) {
 		return true
 	}
 	return false
