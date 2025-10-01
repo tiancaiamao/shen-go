@@ -64,6 +64,16 @@ cd 'S31/Test Programs'
 
 ## How to bootstrap
 
+You can just do
+```
+cd compiled
+kl
+(load-file "script.kl")
+(load "compile-to-go.shen")
+cd ..
+make shen
+``` 
+
 `kl` implement a simple klambda interpreter in Go, which can be used to bootstrap `shen`
 
 ```
