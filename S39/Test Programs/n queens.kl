@@ -1,0 +1,16 @@
+(defun n-queens (V13470) (n-queens.n-queens-loop V13470 (n-queens.initialise V13470)))
+
+(defun n-queens.initialise (V13471) (cond ((= 0 V13471) ()) (true (cons 1 (n-queens.initialise (- V13471 1))))))
+
+(defun n-queens.n-queens-loop (V13472 V13473) (cond ((n-queens.all_Ns? V13472 V13473) ()) ((and (n-queens.ok_row? V13473) (n-queens.ok_diag? V13473)) (cons V13473 (n-queens.n-queens-loop V13472 (n-queens.next_n V13472 V13473)))) (true (n-queens.n-queens-loop V13472 (n-queens.next_n V13472 V13473)))))
+
+(defun n-queens.all_Ns? (V13481 V13482) (cond ((= () V13482) true) ((and (cons? V13482) (= V13481 (hd V13482))) (n-queens.all_Ns? (hd V13482) (tl V13482))) (true false)))
+
+(defun n-queens.next_n (V13486 V13487) (cond ((and (cons? V13487) (= V13486 (hd V13487))) (cons 1 (n-queens.next_n (hd V13487) (tl V13487)))) ((cons? V13487) (cons (+ 1 (hd V13487)) (tl V13487))) (true (shen.f-error n-queens.next_n))))
+
+(defun n-queens.ok_row? (V13490) (cond ((= () V13490) true) ((and (cons? V13490) (element? (hd V13490) (tl V13490))) false) ((cons? V13490) (n-queens.ok_row? (tl V13490))) (true (shen.f-error n-queens.ok_row?))))
+
+(defun n-queens.ok_diag? (V13491) (cond ((= () V13491) true) ((cons? V13491) (and (n-queens.ok_diag_N? (+ (hd V13491) 1) (- (hd V13491) 1) (tl V13491)) (n-queens.ok_diag? (tl V13491)))) (true (shen.f-error n-queens.ok_diag?))))
+
+(defun n-queens.ok_diag_N? (V13504 V13505 V13506) (cond ((= () V13506) true) ((and (cons? V13506) (= V13504 (hd V13506))) false) ((and (cons? V13506) (= V13505 (hd V13506))) false) ((cons? V13506) (n-queens.ok_diag_N? (+ 1 V13504) (- V13505 1) (tl V13506))) (true (shen.f-error n-queens.ok_diag_N?))))
+

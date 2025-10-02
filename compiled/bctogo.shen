@@ -1,0 +1,18 @@
+;; generate go file from bytecode
+(put bc->go arity 5)
+(let Cg (make-code-generator)
+     (do
+      (bc->go Cg "SysMain" false "sys.tmp" "../cmd/shen/sys.go")
+      (bc->go Cg "WriterMain" false "writer.tmp" "../cmd/shen/writer.go")
+      (bc->go Cg "CoreMain" false "core.tmp" "../cmd/shen/core.go")
+      (bc->go Cg "ReaderMain" false "reader.tmp" "../cmd/shen/reader.go")
+      (bc->go Cg "DeclarationsMain" false "declarations.tmp" "../cmd/shen/declarations.go")
+      (bc->go Cg "TopLevelMain" false "toplevel.tmp" "../cmd/shen/toplevel.go")
+      (bc->go Cg "MacrosMain" false "macros.tmp" "../cmd/shen/macros.go")
+      (bc->go Cg "LoadMain" false "load.tmp" "../cmd/shen/load.go")
+      (bc->go Cg "PrologMain" false "prolog.tmp" "../cmd/shen/prolog.go")
+      (bc->go Cg "SequentMain" false "sequent.tmp" "../cmd/shen/sequent.go")
+      (bc->go Cg "TrackMain" false "track.tmp" "../cmd/shen/track.go")
+      (bc->go Cg "TStarMain" false "t-star.tmp" "../cmd/shen/t-star.go")
+      (bc->go Cg "YaccMain" false "yacc.tmp" "../cmd/shen/yacc.go")
+      (bc->go Cg "TypesMain" true "types.tmp" "../cmd/shen/types.go")))

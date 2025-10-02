@@ -1,0 +1,1 @@
+(DEFUN trace (F) (EVAL (READ-FROM-STRING (FORMAT NIL "(TRACE ~A)" F))))
