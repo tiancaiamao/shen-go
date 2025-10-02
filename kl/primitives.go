@@ -3,7 +3,6 @@ package kl
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"runtime"
@@ -184,9 +183,10 @@ func PrimStr(o Obj) Obj {
 	case scmHeadProcedure:
 		return MakeString("#<procedure >")
 	case scmHeadBoolean:
-		if o == True {
+		switch o {
+		case True:
 			return MakeString("true")
-		} else if o == False {
+		case False:
 			return MakeString("false")
 		}
 	case scmHeadError:
@@ -446,9 +446,10 @@ func PrimIsPair(x Obj) Obj {
 }
 
 func PrimNot(x Obj) Obj {
-	if x == False {
+	switch x {
+	case False:
 		return True
-	} else if x == True {
+	case True:
 		return False
 	}
 	panic(MakeError("PrimNot"))
@@ -482,7 +483,7 @@ func PrimIsSymbol(x Obj) Obj {
 
 func PrimReadFileAsByteList(x Obj) Obj {
 	fileName := mustString(x)
-	buf, err := ioutil.ReadFile(fileName)
+	buf, err := os.ReadFile(fileName)
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}
@@ -499,7 +500,7 @@ func PrimReadFileAsByteList(x Obj) Obj {
 
 func PrimReadFileAsString(x Obj) Obj {
 	fileName := mustString(x)
-	buf, err := ioutil.ReadFile(fileName)
+	buf, err := os.ReadFile(fileName)
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}

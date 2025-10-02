@@ -15,17 +15,17 @@ type scmHead int
 
 const (
 	scmHeadNumber    scmHead = 0
-	scmHeadPair              = 1
-	scmHeadVector            = 2
-	scmHeadNull              = 3
-	scmHeadString            = 4
-	scmHeadSymbol            = 5
-	scmHeadBoolean           = 6
-	scmHeadProcedure         = 14
-	scmHeadStream            = 17
-	scmHeadError             = 22
-	scmHeadNative            = 23
-	scmHeadRaw               = 42
+	scmHeadPair      scmHead = 1
+	scmHeadVector    scmHead = 2
+	scmHeadNull      scmHead = 3
+	scmHeadString    scmHead = 4
+	scmHeadSymbol    scmHead = 5
+	scmHeadBoolean   scmHead = 6
+	scmHeadProcedure scmHead = 14
+	scmHeadStream    scmHead = 17
+	scmHeadError     scmHead = 22
+	scmHeadNative    scmHead = 23
+	scmHeadRaw       scmHead = 42
 )
 
 type scmNumber struct {
@@ -117,7 +117,7 @@ type scmError struct {
 // tmp := &T{}
 // raw := MakeRaw(&tmp.scmHead)
 func MakeRaw(scmHead *int) Obj {
-	*scmHead = scmHeadRaw
+	*scmHead = int(scmHeadRaw)
 	return Obj(unsafe.Pointer(scmHead))
 }
 
@@ -301,6 +301,7 @@ func init() {
 	symTrapError = MakeSymbol("trap-error")
 	symDo = MakeSymbol("do")
 	symMacroExpand = MakeSymbol("macroexpand")
+	_ = symMacroExpand // mark as used to satisfy staticcheck
 	symType = MakeSymbol("type")
 }
 
@@ -437,21 +438,23 @@ func (o *scmHead) GoString() string {
 		mustPair(o).fmt(&buf, true)
 		return buf.String()
 	case scmHeadVector:
-		return fmt.Sprintf("#vector")
+		return "#vector"
 	case scmHeadNull:
-		return fmt.Sprintf("()")
+		return "()"
 	case scmHeadString:
 		return fmt.Sprintf(`"%s"`, mustString(o))
 	case scmHeadSymbol:
-		return fmt.Sprintf("%s", GetSymbol(o))
+		return GetSymbol(o)
 	case scmHeadBoolean:
-		if o == True {
-			return fmt.Sprintf("true")
-		} else if o == False {
-			return fmt.Sprintf("false")
-		} else {
-			return fmt.Sprintf("Boolean(something wrong)")
+		switch o {
+		case True:
+			return "true"
+		case False:
+			return "false"
+		default:
+			return "Boolean(something wrong)"
 		}
+
 	case scmHeadError:
 		return fmt.Sprintf("Error(%s)", mustError(o).err)
 	case scmHeadProcedure:

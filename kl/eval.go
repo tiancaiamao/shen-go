@@ -195,7 +195,8 @@ func (t tryResult) Catch(f Obj) Obj {
 func apply(ctl *ControlFlow) {
 	f := ctl.data[ctl.pos]
 	args := ctl.data[ctl.pos+1:]
-	if *f == scmHeadProcedure {
+	switch *f {
+	case scmHeadProcedure:
 		args := ctl.data[ctl.pos+1:]
 		proc := mustProcedure(f)
 		switch {
@@ -212,7 +213,7 @@ func apply(ctl *ControlFlow) {
 			ctl.TailApply(res, args[proc.arity:]...)
 			return
 		}
-	} else if *f == scmHeadNative {
+	case scmHeadNative:
 		fn := MustNative(f)
 		provided := len(fn.captured) + len(args)
 		required := fn.require
@@ -337,7 +338,6 @@ func eval(e *ControlFlow) {
 	}
 	e.pos = savePOS
 	e.kind = ControlFlowApply
-	return
 }
 
 func evalCond(e *ControlFlow, l Obj, env Obj) {
@@ -350,7 +350,6 @@ func evalCond(e *ControlFlow, l Obj, env Obj) {
 		l = cdr(l)
 	}
 	e.Return(Nil)
-	return
 }
 
 func evalTrapError(e *ControlFlow, exp Obj, env Obj) {
@@ -378,7 +377,6 @@ func evalTrapError(e *ControlFlow, exp Obj, env Obj) {
 	}()
 	v := evalExp(e, car(exp), env)
 	e.Return(v)
-	return
 }
 
 func evalFunction(e *ControlFlow, fn Obj, env Obj) Obj {

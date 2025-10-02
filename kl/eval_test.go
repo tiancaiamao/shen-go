@@ -14,14 +14,14 @@ func TestBasic(t *testing.T) {
 		output string
 	}
 	cases := []testCase{
-		testCase{
+		{
 			name: "let-variable-shadow",
 			input: `(do (defun f (a b)
 					   (let a 3 a)) (f 4 5))`,
 			output: "3",
 		},
 
-		testCase{
+		{
 			name: "let variable shadow",
 			input: `(let Result 123
      (let Result 456
@@ -31,25 +31,25 @@ func TestBasic(t *testing.T) {
 			output: "true",
 		},
 
-		testCase{
+		{
 			name:   "trap-let",
 			input:  "(trap-error (let X 666 42) (lambda E (cons --> (cons A ()))))",
 			output: "42",
 		},
 
-		testCase{
+		{
 			name:   "curry-partial",
 			input:  `((lambda x (lambda y (lambda z (+ x z)))) 1 2 3)`,
 			output: "4",
 		},
 
-		testCase{
+		{
 			name:   "curry",
 			input:  `(do (defun f (x y z) y) ((f 1 2) 3))`,
 			output: "2",
 		},
 
-		testCase{
+		{
 			name: "curry1",
 			input: `(do (defun f (x)
 		 (do (defun ignore (z w)
@@ -59,7 +59,7 @@ func TestBasic(t *testing.T) {
 			output: "2",
 		},
 
-		testCase{
+		{
 			name: "fib10",
 			input: `(do (defun fib (i)
 	(if (= i 0)
@@ -71,7 +71,7 @@ func TestBasic(t *testing.T) {
 			output: "89",
 		},
 
-		testCase{
+		{
 			name: "proper tail call",
 			input: `(do (defun sum (r i)
 	  (if (= i 0)
@@ -81,7 +81,7 @@ func TestBasic(t *testing.T) {
 			output: "5000000",
 		},
 
-		testCase{
+		{
 			name:   "do in args",
 			input:  `(+ (do 1 (do 2 3)) 4)`,
 			output: "7",
@@ -93,49 +93,49 @@ func TestBasic(t *testing.T) {
 		// 	output: "10",
 		// },
 
-		testCase{
+		{
 			name:   "do in tail call",
 			input:  `(do (defun f (x y z) (do 1 (do 2 z))) (f 1 2 3))`,
 			output: "3",
 		},
 
-		testCase{
+		{
 			name:   "basic func call",
 			input:  `(do (defun id (x) x) (id (do 1 (do 2 42))))`,
 			output: "42",
 		},
 
-		testCase{
+		{
 			name:   "identify function",
 			input:  `(do (defun id (x) x) (id 42))`,
 			output: "42",
 		},
 
-		testCase{
+		{
 			name:   "basic set",
 			input:  `(do (set x 42) (value x))`,
 			output: "42",
 		},
 
-		testCase{
+		{
 			name:   "basic if",
 			input:  `(if true 1 2)`,
 			output: "1",
 		},
 
-		testCase{
+		{
 			name:   "basic lambda",
 			input:  `((lambda x (lambda y (lambda z z))) 1 2 3)`,
 			output: "3",
 		},
 
-		testCase{
+		{
 			name:   "basic do",
 			input:  `(do 1 2)`,
 			output: "2",
 		},
 
-		testCase{
+		{
 			name:   "basic primitive",
 			input:  `(+ 3 7)`,
 			output: "10",
