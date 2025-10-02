@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+var home_directory Obj
+
 var klPrimitives = []struct {
 	name  string
 	arity int
@@ -74,8 +76,9 @@ func init() {
 
 	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
 	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
-	dir, _ := os.Getwd()
-	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
+
+	home_directory = MakeSymbol("*home-directory*")
+	PrimSet(home_directory, MakeString(""))
 	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
 	PrimSet(MakeSymbol("*implementation*"), MakeString("AOT+interpreter"))
 	PrimSet(MakeSymbol("*release*"), MakeString(runtime.Version()))
@@ -404,6 +407,7 @@ func PrimOpenStream(x, y Obj) Obj {
 		flag = os.O_RDWR | os.O_CREATE
 	}
 
+	file = GetString(PrimValue(home_directory)) + file
 	f, err := os.OpenFile(file, flag, 0666)
 	if err != nil {
 		panic(MakeError(err.Error()))
