@@ -20,6 +20,12 @@ Make sure you have [Go installed](https://golang.org/doc/install).
 make shen
 ```
 
+or for windows
+
+```
+make shen-exe
+```
+
 ## Running
 
 ```
@@ -40,23 +46,9 @@ make test
 
 ```
 make kl
-cd 'S31/Test Programs'
+cd 'S39/Test Programs'
 kl
-(load-file "../KLambda/toplevel.kl")
-(load-file "../KLambda/core.kl")
-(load-file "../KLambda/sys.kl")
-(load-file "../KLambda/sequent.kl")
-(load-file "../KLambda/yacc.kl")
-(load-file "../KLambda/reader.kl")
-(load-file "../KLambda/prolog.kl")
-(load-file "../KLambda/track.kl")
-(load-file "../KLambda/load.kl")
-(load-file "../KLambda/writer.kl")
-(load-file "../KLambda/macros.kl")
-(load-file "../KLambda/declarations.kl")
-(load-file "../KLambda/t-star.kl")
-(load-file "../KLambda/types.kl")
-(shen.shen)
+(load-file "../../cmd/kl/runtests.kl")
 (load "runme.shen")
 ```
 
@@ -65,12 +57,24 @@ kl
 
 ```
 make shen
-cd 'S31/Test Programs'
+cd 'S39/Test Programs'
 ../../shen
 (load "runme.shen")
 ```
 
 ## How to bootstrap
+
+You can just do
+```
+cd compiled
+kl
+(load-file "script.kl")
+(load "compile-to-go.shen")
+(load "bctogo.shen")
+cd ..
+make shen
+``` 
+Explanation : 
 
 `kl` implement a simple klambda interpreter in Go, which can be used to bootstrap `shen`
 
@@ -78,20 +82,20 @@ cd 'S31/Test Programs'
 ;; mkdir -p compiled
 ;; cd compiled
 ;; kl
-(load-file "../S31/KLambda/toplevel.kl")
-(load-file "../S31/KLambda/core.kl")
-(load-file "../S31/KLambda/sys.kl")
-(load-file "../S31/KLambda/sequent.kl")
-(load-file "../S31/KLambda/yacc.kl")
-(load-file "../S31/KLambda/reader.kl")
-(load-file "../S31/KLambda/prolog.kl")
-(load-file "../S31/KLambda/track.kl")
-(load-file "../S31/KLambda/load.kl")
-(load-file "../S31/KLambda/writer.kl")
-(load-file "../S31/KLambda/macros.kl")
-(load-file "../S31/KLambda/declarations.kl")
-(load-file "../S31/KLambda/t-star.kl")
-(load-file "../S31/KLambda/types.kl")
+(load-file "../S39/KLambda/toplevel.kl")
+(load-file "../S39/KLambda/core.kl")
+(load-file "../S39/KLambda/sys.kl")
+(load-file "../S39/KLambda/sequent.kl")
+(load-file "../S39/KLambda/yacc.kl")
+(load-file "../S39/KLambda/reader.kl")
+(load-file "../S39/KLambda/prolog.kl")
+(load-file "../S39/KLambda/track.kl")
+(load-file "../S39/KLambda/load.kl")
+(load-file "../S39/KLambda/writer.kl")
+(load-file "../S39/KLambda/macros.kl")
+(load-file "../S39/KLambda/declarations.kl")
+(load-file "../S39/KLambda/t-star.kl")
+(load-file "../S39/KLambda/types.kl")
 (shen.shen)
 ```
 
@@ -107,20 +111,20 @@ Compile the klambda to the intermediate representation:
 
 ```
 (set *maximum-print-sequence-size* 100000)
-(compile-file "../S31/KLambda/sys.kl" "sys.tmp")
-(compile-file "../S31/KLambda/writer.kl" "writer.tmp")
-(compile-file "../S31/KLambda/core.kl" "core.tmp")
-(compile-file "../S31/KLambda/reader.kl" "reader.tmp")
-(compile-file "../S31/KLambda/declarations.kl" "declarations.tmp")
-(compile-file "../S31/KLambda/toplevel.kl" "toplevel.tmp")
-(compile-file "../S31/KLambda/macros.kl" "macros.tmp")
-(compile-file "../S31/KLambda/load.kl"  "load.tmp")
-(compile-file "../S31/KLambda/prolog.kl" "prolog.tmp")
-(compile-file "../S31/KLambda/sequent.kl" "sequent.tmp")
-(compile-file "../S31/KLambda/track.kl" "track.tmp")
-(compile-file "../S31/KLambda/t-star.kl" "t-star.tmp")
-(compile-file "../S31/KLambda/yacc.kl" "yacc.tmp")
-(compile-file "../S31/KLambda/types.kl" "types.tmp")
+(compile-file "../S39/KLambda/sys.kl" "sys.tmp")
+(compile-file "../S39/KLambda/writer.kl" "writer.tmp")
+(compile-file "../S39/KLambda/core.kl" "core.tmp")
+(compile-file "../S39/KLambda/reader.kl" "reader.tmp")
+(compile-file "../S39/KLambda/declarations.kl" "declarations.tmp")
+(compile-file "../S39/KLambda/toplevel.kl" "toplevel.tmp")
+(compile-file "../S39/KLambda/macros.kl" "macros.tmp")
+(compile-file "../S39/KLambda/load.kl"  "load.tmp")
+(compile-file "../S39/KLambda/prolog.kl" "prolog.tmp")
+(compile-file "../S39/KLambda/sequent.kl" "sequent.tmp")
+(compile-file "../S39/KLambda/track.kl" "track.tmp")
+(compile-file "../S39/KLambda/t-star.kl" "t-star.tmp")
+(compile-file "../S39/KLambda/yacc.kl" "yacc.tmp")
+(compile-file "../S39/KLambda/types.kl" "types.tmp")
 ```
 
 And generate the Go files from the intermediate representation:

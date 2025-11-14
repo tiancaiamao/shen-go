@@ -3,12 +3,13 @@ package kl
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"runtime"
 	"time"
 )
+
+var home_directory Obj
 
 var klPrimitives = []struct {
 	name  string
@@ -75,8 +76,9 @@ func init() {
 
 	PrimSet(MakeSymbol("*stinput*"), MakeStream(os.Stdin))
 	PrimSet(MakeSymbol("*stoutput*"), MakeStream(os.Stdout))
-	dir, _ := os.Getwd()
-	PrimSet(MakeSymbol("*home-directory*"), MakeString(dir))
+
+	home_directory = MakeSymbol("*home-directory*")
+	PrimSet(home_directory, MakeString(""))
 	PrimSet(MakeSymbol("*language*"), MakeString("Go"))
 	PrimSet(MakeSymbol("*implementation*"), MakeString("AOT+interpreter"))
 	PrimSet(MakeSymbol("*release*"), MakeString(runtime.Version()))
@@ -184,9 +186,10 @@ func PrimStr(o Obj) Obj {
 	case scmHeadProcedure:
 		return MakeString("#<procedure >")
 	case scmHeadBoolean:
-		if o == True {
+		switch o {
+		case True:
 			return MakeString("true")
-		} else if o == False {
+		case False:
 			return MakeString("false")
 		}
 	case scmHeadError:
@@ -404,6 +407,7 @@ func PrimOpenStream(x, y Obj) Obj {
 		flag = os.O_RDWR | os.O_CREATE
 	}
 
+	file = GetString(PrimValue(home_directory)) + file
 	f, err := os.OpenFile(file, flag, 0666)
 	if err != nil {
 		panic(MakeError(err.Error()))
@@ -446,9 +450,10 @@ func PrimIsPair(x Obj) Obj {
 }
 
 func PrimNot(x Obj) Obj {
-	if x == False {
+	switch x {
+	case False:
 		return True
-	} else if x == True {
+	case True:
 		return False
 	}
 	panic(MakeError("PrimNot"))
@@ -482,7 +487,7 @@ func PrimIsSymbol(x Obj) Obj {
 
 func PrimReadFileAsByteList(x Obj) Obj {
 	fileName := mustString(x)
-	buf, err := ioutil.ReadFile(fileName)
+	buf, err := os.ReadFile(fileName)
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}
@@ -499,7 +504,7 @@ func PrimReadFileAsByteList(x Obj) Obj {
 
 func PrimReadFileAsString(x Obj) Obj {
 	fileName := mustString(x)
-	buf, err := ioutil.ReadFile(fileName)
+	buf, err := os.ReadFile(fileName)
 	if err != nil {
 		panic(MakeError(err.Error()))
 	}

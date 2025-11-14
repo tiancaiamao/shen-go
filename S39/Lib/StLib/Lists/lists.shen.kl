@@ -1,0 +1,110 @@
+(defun assoc-if (V3391 V3392) (cond ((= () V3392) ()) ((and (and (cons? V3392) (cons? (hd V3392))) (V3391 (hd (hd V3392)))) (hd V3392)) ((cons? V3392) (assoc-if V3391 (tl V3392))) (true (shen.f_error assoc-if))))
+
+(defun assoc-if-not (V3402 V3403) (cond ((= () V3403) ()) ((and (and (cons? V3403) (cons? (hd V3403))) (not (V3402 (hd (hd V3403))))) (hd V3403)) ((cons? V3403) (assoc-if V3402 (tl V3403))) (true (shen.f_error assoc-if-not))))
+
+(defun drop (V3410 V3411) (cond ((= 0 V3410) V3411) ((cons? V3411) (drop (- V3410 1) (tl V3411))) (true (shen.f_error drop))))
+
+(defun drop-last (V3414 V3415) (reverse (drop V3414 (reverse V3415))))
+
+(defun index (V3418 V3419) (list.index-h V3418 V3419 1))
+
+(defun list.index-h (V3434 V3435 V3436) (cond ((= () V3435) -1) ((and (cons? V3435) (= (hd V3435) V3434)) V3436) ((cons? V3435) (list.index-h V3434 (tl V3435) (+ V3436 1))) (true (shen.f_error list.index-h))))
+
+(defun index-last (V3439 V3440) (let Len (length V3440) (let N (index V3439 (reverse V3440)) (if (= N -1) N (+ (- Len N) 1)))))
+
+(defun insert (V3446 V3447 V3448) (cond ((= () V3448) (simple-error (cn "cannot insert " (shen.app V3447 " into list: index out of range
+" shen.s)))) ((= 1 V3446) (cons V3447 V3448)) ((cons? V3448) (cons (hd V3448) (insert (- V3446 1) V3447 (tl V3448)))) (true (shen.f_error insert))))
+
+(defun remove-duplicates (V3450) (cond ((= () V3450) ()) ((and (cons? V3450) (element? (hd V3450) (tl V3450))) (remove-duplicates (tl V3450))) ((cons? V3450) (cons (hd V3450) (remove-duplicates (tl V3450)))) (true (shen.f_error remove-duplicates))))
+
+(defun trim-left-if (V3459 V3460) (cond ((= () V3460) ()) ((and (cons? V3460) (V3459 (hd V3460))) (trim-left-if V3459 (tl V3460))) (true V3460)))
+
+(defun trim-right-if (V3463 V3464) (reverse (trim-left-if V3463 (reverse V3464))))
+
+(defun trim-if (V3467 V3468) (trim-right-if V3467 (trim-left-if V3467 V3468)))
+
+(defun trim-left (V3477 V3478) (cond ((= () V3478) ()) ((and (cons? V3478) (element? (hd V3478) V3477)) (trim-left V3477 (tl V3478))) (true V3478)))
+
+(defun trim-right (V3481 V3482) (reverse (trim-left V3481 (reverse V3482))))
+
+(defun trim (V3485 V3486) (trim-right V3485 (trim-left V3485 V3486)))
+
+(defun prefix? (V3500 V3501) (cond ((= () V3500) true) ((and (and (cons? V3500) (cons? V3501)) (= (hd V3501) (hd V3500))) (prefix? (tl V3500) (tl V3501))) (true false)))
+
+(defun infix? (V3510 V3511) (cond ((prefix? V3510 V3511) true) ((= () V3511) false) ((cons? V3511) (infix? V3510 (tl V3511))) (true (shen.f_error infix?))))
+
+(defun suffix? (V3514 V3515) (prefix? (reverse V3514) (reverse V3515)))
+
+(defun subset? (V3528 V3529) (cond ((= () V3528) true) ((and (cons? V3528) (element? (hd V3528) V3529)) (subset? (tl V3528) V3529)) (true false)))
+
+(defun set=? (V3532 V3533) (and (subset? V3532 V3533) (subset? V3533 V3532)))
+
+(defun set? (V3539) (cond ((= () V3539) true) ((and (cons? V3539) (element? (hd V3539) (tl V3539))) false) ((cons? V3539) (set? (tl V3539))) (true (shen.f_error set?))))
+
+(defun n-times (V3542 V3543) (list.n-times-h V3543 V3542 ()))
+
+(defun list.n-times-h (V3547 V3548 V3549) (cond ((= 0 V3547) V3549) (true (list.n-times-h (- V3547 1) V3548 (cons V3548 V3549)))))
+
+(defun subbag? (V3552 V3553) (every? (lambda Z (= (count Z V3552) (count Z V3553))) V3552))
+
+(defun bag=? (V3556 V3557) (and (subbag? V3556 V3557) (subbag? V3557 V3556)))
+
+(defun mapc (V3562 V3563) (cond ((= () V3563) ()) ((cons? V3563) (mapc (do (V3562 (hd V3563)) V3562) (tl V3563))) (true (shen.f_error mapc))))
+
+(defun permute (V3565) (cond ((= () V3565) (cons () ())) (true (mapcan (lambda EL (map (lambda P (cons EL P)) (permute (remove EL V3565)))) V3565))))
+
+(defun partition (V3570 V3571) (cond ((= () V3571) ()) ((cons? V3571) (let EQ (mapcan (lambda Z (if (V3570 (hd V3571) Z) (cons Z ()) ())) V3571) (let Remainder (difference V3571 EQ) (cons EQ (partition V3570 Remainder))))) (true (shen.f_error partition))))
+
+(defun count-if (V3574 V3575) (length (mapcan (lambda Z (if (V3574 Z) (cons Z ()) ())) V3575)))
+
+(defun count (V3578 V3579) (count-if (= V3578) V3579))
+
+(defun some? (V3593 V3594) (cond ((= () V3594) false) ((and (cons? V3594) (V3593 (hd V3594))) true) ((cons? V3594) (some? V3593 (tl V3594))) (true (shen.f_error some?))))
+
+(defun every? (V3607 V3608) (cond ((= () V3608) true) ((and (cons? V3608) (V3607 (hd V3608))) (every? V3607 (tl V3608))) (true false)))
+
+(defun sort (V3615 V3616) (cond ((= () V3616) ()) ((and (cons? V3616) (= () (tl V3616))) V3616) ((cons? V3616) (let Less (mapcan (lambda Z (if (V3615 Z (hd V3616)) (cons Z ()) ())) (tl V3616)) (let More (mapcan (lambda Z (if (not (V3615 Z (hd V3616))) (cons Z ()) ())) (tl V3616)) (append (sort V3615 Less) (append (cons (hd V3616) ()) (sort V3615 More)))))) (true (shen.f_error sort))))
+
+(defun find (V3626 V3627) (cond ((= () V3627) (simple-error "find has found no element
+")) ((and (cons? V3627) (V3626 (hd V3627))) (hd V3627)) ((cons? V3627) (find V3626 (tl V3627))) (true (shen.f_error find))))
+
+(defun foldr (V3633 V3634 V3635) (cond ((= () V3635) V3634) ((cons? V3635) (foldr V3633 (V3633 (hd V3635) V3634) (tl V3635))) (true (shen.f_error foldr))))
+
+(defun foldl (V3641 V3642 V3643) (cond ((= () V3643) V3642) ((cons? V3643) (foldl V3641 (V3641 V3642 (hd V3643)) (tl V3643))) (true (shen.f_error foldl))))
+
+(defun mapf (V3651 V3652 V3653) (cond ((= () V3652) ()) ((cons? V3652) (V3653 (V3651 (hd V3652)) (mapf V3651 (tl V3652) V3653))) (true (shen.f_error mapf))))
+
+(defun filter (V3658 V3659) (cond ((= () V3659) ()) ((cons? V3659) (if (V3658 (hd V3659)) (cons (hd V3659) (filter V3658 (tl V3659))) (filter V3658 (tl V3659)))) (true (shen.f_error filter))))
+
+(defun remove-if (V3664 V3665) (cond ((= () V3665) ()) ((cons? V3665) (if (V3664 (hd V3665)) (remove-if V3664 (tl V3665)) (cons (hd V3665) (remove-if V3664 (tl V3665))))) (true (shen.f_error remove-if))))
+
+(defun list.reduce (V3669 V3670 V3671) (cond ((= () V3671) V3670) ((cons? V3671) (list.reduce V3669 (V3669 V3670 (hd V3671)) (tl V3671))) (true (shen.f_error list.reduce))))
+
+(defun take (V3678 V3679) (cond ((= 0 V3678) ()) ((= () V3679) ()) ((cons? V3679) (cons (hd V3679) (take (- V3678 1) (tl V3679)))) (true (shen.f_error take))))
+
+(defun take-last (V3682 V3683) (reverse (take V3682 (reverse V3683))))
+
+(defun cartprod (V3688 V3689) (cond ((= () V3688) ()) ((cons? V3688) (append (map (lambda W (cons (hd V3688) (cons W ()))) V3689) (cartprod (tl V3688) V3689))) (true (shen.f_error cartprod))))
+
+(defun powerset (V3691) (cond ((= () V3691) (cons () ())) ((cons? V3691) (let P (powerset (tl V3691)) (append P (map (lambda Z (cons (hd V3691) Z)) P)))) (true (shen.f_error powerset))))
+
+(defun transitive-closure (V3694 V3695) (let Table (list.transitivity-table V3694 V3695) (list.transitive-closure-loop Table)))
+
+(defun list.transitivity-table (V3698 V3699) (map (lambda X (@p open (cons X (list.xRy V3698 X V3699)))) V3699))
+
+(defun list.xRy (V3703 V3704 V3705) (filter (lambda Y (V3703 V3704 Y)) V3705))
+
+(defun list.transitive-closure-loop (V3707) (let NewTable (list.compute-closure V3707) (if (every? (function list.closed?) NewTable) (map (lambda V3380 (snd V3380)) NewTable) (list.transitive-closure-loop NewTable))))
+
+(defun list.closed? (V3716) (cond ((and (tuple? V3716) (= list.closed (fst V3716))) true) (true false)))
+
+(defun list.compute-closure (V3718) (map (lambda Row (list.augment-row Row V3718)) V3718))
+
+(defun list.augment-row (V3723 V3724) (cond ((and (tuple? V3723) (= list.closed (fst V3723))) V3723) ((and (and (tuple? V3723) (= open (fst V3723))) (cons? (snd V3723))) (let NewEntries (mapcan (lambda Entry (list.lookup Entry V3724)) (tl (snd V3723))) (let NewSet (remove-duplicates NewEntries) (if (empty? (difference NewSet (tl (snd V3723)))) (@p list.closed (snd V3723)) (@p open (cons (hd (snd V3723)) NewSet)))))) (true (shen.f_error list.augment-row))))
+
+(defun list.lookup (V3736 V3737) (cond ((= () V3737) (cons V3736 ())) ((and (and (and (cons? V3737) (tuple? (hd V3737))) (cons? (snd (hd V3737)))) (= (hd (snd (hd V3737))) V3736)) (snd (hd V3737))) ((cons? V3737) (list.lookup V3736 (tl V3737))) (true (shen.f_error list.lookup))))
+
+(defun x->ascii (V3739) (map (lambda V3381 (string->n V3381)) (explode V3739)))
+
+(defun splice (V3743 V3744 V3745) (cond ((= 1 V3743) (append V3744 V3745)) ((cons? V3745) (cons (hd V3745) (splice (- V3743 1) V3744 (tl V3745)))) (true (shen.f_error splice))))
+

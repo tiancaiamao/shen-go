@@ -8,6 +8,11 @@ kl:
 shen:
 	go build -o shen github.com/tiancaiamao/shen-go/cmd/shen
 
+shen-exe:
+	go build -o shen.exe github.com/tiancaiamao/shen-go/cmd/shen
+
+
+
 docker:
 	docker build -t shen-go .
 	docker run -i -t --rm -v /tmp:/tmp shen-go \

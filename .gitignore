@@ -1,4 +1,4 @@
 *.so
 *.bc
-compiled
 shen
+*.exe

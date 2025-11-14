@@ -1,0 +1,329 @@
+(defun declare (V5536 V5537) (let W5538 (shen.rectify-type V5537) (let W5539 (((((lambda Z5540 (lambda Z5541 (lambda Z5542 (lambda Z5543 (do (shen.incinfs) (shen.variancy (receive (shen.deref V5536 Z5540)) (receive (shen.deref W5538 Z5540)) Z5540 Z5541 Z5542 Z5543)))))) (shen.prolog-vector)) (@v true (@v 0 (vector 0)))) 0) (freeze true)) (let W5544 (eval-kl (shen.prolog-abstraction V5537)) (let W5545 (set shen.*sigf* (shen.assoc-> V5536 W5544 (value shen.*sigf*))) V5536)))))
+
+(defun shen.variancy (V5546 V5547 V5548 V5549 V5550 V5551) (if (shen.unlocked? V5549) (let W5552 (shen.newpv V5548) (shen.gc V5548 (do (shen.incinfs) (shen.system-S-h V5546 W5552 () V5548 V5549 V5550 (freeze (shen.variants? V5546 W5552 V5547 V5548 V5549 V5550 V5551)))))) false))
+
+(defun shen.variants? (V5553 V5554 V5555 V5556 V5557 V5558 V5559) (let W5560 (+ V5558 1) (let W5561 (if (shen.unlocked? V5557) (let W5562 (shen.lazyderef V5554 V5556) (let W5563 (freeze (do (shen.incinfs) (shen.cut V5556 V5557 W5560 V5559))) (if (= W5562 symbol) (thaw W5563) (if (shen.pvar? W5562) (shen.bind! W5562 symbol V5556 W5563) false)))) false) (if (= W5561 false) (let W5564 (if (shen.unlocked? V5557) (do (shen.incinfs) (is! V5554 V5555 V5556 V5557 W5560 V5559)) false) (if (= W5564 false) (let W5565 (if (shen.unlocked? V5557) (let W5566 (shen.newpv V5556) (shen.gc V5556 (do (shen.incinfs) (is W5566 (pr (cn "warning: changing the type of " (shen.app (shen.deref V5553 V5556) " may create errors
+" shen.a)) (stoutput)) V5556 V5557 W5560 V5559)))) false) (if (= W5565 false) (shen.unlock V5557 W5560) W5565)) W5564)) W5561))))
+
+(defun shen.prolog-abstraction (V5567) (let W5568 (gensym B) (let W5569 (gensym L) (let W5570 (gensym Key) (let W5571 (gensym C) (let W5572 (gensym V) (let W5573 (shen.extract-vars V5567) (cons lambda (cons W5572 (cons (cons lambda (cons W5568 (cons (cons lambda (cons W5569 (cons (cons lambda (cons W5570 (cons (cons lambda (cons W5571 (cons (shen.stpart W5573 (cons is! (cons W5572 (cons (shen.rcons_form V5567) (cons W5568 (cons W5569 (cons W5570 (cons W5571 ()))))))) W5568) ()))) ()))) ()))) ()))) ()))))))))))
+
+(defun shen.demod (V5574) V5574)
+
+(declare abort (cons --> (cons A ())))
+
+(declare absvector? (cons A (cons --> (cons boolean ()))))
+
+(declare adjoin (cons A (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare and (cons boolean (cons --> (cons (cons boolean (cons --> (cons boolean ()))) ()))))
+
+(declare shen.app (cons A (cons --> (cons (cons string (cons --> (cons (cons symbol (cons --> (cons string ()))) ()))) ()))))
+
+(declare append (cons (cons list (cons A ())) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare arity (cons A (cons --> (cons number ()))))
+
+(declare assoc (cons A (cons --> (cons (cons (cons list (cons (cons list (cons A ())) ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare atom? (cons A (cons --> (cons boolean ()))))
+
+(declare boolean? (cons A (cons --> (cons boolean ()))))
+
+(declare bootstrap (cons string (cons --> (cons string ()))))
+
+(declare bound? (cons symbol (cons --> (cons boolean ()))))
+
+(declare shen.ccons? (cons (cons list (cons A ())) (cons --> (cons boolean ()))))
+
+(declare cd (cons string (cons --> (cons string ()))))
+
+(declare close (cons (cons stream (cons A ())) (cons --> (cons (cons list (cons B ())) ()))))
+
+(declare cn (cons string (cons --> (cons (cons string (cons --> (cons string ()))) ()))))
+
+(declare compile (cons (cons (cons list (cons A ())) (cons --> (cons (cons str (cons (cons list (cons A ())) (cons B ()))) ()))) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons B ()))) ()))))
+
+(declare cons? (cons A (cons --> (cons boolean ()))))
+
+(declare datatypes (cons --> (cons (cons list (cons symbol ())) ())))
+
+(declare destroy (cons symbol (cons --> (cons symbol ()))))
+
+(declare difference (cons (cons list (cons A ())) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare do (cons A (cons --> (cons (cons B (cons --> (cons B ()))) ()))))
+
+(declare <e> (cons (cons list (cons A ())) (cons --> (cons (cons str (cons (cons list (cons A ())) (cons (cons list (cons B ())) ()))) ()))))
+
+(declare <!> (cons (cons list (cons A ())) (cons --> (cons (cons str (cons (cons list (cons B ())) (cons (cons list (cons A ())) ()))) ()))))
+
+(declare <end> (cons (cons list (cons A ())) (cons --> (cons (cons str (cons (cons list (cons A ())) (cons (cons list (cons B ())) ()))) ()))))
+
+(declare shen.parse-failure? (cons (cons str (cons (cons list (cons A ())) (cons B ()))) (cons --> (cons boolean ()))))
+
+(declare shen.parse-failure (cons --> (cons (cons str (cons (cons list (cons A ())) (cons B ()))) ())))
+
+(declare shen.<-out (cons (cons str (cons (cons list (cons A ())) (cons B ()))) (cons --> (cons B ()))))
+
+(declare shen.in-> (cons (cons str (cons (cons list (cons A ())) (cons B ()))) (cons --> (cons (cons list (cons A ())) ()))))
+
+(declare shen.comb (cons (cons list (cons A ())) (cons --> (cons (cons B (cons --> (cons (cons str (cons (cons list (cons A ())) (cons B ()))) ()))) ()))))
+
+(declare element? (cons A (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons boolean ()))) ()))))
+
+(declare empty? (cons A (cons --> (cons boolean ()))))
+
+(declare enable-type-theory (cons symbol (cons --> (cons boolean ()))))
+
+(declare external (cons symbol (cons --> (cons (cons list (cons symbol ())) ()))))
+
+(declare error-to-string (cons exception (cons --> (cons string ()))))
+
+(declare explode (cons A (cons --> (cons (cons list (cons string ())) ()))))
+
+(declare factorise (cons symbol (cons --> (cons symbol ()))))
+
+(declare factorise? (cons --> (cons boolean ())))
+
+(declare fail (cons --> (cons symbol ())))
+
+(declare fix (cons (cons A (cons --> (cons A ()))) (cons --> (cons (cons A (cons --> (cons A ()))) ()))))
+
+(declare freeze (cons A (cons --> (cons (cons lazy (cons A ())) ()))))
+
+(declare fst (cons (cons A (cons * (cons B ()))) (cons --> (cons A ()))))
+
+(declare gensym (cons symbol (cons --> (cons symbol ()))))
+
+(declare shen.hds=? (cons (cons list (cons A ())) (cons --> (cons (cons A (cons --> (cons boolean ()))) ()))))
+
+(declare hush (cons symbol (cons --> (cons boolean ()))))
+
+(declare hush? (cons --> (cons boolean ())))
+
+(declare <-vector (cons (cons vector (cons A ())) (cons --> (cons (cons number (cons --> (cons A ()))) ()))))
+
+(declare vector-> (cons (cons vector (cons A ())) (cons --> (cons (cons number (cons --> (cons (cons A (cons --> (cons (cons vector (cons A ())) ()))) ()))) ()))))
+
+(declare vector (cons number (cons --> (cons (cons vector (cons A ())) ()))))
+
+(declare get-time (cons symbol (cons --> (cons number ()))))
+
+(declare hash (cons A (cons --> (cons (cons number (cons --> (cons number ()))) ()))))
+
+(declare head (cons (cons list (cons A ())) (cons --> (cons A ()))))
+
+(declare hdv (cons (cons vector (cons A ())) (cons --> (cons A ()))))
+
+(declare hdstr (cons string (cons --> (cons string ()))))
+
+(declare if (cons boolean (cons --> (cons (cons A (cons --> (cons (cons A (cons --> (cons A ()))) ()))) ()))))
+
+(declare in-package (cons symbol (cons --> (cons symbol ()))))
+
+(declare it (cons --> (cons string ())))
+
+(declare implementation (cons --> (cons string ())))
+
+(declare include (cons (cons list (cons symbol ())) (cons --> (cons (cons list (cons symbol ())) ()))))
+
+(declare include-all-but (cons (cons list (cons symbol ())) (cons --> (cons (cons list (cons symbol ())) ()))))
+
+(declare included (cons --> (cons (cons list (cons symbol ())) ())))
+
+(declare inferences (cons --> (cons number ())))
+
+(declare shen.insert (cons A (cons --> (cons (cons string (cons --> (cons string ()))) ()))))
+
+(declare integer? (cons A (cons --> (cons boolean ()))))
+
+(declare internal (cons symbol (cons --> (cons (cons list (cons symbol ())) ()))))
+
+(declare intersection (cons (cons list (cons A ())) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare language (cons --> (cons string ())))
+
+(declare length (cons (cons list (cons A ())) (cons --> (cons number ()))))
+
+(declare limit (cons (cons vector (cons A ())) (cons --> (cons number ()))))
+
+(declare lineread (cons (cons stream (cons in ())) (cons --> (cons (cons list (cons unit ())) ()))))
+
+(declare load (cons string (cons --> (cons symbol ()))))
+
+(declare map (cons (cons A (cons --> (cons B ()))) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons B ())) ()))) ()))))
+
+(declare mapcan (cons (cons A (cons --> (cons (cons list (cons B ())) ()))) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons B ())) ()))) ()))))
+
+(declare maxinferences (cons number (cons --> (cons number ()))))
+
+(declare n->string (cons number (cons --> (cons string ()))))
+
+(declare nl (cons number (cons --> (cons number ()))))
+
+(declare not (cons boolean (cons --> (cons boolean ()))))
+
+(declare nth (cons number (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons A ()))) ()))))
+
+(declare number? (cons A (cons --> (cons boolean ()))))
+
+(declare occurrences (cons A (cons --> (cons (cons B (cons --> (cons number ()))) ()))))
+
+(declare occurs-check (cons symbol (cons --> (cons boolean ()))))
+
+(declare occurs? (cons --> (cons boolean ())))
+
+(declare optimise (cons symbol (cons --> (cons boolean ()))))
+
+(declare optimise? (cons --> (cons boolean ())))
+
+(declare or (cons boolean (cons --> (cons (cons boolean (cons --> (cons boolean ()))) ()))))
+
+(declare os (cons --> (cons string ())))
+
+(declare package? (cons symbol (cons --> (cons boolean ()))))
+
+(declare port (cons --> (cons string ())))
+
+(declare porters (cons --> (cons string ())))
+
+(declare pos (cons string (cons --> (cons (cons number (cons --> (cons string ()))) ()))))
+
+(declare pr (cons string (cons --> (cons (cons (cons stream (cons out ())) (cons --> (cons string ()))) ()))))
+
+(declare print (cons A (cons --> (cons A ()))))
+
+(declare profile (cons symbol (cons --> (cons symbol ()))))
+
+(declare preclude (cons (cons list (cons symbol ())) (cons --> (cons (cons list (cons symbol ())) ()))))
+
+(declare shen.proc-nl (cons string (cons --> (cons string ()))))
+
+(declare profile-results (cons symbol (cons --> (cons (cons symbol (cons * (cons number ()))) ()))))
+
+(declare protect (cons A (cons --> (cons A ()))))
+
+(declare preclude-all-but (cons (cons list (cons symbol ())) (cons --> (cons (cons list (cons symbol ())) ()))))
+
+(declare shen.prhush (cons string (cons --> (cons (cons (cons stream (cons out ())) (cons --> (cons string ()))) ()))))
+
+(declare prolog-memory (cons number (cons --> (cons number ()))))
+
+(declare ps (cons symbol (cons --> (cons (cons list (cons unit ())) ()))))
+
+(declare read (cons (cons stream (cons in ())) (cons --> (cons unit ()))))
+
+(declare read-byte (cons (cons stream (cons in ())) (cons --> (cons number ()))))
+
+(declare read-file-as-bytelist (cons string (cons --> (cons (cons list (cons number ())) ()))))
+
+(declare read-file-as-string (cons string (cons --> (cons string ()))))
+
+(declare read-file (cons string (cons --> (cons (cons list (cons unit ())) ()))))
+
+(declare read-from-string (cons string (cons --> (cons (cons list (cons unit ())) ()))))
+
+(declare read-from-string-unprocessed (cons string (cons --> (cons (cons list (cons unit ())) ()))))
+
+(declare release (cons --> (cons string ())))
+
+(declare remove (cons A (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare reverse (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))))
+
+(declare simple-error (cons string (cons --> (cons A ()))))
+
+(declare snd (cons (cons A (cons * (cons B ()))) (cons --> (cons B ()))))
+
+(declare specialise (cons symbol (cons --> (cons (cons number (cons --> (cons symbol ()))) ()))))
+
+(declare spy (cons symbol (cons --> (cons boolean ()))))
+
+(declare spy? (cons --> (cons boolean ())))
+
+(declare step (cons symbol (cons --> (cons boolean ()))))
+
+(declare step? (cons --> (cons boolean ())))
+
+(declare stinput (cons --> (cons (cons stream (cons in ())) ())))
+
+(declare stoutput (cons --> (cons (cons stream (cons out ())) ())))
+
+(declare string? (cons A (cons --> (cons boolean ()))))
+
+(declare str (cons A (cons --> (cons string ()))))
+
+(declare string->n (cons string (cons --> (cons number ()))))
+
+(declare string->symbol (cons string (cons --> (cons symbol ()))))
+
+(declare sum (cons (cons list (cons number ())) (cons --> (cons number ()))))
+
+(declare symbol? (cons A (cons --> (cons boolean ()))))
+
+(declare systemf (cons symbol (cons --> (cons symbol ()))))
+
+(declare system-S? (cons --> (cons boolean ())))
+
+(declare tail (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))))
+
+(declare tlstr (cons string (cons --> (cons string ()))))
+
+(declare tlv (cons (cons vector (cons A ())) (cons --> (cons (cons vector (cons A ())) ()))))
+
+(declare tc (cons symbol (cons --> (cons boolean ()))))
+
+(declare tc? (cons --> (cons boolean ())))
+
+(declare thaw (cons (cons lazy (cons A ())) (cons --> (cons A ()))))
+
+(declare track (cons symbol (cons --> (cons symbol ()))))
+
+(declare tracked (cons --> (cons (cons list (cons symbol ())) ())))
+
+(declare trap-error (cons A (cons --> (cons (cons (cons exception (cons --> (cons A ()))) (cons --> (cons A ()))) ()))))
+
+(declare tuple? (cons A (cons --> (cons boolean ()))))
+
+(declare undefmacro (cons symbol (cons --> (cons symbol ()))))
+
+(declare union (cons (cons list (cons A ())) (cons --> (cons (cons (cons list (cons A ())) (cons --> (cons (cons list (cons A ())) ()))) ()))))
+
+(declare unprofile (cons symbol (cons --> (cons symbol ()))))
+
+(declare untrack (cons symbol (cons --> (cons symbol ()))))
+
+(declare userdefs (cons --> (cons (cons list (cons symbol ())) ())))
+
+(declare variable? (cons A (cons --> (cons boolean ()))))
+
+(declare vector? (cons A (cons --> (cons boolean ()))))
+
+(declare version (cons --> (cons string ())))
+
+(declare write-to-file (cons string (cons --> (cons (cons A (cons --> (cons A ()))) ()))))
+
+(declare write-byte (cons number (cons --> (cons (cons (cons stream (cons out ())) (cons --> (cons number ()))) ()))))
+
+(declare y-or-n? (cons string (cons --> (cons boolean ()))))
+
+(declare > (cons number (cons --> (cons (cons number (cons --> (cons boolean ()))) ()))))
+
+(declare < (cons number (cons --> (cons (cons number (cons --> (cons boolean ()))) ()))))
+
+(declare >= (cons number (cons --> (cons (cons number (cons --> (cons boolean ()))) ()))))
+
+(declare <= (cons number (cons --> (cons (cons number (cons --> (cons boolean ()))) ()))))
+
+(declare = (cons A (cons --> (cons (cons A (cons --> (cons boolean ()))) ()))))
+
+(declare + (cons number (cons --> (cons (cons number (cons --> (cons number ()))) ()))))
+
+(declare / (cons number (cons --> (cons (cons number (cons --> (cons number ()))) ()))))
+
+(declare - (cons number (cons --> (cons (cons number (cons --> (cons number ()))) ()))))
+
+(declare * (cons number (cons --> (cons (cons number (cons --> (cons number ()))) ()))))
+
+(declare == (cons A (cons --> (cons (cons B (cons --> (cons boolean ()))) ()))))
+

@@ -1,0 +1,1 @@
+to install the extended library, cd in Shen to this directory and enter install.shen
