@@ -46,7 +46,7 @@ make test
 
 ```
 make kl
-cd 'S39/Test Programs'
+cd kernel/tests
 kl
 (load-file "../../cmd/kl/runtests.kl")
 (load "runme.shen")
@@ -57,7 +57,7 @@ kl
 
 ```
 make shen
-cd 'S39/Test Programs'
+cd kernel/tests
 ../../shen
 (load "runme.shen")
 ```
@@ -69,8 +69,6 @@ You can just do
 cd compiled
 kl
 (load-file "script.kl")
-(load "compile-to-go.shen")
-(load "bctogo.shen")
 cd ..
 make shen
 ``` 
@@ -79,24 +77,23 @@ Explanation :
 `kl` implement a simple klambda interpreter in Go, which can be used to bootstrap `shen`
 
 ```
-;; mkdir -p compiled
-;; cd compiled
-;; kl
-(load-file "../S39/KLambda/toplevel.kl")
-(load-file "../S39/KLambda/core.kl")
-(load-file "../S39/KLambda/sys.kl")
-(load-file "../S39/KLambda/sequent.kl")
-(load-file "../S39/KLambda/yacc.kl")
-(load-file "../S39/KLambda/reader.kl")
-(load-file "../S39/KLambda/prolog.kl")
-(load-file "../S39/KLambda/track.kl")
-(load-file "../S39/KLambda/load.kl")
-(load-file "../S39/KLambda/writer.kl")
-(load-file "../S39/KLambda/macros.kl")
-(load-file "../S39/KLambda/declarations.kl")
-(load-file "../S39/KLambda/t-star.kl")
-(load-file "../S39/KLambda/types.kl")
-(shen.shen)
+(load-file "../kernel/klambda/toplevel.kl")
+(load-file "../kernel/klambda/core.kl")
+(load-file "../kernel/klambda/sys.kl")
+(load-file "../kernel/klambda/sequent.kl")
+(load-file "../kernel/klambda/yacc.kl")
+(load-file "../kernel/klambda/reader.kl")
+(load-file "../kernel/klambda/prolog.kl")
+(load-file "../kernel/klambda/track.kl")
+(load-file "../kernel/klambda/load.kl")
+(load-file "../kernel/klambda/writer.kl")
+(load-file "../kernel/klambda/macros.kl")
+(load-file "../kernel/klambda/declarations.kl")
+(load-file "../kernel/klambda/t-star.kl")
+(load-file "../kernel/klambda/types.kl")
+(load-file "../kernel/klambda/dict.kl")
+(load-file "../kernel/klambda/init.kl")
+(shen.initialise)
 ```
 
 `shen` source files is generated from the `.kl` files. The full transformation path is Shen -> KL -> IR -> Go.
@@ -111,43 +108,27 @@ Compile the klambda to the intermediate representation:
 
 ```
 (set *maximum-print-sequence-size* 100000)
-(compile-file "../S39/KLambda/sys.kl" "sys.tmp")
-(compile-file "../S39/KLambda/writer.kl" "writer.tmp")
-(compile-file "../S39/KLambda/core.kl" "core.tmp")
-(compile-file "../S39/KLambda/reader.kl" "reader.tmp")
-(compile-file "../S39/KLambda/declarations.kl" "declarations.tmp")
-(compile-file "../S39/KLambda/toplevel.kl" "toplevel.tmp")
-(compile-file "../S39/KLambda/macros.kl" "macros.tmp")
-(compile-file "../S39/KLambda/load.kl"  "load.tmp")
-(compile-file "../S39/KLambda/prolog.kl" "prolog.tmp")
-(compile-file "../S39/KLambda/sequent.kl" "sequent.tmp")
-(compile-file "../S39/KLambda/track.kl" "track.tmp")
-(compile-file "../S39/KLambda/t-star.kl" "t-star.tmp")
-(compile-file "../S39/KLambda/yacc.kl" "yacc.tmp")
-(compile-file "../S39/KLambda/types.kl" "types.tmp")
+(compile-file "../kernel/klambda/sys.kl" "sys.tmp")
+(compile-file "../kernel/klambda/writer.kl" "writer.tmp")
+(compile-file "../kernel/klambda/core.kl" "core.tmp")
+(compile-file "../kernel/klambda/reader.kl" "reader.tmp")
+(compile-file "../kernel/klambda/declarations.kl" "declarations.tmp")
+(compile-file "../kernel/klambda/toplevel.kl" "toplevel.tmp")
+(compile-file "../kernel/klambda/macros.kl" "macros.tmp")
+(compile-file "../kernel/klambda/load.kl" "load.tmp")
+(compile-file "../kernel/klambda/prolog.kl" "prolog.tmp")
+(compile-file "../kernel/klambda/sequent.kl" "sequent.tmp")
+(compile-file "../kernel/klambda/track.kl" "track.tmp")
+(compile-file "../kernel/klambda/t-star.kl" "t-star.tmp")
+(compile-file "../kernel/klambda/yacc.kl" "yacc.tmp")
+(compile-file "../kernel/klambda/types.kl" "types.tmp")
+(compile-file "../kernel/klambda/dict.kl" "dict.tmp")
+(compile-file "../kernel/klambda/init.kl" "init.tmp")
 ```
 
 And generate the Go files from the intermediate representation:
 
-```
-(put bc->go arity 5)
-(let Cg (make-code-generator)
-     (do
-      (bc->go Cg "SysMain" false "sys.tmp" "../cmd/shen/sys.go")
-      (bc->go Cg "WriterMain" false "writer.tmp" "../cmd/shen/writer.go")
-      (bc->go Cg "CoreMain" false "core.tmp" "../cmd/shen/core.go")
-      (bc->go Cg "ReaderMain" false "reader.tmp" "../cmd/shen/reader.go")
-      (bc->go Cg "DeclarationsMain" false "declarations.tmp" "../cmd/shen/declarations.go")
-      (bc->go Cg "TopLevelMain" false "toplevel.tmp" "../cmd/shen/toplevel.go")
-      (bc->go Cg "MacrosMain" false "macros.tmp" "../cmd/shen/macros.go")
-      (bc->go Cg "LoadMain" false "load.tmp" "../cmd/shen/load.go")
-      (bc->go Cg "PrologMain" false "prolog.tmp" "../cmd/shen/prolog.go")
-      (bc->go Cg "SequentMain" false "sequent.tmp" "../cmd/shen/sequent.go")
-      (bc->go Cg "TrackMain" false "track.tmp" "../cmd/shen/track.go")
-      (bc->go Cg "TStarMain" false "t-star.tmp" "../cmd/shen/t-star.go")
-      (bc->go Cg "YaccMain" false "yacc.tmp" "../cmd/shen/yacc.go")
-      (bc->go Cg "TypesMain" true "types.tmp" "../cmd/shen/types.go")))
-```
+Use `compiled/bctogo.shen` to generate the Go files from the intermediate representation.
 
 Now the shen source files are available, built it:
 

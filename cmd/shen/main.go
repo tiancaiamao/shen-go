@@ -31,6 +31,8 @@ func regist(e *kl.ControlFlow) {
 		DeclarationsMain,
 		TStarMain,
 		TypesMain,
+		DictMain,
+		InitMain,
 	} {
 		res := kl.Call(e, init)
 		if kl.IsError(res) {
@@ -54,5 +56,6 @@ func main() {
 
 	var e kl.ControlFlow
 	regist(&e)
-	kl.Eval(&e, kl.Cons(kl.MakeSymbol("shen.shen"), kl.Nil))
+	kl.Eval(&e, kl.Cons(kl.MakeSymbol("shen.initialise"), kl.Nil))
+	kl.Eval(&e, kl.Cons(kl.MakeSymbol("shen.repl"), kl.Nil))
 }

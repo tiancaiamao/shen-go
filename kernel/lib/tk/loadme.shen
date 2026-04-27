@@ -1,0 +1,8 @@
+(load "package.shen")
+(factorise +)
+(load "macros.shen")
+(factorise -)
+(tc +)
+(load "web.shen")
+(tc -)
+(map (fn load) ["installation.shen" "interface.shen" "widgets.shen" "types.shen"])
