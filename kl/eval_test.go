@@ -256,6 +256,64 @@ func TestBytecodeVM(t *testing.T) {
 			     ((add 3) 4))`,
 			"7",
 		},
+		// P1 regression: defun inside defun must capture outer lexical scope.
+		{
+			"nested defun captures outer local",
+			`(do (defun outer (X)
+			       (do (defun inner (Y) (+ X Y))
+			           (inner 10)))
+			     (outer 5))`,
+			"15",
+		},
+		// P1 regression: (if non-bool ...) must signal an error, not silently
+		// treat any non-False value as truthy.  Wrap in a compiled defun so the
+		// OP_JUMP_FALSE path is exercised (not just the tree-walker's evalIf).
+		{
+			"if on non-boolean panics",
+			`(do (defun bad-if () (if 42 1 2))
+			     (trap-error (bad-if) (lambda E (error-to-string E))))`,
+			`"if requires a boolean"`,
+		},
+		// P2 regression: a symbol that has a global function binding must be
+		// looked up as OP_LOAD_GLOBAL even when a same-named local is in scope.
+		{
+			"global fn takes precedence over local in call position",
+			`(do (defun id (X) X)
+			     (do (defun call-id (id) (id id))
+			         (call-id 42)))`,
+			"42",
+		},
+		// Multi-level closure: closure inside closure must chain upvalue capture.
+		{
+			"multi-level closure upval chain",
+			`(do (defun make-adder2 (X)
+			       (lambda Y (lambda Z (+ X (+ Y Z)))))
+			     (((make-adder2 1) 2) 3))`,
+			"6",
+		},
+		// Over-application of a compiled (bytecode) function.
+		{
+			"over-application of bytecode fn",
+			`(do (defun add (X Y) (+ X Y))
+			     (add 3 4))`,
+			"7",
+		},
+		// VM-path float comparisons through compiled defuns.
+		{
+			"compiled float comparisons",
+			`(do (defun lt (X Y) (< X Y))
+			     (do (defun le (X Y) (<= X Y))
+			         (do (defun gt (X Y) (> X Y))
+			             (do (defun ge (X Y) (>= X Y))
+			                 (if (lt 1.5 2.0)
+			                     (if (le 2.0 2.0)
+			                         (if (gt 3.0 1.5)
+			                             (if (ge 2.0 2.0) true false)
+			                             false)
+			                         false)
+			                     false)))))`,
+			"true",
+		},
 	}
 	var ctx ControlFlow
 	for _, c := range cases {

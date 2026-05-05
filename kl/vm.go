@@ -29,7 +29,7 @@ const (
 	OP_LE              = uint8(17) // pop y,x: push x<=y
 	OP_GT              = uint8(18) // pop y,x: push x>y
 	OP_GE              = uint8(19) // pop y,x: push x>=y
-	OP_EQ              = uint8(20) // pop y,x: push x=y  (numeric equality only)
+	OP_EQ              = uint8(20) // pop y,x: push x=y  (structural equality, delegates to equal())
 	OP_NOT             = uint8(21) // pop x: push (not x)
 )
 
@@ -67,10 +67,6 @@ func makeBytecodeObj(fn *BytecodeFunc, upvals []Obj) Obj {
 	return &tmp.scmHead
 }
 
-func isBytecodeFunc(o Obj) bool {
-	return *o == scmHeadBytecodeFunc
-}
-
 func mustBytecodeFunc(o Obj) *scmBytecodeFunc {
 	return (*scmBytecodeFunc)(unsafe.Pointer(o))
 }
@@ -98,18 +94,14 @@ func numMul(x, y Obj) Obj {
 	return MakeNumber(mustNumber(x) * mustNumber(y))
 }
 
-// numCmp: returns True if sign(x - y) == wantSign (-1 for <, 0 for ==).
-func numCmp(x, y Obj, wantSign int) Obj {
+func numCmpLT(x, y Obj) Obj {
 	if isFixnum(x) && isFixnum(y) {
-		diff := fixnum(x) - fixnum(y)
-		if (wantSign < 0 && diff < 0) {
+		if fixnum(x) < fixnum(y) {
 			return True
 		}
 		return False
 	}
-	xf := mustNumber(x)
-	yf := mustNumber(y)
-	if (wantSign < 0 && xf < yf) {
+	if mustNumber(x) < mustNumber(y) {
 		return True
 	}
 	return False
@@ -138,7 +130,7 @@ func vmApply(ctl *ControlFlow, bfObj Obj, args []Obj) {
 	switch {
 	case provided < fn.Arity:
 		// Partial application: build a closure that waits for the remaining args.
-		ctl.Return(vmPartialApply(fn.Arity, args, bfObj, bf.upvals))
+		ctl.Return(vmPartialApply(fn.Arity, args, bfObj))
 	case provided == fn.Arity:
 		vmExec(ctl, bf, args)
 	case provided > fn.Arity:
@@ -150,7 +142,7 @@ func vmApply(ctl *ControlFlow, bfObj Obj, args []Obj) {
 
 // vmPartialApply creates a closure that captures the supplied args and waits
 // for the remaining (required - len(provided)) arguments.
-func vmPartialApply(required int, providedArgs []Obj, proc Obj, upvals []Obj) Obj {
+func vmPartialApply(required int, providedArgs []Obj, proc Obj) Obj {
 	symbols := makeTempSymbols(required)
 	env1 := envExtend(Nil, symbols[:len(providedArgs)], providedArgs)
 
@@ -239,6 +231,8 @@ func vmExec(ctl *ControlFlow, bf *scmBytecodeFunc, args []Obj) {
 			stack = stack[:len(stack)-1]
 			if v == False {
 				pc += int(instr.A)
+			} else if v != True {
+				panic(MakeError("if requires a boolean"))
 			}
 
 		case OP_MAKE_CLOSURE:
@@ -284,7 +278,7 @@ func vmExec(ctl *ControlFlow, bf *scmBytecodeFunc, args []Obj) {
 			y := stack[len(stack)-1]
 			x := stack[len(stack)-2]
 			stack = stack[:len(stack)-2]
-			stack = append(stack, numCmp(x, y, -1))
+			stack = append(stack, numCmpLT(x, y))
 
 		case OP_LE:
 			y := stack[len(stack)-1]
@@ -296,7 +290,7 @@ func vmExec(ctl *ControlFlow, bf *scmBytecodeFunc, args []Obj) {
 			y := stack[len(stack)-1]
 			x := stack[len(stack)-2]
 			stack = stack[:len(stack)-2]
-			stack = append(stack, numCmp(y, x, -1)) // x > y ↔ y < x
+			stack = append(stack, numCmpLT(y, x)) // x > y ↔ y < x
 
 		case OP_GE:
 			y := stack[len(stack)-1]

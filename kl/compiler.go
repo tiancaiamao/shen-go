@@ -242,26 +242,29 @@ func (c *klCompiler) compileForm(form Obj, tail bool) {
 func (c *klCompiler) compileDefun(name, params, body Obj) {
 	paramSlice := ListToSlice(params)
 	nameStr := mustSymbol(name).str
-	inner := newCompiler(nameStr, len(paramSlice), paramSlice, nil) // top-level: no outer
+	// Thread c as outer so the body can close over the enclosing lexical scope,
+	// matching the interpreter which does makeProcedure(..., env).
+	inner := newCompiler(nameStr, len(paramSlice), paramSlice, c)
 	inner.compileExpr(body, true)
-	bfObj := makeBytecodeObj(inner.fn, nil)
-	// Emit: bind and push the name symbol
-	// (defun f ...) at runtime: compile to bytecode and bind, then push name.
-	// We emit this as a constant + global store via LOAD_CONST + native call,
-	// but actually we can just emit a LOAD_CONST of the compiled func and
-	// a call to the defun primitive.  For simplicity, use the approach of
-	// OP_LOAD_CONST bfObj, OP_LOAD_CONST nameSym, then swap + call defun.
-	// Even simpler: use a special compilation-time action.
-	//
-	// Actually the cleanest approach: emit code that at runtime calls
-	// BindSymbolFunc(name, bfObj).  We do this by pushing two consts and
-	// calling the built-in "defun" primitive.
-	symConst := c.addConst(name)
-	fnConst := c.addConst(bfObj)
+
 	defunSym := c.addConst(MakeSymbol("defun"))
+	nameConst := c.addConst(name)
 	c.emit(OP_LOAD_GLOBAL, defunSym, 0)
-	c.emit(OP_LOAD_CONST, symConst, 0)
-	c.emit(OP_LOAD_CONST, fnConst, 0)
+	c.emit(OP_LOAD_CONST, nameConst, 0)
+
+	// If the body referenced outer variables, emit their values as upvalues
+	// and create a closure; otherwise emit the bytecode func as a plain constant.
+	for _, uv := range inner.upvals {
+		switch uv.outerRef.kind {
+		case varLocal:
+			c.emit(OP_LOAD_LOCAL, int32(uv.outerRef.index), 0)
+		case varUpval:
+			c.emit(OP_LOAD_UPVAL, int32(uv.outerRef.index), 0)
+		}
+	}
+	innerObj := makeBytecodeObj(inner.fn, nil)
+	innerConst := c.addConst(innerObj)
+	c.emit(OP_MAKE_CLOSURE, innerConst, int32(len(inner.upvals)))
 	c.emit(OP_CALL, 2, 0)
 }
 
@@ -443,14 +446,22 @@ func (c *klCompiler) compileCall(fn Obj, args Obj, tail bool) {
 
 	// ---- General call ----
 	if IsSymbol(fn) {
-		kind, idx := c.resolveVar(fn)
-		switch kind {
-		case varLocal:
-			c.emit(OP_LOAD_LOCAL, int32(idx), 0)
-		case varUpval:
-			c.emit(OP_LOAD_UPVAL, int32(idx), 0)
-		case varGlobal:
+		// Match interpreter precedence (evalFunction): if the symbol has a
+		// global function binding, that takes priority over a same-named local.
+		// This handles cases like a parameter named 'cons' shadowing the global.
+		sym := mustSymbol(fn)
+		if sym.function != nil {
 			c.emit(OP_LOAD_GLOBAL, c.addConst(fn), 0)
+		} else {
+			kind, idx := c.resolveVar(fn)
+			switch kind {
+			case varLocal:
+				c.emit(OP_LOAD_LOCAL, int32(idx), 0)
+			case varUpval:
+				c.emit(OP_LOAD_UPVAL, int32(idx), 0)
+			case varGlobal:
+				c.emit(OP_LOAD_GLOBAL, c.addConst(fn), 0)
+			}
 		}
 	} else {
 		c.compileExpr(fn, false)
