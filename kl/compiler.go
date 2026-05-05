@@ -373,11 +373,76 @@ func (c *klCompiler) compileTrapError(body, handler Obj, tail bool) {
 	}
 }
 
+// intrinsicOp maps a 2-arg primitive symbol to a fast-path opcode.
+// Returns 0 if no fast path exists.
+func intrinsicOp2(sym Obj) uint8 {
+	switch sym {
+	case symAdd:
+		return OP_ADD
+	case symSub:
+		return OP_SUB
+	case symMul:
+		return OP_MUL
+	case symLT:
+		return OP_LT
+	case symLE:
+		return OP_LE
+	case symGT:
+		return OP_GT
+	case symGE:
+		return OP_GE
+	case symNumEq:
+		return OP_EQ
+	}
+	return 0
+}
+
 func (c *klCompiler) compileCall(fn Obj, args Obj, tail bool) {
 	nArgs := 0
+	argList := make([]Obj, 0, 4)
+	for l := args; *l == scmHeadPair; l = cdr(l) {
+		argList = append(argList, car(l))
+		nArgs++
+	}
 
+	// ---- 1-arg intrinsics ----
+	if IsSymbol(fn) && nArgs == 1 && fn == symNot {
+		c.compileExpr(argList[0], false)
+		c.emit(OP_NOT, 0, 0)
+		if tail {
+			c.emit(OP_RETURN, 0, 0)
+		}
+		return
+	}
+
+	// ---- 2-arg arithmetic intrinsics ----
+	if IsSymbol(fn) && nArgs == 2 {
+		if op := intrinsicOp2(fn); op != 0 {
+			c.compileExpr(argList[0], false)
+			c.compileExpr(argList[1], false)
+			c.emit(op, 0, 0)
+			if tail {
+				c.emit(OP_RETURN, 0, 0)
+			}
+			return
+		}
+	}
+
+	// ---- Self-tail-call optimization ----
+	if tail && IsSymbol(fn) && mustSymbol(fn).str == c.fn.Name {
+		kind, _ := c.resolveVar(fn)
+		if kind == varGlobal && nArgs == c.fn.Arity {
+			// It's a self-call in tail position: emit args then OP_SELF_TAIL_CALL.
+			for _, a := range argList {
+				c.compileExpr(a, false)
+			}
+			c.emit(OP_SELF_TAIL_CALL, int32(nArgs), 0)
+			return
+		}
+	}
+
+	// ---- General call ----
 	if IsSymbol(fn) {
-		// Resolve symbol in function position.
 		kind, idx := c.resolveVar(fn)
 		switch kind {
 		case varLocal:
@@ -388,13 +453,11 @@ func (c *klCompiler) compileCall(fn Obj, args Obj, tail bool) {
 			c.emit(OP_LOAD_GLOBAL, c.addConst(fn), 0)
 		}
 	} else {
-		// Complex function expression.
 		c.compileExpr(fn, false)
 	}
 
-	for l := args; *l == scmHeadPair; l = cdr(l) {
-		c.compileExpr(car(l), false)
-		nArgs++
+	for _, a := range argList {
+		c.compileExpr(a, false)
 	}
 
 	if tail {

@@ -243,6 +243,8 @@ var uptime time.Time
 var symQuote, symDefun, symLambda, symFreeze, symLet, symAnd Obj
 var symOr, symIf, symCond, symTrapError, symDo, symMacroExpand Obj
 var symType Obj
+// Arithmetic intrinsic symbols for the compiler fast-path detection.
+var symAdd, symSub, symMul, symLT, symLE, symGT, symGE, symNumEq, symNot Obj
 
 const fixnumCount = 1 << 20
 
@@ -303,6 +305,15 @@ func init() {
 	symMacroExpand = MakeSymbol("macroexpand")
 	_ = symMacroExpand // mark as used to satisfy staticcheck
 	symType = MakeSymbol("type")
+	symAdd = MakeSymbol("+")
+	symSub = MakeSymbol("-")
+	symMul = MakeSymbol("*")
+	symLT = MakeSymbol("<")
+	symLE = MakeSymbol("<=")
+	symGT = MakeSymbol(">")
+	symGE = MakeSymbol(">=")
+	symNumEq = MakeSymbol("=")
+	symNot = MakeSymbol("not")
 }
 
 func MakeInteger(v int) Obj {

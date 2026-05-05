@@ -13,6 +13,7 @@ Date: 2026-05-05
 | Baseline (tree-walker, interpreter only) | 0.088 | 1× |
 | Phase 0 (float-fix only, no perf change) | 0.088 | 1× |
 | Phase 2 (bytecode VM, indexed slots) | 0.013 | **6.6×** |
+| Phase 3+5 (arithmetic fast paths + self-tail loop) | 0.006 | **14.7×** |
 
 ### `(sum 0 5000000)` tail-recursive integer loop (wall time in Go tests)
 
@@ -20,8 +21,15 @@ Date: 2026-05-05
 |---|---|
 | Baseline | 2.99 |
 | Phase 2 VM | 0.24 |
+| Phase 3+5 (self-tail + fast integer =,-) | 0.05 |
 
-Speedup on the tight tail-call loop: **12.5×**
+Speedup on tight tail-call loop: **60×**
+
+### `fib(30)` (non-tail double recursion)
+
+| Milestone | Time (s) |
+|---|---|
+| Phase 3+5 | 0.29 |
 
 ---
 
@@ -54,6 +62,5 @@ Current gap: ~6.5× (0.013s vs ~0.002s).
 Target: within 3–5× of shen-cl.
 
 Next steps to close the gap:
-- Phase 3: fixnum fast paths for integer arithmetic (avoid float boxing)
-- Phase 4: decision-tree pattern matching
-- Phase 5: self-tail-call loop (update locals in-place, jump to top)
+- Phase 4: decision-tree pattern matching compilation
+- Inline allocation pooling to reduce GC pressure
