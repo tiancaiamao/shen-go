@@ -72,3 +72,34 @@ func TestFixnum(t *testing.T) {
 		t.Error("3000000 should not be a cons")
 	}
 }
+
+// Regression test: float comparisons must not truncate to int.
+// Before fix, (< 1.5 1.8) returned false because mustInteger(1.5)==1 and mustInteger(1.8)==1.
+func TestFloatComparisons(t *testing.T) {
+	cases := []struct {
+		fn       string
+		a, b     float64
+		expected Obj
+	}{
+		{"<", 1.5, 1.8, True},
+		{"<", 1.8, 1.5, False},
+		{"<", 1.0, 1.0, False},
+		{"<=", 1.5, 1.8, True},
+		{"<=", 1.0, 1.0, True},
+		{"<=", 1.8, 1.5, False},
+		{">", 1.8, 1.5, True},
+		{">", 1.5, 1.8, False},
+		{">", 1.0, 1.0, False},
+		{">=", 1.8, 1.5, True},
+		{">=", 1.0, 1.0, True},
+		{">=", 1.5, 1.8, False},
+	}
+	var ctl ControlFlow
+	for _, c := range cases {
+		fn := ctl.Global(MakeSymbol(c.fn))
+		got := Call(&ctl, fn, MakeNumber(c.a), MakeNumber(c.b))
+		if got != c.expected {
+			t.Errorf("(%s %v %v): expected %v, got %v", c.fn, c.a, c.b, ObjString(c.expected), ObjString(got))
+		}
+	}
+}

@@ -79,7 +79,7 @@ func equal(x, y Obj) Obj {
 				return False
 			}
 		}
-	case scmHeadStream, scmHeadProcedure /* , scmHeadPrimitive */ :
+	case scmHeadStream, scmHeadProcedure, scmHeadBytecodeFunc /* , scmHeadPrimitive */ :
 		if x != y {
 			return False
 		}

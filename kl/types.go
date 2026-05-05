@@ -469,6 +469,12 @@ func (o *scmHead) GoString() string {
 			return fmt.Sprintf("#primitive(%s)", prim.name)
 		}
 		return "#native"
+	case scmHeadBytecodeFunc:
+		bf := mustBytecodeFunc(o)
+		if bf.fn.Name != "" {
+			return fmt.Sprintf("#compiled(%s)", bf.fn.Name)
+		}
+		return "#compiled"
 	}
 	return fmt.Sprintf("unknown type %d", *o)
 }

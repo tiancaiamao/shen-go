@@ -179,7 +179,7 @@ func Try(e *ControlFlow, f Obj) (res tryResult) {
 			fmt.Println(string(buf[:n]))
 		}
 	}()
-	MustNative(f)
+	// f must be a 0-arity callable (native thunk or bytecode closure).
 	val := Call(e, f)
 	res = tryResult{e: e, data: val}
 	return
@@ -196,6 +196,11 @@ func apply(ctl *ControlFlow) {
 	f := ctl.data[ctl.pos]
 	args := ctl.data[ctl.pos+1:]
 	switch *f {
+	case scmHeadBytecodeFunc:
+		argsCopy := make([]Obj, len(args))
+		copy(argsCopy, args)
+		vmApply(ctl, f, argsCopy)
+		return
 	case scmHeadProcedure:
 		args := ctl.data[ctl.pos+1:]
 		proc := mustProcedure(f)
@@ -258,7 +263,8 @@ func eval(e *ControlFlow) {
 
 	switch *exp {
 	// handle constant
-	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull, scmHeadProcedure /* , scmHeadPrimitive */ :
+	case scmHeadNumber, scmHeadString, scmHeadVector, scmHeadBoolean, scmHeadNull,
+		scmHeadProcedure, scmHeadBytecodeFunc /* , scmHeadPrimitive */ :
 		e.Return(exp)
 		return
 	case scmHeadSymbol:
@@ -274,9 +280,11 @@ func eval(e *ControlFlow) {
 		exp = pair.cdr // handle special form
 		switch pair.car {
 		case symDefun: // (defun f (x y) z)
-			proc := makeProcedure(cadr(exp), caddr(exp), env)
 			funName := car(exp)
-			BindSymbolFunc(funName, proc)
+			params := ListToSlice(cadr(exp))
+			body := caddr(exp)
+			compiled := CompileFunc(mustSymbol(funName).str, params, body)
+			BindSymbolFunc(funName, compiled)
 			e.Return(funName)
 			return
 		case symLambda: // (lambda x x)
@@ -391,7 +399,7 @@ func evalFunction(e *ControlFlow, fn Obj, env Obj) Obj {
 	}
 
 	switch *fn {
-	case /* scmHeadPrimitive, */ scmHeadProcedure, scmHeadNative:
+	case /* scmHeadPrimitive, */ scmHeadProcedure, scmHeadNative, scmHeadBytecodeFunc:
 		return fn
 	case scmHeadPair:
 		return evalExp(e, fn, env)

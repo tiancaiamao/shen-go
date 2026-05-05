@@ -194,6 +194,80 @@ func evalString(ctx *ControlFlow, exp string) Obj {
 	return Eval(ctx, sexp)
 }
 
+// TestBytecodeVM validates key VM features: closure capture, trap-error,
+// let-shadowing, currying, and tail calls through compiled defuns.
+func TestBytecodeVM(t *testing.T) {
+	type tc struct {
+		name  string
+		input string
+		want  string
+	}
+	cases := []tc{
+		{
+			"compiled tak",
+			`(do (defun tak (X Y Z)
+			       (if (not (< Y X)) Z
+			           (tak (tak (- X 1) Y Z)
+			                (tak (- Y 1) Z X)
+			                (tak (- Z 1) X Y))))
+			     (tak 12 6 3))`,
+			"4", // tak(12,6,3) = 4 per standard definition
+		},
+		{
+			"closure upval capture",
+			`(do (defun make-adder (X) (lambda Y (+ X Y)))
+			     ((make-adder 10) 5))`,
+			"15",
+		},
+		{
+			"let shadowing in compiled fn",
+			`(do (defun f (X)
+			       (let X 99
+			            X))
+			     (f 1))`,
+			"99",
+		},
+		{
+			"trap-error in compiled fn",
+			`(do (defun safe (X)
+			       (trap-error (simple-error "oops") (lambda E (error-to-string E))))
+			     (safe 1))`,
+			`"oops"`,
+		},
+		{
+			"compiled fib",
+			`(do (defun fib (N)
+			       (if (= N 0) 0
+			           (if (= N 1) 1
+			               (+ (fib (- N 1)) (fib (- N 2))))))
+			     (fib 10))`,
+			"55",
+		},
+		{
+			"compiled tail-recursive sum",
+			`(do (defun sum (R I)
+			       (if (= I 0) R (sum (+ R 1) (- I 1))))
+			     (sum 0 1000000))`,
+			"1000000",
+		},
+		{
+			"currying through compiled fn",
+			`(do (defun add (X Y) (+ X Y))
+			     ((add 3) 4))`,
+			"7",
+		},
+	}
+	var ctx ControlFlow
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			got := ObjString(evalString(&ctx, c.input))
+			if got != c.want {
+				t.Errorf("got %q, want %q", got, c.want)
+			}
+		})
+	}
+}
+
 func TestTypeIsMacro(t *testing.T) {
 	var ctx ControlFlow
 	// type is implemented as a macro rather than a primitive.

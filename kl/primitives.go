@@ -185,6 +185,12 @@ func PrimStr(o Obj) Obj {
 		return MakeString(fmt.Sprintf(`"%s"`, mustString(o)))
 	case scmHeadProcedure:
 		return MakeString("#<procedure >")
+	case scmHeadBytecodeFunc:
+		bf := mustBytecodeFunc(o)
+		if bf.fn.Name != "" {
+			return MakeString("#<compiled " + bf.fn.Name + ">")
+		}
+		return MakeString("#<compiled >")
 	case scmHeadBoolean:
 		switch o {
 		case True:
@@ -284,42 +290,37 @@ func PrimErrorToString(o Obj) Obj {
 }
 
 func PrimGreatThan(x, y Obj) Obj {
-	x1 := mustInteger(x)
-	y1 := mustInteger(y)
+	x1 := mustNumber(x)
+	y1 := mustNumber(y)
 	if x1 > y1 {
 		return True
-
 	}
 	return False
 }
 
 func PrimLessThan(a, b Obj) Obj {
-	x := mustInteger(a)
-	y := mustInteger(b)
+	x := mustNumber(a)
+	y := mustNumber(b)
 	if x < y {
 		return True
-
 	}
 	return False
 }
 
 func PrimLessEqual(a, b Obj) Obj {
-	x := mustInteger(a)
-	y := mustInteger(b)
+	x := mustNumber(a)
+	y := mustNumber(b)
 	if x <= y {
 		return True
-
 	}
 	return False
-
 }
 
 func PrimGreatEqual(a, b Obj) Obj {
-	x := mustInteger(a)
-	y := mustInteger(b)
+	x := mustNumber(a)
+	y := mustNumber(b)
 	if x >= y {
 		return True
-
 	}
 	return False
 }
@@ -696,8 +697,15 @@ func MakePrimitive(name string, arity int, f interface{}) Obj {
 
 func primDefun(key, val Obj) Obj {
 	sym := mustSymbol(key)
+	// If given a raw scmProcedure (from the Shen-level compiler), compile it.
+	if *val == scmHeadProcedure {
+		proc := mustProcedure(val)
+		compiled := CompileFunc(sym.str, proc.arg, proc.body)
+		sym.function = compiled
+		return key
+	}
 	sym.function = val
-	return val
+	return key
 }
 
 func primTryCatch(e *ControlFlow) {
