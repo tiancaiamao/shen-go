@@ -11,9 +11,14 @@
 (define loop
    -> (do (initialise_environment)
           (prompt) 
-          (trap-error (read-evaluate-print) 
-                      (/. E (do (pr (error-to-string E) (stoutput)) (nl 0))))  
-          (loop)))
+          (let Result (trap-error (read-evaluate-print)
+                                  (/. E (let Error (error-to-string E)
+                                             (if (= Error "error: empty stream")
+                                                 Error
+                                                 (do (pr Error (stoutput)) (nl 0))))))
+               (if (= Result "error: empty stream")
+                   Result
+                   (loop)))))
 
 (define credits
  -> (do (output "~%Shen, www.shenlanguage.org, copyright (C) 2010-2024, Mark Tarver~%")

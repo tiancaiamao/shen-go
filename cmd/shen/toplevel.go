@@ -41,6 +41,13 @@ Z5297 := __e.Get(1)
 _ = Z5297
 tmp8423 := PrimErrorToString(Z5297)
 
+tmp84231 := PrimEqual(tmp8423, MakeString("error: empty stream"))
+
+if True == tmp84231 {
+__e.Return(tmp8423)
+return
+}
+
 tmp8424 := Call(__e, PrimFunc(symstoutput))
 
 
@@ -58,7 +65,12 @@ return
 tmp8426 := Call(__e, try_1catch, tmp8421, tmp8422)
 
 
-_ = tmp8426
+tmp84261 := PrimEqual(tmp8426, MakeString("error: empty stream"))
+
+if True == tmp84261 {
+__e.Return(tmp8426)
+return
+}
 
 __e.TailApply(PrimFunc(symshen_4loop))
 return
@@ -1837,4 +1849,3 @@ return
 
 
 }, 0)
-
