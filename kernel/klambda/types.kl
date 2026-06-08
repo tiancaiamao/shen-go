@@ -1,0 +1,11 @@
+(defun declare (V5883 V5884) (let W5885 (shen.rectify-type V5884) (let W5886 (((((lambda Z5887 (lambda Z5888 (lambda Z5889 (lambda Z5890 (do (shen.incinfs) (shen.variancy (receive (shen.deref V5883 Z5887)) (receive (shen.deref W5885 Z5887)) Z5887 Z5888 Z5889 Z5890)))))) (shen.prolog-vector)) (@v true (@v 0 (vector 0)))) 0) (freeze true)) (let W5891 (eval-kl (shen.prolog-abstraction V5884)) (let W5892 (set shen.*sigf* (shen.assoc-> V5883 W5891 (value shen.*sigf*))) V5883)))))
+
+(defun shen.variancy (V5893 V5894 V5895 V5896 V5897 V5898) (if (shen.unlocked? V5896) (let W5899 (shen.newpv V5895) (shen.gc V5895 (do (shen.incinfs) (shen.system-S-h V5893 W5899 () V5895 V5896 V5897 (freeze (shen.variants? V5893 W5899 V5894 V5895 V5896 V5897 V5898)))))) false))
+
+(defun shen.variants? (V5900 V5901 V5902 V5903 V5904 V5905 V5906) (let W5907 (+ V5905 1) (let W5908 (if (shen.unlocked? V5904) (let W5909 (shen.lazyderef V5901 V5903) (let W5910 (freeze (do (shen.incinfs) (shen.cut V5903 V5904 W5907 V5906))) (if (= W5909 symbol) (thaw W5910) (if (shen.pvar? W5909) (shen.bind! W5909 symbol V5903 W5910) false)))) false) (if (= W5908 false) (let W5911 (if (shen.unlocked? V5904) (do (shen.incinfs) (is! V5901 V5902 V5903 V5904 W5907 V5906)) false) (if (= W5911 false) (let W5912 (if (shen.unlocked? V5904) (let W5913 (shen.newpv V5903) (shen.gc V5903 (do (shen.incinfs) (is W5913 (pr (cn "warning: changing the type of " (shen.app (shen.deref V5900 V5903) " may create errors
+" shen.a)) (stoutput)) V5903 V5904 W5907 V5906)))) false) (if (= W5912 false) (shen.unlock V5904 W5907) W5912)) W5911)) W5908))))
+
+(defun shen.prolog-abstraction (V5914) (let W5915 (gensym B) (let W5916 (gensym L) (let W5917 (gensym Key) (let W5918 (gensym C) (let W5919 (gensym V) (let W5920 (shen.extract-vars V5914) (cons lambda (cons W5919 (cons (cons lambda (cons W5915 (cons (cons lambda (cons W5916 (cons (cons lambda (cons W5917 (cons (cons lambda (cons W5918 (cons (shen.stpart W5920 (cons is! (cons W5919 (cons (shen.rcons_form V5914) (cons W5915 (cons W5916 (cons W5917 (cons W5918 ()))))))) W5915) ()))) ()))) ()))) ()))) ()))))))))))
+
+(defun shen.demod (V5921) (let W5922 (value shen.*demodulation-function*) (W5922 V5921)))
+

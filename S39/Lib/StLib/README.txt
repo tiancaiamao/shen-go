@@ -1,1 +1,0 @@
-to install the standard library, cd in Shen to this directory and enter install.shen
