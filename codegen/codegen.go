@@ -61,6 +61,22 @@ func (cg *CodeGenerator) HandleBody(f io.Reader, export string, out io.Writer) e
 	return nil
 }
 
+// HandleBodyObj is HandleBody for an in-memory bytecode IR object: it skips
+// the print-to-file/reparse round-trip (printing megabyte IR through the
+// kernel's string printer dominates compile time for large files).
+func (cg *CodeGenerator) HandleBodyObj(bc kl.Obj, export string, out io.Writer) error {
+	fmt.Fprintf(out, "package main\n\n")
+	fmt.Fprintf(out, "import . \"github.com/tiancaiamao/shen-go/kl\"\n\n")
+	fmt.Fprintf(out, `var %s = MakeNative(func(__e *ControlFlow) {
+`, export)
+	if err := cg.generateExpr(out, bc); err != nil {
+		return err
+	}
+	fmt.Fprintf(out, "\n\n")
+	fmt.Fprintf(out, "}, 0)\n\n")
+	return nil
+}
+
 // HandleSymbol writes `var symXXX = MakeSymbol(...)` declarations for every
 // symbol referenced by all files generated so far.
 func (cg *CodeGenerator) HandleSymbol(out io.Writer) {
